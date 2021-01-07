@@ -1,0 +1,51 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar"><!--DayNight-->
+        <item name="colorPrimary">@color/CP</item>
+        <item name="colorPrimaryDark">@color/CPD</item>
+        <item name="colorAccent">@color/CA</item>
+        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/CPD</item>
+        <item name="android:windowBackground">@color/body</item>
+        <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
+        <item name="android:contextPopupMenuStyle" tools:ignore="NewApi">
+            @style/Widget.MaterialComponents.PopupMenu.ContextMenu
+        </item>
+        <!--<item name="android:statusBarColor" tools:ignore="NewApi">@color/CP</item>-->
+    </style>
+
+    <!-- GLOBAL -->
+    <style name="parentConstraint">
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
+    <style name="shadow_1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">5dp</item>
+        <item name="android:background">@drawable/shadow_1</item>
+    </style>
+
+    <style name="shadow_1_vertical">
+        <item name="android:layout_width">5dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:background">@drawable/shadow_1_vertical</item>
+    </style>
+
+
+    <!-- Main -->
+    <style name="loadIV" parent="parentConstraint">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:src">@drawable/logo_1</item>
+        <item name="layout_constraintWidth_percent">0.8</item>
+        <item name="layout_constraintHeight_percent">0.8</item>
+    </style>
+
+    <style name="dirChooserButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <!--?android:attr/buttonBarButtonStyle-->
+        <item name="android:textColor">@color/CPD</item>
+        <!--background: ?android:attr/selectableItemBackground-->
+    </style>
+</resources>

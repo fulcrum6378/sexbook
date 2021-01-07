@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/body"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    tools:context=".Main"
+    tools:ignore="MissingConstraints">
+
+    <View
+        android:id="@+id/motor"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/toolbar"
+        app:popupTheme="@style/Widget.MaterialComponents.PopupMenu"
+        app:title="@string/app_name"
+        app:titleMarginStart="30dp"
+        app:titleTextColor="@color/tbTitle" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="80dp"
+        app:layout_constraintBottom_toTopOf="@id/spnFilter"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <com.blure.complexview.ComplexView
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        app:layout_constraintBottom_toBottomOf="@id/add"
+        app:layout_constraintLeft_toLeftOf="@id/add"
+        app:layout_constraintRight_toRightOf="@id/add"
+        app:layout_constraintTop_toTopOf="@id/add"
+        app:radius="40dp"
+        app:shadow="true"
+        app:shadowAlpha="75"
+        app:shadowColor="#000000"
+        app:shadowSpread="2" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_margin="15dp"
+        android:background="@drawable/circle_cp"
+        app:layout_constraintBottom_toTopOf="@id/spnFilter"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/addIV"
+            style="@style/parentConstraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/add_1"
+            app:layout_constraintHeight_percent="0.6"
+            app:layout_constraintWidth_percent="0.6" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Spinner
+        android:id="@+id/spnFilter"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/spn_filter"
+        android:paddingStart="28dp"
+        android:paddingTop="14dp"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/spnFilterMark"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginEnd="22dp"
+        android:rotation="90"
+        android:src="@drawable/play_3_ntf"
+        app:layout_constraintBottom_toBottomOf="@id/spnFilter"
+        app:layout_constraintEnd_toEndOf="@id/spnFilter"
+        app:layout_constraintTop_toTopOf="@id/spnFilter" />
+
+    <View
+        style="@style/shadow_1"
+        android:layout_height="6dp"
+        android:alpha="0.68"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <View
+        style="@style/shadow_1"
+        android:layout_height="2dp"
+        android:alpha="0.33"
+        android:rotationX="180"
+        app:layout_constraintBottom_toTopOf="@id/spnFilter" />
+
+
+    <View
+        android:id="@+id/loadShadow"
+        style="@style/shadow_1_vertical"
+        android:layout_width="10dp"
+        app:layout_constraintStart_toEndOf="@id/load" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/load">
+
+        <ImageView
+            android:id="@+id/loadIV"
+            style="@style/loadIV" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><!--#6200EE #3700B3 #03DAC5-->
+    <color name="CP">#FFD422</color>
+    <color name="CPD">#EEBF00</color>
+    <color name="CA">@color/CP3</color>
+    <color name="CP2">#FFF</color>
+    <color name="CP2N">#222</color>
+    <color name="CP3">#656D78</color>
+
+    <!-- GLOBAL -->
+    <color name="tp">#00000000</color>
+    <color name="shadow_1">#55000000</color>
+
+    <!-- Main -->
+    <color name="body">@color/CP2</color>
+    <color name="bodyN">@color/CP2N</color>
+    <color name="toolbar">@color/CP</color>
+    <color name="tbTitle">@color/mrvDate</color><!--@color/CP3-->
+    <color name="load">@color/CP</color>
+    <color name="mrvBG1">@color/CP</color><!--#FFE785-->
+    <color name="mrvBG2">@color/CP</color>
+    <color name="mrvBG3">@color/CP</color>
+    <color name="mrvDate">#9A7C00</color>
+    <color name="mrvNotes">@color/mrvDate</color>
+    <color name="mrvNotesHint">#DCB100</color>
+    <color name="mrvClock">@color/CP2</color>
+    <color name="mrvClockN">@color/CP2N</color>
+    <color name="mrvClockPoint">#D6AD00</color>
+    <color name="mrvClockHand">@color/CP</color>
+    <color name="mrvAMPM">#BF9900</color>
+    <color name="spnFilterMark">@color/mrvDate</color>
+    <color name="spnFilterBGPressed">@color/CPD</color>
+    <color name="spnFilterBG">@color/CP</color>
+    <color name="spnFilterTV">@color/mrvDate</color>
+    <color name="spnFilterDDTV">@color/mrvDate</color>
+
+    <!-- #DirectoryChooser -->
+    <color name="bright_blue">#33B5E5</color>
+    <color name="selection_background_color">#FEBB20</color>
+</resources>
