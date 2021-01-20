@@ -19,10 +19,10 @@ interface Dao {
     fun insertAll(list: List<Report>)
 
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun replace(item: Report)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun replaceAll(list: List<Report>)
 
 

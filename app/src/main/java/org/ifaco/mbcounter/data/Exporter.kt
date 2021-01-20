@@ -1,10 +1,15 @@
 package org.ifaco.mbcounter.data
 
+import android.net.Uri
+import org.ifaco.mbcounter.more.FileUtils
+import android.widget.Toast
 import com.google.gson.Gson
+import com.google.gson.stream.JsonReader
+import org.ifaco.mbcounter.Fun.Companion.c
 import org.ifaco.mbcounter.Main
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import org.ifaco.mbcounter.R
+import java.io.*
+import java.lang.Exception
 
 class Exporter {
     companion object {
@@ -19,6 +24,25 @@ class Exporter {
             } catch (ignored: IOException) {
             }
             return file.exists()
+        }
+
+        fun import(uri: Uri): Array<Report>? {
+            var r: JsonReader? = null
+            try {
+                r = JsonReader(InputStreamReader(FileInputStream(File(FileUtils.getPath(c, uri)))))
+            } catch (e: Exception) {
+                Toast.makeText(
+                    c, c.resources.getString(R.string.importOpenError), Toast.LENGTH_LONG
+                ).show()
+            }
+            return try {
+                Gson().fromJson<Array<Report>>(r, Array<Report>::class.java)
+            } catch (e: Exception) {
+                Toast.makeText(
+                    c, c.resources.getString(R.string.importReadError), Toast.LENGTH_LONG
+                ).show()
+                null
+            }
         }
     }
 }

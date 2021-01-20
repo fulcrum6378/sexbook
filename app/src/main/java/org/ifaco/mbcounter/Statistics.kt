@@ -38,10 +38,7 @@ class Statistics : AppCompatActivity() {
         selectedCrush?.let { crush ->
             val data: MutableList<DataEntry> = ArrayList()
             val history = sumResult?.scores!![crush]
-            listOf(
-                "May 2020", "June 2020", "July 2020", "August 2020", "September 2020",
-                "October 2020", "November 2020", "December 2020", "January 2021"
-            ).forEach { data.add(ValueDataEntry(it, calcHistory(history!!, it))) }
+            sinceTheBeginning().forEach { data.add(ValueDataEntry(it, calcHistory(history!!, it))) }
 
             AnyChart.column().apply {
                 column(data).fill("#FFD422").stroke("#FFD422")
@@ -73,9 +70,26 @@ class Statistics : AppCompatActivity() {
     }
 
 
+    val begYear = 2020
+    val begMonth = 4
+    fun sinceTheBeginning(): List<String> {
+        val now = Calendar.getInstance()
+        val list = arrayListOf<String>()
+        val months = c.resources.getStringArray(R.array.months)
+        val yDist = now[Calendar.YEAR] - begYear
+        for (y in 0 until (yDist + 1)) {
+            var start = 0
+            var end = 11
+            if (y == 0) start = begMonth
+            if (y == yDist) end = now[Calendar.MONTH]
+            for (m in start..end) list.add("${months[m]} ${begYear + y}")
+        }
+        return list.toList()
+    }
+
     fun calcHistory(list: ArrayList<Summary.Erection>, month: String): Float {
         var value = 0f
-        val months = c.resources.getStringArray(R.array.calendarFull)
+        val months = c.resources.getStringArray(R.array.months)
         val split = month.split(" ")
         for (i in list) {
             var lm = Calendar.getInstance()

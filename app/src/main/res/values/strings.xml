@@ -59,6 +59,9 @@
     <string name="dirChos">Exported</string>
     <string name="exportDone">Done!</string>
     <string name="exportUndone">Failed!</string>
+    <string name="importDone">Done!</string>
+    <string name="importOpenError">Unfortunately an error occurred while opening the file!</string>
+    <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
 
     <!-- #DirectoryChooser -->
     <string name="cancel_label">Cancel</string>

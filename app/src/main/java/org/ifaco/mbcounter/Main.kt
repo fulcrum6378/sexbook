@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.*
 import android.view.*
 import android.widget.*
@@ -47,13 +48,8 @@ import kotlin.collections.ArrayList
 class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteractionListener {
     lateinit var b: MainBinding
     lateinit var tbTitle: TextView
-    var lm: StaggeredGridLayoutManager? = null
     var adapter: Adap? = null
-    var exiting = false
-    var loaded = false
     var adding = false
-    var spnFilterTouched = false
-    val permWES = 361
 
     companion object {
         lateinit var handler: Handler
@@ -114,6 +110,8 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
                     Work.INSERT_ONE -> if (msg.obj != null) Work(
                         c, handler, Work.VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)
                     ).start()
+                    Work.REPLACE_ALL ->
+                        Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
                     Work.UPDATE_ONE -> {
                         if (allMasturbation != null) {
                             if (masturbation.contains(allMasturbation!![msg.arg1])) {
@@ -181,6 +179,7 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
         saveFocused()
     }
 
+    var exiting = false
     override fun onBackPressed() {
         if (!exiting) {
             exiting = true
@@ -208,15 +207,23 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
         return super.onCreateOptionsMenu(menu)//DON"T PUT HERE THINGS THAT NEED THE LAYOUT LOADED.
     }
 
+    val reqImport = 666
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.momImport -> true
+        R.id.momImport -> {
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
+                else "application/json"
+            }, reqImport)
+            true
+        }
         R.id.momExport -> {
             if (allMasturbation != null) {
                 val perm = Manifest.permission.WRITE_EXTERNAL_STORAGE
                 if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() &&
                     ContextCompat.checkSelfPermission(c, perm) !=
                     PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= 23
-                ) ActivityCompat.requestPermissions(this, arrayOf(perm), permWES)
+                ) ActivityCompat.requestPermissions(this, arrayOf(perm), permExport)
                 else selectDirForExport()
             }
             true
@@ -300,16 +307,35 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
         dirChos.dismiss()
     }
 
+    val permExport = 361
+    val permImport = 786
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
+        val b = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
         when (requestCode) {
-            permWES -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                selectDirForExport()
+            permExport -> if (b) selectDirForExport()
+            permImport -> if (b) import()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            reqImport -> if (resultCode == RESULT_OK) {
+                toBeImported = data!!.data
+                val perm = Manifest.permission.WRITE_EXTERNAL_STORAGE
+                if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() &&
+                    ContextCompat.checkSelfPermission(c, perm) !=
+                    PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= 23
+                ) ActivityCompat.requestPermissions(this, arrayOf(perm), permImport)
+                else import()
+            }
         }
     }
 
 
+    var loaded = false
     fun load(sd: Long = 1500, dur: Long = 1000) {
         if (loaded) return
         val value = -dm.widthPixels.toFloat() * 1.2f
@@ -345,6 +371,7 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
         arrangeList()
     }
 
+    var lm: StaggeredGridLayoutManager? = null
     fun setGDLM(width: Int = dm.widthPixels) {
         var span = 1
         if (width > 0) span = ((width / dm.density) / 190f).toInt()
@@ -391,6 +418,7 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
     fun filterTitles(filters: ArrayList<Filter>): ArrayList<String> =
         ArrayList<String>().apply { for (f in filters.indices) add(filters[f].titleInShamsi(c)) }
 
+    var spnFilterTouched = false
     fun setSpnFilter(options: ArrayList<String>) {
         b.spnFilter.adapter = ArrayAdapter(c, R.layout.spinner_1, options)
             .apply { setDropDownViewResource(R.layout.spinner_1_dd) }
@@ -410,7 +438,8 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
         listFilter = i
         masturbation.clear()
         if (filters == null) for (o in allMasturbation!!) masturbation.add(o)
-        else for (o in filters!![listFilter].items) masturbation.add(allMasturbation!![o])
+        else if (!filters.isNullOrEmpty())
+            for (o in filters!![listFilter].items) masturbation.add(allMasturbation!![o])
         arrangeList()
     }
 
@@ -425,5 +454,13 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
 
     fun selectDirForExport() {
         dirChos.show(supportFragmentManager, null)
+    }
+
+    var toBeImported: Uri? = null
+    fun import() {
+        if (toBeImported == null) return
+        Exporter.import(toBeImported!!)
+            ?.let { Work(c, handler, Work.REPLACE_ALL, it.toList()).start() }
+        toBeImported = null
     }
 }

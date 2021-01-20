@@ -3,14 +3,15 @@ package org.ifaco.mbcounter.data
 import android.content.Context
 import android.os.Handler
 import androidx.room.Room
-import org.ifaco.mbcounter.Fun
 
+@Suppress("UNCHECKED_CAST")
 class Work(
     val c: Context,
     val handler: Handler?,
     val action: Int,
     val values: List<Any>? = null
 ) : Thread() {
+    @Suppress("unused")
     companion object {
         const val VIEW_ONE = 0
         const val VIEW_ALL = 1
@@ -45,6 +46,12 @@ class Work(
                 var result: Long = -1
                 if (!values.isNullOrEmpty()) result = dao.insert(values[0] as Report)
                 handler?.obtainMessage(action, result)?.sendToTarget()
+            }
+
+            REPLACE_ALL -> if (!values.isNullOrEmpty()) {
+                dao.deleteAll(dao.getAll())
+                dao.replaceAll(values as List<Report>)
+                handler?.obtainMessage(REPLACE_ALL)?.sendToTarget()
             }
 
             UPDATE_ONE -> if (!values.isNullOrEmpty()) {
