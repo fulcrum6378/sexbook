@@ -6,27 +6,24 @@ import android.os.Build
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import com.google.gson.stream.JsonReader
 import org.ifaco.mbcounter.Fun.Companion.c
 import org.ifaco.mbcounter.Main
 import org.ifaco.mbcounter.R
 import java.io.*
-import java.lang.Exception
 
 class Exporter {
     companion object {
         const val reqFolder = 450
         const val reqFile = 750
-        val MIME = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
+        val mime = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
         else "application/json"
 
         fun whereToExport(that: AppCompatActivity) {
-            val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            that.startActivityForResult(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
-                type = MIME
+                type = mime
                 putExtra(Intent.EXTRA_TITLE, "exported.json")
-            }
-            that.startActivityForResult(intent, reqFolder)
+            }, reqFolder)
         }
 
         fun export(where: Uri): Boolean = try {
@@ -41,31 +38,34 @@ class Exporter {
         }
 
         fun importFromWhere(that: AppCompatActivity): Boolean {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            that.startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
-                type = MIME
-            }
-            that.startActivityForResult(intent, reqFile)
+                type = mime
+            }, reqFile)
             return true
         }
 
         fun import(where: Uri): Array<Report>? {
-            var r: JsonReader? = null
+            var data: String? = null
             try {
-                c.contentResolver.openFileDescriptor(where, "r")?.use {
-                    r = JsonReader(InputStreamReader(FileInputStream(it.fileDescriptor)))
+                c.contentResolver.openFileDescriptor(where, "r")?.use { des ->
+                    val sb = StringBuffer()
+                    FileInputStream(des.fileDescriptor).apply {
+                        var i: Int
+                        while (read().also { i = it } != -1) sb.append(i.toChar())
+                        close()
+                    }
+                    data = sb.toString()
                 }
+                data!!
             } catch (e: Exception) {
-                Toast.makeText(
-                    c, c.resources.getString(R.string.importOpenError), Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(c, R.string.importOpenError, Toast.LENGTH_LONG).show()
+                return null
             }
             return try {
-                Gson().fromJson<Array<Report>>(r, Array<Report>::class.java)
+                Gson().fromJson(data, Array<Report>::class.java)
             } catch (e: Exception) {
-                Toast.makeText(
-                    c, c.resources.getString(R.string.importReadError), Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
                 null
             }
         }

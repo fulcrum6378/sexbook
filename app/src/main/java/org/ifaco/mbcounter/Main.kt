@@ -195,8 +195,7 @@ class Main : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.momImport -> Exporter.importFromWhere(this)
         R.id.momExport -> {
-            if (allMasturbation != null) Exporter.whereToExport(this); true
-        }
+            if (allMasturbation != null) Exporter.whereToExport(this); true; }
         R.id.momSum -> {
             if (allMasturbation != null) {
                 sumResult = Summary(allMasturbation!!).result
@@ -262,17 +261,14 @@ class Main : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val bbb = resultCode == RESULT_OK && intent != null && intent.data != null
+        if (data == null || data.data == null) {
+            Toast.makeText(c, R.string.requestFailed, Toast.LENGTH_LONG).show(); return; }
         when (requestCode) {
-            Exporter.reqFile -> if (bbb) {
-                if (data!!.data == null) return
-                Exporter.import(data.data!!)
-                    ?.let { Work(c, handler, Work.REPLACE_ALL, it.toList()).start() }
-            }
-            Exporter.reqFolder -> if (bbb) {
-                val b = Exporter.export(intent.data!!)
+            Exporter.reqFile -> Exporter.import(data.data!!)
+                ?.let { Work(c, handler, Work.REPLACE_ALL, it.toList()).start() }
+            Exporter.reqFolder -> Exporter.export(data.data!!).apply {
                 Toast.makeText(
-                    c, if (b) R.string.exportDone else R.string.exportUndone, Toast.LENGTH_LONG
+                    c, if (this) R.string.exportDone else R.string.exportUndone, Toast.LENGTH_LONG
                 ).show()
             }
         }

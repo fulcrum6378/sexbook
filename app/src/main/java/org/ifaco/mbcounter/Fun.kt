@@ -6,6 +6,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -15,6 +16,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.util.*
 import kotlin.system.exitProcess
@@ -100,5 +102,11 @@ class Fun {
             }
             return null
         }
+
+        fun permGranted(perm: String) =
+            ActivityCompat.checkSelfPermission(c, perm) == PackageManager.PERMISSION_GRANTED
+
+        fun permResult(grantResults: IntArray) =
+            grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
     }
 }

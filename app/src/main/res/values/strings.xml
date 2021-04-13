@@ -51,27 +51,15 @@
     <string name="unknown">Unknown</string>
 
     <!-- Main -->
-    <string name="mrvNotesHint">.....</string><!--Notes-->
+    <string name="mrvNotesHint">.....</string>
     <string name="lcDelete">Delete</string>
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>
     <string name="momSum">Summary</string>
-    <string name="dirChos">Exported</string>
+    <string name="requestFailed">Request failed!</string>
     <string name="exportDone">Done!</string>
     <string name="exportUndone">Failed!</string>
     <string name="importDone">Done!</string>
     <string name="importOpenError">Unfortunately an error occurred while opening the file!</string>
     <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
-
-    <!-- #DirectoryChooser -->
-    <string name="cancel_label">Cancel</string>
-    <string name="confirm_label">Confirm</string>
-    <string name="selected_folder_label">Selected folder:</string>
-    <string name="create_folder_label">Create folder</string>
-    <string name="create_folder_msg">Create new folder with name "%1$s"?</string>
-    <string name="create_folder_success">Created new folder</string>
-    <string name="create_folder_error_no_write_access">Cannot write to this folder</string>
-    <string name="create_folder_error_already_exists">Folder already exists</string>
-    <string name="create_folder_error">Could not create folder</string>
-    <string name="up_label">Up</string>
 </resources>
