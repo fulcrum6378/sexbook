@@ -1,21 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar"><!--DayNight-->
-        <item name="colorPrimary">@color/CP</item>
-        <item name="colorPrimaryDark">@color/CPD</item>
-        <item name="colorAccent">@color/CA</item>
-        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/CP</item>
-        <item name="android:windowBackground">@color/body</item>
-        <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
-        <item name="android:contextPopupMenuStyle" tools:ignore="NewApi">
-            @style/Widget.MaterialComponents.PopupMenu.ContextMenu
-        </item>
-        <item name="android:statusBarColor">@color/CP</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
-        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
-    </style>
-
-    <!-- GLOBAL -->
     <style name="parentConstraint">
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintLeft_toLeftOf">parent</item>
@@ -43,5 +27,9 @@
         <item name="android:src">@drawable/logo_1</item>
         <item name="layout_constraintWidth_percent">0.7</item>
         <item name="layout_constraintHeight_percent">0.7</item>
+    </style>
+
+    <style name="addCV">
+        <item name="shadowAlpha">75</item>
     </style>
 </resources>

@@ -1,0 +1,6 @@
+<resources>
+
+    <style name="addCV">
+        <item name="shadowAlpha">100</item>
+    </style>
+</resources>

@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="CP">#FFD422</color>
+    <color name="CP">#3A3A3A</color>
     <color name="CPD">#D6AD00</color>
     <color name="CPDD">#9A7C00</color>
     <color name="CA">@color/CP3</color>
-    <color name="CP2">@color/white</color>
+    <color name="CP2">#000</color>
     <color name="CP3">#656D78</color>
-
-    <!-- GLOBAL -->
-    <color name="tp">#00000000</color>
-    <color name="shadow_1">#55000000</color>
-    <color name="white">#FFF</color>
 
     <!-- Main -->
     <color name="toolbar">@color/CP</color>
@@ -23,14 +18,14 @@
     <color name="mrvNotes">@color/CPDD</color>
     <color name="mrvNotesHint">@color/CPDD</color>
     <color name="mrvClock">@color/CP2</color>
-    <color name="mrvClockPoint">@color/CPDD</color>
-    <color name="mrvClockHand">@color/CP</color>
+    <color name="mrvClockPoint">@color/CPD</color>
+    <color name="mrvClockHand">@color/CPDD</color>
     <color name="mrvAMPM">@color/CPDD</color>
-    <color name="mrvPopupButtons">@color/CA</color>
+    <color name="mrvPopupButtons">@color/white</color>
     <color name="spnFilterMark">@color/CPDD</color>
     <color name="spnFilterBGPressed">@color/CPDD</color>
     <color name="spnFilterBG">@color/CP</color>
     <color name="spnFilterTV">@color/CPDD</color>
-    <color name="spnFilterDDTV">@color/CPDD</color>
-    <color name="spnFilterDDBG">@color/CP2</color>
+    <color name="spnFilterDDTV">@color/white</color>
+    <color name="spnFilterDDBG">@color/CP</color>
 </resources>

@@ -1,6 +1,5 @@
 package org.ifaco.mbcounter
 
-import android.content.res.Configuration
 import android.graphics.Typeface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -12,8 +11,6 @@ import com.anychart.enums.HoverMode
 import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
 import org.ifaco.mbcounter.Fun.Companion.c
-import org.ifaco.mbcounter.Fun.Companion.detectNight
-import org.ifaco.mbcounter.Fun.Companion.night
 import org.ifaco.mbcounter.Main.Companion.allMasturbation
 import org.ifaco.mbcounter.Main.Companion.selectedCrush
 import org.ifaco.mbcounter.Main.Companion.sumResult
@@ -30,8 +27,6 @@ class Statistics : AppCompatActivity() {
         b = StatisticsBinding.inflate(layoutInflater)
         setContentView(b.root)
         Fun.init(this)
-
-        detectNight(resources.configuration)?.let { setNight(it) }
 
 
         if (allMasturbation == null || sumResult == null) onBackPressed()
@@ -60,12 +55,6 @@ class Statistics : AppCompatActivity() {
                 b.main.setChart(this)
             }
         }
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        Fun.dm = resources.displayMetrics
-        detectNight(newConfig)?.let { setNight(it) }
         Main.dateFont = Typeface.createFromAsset(assets, "franklin_gothic.ttf")
     }
 
@@ -99,12 +88,5 @@ class Statistics : AppCompatActivity() {
             ) value += i.value
         }
         return value
-    }
-
-    fun setNight(n: Boolean = true) {
-        night = n
-        /*window.decorView.setBackgroundColor(
-            ContextCompat.getColor(c, if (!n) R.color.body else R.color.bodyN)
-        )*/
     }
 }

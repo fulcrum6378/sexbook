@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Typeface
 import android.os.*
 import android.view.*
@@ -13,20 +12,18 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import org.ifaco.mbcounter.Fun.Companion.c
-import org.ifaco.mbcounter.Fun.Companion.detectNight
+import org.ifaco.mbcounter.Fun.Companion.color
 import org.ifaco.mbcounter.data.Adap.Companion.Sort
 import org.ifaco.mbcounter.Fun.Companion.dm
 import org.ifaco.mbcounter.Fun.Companion.dp
 import org.ifaco.mbcounter.Fun.Companion.exit
 import org.ifaco.mbcounter.Fun.Companion.explode
-import org.ifaco.mbcounter.Fun.Companion.night
 import org.ifaco.mbcounter.Fun.Companion.now
-import org.ifaco.mbcounter.Fun.Companion.pdcf
 import org.ifaco.mbcounter.data.Adap
 import org.ifaco.mbcounter.data.Exporter
 import org.ifaco.mbcounter.data.Report
@@ -67,9 +64,6 @@ class Main : AppCompatActivity() {
         b = MainBinding.inflate(layoutInflater)
         setContentView(b.root)
         Fun.init(this)
-
-        detectNight(resources.configuration)?.let { setNight(it) }
-
 
         // Toolbar
         setSupportActionBar(b.toolbar)
@@ -134,7 +128,10 @@ class Main : AppCompatActivity() {
         }
 
         // List
-        setGDLM()
+        var span = 1
+        if (dm.widthPixels > 0) span = ((dm.widthPixels / dm.density) / 190f).toInt()
+        if (span < 1) span = 1
+        b.rv.layoutManager = StaggeredGridLayoutManager(span, StaggeredGridLayoutManager.VERTICAL)
         b.add.setOnClickListener {
             if (adding) return@setOnClickListener
             if (filters != null) filterList(filters!!.size - 1)
@@ -149,13 +146,19 @@ class Main : AppCompatActivity() {
         Work(c, handler, Work.VIEW_ALL).start()
 
         // Lists' Filtering
-        b.spnFilterMark.setColorFilter(ContextCompat.getColor(c, R.color.spnFilterMark))
+        b.spnFilterMark.setColorFilter(color(R.color.spnFilterMark))
         b.spnFilter.setOnTouchListener { _, _ -> spnFilterTouched = true; false }
         b.spnFilter.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
                 if (spnFilterTouched) filterList(i)
             }
+        }
+
+        // Night Mode
+        if (Fun.night) Fun.pdcf(c).apply {
+            b.loadIV.colorFilter = this
+            b.addIV.colorFilter = this
         }
     }
 
@@ -173,18 +176,11 @@ class Main : AppCompatActivity() {
                 override fun onFinish() {
                     exiting = false
                 }
-            }
+            }.start()
             Toast.makeText(c, R.string.toExit, Toast.LENGTH_SHORT).show()
             return
         }
         if (!saveFocused()) exit(this)
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        dm = resources.displayMetrics
-        detectNight(newConfig)?.let { setNight(it) }
-        setGDLM()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -192,6 +188,7 @@ class Main : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)//DON"T PUT HERE THINGS THAT NEED THE LAYOUT LOADED.
     }
 
+    @SuppressLint("InflateParams")
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.momImport -> Exporter.importFromWhere(this)
         R.id.momExport -> {
@@ -201,57 +198,48 @@ class Main : AppCompatActivity() {
                 sumResult = Summary(allMasturbation!!).result
                 if (sumResult != null) AlertDialog.Builder(this).apply {
                     setTitle("${resources.getString(R.string.momSum)} (" + allMasturbation!!.size + ")")
-                    setView(ScrollView(c).apply {
-                        layoutParams = ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-                        )
-                        addView(LinearLayout(c).apply {
-                            layoutParams = ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT
-                            )
-                            setPadding(dp(21), dp(15), dp(21), dp(15))
-                            orientation = LinearLayout.VERTICAL
-                            for (r in sumResult!!.calculations) addView(
-                                ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
-                                    layoutParams = LinearLayout.LayoutParams(
+                    val sumLayout = (layoutInflater.inflate(R.layout.summary, null) as ScrollView).apply {
+                        for (r in sumResult!!.calculations) (this[0] as LinearLayout).addView(
+                            ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
+                                layoutParams = LinearLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT
+                                )
+                                addView(TextView(c).apply {
+                                    layoutParams = ChipGroup.LayoutParams(
                                         ViewGroup.LayoutParams.WRAP_CONTENT,
                                         ViewGroup.LayoutParams.WRAP_CONTENT
                                     )
-                                    addView(TextView(c).apply {
+                                    setPadding(0, dp(12), 0, 0)
+                                    text =
+                                        (if (r.key % 1 > 0) r.key.toString()
+                                        else r.key.toInt().toString()).plus(": ")
+                                    setTextColor(color(R.color.mrvPopupButtons))
+                                })
+                                for (crush in r.value) addView(
+                                    Chip(
+                                        ContextThemeWrapper(c, R.style.AppTheme), null, 0
+                                    ).apply {
                                         layoutParams = ChipGroup.LayoutParams(
                                             ViewGroup.LayoutParams.WRAP_CONTENT,
                                             ViewGroup.LayoutParams.WRAP_CONTENT
                                         )
-                                        setPadding(0, dp(12), 0, 0)
-                                        text =
-                                            (if (r.key % 1 > 0) r.key.toString()
-                                            else r.key.toInt().toString()).plus(": ")
-                                    })
-                                    for (crush in r.value) addView(
-                                        Chip(
-                                            ContextThemeWrapper(c, R.style.AppTheme), null, 0
-                                        ).apply {
-                                            layoutParams = ChipGroup.LayoutParams(
-                                                ViewGroup.LayoutParams.WRAP_CONTENT,
-                                                ViewGroup.LayoutParams.WRAP_CONTENT
+                                        text = crush
+                                        setOnClickListener {
+                                            selectedCrush = crush
+                                            startActivity(
+                                                Intent(this@Main, Statistics::class.java)
                                             )
-                                            text = crush
-                                            setOnClickListener {
-                                                selectedCrush = crush
-                                                startActivity(
-                                                    Intent(this@Main, Statistics::class.java)
-                                                )
-                                            }
-                                        })
-                                })
-                        })
-                    })
+                                        }
+                                    })
+                            })
+                    }
+                    setView(sumLayout)
                     setPositiveButton(R.string.ok, null)
                     setCancelable(true)
                 }.create().apply {
                     show()
-                    Fun.fixADButton(this@Main, getButton(AlertDialog.BUTTON_POSITIVE))
+                    Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
                 }
             }
             true
@@ -301,25 +289,6 @@ class Main : AppCompatActivity() {
         }
     }
 
-    fun setNight(n: Boolean = true) {
-        night = n
-        window.decorView.setBackgroundColor(
-            ContextCompat.getColor(c, if (!n) R.color.body else R.color.bodyN)
-        )
-        if (n) b.loadIV.colorFilter = pdcf(c) else b.loadIV.clearColorFilter()
-        if (n) b.addIV.colorFilter = pdcf(c) else b.addIV.clearColorFilter()
-        arrangeList()
-    }
-
-    var lm: StaggeredGridLayoutManager? = null
-    fun setGDLM(width: Int = dm.widthPixels) {
-        var span = 1
-        if (width > 0) span = ((width / dm.density) / 190f).toInt()
-        if (span < 1) span = 1
-        lm = StaggeredGridLayoutManager(span, StaggeredGridLayoutManager.VERTICAL)
-        b.rv.layoutManager = lm
-    }
-
     fun saveFocused(): Boolean {
         var isFocused = false
         for (f in 0 until b.rv.childCount) {
@@ -333,11 +302,21 @@ class Main : AppCompatActivity() {
         return isFocused
     }
 
+    var spnFilterTouched = false
     fun resetAllMasturbations() {
         Collections.sort(allMasturbation!!, Sort())
         filters = filter(allMasturbation!!)
         filterList(filters!!.size - 1)
-        if (filters != null) setSpinner()
+        if (filters != null) {
+            val titles = ArrayList<String>().apply {
+                for (f in filters!!.indices) add(filters!![f].titleInShamsi(c))
+            }
+            b.spnFilter.adapter = ArrayAdapter(c, R.layout.spinner_1, titles)
+                .apply { setDropDownViewResource(R.layout.spinner_1_dd) }
+            spnFilterTouched = false
+            listFilter = filters!!.size - 1
+            b.spnFilter.setSelection(listFilter, true)
+        }
     }
 
     fun filter(reports: ArrayList<Report>): ArrayList<Filter> {
@@ -355,23 +334,6 @@ class Main : AppCompatActivity() {
         return filters
     }
 
-    fun filterTitles(filters: ArrayList<Filter>): ArrayList<String> =
-        ArrayList<String>().apply { for (f in filters.indices) add(filters[f].titleInShamsi(c)) }
-
-    var spnFilterTouched = false
-    fun setSpnFilter(options: ArrayList<String>) {
-        b.spnFilter.adapter = ArrayAdapter(c, R.layout.spinner_1, options)
-            .apply { setDropDownViewResource(R.layout.spinner_1_dd) }
-        spnFilterTouched = false
-    }
-
-    fun setSpinner() {
-        if (filters == null) return
-        setSpnFilter(filterTitles(filters!!))
-        listFilter = filters!!.size - 1
-        b.spnFilter.setSelection(listFilter, true)
-    }
-
     fun filterList(i: Int) {
         if (allMasturbation == null) {
             masturbation.clear(); return; }
@@ -380,10 +342,6 @@ class Main : AppCompatActivity() {
         if (filters == null) for (o in allMasturbation!!) masturbation.add(o)
         else if (!filters.isNullOrEmpty())
             for (o in filters!![listFilter].items) masturbation.add(allMasturbation!![o])
-        arrangeList()
-    }
-
-    fun arrangeList() {
         saveOnBlur = false
         scrollOnFocus = false
         if (adapter == null) {

@@ -4,10 +4,9 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Process
@@ -16,14 +15,13 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.util.*
 import kotlin.system.exitProcess
 
-@Suppress("unused")
 class Fun {
     companion object {
+        @SuppressLint("StaticFieldLeak")
         lateinit var c: Context
         lateinit var sp: SharedPreferences
         var dm = DisplayMetrics()
@@ -34,14 +32,10 @@ class Fun {
             c = that.applicationContext
             sp = that.getPreferences(Context.MODE_PRIVATE)
             dm = that.resources.displayMetrics
+            night = c.resources.getBoolean(R.bool.night)
         }
 
         fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
-
-        fun z(n: Int): String {
-            var s = n.toString()
-            return if (s.length == 1) "0$s" else s
-        }
 
         fun now() = Calendar.getInstance().timeInMillis
 
@@ -81,7 +75,9 @@ class Fun {
             }
         }
 
-        fun pdcf(c: Context, res: Int = R.color.CP2N) =
+        fun color(res: Int) = ContextCompat.getColor(c, res)
+
+        fun pdcf(c: Context, res: Int = R.color.CPDD) =
             PorterDuffColorFilter(ContextCompat.getColor(c, res), PorterDuff.Mode.SRC_IN)
 
         fun exit(that: AppCompatActivity) {
@@ -90,23 +86,9 @@ class Fun {
             exitProcess(1)
         }
 
-        fun fixADButton(that: AppCompatActivity, button: Button) = button.apply {
-            setTextColor(ContextCompat.getColor(that, R.color.CP2))
-            setBackgroundColor(ContextCompat.getColor(that, R.color.CP))
+        fun fixADButton(button: Button) = button.apply {
+            setTextColor(color(R.color.mrvPopupButtons))
+            //setBackgroundColor(color(R.color.CP))
         }
-
-        fun detectNight(con: Configuration): Boolean? {
-            when (con.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-                Configuration.UI_MODE_NIGHT_NO ->  return false
-                Configuration.UI_MODE_NIGHT_YES -> return true
-            }
-            return null
-        }
-
-        fun permGranted(perm: String) =
-            ActivityCompat.checkSelfPermission(c, perm) == PackageManager.PERMISSION_GRANTED
-
-        fun permResult(grantResults: IntArray) =
-            grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
     }
 }

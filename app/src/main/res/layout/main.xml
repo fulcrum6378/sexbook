@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     tools:context=".Main"
-    tools:ignore="MissingConstraints">
+    tools:ignore="MissingConstraints,ContentDescription">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -34,6 +34,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <com.blure.complexview.ComplexView
+        style="@style/addCV"
         android:layout_width="88dp"
         android:layout_height="88dp"
         app:layout_constraintBottom_toBottomOf="@id/add"
@@ -42,7 +43,6 @@
         app:layout_constraintTop_toTopOf="@id/add"
         app:radius="40dp"
         app:shadow="true"
-        app:shadowAlpha="75"
         app:shadowColor="#000000"
         app:shadowSpread="2" />
 
@@ -72,7 +72,8 @@
         android:background="@drawable/spn_filter"
         android:paddingStart="28dp"
         android:paddingTop="14dp"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+        android:paddingEnd="5dp"
+        android:theme="@style/Theme.MaterialComponents.DayNight"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
@@ -104,6 +105,7 @@
         android:id="@+id/loadShadow"
         style="@style/shadow_1_vertical"
         android:layout_width="10dp"
+        android:alpha="0.6"
         app:layout_constraintStart_toEndOf="@id/load" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

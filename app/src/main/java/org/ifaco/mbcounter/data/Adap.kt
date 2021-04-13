@@ -1,8 +1,6 @@
 package org.ifaco.mbcounter.data
 
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
@@ -11,17 +9,17 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.blure.complexview.ComplexView
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
+import org.ifaco.mbcounter.Fun.Companion.color
 import org.ifaco.mbcounter.Fun.Companion.dm
 import org.ifaco.mbcounter.Fun.Companion.dp
+import org.ifaco.mbcounter.Fun.Companion.night
 import org.ifaco.mbcounter.Main
 import org.ifaco.mbcounter.Main.Companion.allMasturbation
 import org.ifaco.mbcounter.Main.Companion.handler
-import org.ifaco.mbcounter.Fun.Companion.night
 import org.ifaco.mbcounter.Main.Companion.saveOnBlur
 import org.ifaco.mbcounter.Main.Companion.scrollOnFocus
 import org.ifaco.mbcounter.R
@@ -56,8 +54,6 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
         notes.id = View.generateViewId()
 
         // Fix Constraints
-        /*var timeLP = time.layoutParams as ConstraintLayout.LayoutParams
-        time.layoutParams = timeLP*/
         var clockHourLP = clockHour.layoutParams as ConstraintLayout.LayoutParams
         clockHourLP.bottomToBottom = point.id
         clockHour.layoutParams = clockHourLP
@@ -80,18 +76,8 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
         // Background
         cl.background = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
-            colors = intArrayOf(
-                ContextCompat.getColor(c, R.color.mrvBG1),
-                ContextCompat.getColor(c, R.color.mrvBG2),
-                ContextCompat.getColor(c, R.color.mrvBG3)
-            )
+            colors = intArrayOf(color(R.color.mrvBG1), color(R.color.mrvBG2), color(R.color.mrvBG3))
             cornerRadius = dm.density * 15
-        }
-        if (night) ContextCompat.getDrawable(c, R.drawable.clock_bg_1)?.let {
-            it.colorFilter = PorterDuffColorFilter(
-                ContextCompat.getColor(c, R.color.mrvClockN), PorterDuff.Mode.SRC_IN
-            )
-            clock.background = it
         }
 
         // Fonts
@@ -138,9 +124,9 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
             ).apply {
                 isThemeDark = night
                 version = TimePickerDialog.Version.VERSION_2
-                accentColor = ContextCompat.getColor(c, R.color.CP)
-                setOkColor(ContextCompat.getColor(c, if (!night) R.color.CP2 else R.color.CP2N))
-                setCancelColor(ContextCompat.getColor(c, if (!night) R.color.CP2 else R.color.CP2N))
+                accentColor = color(R.color.CP)
+                setOkColor(color(R.color.mrvPopupButtons))
+                setCancelColor(color(R.color.mrvPopupButtons))
                 show(that.supportFragmentManager, "edit${allPos(h, list)}")
             }
         }
@@ -150,9 +136,9 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
             ).apply {
                 isThemeDark = night
                 version = DatePickerDialog.Version.VERSION_2
-                accentColor = ContextCompat.getColor(c, R.color.CP)
-                setOkColor(ContextCompat.getColor(c, R.color.CP2))
-                setCancelColor(ContextCompat.getColor(c, R.color.CP2))
+                accentColor = color(R.color.CP)
+                setOkColor(color(R.color.mrvPopupButtons))
+                setCancelColor(color(R.color.mrvPopupButtons))
                 show(that.supportFragmentManager, "$tagEdit${allPos(h, list)}")
             }
         }
@@ -163,7 +149,7 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
         notes.setText(list[i].notes)
         notes.setOnFocusChangeListener { _, b ->
             if (!b && saveOnBlur && allMasturbation != null) saveET(c, notes, allPos(h, list))
-            if (b && scrollOnFocus) handler.obtainMessage(Work.SCROLL, h.l.top -dp(5))
+            if (b && scrollOnFocus) handler.obtainMessage(Work.SCROLL, h.l.top - dp(5))
         }
 
         // Long Click
