@@ -9,14 +9,6 @@
     tools:context=".Main"
     tools:ignore="MissingConstraints">
 
-    <View
-        android:id="@+id/motor"
-        android:layout_width="1dp"
-        android:layout_height="1dp"
-        android:visibility="invisible"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -97,7 +89,7 @@
     <View
         style="@style/shadow_1"
         android:layout_height="6dp"
-        android:alpha="0.68"
+        android:alpha="0.4"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <View

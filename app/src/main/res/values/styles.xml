@@ -4,13 +4,15 @@
         <item name="colorPrimary">@color/CP</item>
         <item name="colorPrimaryDark">@color/CPD</item>
         <item name="colorAccent">@color/CA</item>
-        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/CPD</item>
+        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/CP</item>
         <item name="android:windowBackground">@color/body</item>
         <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
         <item name="android:contextPopupMenuStyle" tools:ignore="NewApi">
             @style/Widget.MaterialComponents.PopupMenu.ContextMenu
         </item>
-        <!--<item name="android:statusBarColor" tools:ignore="NewApi">@color/CP</item>-->
+        <item name="android:statusBarColor">@color/CP</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
     </style>
 
     <!-- GLOBAL -->
@@ -39,13 +41,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:src">@drawable/logo_1</item>
-        <item name="layout_constraintWidth_percent">0.8</item>
-        <item name="layout_constraintHeight_percent">0.8</item>
-    </style>
-
-    <style name="dirChooserButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <!--?android:attr/buttonBarButtonStyle-->
-        <item name="android:textColor">@color/CPD</item>
-        <!--background: ?android:attr/selectableItemBackground-->
+        <item name="layout_constraintWidth_percent">0.7</item>
+        <item name="layout_constraintHeight_percent">0.7</item>
     </style>
 </resources>
