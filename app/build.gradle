@@ -12,7 +12,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
-        versionName '2.5.0'
+        versionName '2.6.0'
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -29,7 +29,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
     buildFeatures {
         viewBinding true
     }
@@ -54,4 +56,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
     implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.activity:activity-ktx:1.2.2'
 }

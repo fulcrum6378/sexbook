@@ -18,15 +18,18 @@ import org.ifaco.mbcounter.Fun.Companion.dm
 import org.ifaco.mbcounter.Fun.Companion.dp
 import org.ifaco.mbcounter.Fun.Companion.night
 import org.ifaco.mbcounter.Main
-import org.ifaco.mbcounter.Main.Companion.allMasturbation
 import org.ifaco.mbcounter.Main.Companion.handler
 import org.ifaco.mbcounter.Main.Companion.saveOnBlur
 import org.ifaco.mbcounter.Main.Companion.scrollOnFocus
 import org.ifaco.mbcounter.R
 import java.util.*
 
-class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) :
-    RecyclerView.Adapter<Adap.MyViewHolder>(), DatePickerDialog.OnDateSetListener,
+class Adap(
+    val c: Context,
+    val list: List<Report>,
+    val that: AppCompatActivity,
+    val allMasturbation: ArrayList<Report>?
+) : RecyclerView.Adapter<Adap.MyViewHolder>(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
     var clockHeight = dp(48)
     val tagEdit = "edit"
@@ -127,7 +130,7 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
                 accentColor = color(R.color.CP)
                 setOkColor(color(R.color.mrvPopupButtons))
                 setCancelColor(color(R.color.mrvPopupButtons))
-                show(that.supportFragmentManager, "edit${allPos(h, list)}")
+                show(that.supportFragmentManager, "edit${allPos(h, list, allMasturbation)}")
             }
         }
         date.setOnClickListener {
@@ -139,7 +142,7 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
                 accentColor = color(R.color.CP)
                 setOkColor(color(R.color.mrvPopupButtons))
                 setCancelColor(color(R.color.mrvPopupButtons))
-                show(that.supportFragmentManager, "$tagEdit${allPos(h, list)}")
+                show(that.supportFragmentManager, "$tagEdit${allPos(h, list, allMasturbation)}")
             }
         }
         ampm.text =
@@ -148,7 +151,9 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
         // Notes
         notes.setText(list[i].notes)
         notes.setOnFocusChangeListener { _, b ->
-            if (!b && saveOnBlur && allMasturbation != null) saveET(c, notes, allPos(h, list))
+            if (!b && saveOnBlur && allMasturbation != null) saveET(
+                c, notes, allPos(h, list, allMasturbation), allMasturbation
+            )
             if (b && scrollOnFocus) handler.obtainMessage(Work.SCROLL, h.l.top - dp(5))
         }
 
@@ -159,9 +164,9 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
                 when (it.itemId) {
                     R.id.lcDelete -> {
                         if (allMasturbation == null) return@setOnMenuItemClickListener true
-                        val aPos = allPos(h, list)
+                        val aPos = allPos(h, list, allMasturbation)
                         Work(
-                            c, handler, Work.DELETE_ONE, listOf(allMasturbation!![aPos], aPos)
+                            c, handler, Work.DELETE_ONE, listOf(allMasturbation[aPos], aPos)
                         ).start()
                         true
                     }
@@ -184,16 +189,16 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
         if (allMasturbation == null) return
         if (view != null && view.tag != null && view.tag!!.length > 4) {
             val pos = view.tag!!.substring(4).toInt()
-            if (allMasturbation!!.size > pos) when (view.tag!!.substring(0, 4)) {
+            if (allMasturbation.size > pos) when (view.tag!!.substring(0, 4)) {
                 tagEdit -> {
                     var calc = Calendar.getInstance()
-                    calc.timeInMillis = allMasturbation!![pos].time
+                    calc.timeInMillis = allMasturbation[pos].time
                     calc[Calendar.YEAR] = year
                     calc[Calendar.MONTH] = monthOfYear
                     calc[Calendar.DAY_OF_MONTH] = dayOfMonth
-                    allMasturbation!![pos].time = calc.timeInMillis
+                    allMasturbation[pos].time = calc.timeInMillis
                     Work(
-                        c, handler, Work.UPDATE_ONE, listOf(allMasturbation!![pos], pos, 2)
+                        c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 2)
                     ).start()
                 }
             }
@@ -204,16 +209,16 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
         if (allMasturbation == null) return
         if (view != null && view.tag != null && view.tag!!.length > 4) {
             val pos = view.tag!!.substring(4).toInt()
-            if (allMasturbation!!.size > pos) when (view.tag!!.substring(0, 4)) {
+            if (allMasturbation.size > pos) when (view.tag!!.substring(0, 4)) {
                 tagEdit -> {
                     var calc = Calendar.getInstance()
-                    calc.timeInMillis = allMasturbation!![pos].time
+                    calc.timeInMillis = allMasturbation[pos].time
                     calc[Calendar.HOUR_OF_DAY] = hourOfDay
                     calc[Calendar.MINUTE] = minute
                     calc[Calendar.SECOND] = second
-                    allMasturbation!![pos].time = calc.timeInMillis
+                    allMasturbation[pos].time = calc.timeInMillis
                     Work(
-                        c, handler, Work.UPDATE_ONE, listOf(allMasturbation!![pos], pos, 2)
+                        c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 2)
                     ).start()
                 }
             }
@@ -247,21 +252,25 @@ class Adap(val c: Context, val list: List<Report>, val that: AppCompatActivity) 
 
         fun rotateMin(m: Int) = m * 6f
 
-        fun saveET(c: Context, et: EditText, pos: Int, exitAfterwards: Boolean = false) {
+        fun saveET(
+            c: Context, et: EditText, pos: Int, allMasturbation: ArrayList<Report>?,
+            exitAfterwards: Boolean = false
+        ) {
             if (allMasturbation == null) return
-            if (allMasturbation!!.size <= pos || pos < 0) return
-            if (allMasturbation!![pos].notes == et.text.toString()) return
-            allMasturbation!![pos].notes = et.text.toString()
+            if (allMasturbation.size <= pos || pos < 0) return
+            if (allMasturbation[pos].notes == et.text.toString()) return
+            allMasturbation[pos].notes = et.text.toString()
             Work(
                 c, handler, Work.UPDATE_ONE,
-                listOf(allMasturbation!![pos], pos, if (exitAfterwards) 1 else 0)
+                listOf(allMasturbation[pos], pos, if (exitAfterwards) 1 else 0)
             ).start()
         }
 
-        fun allPos(h: RecyclerView.ViewHolder, list: List<Report>) =
-            allMasturbation!!.indexOf(list[h.layoutPosition])
+        fun allPos(
+            h: RecyclerView.ViewHolder, list: List<Report>, allMasturbation: ArrayList<Report>?
+        ) = allMasturbation!!.indexOf(list[h.layoutPosition])
 
-        fun allPos(list: List<Report>, nominalPos: Int) =
+        fun allPos(list: List<Report>, nominalPos: Int, allMasturbation: ArrayList<Report>?) =
             allMasturbation!!.indexOf(list[nominalPos])
 
 

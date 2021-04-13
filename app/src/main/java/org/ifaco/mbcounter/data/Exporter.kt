@@ -1,9 +1,10 @@
 package org.ifaco.mbcounter.data
 
+import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import org.ifaco.mbcounter.Fun.Companion.c
@@ -13,61 +14,66 @@ import java.io.*
 
 class Exporter {
     companion object {
-        const val reqFolder = 450
-        const val reqFile = 750
         val mime = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
         else "application/json"
 
-        fun whereToExport(that: AppCompatActivity) {
-            that.startActivityForResult(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+        fun export(that: AppCompatActivity, onani: ArrayList<Report>?): Boolean {
+            if (onani == null) {
+                Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show(); return true; }
+            that.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+                val bExp = try {
+                    c.contentResolver.openFileDescriptor(it.data!!.data!!, "w")?.use { des ->
+                        FileOutputStream(des.fileDescriptor).use { fos ->
+                            fos.write(Gson().toJson(onani).toByteArray())
+                        }
+                    }
+                    true
+                } catch (ignored: Exception) {
+                    false
+                }
+                Toast.makeText(
+                    c, if (bExp) R.string.exportDone else R.string.exportUndone, Toast.LENGTH_LONG
+                ).show()
+            }.launch(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
                 type = mime
                 putExtra(Intent.EXTRA_TITLE, "exported.json")
-            }, reqFolder)
-        }
-
-        fun export(where: Uri): Boolean = try {
-            c.contentResolver.openFileDescriptor(where, "w")?.use {
-                FileOutputStream(it.fileDescriptor).use { fos ->
-                    fos.write(Gson().toJson(Main.allMasturbation).toByteArray())
-                }
-            }
-            true
-        } catch (ignored: Exception) {
-            false
-        }
-
-        fun importFromWhere(that: AppCompatActivity): Boolean {
-            that.startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = mime
-            }, reqFile)
+            })
             return true
         }
 
-        fun import(where: Uri): Array<Report>? {
-            var data: String? = null
-            try {
-                c.contentResolver.openFileDescriptor(where, "r")?.use { des ->
-                    val sb = StringBuffer()
-                    FileInputStream(des.fileDescriptor).apply {
-                        var i: Int
-                        while (read().also { i = it } != -1) sb.append(i.toChar())
-                        close()
+        fun import(that: AppCompatActivity): Boolean {
+            that.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+                var data: String? = null
+                try {
+                    c.contentResolver.openFileDescriptor(it.data!!.data!!, "r")?.use { des ->
+                        val sb = StringBuffer()
+                        FileInputStream(des.fileDescriptor).apply {
+                            var i: Int
+                            while (read().also { r -> i = r } != -1) sb.append(i.toChar())
+                            close()
+                        }
+                        data = sb.toString()
                     }
-                    data = sb.toString()
+                    data!!
+                } catch (e: Exception) {
+                    Toast.makeText(c, R.string.importOpenError, Toast.LENGTH_LONG).show()
+                    return@registerForActivityResult
                 }
-                data!!
-            } catch (e: Exception) {
-                Toast.makeText(c, R.string.importOpenError, Toast.LENGTH_LONG).show()
-                return null
-            }
-            return try {
-                Gson().fromJson(data, Array<Report>::class.java)
-            } catch (e: Exception) {
-                Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
-                null
-            }
+                try {
+                    Gson().fromJson(data, Array<Report>::class.java)
+                } catch (e: Exception) {
+                    Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
+                    return@registerForActivityResult
+                }
+                Work(c, Main.handler, Work.REPLACE_ALL, data!!.toList()).start()
+            }.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = mime
+            })
+            return true
         }
     }
 }

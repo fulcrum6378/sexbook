@@ -1,7 +1,10 @@
 package org.ifaco.mbcounter
 
+import android.os.Parcel
+import android.os.Parcelable
 import org.ifaco.mbcounter.Fun.Companion.c
 import org.ifaco.mbcounter.data.Report
+import java.io.Serializable
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -230,10 +233,32 @@ class Summary(list: List<Report>) {
         MERE_DESCRIPTION, ONE, ONE_WITH_DESCRIPTION, SOME_WITH_DESCRIPTION, MORE_THAN_ONE, NOT_SURE
     }
 
-    data class Erection(val time: Long, val value: Float)
+    class Erection(val time: Long, val value: Float) : Serializable
 
-    data class Result(
+    @Suppress("UNCHECKED_CAST")
+    class Result(
         var calculations: HashMap<Float, ArrayList<String>>,
         var scores: HashMap<String, ArrayList<Erection>>
-    )
+    ) : Parcelable {
+        private constructor(parcel: Parcel) : this(
+            calculations = parcel.readSerializable() as HashMap<Float, ArrayList<String>>,
+            scores = parcel.readSerializable() as HashMap<String, ArrayList<Erection>>
+        )
+
+        override fun writeToParcel(out: Parcel?, flags: Int) {
+            out?.writeSerializable(calculations)
+            out?.writeSerializable(scores)
+        }
+
+        override fun describeContents() = 0
+
+        companion object {
+            @Suppress("unused")
+            @JvmField
+            val CREATOR = object : Parcelable.Creator<Result> {
+                override fun createFromParcel(parcel: Parcel) = Result(parcel)
+                override fun newArray(size: Int) = arrayOfNulls<Result>(size)
+            }
+        }
+    }
 }

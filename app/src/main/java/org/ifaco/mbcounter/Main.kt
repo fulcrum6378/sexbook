@@ -10,6 +10,7 @@ import android.os.*
 import android.view.*
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
@@ -38,8 +39,9 @@ import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
 class Main : AppCompatActivity() {
-    lateinit var b: MainBinding
-    lateinit var tbTitle: TextView
+    private lateinit var b: MainBinding
+    private lateinit var tbTitle: TextView
+    private val m: Model by viewModels()
     var adapter: Adap? = null
     var adding = false
 
@@ -48,14 +50,11 @@ class Main : AppCompatActivity() {
 
         const val workActionTimeout: Long = 5000
         var dateFont: Typeface? = null
-        var allMasturbation: ArrayList<Report>? = null
         var masturbation = ArrayList<Report>()
         var saveOnBlur = false
         var scrollOnFocus = false
         var filters: ArrayList<Filter>? = null
         var listFilter = 0
-        var selectedCrush: String? = null
-        var sumResult: Summary.Result? = null
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -81,14 +80,14 @@ class Main : AppCompatActivity() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.VIEW_ALL -> if (msg.obj != null) {
-                        allMasturbation = msg.obj as ArrayList<Report>
+                        m.onani.value = msg.obj as ArrayList<Report>
                         resetAllMasturbations()
                         load()
                     }
                     Work.VIEW_ONE -> if (msg.obj != null) when (msg.arg1) {
                         Work.ADD_NEW_ITEM -> {
-                            if (allMasturbation == null) allMasturbation = ArrayList()
-                            allMasturbation!!.add(msg.obj as Report)
+                            if (m.onani.value == null) m.onani.value = ArrayList()
+                            m.onani.value!!.add(msg.obj as Report)
                             resetAllMasturbations()
                             adding = false
                             explode(c, b.add)
@@ -100,21 +99,21 @@ class Main : AppCompatActivity() {
                     Work.REPLACE_ALL ->
                         Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
                     Work.UPDATE_ONE -> {
-                        if (allMasturbation != null) {
-                            if (masturbation.contains(allMasturbation!![msg.arg1])) {
-                                val nominalPos = masturbation.indexOf(allMasturbation!![msg.arg1])
-                                masturbation[nominalPos] = allMasturbation!![msg.arg1]
+                        if (m.onani.value != null) {
+                            if (masturbation.contains(m.onani.value!![msg.arg1])) {
+                                val nominalPos = masturbation.indexOf(m.onani.value!![msg.arg1])
+                                masturbation[nominalPos] = m.onani.value!![msg.arg1]
                                 adapter?.notifyItemChanged(nominalPos)
                             }
                             if (msg.arg2 == 2) resetAllMasturbations()
                         }
                         if (msg.arg2 == 1) exit(that)
                     }
-                    Work.DELETE_ONE -> if (allMasturbation != null) {
-                        if (masturbation.contains(allMasturbation!![msg.arg1])) {
-                            val nominalPos = masturbation.indexOf(allMasturbation!![msg.arg1])
-                            masturbation.remove(allMasturbation!![msg.arg1])
-                            allMasturbation!!.remove(allMasturbation!![msg.arg1])
+                    Work.DELETE_ONE -> if (m.onani.value != null) {
+                        if (masturbation.contains(m.onani.value!![msg.arg1])) {
+                            val nominalPos = masturbation.indexOf(m.onani.value!![msg.arg1])
+                            masturbation.remove(m.onani.value!![msg.arg1])
+                            m.onani.value!!.remove(m.onani.value!![msg.arg1])
                             filters?.let {
                                 if (it.size > listFilter) it[listFilter].items =
                                     it[listFilter].items.apply { remove(msg.arg1) }
@@ -190,50 +189,56 @@ class Main : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.momImport -> Exporter.importFromWhere(this)
-        R.id.momExport -> {
-            if (allMasturbation != null) Exporter.whereToExport(this); true; }
+        R.id.momImport -> Exporter.import(this)
+        R.id.momExport -> Exporter.export(this, m.onani.value)
         R.id.momSum -> {
-            if (allMasturbation != null) {
-                sumResult = Summary(allMasturbation!!).result
-                if (sumResult != null) AlertDialog.Builder(this).apply {
-                    setTitle("${resources.getString(R.string.momSum)} (" + allMasturbation!!.size + ")")
-                    val sumLayout = (layoutInflater.inflate(R.layout.summary, null) as ScrollView).apply {
-                        for (r in sumResult!!.calculations) (this[0] as LinearLayout).addView(
-                            ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
-                                layoutParams = LinearLayout.LayoutParams(
-                                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                                    ViewGroup.LayoutParams.WRAP_CONTENT
-                                )
-                                addView(TextView(c).apply {
-                                    layoutParams = ChipGroup.LayoutParams(
+            if (m.onani.value != null) {
+                m.summary.value = Summary(m.onani.value!!).result
+                if (m.summary.value != null) AlertDialog.Builder(this).apply {
+                    setTitle("${resources.getString(R.string.momSum)} (" + m.onani.value!!.size + ")")
+                    val sumLayout =
+                        (layoutInflater.inflate(R.layout.summary, null) as ScrollView).apply {
+                            for (r in m.summary.value!!.calculations) (this[0] as LinearLayout).addView(
+                                ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
+                                    layoutParams = LinearLayout.LayoutParams(
                                         ViewGroup.LayoutParams.WRAP_CONTENT,
                                         ViewGroup.LayoutParams.WRAP_CONTENT
                                     )
-                                    setPadding(0, dp(12), 0, 0)
-                                    text =
-                                        (if (r.key % 1 > 0) r.key.toString()
-                                        else r.key.toInt().toString()).plus(": ")
-                                    setTextColor(color(R.color.mrvPopupButtons))
-                                })
-                                for (crush in r.value) addView(
-                                    Chip(
-                                        ContextThemeWrapper(c, R.style.AppTheme), null, 0
-                                    ).apply {
+                                    addView(TextView(c).apply {
                                         layoutParams = ChipGroup.LayoutParams(
                                             ViewGroup.LayoutParams.WRAP_CONTENT,
                                             ViewGroup.LayoutParams.WRAP_CONTENT
                                         )
-                                        text = crush
-                                        setOnClickListener {
-                                            selectedCrush = crush
-                                            startActivity(
-                                                Intent(this@Main, Statistics::class.java)
-                                            )
-                                        }
+                                        setPadding(0, dp(12), 0, 0)
+                                        text =
+                                            (if (r.key % 1 > 0) r.key.toString()
+                                            else r.key.toInt().toString()).plus(": ")
+                                        setTextColor(color(R.color.mrvPopupButtons))
                                     })
-                            })
-                    }
+                                    for (crush in r.value) addView(
+                                        Chip(
+                                            ContextThemeWrapper(c, R.style.AppTheme), null, 0
+                                        ).apply {
+                                            layoutParams = ChipGroup.LayoutParams(
+                                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                                ViewGroup.LayoutParams.WRAP_CONTENT
+                                            )
+                                            text = crush
+                                            setOnClickListener {
+                                                m.crush.value = crush
+                                                startActivity(
+                                                    Intent(
+                                                        this@Main, Statistics::class.java
+                                                    ).apply {
+                                                        putExtra(Statistics.exOnani, m.onani.value)
+                                                        putExtra(Statistics.exCrush, m.crush.value)
+                                                        putExtra(Statistics.exSummary, m.summary.value)
+                                                    }
+                                                )
+                                            }
+                                        })
+                                })
+                        }
                     setView(sumLayout)
                     setPositiveButton(R.string.ok, null)
                     setCancelable(true)
@@ -245,21 +250,6 @@ class Main : AppCompatActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (data == null || data.data == null) {
-            Toast.makeText(c, R.string.requestFailed, Toast.LENGTH_LONG).show(); return; }
-        when (requestCode) {
-            Exporter.reqFile -> Exporter.import(data.data!!)
-                ?.let { Work(c, handler, Work.REPLACE_ALL, it.toList()).start() }
-            Exporter.reqFolder -> Exporter.export(data.data!!).apply {
-                Toast.makeText(
-                    c, if (this) R.string.exportDone else R.string.exportUndone, Toast.LENGTH_LONG
-                ).show()
-            }
-        }
     }
 
 
@@ -295,7 +285,10 @@ class Main : AppCompatActivity() {
             var i = b.rv.getChildAt(f) as ViewGroup
             var et = (i.getChildAt(Adap.clPos) as ViewGroup).getChildAt(Adap.notesPos) as EditText
             if (et.hasFocus()) {
-                Adap.saveET(c, et, Adap.allPos(masturbation, b.rv.getChildLayoutPosition(i)), true)
+                Adap.saveET(
+                    c, et, Adap.allPos(masturbation, b.rv.getChildLayoutPosition(i), m.onani.value),
+                    m.onani.value, true
+                )
                 isFocused = true
             }
         }
@@ -304,8 +297,8 @@ class Main : AppCompatActivity() {
 
     var spnFilterTouched = false
     fun resetAllMasturbations() {
-        Collections.sort(allMasturbation!!, Sort())
-        filters = filter(allMasturbation!!)
+        Collections.sort(m.onani.value!!, Sort())
+        filters = filter(m.onani.value!!)
         filterList(filters!!.size - 1)
         if (filters != null) {
             val titles = ArrayList<String>().apply {
@@ -335,17 +328,17 @@ class Main : AppCompatActivity() {
     }
 
     fun filterList(i: Int) {
-        if (allMasturbation == null) {
+        if (m.onani.value == null) {
             masturbation.clear(); return; }
         listFilter = i
         masturbation.clear()
-        if (filters == null) for (o in allMasturbation!!) masturbation.add(o)
+        if (filters == null) for (o in m.onani.value!!) masturbation.add(o)
         else if (!filters.isNullOrEmpty())
-            for (o in filters!![listFilter].items) masturbation.add(allMasturbation!![o])
+            for (o in filters!![listFilter].items) masturbation.add(m.onani.value!![o])
         saveOnBlur = false
         scrollOnFocus = false
         if (adapter == null) {
-            adapter = Adap(c, masturbation, this)
+            adapter = Adap(c, masturbation, this, m.onani.value)
             b.rv.adapter = adapter
         } else adapter!!.notifyDataSetChanged()
     }
