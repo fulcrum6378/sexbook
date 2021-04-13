@@ -1,22 +1,18 @@
 package org.ifaco.mbcounter
 
-import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Typeface
-import android.net.Uri
 import android.os.*
 import android.view.*
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.chip.Chip
@@ -196,26 +192,10 @@ class Main : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)//DON"T PUT HERE THINGS THAT NEED THE LAYOUT LOADED.
     }
 
-    val reqImport = 666
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.momImport -> {
-            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
-                else "application/json"
-            }, reqImport)
-            true
-        }
+        R.id.momImport -> Exporter.importFromWhere(this)
         R.id.momExport -> {
-            if (allMasturbation != null) {
-                val perm = Manifest.permission.WRITE_EXTERNAL_STORAGE
-                if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() &&
-                    ContextCompat.checkSelfPermission(c, perm) !=
-                    PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= 23
-                ) ActivityCompat.requestPermissions(this, arrayOf(perm), permExport)
-                else whereToExport()
-            }
-            true
+            if (allMasturbation != null) Exporter.whereToExport(this); true
         }
         R.id.momSum -> {
             if (allMasturbation != null) {
@@ -280,31 +260,16 @@ class Main : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    val permExport = 361
-    val permImport = 786
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
-    ) {
-        val b = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
-        when (requestCode) {
-            permExport -> if (b) whereToExport()
-            permImport -> if (b) import()
-        }
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val bbb = resultCode == RESULT_OK && intent != null && intent.data != null
         when (requestCode) {
-            reqImport -> if (resultCode == RESULT_OK) {
-                toBeImported = data!!.data
-                val perm = Manifest.permission.WRITE_EXTERNAL_STORAGE
-                if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() &&
-                    ContextCompat.checkSelfPermission(c, perm) !=
-                    PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= 23
-                ) ActivityCompat.requestPermissions(this, arrayOf(perm), permImport)
-                else import()
+            Exporter.reqFile -> if (bbb) {
+                if (data!!.data == null) return
+                Exporter.import(data.data!!)
+                    ?.let { Work(c, handler, Work.REPLACE_ALL, it.toList()).start() }
             }
-            reqFolder -> if (resultCode == RESULT_OK && intent != null && intent.data != null) {
+            Exporter.reqFolder -> if (bbb) {
                 val b = Exporter.export(intent.data!!)
                 Toast.makeText(
                     c, if (b) R.string.exportDone else R.string.exportUndone, Toast.LENGTH_LONG
@@ -429,23 +394,5 @@ class Main : AppCompatActivity() {
             adapter = Adap(c, masturbation, this)
             b.rv.adapter = adapter
         } else adapter!!.notifyDataSetChanged()
-    }
-
-    val reqFolder = 750
-    fun whereToExport() {
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "application/json"
-            putExtra(Intent.EXTRA_TITLE, "exported.json")
-        }
-        startActivityForResult(intent, reqFolder)
-    }
-
-    var toBeImported: Uri? = null
-    fun import() {
-        if (toBeImported == null) return
-        Exporter.import(toBeImported!!)
-            ?.let { Work(c, handler, Work.REPLACE_ALL, it.toList()).start() }
-        toBeImported = null
     }
 }
