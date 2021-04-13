@@ -13,17 +13,15 @@ import java.lang.Exception
 
 class Exporter {
     companion object {
-        fun export(path: String): Boolean {
-            val file = File(path, "exported.json")
-            if (file.exists()) file.delete()
-            try {
-                FileOutputStream(file, false).apply {
-                    write(Gson().toJson(Main.allMasturbation).toByteArray())
-                    close()
+        fun export(where: Uri): Boolean = try {
+            c.contentResolver.openFileDescriptor(where, "w")?.use {
+                FileOutputStream(it.fileDescriptor).use { fos ->
+                    fos.write(Gson().toJson(Main.allMasturbation).toByteArray())
                 }
-            } catch (ignored: IOException) {
             }
-            return file.exists()
+            true
+        } catch (ignored: Exception) {
+            false
         }
 
         fun import(uri: Uri): Array<Report>? {

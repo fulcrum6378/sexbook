@@ -31,21 +31,20 @@ import org.ifaco.mbcounter.Fun.Companion.explode
 import org.ifaco.mbcounter.Fun.Companion.night
 import org.ifaco.mbcounter.Fun.Companion.now
 import org.ifaco.mbcounter.Fun.Companion.pdcf
-import org.ifaco.mbcounter.Fun.Companion.sp
 import org.ifaco.mbcounter.data.Adap
 import org.ifaco.mbcounter.data.Exporter
 import org.ifaco.mbcounter.data.Report
 import org.ifaco.mbcounter.data.Work
 import org.ifaco.mbcounter.data.Filter
 import org.ifaco.mbcounter.databinding.MainBinding
-import org.ifaco.mbcounter.dirchooser.DirectoryChooserConfig
-import org.ifaco.mbcounter.dirchooser.DirectoryChooserFragment
 import org.ifaco.mbcounter.more.SolarHijri
 import java.util.*
 import kotlin.collections.ArrayList
 
+// adb connect 192.168.1.5:
+
 @Suppress("UNCHECKED_CAST")
-class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteractionListener {
+class Main : AppCompatActivity() {
     lateinit var b: MainBinding
     lateinit var tbTitle: TextView
     var adapter: Adap? = null
@@ -53,10 +52,8 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
 
     companion object {
         lateinit var handler: Handler
-        lateinit var dirChos: DirectoryChooserFragment
 
         const val workActionTimeout: Long = 5000
-        const val exLastExportPath = "lastExportPath"
         var dateFont: Typeface? = null
         var allMasturbation: ArrayList<Report>? = null
         var masturbation = ArrayList<Report>()
@@ -164,14 +161,6 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
                 if (spnFilterTouched) filterList(i)
             }
         }
-
-        // Export
-        dirChos = DirectoryChooserFragment.newInstance(
-            DirectoryChooserConfig.builder()
-                .allowNewDirectoryNameModification(true)!!
-                .newDirectoryName(resources.getString(R.string.dirChos))!!
-                .build()!!
-        )
     }
 
     override fun onPause() {
@@ -224,7 +213,7 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
                     ContextCompat.checkSelfPermission(c, perm) !=
                     PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= 23
                 ) ActivityCompat.requestPermissions(this, arrayOf(perm), permExport)
-                else selectDirForExport()
+                else whereToExport()
             }
             true
         }
@@ -291,22 +280,6 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
         else -> super.onOptionsItemSelected(item)
     }
 
-    override fun onSelectDirectory(path: String) {
-        dirChos.dismiss()
-        val b = Exporter.export(path)
-        Toast.makeText(
-            c, if (b) R.string.exportDone else R.string.exportUndone, Toast.LENGTH_LONG
-        ).show()
-        sp.edit().apply {
-            putString(exLastExportPath, path)
-            apply()
-        }
-    }
-
-    override fun onCancelChooser() {
-        dirChos.dismiss()
-    }
-
     val permExport = 361
     val permImport = 786
     override fun onRequestPermissionsResult(
@@ -314,7 +287,7 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
     ) {
         val b = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
         when (requestCode) {
-            permExport -> if (b) selectDirForExport()
+            permExport -> if (b) whereToExport()
             permImport -> if (b) import()
         }
     }
@@ -330,6 +303,12 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
                     PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= 23
                 ) ActivityCompat.requestPermissions(this, arrayOf(perm), permImport)
                 else import()
+            }
+            reqFolder -> if (resultCode == RESULT_OK && intent != null && intent.data != null) {
+                val b = Exporter.export(intent.data!!)
+                Toast.makeText(
+                    c, if (b) R.string.exportDone else R.string.exportUndone, Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -452,8 +431,14 @@ class Main : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteraction
         } else adapter!!.notifyDataSetChanged()
     }
 
-    fun selectDirForExport() {
-        dirChos.show(supportFragmentManager, null)
+    val reqFolder = 750
+    fun whereToExport() {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "application/json"
+            putExtra(Intent.EXTRA_TITLE, "exported.json")
+        }
+        startActivityForResult(intent, reqFolder)
     }
 
     var toBeImported: Uri? = null
