@@ -10,10 +10,10 @@ import android.os.*
 import android.view.*
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -41,7 +41,7 @@ import kotlin.collections.ArrayList
 class Main : AppCompatActivity() {
     private lateinit var b: MainBinding
     private lateinit var tbTitle: TextView
-    private val m: Model by viewModels()
+    private lateinit var m: Model
     var adapter: Adap? = null
     var adding = false
 
@@ -61,6 +61,7 @@ class Main : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = MainBinding.inflate(layoutInflater)
+        m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
         Fun.init(this)
 
@@ -229,11 +230,7 @@ class Main : AppCompatActivity() {
                                                 startActivity(
                                                     Intent(
                                                         this@Main, Statistics::class.java
-                                                    ).apply {
-                                                        putExtra(Statistics.exOnani, m.onani.value)
-                                                        putExtra(Statistics.exCrush, m.crush.value)
-                                                        putExtra(Statistics.exSummary, m.summary.value)
-                                                    }
+                                                    )
                                                 )
                                             }
                                         })

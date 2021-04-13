@@ -3,6 +3,7 @@ package org.ifaco.mbcounter
 import android.graphics.Typeface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.anychart.AnyChart
 import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
@@ -11,7 +12,6 @@ import com.anychart.enums.HoverMode
 import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
 import org.ifaco.mbcounter.Fun.Companion.c
-import org.ifaco.mbcounter.data.Report
 import org.ifaco.mbcounter.databinding.StatisticsBinding
 import java.util.*
 import kotlin.collections.ArrayList
@@ -19,31 +19,19 @@ import kotlin.collections.ArrayList
 @Suppress("UNCHECKED_CAST")
 class Statistics : AppCompatActivity() {
     private lateinit var b: StatisticsBinding
-    var onani: ArrayList<Report>? = null
-    var crush: String? = null
-    var summary: Summary.Result? = null
-
-    companion object {
-        const val exOnani = "onani"
-        const val exCrush = "crush"
-        const val exSummary = "summary"
-    }
+    private lateinit var m: Model
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = StatisticsBinding.inflate(layoutInflater)
+        m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
         Fun.init(this)
 
-        intent.extras?.let {
-            onani = it.getParcelableArrayList(exOnani)
-            crush = it.getString(exCrush)
-            summary = it.getParcelable(exSummary) as Summary.Result?
-        }
-        if (onani == null || summary == null || crush == null) {
+        if (m.onani.value == null || m.summary.value == null || m.crush.value == null) {
             onBackPressed(); return; }
         val data: MutableList<DataEntry> = ArrayList()
-        val history = summary!!.scores[crush]
+        val history = m.summary.value!!.scores[m.crush.value]
         sinceTheBeginning().forEach { data.add(ValueDataEntry(it, calcHistory(history!!, it))) }
 
         AnyChart.column().apply {
@@ -56,7 +44,7 @@ class Statistics : AppCompatActivity() {
                 .offsetY(5.0)
                 .format("{%Value}{groupsSeparator: }")
             animation(true)
-            title(crush)
+            title(m.crush.value)
             yScale().minimum(0.0)
             yAxis(0).labels().format("{%Value}{groupsSeparator: }")
             tooltip().positionMode(TooltipPositionMode.POINT)
@@ -73,7 +61,7 @@ class Statistics : AppCompatActivity() {
     fun sinceTheBeginning(): List<String> {
         val now = Calendar.getInstance()
         var oldest = now.timeInMillis
-        for (h in onani!!) if (h.time < oldest) oldest = h.time
+        for (h in m.onani.value!!) if (h.time < oldest) oldest = h.time
         val beg = Calendar.getInstance().apply { timeInMillis = oldest }
         val list = arrayListOf<String>()
         val yDist = now[Calendar.YEAR] - beg[Calendar.YEAR]
