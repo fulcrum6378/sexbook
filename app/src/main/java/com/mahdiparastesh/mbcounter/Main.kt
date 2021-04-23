@@ -246,8 +246,6 @@ class Main : AppCompatActivity() {
             }
             true
         }
-        R.id.momFrequency -> {
-            startActivity(Intent(this@Main, Frequency::class.java)); true; }
         R.id.momImport -> exporter.import()
         R.id.momExport -> exporter.export(m.onani.value)
         else -> super.onOptionsItemSelected(item)
