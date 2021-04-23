@@ -53,9 +53,10 @@
     <!-- Main -->
     <string name="mrvNotesHint">.....</string>
     <string name="lcDelete">Delete</string>
+    <string name="momSum">Summary</string>
+    <string name="momFrequency">Frequency</string>
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>
-    <string name="momSum">Summary</string>
     <string name="requestFailed">Request failed!</string>
     <string name="exportDone">Done!</string>
     <string name="exportUndone">Failed!</string>

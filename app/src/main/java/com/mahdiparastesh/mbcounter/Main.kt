@@ -192,8 +192,6 @@ class Main : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.momImport -> exporter.import()
-        R.id.momExport -> exporter.export(m.onani.value)
         R.id.momSum -> {
             if (m.onani.value != null && m.onani.value!!.size > 0) {
                 m.summary.value = Summary(m.onani.value!!).result
@@ -248,6 +246,10 @@ class Main : AppCompatActivity() {
             }
             true
         }
+        R.id.momFrequency -> {
+            startActivity(Intent(this@Main, Frequency::class.java)); true; }
+        R.id.momImport -> exporter.import()
+        R.id.momExport -> exporter.export(m.onani.value)
         else -> super.onOptionsItemSelected(item)
     }
 
