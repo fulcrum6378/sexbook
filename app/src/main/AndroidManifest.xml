@@ -23,9 +23,5 @@
         <activity
             android:name=".Statistics"
             android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".Frequency"
-            android:screenOrientation="landscape" />
     </application>
 </manifest>
