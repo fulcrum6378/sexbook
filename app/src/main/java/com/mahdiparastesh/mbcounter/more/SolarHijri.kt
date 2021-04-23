@@ -1,4 +1,4 @@
-package org.ifaco.mbcounter.more
+package com.mahdiparastesh.mbcounter.more
 
 import java.util.*
 

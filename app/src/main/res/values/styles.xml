@@ -28,8 +28,4 @@
         <item name="layout_constraintWidth_percent">0.7</item>
         <item name="layout_constraintHeight_percent">0.7</item>
     </style>
-
-    <style name="addCV">
-        <item name="shadowAlpha">75</item>
-    </style>
 </resources>

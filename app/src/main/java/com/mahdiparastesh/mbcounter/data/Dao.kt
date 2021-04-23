@@ -1,4 +1,4 @@
-package org.ifaco.mbcounter.data
+package com.mahdiparastesh.mbcounter.data
 
 import androidx.room.*
 import androidx.room.Dao

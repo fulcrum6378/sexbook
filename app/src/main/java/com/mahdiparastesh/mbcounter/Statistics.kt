@@ -1,4 +1,4 @@
-package org.ifaco.mbcounter
+package com.mahdiparastesh.mbcounter
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -11,8 +11,9 @@ import com.anychart.enums.Anchor
 import com.anychart.enums.HoverMode
 import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
-import org.ifaco.mbcounter.Fun.Companion.c
-import org.ifaco.mbcounter.databinding.StatisticsBinding
+import com.mahdiparastesh.mbcounter.Fun.Companion.c
+import com.mahdiparastesh.mbcounter.R
+import com.mahdiparastesh.mbcounter.databinding.StatisticsBinding
 import java.util.*
 import kotlin.collections.ArrayList
 

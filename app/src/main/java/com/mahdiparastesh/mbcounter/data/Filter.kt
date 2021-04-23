@@ -1,7 +1,7 @@
-package org.ifaco.mbcounter.data
+package com.mahdiparastesh.mbcounter.data
 
 import android.content.Context
-import org.ifaco.mbcounter.R
+import com.mahdiparastesh.mbcounter.R
 import java.util.*
 
 class Filter(var year: Int, var month: Int, var items: ArrayList<Int>) {

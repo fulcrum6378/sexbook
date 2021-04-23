@@ -1,4 +1,4 @@
-package org.ifaco.mbcounter
+package com.mahdiparastesh.mbcounter
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package org.ifaco.mbcounter
+package com.mahdiparastesh.mbcounter
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -17,32 +17,33 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import org.ifaco.mbcounter.Fun.Companion.c
-import org.ifaco.mbcounter.Fun.Companion.color
-import org.ifaco.mbcounter.data.Adap.Companion.Sort
-import org.ifaco.mbcounter.Fun.Companion.dm
-import org.ifaco.mbcounter.Fun.Companion.dp
-import org.ifaco.mbcounter.Fun.Companion.exit
-import org.ifaco.mbcounter.Fun.Companion.explode
-import org.ifaco.mbcounter.Fun.Companion.now
-import org.ifaco.mbcounter.data.Adap
-import org.ifaco.mbcounter.data.Exporter
-import org.ifaco.mbcounter.data.Report
-import org.ifaco.mbcounter.data.Work
-import org.ifaco.mbcounter.data.Filter
-import org.ifaco.mbcounter.databinding.MainBinding
-import org.ifaco.mbcounter.more.SolarHijri
+import com.mahdiparastesh.mbcounter.Fun.Companion.c
+import com.mahdiparastesh.mbcounter.Fun.Companion.color
+import com.mahdiparastesh.mbcounter.adap.ReportAdap.Companion.Sort
+import com.mahdiparastesh.mbcounter.Fun.Companion.dm
+import com.mahdiparastesh.mbcounter.Fun.Companion.dp
+import com.mahdiparastesh.mbcounter.Fun.Companion.exit
+import com.mahdiparastesh.mbcounter.Fun.Companion.explode
+import com.mahdiparastesh.mbcounter.Fun.Companion.now
+import com.mahdiparastesh.mbcounter.adap.ReportAdap
+import com.mahdiparastesh.mbcounter.data.Exporter
+import com.mahdiparastesh.mbcounter.data.Report
+import com.mahdiparastesh.mbcounter.data.Work
+import com.mahdiparastesh.mbcounter.data.Filter
+import com.mahdiparastesh.mbcounter.databinding.MainBinding
+import com.mahdiparastesh.mbcounter.more.SolarHijri
 import java.util.*
 import kotlin.collections.ArrayList
 
-// adb connect 192.168.1.5:
+// adb connect 192.168.1.4:
 
 @Suppress("UNCHECKED_CAST")
 class Main : AppCompatActivity() {
     private lateinit var b: MainBinding
     private lateinit var tbTitle: TextView
     private lateinit var m: Model
-    var adapter: Adap? = null
+    private lateinit var exporter: Exporter
+    var adapter: ReportAdap? = null
     var adding = false
 
     companion object {
@@ -64,6 +65,7 @@ class Main : AppCompatActivity() {
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
         Fun.init(this)
+        exporter = Exporter(this)
 
         // Toolbar
         setSupportActionBar(b.toolbar)
@@ -190,10 +192,10 @@ class Main : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.momImport -> Exporter.import(this)
-        R.id.momExport -> Exporter.export(this, m.onani.value)
+        R.id.momImport -> exporter.import()
+        R.id.momExport -> exporter.export(m.onani.value)
         R.id.momSum -> {
-            if (m.onani.value != null) {
+            if (m.onani.value != null && m.onani.value!!.size > 0) {
                 m.summary.value = Summary(m.onani.value!!).result
                 if (m.summary.value != null) AlertDialog.Builder(this).apply {
                     setTitle("${resources.getString(R.string.momSum)} (" + m.onani.value!!.size + ")")
@@ -264,26 +266,16 @@ class Main : AppCompatActivity() {
             })
             start()
         }
-        ObjectAnimator.ofFloat(b.loadShadow, "translationX", value).apply {
-            startDelay = sd
-            duration = dur
-            addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
-                    b.body.removeView(b.loadShadow)
-                }
-            })
-            start()
-        }
     }
 
     fun saveFocused(): Boolean {
         var isFocused = false
         for (f in 0 until b.rv.childCount) {
             var i = b.rv.getChildAt(f) as ViewGroup
-            var et = (i.getChildAt(Adap.clPos) as ViewGroup).getChildAt(Adap.notesPos) as EditText
+            var et = i.getChildAt(ReportAdap.notesPos) as EditText
             if (et.hasFocus()) {
-                Adap.saveET(
-                    c, et, Adap.allPos(masturbation, b.rv.getChildLayoutPosition(i), m.onani.value),
+                ReportAdap.saveET(
+                    c, et, ReportAdap.allPos(masturbation, b.rv.getChildLayoutPosition(i), m.onani.value),
                     m.onani.value, true
                 )
                 isFocused = true
@@ -335,7 +327,7 @@ class Main : AppCompatActivity() {
         saveOnBlur = false
         scrollOnFocus = false
         if (adapter == null) {
-            adapter = Adap(c, masturbation, this, m.onani.value)
+            adapter = ReportAdap(c, masturbation, this, m.onani.value)
             b.rv.adapter = adapter
         } else adapter!!.notifyDataSetChanged()
     }

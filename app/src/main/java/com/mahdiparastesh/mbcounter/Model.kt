@@ -1,9 +1,9 @@
-package org.ifaco.mbcounter
+package com.mahdiparastesh.mbcounter
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import org.ifaco.mbcounter.data.Report
+import com.mahdiparastesh.mbcounter.data.Report
 
 class Model : ViewModel() {
     val onani: MutableLiveData<ArrayList<Report>?> by lazy { MutableLiveData<ArrayList<Report>?>() }

@@ -1,4 +1,4 @@
-package org.ifaco.mbcounter.data
+package com.mahdiparastesh.mbcounter.adap
 
 import android.content.Context
 import android.graphics.Typeface
@@ -10,43 +10,43 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.blure.complexview.ComplexView
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
-import org.ifaco.mbcounter.Fun.Companion.color
-import org.ifaco.mbcounter.Fun.Companion.dm
-import org.ifaco.mbcounter.Fun.Companion.dp
-import org.ifaco.mbcounter.Fun.Companion.night
-import org.ifaco.mbcounter.Main
-import org.ifaco.mbcounter.Main.Companion.handler
-import org.ifaco.mbcounter.Main.Companion.saveOnBlur
-import org.ifaco.mbcounter.Main.Companion.scrollOnFocus
-import org.ifaco.mbcounter.R
+import com.mahdiparastesh.mbcounter.Fun.Companion.color
+import com.mahdiparastesh.mbcounter.Fun.Companion.dm
+import com.mahdiparastesh.mbcounter.Fun.Companion.dp
+import com.mahdiparastesh.mbcounter.Fun.Companion.night
+import com.mahdiparastesh.mbcounter.Main
+import com.mahdiparastesh.mbcounter.Main.Companion.handler
+import com.mahdiparastesh.mbcounter.Main.Companion.saveOnBlur
+import com.mahdiparastesh.mbcounter.Main.Companion.scrollOnFocus
+import com.mahdiparastesh.mbcounter.R
+import com.mahdiparastesh.mbcounter.data.Report
+import com.mahdiparastesh.mbcounter.data.Work
 import java.util.*
 
-class Adap(
+class ReportAdap(
     val c: Context,
     val list: List<Report>,
     val that: AppCompatActivity,
     val allMasturbation: ArrayList<Report>?
-) : RecyclerView.Adapter<Adap.MyViewHolder>(), DatePickerDialog.OnDateSetListener,
+) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
     var clockHeight = dp(48)
     val tagEdit = "edit"
 
-    class MyViewHolder(val l: ComplexView) : RecyclerView.ViewHolder(l)
+    class MyViewHolder(val l: ConstraintLayout) : RecyclerView.ViewHolder(l)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         var l = LayoutInflater.from(parent.context)
-            .inflate(R.layout.report, parent, false) as ComplexView
-        val cl = l.getChildAt(clPos) as ConstraintLayout
-        val clock = cl.getChildAt(clockPos) as ConstraintLayout
+            .inflate(R.layout.report, parent, false) as ConstraintLayout
+        val clock = l.getChildAt(clockPos) as ConstraintLayout
         val clockHour = clock.getChildAt(clockHourPos) as View
         val clockMin = clock.getChildAt(clockMinPos) as View
         val point = clock.getChildAt(pointPos) as View
-        val ampm = cl.getChildAt(ampmPos) as TextView
-        val date = cl.getChildAt(datePos) as TextView
-        val notes = cl.getChildAt(notesPos) as EditText
+        val ampm = l.getChildAt(ampmPos) as TextView
+        val date = l.getChildAt(datePos) as TextView
+        val notes = l.getChildAt(notesPos) as EditText
 
         // IDs
         clock.id = View.generateViewId()
@@ -77,10 +77,10 @@ class Adap(
         notes.layoutParams = notesLP
 
         // Background
-        cl.background = GradientDrawable().apply {
+        l.background = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
             colors = intArrayOf(color(R.color.mrvBG1), color(R.color.mrvBG2), color(R.color.mrvBG3))
-            cornerRadius = dm.density * 15
+            cornerRadius = dm.density * 12
         }
 
         // Fonts
@@ -106,14 +106,13 @@ class Adap(
     }
 
     override fun onBindViewHolder(h: MyViewHolder, i: Int) {
-        val cl = h.l.getChildAt(clPos) as ConstraintLayout
-        val clock = cl.getChildAt(clockPos) as ConstraintLayout
+        val clock = h.l.getChildAt(clockPos) as ConstraintLayout
         val clockHour = clock.getChildAt(clockHourPos) as View
         val clockMin = clock.getChildAt(clockMinPos) as View
         //val point = clock.getChildAt(pointPos) as View
-        val ampm = cl.getChildAt(ampmPos) as TextView
-        val date = cl.getChildAt(datePos) as TextView
-        val notes = cl.getChildAt(notesPos) as EditText
+        val ampm = h.l.getChildAt(ampmPos) as TextView
+        val date = h.l.getChildAt(datePos) as TextView
+        val notes = h.l.getChildAt(notesPos) as EditText
 
         // Date & Time
         var cal = Calendar.getInstance()
@@ -177,7 +176,7 @@ class Adap(
             popup.show()
             true
         }
-        cl.setOnLongClickListener(longClick)
+        h.l.setOnLongClickListener(longClick)
         clock.setOnLongClickListener(longClick)
         date.setOnLongClickListener(longClick)
         notes.setOnLongClickListener(longClick)
@@ -226,7 +225,6 @@ class Adap(
     }
 
     companion object {
-        const val clPos = 0
         const val clockPos = 0
         const val clockHourPos = 0
         const val clockMinPos = 1

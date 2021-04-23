@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
-    tools:context=".Main"
+    tools:context="com.mahdiparastesh.mbcounter.Main"
     tools:ignore="MissingConstraints,ContentDescription">
 
     <androidx.appcompat.widget.Toolbar
@@ -33,25 +33,13 @@
         app:layout_constraintBottom_toTopOf="@id/spnFilter"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <com.blure.complexview.ComplexView
-        style="@style/addCV"
-        android:layout_width="88dp"
-        android:layout_height="88dp"
-        app:layout_constraintBottom_toBottomOf="@id/add"
-        app:layout_constraintLeft_toLeftOf="@id/add"
-        app:layout_constraintRight_toRightOf="@id/add"
-        app:layout_constraintTop_toTopOf="@id/add"
-        app:radius="40dp"
-        app:shadow="true"
-        app:shadowColor="#000000"
-        app:shadowSpread="2" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/add"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_margin="15dp"
         android:background="@drawable/circle_cp"
+        android:elevation="2dp"
         app:layout_constraintBottom_toTopOf="@id/spnFilter"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -101,18 +89,12 @@
         app:layout_constraintBottom_toTopOf="@id/spnFilter" />
 
 
-    <View
-        android:id="@+id/loadShadow"
-        style="@style/shadow_1_vertical"
-        android:layout_width="10dp"
-        android:alpha="0.6"
-        app:layout_constraintStart_toEndOf="@id/load" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/load"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/load">
+        android:background="@color/load"
+        android:elevation="5dp">
 
         <ImageView
             android:id="@+id/loadIV"
