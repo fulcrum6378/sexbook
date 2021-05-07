@@ -12,7 +12,6 @@ import com.anychart.enums.HoverMode
 import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
 import com.mahdiparastesh.mbcounter.Fun.Companion.c
-import com.mahdiparastesh.mbcounter.R
 import com.mahdiparastesh.mbcounter.databinding.StatisticsBinding
 import java.util.*
 import kotlin.collections.ArrayList

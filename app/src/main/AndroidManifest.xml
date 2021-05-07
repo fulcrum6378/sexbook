@@ -11,8 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- android:windowSoftInputMode="stateHidden|adjustResize|adjustPan" -->
-        <activity android:name=".Main">
+        <activity
+            android:name=".Main"
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

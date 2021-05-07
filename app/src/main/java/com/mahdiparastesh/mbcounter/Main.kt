@@ -35,7 +35,9 @@ import com.mahdiparastesh.mbcounter.more.SolarHijri
 import java.util.*
 import kotlin.collections.ArrayList
 
-// adb connect 192.168.1.4:
+// adb connect 192.168.1.3:
+// git config --global user.name "fulcrum1378"
+// git config --global user.email "fulcrum1378@gmail.com"
 
 @Suppress("UNCHECKED_CAST")
 class Main : AppCompatActivity() {
@@ -190,53 +192,13 @@ class Main : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)//DON"T PUT HERE THINGS THAT NEED THE LAYOUT LOADED.
     }
 
-    @SuppressLint("InflateParams")
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.momSum -> {
             if (m.onani.value != null && m.onani.value!!.size > 0) {
                 m.summary.value = Summary(m.onani.value!!).result
                 if (m.summary.value != null) AlertDialog.Builder(this).apply {
                     setTitle("${resources.getString(R.string.momSum)} (" + m.onani.value!!.size + ")")
-                    val sumLayout =
-                        (layoutInflater.inflate(R.layout.summary, null) as ScrollView).apply {
-                            for (r in m.summary.value!!.calculations) (this[0] as LinearLayout).addView(
-                                ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
-                                    layoutParams = LinearLayout.LayoutParams(
-                                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                                        ViewGroup.LayoutParams.WRAP_CONTENT
-                                    )
-                                    addView(TextView(c).apply {
-                                        layoutParams = ChipGroup.LayoutParams(
-                                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                                            ViewGroup.LayoutParams.WRAP_CONTENT
-                                        )
-                                        setPadding(0, dp(12), 0, 0)
-                                        text =
-                                            (if (r.key % 1 > 0) r.key.toString()
-                                            else r.key.toInt().toString()).plus(": ")
-                                        setTextColor(color(R.color.mrvPopupButtons))
-                                    })
-                                    for (crush in r.value) addView(
-                                        Chip(
-                                            ContextThemeWrapper(c, R.style.AppTheme), null, 0
-                                        ).apply {
-                                            layoutParams = ChipGroup.LayoutParams(
-                                                ViewGroup.LayoutParams.WRAP_CONTENT,
-                                                ViewGroup.LayoutParams.WRAP_CONTENT
-                                            )
-                                            text = crush
-                                            setOnClickListener {
-                                                m.crush.value = crush
-                                                startActivity(
-                                                    Intent(
-                                                        this@Main, Statistics::class.java
-                                                    )
-                                                )
-                                            }
-                                        })
-                                })
-                        }
-                    setView(sumLayout)
+                    setView(sumLayout())
                     setPositiveButton(R.string.ok, null)
                     setCancelable(true)
                 }.create().apply {
@@ -275,8 +237,11 @@ class Main : AppCompatActivity() {
             var et = i.getChildAt(ReportAdap.notesPos) as EditText
             if (et.hasFocus()) {
                 ReportAdap.saveET(
-                    c, et, ReportAdap.allPos(masturbation, b.rv.getChildLayoutPosition(i), m.onani.value),
-                    m.onani.value, true
+                    c,
+                    et,
+                    ReportAdap.allPos(masturbation, b.rv.getChildLayoutPosition(i), m.onani.value),
+                    m.onani.value,
+                    true
                 )
                 isFocused = true
             }
@@ -330,5 +295,35 @@ class Main : AppCompatActivity() {
             adapter = ReportAdap(c, masturbation, this, m.onani.value)
             b.rv.adapter = adapter
         } else adapter!!.notifyDataSetChanged()
+    }
+
+    @SuppressLint("InflateParams")
+    fun sumLayout() = (layoutInflater.inflate(R.layout.summary, null) as ScrollView).apply {
+        for (r in m.summary.value!!.calculations) (this[0] as LinearLayout).addView(
+            ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                addView(TextView(c).apply {
+                    layoutParams = ChipGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    setPadding(0, dp(12), 0, 0)
+                    text = (if (r.key % 1 > 0) r.key.toString()
+                    else r.key.toInt().toString()).plus(": ")
+                    setTextColor(color(R.color.mrvPopupButtons))
+                })
+                for (crush in r.value) addView(
+                    Chip(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
+                        layoutParams = ChipGroup.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                        )
+                        text = crush
+                        setOnClickListener {
+                            m.crush.value = crush
+                            startActivity(Intent(this@Main, Statistics::class.java))
+                        }
+                    })
+            })
     }
 }
