@@ -90,5 +90,10 @@ class Fun {
             setTextColor(color(R.color.mrvPopupButtons))
             //setBackgroundColor(color(R.color.CP))
         }
+
+        fun z(n: Int): String {
+            val s = n.toString()
+            return if (s.length == 1) "0$s" else s
+        }
     }
 }

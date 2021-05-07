@@ -28,4 +28,6 @@
     <color name="spnFilterTV">@color/CPDD</color>
     <color name="spnFilterDDTV">@color/white</color>
     <color name="spnFilterDDBG">@color/CP</color>
+    <color name="recency">@color/CPD</color>
+    <color name="recencyDiv">#505050</color>
 </resources>

@@ -54,6 +54,7 @@
     <string name="mrvNotesHint">.....</string>
     <string name="lcDelete">Delete</string>
     <string name="momSum">Summary</string>
+    <string name="momRec">Recency</string>
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>
     <string name="requestFailed">Request failed!</string>

@@ -8,8 +8,9 @@ import java.io.Serializable
 import java.util.*
 import kotlin.collections.HashMap
 
+@Suppress("SameParameterValue")
 class Summary(list: List<Report>) {
-    var result: Result? = null
+    var scores: HashMap<String, ArrayList<Erection>>
 
     init {
         var all = arrayListOf<List<List<String>>?>()
@@ -43,7 +44,7 @@ class Summary(list: List<Report>) {
         }
 
         // Again For Each Masturbation, Gather Scores...
-        var scores = HashMap<String, ArrayList<Erection>>()
+        scores = HashMap()
         for (e in list.indices) {
             val k = fixKey(list[e].notes)
             val a = all[e]
@@ -107,6 +108,9 @@ class Summary(list: List<Report>) {
                 } else insertIntoMap(scores, k, time)
             } else insertIntoMap(scores, k, time)
         }
+    }
+
+    fun results(): Result {
         var results = HashMap<Float, ArrayList<String>>()
         var unknownPeople = 0
         for (s in scores) {
@@ -121,22 +125,23 @@ class Summary(list: List<Report>) {
             results[sumErect]!!.sort()
         }
         results = results.toSortedMap(reverseOrder()).toMap() as HashMap<Float, ArrayList<String>>
-        result = Result(results, scores)
+        return Result(results, scores)
     }
 
-    fun containsKeyIgnoreCase(map: Map<String, ArrayList<Erection>>, key: String): String? {
+
+    private fun containsKeyIgnoreCase(map: Map<String, ArrayList<Erection>>, key: String): String? {
         var index: String? = null
         for (m in map) if (m.key.equals(key, ignoreCase = true)) index = m.key
         return index
     }
 
-    fun replaceAll(string: String, oldStr: String, newStr: String): String {
+    private fun replaceAll(string: String, oldStr: String, newStr: String): String {
         var ruturn = string
         while (ruturn.contains(oldStr)) ruturn = ruturn.replace(oldStr, newStr)
         return ruturn
     }
 
-    fun fixKey(key: String): String {
+    private fun fixKey(key: String): String {
         var fixKey = key
         if (fixKey.length > 1) {
             if (fixKey[0].toString() == " ") fixKey = fixKey.substring(1)
@@ -151,13 +156,13 @@ class Summary(list: List<Report>) {
         return fixKey
     }
 
-    fun splitNotes(key: String): List<List<String>> {
+    private fun splitNotes(key: String): List<List<String>> {
         val split = arrayListOf<List<String>>()
         for (s in key.split(" + ")) split.add(s.split(" "))
         return split.toList()
     }
 
-    fun insertIntoMap(
+    private fun insertIntoMap(
         sum: HashMap<String, ArrayList<Erection>>, theKey: String, time: Long, value: Float = 1f
     ) {
         var key = theKey
@@ -167,32 +172,32 @@ class Summary(list: List<Report>) {
         else sum[key]?.add(Erection(time, value))
     }
 
-    fun areAll(booleans: List<Boolean>, that: Boolean): Boolean {
+    private fun areAll(booleans: List<Boolean>, that: Boolean): Boolean {
         var yes = true
         booleans.forEach { b -> if (b != that) yes = false }
         return yes
     }
 
-    fun howMany(booleans: List<Boolean>, that: Boolean): Int {
+    private fun howMany(booleans: List<Boolean>, that: Boolean): Int {
         var n = 0
         booleans.forEach { b -> if (b == that) n += 1 }
         return n
     }
 
-    fun mAreAll(list: List<Meaning>, that: Meaning): Boolean {
+    private fun mAreAll(list: List<Meaning>, that: Meaning): Boolean {
         var yes = true
         list.forEach { m -> if (m != that) yes = false }
         return yes
     }
 
     @Suppress("unused")
-    fun mHowMany(list: List<Meaning>, that: Meaning): Int {
+    private fun mHowMany(list: List<Meaning>, that: Meaning): Int {
         var n = 0
         list.forEach { m -> if (m == that) n += 1 }
         return n
     }
 
-    fun mAnyOf(list: List<Meaning>, those: List<Meaning>): Boolean {
+    private fun mAnyOf(list: List<Meaning>, those: List<Meaning>): Boolean {
         var sum = arrayListOf<Int>()
         those.forEach { t ->
             var n = 0
@@ -204,7 +209,7 @@ class Summary(list: List<Report>) {
         return sumOfList == list.size
     }
 
-    fun means(shape: List<Boolean>) = when {
+    private fun means(shape: List<Boolean>) = when {
         areAll(shape, false) -> Meaning.MERE_DESCRIPTION
         areAll(shape, true) -> when {
             shape.size > 1 -> Meaning.MORE_THAN_ONE
@@ -218,18 +223,18 @@ class Summary(list: List<Report>) {
         }
     }
 
-    fun unEs(name: String) = if (name.indexOf("'s", ignoreCase = true) != -1)
+    private fun unEs(name: String) = if (name.indexOf("'s", ignoreCase = true) != -1)
         name.substring(0, name.indexOf("'s", ignoreCase = true))
     else name
 
-    fun sumErections(list: ArrayList<Erection>): Float {
+    private fun sumErections(list: ArrayList<Erection>): Float {
         var ret = 0f
         for (i in list) ret += i.value
         return ret
     }
 
 
-    enum class Meaning {
+    private enum class Meaning {
         MERE_DESCRIPTION, ONE, ONE_WITH_DESCRIPTION, SOME_WITH_DESCRIPTION, MORE_THAN_ONE, NOT_SURE
     }
 
@@ -261,4 +266,6 @@ class Summary(list: List<Report>) {
             }
         }
     }
+
+    data class Recency(val name: String, val time: Long)
 }

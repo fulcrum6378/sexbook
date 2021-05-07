@@ -12,6 +12,7 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -19,25 +20,25 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.mahdiparastesh.mbcounter.Fun.Companion.c
 import com.mahdiparastesh.mbcounter.Fun.Companion.color
-import com.mahdiparastesh.mbcounter.adap.ReportAdap.Companion.Sort
 import com.mahdiparastesh.mbcounter.Fun.Companion.dm
 import com.mahdiparastesh.mbcounter.Fun.Companion.dp
 import com.mahdiparastesh.mbcounter.Fun.Companion.exit
 import com.mahdiparastesh.mbcounter.Fun.Companion.explode
 import com.mahdiparastesh.mbcounter.Fun.Companion.now
+import com.mahdiparastesh.mbcounter.Fun.Companion.z
+import com.mahdiparastesh.mbcounter.Summary.Recency
 import com.mahdiparastesh.mbcounter.adap.ReportAdap
+import com.mahdiparastesh.mbcounter.adap.ReportAdap.Companion.Sort
 import com.mahdiparastesh.mbcounter.data.Exporter
+import com.mahdiparastesh.mbcounter.data.Filter
 import com.mahdiparastesh.mbcounter.data.Report
 import com.mahdiparastesh.mbcounter.data.Work
-import com.mahdiparastesh.mbcounter.data.Filter
 import com.mahdiparastesh.mbcounter.databinding.MainBinding
 import com.mahdiparastesh.mbcounter.more.SolarHijri
 import java.util.*
 import kotlin.collections.ArrayList
 
 // adb connect 192.168.1.3:
-// git config --global user.name "fulcrum1378"
-// git config --global user.email "fulcrum1378@gmail.com"
 
 @Suppress("UNCHECKED_CAST")
 class Main : AppCompatActivity() {
@@ -189,25 +190,30 @@ class Main : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar, menu)
-        return super.onCreateOptionsMenu(menu)//DON"T PUT HERE THINGS THAT NEED THE LAYOUT LOADED.
+        return super.onCreateOptionsMenu(menu)// DON"T PUT HERE THINGS THAT NEED THE LAYOUT LOADED.
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.momRec -> {
+            if (summarize()) AlertDialog.Builder(this).apply {
+                setTitle(resources.getString(R.string.momRec))
+                setView(recLayout())
+                setPositiveButton(R.string.ok, null)
+                setCancelable(true)
+            }.create().apply {
+                show()
+                Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+            };true; }
         R.id.momSum -> {
-            if (m.onani.value != null && m.onani.value!!.size > 0) {
-                m.summary.value = Summary(m.onani.value!!).result
-                if (m.summary.value != null) AlertDialog.Builder(this).apply {
-                    setTitle("${resources.getString(R.string.momSum)} (" + m.onani.value!!.size + ")")
-                    setView(sumLayout())
-                    setPositiveButton(R.string.ok, null)
-                    setCancelable(true)
-                }.create().apply {
-                    show()
-                    Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                }
-            }
-            true
-        }
+            if (summarize()) AlertDialog.Builder(this).apply {
+                setTitle("${resources.getString(R.string.momSum)} (" + m.onani.value!!.size + ")")
+                setView(sumLayout())
+                setPositiveButton(R.string.ok, null)
+                setCancelable(true)
+            }.create().apply {
+                show()
+                Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+            };true; }
         R.id.momImport -> exporter.import()
         R.id.momExport -> exporter.export(m.onani.value)
         else -> super.onOptionsItemSelected(item)
@@ -297,9 +303,13 @@ class Main : AppCompatActivity() {
         } else adapter!!.notifyDataSetChanged()
     }
 
+    fun summarize(): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
+        m.summary.value = Summary(m.onani.value!!); true
+    } else false
+
     @SuppressLint("InflateParams")
     fun sumLayout() = (layoutInflater.inflate(R.layout.summary, null) as ScrollView).apply {
-        for (r in m.summary.value!!.calculations) (this[0] as LinearLayout).addView(
+        for (r in m.summary.value!!.results().calculations) (this[0] as LinearLayout).addView(
             ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
@@ -325,5 +335,28 @@ class Main : AppCompatActivity() {
                         }
                     })
             })
+    }
+
+    @SuppressLint("InflateParams", "SetTextI18n")
+    fun recLayout() = (layoutInflater.inflate(R.layout.summary, null) as ScrollView).apply {
+        val recency = ArrayList<Recency>()
+        m.summary.value!!.scores.forEach { (name, erections) -> // API 24+: WITHOUT PARENTHESES
+            var mostRecent = 0L
+            for (e in erections) if (e.time > mostRecent) mostRecent = e.time
+            recency.add(Recency(name, mostRecent))
+        }
+        recency.sortBy { it.time }
+        recency.reverse()
+        for (r in 0 until recency.size) (this[0] as LinearLayout).addView(
+            (layoutInflater.inflate(R.layout.recency, null) as ConstraintLayout).apply {
+                (this[0] as TextView).text = "${r + 1}. ${recency[r].name}"
+                val gre = Calendar.getInstance().apply { timeInMillis = recency[r].time }
+                val jal = SolarHijri(gre)
+                (this[1] as TextView).text =
+                    "${z(jal.Y)}.${z(jal.M)}.${z(jal.D)} - " +
+                            "${z(gre[Calendar.HOUR_OF_DAY])}:${z(gre[Calendar.MINUTE])}"
+                if (r == recency.size - 1) this.removeViewAt(2)
+            }
+        )
     }
 }

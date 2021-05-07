@@ -8,7 +8,7 @@ import com.mahdiparastesh.mbcounter.data.Report
 class Model : ViewModel() {
     val onani: MutableLiveData<ArrayList<Report>?> by lazy { MutableLiveData<ArrayList<Report>?>() }
     val crush: MutableLiveData<String?> by lazy { MutableLiveData<String?>() }
-    val summary: MutableLiveData<Summary.Result?> by lazy { MutableLiveData<Summary.Result?>() }
+    val summary: MutableLiveData<Summary?> by lazy { MutableLiveData<Summary?>() }
 
 
     @Suppress("UNCHECKED_CAST")
