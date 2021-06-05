@@ -38,7 +38,7 @@ import com.mahdiparastesh.mbcounter.more.SolarHijri
 import java.util.*
 import kotlin.collections.ArrayList
 
-// adb connect 192.168.1.3:
+// adb connect 192.168.1.5:
 
 @Suppress("UNCHECKED_CAST")
 class Main : AppCompatActivity() {
@@ -294,7 +294,9 @@ class Main : AppCompatActivity() {
         masturbation.clear()
         if (filters == null) for (o in m.onani.value!!) masturbation.add(o)
         else if (!filters.isNullOrEmpty())
-            for (o in filters!![listFilter].items) masturbation.add(m.onani.value!![o])
+            for (o in filters!![listFilter].items)
+                if (m.onani.value!!.size > o)
+                    masturbation.add(m.onani.value!![o])
         saveOnBlur = false
         scrollOnFocus = false
         if (adapter == null) {
