@@ -28,6 +28,14 @@
     <color name="spnFilterTV">@color/CPDD</color>
     <color name="spnFilterDDTV">@color/white</color>
     <color name="spnFilterDDBG">@color/CP</color>
-    <color name="recency">@color/CPD</color>
+    <color name="recency">@color/white</color>
     <color name="recencyDiv">#505050</color>
+    <color name="chipNormalNormal">@color/CP</color>
+    <color name="chipNormalFocus">@color/CP3</color>
+    <color name="chipNormalHover">@color/CP3</color>
+    <color name="chipSearchNormal">@color/CPDD</color>
+    <color name="chipSearchFocus">@color/CPD</color>
+    <color name="chipSearchHover">@color/CPD</color>
+    <color name="chipText">@color/white</color>
+    <color name="searchHint">#AAFFFFFF</color>
 </resources>

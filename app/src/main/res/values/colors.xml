@@ -11,6 +11,7 @@
     <color name="tp">#00000000</color>
     <color name="shadow_1">#55000000</color>
     <color name="white">#FFF</color>
+    <color name="black">#000</color>
 
     <!-- Main -->
     <color name="toolbar">@color/CP</color>
@@ -33,6 +34,16 @@
     <color name="spnFilterTV">@color/CPDD</color>
     <color name="spnFilterDDTV">@color/CPDD</color>
     <color name="spnFilterDDBG">@color/CP2</color>
-    <color name="recency">@color/CA</color>
+    <color name="recency">@color/black</color>
+    <color name="recencySearch">@color/CPD</color>
     <color name="recencyDiv">#EFEFEF</color>
+    <color name="summary">@color/recency</color>
+    <color name="chipNormalNormal">#DDD</color>
+    <color name="chipNormalFocus">@color/chipNormalHover</color>
+    <color name="chipNormalHover">#AFAFAF</color>
+    <color name="chipSearchNormal">@color/CP</color>
+    <color name="chipSearchFocus">@color/CPD</color>
+    <color name="chipSearchHover">@color/CPD</color>
+    <color name="chipText">@color/black</color>
+    <color name="searchHint">@color/CP3</color>
 </resources>

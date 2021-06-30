@@ -64,4 +64,5 @@
     <string name="importOpenError">Unfortunately an error occurred while opening the file!</string>
     <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
     <string name="noRecords">You have no records yet!</string>
+    <string name="findChip">Find a crush&#8230;</string>
 </resources>

@@ -7,6 +7,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.*
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
@@ -38,7 +40,7 @@ import com.mahdiparastesh.mbcounter.more.SolarHijri
 import java.util.*
 import kotlin.collections.ArrayList
 
-// adb connect 192.168.1.5:
+// adb connect 192.168.1.20:
 
 @Suppress("UNCHECKED_CAST")
 class Main : AppCompatActivity() {
@@ -69,6 +71,7 @@ class Main : AppCompatActivity() {
         setContentView(b.root)
         Fun.init(this)
         exporter = Exporter(this)
+
 
         // Toolbar
         setSupportActionBar(b.toolbar)
@@ -165,6 +168,9 @@ class Main : AppCompatActivity() {
             b.loadIV.colorFilter = this
             b.addIV.colorFilter = this
         }
+
+        // Already loaded
+        if (m.loaded.value!!) b.body.removeView(b.load)
     }
 
     override fun onPause() {
@@ -220,9 +226,8 @@ class Main : AppCompatActivity() {
     }
 
 
-    var loaded = false
     fun load(sd: Long = 1500, dur: Long = 1000) {
-        if (loaded) return
+        if (m.loaded.value!!) return
         val value = -dm.widthPixels.toFloat() * 1.2f
         ObjectAnimator.ofFloat(b.load, "translationX", value).apply {
             startDelay = sd
@@ -230,6 +235,7 @@ class Main : AppCompatActivity() {
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {
                     b.body.removeView(b.load)
+                    m.loaded.value = true
                 }
             })
             start()
@@ -311,7 +317,30 @@ class Main : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     fun sumLayout() = (layoutInflater.inflate(R.layout.summary, null) as ScrollView).apply {
-        for (r in m.summary.value!!.results().calculations) (this[0] as LinearLayout).addView(
+        val ll = this[0] as LinearLayout
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) (ll[0] as EditText).apply {
+            addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?, start: Int, count: Int, after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    val ss = s.toString()
+                    for (i in 1 until ll.childCount) {
+                        val cg = ll[i] as ChipGroup
+                        for (y in 1 until cg.childCount) (cg[y] as Chip).apply {
+                            chipBackgroundColor = getColorStateList(
+                                if (ss != "" && text.toString().contains(ss, true))
+                                    R.color.chip_search else R.color.chip_normal
+                            )
+                        }
+                    }
+                }
+            })
+        }
+        for (r in m.summary.value!!.results().calculations) ll.addView(
             ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
@@ -323,7 +352,8 @@ class Main : AppCompatActivity() {
                     setPadding(0, dp(12), 0, 0)
                     text = (if (r.key % 1 > 0) r.key.toString()
                     else r.key.toInt().toString()).plus(": ")
-                    setTextColor(color(R.color.mrvPopupButtons))
+                    setTextColor(color(R.color.recency))
+                    textSize = dm.density * 5
                 })
                 for (crush in r.value) addView(
                     Chip(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
@@ -331,6 +361,9 @@ class Main : AppCompatActivity() {
                             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                         )
                         text = crush
+                        setTextColor(color(R.color.chipText))
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                            chipBackgroundColor = getColorStateList(R.color.chip_normal)
                         setOnClickListener {
                             m.crush.value = crush
                             startActivity(Intent(this@Main, Statistics::class.java))
@@ -349,7 +382,30 @@ class Main : AppCompatActivity() {
         }
         recency.sortBy { it.time }
         recency.reverse()
-        for (r in 0 until recency.size) (this[0] as LinearLayout).addView(
+
+        val ll = this[0] as LinearLayout
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) (ll[0] as EditText).apply {
+            addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?, start: Int, count: Int, after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    val ss = s.toString()
+                    for (i in 1 until ll.childCount) (ll[i] as ConstraintLayout).apply {
+                        val tv = this[0] as TextView
+                        val look = tv.text.toString().substring(tv.text.toString().indexOf(".") + 2)
+                        val col = color(if (ss != "" && look.contains(ss, true))
+                            R.color.recencySearch else R.color.recency)
+                        tv.setTextColor(col)
+                        (this[1] as TextView).setTextColor(col)
+                    }
+                }
+            })
+        }
+        for (r in 0 until recency.size) ll.addView(
             (layoutInflater.inflate(R.layout.recency, null) as ConstraintLayout).apply {
                 (this[0] as TextView).text = "${r + 1}. ${recency[r].name}"
                 val gre = Calendar.getInstance().apply { timeInMillis = recency[r].time }

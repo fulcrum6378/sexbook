@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.mahdiparastesh.mbcounter.data.Report
 
 class Model : ViewModel() {
+    val loaded: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
     val onani: MutableLiveData<ArrayList<Report>?> by lazy { MutableLiveData<ArrayList<Report>?>() }
     val crush: MutableLiveData<String?> by lazy { MutableLiveData<String?>() }
     val summary: MutableLiveData<Summary?> by lazy { MutableLiveData<Summary?>() }
