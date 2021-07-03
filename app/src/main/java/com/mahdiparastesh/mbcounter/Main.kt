@@ -54,7 +54,7 @@ class Main : AppCompatActivity() {
     companion object {
         lateinit var handler: Handler
 
-        const val workActionTimeout: Long = 5000
+        const val workActionTimeout = 5000L
         var dateFont: Typeface? = null
         var masturbation = ArrayList<Report>()
         var saveOnBlur = false
