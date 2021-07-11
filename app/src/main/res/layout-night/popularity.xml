@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/CP"
     android:paddingHorizontal="30dp"
     android:paddingVertical="20dp"
-    tools:context=".Statistics">
+    tools:context=".Popularity">
 
     <com.anychart.AnyChartView
         android:id="@+id/main"

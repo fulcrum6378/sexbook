@@ -7,6 +7,9 @@
         android:title="@string/momSum"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/momPop"
+        android:title="@string/momPop" />
+    <item
         android:id="@+id/momRec"
         android:title="@string/momRec" />
     <item

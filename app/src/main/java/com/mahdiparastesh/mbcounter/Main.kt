@@ -36,7 +36,7 @@ import com.mahdiparastesh.mbcounter.data.Filter
 import com.mahdiparastesh.mbcounter.data.Report
 import com.mahdiparastesh.mbcounter.data.Work
 import com.mahdiparastesh.mbcounter.databinding.MainBinding
-import com.mahdiparastesh.mbcounter.more.SolarHijri
+import com.mahdiparastesh.mbcounter.more.Jalali
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -200,20 +200,24 @@ class Main : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.momRec -> {
+        R.id.momSum -> {
             if (summarize()) AlertDialog.Builder(this).apply {
-                setTitle(resources.getString(R.string.momRec))
-                setView(recLayout())
+                setTitle("${resources.getString(R.string.momSum)} (" + m.onani.value!!.size + ")")
+                setView(sumLayout())
                 setPositiveButton(R.string.ok, null)
                 setCancelable(true)
             }.create().apply {
                 show()
                 Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
             };true; }
-        R.id.momSum -> {
+        R.id.momPop -> {
+            if (summarize())
+                startActivity(Intent(this, Popularity::class.java))
+            true; }
+        R.id.momRec -> {
             if (summarize()) AlertDialog.Builder(this).apply {
-                setTitle("${resources.getString(R.string.momSum)} (" + m.onani.value!!.size + ")")
-                setView(sumLayout())
+                setTitle(resources.getString(R.string.momRec))
+                setView(recLayout())
                 setPositiveButton(R.string.ok, null)
                 setCancelable(true)
             }.create().apply {
@@ -281,7 +285,7 @@ class Main : AppCompatActivity() {
     fun filter(reports: ArrayList<Report>): ArrayList<Filter> {
         val filters: ArrayList<Filter> = ArrayList()
         for (r in reports.indices) {
-            val sh = SolarHijri(Calendar.getInstance().apply { timeInMillis = reports[r].time })
+            val sh = Jalali(Calendar.getInstance().apply { timeInMillis = reports[r].time })
             var filterExists = false
             for (f in filters.indices) if (filters[f].year == sh.Y && filters[f].month == sh.M) {
                 filterExists = true
@@ -397,8 +401,10 @@ class Main : AppCompatActivity() {
                     for (i in 1 until ll.childCount) (ll[i] as ConstraintLayout).apply {
                         val tv = this[0] as TextView
                         val look = tv.text.toString().substring(tv.text.toString().indexOf(".") + 2)
-                        val col = color(if (ss != "" && look.contains(ss, true))
-                            R.color.recencySearch else R.color.recency)
+                        val col = color(
+                            if (ss != "" && look.contains(ss, true))
+                                R.color.recencySearch else R.color.recency
+                        )
                         tv.setTextColor(col)
                         (this[1] as TextView).setTextColor(col)
                     }
@@ -409,7 +415,7 @@ class Main : AppCompatActivity() {
             (layoutInflater.inflate(R.layout.recency, null) as ConstraintLayout).apply {
                 (this[0] as TextView).text = "${r + 1}. ${recency[r].name}"
                 val gre = Calendar.getInstance().apply { timeInMillis = recency[r].time }
-                val jal = SolarHijri(gre)
+                val jal = Jalali(gre)
                 (this[1] as TextView).text =
                     "${z(jal.Y)}.${z(jal.M)}.${z(jal.D)} - " +
                             "${z(gre[Calendar.HOUR_OF_DAY])}:${z(gre[Calendar.MINUTE])}"

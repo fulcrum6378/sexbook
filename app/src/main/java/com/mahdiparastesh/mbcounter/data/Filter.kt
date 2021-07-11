@@ -10,8 +10,8 @@ class Filter(var year: Int, var month: Int, var items: ArrayList<Int>) {
     }
 
     fun titleInShamsi(c: Context) =
-        "${c.resources.getStringArray(R.array.shamsiCalendar)[month]} $year : {${items.size}}"
+        "${c.resources.getStringArray(R.array.jMonthsFull)[month]} $year : {${items.size}}"
 
     fun title(c: Context) =
-        "${c.resources.getStringArray(R.array.calendarFull)[month]} $year : {${items.size}}"
+        "${c.resources.getStringArray(R.array.monthsFull)[month]} $year : {${items.size}}"
 }

@@ -14,15 +14,19 @@
         <activity
             android:name=".Main"
             android:windowSoftInputMode="stateHidden|adjustPan">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".Statistics"
+            android:screenOrientation="landscape" />
+
+        <activity
+            android:name=".Popularity"
             android:screenOrientation="landscape" />
     </application>
 </manifest>

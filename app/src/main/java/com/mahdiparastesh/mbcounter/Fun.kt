@@ -95,5 +95,7 @@ class Fun {
             val s = n.toString()
             return if (s.length == 1) "0$s" else s
         }
+
+        fun cutYear(y: Int) = y.toString().substring(2, 4)
     }
 }

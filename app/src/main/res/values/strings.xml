@@ -17,7 +17,7 @@
         <item>Nov</item>
         <item>Dec</item>
     </string-array>
-    <string-array name="calendarFull">
+    <string-array name="monthsFull">
         <item>January</item>
         <item>February</item>
         <item>March</item>
@@ -31,7 +31,21 @@
         <item>November</item>
         <item>December</item>
     </string-array>
-    <string-array name="shamsiCalendar">
+    <string-array name="jMonths">
+        <item>Far</item>
+        <item>Ord</item>
+        <item>Kho</item>
+        <item>Tir</item>
+        <item>Mor</item>
+        <item>Sha</item>
+        <item>Meh</item>
+        <item>Aba</item>
+        <item>Aza</item>
+        <item>Dey</item>
+        <item>Bah</item>
+        <item>Esf</item>
+    </string-array>
+    <string-array name="jMonthsFull">
         <item>Farvardin</item>
         <item>Ordibehesht</item>
         <item>Khordad</item>
@@ -54,6 +68,7 @@
     <string name="mrvNotesHint">.....</string>
     <string name="lcDelete">Delete</string>
     <string name="momSum">Summary</string>
+    <string name="momPop">Popularity</string>
     <string name="momRec">Recency</string>
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>

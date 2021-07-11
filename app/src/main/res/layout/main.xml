@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
-    tools:context="com.mahdiparastesh.mbcounter.Main"
+    tools:context=".Main"
     tools:ignore="MissingConstraints,ContentDescription">
 
     <androidx.appcompat.widget.Toolbar

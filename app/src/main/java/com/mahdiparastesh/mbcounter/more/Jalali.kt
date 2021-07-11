@@ -3,7 +3,7 @@ package com.mahdiparastesh.mbcounter.more
 import java.util.*
 
 @Suppress("PropertyName")
-class SolarHijri(cl: Calendar) {
+class Jalali(cl: Calendar) {
     var Y = 0
     var M = 0
     var D = 0
@@ -101,7 +101,7 @@ class SolarHijri(cl: Calendar) {
         }
     }
 
-    fun isLeapYear(year: Int): Boolean {
+    private fun isLeapYear(year: Int): Boolean {
         val cal = Calendar.getInstance()
         cal[Calendar.YEAR] = year
         return cal.getActualMaximum(Calendar.DAY_OF_YEAR) > 365

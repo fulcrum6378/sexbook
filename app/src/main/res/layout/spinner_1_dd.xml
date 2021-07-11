@@ -3,9 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/spnFilterDDBG"
-    android:paddingLeft="18dp"
-    android:paddingTop="18dp"
-    android:paddingRight="18dp"
-    android:paddingBottom="18dp"
+    android:paddingHorizontal="17dp"
+    android:paddingVertical="15dp"
     android:textColor="@color/spnFilterDDTV"
     android:textSize="14sp" />
