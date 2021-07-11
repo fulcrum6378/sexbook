@@ -60,29 +60,6 @@ class Statistics : AppCompatActivity() {
         Main.dateFont = Typeface.createFromAsset(assets, "franklin_gothic.ttf")
     }
 
-    fun calcHistory(list: ArrayList<Summary.Erection>, month: String): Float {
-        var value = 0f
-        val split = month.split(" ")
-        if (!c.resources.getBoolean(R.bool.jalali)) {
-            val months = c.resources.getStringArray(R.array.months)
-            for (i in list) {
-                var lm = Calendar.getInstance().apply { timeInMillis = i.time }
-                if (months.indexOf(split[0]) == lm.get(Calendar.MONTH)
-                    && split[1].toInt() == lm.get(Calendar.YEAR)
-                ) value += i.value
-            }
-        } else {
-            val months = c.resources.getStringArray(R.array.jMonths)
-            for (i in list) {
-                var lm = Jalali(Calendar.getInstance().apply { timeInMillis = i.time })
-                if (months.indexOf(split[0]) == lm.M && split[1].toInt() == lm.Y)
-                    value += i.value
-            }
-        }
-        return value
-    }
-
-
     companion object {
         fun sinceTheBeginning(mOnani: ArrayList<Report>): List<String> {
             val now = Calendar.getInstance()
@@ -117,6 +94,28 @@ class Statistics : AppCompatActivity() {
                 }
                 return list.toList()
             }
+        }
+
+        fun calcHistory(list: ArrayList<Summary.Erection>, month: String): Float {
+            var value = 0f
+            val split = month.split(" ")
+            if (!c.resources.getBoolean(R.bool.jalali)) {
+                val months = c.resources.getStringArray(R.array.months)
+                for (i in list) {
+                    var lm = Calendar.getInstance().apply { timeInMillis = i.time }
+                    if (months.indexOf(split[0]) == lm.get(Calendar.MONTH)
+                        && split[1].toInt() == lm.get(Calendar.YEAR)
+                    ) value += i.value
+                }
+            } else {
+                val months = c.resources.getStringArray(R.array.jMonths)
+                for (i in list) {
+                    var lm = Jalali(Calendar.getInstance().apply { timeInMillis = i.time })
+                    if (months.indexOf(split[0]) == lm.M && split[1].toInt() == lm.Y)
+                        value += i.value
+                }
+            }
+            return value
         }
     }
 }
