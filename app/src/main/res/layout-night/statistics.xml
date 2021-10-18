@@ -6,7 +6,7 @@
     android:background="@color/CP"
     android:paddingHorizontal="30dp"
     android:paddingVertical="20dp"
-    tools:context=".Statistics">
+    tools:context="ir.mahdiparastesh.mbcounter.Statistics">
 
     <com.anychart.AnyChartView
         android:id="@+id/main"

@@ -1,4 +1,4 @@
-package com.mahdiparastesh.mbcounter.adap
+package ir.mahdiparastesh.mbcounter.adap
 
 import android.content.Context
 import android.graphics.Typeface
@@ -10,17 +10,17 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.mahdiparastesh.mbcounter.Fun.Companion.color
-import com.mahdiparastesh.mbcounter.Fun.Companion.dm
-import com.mahdiparastesh.mbcounter.Fun.Companion.dp
-import com.mahdiparastesh.mbcounter.Fun.Companion.night
-import com.mahdiparastesh.mbcounter.Main
-import com.mahdiparastesh.mbcounter.Main.Companion.handler
-import com.mahdiparastesh.mbcounter.Main.Companion.saveOnBlur
-import com.mahdiparastesh.mbcounter.Main.Companion.scrollOnFocus
+import ir.mahdiparastesh.mbcounter.Fun.Companion.color
+import ir.mahdiparastesh.mbcounter.Fun.Companion.dm
+import ir.mahdiparastesh.mbcounter.Fun.Companion.dp
+import ir.mahdiparastesh.mbcounter.Fun.Companion.night
+import ir.mahdiparastesh.mbcounter.Main
+import ir.mahdiparastesh.mbcounter.Main.Companion.handler
+import ir.mahdiparastesh.mbcounter.Main.Companion.saveOnBlur
+import ir.mahdiparastesh.mbcounter.Main.Companion.scrollOnFocus
 import com.mahdiparastesh.mbcounter.R
-import com.mahdiparastesh.mbcounter.data.Report
-import com.mahdiparastesh.mbcounter.data.Work
+import ir.mahdiparastesh.mbcounter.data.Report
+import ir.mahdiparastesh.mbcounter.data.Work
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import java.util.*

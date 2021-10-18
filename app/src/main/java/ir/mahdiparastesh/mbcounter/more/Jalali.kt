@@ -1,4 +1,4 @@
-package com.mahdiparastesh.mbcounter.more
+package ir.mahdiparastesh.mbcounter.more
 
 import java.util.*
 

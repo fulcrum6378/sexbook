@@ -1,9 +1,10 @@
-package com.mahdiparastesh.mbcounter
+package ir.mahdiparastesh.mbcounter
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.mahdiparastesh.mbcounter.Fun.Companion.c
-import com.mahdiparastesh.mbcounter.data.Report
+import com.mahdiparastesh.mbcounter.R
+import ir.mahdiparastesh.mbcounter.Fun.Companion.c
+import ir.mahdiparastesh.mbcounter.data.Report
 import java.io.Serializable
 import java.util.*
 import kotlin.collections.HashMap

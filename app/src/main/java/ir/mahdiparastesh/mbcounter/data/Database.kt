@@ -1,4 +1,4 @@
-package com.mahdiparastesh.mbcounter.data
+package ir.mahdiparastesh.mbcounter.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

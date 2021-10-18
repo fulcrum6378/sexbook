@@ -1,4 +1,4 @@
-package com.mahdiparastesh.mbcounter.data
+package ir.mahdiparastesh.mbcounter.data
 
 import android.app.Activity
 import android.content.Intent
@@ -8,8 +8,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import com.mahdiparastesh.mbcounter.Fun.Companion.c
-import com.mahdiparastesh.mbcounter.Main
+import ir.mahdiparastesh.mbcounter.Fun.Companion.c
+import ir.mahdiparastesh.mbcounter.Main
 import com.mahdiparastesh.mbcounter.R
 import java.io.*
 

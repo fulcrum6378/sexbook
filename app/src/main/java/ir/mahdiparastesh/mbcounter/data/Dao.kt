@@ -1,4 +1,4 @@
-package com.mahdiparastesh.mbcounter.data
+package ir.mahdiparastesh.mbcounter.data
 
 import androidx.room.*
 import androidx.room.Dao

@@ -1,4 +1,4 @@
-package com.mahdiparastesh.mbcounter
+package ir.mahdiparastesh.mbcounter
 
 import org.junit.Test
 

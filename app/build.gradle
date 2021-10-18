@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.mahdiparastesh.mbcounter"
+        applicationId "ir.mahdiparastesh.mbcounter"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -39,9 +39,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -55,6 +55,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.activity:activity-ktx:1.2.3' // for ViewModel
-    implementation 'androidx.fragment:fragment-ktx:1.3.5' // for ActivityResultLauncher
+    implementation 'androidx.activity:activity-ktx:1.3.1' // for ViewModel
+    implementation 'androidx.fragment:fragment-ktx:1.3.6' // for ActivityResultLauncher
 }
