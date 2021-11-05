@@ -63,6 +63,13 @@
     <string name="PM">ب.ظ.</string>
     <string name="ok">باشه</string>
     <string name="unknown">ناشناس</string>
+    <string-array name="types">
+        <item>احتلام</item>
+        <item>خودارضایی</item>
+        <item>سکس دهانی</item>
+        <item>سکس مقعدی</item>
+        <item>سکس واژنی</item>
+    </string-array>
 
     <!-- Main -->
     <string name="mrvNotesHint">.....</string>

@@ -23,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/clock_hand_1"
-            app:layout_constraintHeight_percent="0.32"
+            app:layout_constraintHeight_percent="0.27"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintWidth_percent="0.07" />
@@ -32,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/clock_hand_1"
-            app:layout_constraintHeight_percent="0.44"
+            app:layout_constraintHeight_percent="0.4"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintWidth_percent="0.07" />
@@ -42,8 +42,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/clock_point_1"
-            app:layout_constraintHeight_percent="0.12"
-            app:layout_constraintWidth_percent="0.12" />
+            app:layout_constraintHeight_percent="0.13"
+            app:layout_constraintWidth_percent="0.13" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -59,7 +59,9 @@
         android:layout_marginStart="20sp"
         android:textColor="@color/mrvDate"
         android:textSize="20dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:layout_width="0dp"
@@ -68,15 +70,27 @@
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
         android:hint="@string/mrvNotesHint"
-        android:inputType="text"
-        android:maxLines="3"
+        android:inputType="textMultiLine"
         android:minLines="1"
+        android:paddingEnd="36dp"
         android:textColor="@color/mrvNotes"
         android:textColorHint="@color/mrvNotesHint"
         android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.5"
         tools:ignore="RtlSymmetry" />
+
+    <Spinner
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="6dp"
+        android:background="@null"
+        android:theme="@style/Theme.MaterialComponents.DayNight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

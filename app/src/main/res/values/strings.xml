@@ -63,6 +63,14 @@
     <string name="PM">PM</string>
     <string name="ok">OK</string>
     <string name="unknown">Unknown</string>
+    <string-array name="types">
+        <item>Wet Dream</item>
+        <item>Masturbation</item>
+        <item>Oral Sex</item>
+        <item>Anal Sex</item>
+        <item>Vaginal Sex</item>
+    </string-array>
+
 
     <!-- Main -->
     <string name="mrvNotesHint">.....</string>
