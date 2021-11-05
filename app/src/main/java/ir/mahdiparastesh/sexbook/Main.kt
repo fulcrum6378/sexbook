@@ -188,9 +188,9 @@ class Main : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar, menu)
-        return super.onCreateOptionsMenu(menu)// DON"T PUT HERE THINGS THAT NEED THE LAYOUT LOADED.
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
@@ -392,7 +392,7 @@ class Main : AppCompatActivity() {
                 val gre = Calendar.getInstance().apply { timeInMillis = recency[r].time }
                 val jal = Jalali(gre)
                 (this[1] as TextView).text =
-                    "${z(jal.Y)}.${z(jal.M)}.${z(jal.D)} - " +
+                    "${z(jal.Y)}.${z(jal.M + 1)}.${z(jal.D)} - " +
                             "${z(gre[Calendar.HOUR_OF_DAY])}:${z(gre[Calendar.MINUTE])}"
                 if (r == recency.size - 1) this.removeViewAt(2)
             }

@@ -13,6 +13,7 @@
 
         <activity
             android:name=".Main"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,10 +24,12 @@
 
         <activity
             android:name=".Statistics"
+            android:exported="false"
             android:screenOrientation="landscape" />
 
         <activity
             android:name=".Popularity"
+            android:exported="false"
             android:screenOrientation="landscape" />
     </application>
 </manifest>
