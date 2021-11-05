@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.mbcounter.data
+package ir.mahdiparastesh.sexbook.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

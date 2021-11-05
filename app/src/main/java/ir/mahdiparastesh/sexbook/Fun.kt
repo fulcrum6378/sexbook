@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.mbcounter
+package ir.mahdiparastesh.sexbook
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -16,7 +16,6 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.mahdiparastesh.mbcounter.R
 import java.util.*
 import kotlin.system.exitProcess
 

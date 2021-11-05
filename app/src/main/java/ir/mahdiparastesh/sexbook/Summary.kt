@@ -1,10 +1,9 @@
-package ir.mahdiparastesh.mbcounter
+package ir.mahdiparastesh.sexbook
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.mahdiparastesh.mbcounter.R
-import ir.mahdiparastesh.mbcounter.Fun.Companion.c
-import ir.mahdiparastesh.mbcounter.data.Report
+import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 import java.util.*
 import kotlin.collections.HashMap
@@ -19,7 +18,7 @@ class Summary(list: List<Report>) {
 
         // For Each Masturbation...
         for (m in list) {
-            var key = fixKey(m.notes)
+            var key = fixKey(m.name)
 
             // ONLY 2+ characters allowed
             if (key.length <= 1) {
@@ -47,7 +46,7 @@ class Summary(list: List<Report>) {
         // Again For Each Masturbation, Gather Scores...
         scores = HashMap()
         for (e in list.indices) {
-            val k = fixKey(list[e].notes)
+            val k = fixKey(list[e].name)
             val a = all[e]
             val m = meanings[e]
             val time = list[e].time

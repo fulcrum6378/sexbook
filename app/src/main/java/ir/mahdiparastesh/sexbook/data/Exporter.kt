@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.mbcounter.data
+package ir.mahdiparastesh.sexbook.data
 
 import android.app.Activity
 import android.content.Intent
@@ -8,9 +8,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import ir.mahdiparastesh.mbcounter.Fun.Companion.c
-import ir.mahdiparastesh.mbcounter.Main
-import com.mahdiparastesh.mbcounter.R
+import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.R
 import java.io.*
 
 class Exporter(that: AppCompatActivity) {
@@ -73,7 +73,7 @@ class Exporter(that: AppCompatActivity) {
         exportLauncher.launch(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = mime
-            putExtra(Intent.EXTRA_TITLE, "exported.json")
+            putExtra(Intent.EXTRA_TITLE, "sexbook.json")
         })
         return true
     }

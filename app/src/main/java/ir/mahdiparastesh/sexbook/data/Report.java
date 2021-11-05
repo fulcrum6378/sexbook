@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.mbcounter.data;
+package ir.mahdiparastesh.sexbook.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -13,18 +13,26 @@ public class Report implements Parcelable {
     public long id;
     @ColumnInfo(name = "time")
     public long time;
-    @ColumnInfo(name = "notes")
-    public String notes;
+    @ColumnInfo(name = "name")
+    public String name;
+    @ColumnInfo(name = "type")
+    public Byte type;
+    @ColumnInfo(name = "desc")
+    public String desc;
 
-    public Report(long time, String notes) {
+    public Report(long time, String name, Byte type, String desc) {
         this.time = time;
-        this.notes = notes;
+        this.name = name;
+        this.type = type;
+        this.desc = desc;
     }
 
     public Report(Parcel in) {
         this.id = in.readLong();
         this.time = in.readLong();
-        this.notes = in.readString();
+        this.name = in.readString();
+        this.type = in.readByte();
+        this.desc = in.readString();
     }
 
     public Report setId(long id) {
@@ -32,6 +40,7 @@ public class Report implements Parcelable {
         return this;
     }
 
+    @SuppressWarnings("rawtypes")
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public Report createFromParcel(Parcel in) {
             return new Report(in);
@@ -51,6 +60,8 @@ public class Report implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.id);
         dest.writeLong(this.time);
-        dest.writeString(this.notes);
+        dest.writeString(this.name);
+        dest.writeByte(this.type);
+        dest.writeString(this.desc);
     }
 }

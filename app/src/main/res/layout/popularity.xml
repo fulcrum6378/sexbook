@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="30dp"
     android:paddingVertical="20dp"
-    tools:context="ir.mahdiparastesh.mbcounter.Popularity">
+    tools:context="ir.mahdiparastesh.sexbook.Popularity">
 
     <com.anychart.AnyChartView
         android:id="@+id/main"

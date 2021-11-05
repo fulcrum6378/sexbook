@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.mbcounter;
+package ir.mahdiparastesh.sexbook;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;

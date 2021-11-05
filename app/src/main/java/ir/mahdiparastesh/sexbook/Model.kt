@@ -1,9 +1,9 @@
-package ir.mahdiparastesh.mbcounter
+package ir.mahdiparastesh.sexbook
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ir.mahdiparastesh.mbcounter.data.Report
+import ir.mahdiparastesh.sexbook.data.Report
 
 class Model : ViewModel() {
     val loaded: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }

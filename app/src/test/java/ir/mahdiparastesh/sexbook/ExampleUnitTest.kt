@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.mbcounter
+package ir.mahdiparastesh.sexbook
 
 import org.junit.Test
 

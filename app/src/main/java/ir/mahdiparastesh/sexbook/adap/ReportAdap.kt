@@ -1,8 +1,10 @@
-package ir.mahdiparastesh.mbcounter.adap
+package ir.mahdiparastesh.sexbook.adap
 
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,17 +12,17 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import ir.mahdiparastesh.mbcounter.Fun.Companion.color
-import ir.mahdiparastesh.mbcounter.Fun.Companion.dm
-import ir.mahdiparastesh.mbcounter.Fun.Companion.dp
-import ir.mahdiparastesh.mbcounter.Fun.Companion.night
-import ir.mahdiparastesh.mbcounter.Main
-import ir.mahdiparastesh.mbcounter.Main.Companion.handler
-import ir.mahdiparastesh.mbcounter.Main.Companion.saveOnBlur
-import ir.mahdiparastesh.mbcounter.Main.Companion.scrollOnFocus
-import com.mahdiparastesh.mbcounter.R
-import ir.mahdiparastesh.mbcounter.data.Report
-import ir.mahdiparastesh.mbcounter.data.Work
+import ir.mahdiparastesh.sexbook.Fun.Companion.color
+import ir.mahdiparastesh.sexbook.Fun.Companion.dm
+import ir.mahdiparastesh.sexbook.Fun.Companion.dp
+import ir.mahdiparastesh.sexbook.Fun.Companion.night
+import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.Main.Companion.handler
+import ir.mahdiparastesh.sexbook.Main.Companion.saveOnBlur
+import ir.mahdiparastesh.sexbook.Main.Companion.scrollOnFocus
+import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.data.Work
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import java.util.*
@@ -148,13 +150,20 @@ class ReportAdap(
             c.resources.getText(if (cal[Calendar.HOUR_OF_DAY] > 12) R.string.PM else R.string.AM)
 
         // Notes
-        notes.setText(list[i].notes)
-        notes.setOnFocusChangeListener { _, b ->
+        notes.setText(list[i].name)
+        notes.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                saveET(c, notes, allPos(h, list, allMasturbation), allMasturbation)
+            }
+        })
+        /*notes.setOnFocusChangeListener { _, b ->
             if (!b && saveOnBlur && allMasturbation != null) saveET(
                 c, notes, allPos(h, list, allMasturbation), allMasturbation
             )
             if (b && scrollOnFocus) handler.obtainMessage(Work.SCROLL, h.l.top - dp(5))
-        }
+        }*/
 
         // Long Click
         val longClick = View.OnLongClickListener { p0 ->
@@ -197,7 +206,7 @@ class ReportAdap(
                     calc[Calendar.DAY_OF_MONTH] = dayOfMonth
                     allMasturbation[pos].time = calc.timeInMillis
                     Work(
-                        c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 2)
+                        c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)
                     ).start()
                 }
             }
@@ -217,7 +226,7 @@ class ReportAdap(
                     calc[Calendar.SECOND] = second
                     allMasturbation[pos].time = calc.timeInMillis
                     Work(
-                        c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 2)
+                        c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)
                     ).start()
                 }
             }
@@ -250,17 +259,14 @@ class ReportAdap(
 
         fun rotateMin(m: Int) = m * 6f
 
-        fun saveET(
-            c: Context, et: EditText, pos: Int, allMasturbation: ArrayList<Report>?,
-            exitAfterwards: Boolean = false
-        ) {
+        fun saveET(c: Context, et: EditText, pos: Int, allMasturbation: ArrayList<Report>?) {
             if (allMasturbation == null) return
             if (allMasturbation.size <= pos || pos < 0) return
-            if (allMasturbation[pos].notes == et.text.toString()) return
-            allMasturbation[pos].notes = et.text.toString()
+            if (allMasturbation[pos].name == et.text.toString()) return
+            allMasturbation[pos].name = et.text.toString()
             Work(
                 c, handler, Work.UPDATE_ONE,
-                listOf(allMasturbation[pos], pos, if (exitAfterwards) 1 else 0)
+                listOf(allMasturbation[pos], pos, 1)
             ).start()
         }
 

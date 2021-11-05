@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.mbcounter
+package ir.mahdiparastesh.sexbook
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -11,10 +11,10 @@ import com.anychart.enums.Anchor
 import com.anychart.enums.HoverMode
 import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
-import ir.mahdiparastesh.mbcounter.Fun.Companion.c
-import ir.mahdiparastesh.mbcounter.data.Report
-import ir.mahdiparastesh.mbcounter.databinding.StatisticsBinding
-import ir.mahdiparastesh.mbcounter.more.Jalali
+import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.databinding.StatisticsBinding
+import ir.mahdiparastesh.sexbook.more.Jalali
 import java.util.*
 import kotlin.collections.ArrayList
 

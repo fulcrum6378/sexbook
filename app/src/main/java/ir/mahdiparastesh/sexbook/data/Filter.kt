@@ -1,7 +1,7 @@
-package ir.mahdiparastesh.mbcounter.data
+package ir.mahdiparastesh.sexbook.data
 
 import android.content.Context
-import com.mahdiparastesh.mbcounter.R
+import ir.mahdiparastesh.sexbook.R
 import java.util.*
 
 class Filter(var year: Int, var month: Int, var items: ArrayList<Int>) {

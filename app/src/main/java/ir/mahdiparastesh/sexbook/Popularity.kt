@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.mbcounter
+package ir.mahdiparastesh.sexbook
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,7 @@ import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.data.Set
 import com.anychart.enums.*
 import com.anychart.graphics.vector.Stroke
-import ir.mahdiparastesh.mbcounter.databinding.PopularityBinding
+import ir.mahdiparastesh.sexbook.databinding.PopularityBinding
 import kotlin.Comparator
 import kotlin.collections.ArrayList
 

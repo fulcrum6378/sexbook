@@ -7,11 +7,11 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "ir.mahdiparastesh.mbcounter"
+        applicationId "ir.mahdiparastesh.sexbook"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
-        versionName '3.3.0'
+        versionName '3.4.0'
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

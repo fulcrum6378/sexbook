@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.mbcounter
+package ir.mahdiparastesh.sexbook
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -20,23 +20,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import ir.mahdiparastesh.mbcounter.Fun.Companion.c
-import ir.mahdiparastesh.mbcounter.Fun.Companion.color
-import ir.mahdiparastesh.mbcounter.Fun.Companion.dm
-import ir.mahdiparastesh.mbcounter.Fun.Companion.dp
-import ir.mahdiparastesh.mbcounter.Fun.Companion.exit
-import ir.mahdiparastesh.mbcounter.Fun.Companion.explode
-import ir.mahdiparastesh.mbcounter.Fun.Companion.now
-import ir.mahdiparastesh.mbcounter.Fun.Companion.z
-import ir.mahdiparastesh.mbcounter.Summary.Recency
-import ir.mahdiparastesh.mbcounter.adap.ReportAdap
-import ir.mahdiparastesh.mbcounter.adap.ReportAdap.Companion.Sort
-import ir.mahdiparastesh.mbcounter.data.Exporter
-import ir.mahdiparastesh.mbcounter.data.Filter
-import ir.mahdiparastesh.mbcounter.data.Report
-import ir.mahdiparastesh.mbcounter.data.Work
-import ir.mahdiparastesh.mbcounter.databinding.MainBinding
-import ir.mahdiparastesh.mbcounter.more.Jalali
+import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.Fun.Companion.color
+import ir.mahdiparastesh.sexbook.Fun.Companion.dm
+import ir.mahdiparastesh.sexbook.Fun.Companion.dp
+import ir.mahdiparastesh.sexbook.Fun.Companion.explode
+import ir.mahdiparastesh.sexbook.Fun.Companion.now
+import ir.mahdiparastesh.sexbook.Fun.Companion.z
+import ir.mahdiparastesh.sexbook.Summary.Recency
+import ir.mahdiparastesh.sexbook.adap.ReportAdap
+import ir.mahdiparastesh.sexbook.adap.ReportAdap.Companion.Sort
+import ir.mahdiparastesh.sexbook.data.Exporter
+import ir.mahdiparastesh.sexbook.data.Filter
+import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.data.Work
+import ir.mahdiparastesh.sexbook.databinding.MainBinding
+import ir.mahdiparastesh.sexbook.more.Jalali
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -84,7 +83,6 @@ class Main : AppCompatActivity() {
         if (::tbTitle.isInitialized) tbTitle.setTypeface(dateFont, Typeface.BOLD)
 
         // Handler
-        val that = this
         handler = object : Handler(Looper.getMainLooper()) {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
@@ -105,8 +103,10 @@ class Main : AppCompatActivity() {
                     Work.INSERT_ONE -> if (msg.obj != null) Work(
                         c, handler, Work.VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)
                     ).start()
-                    Work.REPLACE_ALL ->
+                    Work.REPLACE_ALL -> {
                         Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
+                        Work(c, handler, Work.VIEW_ALL).start()
+                    }
                     Work.UPDATE_ONE -> {
                         if (m.onani.value != null) {
                             if (masturbation.contains(m.onani.value!![msg.arg1])) {
@@ -114,9 +114,8 @@ class Main : AppCompatActivity() {
                                 masturbation[nominalPos] = m.onani.value!![msg.arg1]
                                 adapter?.notifyItemChanged(nominalPos)
                             }
-                            if (msg.arg2 == 2) resetAllMasturbations()
+                            if (msg.arg2 == 0) resetAllMasturbations()
                         }
-                        if (msg.arg2 == 1) exit(that)
                     }
                     Work.DELETE_ONE -> if (m.onani.value != null) {
                         if (masturbation.contains(m.onani.value!![msg.arg1])) {
@@ -129,6 +128,7 @@ class Main : AppCompatActivity() {
                             }
                             adapter?.notifyItemRemoved(nominalPos)
                         }
+                        resetAllMasturbations()
                     }
                     Work.SCROLL -> b.rv.smoothScrollBy(0, msg.obj as Int)
                 }
@@ -144,7 +144,7 @@ class Main : AppCompatActivity() {
             if (adding) return@setOnClickListener
             if (filters != null) filterList(filters!!.size - 1)
             adding = true
-            Work(c, handler, Work.INSERT_ONE, listOf(Report(now(), ""))).start()
+            Work(c, handler, Work.INSERT_ONE, listOf(Report(now(), "", 1, ""))).start()
             object : CountDownTimer(workActionTimeout, workActionTimeout) {
                 override fun onTick(p0: Long) {}
                 override fun onFinish() {
@@ -173,11 +173,6 @@ class Main : AppCompatActivity() {
         if (m.loaded.value!!) b.body.removeView(b.load)
     }
 
-    override fun onPause() {
-        super.onPause()
-        saveFocused()
-    }
-
     var exiting = false
     override fun onBackPressed() {
         if (!exiting) {
@@ -191,7 +186,6 @@ class Main : AppCompatActivity() {
             Toast.makeText(c, R.string.toExit, Toast.LENGTH_SHORT).show()
             return
         }
-        if (!saveFocused()) exit(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -244,25 +238,6 @@ class Main : AppCompatActivity() {
             })
             start()
         }
-    }
-
-    fun saveFocused(): Boolean {
-        var isFocused = false
-        for (f in 0 until b.rv.childCount) {
-            var i = b.rv.getChildAt(f) as ViewGroup
-            var et = i.getChildAt(ReportAdap.notesPos) as EditText
-            if (et.hasFocus()) {
-                ReportAdap.saveET(
-                    c,
-                    et,
-                    ReportAdap.allPos(masturbation, b.rv.getChildLayoutPosition(i), m.onani.value),
-                    m.onani.value,
-                    true
-                )
-                isFocused = true
-            }
-        }
-        return isFocused
     }
 
     var spnFilterTouched = false
