@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.adap
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
@@ -18,8 +19,6 @@ import ir.mahdiparastesh.sexbook.Fun.Companion.dp
 import ir.mahdiparastesh.sexbook.Fun.Companion.night
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Main.Companion.handler
-import ir.mahdiparastesh.sexbook.Main.Companion.saveOnBlur
-import ir.mahdiparastesh.sexbook.Main.Companion.scrollOnFocus
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
@@ -48,7 +47,7 @@ class ReportAdap(
         val point = clock.getChildAt(pointPos) as View
         val ampm = l.getChildAt(ampmPos) as TextView
         val date = l.getChildAt(datePos) as TextView
-        val notes = l.getChildAt(notesPos) as EditText
+        val name = l.getChildAt(notesPos) as EditText
 
         // IDs
         clock.id = View.generateViewId()
@@ -56,7 +55,7 @@ class ReportAdap(
         clockMin.id = View.generateViewId()
         point.id = View.generateViewId()
         date.id = View.generateViewId()
-        notes.id = View.generateViewId()
+        name.id = View.generateViewId()
 
         // Fix Constraints
         var clockHourLP = clockHour.layoutParams as ConstraintLayout.LayoutParams
@@ -65,8 +64,13 @@ class ReportAdap(
         var clockMinLP = clockMin.layoutParams as ConstraintLayout.LayoutParams
         clockMinLP.bottomToBottom = point.id
         clockMin.layoutParams = clockMinLP
+        var nameLP = name.layoutParams as ConstraintLayout.LayoutParams
+        nameLP.topToTop = clock.id
+        nameLP.bottomToBottom = clock.id
+        name.layoutParams = nameLP
         var dateLP = date.layoutParams as ConstraintLayout.LayoutParams
         dateLP.startToEnd = clock.id
+        dateLP.endToStart = name.id
         dateLP.topToTop = clock.id
         dateLP.bottomToBottom = clock.id
         date.layoutParams = dateLP
@@ -74,9 +78,6 @@ class ReportAdap(
         ampmLP.startToEnd = clock.id
         ampmLP.bottomToBottom = clock.id
         ampm.layoutParams = ampmLP
-        var notesLP = notes.layoutParams as ConstraintLayout.LayoutParams
-        notesLP.topToBottom = clock.id
-        notes.layoutParams = notesLP
 
         // Background
         l.background = GradientDrawable().apply {
@@ -102,8 +103,6 @@ class ReportAdap(
             pivotY = minuteHeight - (pointHeight / 2f)
         }
 
-        saveOnBlur = true
-        scrollOnFocus = true
         return MyViewHolder(l)
     }
 
@@ -193,42 +192,40 @@ class ReportAdap(
 
     override fun getItemCount() = list.size
 
-    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        if (allMasturbation == null) return
-        if (view != null && view.tag != null && view.tag!!.length > 4) {
-            val pos = view.tag!!.substring(4).toInt()
-            if (allMasturbation.size > pos) when (view.tag!!.substring(0, 4)) {
-                tagEdit -> {
-                    var calc = Calendar.getInstance()
-                    calc.timeInMillis = allMasturbation[pos].time
-                    calc[Calendar.YEAR] = year
-                    calc[Calendar.MONTH] = monthOfYear
-                    calc[Calendar.DAY_OF_MONTH] = dayOfMonth
-                    allMasturbation[pos].time = calc.timeInMillis
-                    Work(
-                        c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)
-                    ).start()
-                }
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onDateSet(view: DatePickerDialog, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        if (allMasturbation == null || view.tag == null || view.tag!!.length <= 4) return
+        val pos = view.tag!!.substring(4).toInt()
+        if (allMasturbation.size > pos) when (view.tag!!.substring(0, 4)) {
+            tagEdit -> {
+                var calc = Calendar.getInstance()
+                calc.timeInMillis = allMasturbation[pos].time
+                calc[Calendar.YEAR] = year
+                calc[Calendar.MONTH] = monthOfYear
+                calc[Calendar.DAY_OF_MONTH] = dayOfMonth
+                allMasturbation[pos].time = calc.timeInMillis
+                Work(
+                    c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)
+                ).start()
             }
         }
     }
 
-    override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
-        if (allMasturbation == null) return
-        if (view != null && view.tag != null && view.tag!!.length > 4) {
-            val pos = view.tag!!.substring(4).toInt()
-            if (allMasturbation.size > pos) when (view.tag!!.substring(0, 4)) {
-                tagEdit -> {
-                    var calc = Calendar.getInstance()
-                    calc.timeInMillis = allMasturbation[pos].time
-                    calc[Calendar.HOUR_OF_DAY] = hourOfDay
-                    calc[Calendar.MINUTE] = minute
-                    calc[Calendar.SECOND] = second
-                    allMasturbation[pos].time = calc.timeInMillis
-                    Work(
-                        c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)
-                    ).start()
-                }
+    @SuppressLint("UseRequireInsteadOfGet")
+    override fun onTimeSet(view: TimePickerDialog, hourOfDay: Int, minute: Int, second: Int) {
+        if (allMasturbation == null || view.tag == null || view.tag!!.length <= 4) return
+        val pos = view.tag!!.substring(4).toInt()
+        if (allMasturbation.size > pos) when (view.tag!!.substring(0, 4)) {
+            tagEdit -> {
+                var calc = Calendar.getInstance()
+                calc.timeInMillis = allMasturbation[pos].time
+                calc[Calendar.HOUR_OF_DAY] = hourOfDay
+                calc[Calendar.MINUTE] = minute
+                calc[Calendar.SECOND] = second
+                allMasturbation[pos].time = calc.timeInMillis
+                Work(
+                    c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)
+                ).start()
             }
         }
     }
@@ -273,9 +270,6 @@ class ReportAdap(
         fun allPos(
             h: RecyclerView.ViewHolder, list: List<Report>, allMasturbation: ArrayList<Report>?
         ) = allMasturbation!!.indexOf(list[h.layoutPosition])
-
-        fun allPos(list: List<Report>, nominalPos: Int, allMasturbation: ArrayList<Report>?) =
-            allMasturbation!!.indexOf(list[nominalPos])
 
 
         class Sort : Comparator<Report> {

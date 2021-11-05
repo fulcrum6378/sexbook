@@ -72,6 +72,7 @@
     <string name="momRec">Recency</string>
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>
+    <string name="momSettings">Settings</string>
     <string name="requestFailed">Request failed!</string>
     <string name="exportDone">Done!</string>
     <string name="exportUndone">Failed!</string>

@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook
+package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +9,9 @@ import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.data.Set
 import com.anychart.enums.*
 import com.anychart.graphics.vector.Stroke
+import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Model
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.PopularityBinding
 import kotlin.Comparator
 import kotlin.collections.ArrayList
@@ -26,13 +29,13 @@ class Popularity : AppCompatActivity() {
 
         if (m.onani.value == null || m.summary.value == null) {
             onBackPressed(); return; }
-        val stb = Statistics.sinceTheBeginning(m.onani.value!!)
+        val stb = Singular.sinceTheBeginning(m.onani.value!!)
         var stars = ArrayList<Star>()
         for (x in m.summary.value!!.scores) {
             if (x.key.startsWith(resources.getString(R.string.unknown))) continue
             val scores = ArrayList<Float>()
             for (month in stb)
-                scores.add(Statistics.calcHistory(x.value, month))
+                scores.add(Singular.calcHistory(x.value, month))
             stars.add(Star(x.key, scores.toTypedArray()))
         }
         stars.sortWith(Star.Sort(1))

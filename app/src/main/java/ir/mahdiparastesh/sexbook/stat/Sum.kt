@@ -1,15 +1,16 @@
-package ir.mahdiparastesh.sexbook
+package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Parcel
 import android.os.Parcelable
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 import java.util.*
 import kotlin.collections.HashMap
 
 @Suppress("SameParameterValue")
-class Summary(list: List<Report>) {
+class Sum(list: List<Report>) {
     var scores: HashMap<String, ArrayList<Erection>>
 
     init {

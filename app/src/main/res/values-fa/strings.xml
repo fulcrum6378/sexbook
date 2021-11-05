@@ -1,0 +1,84 @@
+<resources>
+    <string name="app_name">سکسبوک</string>
+
+    <!-- Global -->
+    <string name="toExit">برای خروج دوباره ضربه بزنید&#8230;</string>
+    <string-array name="months">
+        <item>ژان</item>
+        <item>فور</item>
+        <item>مار</item>
+        <item>آور</item>
+        <item>می</item>
+        <item>جون</item>
+        <item>جول</item>
+        <item>آگو</item>
+        <item>سپت</item>
+        <item>اکت</item>
+        <item>نوا</item>
+        <item>دسا</item>
+    </string-array>
+    <string-array name="monthsFull">
+        <item>ژانویه</item>
+        <item>فوریه</item>
+        <item>مارس</item>
+        <item>آوریل</item>
+        <item>می</item>
+        <item>جون</item>
+        <item>جولای</item>
+        <item>آگوست</item>
+        <item>سپتامبر</item>
+        <item>اکتبر</item>
+        <item>نوامبر</item>
+        <item>دسامبر</item>
+    </string-array>
+    <string-array name="jMonths">
+        <item>فرو</item>
+        <item>ارد</item>
+        <item>خرد</item>
+        <item>تیر</item>
+        <item>مرد</item>
+        <item>شهر</item>
+        <item>مهر</item>
+        <item>آبا</item>
+        <item>آذر</item>
+        <item>دی</item>
+        <item>بهم</item>
+        <item>اسف</item>
+    </string-array>
+    <string-array name="jMonthsFull">
+        <item>فروردین</item>
+        <item>اردیبهشت</item>
+        <item>خرداد</item>
+        <item>تیر</item>
+        <item>مرداد</item>
+        <item>شهریور</item>
+        <item>مهر</item>
+        <item>آبان</item>
+        <item>آذر</item>
+        <item>دی</item>
+        <item>بهمن</item>
+        <item>اسفند</item>
+    </string-array>
+    <string name="AM">ق.ظ.</string>
+    <string name="PM">ب.ظ.</string>
+    <string name="ok">باشه</string>
+    <string name="unknown">ناشناس</string>
+
+    <!-- Main -->
+    <string name="mrvNotesHint">.....</string>
+    <string name="lcDelete">حذف</string>
+    <string name="momSum">جمع کل</string>
+    <string name="momPop">محبوبیت</string>
+    <string name="momRec">اخیریت</string>
+    <string name="momImport">وارد کردن از جیسون</string>
+    <string name="momExport">استخراج به جیسون</string>
+    <string name="momSettings">تنظیمات</string>
+    <string name="requestFailed">درخواست ناموفق ماند!</string>
+    <string name="exportDone">انجام شد!</string>
+    <string name="exportUndone">ناموفق!</string>
+    <string name="importDone">انجام شد!</string>
+    <string name="importOpenError">متاسفانه هنگام بازکردن فایل خطایی رخ داد!</string>
+    <string name="importReadError">متاسفانه هنگام خواندن فایل خطایی رخ داد!</string>
+    <string name="noRecords">شما هیچ چیزی ثبت نکرده اید!</string>
+    <string name="findChip">یک کراش انتخاب کنید&#8230;</string>
+</resources>

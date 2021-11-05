@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook
+package ir.mahdiparastesh.sexbook.stat
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -11,21 +11,25 @@ import com.anychart.enums.Anchor
 import com.anychart.enums.HoverMode
 import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
+import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.Model
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
-import ir.mahdiparastesh.sexbook.databinding.StatisticsBinding
+import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 import ir.mahdiparastesh.sexbook.more.Jalali
 import java.util.*
 import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
-class Statistics : AppCompatActivity() {
-    private lateinit var b: StatisticsBinding
+class Singular : AppCompatActivity() {
+    private lateinit var b: SingularBinding
     private lateinit var m: Model
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        b = StatisticsBinding.inflate(layoutInflater)
+        b = SingularBinding.inflate(layoutInflater)
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
         Fun.init(this)
@@ -96,7 +100,7 @@ class Statistics : AppCompatActivity() {
             }
         }
 
-        fun calcHistory(list: ArrayList<Summary.Erection>, month: String): Float {
+        fun calcHistory(list: ArrayList<Sum.Erection>, month: String): Float {
             var value = 0f
             val split = month.split(" ")
             if (!c.resources.getBoolean(R.bool.jalali)) {

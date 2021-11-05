@@ -23,12 +23,16 @@
         </activity>
 
         <activity
-            android:name=".Statistics"
+            android:name=".Settings"
+            android:exported="false" />
+
+        <activity
+            android:name=".stat.Singular"
             android:exported="false"
             android:screenOrientation="landscape" />
 
         <activity
-            android:name=".Popularity"
+            android:name=".stat.Popularity"
             android:exported="false"
             android:screenOrientation="landscape" />
     </application>

@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
@@ -27,7 +26,6 @@ import ir.mahdiparastesh.sexbook.Fun.Companion.dp
 import ir.mahdiparastesh.sexbook.Fun.Companion.explode
 import ir.mahdiparastesh.sexbook.Fun.Companion.now
 import ir.mahdiparastesh.sexbook.Fun.Companion.z
-import ir.mahdiparastesh.sexbook.Summary.Recency
 import ir.mahdiparastesh.sexbook.adap.ReportAdap
 import ir.mahdiparastesh.sexbook.adap.ReportAdap.Companion.Sort
 import ir.mahdiparastesh.sexbook.data.Exporter
@@ -36,8 +34,13 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.more.Jalali
+import ir.mahdiparastesh.sexbook.stat.Popularity
+import ir.mahdiparastesh.sexbook.stat.Singular
+import ir.mahdiparastesh.sexbook.stat.Sum
+import ir.mahdiparastesh.sexbook.stat.Sum.Recency
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.system.exitProcess
 
 // adb connect 192.168.1.20:
 
@@ -56,8 +59,6 @@ class Main : AppCompatActivity() {
         const val workActionTimeout = 5000L
         var dateFont: Typeface? = null
         var masturbation = ArrayList<Report>()
-        var saveOnBlur = false
-        var scrollOnFocus = false
         var filters: ArrayList<Filter>? = null
         var listFilter = 0
     }
@@ -112,7 +113,7 @@ class Main : AppCompatActivity() {
                             if (masturbation.contains(m.onani.value!![msg.arg1])) {
                                 val nominalPos = masturbation.indexOf(m.onani.value!![msg.arg1])
                                 masturbation[nominalPos] = m.onani.value!![msg.arg1]
-                                adapter?.notifyItemChanged(nominalPos)
+                                if (msg.arg2 == 0) adapter?.notifyItemChanged(nominalPos)
                             }
                             if (msg.arg2 == 0) resetAllMasturbations()
                         }
@@ -136,10 +137,6 @@ class Main : AppCompatActivity() {
         }
 
         // List
-        var span = 1
-        if (dm.widthPixels > 0) span = ((dm.widthPixels / dm.density) / 190f).toInt()
-        if (span < 1) span = 1
-        b.rv.layoutManager = StaggeredGridLayoutManager(span, StaggeredGridLayoutManager.VERTICAL)
         b.add.setOnClickListener {
             if (adding) return@setOnClickListener
             if (filters != null) filterList(filters!!.size - 1)
@@ -186,6 +183,9 @@ class Main : AppCompatActivity() {
             Toast.makeText(c, R.string.toExit, Toast.LENGTH_SHORT).show()
             return
         }
+        moveTaskToBack(true)
+        Process.killProcess(Process.myPid())
+        exitProcess(1)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -220,6 +220,8 @@ class Main : AppCompatActivity() {
             };true; }
         R.id.momImport -> exporter.import()
         R.id.momExport -> exporter.export(m.onani.value)
+        R.id.momSettings -> {
+            startActivity(Intent(this, Settings::class.java)); true; }
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -282,8 +284,6 @@ class Main : AppCompatActivity() {
             for (o in filters!![listFilter].items)
                 if (m.onani.value!!.size > o)
                     masturbation.add(m.onani.value!![o])
-        saveOnBlur = false
-        scrollOnFocus = false
         if (adapter == null) {
             adapter = ReportAdap(c, masturbation, this, m.onani.value)
             b.rv.adapter = adapter
@@ -291,11 +291,11 @@ class Main : AppCompatActivity() {
     }
 
     fun summarize(): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
-        m.summary.value = Summary(m.onani.value!!); true
+        m.summary.value = Sum(m.onani.value!!); true
     } else false
 
     @SuppressLint("InflateParams")
-    fun sumLayout() = (layoutInflater.inflate(R.layout.summary, null) as ScrollView).apply {
+    fun sumLayout() = (layoutInflater.inflate(R.layout.sum, null) as ScrollView).apply {
         val ll = this[0] as LinearLayout
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) (ll[0] as EditText).apply {
             addTextChangedListener(object : TextWatcher {
@@ -345,14 +345,14 @@ class Main : AppCompatActivity() {
                             chipBackgroundColor = getColorStateList(R.color.chip_normal)
                         setOnClickListener {
                             m.crush.value = crush
-                            startActivity(Intent(this@Main, Statistics::class.java))
+                            startActivity(Intent(this@Main, Singular::class.java))
                         }
                     })
             })
     }
 
     @SuppressLint("InflateParams", "SetTextI18n")
-    fun recLayout() = (layoutInflater.inflate(R.layout.summary, null) as ScrollView).apply {
+    fun recLayout() = (layoutInflater.inflate(R.layout.sum, null) as ScrollView).apply {
         val recency = ArrayList<Recency>()
         m.summary.value!!.scores.forEach { (name, erections) -> // API 24+: WITHOUT PARENTHESES
             var mostRecent = 0L

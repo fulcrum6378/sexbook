@@ -9,7 +9,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.os.Process
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.Button
@@ -17,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import java.util.*
-import kotlin.system.exitProcess
 
 class Fun {
     companion object {
@@ -80,12 +78,6 @@ class Fun {
         fun pdcf(c: Context, res: Int = R.color.CPDD) =
             PorterDuffColorFilter(ContextCompat.getColor(c, res), PorterDuff.Mode.SRC_IN)
 
-        fun exit(that: AppCompatActivity) {
-            that.moveTaskToBack(true)
-            Process.killProcess(Process.myPid())
-            exitProcess(1)
-        }
-
         fun fixADButton(button: Button) = button.apply {
             setTextColor(color(R.color.mrvPopupButtons))
             //setBackgroundColor(color(R.color.CP))
@@ -95,7 +87,5 @@ class Fun {
             val s = n.toString()
             return if (s.length == 1) "0$s" else s
         }
-
-        fun cutYear(y: Int) = y.toString().substring(2, 4)
     }
 }
