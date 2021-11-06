@@ -243,10 +243,12 @@ class Main : AppCompatActivity() {
     }
 
     var spnFilterTouched = false
+    var filteredOnce = false
     fun resetAllMasturbations() {
         Collections.sort(m.onani.value!!, Sort())
         filters = filter(m.onani.value!!)
-        filterList(filters!!.size - 1)
+        val maxPage = filters!!.size - 1
+        filterList(if (!filteredOnce || listFilter > maxPage) maxPage else listFilter)
         if (filters != null) {
             val titles = ArrayList<String>().apply {
                 for (f in filters!!.indices) add(filters!![f].titleInShamsi(c))
@@ -254,9 +256,9 @@ class Main : AppCompatActivity() {
             b.spnFilter.adapter = ArrayAdapter(c, R.layout.spinner_1, titles)
                 .apply { setDropDownViewResource(R.layout.spinner_1_dd) }
             spnFilterTouched = false
-            listFilter = filters!!.size - 1
             b.spnFilter.setSelection(listFilter, true)
         }
+        filteredOnce = true
     }
 
     fun filter(reports: ArrayList<Report>): ArrayList<Filter> {
@@ -274,7 +276,7 @@ class Main : AppCompatActivity() {
         return filters
     }
 
-    fun filterList(i: Int) {
+    fun filterList(i: Int = listFilter) {
         if (m.onani.value == null) {
             masturbation.clear(); return; }
         listFilter = i
