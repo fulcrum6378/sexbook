@@ -62,7 +62,7 @@
     <string name="AM">AM</string>
     <string name="PM">PM</string>
     <string name="ok">OK</string>
-    <string name="unknown">Unknown</string>
+    <string name="unknown">Plus %1$s from unknown people.</string>
     <string-array name="types">
         <item>Wet Dream</item>
         <item>Masturbation</item>
@@ -74,6 +74,7 @@
 
     <!-- Main -->
     <string name="mrvNotesHint">.....</string>
+    <string name="lcDescriptions">Descriptions</string>
     <string name="lcDelete">Delete</string>
     <string name="momSum">Summary</string>
     <string name="momPop">Popularity</string>

@@ -2,8 +2,6 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Parcel
 import android.os.Parcelable
-import ir.mahdiparastesh.sexbook.Fun.Companion.c
-import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 import java.util.*
@@ -12,6 +10,7 @@ import kotlin.collections.HashMap
 @Suppress("SameParameterValue")
 class Sum(list: List<Report>) {
     var scores: HashMap<String, ArrayList<Erection>>
+    var unknown = 0f
 
     init {
         var all = arrayListOf<List<List<String>>?>()
@@ -113,14 +112,13 @@ class Sum(list: List<Report>) {
 
     fun results(): Result {
         var results = HashMap<Float, ArrayList<String>>()
-        var unknownPeople = 0
         for (s in scores) {
             var key = s.key
-            if (key == "" || key == " " || key == "\n") {
-                unknownPeople += 1
-                key = "${c.resources.getString(R.string.unknown)} $unknownPeople"
-            }
             val sumErect = sumErections(s.value)
+            if (key == "" || key == " " || key == "\n") {
+                unknown = sumErect
+                continue
+            }
             if (!results.containsKey(sumErect)) results[sumErect] = arrayListOf(key)
             else results[sumErect]!!.add(key)
             results[sumErect]!!.sort()

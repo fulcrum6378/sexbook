@@ -62,7 +62,7 @@
     <string name="AM">ق.ظ.</string>
     <string name="PM">ب.ظ.</string>
     <string name="ok">باشه</string>
-    <string name="unknown">ناشناس</string>
+    <string name="unknown">بعلاوه %1$s مورد از افراد ناشناس!</string>
     <string-array name="types">
         <item>احتلام</item>
         <item>خودارضایی</item>
@@ -73,6 +73,7 @@
 
     <!-- Main -->
     <string name="mrvNotesHint">.....</string>
+    <string name="lcDescriptions">توضیحات</string>
     <string name="lcDelete">حذف</string>
     <string name="momSum">جمع کل</string>
     <string name="momPop">محبوبیت</string>

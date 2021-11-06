@@ -78,8 +78,6 @@ class ReportAdap(
         nameLP.topToTop = clock.id
         nameLP.bottomToBottom = clock.id
         name.layoutParams = nameLP
-        /*var typeLP = type.layoutParams as ConstraintLayout.LayoutParams
-        type.layoutParams = typeLP*/
 
         // Background
         l.background = GradientDrawable().apply {
@@ -185,6 +183,10 @@ class ReportAdap(
             var popup = PopupMenu(c, p0)
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
+                    R.id.lcDescriptions -> {
+                        ///////////////////////////////////
+                        true
+                    }
                     R.id.lcDelete -> {
                         if (allMasturbation == null) return@setOnMenuItemClickListener true
                         val aPos = allPos(h, list, allMasturbation)
@@ -278,10 +280,7 @@ class ReportAdap(
             if (allMasturbation.size <= pos || pos < 0) return
             if (allMasturbation[pos].name == et.text.toString()) return
             allMasturbation[pos].name = et.text.toString()
-            Work(
-                c, handler, Work.UPDATE_ONE,
-                listOf(allMasturbation[pos], pos, 1)
-            ).start()
+            Work(c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 1)).start()
         }
 
         fun allPos(

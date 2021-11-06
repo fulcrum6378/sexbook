@@ -19,9 +19,9 @@ class TypeAdap : ArrayAdapter<TypeAdap.Type>(c, 0, types) {
         val types = arrayOf(
             Type(names[0], R.drawable.wet_dream),
             Type(names[1], R.drawable.masturbation),
-            Type(names[2], R.drawable.masturbation),
-            Type(names[3], R.drawable.masturbation),
-            Type(names[4], R.drawable.masturbation),
+            Type(names[2], R.drawable.oral_sex),
+            Type(names[3], R.drawable.anal_sex),
+            Type(names[4], R.drawable.vaginal_sex),
         )
     }
 

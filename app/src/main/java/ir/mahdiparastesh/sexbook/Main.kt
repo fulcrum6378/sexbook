@@ -349,6 +349,13 @@ class Main : AppCompatActivity() {
                         }
                     })
             })
+        ll.addView(TextView(c).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            setPadding(0, dp(7), 0, 0)
+            text = getString(R.string.unknown, m.summary.value!!.unknown.toString())
+        })
     }
 
     @SuppressLint("InflateParams", "SetTextI18n")
