@@ -357,6 +357,7 @@ class Main : AppCompatActivity() {
             )
             setPadding(0, dp(7), 0, 0)
             text = getString(R.string.unknown, m.summary.value!!.unknown.toString())
+            setTextColor(color(R.color.searchHint))
         })
     }
 
@@ -364,6 +365,7 @@ class Main : AppCompatActivity() {
     fun recLayout() = (layoutInflater.inflate(R.layout.sum, null) as ScrollView).apply {
         val recency = ArrayList<Recency>()
         m.summary.value!!.scores.forEach { (name, erections) -> // API 24+: WITHOUT PARENTHESES
+            if (Sum.isUnknown(name)) return@forEach
             var mostRecent = 0L
             for (e in erections) if (e.time > mostRecent) mostRecent = e.time
             recency.add(Recency(name, mostRecent))
@@ -374,12 +376,8 @@ class Main : AppCompatActivity() {
         val ll = this[0] as LinearLayout
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) (ll[0] as EditText).apply {
             addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?, start: Int, count: Int, after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
+                override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
                 override fun afterTextChanged(s: Editable?) {
                     val ss = s.toString()
                     for (i in 1 until ll.childCount) (ll[i] as ConstraintLayout).apply {

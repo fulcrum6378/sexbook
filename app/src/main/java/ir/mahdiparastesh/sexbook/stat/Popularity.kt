@@ -82,6 +82,7 @@ class Popularity : AppCompatActivity() {
                 position(Orientation.TOP)
                 positionMode(LegendPositionMode.OUTSIDE)
             }
+            background(if (Fun.night) "#3A3A3A" else "#FFFFFF")
             b.main.setChart(this)
         }
     }

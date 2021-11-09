@@ -115,7 +115,7 @@ class Sum(list: List<Report>) {
         for (s in scores) {
             var key = s.key
             val sumErect = sumErections(s.value)
-            if (key == "" || key == " " || key == "\n") {
+            if (isUnknown(key)) {
                 unknown = sumErect
                 continue
             }
@@ -127,6 +127,10 @@ class Sum(list: List<Report>) {
         return Result(results, scores)
     }
 
+
+    companion object {
+        fun isUnknown(name: String) = name == "" || name == " " || name == "\n"
+    }
 
     private fun containsKeyIgnoreCase(map: Map<String, ArrayList<Erection>>, key: String): String? {
         var index: String? = null
