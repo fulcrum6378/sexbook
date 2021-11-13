@@ -47,8 +47,8 @@ import kotlin.system.exitProcess
 @Suppress("UNCHECKED_CAST")
 class Main : AppCompatActivity() {
     private lateinit var b: MainBinding
-    private lateinit var tbTitle: TextView
     private lateinit var m: Model
+    private lateinit var tbTitle: TextView
     private lateinit var exporter: Exporter
     var adapter: ReportAdap? = null
     var adding = false
@@ -154,8 +154,8 @@ class Main : AppCompatActivity() {
         b.spnFilterMark.setColorFilter(color(R.color.spnFilterMark))
         b.spnFilter.setOnTouchListener { _, _ -> spnFilterTouched = true; false }
         b.spnFilter.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+            override fun onNothingSelected(av: AdapterView<*>?) {}
+            override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
                 if (spnFilterTouched) filterList(i)
             }
         }
@@ -168,6 +168,11 @@ class Main : AppCompatActivity() {
 
         // Already loaded
         if (m.loaded.value!!) b.body.removeView(b.load)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        recreate()
     }
 
     var exiting = false
@@ -220,6 +225,10 @@ class Main : AppCompatActivity() {
             };true; }
         R.id.momImport -> exporter.import()
         R.id.momExport -> exporter.export(m.onani.value)
+        R.id.momExportExcel -> {
+            // TODO
+            true
+        }
         R.id.momSettings -> {
             startActivity(Intent(this, Settings::class.java)); true; }
         else -> super.onOptionsItemSelected(item)
@@ -251,7 +260,7 @@ class Main : AppCompatActivity() {
         filterList(if (!filteredOnce || listFilter > maxPage) maxPage else listFilter)
         if (filters != null) {
             val titles = ArrayList<String>().apply {
-                for (f in filters!!.indices) add(filters!![f].titleInShamsi(c))
+                for (f in filters!!.indices) add(filters!![f].title(c))
             }
             b.spnFilter.adapter = ArrayAdapter(c, R.layout.spinner_1, titles)
                 .apply { setDropDownViewResource(R.layout.spinner_1_dd) }
@@ -264,14 +273,17 @@ class Main : AppCompatActivity() {
     fun filter(reports: ArrayList<Report>): ArrayList<Filter> {
         val filters: ArrayList<Filter> = ArrayList()
         for (r in reports.indices) {
-            val sh = Jalali(Calendar.getInstance().apply { timeInMillis = reports[r].time })
+            val lm = Calendar.getInstance().apply { timeInMillis = reports[r].time }
+            var ym = arrayOf(lm[Calendar.YEAR], lm[Calendar.MONTH])
+            if (Fun.calType() == Fun.CalendarType.JALALI)
+                Jalali(lm).apply { ym = arrayOf(Y, M) }
             var filterExists = false
-            for (f in filters.indices) if (filters[f].year == sh.Y && filters[f].month == sh.M) {
+            for (f in filters.indices) if (filters[f].year == ym[0] && filters[f].month == ym[1]) {
                 filterExists = true
                 filters[f] = filters[f].apply { put(r) }
             }
             if (!filterExists)
-                filters.add(Filter(sh.Y, sh.M, ArrayList<Int>().apply { add(r) }))
+                filters.add(Filter(ym[0], ym[1], ArrayList<Int>().apply { add(r) }))
         }
         return filters
     }
@@ -299,13 +311,9 @@ class Main : AppCompatActivity() {
     @SuppressLint("InflateParams")
     fun sumLayout() = (layoutInflater.inflate(R.layout.sum, null) as ScrollView).apply {
         val ll = this[0] as LinearLayout
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) (ll[0] as EditText).apply {
+        (ll[0] as EditText).apply {
             addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?, start: Int, count: Int, after: Int
-                ) {
-                }
-
+                override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
                     val ss = s.toString()
@@ -343,8 +351,7 @@ class Main : AppCompatActivity() {
                         )
                         text = crush
                         setTextColor(color(R.color.chipText))
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                            chipBackgroundColor = getColorStateList(R.color.chip_normal)
+                        chipBackgroundColor = getColorStateList(R.color.chip_normal)
                         setOnClickListener {
                             m.crush.value = crush
                             startActivity(Intent(this@Main, Singular::class.java))
@@ -374,7 +381,7 @@ class Main : AppCompatActivity() {
         recency.reverse()
 
         val ll = this[0] as LinearLayout
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) (ll[0] as EditText).apply {
+        (ll[0] as EditText).apply {
             addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
                 override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
@@ -396,11 +403,15 @@ class Main : AppCompatActivity() {
         for (r in 0 until recency.size) ll.addView(
             (layoutInflater.inflate(R.layout.recency, null) as ConstraintLayout).apply {
                 (this[0] as TextView).text = "${r + 1}. ${recency[r].name}"
-                val gre = Calendar.getInstance().apply { timeInMillis = recency[r].time }
-                val jal = Jalali(gre)
-                (this[1] as TextView).text =
-                    "${z(jal.Y)}.${z(jal.M + 1)}.${z(jal.D)} - " +
-                            "${z(gre[Calendar.HOUR_OF_DAY])}:${z(gre[Calendar.MINUTE])}"
+                val lm = Calendar.getInstance().apply { timeInMillis = recency[r].time }
+                if (Fun.calType() == Fun.CalendarType.JALALI) {
+                    val jal = Jalali(lm)
+                    (this[1] as TextView).text =
+                        "${z(jal.Y)}.${z(jal.M + 1)}.${z(jal.D)} - " +
+                                "${z(lm[Calendar.HOUR_OF_DAY])}:${z(lm[Calendar.MINUTE])}"
+                } else (this[1] as TextView).text =
+                    "${z(lm[Calendar.YEAR])}.${z(lm[Calendar.MONTH] + 1)}.${z(lm[Calendar.DAY_OF_MONTH])} - " +
+                            "${z(lm[Calendar.HOUR_OF_DAY])}:${z(lm[Calendar.MINUTE])}"
                 if (r == recency.size - 1) this.removeViewAt(2)
             }
         )

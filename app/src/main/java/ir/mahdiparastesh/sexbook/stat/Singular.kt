@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.stat
 
-import android.graphics.Typeface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -13,7 +12,6 @@ import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
-import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
@@ -56,12 +54,9 @@ class Singular : AppCompatActivity() {
             yAxis(0).labels().format("{%Value}{groupsSeparator: }")
             tooltip().positionMode(TooltipPositionMode.POINT)
             interactivity().hoverMode(HoverMode.BY_X)
-            //xAxis(0).title("Month")
-            //yAxis(0).title("Masturbation")
             background(if (Fun.night) "#3A3A3A" else "#FFFFFF")
             b.main.setChart(this)
         }
-        Main.dateFont = Typeface.createFromAsset(assets, "franklin_gothic.ttf")
     }
 
     companion object {
@@ -71,7 +66,7 @@ class Singular : AppCompatActivity() {
             for (h in mOnani) if (h.time < oldest) oldest = h.time
             val beg = Calendar.getInstance().apply { timeInMillis = oldest }
             val list = arrayListOf<String>()
-            if (!c.resources.getBoolean(R.bool.jalali)) {
+            if (Fun.calType() != Fun.CalendarType.JALALI) {
                 val yDist = now[Calendar.YEAR] - beg[Calendar.YEAR]
                 for (y in 0 until (yDist + 1)) {
                     var start = 0
@@ -82,7 +77,6 @@ class Singular : AppCompatActivity() {
                         "${c.resources.getStringArray(R.array.months)[m]} ${beg[Calendar.YEAR] + y}"
                     )
                 }
-                return list.toList()
             } else {
                 val jBeg = Jalali(beg)
                 val jNow = Jalali(now)
@@ -96,28 +90,30 @@ class Singular : AppCompatActivity() {
                         "${c.resources.getStringArray(R.array.jMonths)[m]} ${jBeg.Y + y}"
                     )
                 }
-                return list.toList()
             }
+            return list.toList()
         }
 
         fun calcHistory(list: ArrayList<Sum.Erection>, month: String): Float {
             var value = 0f
             val split = month.split(" ")
-            if (!c.resources.getBoolean(R.bool.jalali)) {
-                val months = c.resources.getStringArray(R.array.months)
-                for (i in list) {
-                    var lm = Calendar.getInstance().apply { timeInMillis = i.time }
-                    if (months.indexOf(split[0]) == lm.get(Calendar.MONTH)
-                        && split[1].toInt() == lm.get(Calendar.YEAR)
-                    ) value += i.value
+            val months = c.resources.getStringArray(
+                when (Fun.calType()) {
+                    Fun.CalendarType.JALALI -> R.array.jMonths
+                    else -> R.array.months
                 }
-            } else {
-                val months = c.resources.getStringArray(R.array.jMonths)
-                for (i in list) {
-                    var lm = Jalali(Calendar.getInstance().apply { timeInMillis = i.time })
-                    if (months.indexOf(split[0]) == lm.M && split[1].toInt() == lm.Y)
+            )
+            for (i in list) {
+                var lm = Calendar.getInstance().apply { timeInMillis = i.time }
+                if (Fun.calType() == Fun.CalendarType.JALALI) {
+                    val jal = Jalali(lm)
+                    if (months.indexOf(split[0]) == jal.M && split[1].toInt() == jal.Y)
                         value += i.value
+                    continue
                 }
+                if (months.indexOf(split[0]) == lm[Calendar.MONTH]
+                    && split[1].toInt() == lm[Calendar.YEAR]
+                ) value += i.value
             }
             return value
         }

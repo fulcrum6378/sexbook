@@ -13,6 +13,16 @@
         <item name="android:background">@drawable/shadow_1</item>
     </style>
 
+    <style name="toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:background">@color/toolbar</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="popupTheme">@style/Widget.MaterialComponents.PopupMenu</item>
+        <item name="titleMarginStart">30dp</item>
+        <item name="titleTextColor">@color/tbTitle</item>
+    </style>
+
 
     <!-- Main -->
     <style name="loadIV" parent="parentConstraint">
@@ -21,5 +31,34 @@
         <item name="android:src">@drawable/logo_1</item>
         <item name="layout_constraintWidth_percent">0.7</item>
         <item name="layout_constraintHeight_percent">0.7</item>
+    </style>
+
+    <!-- Settings -->
+    <style name="stItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">10dp</item>
+        <item name="android:layout_marginVertical">7dp</item>
+        <item name="android:background">@drawable/box_bg</item>
+        <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:paddingVertical">15dp</item>
+    </style>
+
+    <style name="stItemTV">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/stItemTV</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingHorizontal">7sp</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+    <style name="stItemTweak">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 </resources>

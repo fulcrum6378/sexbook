@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Sexbook</string>
 
     <!-- Global -->
@@ -70,6 +70,10 @@
         <item>Anal Sex</item>
         <item>Vaginal Sex</item>
     </string-array>
+    <string-array name="calendarTypes">
+        <item>Gregory</item>
+        <item>Jalali</item>
+    </string-array>
 
 
     <!-- Main -->
@@ -81,6 +85,7 @@
     <string name="momRec">Recency</string>
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>
+    <string name="momExportExcel">Export to Excel</string>
     <string name="momSettings">Settings</string>
     <string name="requestFailed">Request failed!</string>
     <string name="exportDone">Done!</string>
@@ -90,4 +95,9 @@
     <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
     <string name="noRecords">You have no records yet!</string>
     <string name="findChip">Find a crush&#8230;</string>
+
+    <!-- Settings -->
+    <string name="stSP" tools:ignore="MissingTranslation">ir.mahdiparastesh.sexbook.settings</string>
+    <string name="stTitle">Sexbook Settings</string>
+    <string name="stCalendarType">Calendar Type</string>
 </resources>

@@ -11,7 +11,6 @@ import com.anychart.enums.*
 import com.anychart.graphics.vector.Stroke
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Model
-import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.PopularityBinding
 import kotlin.Comparator
 import kotlin.collections.ArrayList
@@ -32,7 +31,7 @@ class Popularity : AppCompatActivity() {
         val stb = Singular.sinceTheBeginning(m.onani.value!!)
         var stars = ArrayList<Star>()
         for (x in m.summary.value!!.scores) {
-            if (x.key.startsWith(resources.getString(R.string.unknown))) continue
+            if (Sum.isUnknown(x.key)) continue
             val scores = ArrayList<Float>()
             for (month in stb)
                 scores.add(Singular.calcHistory(x.value, month))
@@ -52,7 +51,7 @@ class Popularity : AppCompatActivity() {
             animation(true)
             crosshair().enabled(true)
             crosshair()
-                .yLabel(true) // DO: ystroke
+                .yLabel(true) // DO: yStroke
                 .yStroke(null as Stroke?, null, null, null as String?, null as String?)
             tooltip().positionMode(TooltipPositionMode.POINT)
 

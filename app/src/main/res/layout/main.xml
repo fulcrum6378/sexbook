@@ -6,29 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
-    tools:context="ir.mahdiparastesh.sexbook.Main"
+    tools:context=".Main"
     tools:ignore="MissingConstraints,ContentDescription">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/toolbar"
-        app:layout_constraintTop_toTopOf="parent"
+        style="@style/toolbar"
         app:menu="@menu/toolbar"
-        app:popupTheme="@style/Widget.MaterialComponents.PopupMenu"
-        app:title="@string/app_name"
-        app:titleMarginStart="30dp"
-        app:titleTextColor="@color/tbTitle" />
+        app:title="@string/app_name" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingLeft="10dp"
+        android:paddingHorizontal="10dp"
         android:paddingTop="20dp"
-        android:paddingRight="10dp"
         android:paddingBottom="85dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/spnFilter"

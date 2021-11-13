@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.Typeface
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.Button
@@ -28,9 +29,13 @@ class Fun {
 
         fun init(that: AppCompatActivity) {
             c = that.applicationContext
-            sp = that.getPreferences(Context.MODE_PRIVATE)
+            sp = that.getSharedPreferences(
+                c.resources.getString(R.string.stSP), Context.MODE_PRIVATE
+            )
             dm = that.resources.displayMetrics
             night = c.resources.getBoolean(R.bool.night)
+
+            Main.dateFont = Typeface.createFromAsset(that.assets, "franklin_gothic.ttf")
         }
 
         fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
@@ -87,5 +92,9 @@ class Fun {
             val s = n.toString()
             return if (s.length == 1) "0$s" else s
         }
+
+        fun calType() = CalendarType.values()[sp.getInt(Settings.spCalType, 0)]
     }
+
+    enum class CalendarType { GREGORY, JALALI }
 }

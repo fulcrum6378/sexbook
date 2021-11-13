@@ -19,6 +19,9 @@
         android:id="@+id/momImport"
         android:title="@string/momImport" />
     <item
+        android:id="@+id/momExportExcel"
+        android:title="@string/momExportExcel" />
+    <item
         android:id="@+id/momSettings"
         android:title="@string/momSettings" />
 </menu>

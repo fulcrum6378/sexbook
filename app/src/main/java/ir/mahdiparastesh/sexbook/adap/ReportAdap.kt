@@ -3,7 +3,6 @@ package ir.mahdiparastesh.sexbook.adap
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun.Companion.color
-import ir.mahdiparastesh.sexbook.Fun.Companion.dm
 import ir.mahdiparastesh.sexbook.Fun.Companion.dp
 import ir.mahdiparastesh.sexbook.Fun.Companion.night
 import ir.mahdiparastesh.sexbook.Main
@@ -24,6 +22,9 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
+import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Fun.Companion.calType
+import ir.mahdiparastesh.sexbook.more.Jalali
 import java.util.*
 
 class ReportAdap(
@@ -78,13 +79,6 @@ class ReportAdap(
         nameLP.topToTop = clock.id
         nameLP.bottomToBottom = clock.id
         name.layoutParams = nameLP
-
-        // Background
-        l.background = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            colors = intArrayOf(color(R.color.mrvBG1), color(R.color.mrvBG2), color(R.color.mrvBG3))
-            cornerRadius = dm.density * 12
-        }
 
         // Fonts
         if (Main.dateFont != null) date.setTypeface(Main.dateFont, Typeface.BOLD)
@@ -166,15 +160,13 @@ class ReportAdap(
         type.setSelection(list[i].type.toInt(), true)
         type.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, i: Int, l: Long) {
                 if (allMasturbation == null) return
                 val pos = allPos(h, list, allMasturbation)
                 if (allMasturbation.size <= pos || pos < 0) return
                 if (allMasturbation[pos].type == i.toByte()) return
                 allMasturbation[pos].type = i.toByte()
-                Work(
-                    c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 1)
-                ).start()
+                Work(c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 1)).start()
             }
         }
 
@@ -184,7 +176,7 @@ class ReportAdap(
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.lcDescriptions -> {
-                        ///////////////////////////////////
+                        // TODO
                         true
                     }
                     R.id.lcDelete -> {
@@ -259,8 +251,11 @@ class ReportAdap(
         const val typePos = 4
 
         fun compileDate(c: Context, time: Long): String {
-            val lm = Calendar.getInstance()
-            lm.timeInMillis = time
+            val lm = Calendar.getInstance().apply { timeInMillis = time }
+            if (calType() == Fun.CalendarType.JALALI) {
+                val jal = Jalali(lm)
+                return "${c.resources.getStringArray(R.array.jMonths)[jal.M]} ${jal.D}"
+            }
             return "${c.resources.getStringArray(R.array.months)[lm.get(Calendar.MONTH)]} " +
                     "${lm.get(Calendar.DAY_OF_MONTH)}"
         }

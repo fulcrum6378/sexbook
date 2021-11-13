@@ -46,4 +46,7 @@
     <color name="chipSearchHover">@color/CPD</color>
     <color name="chipText">@color/black</color>
     <color name="searchHint">@color/CP3</color>
+
+    <!-- Settings -->
+    <color name="stItemTV">@color/mrvNotes</color>
 </resources>

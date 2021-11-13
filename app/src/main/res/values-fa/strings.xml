@@ -70,6 +70,10 @@
         <item>سکس مقعدی</item>
         <item>سکس واژنی</item>
     </string-array>
+    <string-array name="calendarTypes">
+        <item>میلادی</item>
+        <item>جلالی</item>
+    </string-array>
 
     <!-- Main -->
     <string name="mrvNotesHint">.....</string>
@@ -80,6 +84,7 @@
     <string name="momRec">اخیریت</string>
     <string name="momImport">وارد کردن از جیسون</string>
     <string name="momExport">استخراج به جیسون</string>
+    <string name="momExportExcel">استخراج به اکسل</string>
     <string name="momSettings">تنظیمات</string>
     <string name="requestFailed">درخواست ناموفق ماند!</string>
     <string name="exportDone">انجام شد!</string>
@@ -89,4 +94,8 @@
     <string name="importReadError">متاسفانه هنگام خواندن فایل خطایی رخ داد!</string>
     <string name="noRecords">شما هیچ چیزی ثبت نکرده اید!</string>
     <string name="findChip">یک کراش انتخاب کنید&#8230;</string>
+
+    <!-- Settings -->
+    <string name="stTitle">تنظیمات سکسبوک</string>
+    <string name="stCalendarType">نوع تقویم</string>
 </resources>
