@@ -14,7 +14,6 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
@@ -25,7 +24,6 @@ import ir.mahdiparastesh.sexbook.Fun.Companion.dm
 import ir.mahdiparastesh.sexbook.Fun.Companion.dp
 import ir.mahdiparastesh.sexbook.Fun.Companion.explode
 import ir.mahdiparastesh.sexbook.Fun.Companion.now
-import ir.mahdiparastesh.sexbook.Fun.Companion.z
 import ir.mahdiparastesh.sexbook.adap.ReportAdap
 import ir.mahdiparastesh.sexbook.adap.ReportAdap.Companion.Sort
 import ir.mahdiparastesh.sexbook.data.Exporter
@@ -35,9 +33,9 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.more.Jalali
 import ir.mahdiparastesh.sexbook.stat.Popularity
+import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.stat.Sum
-import ir.mahdiparastesh.sexbook.stat.Sum.Recency
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
@@ -214,9 +212,10 @@ class Main : AppCompatActivity() {
                 startActivity(Intent(this, Popularity::class.java))
             true; }
         R.id.momRec -> {
+            m.recency.value = Recency(m.summary.value!!)
             if (summarize()) AlertDialog.Builder(this).apply {
                 setTitle(resources.getString(R.string.momRec))
-                setView(recLayout())
+                setView(m.recency.value!!.draw(layoutInflater))
                 setPositiveButton(R.string.ok, null)
                 setCancelable(true)
             }.create().apply {
@@ -366,54 +365,5 @@ class Main : AppCompatActivity() {
             text = getString(R.string.unknown, m.summary.value!!.unknown.toString())
             setTextColor(color(R.color.searchHint))
         })
-    }
-
-    @SuppressLint("InflateParams", "SetTextI18n")
-    fun recLayout() = (layoutInflater.inflate(R.layout.sum, null) as ScrollView).apply {
-        val recency = ArrayList<Recency>()
-        m.summary.value!!.scores.forEach { (name, erections) -> // API 24+: WITHOUT PARENTHESES
-            if (Sum.isUnknown(name)) return@forEach
-            var mostRecent = 0L
-            for (e in erections) if (e.time > mostRecent) mostRecent = e.time
-            recency.add(Recency(name, mostRecent))
-        }
-        recency.sortBy { it.time }
-        recency.reverse()
-
-        val ll = this[0] as LinearLayout
-        (ll[0] as EditText).apply {
-            addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
-                override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
-                override fun afterTextChanged(s: Editable?) {
-                    val ss = s.toString()
-                    for (i in 1 until ll.childCount) (ll[i] as ConstraintLayout).apply {
-                        val tv = this[0] as TextView
-                        val look = tv.text.toString().substring(tv.text.toString().indexOf(".") + 2)
-                        val col = color(
-                            if (ss != "" && look.contains(ss, true))
-                                R.color.recencySearch else R.color.recency
-                        )
-                        tv.setTextColor(col)
-                        (this[1] as TextView).setTextColor(col)
-                    }
-                }
-            })
-        }
-        for (r in 0 until recency.size) ll.addView(
-            (layoutInflater.inflate(R.layout.recency, null) as ConstraintLayout).apply {
-                (this[0] as TextView).text = "${r + 1}. ${recency[r].name}"
-                val lm = Calendar.getInstance().apply { timeInMillis = recency[r].time }
-                if (Fun.calType() == Fun.CalendarType.JALALI) {
-                    val jal = Jalali(lm)
-                    (this[1] as TextView).text =
-                        "${z(jal.Y)}.${z(jal.M + 1)}.${z(jal.D)} - " +
-                                "${z(lm[Calendar.HOUR_OF_DAY])}:${z(lm[Calendar.MINUTE])}"
-                } else (this[1] as TextView).text =
-                    "${z(lm[Calendar.YEAR])}.${z(lm[Calendar.MONTH] + 1)}.${z(lm[Calendar.DAY_OF_MONTH])} - " +
-                            "${z(lm[Calendar.HOUR_OF_DAY])}:${z(lm[Calendar.MINUTE])}"
-                if (r == recency.size - 1) this.removeViewAt(2)
-            }
-        )
     }
 }

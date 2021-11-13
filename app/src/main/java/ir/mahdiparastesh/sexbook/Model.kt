@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Sum
 
 class Model : ViewModel() {
@@ -11,6 +12,7 @@ class Model : ViewModel() {
     val onani: MutableLiveData<ArrayList<Report>?> by lazy { MutableLiveData<ArrayList<Report>?>() }
     val crush: MutableLiveData<String?> by lazy { MutableLiveData<String?>() }
     val summary: MutableLiveData<Sum?> by lazy { MutableLiveData<Sum?>() }
+    val recency: MutableLiveData<Recency?> by lazy { MutableLiveData<Recency?>() }
 
 
     @Suppress("UNCHECKED_CAST")

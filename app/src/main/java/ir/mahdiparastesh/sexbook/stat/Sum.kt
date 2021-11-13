@@ -269,6 +269,4 @@ class Sum(list: List<Report>) {
             }
         }
     }
-
-    data class Recency(val name: String, val time: Long)
 }
