@@ -9,7 +9,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
-import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import java.io.*
 
@@ -58,7 +57,7 @@ class Exporter(that: AppCompatActivity) {
                 Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
                 return@registerForActivityResult
             }
-            Work(c, Main.handler, Work.REPLACE_ALL, imported).start()
+            Work(Work.REPLACE_ALL, imported).start()
         }
 
     companion object {

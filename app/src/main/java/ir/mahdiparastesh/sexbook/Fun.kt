@@ -44,7 +44,7 @@ class Fun {
 
         fun explode(
             c: Context, v: View, dur: Long = 522,
-            src: Int = R.drawable.circle_cp, alpha: Float = 1f, max: Float = 4f
+            src: Int = R.drawable.button_1, alpha: Float = 1f, max: Float = 4f
         ) {
             if (v.parent !is ConstraintLayout) return
             val parent = v.parent as ConstraintLayout

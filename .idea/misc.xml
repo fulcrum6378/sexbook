@@ -9,6 +9,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/box_bg.xml" value="0.240625" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/button_1.xml" value="0.240625" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/circle_cp.xml" value="0.240625" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/overflow.xml" value="0.240625" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/spn_filter.xml" value="0.240625" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout-night/popularity.xml" value="0.1" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout-night/singular.xml" value="0.17527173913043478" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/popularity.xml" value="0.1" />
       </map>
     </option>
   </component>

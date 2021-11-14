@@ -56,7 +56,7 @@ class Main : AppCompatActivity() {
 
         const val workActionTimeout = 5000L
         var dateFont: Typeface? = null
-        var masturbation = ArrayList<Report>()
+        var reports = ArrayList<Report>()
         var filters: ArrayList<Filter>? = null
         var listFilter = 0
     }
@@ -99,27 +99,28 @@ class Main : AppCompatActivity() {
                             explode(c, b.add)
                         }
                     }
-                    Work.INSERT_ONE -> if (msg.obj != null) Work(
-                        c, handler, Work.VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)
-                    ).start()
+                    Work.INSERT_ONE -> if (msg.obj != null)
+                        Work(
+                            Work.VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)
+                        ).start()
                     Work.REPLACE_ALL -> {
                         Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
-                        Work(c, handler, Work.VIEW_ALL).start()
+                        Work(Work.VIEW_ALL).start()
                     }
                     Work.UPDATE_ONE -> {
                         if (m.onani.value != null) {
-                            if (masturbation.contains(m.onani.value!![msg.arg1])) {
-                                val nominalPos = masturbation.indexOf(m.onani.value!![msg.arg1])
-                                masturbation[nominalPos] = m.onani.value!![msg.arg1]
+                            if (reports.contains(m.onani.value!![msg.arg1])) {
+                                val nominalPos = reports.indexOf(m.onani.value!![msg.arg1])
+                                reports[nominalPos] = m.onani.value!![msg.arg1]
                                 if (msg.arg2 == 0) adapter?.notifyItemChanged(nominalPos)
                             }
                             if (msg.arg2 == 0) resetAllMasturbations()
                         }
                     }
                     Work.DELETE_ONE -> if (m.onani.value != null) {
-                        if (masturbation.contains(m.onani.value!![msg.arg1])) {
-                            val nominalPos = masturbation.indexOf(m.onani.value!![msg.arg1])
-                            masturbation.remove(m.onani.value!![msg.arg1])
+                        if (reports.contains(m.onani.value!![msg.arg1])) {
+                            val nominalPos = reports.indexOf(m.onani.value!![msg.arg1])
+                            reports.remove(m.onani.value!![msg.arg1])
                             m.onani.value!!.remove(m.onani.value!![msg.arg1])
                             filters?.let {
                                 if (it.size > listFilter) it[listFilter].items =
@@ -139,14 +140,14 @@ class Main : AppCompatActivity() {
             if (adding) return@setOnClickListener
             if (filters != null) filterList(filters!!.size - 1)
             adding = true
-            Work(c, handler, Work.INSERT_ONE, listOf(Report(now(), "", 1, ""))).start()
+            Work(Work.INSERT_ONE, listOf(Report(now(), "", 1, ""))).start()
             object : CountDownTimer(workActionTimeout, workActionTimeout) {
                 override fun onTick(p0: Long) {}
                 override fun onFinish() {
                     adding = false; }
             }
         }
-        Work(c, handler, Work.VIEW_ALL).start()
+        Work(Work.VIEW_ALL).start()
 
         // Lists' Filtering
         b.spnFilterMark.setColorFilter(color(R.color.spnFilterMark))
@@ -256,7 +257,10 @@ class Main : AppCompatActivity() {
         Collections.sort(m.onani.value!!, Sort())
         filters = filter(m.onani.value!!)
         val maxPage = filters!!.size - 1
-        filterList(if (!filteredOnce || listFilter > maxPage) maxPage else listFilter)
+        filterList(
+            if (filters!!.size > 0 && (!filteredOnce || listFilter > maxPage))
+                maxPage else listFilter
+        )
         if (filters != null) {
             val titles = ArrayList<String>().apply {
                 for (f in filters!!.indices) add(filters!![f].title(c))
@@ -289,16 +293,17 @@ class Main : AppCompatActivity() {
 
     fun filterList(i: Int = listFilter) {
         if (m.onani.value == null) {
-            masturbation.clear(); return; }
+            reports.clear(); return; }
         listFilter = i
-        masturbation.clear()
-        if (filters == null) for (o in m.onani.value!!) masturbation.add(o)
+        reports.clear()
+        if (filters == null) for (o in m.onani.value!!) reports.add(o)
         else if (!filters.isNullOrEmpty())
             for (o in filters!![listFilter].items)
                 if (m.onani.value!!.size > o)
-                    masturbation.add(m.onani.value!![o])
+                    reports.add(m.onani.value!![o])
         if (adapter == null) {
-            adapter = ReportAdap(c, masturbation, this, m.onani.value)
+            summarize()
+            adapter = ReportAdap(reports, this, m)
             b.rv.adapter = adapter
         } else adapter!!.notifyDataSetChanged()
     }

@@ -14,14 +14,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:background="@drawable/clock_bg_1"
+        android:background="@drawable/clock_bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/clock_hand_1"
+            android:background="@drawable/clock_hand"
             app:layout_constraintHeight_percent="0.27"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -30,7 +30,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/clock_hand_1"
+            android:background="@drawable/clock_hand"
             app:layout_constraintHeight_percent="0.4"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -40,7 +40,7 @@
             style="@style/parentConstraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/clock_point_1"
+            android:background="@drawable/clock_point"
             app:layout_constraintHeight_percent="0.13"
             app:layout_constraintWidth_percent="0.13" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -62,7 +62,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <AutoCompleteTextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/tp"

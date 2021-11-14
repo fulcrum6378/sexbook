@@ -18,6 +18,7 @@ class Settings : AppCompatActivity() {
     private lateinit var m: Model
     private lateinit var tbTitle: TextView
     private lateinit var calendarTypes: Array<String>
+    private var changed = false
 
     companion object {
         const val spCalType = "calendarType"
@@ -45,25 +46,23 @@ class Settings : AppCompatActivity() {
         calendarTypes = resources.getStringArray(R.array.calendarTypes)
         b.stCalendarType.adapter = ArrayAdapter(c, R.layout.spinner_1, calendarTypes)
             .apply { setDropDownViewResource(R.layout.spinner_1_dd) }
+        b.stCalendarType.setSelection(sp.getInt(spCalType, 0))
         b.stCalendarType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-            override fun onItemSelected(
-                adapterView: AdapterView<*>?,
-                view: View?,
-                i: Int,
-                l: Long
-            ) {
+            override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
+                changed = true
                 sp.edit().apply {
                     putInt(spCalType, i)
                     apply()
                 }
             }
         }
-        b.stCalendarType.setSelection(sp.getInt(spCalType, 0))
     }
 
     override fun onBackPressed() {
-        finish()
-        startActivity(Intent(this, Main::class.java))
+        if (changed) {
+            finish()
+            startActivity(Intent(this, Main::class.java))
+        } else super.onBackPressed()
     }
 }

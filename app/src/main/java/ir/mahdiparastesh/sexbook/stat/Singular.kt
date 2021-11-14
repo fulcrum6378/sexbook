@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Bundle
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.anychart.AnyChart
@@ -14,7 +15,9 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.adap.ReportAdap
 import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 import ir.mahdiparastesh.sexbook.more.Jalali
 import java.util.*
@@ -31,6 +34,7 @@ class Singular : AppCompatActivity() {
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
         Fun.init(this)
+        if (Fun.night) window.decorView.setBackgroundColor(Fun.color(R.color.CP))
 
         if (m.onani.value == null || m.summary.value == null || m.crush.value == null) {
             onBackPressed(); return; }
@@ -56,6 +60,18 @@ class Singular : AppCompatActivity() {
             interactivity().hoverMode(HoverMode.BY_X)
             background(if (Fun.night) "#3A3A3A" else "#FFFFFF")
             b.main.setChart(this)
+        }
+
+        // Overflow
+        b.overflow.setOnClickListener { v ->
+            /*var popup = PopupMenu(c, v)
+            popup.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    else -> false
+                }
+            }
+            popup.inflate(R.menu.singular_overflow)
+            popup.show()*/
         }
     }
 

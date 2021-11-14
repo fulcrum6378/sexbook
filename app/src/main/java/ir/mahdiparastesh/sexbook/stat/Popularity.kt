@@ -11,6 +11,7 @@ import com.anychart.enums.*
 import com.anychart.graphics.vector.Stroke
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Model
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.PopularityBinding
 import kotlin.Comparator
 import kotlin.collections.ArrayList
@@ -25,6 +26,7 @@ class Popularity : AppCompatActivity() {
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
         Fun.init(this)
+        if (Fun.night) window.decorView.setBackgroundColor(Fun.color(R.color.CP))
 
         if (m.onani.value == null || m.summary.value == null) {
             onBackPressed(); return; }

@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook.adap
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Typeface
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,7 +15,6 @@ import ir.mahdiparastesh.sexbook.Fun.Companion.color
 import ir.mahdiparastesh.sexbook.Fun.Companion.dp
 import ir.mahdiparastesh.sexbook.Fun.Companion.night
 import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.Main.Companion.handler
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
@@ -26,12 +24,18 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.calType
 import ir.mahdiparastesh.sexbook.more.Jalali
 import java.util.*
+import android.widget.AutoCompleteTextView
+
+import android.widget.ArrayAdapter
+import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.Model
+import kotlin.collections.ArrayList
 
 class ReportAdap(
-    val c: Context,
     val list: List<Report>,
     val that: AppCompatActivity,
-    val allMasturbation: ArrayList<Report>?
+    val m: Model,
+    val allMasturbation: ArrayList<Report>? = m.onani.value
 ) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
     var clockHeight = dp(48)
@@ -48,7 +52,7 @@ class ReportAdap(
         val point = clock.getChildAt(pointPos) as View
         val ampm = l.getChildAt(ampmPos) as TextView
         val date = l.getChildAt(datePos) as TextView
-        val name = l.getChildAt(namePos) as EditText
+        val name = l.getChildAt(namePos) as AutoCompleteTextView
         val type = l.getChildAt(typePos) as Spinner
 
         // IDs
@@ -110,7 +114,7 @@ class ReportAdap(
         //val point = clock.getChildAt(pointPos) as View
         val ampm = h.l.getChildAt(ampmPos) as TextView
         val date = h.l.getChildAt(datePos) as TextView
-        val name = h.l.getChildAt(namePos) as EditText
+        val name = h.l.getChildAt(namePos) as AutoCompleteTextView
         val type = h.l.getChildAt(typePos) as Spinner
 
         // Date & Time
@@ -118,7 +122,7 @@ class ReportAdap(
         cal.timeInMillis = list[i].time
         clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
         clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
-        date.text = compileDate(c, list[i].time)
+        date.text = compileDate(list[i].time)
         clock.setOnClickListener {
             TimePickerDialog.newInstance(
                 this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], false
@@ -148,11 +152,15 @@ class ReportAdap(
 
         // Name
         name.setText(list[i].name)
+        var crushes = arrayListOf<String>()
+        if (m.summary.value != null)
+            crushes = ArrayList(m.summary.value!!.scores.keys)
+        name.setAdapter(ArrayAdapter(that, android.R.layout.simple_dropdown_item_1line, crushes))
         name.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
+            override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                saveET(c, name, allPos(h, list, allMasturbation), allMasturbation)
+                saveET(name, allPos(h, list, allMasturbation), allMasturbation)
             }
         })
 
@@ -166,7 +174,7 @@ class ReportAdap(
                 if (allMasturbation.size <= pos || pos < 0) return
                 if (allMasturbation[pos].type == i.toByte()) return
                 allMasturbation[pos].type = i.toByte()
-                Work(c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 1)).start()
+                Work(Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 1)).start()
             }
         }
 
@@ -182,9 +190,7 @@ class ReportAdap(
                     R.id.lcDelete -> {
                         if (allMasturbation == null) return@setOnMenuItemClickListener true
                         val aPos = allPos(h, list, allMasturbation)
-                        Work(
-                            c, handler, Work.DELETE_ONE, listOf(allMasturbation[aPos], aPos)
-                        ).start()
+                        Work(Work.DELETE_ONE, listOf(allMasturbation[aPos], aPos)).start()
                         true
                     }
                     else -> false
@@ -214,9 +220,7 @@ class ReportAdap(
                 calc[Calendar.MONTH] = monthOfYear
                 calc[Calendar.DAY_OF_MONTH] = dayOfMonth
                 allMasturbation[pos].time = calc.timeInMillis
-                Work(
-                    c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)
-                ).start()
+                Work(Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)).start()
             }
         }
     }
@@ -233,9 +237,7 @@ class ReportAdap(
                 calc[Calendar.MINUTE] = minute
                 calc[Calendar.SECOND] = second
                 allMasturbation[pos].time = calc.timeInMillis
-                Work(
-                    c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)
-                ).start()
+                Work(Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)).start()
             }
         }
     }
@@ -250,7 +252,7 @@ class ReportAdap(
         const val namePos = 3
         const val typePos = 4
 
-        fun compileDate(c: Context, time: Long): String {
+        fun compileDate(time: Long): String {
             val lm = Calendar.getInstance().apply { timeInMillis = time }
             if (calType() == Fun.CalendarType.JALALI) {
                 val jal = Jalali(lm)
@@ -270,12 +272,12 @@ class ReportAdap(
 
         fun rotateMin(m: Int) = m * 6f
 
-        fun saveET(c: Context, et: EditText, pos: Int, allMasturbation: ArrayList<Report>?) {
+        fun saveET(et: EditText, pos: Int, allMasturbation: ArrayList<Report>?) {
             if (allMasturbation == null) return
             if (allMasturbation.size <= pos || pos < 0) return
             if (allMasturbation[pos].name == et.text.toString()) return
             allMasturbation[pos].name = et.text.toString()
-            Work(c, handler, Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 1)).start()
+            Work(Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 1)).start()
         }
 
         fun allPos(
