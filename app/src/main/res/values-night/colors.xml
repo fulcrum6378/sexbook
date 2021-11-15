@@ -36,4 +36,5 @@
     <color name="chipSearchHover">@color/CPD</color>
     <color name="chipText">@color/white</color>
     <color name="searchHint">#AAFFFFFF</color>
+    <color name="empty">@color/searchHint</color>
 </resources>

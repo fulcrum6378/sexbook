@@ -33,7 +33,7 @@ class Popularity : AppCompatActivity() {
         val stb = Singular.sinceTheBeginning(m.onani.value!!)
         var stars = ArrayList<Star>()
         for (x in m.summary.value!!.scores) {
-            if (Sum.isUnknown(x.key)) continue
+            if (Summary.isUnknown(x.key)) continue
             val scores = ArrayList<Float>()
             for (month in stb)
                 scores.add(Singular.calcHistory(x.value, month))

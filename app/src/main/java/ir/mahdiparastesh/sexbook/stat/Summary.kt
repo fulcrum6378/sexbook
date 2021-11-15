@@ -8,7 +8,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 @Suppress("SameParameterValue")
-class Sum(list: List<Report>) {
+class Summary(list: List<Report>) {
     var scores: HashMap<String, ArrayList<Erection>>
     var unknown = 0f
 

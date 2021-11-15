@@ -43,8 +43,8 @@ class Fun {
         fun now() = Calendar.getInstance().timeInMillis
 
         fun explode(
-            c: Context, v: View, dur: Long = 522,
-            src: Int = R.drawable.button_1, alpha: Float = 1f, max: Float = 4f
+            v: View, dur: Long = 522, src: Int = R.drawable.button_1,
+            alpha: Float = 1f, max: Float = 4f
         ) {
             if (v.parent !is ConstraintLayout) return
             val parent = v.parent as ConstraintLayout
@@ -80,7 +80,7 @@ class Fun {
 
         fun color(res: Int) = ContextCompat.getColor(c, res)
 
-        fun pdcf(c: Context, res: Int = R.color.CPDD) =
+        fun pdcf(res: Int = R.color.CPDD) =
             PorterDuffColorFilter(ContextCompat.getColor(c, res), PorterDuff.Mode.SRC_IN)
 
         fun fixADButton(button: Button) = button.apply {
@@ -94,6 +94,11 @@ class Fun {
         }
 
         fun calType() = CalendarType.values()[sp.getInt(Settings.spCalType, 0)]
+
+        fun vis(v: View, b: Boolean = true): Boolean {
+            v.visibility = if (b) View.VISIBLE else View.GONE
+            return b
+        }
     }
 
     enum class CalendarType { GREGORY, JALALI }

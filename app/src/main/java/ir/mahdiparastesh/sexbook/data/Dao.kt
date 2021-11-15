@@ -29,5 +29,24 @@ interface Dao {
 
 
     // Crush
+    @Query("SELECT * FROM crush WHERE key LIKE :key LIMIT 1")
+    fun cGet(key: String): Crush
 
+    @Query("SELECT * FROM crush")
+    fun cGetAll(): List<Crush>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun cReplaceAll(list: List<Crush>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun cInsert(item: Crush): Long
+
+    @Update
+    fun cUpdate(item: Crush)
+
+    @Delete
+    fun cDelete(item: Crush)
+
+    @Delete
+    fun cDeleteAll(item: List<Crush>)
 }

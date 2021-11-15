@@ -16,12 +16,12 @@ import ir.mahdiparastesh.sexbook.more.Jalali
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Recency(sum: Sum) {
+class Recency(sum: Summary) {
     var res: ArrayList<Item> = ArrayList()
 
     init {
         sum.scores.forEach { (name, erections) ->
-            if (Sum.isUnknown(name)) return@forEach
+            if (Summary.isUnknown(name)) return@forEach
             var mostRecent = 0L
             for (e in erections) if (e.time > mostRecent) mostRecent = e.time
             res.add(Item(name, mostRecent))

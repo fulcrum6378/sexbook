@@ -32,7 +32,7 @@ import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.stat.Popularity
 import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Singular
-import ir.mahdiparastesh.sexbook.stat.Sum
+import ir.mahdiparastesh.sexbook.stat.Summary
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -46,7 +46,6 @@ class Main : AppCompatActivity() {
     private lateinit var toggleNav: ActionBarDrawerToggle
 
     companion object {
-        const val workActionTimeout = 5000L
         var dateFont: Typeface? = null
     }
 
@@ -63,7 +62,7 @@ class Main : AppCompatActivity() {
 
         // Loading
         if (m.loaded.value!!) b.body.removeView(b.load) // its direct parent not "b.root"
-        else if (Fun.night) pdcf(c).apply { b.loadIV.colorFilter = this }
+        else if (Fun.night) pdcf().apply { b.loadIV.colorFilter = this }
 
         // Toolbar
         setSupportActionBar(b.toolbar)
@@ -83,7 +82,7 @@ class Main : AppCompatActivity() {
             isDrawerIndicatorEnabled = true
             syncState()
         }
-        b.toolbar.navigationIcon?.apply { colorFilter = pdcf(c) }
+        b.toolbar.navigationIcon?.apply { colorFilter = pdcf() }
         b.nav.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.momSum -> {
@@ -174,7 +173,7 @@ class Main : AppCompatActivity() {
     }
 
     fun summarize(): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
-        m.summary.value = Sum(m.onani.value!!); true
+        m.summary.value = Summary(m.onani.value!!); true
     } else false
 
     @SuppressLint("InflateParams")

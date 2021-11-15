@@ -12,6 +12,7 @@ import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.Fun.Companion.night
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
@@ -31,7 +32,6 @@ class Singular : AppCompatActivity() {
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
         Fun.init(this)
-        if (Fun.night) window.decorView.setBackgroundColor(Fun.color(R.color.CP))
 
         if (m.onani.value == null || m.summary.value == null || m.crush.value == null) {
             onBackPressed(); return; }
@@ -55,9 +55,18 @@ class Singular : AppCompatActivity() {
             yAxis(0).labels().format("{%Value}{groupsSeparator: }")
             tooltip().positionMode(TooltipPositionMode.POINT)
             interactivity().hoverMode(HoverMode.BY_X)
-            background(if (Fun.night) "#3A3A3A" else "#FFFFFF")
+            background(if (night) "#3A3A3A" else "#FFFFFF")
             b.main.setChart(this)
         }
+
+        // Night Mode
+        if (night) {
+            window.decorView.setBackgroundColor(Fun.color(R.color.CP))
+            b.registerIV.colorFilter = Fun.pdcf(R.color.CP)
+        }
+
+        // Registration
+        b.register.setOnClickListener { }
     }
 
     companion object {
@@ -95,7 +104,7 @@ class Singular : AppCompatActivity() {
             return list.toList()
         }
 
-        fun calcHistory(list: ArrayList<Sum.Erection>, month: String): Float {
+        fun calcHistory(list: ArrayList<Summary.Erection>, month: String): Float {
             var value = 0f
             val split = month.split(" ")
             val months = c.resources.getStringArray(

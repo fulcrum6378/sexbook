@@ -97,6 +97,7 @@
     <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
     <string name="noRecords">You have no records yet!</string>
     <string name="findChip">Find a crush&#8230;</string>
+    <string name="emptyLove">After adding some sex records, go to Navigation Menu -> Summary -> Select a crush and hit \"Tell Me More\".</string>
 
     <!-- Settings -->
     <string name="stSP" tools:ignore="MissingTranslation">ir.mahdiparastesh.sexbook.settings</string>

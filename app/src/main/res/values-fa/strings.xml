@@ -96,6 +96,7 @@
     <string name="importReadError">متاسفانه هنگام خواندن فایل خطایی رخ داد!</string>
     <string name="noRecords">شما هیچ چیزی ثبت نکرده اید!</string>
     <string name="findChip">یک کراش انتخاب کنید&#8230;</string>
+    <string name="emptyLove">After adding some sex records, go to Navigation Menu -> Summary -> Select a crush and hit "Tell Me More".</string>
 
     <!-- Settings -->
     <string name="stTitle">تنظیمات سکسبوک</string>

@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.adap
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,10 +26,11 @@ class TypeAdap : ArrayAdapter<TypeAdap.Type>(c, 0, types) {
         )
     }
 
+    @SuppressLint("ViewHolder")
     override fun getView(i: Int, convertView: View?, parent: ViewGroup): View =
         (inf.inflate(R.layout.type_selector, parent, false) as ImageView).apply {
             setImageResource(types[i].icon)
-            colorFilter = pdcf(c, R.color.mrvNotes)
+            colorFilter = pdcf(R.color.mrvNotes)
         }
 
     override fun getDropDownView(i: Int, convertView: View?, parent: ViewGroup): View =
@@ -37,7 +39,7 @@ class TypeAdap : ArrayAdapter<TypeAdap.Type>(c, 0, types) {
             val name = this[1] as TextView
 
             icon.setImageResource(types[i].icon)
-            icon.colorFilter = pdcf(c, R.color.mrvNotes)
+            icon.colorFilter = pdcf(R.color.mrvNotes)
             name.text = types[i].name
         }
 

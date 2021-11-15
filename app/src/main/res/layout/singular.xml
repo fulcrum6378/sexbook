@@ -5,30 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".stat.Singular"
-    tools:ignore="MissingConstraints">
+    tools:ignore="MissingConstraints,ContentDescription">
 
     <com.anychart.AnyChartView
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="20dp" />
+        android:layout_margin="20dp" />
 
-    <!--<androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/overflow"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/register"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_margin="15dp"
-        android:background="@drawable/button_1"
+        android:layout_margin="18dp"
+        android:background="@drawable/button_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/registerIV"
             style="@style/parentConstraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/overflow"
-            app:layout_constraintHeight_percent="0.65"
-            app:layout_constraintWidth_percent="0.65" />
-    </androidx.constraintlayout.widget.ConstraintLayout>-->
+            android:src="@drawable/default_user_person_1"
+            app:layout_constraintHeight_percent="0.6"
+            app:layout_constraintWidth_percent="0.6" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,7 +53,7 @@ class PageSex(val that: Main) : Fragment() {
                             m.onani.value!!.add(msg.obj as Report)
                             resetAllMasturbations()
                             adding = false
-                            Fun.explode(c, b.add)
+                            Fun.explode(b.add)
                         }
                     }
                     Work.INSERT_ONE -> if (msg.obj != null)
@@ -90,7 +90,7 @@ class PageSex(val that: Main) : Fragment() {
             }
         }
 
-        // Lists' Filtering
+        // Filter
         b.spnFilterMark.setColorFilter(Fun.color(R.color.spnFilterMark))
         b.spnFilter.setOnTouchListener { _, _ -> spnFilterTouched = true; false }
         b.spnFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -100,23 +100,21 @@ class PageSex(val that: Main) : Fragment() {
             }
         }
 
-        // List
+        // Add
+        if (Fun.night) Fun.pdcf().apply { b.addIV.colorFilter = this }
         b.add.setOnClickListener {
             if (adding) return@setOnClickListener
             if (filters != null) filterList(filters!!.size - 1)
             adding = true
             Work(Work.INSERT_ONE, listOf(Report(Fun.now(), "", 1, ""))).start()
-            object : CountDownTimer(Main.workActionTimeout, Main.workActionTimeout) {
+            object : CountDownTimer(Work.TIMEOUT, Work.TIMEOUT) {
                 override fun onTick(p0: Long) {}
                 override fun onFinish() {
                     adding = false; }
             }
         }
+
         Work(Work.VIEW_ALL).start()
-
-        // Night Mode
-        if (Fun.night) Fun.pdcf(c).apply { b.addIV.colorFilter = this }
-
         return b.root
     }
 

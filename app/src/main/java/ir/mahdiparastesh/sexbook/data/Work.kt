@@ -3,15 +3,16 @@ package ir.mahdiparastesh.sexbook.data
 import android.os.Handler
 import androidx.room.Room
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.PageSex
 
-@Suppress("UNCHECKED_CAST")
 class Work(
     val action: Int,
     val values: List<Any>? = null,
-    val handler: Handler = PageSex.handler
+    val handler: Handler = if (action < 10) PageSex.handler else PageLove.handler
 ) : Thread() {
     companion object {
+        // Report
         const val VIEW_ONE = 0
         const val VIEW_ALL = 1
         const val INSERT_ONE = 2
@@ -20,10 +21,22 @@ class Work(
         const val DELETE_ONE = 5
         const val SCROLL = 6
 
+        // Crush
+        const val C_VIEW_ONE = 10
+        const val C_VIEW_ALL = 11
+        const val C_INSERT_ONE = 12
+        const val C_REPLACE_ALL = 13
+        const val C_UPDATE_ONE = 14
+        const val C_DELETE_ONE = 15
+
         // PURPOSES
         const val ADD_NEW_ITEM = 0
+
+        // Other
+        const val TIMEOUT = 5000L
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun run() {
         var db = Room.databaseBuilder(c, Database::class.java, "sexbook").build()
         var dao = db.dao()
@@ -68,6 +81,7 @@ class Work(
 
 
             // Crush
+            C_VIEW_ALL -> handler.obtainMessage(action, dao.cGetAll()).sendToTarget()
         }
         db.close()
     }
