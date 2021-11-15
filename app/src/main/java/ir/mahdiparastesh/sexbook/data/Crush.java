@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.data;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -19,11 +20,12 @@ public class Crush {
     public boolean masculine;
     @ColumnInfo(name = "height")
     public short height;
+    @Nullable
     @ColumnInfo(name = "instagram")
     public String instagram;
 
     public Crush(@NonNull String key, String fName, String lName, boolean masculine, short height,
-                 String instagram) {
+                 @Nullable String instagram) {
         this.key = key;
         this.fName = fName;
         this.lName = lName;

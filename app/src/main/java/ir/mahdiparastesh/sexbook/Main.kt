@@ -94,7 +94,7 @@ class Main : AppCompatActivity() {
                     }.create().apply {
                         show()
                         Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                    };true; }
+                    }; true; }
                 R.id.momPop -> {
                     if (summarize())
                         startActivity(Intent(this, Popularity::class.java))

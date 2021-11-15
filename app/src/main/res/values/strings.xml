@@ -64,6 +64,7 @@
     <string name="AM">AM</string>
     <string name="PM">PM</string>
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="unknown">Plus %1$s from unknown people.</string>
     <string-array name="types">
         <item>Wet Dream</item>
@@ -97,10 +98,18 @@
     <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
     <string name="noRecords">You have no records yet!</string>
     <string name="findChip">Find a crush&#8230;</string>
-    <string name="emptyLove">After adding some sex records, go to Navigation Menu -> Summary -> Select a crush and hit \"Tell Me More\".</string>
+    <string name="emptyLove">After adding some sex records, go to Navigation Menu -> Summary -> Select a crush -> Hit the top right button with a \"Person\" (Identification) icon.</string>
+
+    <!-- Singular -->
+    <string name="identify">Identification</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="masculine">Masculine</string>
+    <string name="height">Height (cm)</string>
+    <string name="instagram">Instagram</string>
 
     <!-- Settings -->
-    <string name="stSP" tools:ignore="MissingTranslation">ir.mahdiparastesh.sexbook.settings</string>
+    <string name="stSP" tools:ignore="MissingTranslation">ir.mahdiparastesh.sexbook.Settings</string>
     <string name="stTitle">Sexbook Settings</string>
     <string name="stCalendarType">Calendar Type</string>
 </resources>

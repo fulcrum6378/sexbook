@@ -64,6 +64,7 @@
     <string name="AM">ق.ظ.</string>
     <string name="PM">ب.ظ.</string>
     <string name="ok">باشه</string>
+    <string name="cancel">لغو</string>
     <string name="unknown">بعلاوه %1$s مورد از افراد ناشناس!</string>
     <string-array name="types">
         <item>احتلام</item>
@@ -81,7 +82,7 @@
     <string name="mrvNotesHint">.....</string>
     <string name="lcDescriptions">توضیحات</string>
     <string name="lcDelete">حذف</string>
-    <string name="momSum">جمع کل</string>
+    <string name="momSum">خلاصه</string>
     <string name="momPop">محبوبیت</string>
     <string name="momRec">اخیریت</string>
     <string name="momImport">وارد کردن از جیسون</string>
@@ -96,7 +97,15 @@
     <string name="importReadError">متاسفانه هنگام خواندن فایل خطایی رخ داد!</string>
     <string name="noRecords">شما هیچ چیزی ثبت نکرده اید!</string>
     <string name="findChip">یک کراش انتخاب کنید&#8230;</string>
-    <string name="emptyLove">After adding some sex records, go to Navigation Menu -> Summary -> Select a crush and hit "Tell Me More".</string>
+    <string name="emptyLove">بعد از اضافه کردن چند رکورد سکس، بروید به منوی اصلی -> خلاصه -> یک کراش انتخاب کنید -> دکمه «دارای عکس آدمک» (شناسایی) را بزنید.</string>
+
+    <!-- Singular -->
+    <string name="identify">شناسایی</string>
+    <string name="firstName">نام</string>
+    <string name="lastName">نام خانوادگی</string>
+    <string name="masculine">مذکر؟</string>
+    <string name="height">قد (سانت)</string>
+    <string name="instagram">اینستاگرام</string>
 
     <!-- Settings -->
     <string name="stTitle">تنظیمات سکسبوک</string>
