@@ -196,7 +196,7 @@ class ReportAdap(
                     else -> false
                 }
             }
-            popup.inflate(R.menu.longclick)
+            popup.inflate(R.menu.sex_longclick)
             popup.show()
             true
         }

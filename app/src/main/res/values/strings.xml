@@ -2,6 +2,8 @@
     <string name="app_name">Sexbook</string>
 
     <!-- Global -->
+    <string name="navOpen">Open</string>
+    <string name="navClose">Close</string>
     <string name="toExit">Double tap to exit&#8230;</string>
     <string-array name="months">
         <item>Jan</item>

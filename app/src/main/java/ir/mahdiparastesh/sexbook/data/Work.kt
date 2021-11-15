@@ -3,13 +3,13 @@ package ir.mahdiparastesh.sexbook.data
 import android.os.Handler
 import androidx.room.Room
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
-import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.PageSex
 
 @Suppress("UNCHECKED_CAST")
 class Work(
     val action: Int,
     val values: List<Any>? = null,
-    val handler: Handler = Main.handler
+    val handler: Handler = PageSex.handler
 ) : Thread() {
     companion object {
         const val VIEW_ONE = 0

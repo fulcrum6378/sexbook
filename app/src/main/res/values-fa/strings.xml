@@ -2,6 +2,8 @@
     <string name="app_name">سکسبوک</string>
 
     <!-- Global -->
+    <string name="navOpen">بازکردن</string>
+    <string name="navClose">بستن</string>
     <string name="toExit">برای خروج دوباره ضربه بزنید&#8230;</string>
     <string-array name="months">
         <item>ژان</item>

@@ -11,9 +11,7 @@
     <color name="toolbar">@color/CP</color>
     <color name="tbTitle">@color/CPDD</color>
     <color name="load">@color/CP</color>
-    <color name="mrvBG1">@color/CP</color>
-    <color name="mrvBG2">@color/CP</color>
-    <color name="mrvBG3">@color/CP</color>
+    <color name="mrvBG">@color/CP</color>
     <color name="mrvDate">@color/CPDD</color>
     <color name="mrvNotes">@color/CPDD</color>
     <color name="mrvNotesHint">@color/CPDD</color>
