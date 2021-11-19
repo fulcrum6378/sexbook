@@ -45,7 +45,7 @@ class ReportAdap(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         var l = LayoutInflater.from(parent.context)
-            .inflate(R.layout.report, parent, false) as ConstraintLayout
+            .inflate(R.layout.item_report, parent, false) as ConstraintLayout
         val clock = l.getChildAt(clockPos) as ConstraintLayout
         val clockHour = clock.getChildAt(clockHourPos) as View
         val clockMin = clock.getChildAt(clockMinPos) as View

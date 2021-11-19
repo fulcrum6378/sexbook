@@ -18,19 +18,44 @@ public class Crush {
     public String lName;
     @ColumnInfo(name = "masculine")
     public boolean masculine;
+    @ColumnInfo(name = "real")
+    public boolean real;
     @ColumnInfo(name = "height")
     public short height;
+    @ColumnInfo(name = "birth_year")
+    public short birthYear;
+    @ColumnInfo(name = "birth_month")
+    public byte birthMonth;
+    @ColumnInfo(name = "birth_day")
+    public byte birthDay;
+    @Nullable
+    @ColumnInfo(name = "location")
+    public String location;
     @Nullable
     @ColumnInfo(name = "instagram")
     public String instagram;
+    @Nullable
+    @ColumnInfo(name = "contact_id")
+    public String contactId;
+    @ColumnInfo(name = "notify_birth")
+    public boolean notifyBirth;
 
-    public Crush(@NonNull String key, String fName, String lName, boolean masculine, short height,
-                 @Nullable String instagram) {
+    public Crush(@NonNull String key, String fName, String lName, boolean masculine, boolean real,
+                 short height, short birthYear, byte birthMonth, byte birthDay,
+                 @Nullable String location, @Nullable String instagram, @Nullable String contactId,
+                 boolean notifyBirth) {
         this.key = key;
         this.fName = fName;
         this.lName = lName;
         this.masculine = masculine;
+        this.real = real;
         this.height = height;
+        this.birthYear = birthYear;
+        this.birthMonth = birthMonth;
+        this.birthDay = birthDay;
+        this.location = location;
         this.instagram = instagram;
+        this.contactId = contactId;
+        this.notifyBirth = notifyBirth;
     }
 }

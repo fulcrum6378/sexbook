@@ -11,6 +11,7 @@
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/box_bg.xml" value="0.240625" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/button_1.xml" value="0.240625" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/button_2.xml" value="0.240625" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/button_3.xml" value="0.240625" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/circle_cp.xml" value="0.240625" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/default_contact_1.xml" value="0.240625" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/overflow.xml" value="0.240625" />
@@ -21,9 +22,11 @@
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout-night/singular.xml" value="0.17527173913043478" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/crush.xml" value="0.16530797101449277" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/identify.xml" value="0.16530797101449277" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/item_crush.xml" value="0.16802536231884058" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/page_love.xml" value="0.17028985507246377" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/page_sex.xml" value="0.17028985507246377" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/popularity.xml" value="0.1" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/recency.xml" value="0.16802536231884058" />
       </map>
     </option>
   </component>

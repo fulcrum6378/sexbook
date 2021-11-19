@@ -47,6 +47,9 @@
     <color name="searchHint">@color/CP3</color>
     <color name="empty">@color/shadow_1</color>
 
+    <!-- Singular-->
+    <color name="dateButtonStroke">@color/CA</color>
+
     <!-- Settings -->
     <color name="stItemTV">@color/mrvNotes</color>
 </resources>

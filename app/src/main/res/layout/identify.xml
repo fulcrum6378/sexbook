@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingVertical="20dp"
     tools:ignore="Autofill">
 
     <LinearLayout
@@ -28,7 +29,15 @@
             style="@style/identifyField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/masculine" />
+            android:checked="true"
+            android:text="@string/masculine" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            style="@style/identifyField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/real" />
 
         <EditText
             style="@style/identifyET"
@@ -37,11 +46,30 @@
             android:maxLength="3"
             android:maxLines="1" />
 
+        <TextView
+            style="@style/identifyDate"
+            android:text="@string/birth"
+            android:textAlignment="center" />
+
+        <EditText
+            style="@style/identifyET"
+            android:hint="@string/location"
+            android:inputType="text"
+            android:maxLength="100"
+            android:maxLines="4" />
+
         <EditText
             style="@style/identifyET"
             android:hint="@string/instagram"
             android:inputType="textUri"
             android:maxLength="100"
             android:maxLines="1" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            style="@style/identifyField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/notifyBirth" />
     </LinearLayout>
 </ScrollView>

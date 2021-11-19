@@ -53,6 +53,11 @@
         <item name="android:paddingVertical">20dp</item>
     </style>
 
+    <style name="identifyDate" parent="identifyField">
+        <item name="android:paddingVertical">15dp</item>
+        <item name="android:background">@drawable/button_3</item>
+    </style>
+
     <!-- Settings -->
     <style name="stItem">
         <item name="android:layout_width">match_parent</item>

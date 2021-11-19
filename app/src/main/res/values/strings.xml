@@ -105,8 +105,12 @@
     <string name="firstName">First Name</string>
     <string name="lastName">Last Name</string>
     <string name="masculine">Masculine</string>
+    <string name="real">Real Person</string>
     <string name="height">Height (cm)</string>
+    <string name="birth">Birth Date</string>
+    <string name="location">Location</string>
     <string name="instagram">Instagram</string>
+    <string name="notifyBirth">Notify me in their birthday</string>
 
     <!-- Settings -->
     <string name="stSP" tools:ignore="MissingTranslation">ir.mahdiparastesh.sexbook.Settings</string>

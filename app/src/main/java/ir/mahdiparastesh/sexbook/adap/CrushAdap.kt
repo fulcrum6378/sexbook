@@ -15,7 +15,7 @@ class CrushAdap(val list: List<Crush>, val that: AppCompatActivity, val m: Model
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         var l = LayoutInflater.from(parent.context)
-            .inflate(R.layout.crush, parent, false) as ConstraintLayout
+            .inflate(R.layout.item_crush, parent, false) as ConstraintLayout
         return MyViewHolder(l)
     }
 

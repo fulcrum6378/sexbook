@@ -104,8 +104,12 @@
     <string name="firstName">نام</string>
     <string name="lastName">نام خانوادگی</string>
     <string name="masculine">مذکر؟</string>
+    <string name="real">شخص واقعی؟</string>
     <string name="height">قد (سانت)</string>
+    <string name="birth">تاریخ تولد</string>
+    <string name="location">محل زندگی</string>
     <string name="instagram">اینستاگرام</string>
+    <string name="notifyBirth">منو تو روز تولدش خبر کن</string>
 
     <!-- Settings -->
     <string name="stTitle">تنظیمات سکسبوک</string>

@@ -82,6 +82,27 @@ class Work(
 
             // Crush
             C_VIEW_ALL -> handler.obtainMessage(action, dao.cGetAll()).sendToTarget()
+
+            C_VIEW_ONE -> if (!values.isNullOrEmpty()) handler.obtainMessage(
+                action,
+                if (values.size > 1) values[1] as Int else 0,
+                if (values.size > 2) values[2] as Int else 0,
+                dao.cGet(values[0] as String)
+            ).sendToTarget()
+
+            C_INSERT_ONE -> {
+                var result: Long = -1
+                if (!values.isNullOrEmpty()) result = dao.cInsert(values[0] as Crush)
+                handler.obtainMessage(action, result).sendToTarget()
+            }
+
+            C_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
+                dao.cUpdate(values[0] as Crush)
+                handler.obtainMessage(
+                    action, if (values.size > 1) values[1] as Int else 0,
+                    if (values.size > 2) values[2] as Int else 0, null
+                ).sendToTarget()
+            }
         }
         db.close()
     }

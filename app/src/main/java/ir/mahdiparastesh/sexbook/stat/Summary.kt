@@ -35,7 +35,8 @@ class Summary(list: List<Report>) {
             val shape = arrayListOf<ArrayList<Boolean>>()
             split.forEach { s1 ->
                 var thisShape = arrayListOf<Boolean>()
-                s1.forEach { s2 -> thisShape.add(s2[0].isUpperCase()) }
+                // Check if it is a  person's name
+                s1.forEach { s2 -> thisShape.add(s2[0].isUpperCase() || s2[0] == '#') }
                 shape.add(thisShape)
             } // shape.size is certainly 1+ now...
             var meanArray = arrayListOf<Meaning>()

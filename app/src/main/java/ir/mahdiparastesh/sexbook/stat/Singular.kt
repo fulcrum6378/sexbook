@@ -2,9 +2,13 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
@@ -17,6 +21,7 @@ import com.anychart.enums.HoverMode
 import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.Model
@@ -33,8 +38,9 @@ import kotlin.collections.ArrayList
 class Singular : AppCompatActivity() {
     private lateinit var b: SingularBinding
     private lateinit var m: Model
+    private var crush: Crush? = null
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = SingularBinding.inflate(layoutInflater)
@@ -48,6 +54,18 @@ class Singular : AppCompatActivity() {
         val history = m.summary.value!!.scores[m.crush.value]
         sinceTheBeginning(m.onani.value!!)
             .forEach { data.add(ValueDataEntry(it, calcHistory(history!!, it))) }
+
+        // Handler
+        handler = object : Handler(Looper.getMainLooper()) {
+            @Suppress("UNCHECKED_CAST")
+            override fun handleMessage(msg: Message) {
+                when (msg.what) {
+                    Work.C_VIEW_ONE -> crush = msg.obj as Crush?
+                    Work.C_INSERT_ONE, Work.C_UPDATE_ONE ->
+                        Work(Work.C_VIEW_ONE, listOf(m.crush.value!!), handler).start()
+                }
+            }
+        }
 
         AnyChart.column().apply {
             column(data).fill("#FFD422").stroke("#FFD422")
@@ -75,14 +93,62 @@ class Singular : AppCompatActivity() {
         }
 
         // Identification
+        Work(Work.C_VIEW_ONE, listOf(m.crush.value!!), handler).start()
         b.identify.setOnClickListener {
             val layout = layoutInflater.inflate(R.layout.identify, null, false) as ScrollView
             val ll = layout[0] as LinearLayout
             val fName = ll[0] as EditText
             val lName = ll[1] as EditText
             val masc = ll[2] as SwitchMaterial
-            val height = ll[3] as EditText
-            val instagram = ll[4] as EditText
+            val real = ll[3] as SwitchMaterial
+            val height = ll[4] as EditText
+            val birth = ll[5] as TextView
+            val location = ll[6] as EditText
+            val instagram = ll[7] as EditText
+            val notifyBirth = ll[8] as SwitchMaterial
+
+            // Default Values
+            val cal = Calendar.getInstance()
+            var yea = -1
+            var mon = -1
+            var day = -1
+            if (crush != null) {
+                fName.setText(crush!!.fName)
+                lName.setText(crush!!.lName)
+                masc.isChecked = crush!!.masculine
+                real.isChecked = crush!!.real
+                if (crush!!.height != (-1).toShort())
+                    height.setText(crush!!.height.toString())
+                yea = crush!!.birthYear.toInt()
+                mon = crush!!.birthMonth.toInt()
+                day = crush!!.birthDay.toInt()
+                if (yea != -1) cal[Calendar.YEAR] = yea
+                if (mon != -1) cal[Calendar.MONTH] = mon
+                if (day != -1) cal[Calendar.DAY_OF_MONTH] = day
+                location.setText(crush!!.location)
+                instagram.setText(crush!!.instagram)
+                notifyBirth.isChecked = crush!!.notifyBirth
+            }
+
+            // Birth
+            birth.setOnClickListener {
+                DatePickerDialog.newInstance(
+                    { _, year, monthOfYear, dayOfMonth ->
+                        yea = year
+                        mon = monthOfYear
+                        day = dayOfMonth
+                        birth.text = "$yea.$mon.$day"
+                    }, cal[Calendar.YEAR], cal[Calendar.MONTH], cal[Calendar.DAY_OF_MONTH]
+                ).apply {
+                    isThemeDark = Fun.night
+                    version = DatePickerDialog.Version.VERSION_2
+                    accentColor = Fun.color(R.color.CP)
+                    setOkColor(Fun.color(R.color.mrvPopupButtons))
+                    setCancelColor(Fun.color(R.color.mrvPopupButtons))
+                    show(supportFragmentManager, "birth")
+                }
+            }
+
             AlertDialog.Builder(this).apply {
                 setTitle("${resources.getString(R.string.identify)}: ${m.crush.value}")
                 setView(layout)
@@ -92,10 +158,18 @@ class Singular : AppCompatActivity() {
                         fName.text.toString(),
                         lName.text.toString(),
                         masc.isChecked,
-                        height.text.toString().toShort(),
-                        instagram.text.toString()
+                        real.isChecked,
+                        if (height.text.toString() != "") height.text.toString().toShort() else -1,
+                        yea.toShort(), mon.toByte(), day.toByte(),
+                        location.text.toString(),
+                        instagram.text.toString(),
+                        null,
+                        notifyBirth.isChecked
                     )
-                    Work(Work.C_INSERT_ONE, listOf(inserted)).start()
+                    Work(
+                        if (crush == null) Work.C_INSERT_ONE else Work.C_UPDATE_ONE,
+                        listOf(inserted), handler
+                    ).start()
                 }
                 setNegativeButton(R.string.cancel, null)
                 setCancelable(true)
@@ -108,6 +182,8 @@ class Singular : AppCompatActivity() {
     }
 
     companion object {
+        lateinit var handler: Handler
+
         fun sinceTheBeginning(mOnani: ArrayList<Report>): List<String> {
             val now = Calendar.getInstance()
             var oldest = now.timeInMillis
