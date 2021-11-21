@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/momSum"
-        android:icon="@drawable/summary_1"
-        android:title="@string/momSum"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/summary"
+        android:title="@string/momSum" />
     <item
         android:id="@+id/momPop"
+        android:icon="@drawable/popularity"
         android:title="@string/momPop" />
     <item
         android:id="@+id/momRec"
+        android:icon="@drawable/recency"
         android:title="@string/momRec" />
     <item
         android:id="@+id/momExport"
+        android:icon="@drawable/json_export"
         android:title="@string/momExport" />
     <item
         android:id="@+id/momImport"
+        android:icon="@drawable/json_import"
         android:title="@string/momImport" />
     <item
         android:id="@+id/momExportExcel"
+        android:icon="@drawable/excel"
         android:title="@string/momExportExcel" />
     <item
         android:id="@+id/momSettings"
+        android:icon="@drawable/settings"
         android:title="@string/momSettings" />
 </menu>
