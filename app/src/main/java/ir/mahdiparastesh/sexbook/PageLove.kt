@@ -1,6 +1,9 @@
 package ir.mahdiparastesh.sexbook
 
-import android.os.*
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +22,8 @@ class PageLove(val that: Main) : Fragment() {
 
     companion object {
         lateinit var handler: Handler
+
+        fun handling() = ::handler.isInitialized
     }
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
@@ -43,6 +48,7 @@ class PageLove(val that: Main) : Fragment() {
     fun arrangeList(list: ArrayList<Crush>?) {
         m.liefde.value = list
         if (vis(b.empty, list.isNullOrEmpty())) return
+        m.liefde.value!!.sortWith(Crush.Sort())
         adapter = CrushAdap(list!!.toList(), that, m)
         b.rv.adapter = adapter
     }

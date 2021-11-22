@@ -23,7 +23,8 @@
     <item
         android:id="@+id/momExportExcel"
         android:icon="@drawable/excel"
-        android:title="@string/momExportExcel" />
+        android:title="@string/momExportExcel"
+        android:enabled="false" />
     <item
         android:id="@+id/momSettings"
         android:icon="@drawable/settings"

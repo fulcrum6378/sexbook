@@ -6,6 +6,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Comparator;
+
 @Entity
 public class Crush {
     @NonNull
@@ -57,5 +59,16 @@ public class Crush {
         this.instagram = instagram;
         this.contactId = contactId;
         this.notifyBirth = notifyBirth;
+    }
+
+    public String completeName() {
+        return this.fName + " " + this.lName;
+    }
+
+    public static class Sort implements Comparator<Crush> {
+        @Override
+        public int compare(Crush a, Crush b) {
+            return a.completeName().compareTo(b.completeName());
+        }
     }
 }

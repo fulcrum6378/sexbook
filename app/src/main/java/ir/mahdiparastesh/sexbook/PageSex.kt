@@ -29,6 +29,8 @@ class PageSex(val that: Main) : Fragment() {
         var reports = ArrayList<Report>()
         var filters: ArrayList<Filter>? = null
         var listFilter = 0
+
+        fun handling() = ::handler.isInitialized
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -169,7 +171,7 @@ class PageSex(val that: Main) : Fragment() {
                 if (m.onani.value!!.size > o)
                     reports.add(m.onani.value!![o])
         if (adapter == null) {
-            that.summarize()
+            Main.summarize(m)
             adapter = ReportAdap(reports, that, m)
             b.rv.adapter = adapter
         } else adapter!!.notifyDataSetChanged()

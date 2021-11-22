@@ -27,7 +27,10 @@ import ir.mahdiparastesh.sexbook.Fun.Companion.color
 import ir.mahdiparastesh.sexbook.Fun.Companion.dm
 import ir.mahdiparastesh.sexbook.Fun.Companion.dp
 import ir.mahdiparastesh.sexbook.Fun.Companion.pdcf
+import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Exporter
+import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.stat.Popularity
 import ir.mahdiparastesh.sexbook.stat.Recency
@@ -46,7 +49,12 @@ class Main : AppCompatActivity() {
     private lateinit var toggleNav: ActionBarDrawerToggle
 
     companion object {
+        lateinit var handler: Handler
         var dateFont: Typeface? = null
+
+        fun summarize(m: Model): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
+            m.summary.value = Summary(m.onani.value!!); true
+        } else false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +67,18 @@ class Main : AppCompatActivity() {
         b.pager.adapter = PageAdapter(this)
         exporter = Exporter(this)
 
+
+        // Handler
+        handler = object : Handler(Looper.getMainLooper()) {
+            @Suppress("UNCHECKED_CAST")
+            override fun handleMessage(msg: Message) {
+                when (msg.what) {
+                    Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
+                    Work.C_VIEW_ALL -> m.liefde.value = (msg.obj as ArrayList<Crush>)
+                        .apply { sortWith(Crush.Sort()) }
+                }
+            }
+        }
 
         // Loading
         if (m.loaded.value!!) b.body.removeView(b.load) // its direct parent not "b.root"
@@ -86,7 +106,7 @@ class Main : AppCompatActivity() {
         b.nav.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.momSum -> {
-                    if (summarize()) AlertDialog.Builder(this).apply {
+                    if (summarize(m)) AlertDialog.Builder(this).apply {
                         setTitle("${resources.getString(R.string.momSum)} (" + m.onani.value!!.size + ")")
                         setView(sumLayout())
                         setPositiveButton(R.string.ok, null)
@@ -96,12 +116,12 @@ class Main : AppCompatActivity() {
                         Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
                     }; true; }
                 R.id.momPop -> {
-                    if (summarize())
+                    if (summarize(m))
                         startActivity(Intent(this, Popularity::class.java))
                     true; }
                 R.id.momRec -> {
                     m.recency.value = Recency(m.summary.value!!)
-                    if (summarize()) AlertDialog.Builder(this).apply {
+                    if (summarize(m)) AlertDialog.Builder(this).apply {
                         setTitle(resources.getString(R.string.momRec))
                         setView(m.recency.value!!.draw(layoutInflater))
                         setPositiveButton(R.string.ok, null)
@@ -111,7 +131,7 @@ class Main : AppCompatActivity() {
                         Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
                     };true; }
                 R.id.momImport -> exporter.import()
-                R.id.momExport -> exporter.export(m.onani.value)
+                R.id.momExport -> exporter.export(m.onani.value, m.liefde.value)
                 R.id.momExportExcel -> {
                     // TODO
                     true
@@ -121,6 +141,9 @@ class Main : AppCompatActivity() {
                 else -> super.onOptionsItemSelected(it)
             }
         }
+
+        Work(Work.VIEW_ALL).start()
+        Work(Work.C_VIEW_ALL).start()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -171,10 +194,6 @@ class Main : AppCompatActivity() {
             start()
         }
     }
-
-    fun summarize(): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
-        m.summary.value = Summary(m.onani.value!!); true
-    } else false
 
     @SuppressLint("InflateParams")
     fun sumLayout() = (layoutInflater.inflate(R.layout.sum, null) as ScrollView).apply {

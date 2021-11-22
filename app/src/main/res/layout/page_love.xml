@@ -21,6 +21,7 @@
         style="@style/parentConstraint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:justificationMode="inter_word"
         android:lineSpacingMultiplier="1.5"
         android:text="@string/emptyLove"
         android:textColor="@color/empty"

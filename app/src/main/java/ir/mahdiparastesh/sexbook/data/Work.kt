@@ -3,13 +3,18 @@ package ir.mahdiparastesh.sexbook.data
 import android.os.Handler
 import androidx.room.Room
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.PageSex
 
 class Work(
     val action: Int,
     val values: List<Any>? = null,
-    val handler: Handler = if (action < 10) PageSex.handler else PageLove.handler
+    val handler: Handler =
+        if (action < 10)
+            (if (PageSex.handling()) PageSex.handler else Main.handler)
+        else
+            (if (PageLove.handling()) PageLove.handler else Main.handler)
 ) : Thread() {
     companion object {
         // Report
@@ -60,7 +65,7 @@ class Work(
             REPLACE_ALL -> if (!values.isNullOrEmpty()) {
                 dao.deleteAll(dao.getAll())
                 dao.replaceAll(values as List<Report>)
-                handler.obtainMessage(REPLACE_ALL).sendToTarget()
+                handler.obtainMessage(action).sendToTarget()
             }
 
             UPDATE_ONE -> if (!values.isNullOrEmpty()) {
@@ -96,8 +101,22 @@ class Work(
                 handler.obtainMessage(action, result).sendToTarget()
             }
 
+            C_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
+                dao.cDeleteAll(dao.cGetAll())
+                dao.cReplaceAll(values as List<Crush>)
+                handler.obtainMessage(action).sendToTarget()
+            }
+
             C_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.cUpdate(values[0] as Crush)
+                handler.obtainMessage(
+                    action, if (values.size > 1) values[1] as Int else 0,
+                    if (values.size > 2) values[2] as Int else 0, null
+                ).sendToTarget()
+            }
+
+            C_DELETE_ONE -> if (!values.isNullOrEmpty()) {
+                dao.cDelete(values[0] as Crush)
                 handler.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null
