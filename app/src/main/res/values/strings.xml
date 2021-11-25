@@ -65,6 +65,8 @@
     <string name="PM">PM</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
     <string name="unknown">Plus %1$s from unknown people.</string>
     <string-array name="types">
         <item>Wet Dream</item>
@@ -85,6 +87,7 @@
     <string name="lcDelete">Delete</string>
     <string name="momSum">Summary</string>
     <string name="momPop">Popularity</string>
+    <string name="momGrw">Growth</string>
     <string name="momRec">Recency</string>
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>

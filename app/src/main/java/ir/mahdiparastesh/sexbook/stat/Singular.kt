@@ -152,7 +152,7 @@ class Singular : AppCompatActivity() {
             AlertDialog.Builder(this).apply {
                 setTitle("${resources.getString(R.string.identify)}: ${m.crush.value}")
                 setView(layout)
-                setPositiveButton(R.string.ok) { _, _ ->
+                setPositiveButton(R.string.save) { _, _ ->
                     val inserted = Crush(
                         m.crush.value!!,
                         fName.text.toString(),
@@ -171,7 +171,7 @@ class Singular : AppCompatActivity() {
                         listOf(inserted), handler
                     ).start()
                 }
-                setNegativeButton(R.string.cancel, null)
+                setNegativeButton(R.string.discard, null)
                 setCancelable(true)
             }.create().apply {
                 show()

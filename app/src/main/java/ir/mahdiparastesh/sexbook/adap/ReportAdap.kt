@@ -9,26 +9,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
+import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.Fun.Companion.calType
 import ir.mahdiparastesh.sexbook.Fun.Companion.color
 import ir.mahdiparastesh.sexbook.Fun.Companion.dp
 import ir.mahdiparastesh.sexbook.Fun.Companion.night
 import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
-import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.Companion.calType
 import ir.mahdiparastesh.sexbook.more.Jalali
 import java.util.*
-import android.widget.AutoCompleteTextView
-
-import android.widget.ArrayAdapter
-import ir.mahdiparastesh.sexbook.Fun.Companion.c
-import ir.mahdiparastesh.sexbook.Model
 import kotlin.collections.ArrayList
 
 class ReportAdap(
@@ -168,7 +166,12 @@ class ReportAdap(
         type.setSelection(list[i].type.toInt(), true)
         type.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-            override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, i: Int, l: Long) {
+            override fun onItemSelected(
+                adapterView: AdapterView<*>?,
+                view: View?,
+                i: Int,
+                l: Long
+            ) {
                 if (allMasturbation == null) return
                 val pos = allPos(h, list, allMasturbation)
                 if (allMasturbation.size <= pos || pos < 0) return
@@ -179,8 +182,8 @@ class ReportAdap(
         }
 
         // Long Click
-        val longClick = View.OnLongClickListener { p0 ->
-            var popup = PopupMenu(c, p0)
+        val longClick = View.OnLongClickListener { v ->
+            var popup = PopupMenu(ContextThemeWrapper(c, R.style.AppTheme), v)
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.lcDescriptions -> {

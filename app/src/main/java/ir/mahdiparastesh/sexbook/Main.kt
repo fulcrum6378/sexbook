@@ -32,10 +32,7 @@ import ir.mahdiparastesh.sexbook.data.Exporter
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
-import ir.mahdiparastesh.sexbook.stat.Popularity
-import ir.mahdiparastesh.sexbook.stat.Recency
-import ir.mahdiparastesh.sexbook.stat.Singular
-import ir.mahdiparastesh.sexbook.stat.Summary
+import ir.mahdiparastesh.sexbook.stat.*
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -118,6 +115,10 @@ class Main : AppCompatActivity() {
                 R.id.momPop -> {
                     if (summarize(m))
                         startActivity(Intent(this, Popularity::class.java))
+                    true; }
+                R.id.momGrw -> {
+                    if (summarize(m))
+                        startActivity(Intent(this, Growth::class.java))
                     true; }
                 R.id.momRec -> {
                     m.recency.value = Recency(m.summary.value!!)

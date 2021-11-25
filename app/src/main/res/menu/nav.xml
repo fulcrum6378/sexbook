@@ -9,6 +9,10 @@
         android:icon="@drawable/popularity"
         android:title="@string/momPop" />
     <item
+        android:id="@+id/momGrw"
+        android:icon="@drawable/popularity"
+        android:title="@string/momGrw" />
+    <item
         android:id="@+id/momRec"
         android:icon="@drawable/recency"
         android:title="@string/momRec" />

@@ -65,6 +65,8 @@
     <string name="PM">ب.ظ.</string>
     <string name="ok">باشه</string>
     <string name="cancel">لغو</string>
+    <string name="save">ذخیره</string>
+    <string name="discard">لغو</string>
     <string name="unknown">بعلاوه %1$s مورد از افراد ناشناس!</string>
     <string-array name="types">
         <item>احتلام</item>
@@ -84,6 +86,7 @@
     <string name="lcDelete">حذف</string>
     <string name="momSum">خلاصه</string>
     <string name="momPop">محبوبیت</string>
+    <string name="momGrw">رشد</string>
     <string name="momRec">اخیریت</string>
     <string name="momImport">وارد کردن از جیسون</string>
     <string name="momExport">استخراج به جیسون</string>

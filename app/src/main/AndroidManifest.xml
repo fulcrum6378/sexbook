@@ -10,42 +10,31 @@
         android:roundIcon="@mipmap/launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name=".stat.Growth"
+            android:exported="false" />
         <activity
             android:name=".Main"
             android:exported="true"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustPan">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Settings"
             android:exported="false" />
-
         <activity
             android:name=".stat.Singular"
-            android:exported="false" />
-
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".stat.Popularity"
             android:exported="false"
             android:screenOrientation="landscape" />
-
-        <!--<service
-            android:name=".SexTileService"
-            android:label="@string/my_default_tile_label"
-            android:icon="@drawable/my_default_icon_label"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>-->
     </application>
+
 </manifest>
