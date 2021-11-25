@@ -3,29 +3,22 @@ package ir.mahdiparastesh.sexbook
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.*
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
+import androidx.viewpager2.widget.ViewPager2
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
-import ir.mahdiparastesh.sexbook.Fun.Companion.color
 import ir.mahdiparastesh.sexbook.Fun.Companion.dm
-import ir.mahdiparastesh.sexbook.Fun.Companion.dp
 import ir.mahdiparastesh.sexbook.Fun.Companion.pdcf
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Exporter
@@ -105,7 +98,13 @@ class Main : AppCompatActivity() {
                 R.id.momSum -> {
                     if (summarize(m)) AlertDialog.Builder(this).apply {
                         setTitle("${resources.getString(R.string.momSum)} (" + m.onani.value!!.size + ")")
-                        setView(sumLayout())
+                        setView(ViewPager2(c).apply {
+                            layoutParams = ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT
+                            )
+                            adapter = SumAdapter(this@Main)
+                        })
                         setPositiveButton(R.string.ok, null)
                         setCancelable(true)
                     }.create().apply {
@@ -196,69 +195,18 @@ class Main : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("InflateParams")
-    fun sumLayout() = (layoutInflater.inflate(R.layout.sum, null) as ScrollView).apply {
-        val ll = this[0] as LinearLayout
-        (ll[0] as EditText).apply {
-            addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                override fun afterTextChanged(s: Editable?) {
-                    val ss = s.toString()
-                    for (i in 1 until ll.childCount) {
-                        val cg = ll[i] as ChipGroup
-                        for (y in 1 until cg.childCount) (cg[y] as Chip).apply {
-                            chipBackgroundColor = getColorStateList(
-                                if (ss != "" && text.toString().contains(ss, true))
-                                    R.color.chip_search else R.color.chip_normal
-                            )
-                        }
-                    }
-                }
-            })
+
+    private inner class SumAdapter(that: Main) : FragmentStateAdapter(that) {
+        override fun getItemCount(): Int = 3
+
+        override fun createFragment(i: Int): Fragment = when (i) {
+            1 -> SumCloud()
+            2 -> SumPie()
+            else -> SumChips()
         }
-        for (r in m.summary.value!!.results().calculations) ll.addView(
-            ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-                addView(TextView(c).apply {
-                    layoutParams = ChipGroup.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-                    setPadding(0, dp(12), 0, 0)
-                    text = (if (r.key % 1 > 0) r.key.toString()
-                    else r.key.toInt().toString()).plus(": ")
-                    setTextColor(color(R.color.recency))
-                    textSize = dm.density * 5
-                })
-                for (crush in r.value) addView(
-                    Chip(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
-                        layoutParams = ChipGroup.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-                        )
-                        text = crush
-                        setTextColor(color(R.color.chipText))
-                        chipBackgroundColor = getColorStateList(R.color.chip_normal)
-                        setOnClickListener {
-                            m.crush.value = crush
-                            startActivity(Intent(this@Main, Singular::class.java))
-                        }
-                    })
-            })
-        ll.addView(TextView(c).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            setPadding(0, dp(7), 0, 0)
-            text = getString(R.string.unknown, m.summary.value!!.unknown.toString())
-            setTextColor(color(R.color.searchHint))
-        })
     }
 
-
-    private inner class PageAdapter(val that: Main) :
-        FragmentStateAdapter(that) {
+    private inner class PageAdapter(val that: Main) : FragmentStateAdapter(that) {
         override fun getItemCount(): Int = 2
 
         override fun createFragment(i: Int): Fragment =

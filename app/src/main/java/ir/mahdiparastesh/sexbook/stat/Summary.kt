@@ -131,6 +131,12 @@ class Summary(list: List<Report>) {
 
     companion object {
         fun isUnknown(name: String) = name == "" || name == " " || name == "\n"
+
+        fun sumErections(list: ArrayList<Erection>): Float {
+            var ret = 0f
+            for (i in list) ret += i.value
+            return ret
+        }
     }
 
     private fun containsKeyIgnoreCase(map: Map<String, ArrayList<Erection>>, key: String): String? {
@@ -230,12 +236,6 @@ class Summary(list: List<Report>) {
     private fun unEs(name: String) = if (name.indexOf("'s", ignoreCase = true) != -1)
         name.substring(0, name.indexOf("'s", ignoreCase = true))
     else name
-
-    private fun sumErections(list: ArrayList<Erection>): Float {
-        var ret = 0f
-        for (i in list) ret += i.value
-        return ret
-    }
 
 
     private enum class Meaning {

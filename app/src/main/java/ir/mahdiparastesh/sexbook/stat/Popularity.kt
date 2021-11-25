@@ -88,14 +88,14 @@ class Popularity : AppCompatActivity() {
         }
     }
 
-    private class Frame constructor(x: String, values: List<Number>) :
+    class Frame constructor(x: String, values: List<Number>) :
         ValueDataEntry(x, values[0]) {
         init {
             for (i in 1 until values.size) setValue("value$i", values[i])
         }
     }
 
-    private class Star(val name: String, val scores: Array<Float>) {
+    class Star(val name: String, val scores: Array<Float>) {
         class Sort(val by: Int = 0) : Comparator<Star> {
             override fun compare(a: Star, b: Star) = when (by) {
                 1 -> a.name.compareTo(b.name)

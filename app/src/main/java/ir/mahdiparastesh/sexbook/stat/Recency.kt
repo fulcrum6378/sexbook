@@ -32,7 +32,7 @@ class Recency(sum: Summary) {
 
     @SuppressLint("InflateParams", "SetTextI18n")
     fun draw(layoutInflater: LayoutInflater) =
-        (layoutInflater.inflate(R.layout.sum, null) as ScrollView).apply {
+        (layoutInflater.inflate(R.layout.sum_chips, null) as ScrollView).apply {
             val ll = this[0] as LinearLayout
             (ll[0] as EditText).apply {
                 addTextChangedListener(object : TextWatcher {

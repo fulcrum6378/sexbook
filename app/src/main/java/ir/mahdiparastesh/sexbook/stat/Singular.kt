@@ -218,7 +218,9 @@ class Singular : AppCompatActivity() {
             return list.toList()
         }
 
-        fun calcHistory(list: ArrayList<Summary.Erection>, month: String): Float {
+        fun calcHistory(
+            list: ArrayList<Summary.Erection>, month: String, growing: Boolean = false
+        ): Float {
             var value = 0f
             val split = month.split(" ")
             val months = c.resources.getStringArray(
@@ -229,14 +231,18 @@ class Singular : AppCompatActivity() {
             )
             for (i in list) {
                 var lm = Calendar.getInstance().apply { timeInMillis = i.time }
-                if (Fun.calType() == Fun.CalendarType.JALALI) {
-                    val jal = Jalali(lm)
-                    if (months.indexOf(split[0]) == jal.M && split[1].toInt() == jal.Y)
-                        value += i.value
-                    continue
+                var yea: Int
+                var mon: Int
+                if (Fun.calType() == Fun.CalendarType.JALALI) Jalali(lm).apply {
+                    yea = Y
+                    mon = M
+                } else {
+                    yea = lm[Calendar.YEAR]
+                    mon = lm[Calendar.MONTH]
                 }
-                if (months.indexOf(split[0]) == lm[Calendar.MONTH]
-                    && split[1].toInt() == lm[Calendar.YEAR]
+                if (months.indexOf(split[0]) == mon && split[1].toInt() == yea) value += i.value
+                if (growing && (split[1].toInt() > yea ||
+                            (split[1].toInt() == yea && months.indexOf(split[0]) > mon))
                 ) value += i.value
             }
             return value
