@@ -82,7 +82,7 @@ class Singular : AppCompatActivity() {
             yAxis(0).labels().format("{%Value}{groupsSeparator: }")
             tooltip().positionMode(TooltipPositionMode.POINT)
             interactivity().hoverMode(HoverMode.BY_X)
-            background(if (Fun.night) "#3A3A3A" else "#FFFFFF")
+            background(resources.getString(R.string.anyChartBG))
             b.main.setChart(this)
         }
 
@@ -117,7 +117,7 @@ class Singular : AppCompatActivity() {
                 lName.setText(crush!!.lName)
                 masc.isChecked = crush!!.masculine
                 real.isChecked = crush!!.real
-                if (crush!!.height != (-1).toShort())
+                if (crush!!.height != -1f)
                     height.setText(crush!!.height.toString())
                 yea = crush!!.birthYear.toInt()
                 mon = crush!!.birthMonth.toInt()
@@ -159,7 +159,7 @@ class Singular : AppCompatActivity() {
                         lName.text.toString(),
                         masc.isChecked,
                         real.isChecked,
-                        if (height.text.toString() != "") height.text.toString().toShort() else -1,
+                        if (height.text.toString() != "") height.text.toString().toFloat() else -1f,
                         yea.toShort(), mon.toByte(), day.toByte(),
                         location.text.toString(),
                         instagram.text.toString(),

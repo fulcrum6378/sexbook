@@ -65,6 +65,8 @@
     <string name="PM">ب.ظ.</string>
     <string name="ok">باشه</string>
     <string name="cancel">لغو</string>
+    <string name="yes">بله</string>
+    <string name="no">خیر</string>
     <string name="save">ذخیره</string>
     <string name="discard">لغو</string>
     <string name="unknown">بعلاوه %1$s مورد از افراد ناشناس!</string>
@@ -99,6 +101,7 @@
     <string name="importOpenError">متاسفانه هنگام بازکردن فایل خطایی رخ داد!</string>
     <string name="importReadError">متاسفانه هنگام خواندن فایل خطایی رخ داد!</string>
     <string name="noRecords">شما هیچ چیزی ثبت نکرده اید!</string>
+    <string name="askImport">آیا از جایگزین کردن تمام این موارد اطمینان دارید؟</string>
     <string name="findChip">یک کراش انتخاب کنید&#8230;</string>
     <string name="emptyLove">بعد از اضافه کردن چند رکورد سکس، بروید به منوی اصلی -> خلاصه -> یک کراش انتخاب کنید -> دکمه «دارای عکس آدمک» (شناسایی) را بزنید.</string>
 

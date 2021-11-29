@@ -108,7 +108,7 @@ class PageSex(val that: Main) : Fragment() {
             if (adding) return@setOnClickListener
             if (filters != null) filterList(filters!!.size - 1)
             adding = true
-            Work(Work.INSERT_ONE, listOf(Report(Fun.now(), "", 1, ""))).start()
+            Work(Work.INSERT_ONE, listOf(Report(Fun.now(), "", 1, "", -1L))).start()
             object : CountDownTimer(Work.TIMEOUT, Work.TIMEOUT) {
                 override fun onTick(p0: Long) {}
                 override fun onFinish() {

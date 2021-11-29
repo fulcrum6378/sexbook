@@ -3,19 +3,16 @@ package ir.mahdiparastesh.sexbook.stat
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Model
-import ir.mahdiparastesh.sexbook.databinding.GrowthBinding
-import ir.mahdiparastesh.sexbook.stat.Popularity.Star
-import ir.mahdiparastesh.sexbook.stat.Popularity.Frame
-
-import com.anychart.chart.common.dataentry.DataEntry
-
 import com.anychart.AnyChart
-
+import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.enums.*
 import com.anychart.graphics.vector.Stroke
+import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.databinding.GrowthBinding
+import ir.mahdiparastesh.sexbook.stat.Popularity.Frame
+import ir.mahdiparastesh.sexbook.stat.Popularity.Star
 
 class Growth : AppCompatActivity() {
     private lateinit var b: GrowthBinding
@@ -84,7 +81,7 @@ class Growth : AppCompatActivity() {
                 position(Orientation.TOP)
                 positionMode(LegendPositionMode.OUTSIDE)
             }
-            background(if (Fun.night) "#3A3A3A" else "#FFFFFF")
+            background(resources.getString(R.string.anyChartBG))
             b.main.setChart(this)
         }
     }

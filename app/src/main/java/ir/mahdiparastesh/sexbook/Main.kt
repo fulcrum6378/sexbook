@@ -130,8 +130,8 @@ class Main : AppCompatActivity() {
                         show()
                         Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
                     };true; }
-                R.id.momImport -> exporter.import()
-                R.id.momExport -> exporter.export(m.onani.value, m.liefde.value)
+                R.id.momImport -> exporter.launchImport()
+                R.id.momExport -> exporter.launchExport(m.onani.value, m.liefde.value)
                 R.id.momExportExcel -> {
                     // TODO
                     true
@@ -141,6 +141,9 @@ class Main : AppCompatActivity() {
                 else -> super.onOptionsItemSelected(it)
             }
         }
+
+        // Open Json files
+        if (intent.data != null) Exporter.import(intent.data!!, true, this)
 
         Work(Work.VIEW_ALL).start()
         Work(Work.C_VIEW_ALL).start()

@@ -196,6 +196,7 @@ class ReportAdap(
                         Work(Work.DELETE_ONE, listOf(allMasturbation[aPos], aPos)).start()
                         true
                     }
+                    // TODO: Estimation
                     else -> false
                 }
             }

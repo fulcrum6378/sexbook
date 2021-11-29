@@ -17,6 +17,7 @@ import com.anychart.scales.OrdinalColor
 import com.anychart.AnyChart
 
 import com.anychart.charts.TagCloud
+import ir.mahdiparastesh.sexbook.R
 
 class SumCloud : Fragment() {
     private lateinit var b: SumCloudBinding
@@ -42,6 +43,7 @@ class SumCloud : Fragment() {
                     )
                 )
             })
+            background(resources.getString(R.string.anyChartADBG))
             b.root.setChart(this)
         }
 

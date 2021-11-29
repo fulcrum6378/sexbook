@@ -37,6 +37,7 @@ class PageLove(val that: Main) : Fragment() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.C_VIEW_ALL -> arrangeList(msg.obj as ArrayList<Crush>)
+                    Work.REPLACE_ALL -> Work(Work.C_VIEW_ALL).start()
                 }
             }
         }

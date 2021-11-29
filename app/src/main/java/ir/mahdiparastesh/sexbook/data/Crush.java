@@ -23,7 +23,7 @@ public class Crush {
     @ColumnInfo(name = "real")
     public boolean real;
     @ColumnInfo(name = "height")
-    public short height;
+    public float height;
     @ColumnInfo(name = "birth_year")
     public short birthYear;
     @ColumnInfo(name = "birth_month")
@@ -43,7 +43,7 @@ public class Crush {
     public boolean notifyBirth;
 
     public Crush(@NonNull String key, String fName, String lName, boolean masculine, boolean real,
-                 short height, short birthYear, byte birthMonth, byte birthDay,
+                 float height, short birthYear, byte birthMonth, byte birthDay,
                  @Nullable String location, @Nullable String instagram, @Nullable String contactId,
                  boolean notifyBirth) {
         this.key = key;
@@ -61,14 +61,20 @@ public class Crush {
         this.notifyBirth = notifyBirth;
     }
 
-    public String completeName() {
-        return this.fName + " " + this.lName;
+    public String visName() {
+        if (this.fName.equals("") || this.lName.equals("")) {
+            if (!this.fName.equals(""))
+                return this.fName;
+            else if (!this.lName.equals(""))
+                return this.lName;
+            else return this.key;
+        } else return this.fName + " " + this.lName;
     }
 
     public static class Sort implements Comparator<Crush> {
         @Override
         public int compare(Crush a, Crush b) {
-            return a.completeName().compareTo(b.completeName());
+            return a.visName().compareTo(b.visName());
         }
     }
 }

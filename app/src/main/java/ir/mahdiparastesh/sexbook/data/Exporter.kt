@@ -2,12 +2,15 @@ package ir.mahdiparastesh.sexbook.data
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
+import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.R
 import java.io.*
@@ -36,9 +39,17 @@ class Exporter(that: AppCompatActivity) {
     private var importLauncher: ActivityResultLauncher<Intent> =
         that.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+            import(it.data!!.data!!)
+        }
+
+    companion object {
+        val mime = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
+        else "application/json"
+
+        fun import(uri: Uri, makeSure: Boolean = false, that: AppCompatActivity? = null) {
             var data: String? = null
             try {
-                c.contentResolver.openFileDescriptor(it.data!!.data!!, "r")?.use { des ->
+                c.contentResolver.openFileDescriptor(uri, "r")?.use { des ->
                     val sb = StringBuffer()
                     FileInputStream(des.fileDescriptor).apply {
                         var i: Int
@@ -50,25 +61,36 @@ class Exporter(that: AppCompatActivity) {
                 data!!
             } catch (e: Exception) {
                 Toast.makeText(c, R.string.importOpenError, Toast.LENGTH_LONG).show()
-                return@registerForActivityResult
+                return
             }
             var imported: Exported
             try {
                 imported = Gson().fromJson(data, Exported::class.java)
             } catch (e: Exception) {
                 Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
-                return@registerForActivityResult
+                return
             }
+            if (!makeSure) replace(imported)
+            else AlertDialog.Builder(that!!).apply {
+                setTitle(that.resources.getString(R.string.momImport))
+                setMessage(that.resources.getString(R.string.askImport))
+                setPositiveButton(R.string.yes) { _, _ -> replace(imported) }
+                setNegativeButton(R.string.no, null)
+                setCancelable(true)
+            }.create().apply {
+                show()
+                Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+                Fun.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
+            }
+        }
+
+        fun replace(imported: Exported) {
             Work(Work.REPLACE_ALL, imported.reports?.toList()).start()
             Work(Work.C_REPLACE_ALL, imported.crushes?.toList()).start()
         }
-
-    companion object {
-        val mime = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
-        else "application/json"
     }
 
-    fun export(reports: ArrayList<Report>?, crushes: ArrayList<Crush>?): Boolean {
+    fun launchExport(reports: ArrayList<Report>?, crushes: ArrayList<Crush>?): Boolean {
         exported = Exported(reports?.toTypedArray(), crushes?.toTypedArray())
         if (exported!!.isEmpty()) {
             Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show(); return true; }
@@ -80,7 +102,7 @@ class Exporter(that: AppCompatActivity) {
         return true
     }
 
-    fun import(): Boolean {
+    fun launchImport(): Boolean {
         importLauncher.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = mime

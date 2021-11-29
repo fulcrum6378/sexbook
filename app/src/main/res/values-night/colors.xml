@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <color name="CP">#3A3A3A</color>
     <color name="CPD">#D6AD00</color>
     <color name="CPDD">#9A7C00</color>
     <color name="CA">@color/CP3</color>
     <color name="CP2">#000</color>
     <color name="CP3">#656D78</color>
+
+    <!-- GLOBAL -->
+    <color name="adBG">#424242</color>
+
+    <string name="anyChartBG">#3A3A3A</string>
+    <string name="anyChartADBG">#424242</string>
 
     <!-- Main -->
     <color name="toolbar">@color/CP</color>

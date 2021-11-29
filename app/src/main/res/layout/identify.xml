@@ -43,7 +43,7 @@
             style="@style/identifyET"
             android:hint="@string/height"
             android:inputType="number"
-            android:maxLength="3"
+            android:maxLength="7"
             android:maxLines="1" />
 
         <TextView

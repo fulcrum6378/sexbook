@@ -16,12 +16,15 @@ public class Report {
     public Byte type;
     @ColumnInfo(name = "desc")
     public String desc;
+    @ColumnInfo(name = "prox")
+    public long prox;
 
-    public Report(long time, String name, Byte type, String desc) {
+    public Report(long time, String name, Byte type, String desc, long prox) {
         this.time = time;
         this.name = name;
         this.type = type;
         this.desc = desc;
+        this.prox = prox;
     }
 
     public Report setId(long id) {

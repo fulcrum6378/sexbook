@@ -13,8 +13,6 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.PopularityBinding
-import kotlin.Comparator
-import kotlin.collections.ArrayList
 
 class Popularity : AppCompatActivity() {
     private lateinit var b: PopularityBinding
@@ -83,7 +81,7 @@ class Popularity : AppCompatActivity() {
                 position(Orientation.TOP)
                 positionMode(LegendPositionMode.OUTSIDE)
             }
-            background(if (Fun.night) "#3A3A3A" else "#FFFFFF")
+            background(resources.getString(R.string.anyChartBG))
             b.main.setChart(this)
         }
     }

@@ -43,7 +43,11 @@ class Work(
 
     @Suppress("UNCHECKED_CAST")
     override fun run() {
-        var db = Room.databaseBuilder(c, Database::class.java, "sexbook").build()
+        var db = Room.databaseBuilder(c, Database::class.java, "sexbook")
+            //.allowMainThreadQueries()
+            //.fallbackToDestructiveMigration()
+            //.addMigrations(MIGRATION_1_2)
+            .build()
         var dao = db.dao()
         when (action) {
             // Report

@@ -65,6 +65,8 @@
     <string name="PM">PM</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="save">Save</string>
     <string name="discard">Discard</string>
     <string name="unknown">Plus %1$s from unknown people.</string>
@@ -100,6 +102,7 @@
     <string name="importOpenError">Unfortunately an error occurred while opening the file!</string>
     <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
     <string name="noRecords">You have no records yet!</string>
+    <string name="askImport">Are you sure you want to replace all the records?</string>
     <string name="findChip">Find a crush&#8230;</string>
     <string name="emptyLove">After adding some sex records, go to Navigation Menu -> Summary -> Select a crush -> Hit the top right button with a \"Person\" (Identification) icon.</string>
 

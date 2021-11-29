@@ -29,7 +29,7 @@ class CrushAdap(val list: List<Crush>, val that: AppCompatActivity, val m: Model
     override fun onBindViewHolder(h: MyViewHolder, i: Int) {
         val name = h.l[namePos] as TextView
 
-        name.text = list[i].completeName()
+        name.text = list[i].visName()
 
         h.l.setOnClickListener {
             if (!Main.summarize(m)) return@setOnClickListener
