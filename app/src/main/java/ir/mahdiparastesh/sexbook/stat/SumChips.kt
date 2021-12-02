@@ -76,7 +76,7 @@ class SumChips : Fragment() {
                         }
                     })
             })
-        b.ll.addView(TextView(c).apply {
+        if (m.summary.value!!.unknown > 0f) b.ll.addView(TextView(c).apply {
             layoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
             )

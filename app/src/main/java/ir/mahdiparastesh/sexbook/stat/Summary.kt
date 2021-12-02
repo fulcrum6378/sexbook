@@ -124,7 +124,7 @@ class Summary(list: List<Report>) {
             else results[sumErect]!!.add(key)
             results[sumErect]!!.sort()
         }
-        results = results.toSortedMap(reverseOrder()).toMap() as HashMap<Float, ArrayList<String>>
+        results = results.toSortedMap(reverseOrder()).toMutableMap() as HashMap<Float, ArrayList<String>>
         return Result(results, scores)
     }
 

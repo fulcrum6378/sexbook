@@ -52,7 +52,7 @@
     <color name="empty">@color/shadow_1</color>
 
     <!-- Singular-->
-    <color name="dateButtonStroke">@color/CA</color>
+    <color name="identifySep">#D4D8DD</color>
 
     <!-- Settings -->
     <color name="stItemTV">@color/mrvNotes</color>

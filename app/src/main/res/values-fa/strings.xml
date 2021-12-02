@@ -115,6 +115,8 @@
     <string name="birth">تاریخ تولد</string>
     <string name="location">محل زندگی</string>
     <string name="instagram">اینستاگرام</string>
+    <string name="contact">در مخاطبین</string>
+    <string name="gallery">فولدر در گالری</string>
     <string name="notifyBirth">منو تو روز تولدش خبر کن</string>
 
     <!-- Settings -->

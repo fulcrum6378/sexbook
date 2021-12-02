@@ -19,53 +19,65 @@ public class Crush {
     @ColumnInfo(name = "last_name")
     public String lName;
     @ColumnInfo(name = "masculine")
-    public boolean masculine;
+    public boolean masc;
     @ColumnInfo(name = "real")
     public boolean real;
     @ColumnInfo(name = "height")
     public float height;
     @ColumnInfo(name = "birth_year")
-    public short birthYear;
+    public short bYear;
     @ColumnInfo(name = "birth_month")
-    public byte birthMonth;
+    public byte bMonth;
     @ColumnInfo(name = "birth_day")
-    public byte birthDay;
+    public byte bDay;
     @Nullable
     @ColumnInfo(name = "location")
-    public String location;
+    public String locat;
     @Nullable
     @ColumnInfo(name = "instagram")
-    public String instagram;
+    public String insta;
     @Nullable
-    @ColumnInfo(name = "contact_id")
-    public String contactId;
+    @ColumnInfo(name = "contact")
+    public String contact;
+    @Nullable
+    @ColumnInfo(name = "gallery")
+    public String gallery;
     @ColumnInfo(name = "notify_birth")
     public boolean notifyBirth;
 
-    public Crush(@NonNull String key, String fName, String lName, boolean masculine, boolean real,
-                 float height, short birthYear, byte birthMonth, byte birthDay,
-                 @Nullable String location, @Nullable String instagram, @Nullable String contactId,
+    public Crush(@NonNull String key, String fName, String lName, boolean masc, boolean real,
+                 float height, short bYear, byte bMonth, byte bDay, @Nullable String locat,
+                 @Nullable String insta, @Nullable String contact, @Nullable String gallery,
                  boolean notifyBirth) {
         this.key = key;
         this.fName = fName;
         this.lName = lName;
-        this.masculine = masculine;
+        this.masc = masc;
         this.real = real;
         this.height = height;
-        this.birthYear = birthYear;
-        this.birthMonth = birthMonth;
-        this.birthDay = birthDay;
-        this.location = location;
-        this.instagram = instagram;
-        this.contactId = contactId;
+        this.bYear = bYear;
+        this.bMonth = bMonth;
+        this.bDay = bDay;
+        this.locat = locat;
+        this.insta = insta;
+        this.contact = contact;
+        this.gallery = gallery;
         this.notifyBirth = notifyBirth;
     }
 
+    public boolean hasF() {
+        return this.fName != null && !this.fName.equals("");
+    }
+
+    public boolean hasL() {
+        return this.fName != null && !this.fName.equals("");
+    }
+
     public String visName() {
-        if (this.fName.equals("") || this.lName.equals("")) {
-            if (!this.fName.equals(""))
+        if (!this.hasF() || !this.hasL()) {
+            if (this.hasF())
                 return this.fName;
-            else if (!this.lName.equals(""))
+            else if (this.hasL())
                 return this.lName;
             else return this.key;
         } else return this.fName + " " + this.lName;

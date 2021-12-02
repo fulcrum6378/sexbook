@@ -116,6 +116,8 @@
     <string name="birth">Birth Date</string>
     <string name="location">Location</string>
     <string name="instagram">Instagram</string>
+    <string name="contact">In Contacts</string>
+    <string name="gallery">Gallery Folder</string>
     <string name="notifyBirth">Notify me in their birthday</string>
 
     <!-- Settings -->

@@ -1,17 +1,18 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.TextView
+import android.provider.DocumentsContract
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import com.anychart.AnyChart
 import com.anychart.chart.common.dataentry.DataEntry
@@ -20,7 +21,6 @@ import com.anychart.enums.Anchor
 import com.anychart.enums.HoverMode
 import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
-import com.google.android.material.switchmaterial.SwitchMaterial
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
@@ -29,6 +29,7 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
+import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 import ir.mahdiparastesh.sexbook.more.Jalali
 import java.util.*
@@ -95,17 +96,7 @@ class Singular : AppCompatActivity() {
         // Identification
         Work(Work.C_VIEW_ONE, listOf(m.crush.value!!), handler).start()
         b.identify.setOnClickListener {
-            val layout = layoutInflater.inflate(R.layout.identify, null, false) as ScrollView
-            val ll = layout[0] as LinearLayout
-            val fName = ll[0] as EditText
-            val lName = ll[1] as EditText
-            val masc = ll[2] as SwitchMaterial
-            val real = ll[3] as SwitchMaterial
-            val height = ll[4] as EditText
-            val birth = ll[5] as TextView
-            val location = ll[6] as EditText
-            val instagram = ll[7] as EditText
-            val notifyBirth = ll[8] as SwitchMaterial
+            val bi = IdentifyBinding.inflate(layoutInflater, null, false)
 
             // Default Values
             val cal = Calendar.getInstance()
@@ -113,31 +104,36 @@ class Singular : AppCompatActivity() {
             var mon = -1
             var day = -1
             if (crush != null) {
-                fName.setText(crush!!.fName)
-                lName.setText(crush!!.lName)
-                masc.isChecked = crush!!.masculine
-                real.isChecked = crush!!.real
+                bi.fName.setText(crush!!.fName)
+                bi.lName.setText(crush!!.lName)
+                bi.masc.isChecked = crush!!.masc
+                bi.real.isChecked = crush!!.real
                 if (crush!!.height != -1f)
-                    height.setText(crush!!.height.toString())
-                yea = crush!!.birthYear.toInt()
-                mon = crush!!.birthMonth.toInt()
-                day = crush!!.birthDay.toInt()
+                    bi.height.setText(crush!!.height.toString())
+                yea = crush!!.bYear.toInt()
+                mon = crush!!.bMonth.toInt()
+                day = crush!!.bDay.toInt()
                 if (yea != -1) cal[Calendar.YEAR] = yea
                 if (mon != -1) cal[Calendar.MONTH] = mon
                 if (day != -1) cal[Calendar.DAY_OF_MONTH] = day
-                location.setText(crush!!.location)
-                instagram.setText(crush!!.instagram)
-                notifyBirth.isChecked = crush!!.notifyBirth
+                bi.location.setText(crush!!.locat)
+                bi.instagram.setText(crush!!.insta)
+                // Implement Contact
+                if (crush!!.gallery != null) {
+                    // gallery = Uri.parse(crush!!.gallery)
+                    bi.gallery.text = crush!!.gallery
+                }
+                bi.notifyBirth.isChecked = crush!!.notifyBirth
             }
 
             // Birth
-            birth.setOnClickListener {
+            bi.birth.setOnClickListener {
                 DatePickerDialog.newInstance(
                     { _, year, monthOfYear, dayOfMonth ->
                         yea = year
                         mon = monthOfYear
                         day = dayOfMonth
-                        birth.text = "$yea.$mon.$day"
+                        bi.birth.text = "$yea.$mon.$day"
                     }, cal[Calendar.YEAR], cal[Calendar.MONTH], cal[Calendar.DAY_OF_MONTH]
                 ).apply {
                     isThemeDark = Fun.night
@@ -149,22 +145,36 @@ class Singular : AppCompatActivity() {
                 }
             }
 
+            // Contact
+            // bi.contact.setOnClickListener { }
+
+            // Gallery
+            bi.gallery.setOnClickListener {
+                galleryLauncher.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+                    if (gallery != null) putExtra(DocumentsContract.EXTRA_INITIAL_URI, gallery)
+                })
+            }
+
             AlertDialog.Builder(this).apply {
                 setTitle("${resources.getString(R.string.identify)}: ${m.crush.value}")
-                setView(layout)
+                setView(bi.root)
                 setPositiveButton(R.string.save) { _, _ ->
                     val inserted = Crush(
                         m.crush.value!!,
-                        fName.text.toString(),
-                        lName.text.toString(),
-                        masc.isChecked,
-                        real.isChecked,
-                        if (height.text.toString() != "") height.text.toString().toFloat() else -1f,
+                        if (bi.fName.text.toString().isEmpty()) null else bi.fName.text.toString(),
+                        if (bi.lName.text.toString().isEmpty()) null else bi.lName.text.toString(),
+                        bi.masc.isChecked,
+                        bi.real.isChecked,
+                        if (bi.height.text.toString() != "")
+                            bi.height.text.toString().toFloat() else -1f,
                         yea.toShort(), mon.toByte(), day.toByte(),
-                        location.text.toString(),
-                        instagram.text.toString(),
+                        if (bi.location.text.toString().isEmpty()) null else
+                            bi.location.text.toString(),
+                        if (bi.instagram.text.toString().isEmpty()) null else
+                            bi.instagram.text.toString(),
                         null,
-                        notifyBirth.isChecked
+                        gallery?.path,
+                        bi.notifyBirth.isChecked
                     )
                     Work(
                         if (crush == null) Work.C_INSERT_ONE else Work.C_UPDATE_ONE,
@@ -180,6 +190,13 @@ class Singular : AppCompatActivity() {
             }
         }
     }
+
+    private var gallery: Uri? = null
+    private var galleryLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+            gallery = it.data!!.data!!
+        }
 
     companion object {
         lateinit var handler: Handler

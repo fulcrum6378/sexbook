@@ -45,5 +45,5 @@
     <color name="empty">@color/searchHint</color>
 
     <!-- Singular-->
-    <color name="dateButtonStroke">#AAFFFFFF</color>
+    <color name="identifySep">#88FFFFFF</color>
 </resources>

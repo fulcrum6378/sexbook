@@ -39,24 +39,32 @@
         <item name="android:textColor">@color/CP3</item>
     </style>
 
+
     <!-- Singular -->
     <style name="identifyField">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginHorizontal">30dp</item>
-        <item name="android:layout_marginVertical">5dp</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:paddingVertical">12dp</item>
     </style>
 
     <style name="identifyET" parent="identifyField">
         <item name="android:paddingHorizontal">5dp</item>
-        <item name="android:paddingVertical">20dp</item>
+        <item name="android:background">@color/tp</item>
     </style>
 
-    <style name="identifyDate" parent="identifyField">
-        <item name="android:paddingVertical">15dp</item>
+    <style name="identifyButton" parent="identifyField">
         <item name="android:background">@drawable/button_3</item>
+        <item name="android:textAlignment">center</item>
     </style>
+
+    <style name="identifySep">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/identifySep</item>
+        <item name="android:layout_marginVertical">8dp</item>
+    </style>
+
 
     <!-- Settings -->
     <style name="stItem">

@@ -126,6 +126,7 @@ class PageSex(val that: Main) : Fragment() {
         Collections.sort(m.onani.value!!, ReportAdap.Companion.Sort())
         filters = filter(m.onani.value!!)
         val maxPage = filters!!.size - 1
+        if (listFilter == -1) listFilter++
         filterList(
             if (filters!!.size > 0 && (!filteredOnce || listFilter > maxPage))
                 maxPage else listFilter

@@ -7,65 +7,105 @@
     tools:ignore="Autofill">
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/fName"
             style="@style/identifyET"
             android:hint="@string/firstName"
             android:inputType="text"
             android:maxLength="100"
             android:maxLines="1" />
 
+        <View style="@style/identifySep" />
+
         <EditText
+            android:id="@+id/lName"
             style="@style/identifyET"
             android:hint="@string/lastName"
             android:inputType="text"
             android:maxLength="100"
             android:maxLines="1" />
 
+        <View style="@style/identifySep" />
+
         <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/masc"
             style="@style/identifyField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/masculine" />
 
+        <View style="@style/identifySep" />
+
         <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/real"
             style="@style/identifyField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/real" />
 
+        <View style="@style/identifySep" />
+
         <EditText
+            android:id="@+id/height"
             style="@style/identifyET"
             android:hint="@string/height"
             android:inputType="number"
             android:maxLength="7"
             android:maxLines="1" />
 
+        <View style="@style/identifySep" />
+
         <TextView
-            style="@style/identifyDate"
-            android:text="@string/birth"
-            android:textAlignment="center" />
+            android:id="@+id/birth"
+            style="@style/identifyButton"
+            android:text="@string/birth" />
+
+        <View style="@style/identifySep" />
 
         <EditText
+            android:id="@+id/location"
             style="@style/identifyET"
             android:hint="@string/location"
             android:inputType="text"
             android:maxLength="100"
             android:maxLines="4" />
 
+        <View style="@style/identifySep" />
+
         <EditText
+            android:id="@+id/instagram"
             style="@style/identifyET"
             android:hint="@string/instagram"
             android:inputType="textUri"
             android:maxLength="100"
             android:maxLines="1" />
 
+        <View style="@style/identifySep" />
+
+        <TextView
+            android:id="@+id/contact"
+            style="@style/identifyButton"
+            android:text="@string/contact" />
+
+        <View style="@style/identifySep" />
+
+        <TextView
+            android:id="@+id/gallery"
+            style="@style/identifyButton"
+            android:text="@string/gallery" />
+
+        <View style="@style/identifySep" />
+
         <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/notifyBirth"
             style="@style/identifyField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
