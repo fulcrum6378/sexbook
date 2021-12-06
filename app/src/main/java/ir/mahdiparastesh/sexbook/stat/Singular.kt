@@ -3,16 +3,19 @@ package ir.mahdiparastesh.sexbook.stat
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.provider.DocumentsContract
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import com.anychart.AnyChart
 import com.anychart.chart.common.dataentry.DataEntry
@@ -40,6 +43,7 @@ class Singular : AppCompatActivity() {
     private lateinit var b: SingularBinding
     private lateinit var m: Model
     private var crush: Crush? = null
+    private var dateFont: Typeface? = null
 
     @SuppressLint("InflateParams", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +52,7 @@ class Singular : AppCompatActivity() {
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
         Fun.init(this)
+        dateFont = Fun.font()
 
         if (m.onani.value == null || m.summary.value == null || m.crush.value == null) {
             onBackPressed(); return; }
@@ -97,6 +102,11 @@ class Singular : AppCompatActivity() {
         Work(Work.C_VIEW_ONE, listOf(m.crush.value!!), handler).start()
         b.identify.setOnClickListener {
             val bi = IdentifyBinding.inflate(layoutInflater, null, false)
+
+            // Fonts
+            for (l in 0 until bi.ll.childCount)
+                if (bi.ll[l] is TextView)
+                    (bi.ll[l] as TextView).typeface = dateFont
 
             // Default Values
             val cal = Calendar.getInstance()

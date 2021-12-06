@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.data
 
-import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 

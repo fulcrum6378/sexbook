@@ -173,7 +173,7 @@ class PageSex(val that: Main) : Fragment() {
                     reports.add(m.onani.value!![o])
         if (adapter == null) {
             Main.summarize(m)
-            adapter = ReportAdap(reports, that, m)
+            adapter = ReportAdap(reports, that)
             b.rv.adapter = adapter
         } else adapter!!.notifyDataSetChanged()
     }

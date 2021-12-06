@@ -36,7 +36,12 @@
 
         <activity
             android:name=".Settings"
-            android:exported="false" />
+            android:exported="false">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main" />
+        </activity>
 
         <activity
             android:name=".stat.Singular"

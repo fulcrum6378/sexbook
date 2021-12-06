@@ -12,6 +12,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.lifecycle.ViewModelProvider
@@ -20,10 +21,7 @@ import androidx.viewpager2.widget.ViewPager2
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.Fun.Companion.dm
 import ir.mahdiparastesh.sexbook.Fun.Companion.pdcf
-import ir.mahdiparastesh.sexbook.data.Crush
-import ir.mahdiparastesh.sexbook.data.Exporter
-import ir.mahdiparastesh.sexbook.data.Report
-import ir.mahdiparastesh.sexbook.data.Work
+import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.stat.*
 import java.util.*
@@ -32,15 +30,15 @@ import kotlin.system.exitProcess
 // adb connect 192.168.1.20:
 
 class Main : AppCompatActivity() {
+    lateinit var m: Model
     private lateinit var b: MainBinding
-    private lateinit var m: Model
     private lateinit var tbTitle: TextView
     private lateinit var exporter: Exporter
     private lateinit var toggleNav: ActionBarDrawerToggle
+    var dateFont: Typeface? = null
 
     companion object {
         lateinit var handler: Handler
-        var dateFont: Typeface? = null
 
         fun summarize(m: Model): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
             m.summary.value = Summary(m.onani.value!!); true
@@ -56,6 +54,7 @@ class Main : AppCompatActivity() {
         Fun.init(this)
         b.pager.adapter = PageAdapter(this)
         exporter = Exporter(this)
+        dateFont = Fun.font()
 
 
         // Handler
@@ -77,7 +76,7 @@ class Main : AppCompatActivity() {
         // Toolbar
         setSupportActionBar(b.toolbar)
         for (g in 0 until b.toolbar.childCount) {
-            var getTitle = b.toolbar.getChildAt(g)
+            var getTitle = b.toolbar[g]
             if (getTitle is TextView &&
                 getTitle.text.toString() == resources.getString(R.string.app_name)
             ) tbTitle = getTitle
@@ -123,7 +122,7 @@ class Main : AppCompatActivity() {
                     m.recency.value = Recency(m.summary.value!!)
                     if (summarize(m)) AlertDialog.Builder(this).apply {
                         setTitle(resources.getString(R.string.momRec))
-                        setView(m.recency.value!!.draw(layoutInflater))
+                        setView(m.recency.value!!.draw(this@Main))
                         setPositiveButton(R.string.ok, null)
                         setCancelable(true)
                     }.create().apply {
@@ -141,6 +140,7 @@ class Main : AppCompatActivity() {
                 else -> super.onOptionsItemSelected(it)
             }
         }
+        //b.nav.addHeaderView()
 
         // Open Json files
         if (intent.data != null) Exporter.import(intent.data!!, true, this)
@@ -205,7 +205,7 @@ class Main : AppCompatActivity() {
         override fun createFragment(i: Int): Fragment = when (i) {
             1 -> SumCloud()
             2 -> SumPie()
-            else -> SumChips()
+            else -> SumChips(this@Main)
         }
     }
 
@@ -221,6 +221,7 @@ class Main : AppCompatActivity() {
             when (className) {
                 PageSex::class.java.name -> PageSex(this@Main)
                 PageLove::class.java.name -> PageLove(this@Main)
+                SumChips::class.java.name -> SumChips(this@Main)
                 else -> super.instantiate(classLoader, className)
             }
     }

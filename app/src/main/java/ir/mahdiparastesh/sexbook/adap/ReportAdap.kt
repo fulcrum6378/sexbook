@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,6 @@ import ir.mahdiparastesh.sexbook.Fun.Companion.color
 import ir.mahdiparastesh.sexbook.Fun.Companion.dp
 import ir.mahdiparastesh.sexbook.Fun.Companion.night
 import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
@@ -31,9 +29,8 @@ import kotlin.collections.ArrayList
 
 class ReportAdap(
     val list: List<Report>,
-    val that: AppCompatActivity,
-    val m: Model,
-    val allMasturbation: ArrayList<Report>? = m.onani.value
+    val that: Main,
+    val allMasturbation: ArrayList<Report>? = that.m.onani.value
 ) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
     var clockHeight = dp(48)
@@ -83,7 +80,7 @@ class ReportAdap(
         name.layoutParams = nameLP
 
         // Fonts
-        if (Main.dateFont != null) date.setTypeface(Main.dateFont, Typeface.BOLD)
+        if (that.dateFont != null) date.setTypeface(that.dateFont, Typeface.BOLD)
 
         // Date & Time
         if (clock.height != 0) clockHeight = clock.height
@@ -151,8 +148,8 @@ class ReportAdap(
         // Name
         name.setText(list[i].name)
         var crushes = arrayListOf<String>()
-        if (m.summary.value != null)
-            crushes = ArrayList(m.summary.value!!.scores.keys)
+        if (that.m.summary.value != null)
+            crushes = ArrayList(that.m.summary.value!!.scores.keys)
         name.setAdapter(ArrayAdapter(that, android.R.layout.simple_dropdown_item_1line, crushes))
         name.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}

@@ -43,12 +43,12 @@ class Work(
 
     @Suppress("UNCHECKED_CAST")
     override fun run() {
-        var db = Room.databaseBuilder(c, Database::class.java, "sexbook")
+        val db = Room.databaseBuilder(c, Database::class.java, DbFile.DATABASE)
             //.allowMainThreadQueries()
             //.fallbackToDestructiveMigration()
             //.addMigrations(MIGRATION_1_2)
             .build()
-        var dao = db.dao()
+        val dao = db.dao()
         when (action) {
             // Report
             VIEW_ALL -> handler.obtainMessage(action, dao.getAll()).sendToTarget()

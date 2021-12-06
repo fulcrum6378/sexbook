@@ -19,7 +19,7 @@
         <item name="android:background">@color/toolbar</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="popupTheme">@style/Widget.MaterialComponents.PopupMenu</item>
-        <item name="titleMarginStart">30dp</item>
+        <item name="titleMarginStart">0dp</item>
         <item name="titleTextColor">@color/tbTitle</item>
     </style>
 

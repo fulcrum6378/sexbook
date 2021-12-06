@@ -19,11 +19,12 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.Fun.Companion.color
 import ir.mahdiparastesh.sexbook.Fun.Companion.dp
+import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SumChipsBinding
 
-class SumChips : Fragment() {
+class SumChips(val that: Main) : Fragment() {
     private lateinit var b: SumChipsBinding
     private lateinit var m: Model
 
@@ -47,6 +48,7 @@ class SumChips : Fragment() {
                 }
             }
         })
+        b.find.typeface = that.dateFont
         for (r in m.summary.value!!.results().calculations) b.ll.addView(
             ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
                 layoutParams = LinearLayout.LayoutParams(
@@ -61,6 +63,7 @@ class SumChips : Fragment() {
                     else r.key.toInt().toString()).plus(": ")
                     setTextColor(color(R.color.recency))
                     textSize = Fun.dm.density * 5
+                    typeface = that.dateFont
                 })
                 for (crush in r.value) addView(
                     Chip(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
@@ -74,6 +77,7 @@ class SumChips : Fragment() {
                             m.crush.value = crush
                             startActivity(Intent(c, Singular::class.java))
                         }
+                        typeface = that.dateFont
                     })
             })
         if (m.summary.value!!.unknown > 0f) b.ll.addView(TextView(c).apply {

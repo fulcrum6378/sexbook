@@ -122,4 +122,6 @@
     <!-- Settings -->
     <string name="stTitle">تنظیمات سکسبوک</string>
     <string name="stCalendarType">نوع تقویم</string>
+    <string name="stTruncate">حذف تمام داده ها</string>
+    <string name="stTruncateSure">آیا از حذف تمام داده ها اطمینان دارید؟</string>
 </resources>

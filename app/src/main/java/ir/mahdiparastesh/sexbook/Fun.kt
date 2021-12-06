@@ -34,8 +34,6 @@ class Fun {
             )
             dm = that.resources.displayMetrics
             night = c.resources.getBoolean(R.bool.night)
-
-            Main.dateFont = Typeface.createFromAsset(that.assets, "franklin_gothic.ttf")
         }
 
         fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
@@ -99,6 +97,8 @@ class Fun {
             v.visibility = if (b) View.VISIBLE else View.GONE
             return b
         }
+
+        fun font() = Typeface.createFromAsset(c.assets, "franklin_gothic.ttf")
     }
 
     enum class CalendarType { GREGORY, JALALI }

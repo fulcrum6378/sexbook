@@ -124,4 +124,6 @@
     <string name="stSP" tools:ignore="MissingTranslation">ir.mahdiparastesh.sexbook.Settings</string>
     <string name="stTitle">Sexbook Settings</string>
     <string name="stCalendarType">Calendar Type</string>
+    <string name="stTruncate">Reset Database</string>
+    <string name="stTruncateSure">Are you sure tou want to remove all your personal data?</string>
 </resources>

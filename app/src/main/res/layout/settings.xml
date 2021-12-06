@@ -20,6 +20,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -33,8 +34,17 @@
                     android:text="@string/stCalendarType" />
 
                 <Spinner
-                    style="@style/stItemTweak"
-                    android:id="@+id/stCalendarType"/>
+                    android:id="@+id/stCalendarType"
+                    style="@style/stItemTweak" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/stTruncate"
+                style="@style/stItem">
+
+                <TextView
+                    style="@style/stItemTV"
+                    android:text="@string/stTruncate" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

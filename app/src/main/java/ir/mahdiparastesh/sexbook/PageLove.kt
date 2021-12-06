@@ -50,7 +50,7 @@ class PageLove(val that: Main) : Fragment() {
         m.liefde.value = list
         if (vis(b.empty, list.isNullOrEmpty())) return
         m.liefde.value!!.sortWith(Crush.Sort())
-        adapter = CrushAdap(list!!.toList(), that, m)
+        adapter = CrushAdap(list!!.toList(), that)
         b.rv.adapter = adapter
     }
 }
