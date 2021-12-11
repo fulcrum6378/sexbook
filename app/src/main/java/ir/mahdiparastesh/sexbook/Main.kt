@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.*
 import android.view.*
 import android.widget.*
@@ -35,7 +34,6 @@ class Main : AppCompatActivity() {
     private lateinit var tbTitle: TextView
     private lateinit var exporter: Exporter
     private lateinit var toggleNav: ActionBarDrawerToggle
-    var dateFont: Typeface? = null
 
     companion object {
         lateinit var handler: Handler
@@ -47,14 +45,13 @@ class Main : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         supportFragmentManager.fragmentFactory = PageFactory()
+        m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         super.onCreate(savedInstanceState)
         b = MainBinding.inflate(layoutInflater)
-        m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
-        Fun.init(this)
+        Fun.init(this, b.root)
         b.pager.adapter = PageAdapter(this)
         exporter = Exporter(this)
-        dateFont = Fun.font()
 
 
         // Handler
@@ -81,7 +78,10 @@ class Main : AppCompatActivity() {
                 getTitle.text.toString() == resources.getString(R.string.app_name)
             ) tbTitle = getTitle
         }
-        if (::tbTitle.isInitialized) tbTitle.setTypeface(dateFont, Typeface.BOLD)
+        if (::tbTitle.isInitialized) {
+            tbTitle.typeface = Fun.font1Bold
+            tbTitle.textSize = resources.getDimension(R.dimen.tbTitle)
+        }
 
         // Navigation
         toggleNav = ActionBarDrawerToggle(
@@ -205,7 +205,7 @@ class Main : AppCompatActivity() {
         override fun createFragment(i: Int): Fragment = when (i) {
             1 -> SumCloud()
             2 -> SumPie()
-            else -> SumChips(this@Main)
+            else -> SumChips()
         }
     }
 
@@ -221,7 +221,6 @@ class Main : AppCompatActivity() {
             when (className) {
                 PageSex::class.java.name -> PageSex(this@Main)
                 PageLove::class.java.name -> PageLove(this@Main)
-                SumChips::class.java.name -> SumChips(this@Main)
                 else -> super.instantiate(classLoader, className)
             }
     }

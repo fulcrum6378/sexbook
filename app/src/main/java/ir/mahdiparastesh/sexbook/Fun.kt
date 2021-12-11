@@ -12,6 +12,7 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,17 +24,25 @@ class Fun {
         @SuppressLint("StaticFieldLeak")
         lateinit var c: Context
         lateinit var sp: SharedPreferences
+        lateinit var font1: Typeface
+        lateinit var font1Bold: Typeface
         var dm = DisplayMetrics()
         var night = false
+        var dirRtl = false
 
 
-        fun init(that: AppCompatActivity) {
+        fun init(that: AppCompatActivity, root: ViewGroup) {
             c = that.applicationContext
             sp = that.getSharedPreferences(
                 c.resources.getString(R.string.stSP), Context.MODE_PRIVATE
             )
             dm = that.resources.displayMetrics
             night = c.resources.getBoolean(R.bool.night)
+            dirRtl = c.resources.getBoolean(R.bool.dirRtl)
+            root.layoutDirection =
+                if (!dirRtl) ViewGroup.LAYOUT_DIRECTION_LTR else ViewGroup.LAYOUT_DIRECTION_RTL
+            if (!::font1.isInitialized) font1 = font()
+            if (!::font1Bold.isInitialized) font1Bold = font(true)
         }
 
         fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
@@ -98,7 +107,10 @@ class Fun {
             return b
         }
 
-        fun font() = Typeface.createFromAsset(c.assets, "franklin_gothic.ttf")
+        fun font(bold: Boolean = false): Typeface = Typeface.createFromAsset(
+            c.assets, if (!bold) c.resources.getString(R.string.font1)
+            else c.resources.getString(R.string.font1Bold)
+        )
     }
 
     enum class CalendarType { GREGORY, JALALI }

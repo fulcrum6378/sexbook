@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Sexbook</string>
 
     <!-- Global -->
@@ -81,7 +81,8 @@
         <item>Gregory</item>
         <item>Jalali</item>
     </string-array>
-
+    <string name="font1">franklin_gothic.ttf</string>
+    <string name="font1Bold">franklin_gothic_bold.ttf</string>
 
     <!-- Main -->
     <string name="mrvNotesHint">.....</string>
@@ -121,9 +122,32 @@
     <string name="notifyBirth">Notify me in their birthday</string>
 
     <!-- Settings -->
-    <string name="stSP" tools:ignore="MissingTranslation">ir.mahdiparastesh.sexbook.Settings</string>
+    <string name="stSP" translatable="false">ir.mahdiparastesh.sexbook.Settings</string>
     <string name="stTitle">Sexbook Settings</string>
     <string name="stCalendarType">Calendar Type</string>
     <string name="stTruncate">Reset Database</string>
     <string name="stTruncateSure">Are you sure tou want to remove all your personal data?</string>
+
+
+    <!-- JDTP -->
+    <string name="jdtp_done_label" msgid="7007948707597430919">DONE</string>
+    <string name="jdtp_ok">OK</string>
+    <string name="jdtp_cancel">Cancel</string>
+    <string name="jdtp_hour_picker_description" msgid="7586639618712934060">"لغزنده دایره‌ای ساعت"</string>
+    <string name="jdtp_minute_picker_description" msgid="6024811202872705251">"لغزنده دایره‌ای دقیقه"</string>
+    <string name="jdtp_select_hours" msgid="7651068754188418859">Select hour</string>
+    <string name="jdtp_select_minutes" msgid="8327182090226828481">Select minute</string>
+    <string name="jdtp_day_picker_description">Month grid of days</string>
+    <string name="jdtp_year_picker_description">Year list</string>
+    <string name="jdtp_select_day">Select month and day</string>
+    <string name="jdtp_select_year">Select year</string>
+    <string name="jdtp_item_is_selected" msgid="2674929164900463786">"<xliff:g id="ITEM">%1$s</xliff:g> انتخاب شد"</string>
+    <string name="jdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> حذف شد"</string>
+    <string name="jdtp_time_placeholder" translatable="false">--</string>
+    <string name="jdtp_time_separator" translatable="false">:</string>
+    <string name="jdtp_radial_numbers_typeface" translatable="false">sans-serif</string>
+    <string name="jdtp_sans_serif" translatable="false">sans-serif</string>
+    <string name="jdtp_day_of_week_label_typeface" translatable="false">sans-serif</string>
+    <string name="am_label">AM</string>
+    <string name="pm_label">PM</string>
 </resources>

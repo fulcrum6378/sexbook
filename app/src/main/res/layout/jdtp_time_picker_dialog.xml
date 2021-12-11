@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/time_picker_dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/jdtp_background_color"
+    android:focusable="true"
+    android:orientation="vertical"
+    tools:viewBindingIgnore="true">
+
+    <LinearLayout
+        android:id="@+id/time_display_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/jdtp_accent_color"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/time_picker_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/jdtp_accent_color_dark"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:textAllCaps="true"
+            android:textColor="@color/jdtp_white"
+            android:textSize="@dimen/jdtp_time_picker_header_text_size"
+            android:visibility="gone" />
+
+        <include
+            layout="@layout/jdtp_time_header_label"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/jdtp_header_height"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <ir.mahdiparastesh.sexbook.jdtp.time.RadialPickerLayout
+        android:id="@+id/time_picker"
+        android:layout_width="@dimen/jdtp_picker_dimen"
+        android:layout_height="@dimen/jdtp_time_picker_height"
+        android:layout_gravity="center"
+        android:background="@color/jdtp_circle_background"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <include layout="@layout/jdtp_done_button" />
+</LinearLayout>

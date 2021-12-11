@@ -19,12 +19,12 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.Fun.Companion.color
 import ir.mahdiparastesh.sexbook.Fun.Companion.dp
-import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.Fun.Companion.font1
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SumChipsBinding
 
-class SumChips(val that: Main) : Fragment() {
+class SumChips : Fragment() {
     private lateinit var b: SumChipsBinding
     private lateinit var m: Model
 
@@ -38,6 +38,7 @@ class SumChips(val that: Main) : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 val ss = s.toString()
                 for (i in 1 until b.ll.childCount) {
+				    if (b.ll[i] is TextView) continue
                     val cg = b.ll[i] as ChipGroup
                     for (y in 1 until cg.childCount) (cg[y] as Chip).apply {
                         chipBackgroundColor = c.getColorStateList(
@@ -48,7 +49,7 @@ class SumChips(val that: Main) : Fragment() {
                 }
             }
         })
-        b.find.typeface = that.dateFont
+        b.find.typeface = font1
         for (r in m.summary.value!!.results().calculations) b.ll.addView(
             ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
                 layoutParams = LinearLayout.LayoutParams(
@@ -63,7 +64,7 @@ class SumChips(val that: Main) : Fragment() {
                     else r.key.toInt().toString()).plus(": ")
                     setTextColor(color(R.color.recency))
                     textSize = Fun.dm.density * 5
-                    typeface = that.dateFont
+                    typeface = font1
                 })
                 for (crush in r.value) addView(
                     Chip(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
@@ -77,7 +78,7 @@ class SumChips(val that: Main) : Fragment() {
                             m.crush.value = crush
                             startActivity(Intent(c, Singular::class.java))
                         }
-                        typeface = that.dateFont
+                        typeface = font1
                     })
             })
         if (m.summary.value!!.unknown > 0f) b.ll.addView(TextView(c).apply {

@@ -12,6 +12,7 @@
     tools:ignore="MissingConstraints,SpUsage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clock"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:background="@drawable/clock_bg"
@@ -19,24 +20,29 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <View
+            android:id="@+id/clockHour"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/clock_hand"
+            app:layout_constraintBottom_toBottomOf="@id/point"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.27"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent="0.07" />
 
         <View
+            android:id="@+id/clockMin"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/clock_hand"
+            app:layout_constraintBottom_toBottomOf="@id/point"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.4"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent="0.07" />
 
         <View
+            android:id="@+id/point"
             style="@style/parentConstraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -46,12 +52,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
+        android:id="@+id/ampm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/mrvAMPM"
-        android:textSize="11dp" />
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@id/clock"
+        app:layout_constraintStart_toEndOf="@id/clock" />
 
     <TextView
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -60,9 +70,12 @@
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/name"
+        app:layout_constraintStart_toEndOf="@id/clock"
         app:layout_constraintTop_toTopOf="parent" />
 
     <AutoCompleteTextView
+        android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/tp"
@@ -75,15 +88,16 @@
         android:textColor="@color/mrvNotes"
         android:textColorHint="@color/mrvNotesHint"
         android:textSize="17sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/clock"
         app:layout_constraintWidth_percent="0.5"
         tools:ignore="RtlSymmetry" />
 
     <Spinner
+        android:id="@+id/type"
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_marginEnd="6dp"

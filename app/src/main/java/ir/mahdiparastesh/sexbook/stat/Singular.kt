@@ -51,7 +51,7 @@ class Singular : AppCompatActivity() {
         b = SingularBinding.inflate(layoutInflater)
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
-        Fun.init(this)
+        Fun.init(this, b.root)
         dateFont = Fun.font()
 
         if (m.onani.value == null || m.summary.value == null || m.crush.value == null) {

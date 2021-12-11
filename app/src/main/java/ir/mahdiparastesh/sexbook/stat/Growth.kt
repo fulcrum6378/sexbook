@@ -23,7 +23,7 @@ class Growth : AppCompatActivity() {
         b = GrowthBinding.inflate(layoutInflater)
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
-        Fun.init(this)
+        Fun.init(this, b.root)
         if (Fun.night) window.decorView.setBackgroundColor(Fun.color(R.color.CP))
 
         if (m.onani.value == null || m.summary.value == null) {

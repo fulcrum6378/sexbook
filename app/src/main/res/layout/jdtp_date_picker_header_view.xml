@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/date_picker_header"
+    android:layout_width="@dimen/jdtp_date_picker_component_width"
+    android:layout_height="@dimen/jdtp_date_picker_header_height"
+    android:background="@color/jdtp_calendar_header"
+    android:gravity="center"
+    android:importantForAccessibility="no"
+    android:includeFontPadding="false"
+    android:textColor="@color/jdtp_white"
+    android:textSize="@dimen/jdtp_date_picker_header_text_size"
+    tools:viewBindingIgnore="true"
+    tools:ignore="SpUsage" />

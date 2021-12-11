@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -18,12 +17,11 @@ import ir.mahdiparastesh.sexbook.data.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 
 class Settings : AppCompatActivity() {
+    lateinit var m: Model
     private lateinit var b: SettingsBinding
-    private lateinit var m: Model
     private lateinit var tbTitle: TextView
     private lateinit var calendarTypes: Array<String>
     private var changed = false
-    private var dateFont: Typeface? = null
 
     companion object {
         const val spCalType = "calendarType"
@@ -34,15 +32,8 @@ class Settings : AppCompatActivity() {
         b = SettingsBinding.inflate(layoutInflater)
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
-        Fun.init(this)
+        Fun.init(this, b.root)
 
-
-        // Fonts
-        dateFont = Fun.font()
-        for (l in 0 until b.ll.childCount) {
-            val first = (b.ll[l] as ConstraintLayout)[0]
-            if (first is TextView) first.typeface = dateFont
-        }
 
         // Toolbar
         setSupportActionBar(b.toolbar)
@@ -52,12 +43,21 @@ class Settings : AppCompatActivity() {
                 getTitle.text.toString() == resources.getString(R.string.stTitle)
             ) tbTitle = getTitle
         }
-        if (::tbTitle.isInitialized) tbTitle.setTypeface(dateFont, Typeface.BOLD)
+        if (::tbTitle.isInitialized) {
+            tbTitle.typeface = Fun.font1Bold
+            tbTitle.textSize = resources.getDimension(R.dimen.tbTitle)
+        }
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
         b.toolbar.navigationIcon?.apply { colorFilter = Fun.pdcf() }
+
+        // Fonts
+        for (l in 0 until b.ll.childCount) {
+            val first = (b.ll[l] as ConstraintLayout)[0]
+            if (first is TextView) first.typeface = Fun.font1
+        }
 
         // Calendar Type
         calendarTypes = resources.getStringArray(R.array.calendarTypes)
