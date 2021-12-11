@@ -10,10 +10,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.Fun.Companion.vis
-import ir.mahdiparastesh.sexbook.adap.CrushAdap
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
+import ir.mahdiparastesh.sexbook.list.CrushAdap
 
 class PageLove(val that: Main) : Fragment() {
     private lateinit var b: PageLoveBinding

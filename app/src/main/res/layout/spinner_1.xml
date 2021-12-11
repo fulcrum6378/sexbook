@@ -6,4 +6,5 @@
     android:textColor="@color/spnFilterTV"
     android:textSize="19dp"
     android:textStyle="bold"
-    tools:ignore="SpUsage" />
+    tools:ignore="SpUsage"
+    tools:viewBindingIgnore="true" />

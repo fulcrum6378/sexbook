@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.adap
+package ir.mahdiparastesh.sexbook.more
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

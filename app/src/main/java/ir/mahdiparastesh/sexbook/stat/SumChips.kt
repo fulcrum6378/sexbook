@@ -88,6 +88,7 @@ class SumChips : Fragment() {
             setPadding(0, dp(7), 0, 0)
             text = getString(R.string.unknown, m.summary.value!!.unknown.toString())
             setTextColor(color(R.color.searchHint))
+            typeface = font1
         })
 
         return b.root

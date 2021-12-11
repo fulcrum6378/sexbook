@@ -5,12 +5,14 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.*
+import android.text.SpannableString
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.forEach
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
@@ -22,6 +24,7 @@ import ir.mahdiparastesh.sexbook.Fun.Companion.dm
 import ir.mahdiparastesh.sexbook.Fun.Companion.pdcf
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
+import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
 import ir.mahdiparastesh.sexbook.stat.*
 import java.util.*
 import kotlin.system.exitProcess
@@ -141,6 +144,14 @@ class Main : AppCompatActivity() {
             }
         }
         //b.nav.addHeaderView()
+        b.nav.menu.forEach {
+            val mNewTitle = SpannableString(it.title)
+            mNewTitle.setSpan(
+                CustomTypefaceSpan("", Fun.font1, dm.density * 16f), 0,
+                mNewTitle.length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            it.title = mNewTitle
+        }
 
         // Open Json files
         if (intent.data != null) Exporter.import(intent.data!!, true, this)

@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.adap
+package ir.mahdiparastesh.sexbook.list
 
 import android.content.Intent
 import android.view.LayoutInflater

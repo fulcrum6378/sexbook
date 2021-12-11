@@ -93,6 +93,7 @@ class Fun {
         fun fixADButton(button: Button) = button.apply {
             setTextColor(color(R.color.mrvPopupButtons))
             //setBackgroundColor(color(R.color.CP))
+            typeface = font1
         }
 
         fun z(n: Int): String {

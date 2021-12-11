@@ -19,7 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginHorizontal="12sp"
+        android:layout_marginStart="7sp"
+        android:layout_marginEnd="12sp"
         android:textColor="@color/mrvNotes"
         android:textSize="17sp"
         android:textStyle="bold" />

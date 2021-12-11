@@ -9,12 +9,13 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
-import ir.mahdiparastesh.sexbook.adap.ReportAdap
 import ir.mahdiparastesh.sexbook.data.Filter
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
+import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.Jalali
+import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -135,8 +136,7 @@ class PageSex(val that: Main) : Fragment() {
             val titles = ArrayList<String>().apply {
                 for (f in filters!!.indices) add(filters!![f].title(c))
             }
-            b.spnFilter.adapter = ArrayAdapter(c, R.layout.spinner_1, titles)
-                .apply { setDropDownViewResource(R.layout.spinner_1_dd) }
+            b.spnFilter.adapter = SpinnerAdap(titles)
             spnFilterTouched = false
             b.spnFilter.setSelection(listFilter, true)
         }

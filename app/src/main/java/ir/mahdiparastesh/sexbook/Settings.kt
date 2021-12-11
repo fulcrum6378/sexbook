@@ -4,17 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
-import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.Fun.Companion.sp
 import ir.mahdiparastesh.sexbook.data.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
+import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 
 class Settings : AppCompatActivity() {
     lateinit var m: Model
@@ -61,8 +60,7 @@ class Settings : AppCompatActivity() {
 
         // Calendar Type
         calendarTypes = resources.getStringArray(R.array.calendarTypes)
-        b.stCalendarType.adapter = ArrayAdapter(c, R.layout.spinner_1, calendarTypes)
-            .apply { setDropDownViewResource(R.layout.spinner_1_dd) }
+        b.stCalendarType.adapter = SpinnerAdap(calendarTypes.toList())
         b.stCalendarType.setSelection(sp.getInt(spCalType, 0))
         b.stCalendarType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
