@@ -33,7 +33,7 @@
             style="@style/parentConstraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/add_1"
+            android:src="@drawable/add"
             app:layout_constraintHeight_percent="0.6"
             app:layout_constraintWidth_percent="0.6" />
     </androidx.constraintlayout.widget.ConstraintLayout>

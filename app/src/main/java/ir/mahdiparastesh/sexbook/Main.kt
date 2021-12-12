@@ -134,10 +134,6 @@ class Main : AppCompatActivity() {
                     };true; }
                 R.id.momImport -> exporter.launchImport()
                 R.id.momExport -> exporter.launchExport(m.onani.value, m.liefde.value)
-                R.id.momExportExcel -> {
-                    // TODO
-                    true
-                }
                 R.id.momSettings -> {
                     startActivity(Intent(this, Settings::class.java)); true; }
                 else -> super.onOptionsItemSelected(it)
@@ -153,16 +149,14 @@ class Main : AppCompatActivity() {
             it.title = mNewTitle
         }
 
-        // Open Json files
-        if (intent.data != null) Exporter.import(intent.data!!, true, this)
-
+        checkIntent(intent)
         Work(Work.VIEW_ALL).start()
         Work(Work.C_VIEW_ALL).start()
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        recreate()
+        if (intent != null) checkIntent(intent)
     }
 
     var exiting = false
@@ -185,13 +179,15 @@ class Main : AppCompatActivity() {
         exitProcess(1)
     }
 
-    /*override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.toolbar, menu)
-        return super.onCreateOptionsMenu(menu)
+
+    fun checkIntent(intent: Intent) {
+        when (intent.action) {
+            Intent.ACTION_VIEW -> if (intent.data != null)
+                Exporter.import(intent.data!!, true, this)
+            Action.ADD.s -> PageSex.messages.add(Work.SPECIAL_ADD)
+            Action.RELOAD.s -> recreate()
+        }
     }
-
-    override fun onOptionsItemSelected(item: MenuItem) =*/
-
 
     fun load(sd: Long = 1500, dur: Long = 1000) {
         if (m.loaded.value!!) return
@@ -234,5 +230,10 @@ class Main : AppCompatActivity() {
                 PageLove::class.java.name -> PageLove(this@Main)
                 else -> super.instantiate(classLoader, className)
             }
+    }
+
+    enum class Action(val s: String) {
+        RELOAD("ir.mahdiparastesh.sexbook.ACTION.RELOAD"),
+        ADD("ir.mahdiparastesh.sexbook.ACTION.ADD")
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:icon="@drawable/add_yellow"
+        android:shortcutId="shrAdd"
+        android:shortcutShortLabel="@string/shrAdd">
+
+        <intent
+            android:action="ir.mahdiparastesh.sexbook.ACTION.ADD"
+            android:targetClass="ir.mahdiparastesh.sexbook.Main"
+            android:targetPackage="ir.mahdiparastesh.sexbook" />
+    </shortcut>
+</shortcuts>

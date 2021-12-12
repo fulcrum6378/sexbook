@@ -11,7 +11,7 @@ android {
         minSdkVersion 26
         targetSdkVersion 31
         versionCode 1
-        versionName '6.2.0'
+        versionName '6.3.5'
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -60,6 +60,5 @@ dependencies {
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.fragment:fragment-ktx:1.4.0' // for ActivityResultLauncher
-    implementation "org.apache.poi:poi:5.1.0"
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
 }

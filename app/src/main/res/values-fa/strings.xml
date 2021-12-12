@@ -83,6 +83,7 @@
     </string-array>
     <string name="font1">vazir_medium.ttf</string>
     <string name="font1Bold">vazir_bold.ttf</string>
+    <string name="shrAdd">ایجاد مورد جدید</string>
 
     <!-- Main -->
     <string name="mrvNotesHint">.....</string>
@@ -94,7 +95,6 @@
     <string name="momRec">اخیریت</string>
     <string name="momImport">وارد کردن از جیسون</string>
     <string name="momExport">استخراج به جیسون</string>
-    <string name="momExportExcel">استخراج به اکسل</string>
     <string name="momSettings">تنظیمات</string>
     <string name="requestFailed">درخواست ناموفق ماند!</string>
     <string name="exportDone">انجام شد!</string>
@@ -117,8 +117,6 @@
     <string name="birth">تاریخ تولد</string>
     <string name="location">محل زندگی</string>
     <string name="instagram">اینستاگرام</string>
-    <string name="contact">در مخاطبین</string>
-    <string name="gallery">فولدر در گالری</string>
     <string name="notifyBirth">منو تو روز تولدش خبر کن</string>
 
     <!-- Settings -->

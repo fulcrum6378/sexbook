@@ -8,12 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.Fun.Companion.vis
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
+import ir.mahdiparastesh.sexbook.more.MessageInbox
 
 class PageLove(val that: Main) : Fragment() {
     private lateinit var b: PageLoveBinding
@@ -21,9 +23,8 @@ class PageLove(val that: Main) : Fragment() {
     var adapter: CrushAdap? = null
 
     companion object {
-        lateinit var handler: Handler
-
-        fun handling() = ::handler.isInitialized
+        var handler = MutableLiveData<Handler?>(null)
+        val messages = MessageInbox(PageSex.handler)
     }
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
@@ -32,7 +33,7 @@ class PageLove(val that: Main) : Fragment() {
 
 
         // Handler
-        handler = object : Handler(Looper.getMainLooper()) {
+        handler.value = object : Handler(Looper.getMainLooper()) {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
@@ -41,6 +42,7 @@ class PageLove(val that: Main) : Fragment() {
                 }
             }
         }
+        messages.clear()
 
         Work(Work.C_VIEW_ALL).start()
         return b.root

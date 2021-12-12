@@ -90,20 +90,6 @@
 
         <View style="@style/identifySep" />
 
-        <TextView
-            android:id="@+id/contact"
-            style="@style/identifyButton"
-            android:text="@string/contact" />
-
-        <View style="@style/identifySep" />
-
-        <TextView
-            android:id="@+id/gallery"
-            style="@style/identifyButton"
-            android:text="@string/gallery" />
-
-        <View style="@style/identifySep" />
-
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/notifyBirth"
             style="@style/identifyField"

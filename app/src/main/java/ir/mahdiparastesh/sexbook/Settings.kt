@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.Fun.Companion.sp
+import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
@@ -65,6 +66,7 @@ class Settings : AppCompatActivity() {
         b.stCalendarType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
+                if (sp.getInt(spCalType, 0) == i) return
                 changed = true
                 sp.edit().apply {
                     putInt(spCalType, i)
@@ -82,6 +84,7 @@ class Settings : AppCompatActivity() {
                     DbFile(DbFile.Triple.MAIN).delete()
                     DbFile(DbFile.Triple.SHARED_MEMORY).delete()
                     DbFile(DbFile.Triple.WRITE_AHEAD_LOG).delete()
+                    changed = true
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
@@ -96,7 +99,7 @@ class Settings : AppCompatActivity() {
     override fun onBackPressed() {
         if (changed) {
             finish()
-            startActivity(Intent(this, Main::class.java))
+            startActivity(Intent(this, Main::class.java).setAction(RELOAD.s))
         } else super.onBackPressed()
     }
 }

@@ -1,18 +1,12 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Typeface
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.provider.DocumentsContract
 import android.widget.TextView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
@@ -128,11 +122,6 @@ class Singular : AppCompatActivity() {
                 if (day != -1) cal[Calendar.DAY_OF_MONTH] = day
                 bi.location.setText(crush!!.locat)
                 bi.instagram.setText(crush!!.insta)
-                // Implement Contact
-                if (crush!!.gallery != null) {
-                    // gallery = Uri.parse(crush!!.gallery)
-                    bi.gallery.text = crush!!.gallery
-                }
                 bi.notifyBirth.isChecked = crush!!.notifyBirth
             }
 
@@ -155,16 +144,6 @@ class Singular : AppCompatActivity() {
                 }
             }
 
-            // Contact
-            // bi.contact.setOnClickListener { }
-
-            // Gallery
-            bi.gallery.setOnClickListener {
-                galleryLauncher.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-                    if (gallery != null) putExtra(DocumentsContract.EXTRA_INITIAL_URI, gallery)
-                })
-            }
-
             AlertDialog.Builder(this).apply {
                 setTitle("${resources.getString(R.string.identify)}: ${m.crush.value}")
                 setView(bi.root)
@@ -182,8 +161,6 @@ class Singular : AppCompatActivity() {
                             bi.location.text.toString(),
                         if (bi.instagram.text.toString().isEmpty()) null else
                             bi.instagram.text.toString(),
-                        null,
-                        gallery?.path,
                         bi.notifyBirth.isChecked
                     )
                     Work(
@@ -200,13 +177,6 @@ class Singular : AppCompatActivity() {
             }
         }
     }
-
-    private var gallery: Uri? = null
-    private var galleryLauncher: ActivityResultLauncher<Intent> =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
-            gallery = it.data!!.data!!
-        }
 
     companion object {
         lateinit var handler: Handler

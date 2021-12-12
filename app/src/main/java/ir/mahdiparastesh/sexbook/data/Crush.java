@@ -36,19 +36,12 @@ public class Crush {
     @Nullable
     @ColumnInfo(name = "instagram")
     public String insta;
-    @Nullable
-    @ColumnInfo(name = "contact")
-    public String contact;
-    @Nullable
-    @ColumnInfo(name = "gallery")
-    public String gallery;
     @ColumnInfo(name = "notify_birth")
     public boolean notifyBirth;
 
     public Crush(@NonNull String key, String fName, String lName, boolean masc, boolean real,
                  float height, short bYear, byte bMonth, byte bDay, @Nullable String locat,
-                 @Nullable String insta, @Nullable String contact, @Nullable String gallery,
-                 boolean notifyBirth) {
+                 @Nullable String insta, boolean notifyBirth) {
         this.key = key;
         this.fName = fName;
         this.lName = lName;
@@ -60,8 +53,6 @@ public class Crush {
         this.bDay = bDay;
         this.locat = locat;
         this.insta = insta;
-        this.contact = contact;
-        this.gallery = gallery;
         this.notifyBirth = notifyBirth;
     }
 

@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.list
 
 import android.text.Editable
+import android.text.SpannableString
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.forEach
 import androidx.recyclerview.widget.RecyclerView
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
@@ -23,6 +25,7 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.jdtp.utils.PersianCalendar
+import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
 import ir.mahdiparastesh.sexbook.more.Jalali
 import ir.mahdiparastesh.sexbook.more.TypeAdap
 import java.util.*
@@ -163,6 +166,14 @@ class ReportAdap(
             }
             popup.inflate(R.menu.sex_longclick)
             popup.show()
+            popup.menu.forEach {
+                val mNewTitle = SpannableString(it.title)
+                mNewTitle.setSpan(
+                    CustomTypefaceSpan("", Fun.font1, Fun.dm.density * 16f), 0,
+                    mNewTitle.length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
+                )
+                it.title = mNewTitle
+            }
             true
         }
         h.b.root.setOnLongClickListener(longClick)

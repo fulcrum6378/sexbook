@@ -5,8 +5,10 @@ import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.data.Filter
@@ -15,6 +17,7 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.Jalali
+import ir.mahdiparastesh.sexbook.more.MessageInbox
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 import java.util.*
 import kotlin.collections.ArrayList
@@ -22,16 +25,14 @@ import kotlin.collections.ArrayList
 class PageSex(val that: Main) : Fragment() {
     private lateinit var b: PageSexBinding
     private lateinit var m: Model
-    private var adding = false
     var adapter: ReportAdap? = null
 
     companion object {
-        lateinit var handler: Handler
+        var handler = MutableLiveData<Handler?>(null)
         var reports = ArrayList<Report>()
         var filters: ArrayList<Filter>? = null
         var listFilter = 0
-
-        fun handling() = ::handler.isInitialized
+        val messages = MessageInbox(handler)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -41,7 +42,7 @@ class PageSex(val that: Main) : Fragment() {
 
 
         // Handler
-        handler = object : Handler(Looper.getMainLooper()) {
+        handler.value = object : Handler(Looper.getMainLooper()) {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
@@ -89,9 +90,11 @@ class PageSex(val that: Main) : Fragment() {
                         resetAllMasturbations()
                     }
                     Work.SCROLL -> b.rv.smoothScrollBy(0, msg.obj as Int)
+                    Work.SPECIAL_ADD -> add()
                 }
             }
         }
+        messages.clear()
 
         // Filter
         b.spnFilterMark.setColorFilter(Fun.color(R.color.spnFilterMark))
@@ -105,17 +108,7 @@ class PageSex(val that: Main) : Fragment() {
 
         // Add
         if (Fun.night) Fun.pdcf().apply { b.addIV.colorFilter = this }
-        b.add.setOnClickListener {
-            if (adding) return@setOnClickListener
-            if (filters != null) filterList(filters!!.size - 1)
-            adding = true
-            Work(Work.INSERT_ONE, listOf(Report(Fun.now(), "", 1, "", -1L))).start()
-            object : CountDownTimer(Work.TIMEOUT, Work.TIMEOUT) {
-                override fun onTick(p0: Long) {}
-                override fun onFinish() {
-                    adding = false; }
-            }
-        }
+        b.add.setOnClickListener { add() }
 
         Work(Work.VIEW_ALL).start()
         return b.root
@@ -176,5 +169,19 @@ class PageSex(val that: Main) : Fragment() {
             adapter = ReportAdap(reports, that)
             b.rv.adapter = adapter
         } else adapter!!.notifyDataSetChanged()
+    }
+
+    private var adding = false
+    fun add() {
+        if (adding) return
+        if (filters != null) filterList(filters!!.size - 1)
+        adding = true
+        Work(Work.INSERT_ONE, listOf(Report(Fun.now(), "", 1, "", -1L))).start()
+        object : CountDownTimer(Work.TIMEOUT, Work.TIMEOUT) {
+            override fun onTick(p0: Long) {}
+            override fun onFinish() {
+                adding = false; }
+        }
+        Fun.shake()
     }
 }

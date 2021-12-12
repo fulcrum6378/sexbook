@@ -223,6 +223,7 @@ public abstract class MonthView extends View {
 
     private int mDayOfWeekStart = 0;
 
+    @SuppressWarnings({"ConstantConditions", "unchecked"})
     public void setMonthParams(HashMap<String, Object> params) {
         if (!params.containsKey(VIEW_PARAMS_MONTH) && !params.containsKey(VIEW_PARAMS_YEAR))
             throw new InvalidParameterException("You must specify month and year for this view");

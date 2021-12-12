@@ -83,6 +83,7 @@
     </string-array>
     <string name="font1">franklin_gothic.ttf</string>
     <string name="font1Bold">franklin_gothic_bold.ttf</string>
+    <string name="shrAdd">Add New Record</string>
 
     <!-- Main -->
     <string name="mrvNotesHint">.....</string>
@@ -94,7 +95,6 @@
     <string name="momRec">Recency</string>
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>
-    <string name="momExportExcel">Export to Excel</string>
     <string name="momSettings">Settings</string>
     <string name="requestFailed">Request failed!</string>
     <string name="exportDone">Done!</string>
@@ -117,8 +117,6 @@
     <string name="birth">Birth Date</string>
     <string name="location">Location</string>
     <string name="instagram">Instagram</string>
-    <string name="contact">In Contacts</string>
-    <string name="gallery">Gallery Folder</string>
     <string name="notifyBirth">Notify me in their birthday</string>
 
     <!-- Settings -->

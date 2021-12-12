@@ -10,6 +10,8 @@ import android.content.SharedPreferences
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
@@ -112,6 +114,12 @@ class Fun {
             c.assets, if (!bold) c.resources.getString(R.string.font1)
             else c.resources.getString(R.string.font1Bold)
         )
+
+        @Suppress("DEPRECATION") // Unexplained Android 12 changes
+        fun shake(dur: Long = 90L) {
+            val v = c.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            v.vibrate(VibrationEffect.createOneShot(dur, VibrationEffect.DEFAULT_AMPLITUDE))
+        }
     }
 
     enum class CalendarType { GREGORY, JALALI }

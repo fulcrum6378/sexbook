@@ -12,9 +12,9 @@ class Work(
     val values: List<Any>? = null,
     val handler: Handler =
         if (action < 10)
-            (if (PageSex.handling()) PageSex.handler else Main.handler)
+            (if (PageSex.handler.value != null) PageSex.handler.value!! else Main.handler)
         else
-            (if (PageLove.handling()) PageLove.handler else Main.handler)
+            (if (PageLove.handler.value != null) PageLove.handler.value!! else Main.handler)
 ) : Thread() {
     companion object {
         // Report
@@ -39,6 +39,7 @@ class Work(
 
         // Other
         const val TIMEOUT = 5000L
+        const val SPECIAL_ADD = 100
     }
 
     @Suppress("UNCHECKED_CAST")
