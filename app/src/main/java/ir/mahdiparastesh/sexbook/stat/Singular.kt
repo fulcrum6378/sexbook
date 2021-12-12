@@ -176,6 +176,9 @@ class Singular : AppCompatActivity() {
                 Fun.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
             }
         }
+
+        // TODO: Implement Birthday Notification
+        // TODO: Implement Mass Rename
     }
 
     companion object {

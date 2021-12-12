@@ -86,9 +86,6 @@
     <string name="shrAdd">ایجاد مورد جدید</string>
 
     <!-- Main -->
-    <string name="mrvNotesHint">.....</string>
-    <string name="lcDescriptions">توضیحات</string>
-    <string name="lcDelete">حذف</string>
     <string name="momSum">خلاصه</string>
     <string name="momPop">محبوبیت</string>
     <string name="momGrw">رشد</string>
@@ -105,7 +102,17 @@
     <string name="noRecords">شما هیچ چیزی ثبت نکرده اید!</string>
     <string name="askImport">آیا از جایگزین کردن تمام این موارد اطمینان دارید؟</string>
     <string name="findChip">یک کراش انتخاب کنید&#8230;</string>
+
+    <!-- Page Sex -->
+    <string name="mrvNotesHint">.....</string>
+    <string name="lcDescriptions">توضیحات</string>
+    <string name="lcDelete">حذف</string>
+
+    <!-- Page Love -->
     <string name="emptyLove">بعد از اضافه کردن چند رکورد سکس، بروید به منوی اصلی -> خلاصه -> یک کراش انتخاب کنید -> دکمه «دارای عکس آدمک» (شناسایی) را بزنید.</string>
+    <string name="lcStatistics">آمار</string>
+    <string name="lcInstagram">اینستاگرام</string>
+    <string name="lcDeleteCrushSure">آیا از حذف این مخاطب اطمینان دارید؟</string>
 
     <!-- Singular -->
     <string name="identify">شناسایی</string>

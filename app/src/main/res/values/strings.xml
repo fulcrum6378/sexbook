@@ -86,9 +86,6 @@
     <string name="shrAdd">Add New Record</string>
 
     <!-- Main -->
-    <string name="mrvNotesHint">.....</string>
-    <string name="lcDescriptions">Descriptions</string>
-    <string name="lcDelete">Delete</string>
     <string name="momSum">Summary</string>
     <string name="momPop">Popularity</string>
     <string name="momGrw">Growth</string>
@@ -105,7 +102,17 @@
     <string name="noRecords">You have no records yet!</string>
     <string name="askImport">Are you sure you want to replace all the records?</string>
     <string name="findChip">Find a crush&#8230;</string>
+
+    <!-- Page Sex -->
+    <string name="mrvNotesHint">.....</string>
+    <string name="lcDescriptions">Descriptions</string>
+    <string name="lcDelete">Delete</string>
+
+    <!-- Page Love -->
     <string name="emptyLove">After adding some sex records, go to Navigation Menu -> Summary -> Select a crush -> Hit the top right button with a \"Person\" (Identification) icon.</string>
+    <string name="lcStatistics">Statistics</string>
+    <string name="lcInstagram">Instagram</string>
+    <string name="lcDeleteCrushSure">Are you sure you want to delete this contact?</string>
 
     <!-- Singular -->
     <string name="identify">Identification</string>

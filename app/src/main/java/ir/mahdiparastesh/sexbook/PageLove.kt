@@ -39,6 +39,10 @@ class PageLove(val that: Main) : Fragment() {
                 when (msg.what) {
                     Work.C_VIEW_ALL -> arrangeList(msg.obj as ArrayList<Crush>)
                     Work.REPLACE_ALL -> Work(Work.C_VIEW_ALL).start()
+                    Work.C_DELETE_ONE -> {
+                        m.liefde.value?.removeAt(msg.arg1)
+                        adapter?.notifyItemRemoved(msg.arg1)
+                    }
                 }
             }
         }

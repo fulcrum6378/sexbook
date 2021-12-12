@@ -14,9 +14,9 @@
     <color name="white">#FFF</color>
     <color name="black">#000</color>
     <color name="adBG">#FFF</color>
-
     <string name="anyChartBG">#FFFFFF</string>
     <string name="anyChartADBG">#FFFFFF</string>
+    <color name="transformer">@color/CPD</color>
 
     <!-- Main -->
     <color name="toolbar">@color/CP</color>

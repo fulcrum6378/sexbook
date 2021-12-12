@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [Report::class, Crush::class],
+    // TODO: Locations table linked to any record
     version = 1,
     exportSchema = false
 )

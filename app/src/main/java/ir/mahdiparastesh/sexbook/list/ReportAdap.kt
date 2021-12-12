@@ -151,7 +151,7 @@ class ReportAdap(
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.lcDescriptions -> {
-                        // TODO
+                        // TODO: Description
                         true
                     }
                     R.id.lcDelete -> {
@@ -164,7 +164,7 @@ class ReportAdap(
                     else -> false
                 }
             }
-            popup.inflate(R.menu.sex_longclick)
+            popup.inflate(R.menu.report)
             popup.show()
             popup.menu.forEach {
                 val mNewTitle = SpannableString(it.title)

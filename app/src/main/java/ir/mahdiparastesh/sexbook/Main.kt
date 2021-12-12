@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.forEach
 import androidx.core.view.get
@@ -27,6 +28,7 @@ import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
 import ir.mahdiparastesh.sexbook.stat.*
 import java.util.*
+import kotlin.math.abs
 import kotlin.system.exitProcess
 
 // adb connect 192.168.1.20:
@@ -53,8 +55,6 @@ class Main : AppCompatActivity() {
         b = MainBinding.inflate(layoutInflater)
         setContentView(b.root)
         Fun.init(this, b.root)
-        b.pager.adapter = PageAdapter(this)
-        exporter = Exporter(this)
 
 
         // Handler
@@ -147,6 +147,19 @@ class Main : AppCompatActivity() {
                 mNewTitle.length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
             )
             it.title = mNewTitle
+        }
+        exporter = Exporter(this)
+
+        // Pager
+        b.pager.adapter = PageAdapter(this)
+        b.pager.setPageTransformer { _, pos ->
+            b.transformer.layoutParams =
+                (b.transformer.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    horizontalBias =
+                        if (pos != 0f && pos != 1f) 0.75f - (pos / 2f)
+                        else abs(b.pager.currentItem.toFloat() - 0.25f)
+                    matchConstraintPercentWidth = 0.25f + ((0.5f - abs(0.5f - pos)) / 2f)
+                }
         }
 
         checkIntent(intent)
