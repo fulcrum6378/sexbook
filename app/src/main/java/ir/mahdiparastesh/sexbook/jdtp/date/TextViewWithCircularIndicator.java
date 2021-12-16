@@ -19,7 +19,7 @@ public class TextViewWithCircularIndicator extends AppCompatTextView {
 
     private static final int SELECTED_CIRCLE_ALPHA = 255;
 
-    Paint mCirclePaint = new Paint();
+    final Paint mCirclePaint = new Paint();
 
     private final int mCircleColor;
     private final String mItemIsSelectedText;

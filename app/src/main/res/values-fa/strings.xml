@@ -64,7 +64,6 @@
     <string name="AM">ق.ظ.</string>
     <string name="PM">ب.ظ.</string>
     <string name="ok">باشه</string>
-    <string name="cancel">لغو</string>
     <string name="yes">بله</string>
     <string name="no">خیر</string>
     <string name="save">ذخیره</string>
@@ -93,7 +92,6 @@
     <string name="momImport">وارد کردن از جیسون</string>
     <string name="momExport">استخراج به جیسون</string>
     <string name="momSettings">تنظیمات</string>
-    <string name="requestFailed">درخواست ناموفق ماند!</string>
     <string name="exportDone">انجام شد!</string>
     <string name="exportUndone">ناموفق!</string>
     <string name="importDone">انجام شد!</string>
@@ -134,7 +132,6 @@
 
 
     <!-- JDTP -->
-    <string name="jdtp_done_label" msgid="7007948707597430919">"انجام شد"</string>
     <string name="jdtp_ok">تایید</string>
     <string name="jdtp_cancel">بیخیال</string>
     <string name="jdtp_hour_picker_description" msgid="7586639618712934060">"لغزنده دایره‌ای ساعت"</string>
@@ -149,9 +146,6 @@
     <string name="jdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> حذف شد"</string>
     <string name="jdtp_time_placeholder" translatable="false">--</string>
     <string name="jdtp_time_separator" translatable="false">:</string>
-    <string name="jdtp_radial_numbers_typeface" translatable="false">sans-serif</string>
-    <string name="jdtp_sans_serif" translatable="false">sans-serif</string>
-    <string name="jdtp_day_of_week_label_typeface" translatable="false">sans-serif</string>
     <string name="am_label">قبل‌ازظهر</string>
     <string name="pm_label">بعدازظهر</string>
 </resources>

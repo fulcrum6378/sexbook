@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
@@ -172,6 +173,7 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.jdtp_time_picker_dialog, null);
         final AppCompatActivity that = (AppCompatActivity) getActivity();
+        assert that != null;
         KeyboardListener keyboardListener = new KeyboardListener();
         view.findViewById(R.id.time_picker_dialog).setOnKeyListener(keyboardListener);
 
@@ -180,8 +182,8 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
         mSelectHours = res.getString(R.string.jdtp_select_hours);
         mMinutePickerDescription = res.getString(R.string.jdtp_minute_picker_description);
         mSelectMinutes = res.getString(R.string.jdtp_select_minutes);
-        mSelectedColor = res.getColor(R.color.jdtp_white);
-        mUnselectedColor = res.getColor(R.color.jdtp_accent_color_focused);
+        mSelectedColor = ContextCompat.getColor(that, R.color.jdtp_white);
+        mUnselectedColor = ContextCompat.getColor(that, R.color.jdtp_accent_color_focused);
 
         mHourView = view.findViewById(R.id.hours);
         mHourView.setOnKeyListener(keyboardListener);
@@ -289,13 +291,13 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
             timePickerHeader.setText(mTitle);
         }
 
-        mTimePicker.setTheme(getActivity().getApplicationContext(), mThemeDark);
+        mTimePicker.setTheme(that.getApplicationContext(), mThemeDark);
 
-        int circleBackground = res.getColor(R.color.jdtp_circle_background);
-        int backgroundColor = res.getColor(R.color.jdtp_background_color);
-        int darkBackgroundColor = res.getColor(R.color.jdtp_light_gray);
+        int circleBackground = ContextCompat.getColor(that, R.color.jdtp_circle_background);
+        int backgroundColor = ContextCompat.getColor(that, R.color.jdtp_background_color);
+        int darkBackgroundColor = ContextCompat.getColor(that, R.color.jdtp_light_gray);
 
-        int lightGray = res.getColor(R.color.jdtp_light_gray);
+        int lightGray = ContextCompat.getColor(that, R.color.jdtp_light_gray);
 
         mTimePicker.setBackgroundColor(mThemeDark ? lightGray : circleBackground);
         view.findViewById(R.id.time_picker_dialog).setBackgroundColor(mThemeDark ? darkBackgroundColor : backgroundColor);

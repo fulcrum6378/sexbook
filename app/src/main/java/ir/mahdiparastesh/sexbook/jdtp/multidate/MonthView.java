@@ -43,7 +43,7 @@ public abstract class MonthView extends View {
     public static final String VIEW_PARAMS_SELECTED_DAYS = "selected_days";
     public static final String VIEW_PARAMS_WEEK_START = "week_start";
 
-    protected static int MIN_HEIGHT = 10;
+    protected final static int MIN_HEIGHT = 10;
     protected static final int DEFAULT_SELECTED_DAY = -1;
     protected static final int DEFAULT_WEEK_START = Calendar.SATURDAY;
     protected static final int DEFAULT_NUM_DAYS = 7;
@@ -52,7 +52,7 @@ public abstract class MonthView extends View {
 
     private static final int SELECTED_CIRCLE_ALPHA = 255;
 
-    protected static int DAY_SEPARATOR_WIDTH = 1;
+    protected final static int DAY_SEPARATOR_WIDTH = 1;
     protected static int MINI_DAY_NUMBER_TEXT_SIZE;
     protected static int MONTH_LABEL_TEXT_SIZE;
     protected static int MONTH_DAY_LABEL_TEXT_SIZE;
@@ -61,7 +61,7 @@ public abstract class MonthView extends View {
 
     protected DatePickerController mController;
 
-    protected int mEdgePadding = 0;
+    protected final int mEdgePadding = 0;
     protected Paint mMonthNumPaint;
     protected Paint mMonthTitlePaint;
     protected Paint mSelectedCirclePaint;
@@ -74,7 +74,7 @@ public abstract class MonthView extends View {
     protected ArrayList<Integer> mSelectedDays = new ArrayList<>();
     protected int mToday = DEFAULT_SELECTED_DAY;
     protected int mWeekStart = DEFAULT_WEEK_START;
-    protected int mNumDays = DEFAULT_NUM_DAYS;
+    protected final int mNumDays = DEFAULT_NUM_DAYS;
     protected int mNumCells = mNumDays;
 
     private final PersianCalendar mPersianCalendar;
@@ -86,7 +86,7 @@ public abstract class MonthView extends View {
     protected OnDayClickListener mOnDayClickListener;
     private final boolean mLockAccessibilityDelegate;
 
-    protected int mDayTextColor, mSelectedDayTextColor, mMonthDayTextColor, mTodayNumberColor,
+    protected final int mDayTextColor, mSelectedDayTextColor, mMonthDayTextColor, mTodayNumberColor,
             mHighlightedDayTextColor, mDisabledDayTextColor, mMonthTitleColor;
     private final float rightSpace = 30;
 

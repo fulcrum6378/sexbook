@@ -40,7 +40,7 @@ public abstract class MonthView extends View {
     public static final String VIEW_PARAMS_SELECTED_DAY = "selected_day";
     public static final String VIEW_PARAMS_WEEK_START = "week_start";
 
-    protected static int MIN_HEIGHT = 10;
+    protected static final int MIN_HEIGHT = 10;
     protected static final int DEFAULT_SELECTED_DAY = -1;
     protected static final int DEFAULT_WEEK_START = Calendar.SATURDAY;
     protected static final int DEFAULT_NUM_DAYS = 7;
@@ -49,7 +49,7 @@ public abstract class MonthView extends View {
 
     private static final int SELECTED_CIRCLE_ALPHA = 255;
 
-    protected static int DAY_SEPARATOR_WIDTH = 1;
+    protected static final int DAY_SEPARATOR_WIDTH = 1;
     protected static int MINI_DAY_NUMBER_TEXT_SIZE;
     protected static int MONTH_LABEL_TEXT_SIZE;
     protected static int MONTH_DAY_LABEL_TEXT_SIZE;
@@ -58,7 +58,7 @@ public abstract class MonthView extends View {
 
     protected DatePickerController mController;
 
-    protected int mEdgePadding = 0;
+    protected final int mEdgePadding = 0;
 
 
     protected Paint mMonthNumPaint;
@@ -77,7 +77,7 @@ public abstract class MonthView extends View {
     protected int mSelectedDay = -1;
     protected int mToday = DEFAULT_SELECTED_DAY;
     protected int mWeekStart = DEFAULT_WEEK_START;
-    protected int mNumDays = DEFAULT_NUM_DAYS;
+    protected final int mNumDays = DEFAULT_NUM_DAYS;
     protected int mNumCells = mNumDays;
 
     private final PersianCalendar mPersianCalendar;
@@ -87,13 +87,13 @@ public abstract class MonthView extends View {
     protected OnDayClickListener mOnDayClickListener;
     private final boolean mLockAccessibilityDelegate;
 
-    protected int mDayTextColor;
-    protected int mSelectedDayTextColor;
-    protected int mMonthDayTextColor;
-    protected int mTodayNumberColor;
-    protected int mHighlightedDayTextColor;
-    protected int mDisabledDayTextColor;
-    protected int mMonthTitleColor;
+    protected final int mDayTextColor;
+    protected final int mSelectedDayTextColor;
+    protected final int mMonthDayTextColor;
+    protected final int mTodayNumberColor;
+    protected final int mHighlightedDayTextColor;
+    protected final int mDisabledDayTextColor;
+    protected final int mMonthTitleColor;
     private final float rightSpace = 30;
 
     public MonthView(Context c) {
@@ -495,7 +495,7 @@ public abstract class MonthView extends View {
     }
 
     public CalendarDay getAccessibilityFocus() {
-        final int day = mTouchHelper.getFocusedVirtualView();
+        final int day = mTouchHelper.getAccessibilityFocusedVirtualViewId();
         if (day >= 0) {
             return new CalendarDay(mYear, mMonth, day);
         }
@@ -564,7 +564,7 @@ public abstract class MonthView extends View {
             getItemBounds(virtualViewId, mTempRect);
 
             node.setContentDescription(getItemDescription(virtualViewId));
-            node.setBoundsInParent(mTempRect);
+            //node.setBoundsInParent(mTempRect);
             node.addAction(AccessibilityNodeInfo.ACTION_CLICK);
 
             if (virtualViewId == mSelectedDay) {

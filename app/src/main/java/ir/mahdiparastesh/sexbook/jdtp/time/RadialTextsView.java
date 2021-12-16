@@ -194,16 +194,15 @@ public class RadialTextsView extends View {
 
     private void calculateGridSizes(float numbersRadius, float xCenter, float yCenter,
                                     float textSize, float[] textGridHeights, float[] textGridWidths) {
-
-        float offset1 = numbersRadius;
+        // offset1 => numbersRadius
         float offset2 = numbersRadius * ((float) Math.sqrt(3)) / 2f;
         float offset3 = numbersRadius / 2f;
         mPaint.setTextSize(textSize);
         mSelectedPaint.setTextSize(textSize);
         yCenter -= (mPaint.descent() + mPaint.ascent()) / 2;
 
-        textGridHeights[0] = yCenter - offset1;
-        textGridWidths[0] = xCenter - offset1;
+        textGridHeights[0] = yCenter - numbersRadius;
+        textGridWidths[0] = xCenter - numbersRadius;
         textGridHeights[1] = yCenter - offset2;
         textGridWidths[1] = xCenter - offset2;
         textGridHeights[2] = yCenter - offset3;
@@ -214,8 +213,8 @@ public class RadialTextsView extends View {
         textGridWidths[4] = xCenter + offset3;
         textGridHeights[5] = yCenter + offset2;
         textGridWidths[5] = xCenter + offset2;
-        textGridHeights[6] = yCenter + offset1;
-        textGridWidths[6] = xCenter + offset1;
+        textGridHeights[6] = yCenter + numbersRadius;
+        textGridWidths[6] = xCenter + numbersRadius;
     }
 
     private void drawTexts(Canvas canvas, float textSize, Typeface typeface, String[] texts,

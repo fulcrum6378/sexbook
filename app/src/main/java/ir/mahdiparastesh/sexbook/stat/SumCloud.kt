@@ -6,18 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import ir.mahdiparastesh.sexbook.Model
-import ir.mahdiparastesh.sexbook.databinding.SumCloudBinding
-import com.anychart.chart.common.dataentry.CategoryValueDataEntry
-
-import com.anychart.chart.common.dataentry.DataEntry
-
-import com.anychart.scales.OrdinalColor
-
 import com.anychart.AnyChart
-
-import com.anychart.charts.TagCloud
+import com.anychart.chart.common.dataentry.CategoryValueDataEntry
+import com.anychart.chart.common.dataentry.DataEntry
+import com.anychart.scales.OrdinalColor
+import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.databinding.SumCloudBinding
 
 class SumCloud : Fragment() {
     private lateinit var b: SumCloudBinding

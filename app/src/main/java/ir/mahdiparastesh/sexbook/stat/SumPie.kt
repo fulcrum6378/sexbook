@@ -11,7 +11,6 @@ import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.enums.Align
 import com.anychart.enums.LegendLayout
-import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SumPieBinding

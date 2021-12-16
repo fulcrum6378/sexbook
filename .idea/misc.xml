@@ -18,8 +18,10 @@
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/button_3.xml" value="0.240625" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/circle_cp.xml" value="0.240625" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/default_contact_1.xml" value="0.240625" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/jdtp_done_background_color.xml" value="0.12604166666666666" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/mdtp_material_button_selected.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/overflow.xml" value="0.240625" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/shadow_1.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/spn_filter.xml" value="0.240625" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/white_box.xml" value="0.240625" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/drawable/yellow_box.xml" value="0.240625" />
@@ -29,6 +31,8 @@
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/growth.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/identify.xml" value="0.16530797101449277" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/item_crush.xml" value="0.16802536231884058" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/jdtp_date_picker_header_view.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/jdtp_date_picker_selected_date.xml" value="0.1109375" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/mdtp_date_picker_dialog.xml" value="0.26625" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/mdtp_date_picker_header_view.xml" value="0.1109375" />
         <entry key="..\:/Users/fulcr/Projects/sexbook/app/src/main/res/layout/mdtp_date_picker_selected_date.xml" value="0.1109375" />

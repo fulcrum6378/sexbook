@@ -145,11 +145,6 @@ public class PersianCalendar extends GregorianCalendar {
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
     public void set(int field, int value) {
         super.set(field, value);
         calculatePersianDate();

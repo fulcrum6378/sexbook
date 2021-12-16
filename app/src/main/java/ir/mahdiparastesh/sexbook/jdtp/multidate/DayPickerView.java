@@ -24,16 +24,16 @@ public abstract class DayPickerView extends ListView
 
     protected static final int GOTO_SCROLL_DURATION = 250;
     protected static final int SCROLL_CHANGE_DELAY = 40;
-    public static int LIST_TOP_OFFSET = -1;
-    protected float mFriction = 1.0f;
+    public final static int LIST_TOP_OFFSET = -1;
+    protected final float mFriction = 1.0f;
 
     protected Context mContext;
     protected Handler mHandler;
 
-    protected MonthAdapter.CalendarDay mSelectedDay = new MonthAdapter.CalendarDay();
+    protected final MonthAdapter.CalendarDay mSelectedDay = new MonthAdapter.CalendarDay();
     protected MonthAdapter mAdapter;
 
-    protected MonthAdapter.CalendarDay mTempDay = new MonthAdapter.CalendarDay();
+    protected final MonthAdapter.CalendarDay mTempDay = new MonthAdapter.CalendarDay();
 
     protected int mCurrentMonthDisplayed;
     protected long mPreviousScrollPosition;
@@ -152,7 +152,7 @@ public abstract class DayPickerView extends ListView
         mScrollStateChangedRunnable.doScrollStateChange(scrollState);
     }
 
-    protected ScrollStateRunnable mScrollStateChangedRunnable = new ScrollStateRunnable();
+    protected final ScrollStateRunnable mScrollStateChangedRunnable = new ScrollStateRunnable();
 
     protected class ScrollStateRunnable implements Runnable {
         private int mNewState;

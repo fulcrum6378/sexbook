@@ -51,7 +51,7 @@ public class PersianDateParser {
 	}
 
 	private String[] splitDateString(String dateString) {
-		String tokens[] = dateString.split(delimiter);
+		String[] tokens = dateString.split(delimiter);
 		if (tokens.length != 3)
 			throw new RuntimeException("wrong date:" + dateString + " is not a Persian Date or can not be parsed");
 		return tokens;

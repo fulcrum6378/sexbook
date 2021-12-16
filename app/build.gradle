@@ -19,8 +19,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled = true
-            shrinkResources = true
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -52,7 +52,7 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.4.0'
 	implementation 'androidx.activity:activity-ktx:1.4.0'
-    def room_version = "2.3.0"
+    def room_version = "2.4.0"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation 'androidx.recyclerview:recyclerview:1.2.1'

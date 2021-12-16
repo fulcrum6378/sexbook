@@ -174,14 +174,9 @@ public class MultiDatePickerDialog extends DialogFragment implements
     @Override
     public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-
         View view = inf.inflate(R.layout.jdtp_date_picker_dialog, null);
         final AppCompatActivity that = (AppCompatActivity) getActivity();
         assert that != null;
-        mDayOfWeekView = view.findViewById(R.id.date_picker_header);
-        if (mDayOfWeekView != null) {
-            mDayOfWeekView.setTypeface(font1);
-        }
         mMonthAndDayView = view.findViewById(R.id.date_picker_month_and_day);
         mMonthAndDayView.setOnClickListener(this);
         mSelectedMonthTextView = view.findViewById(R.id.date_picker_month);
@@ -450,8 +445,7 @@ public class MultiDatePickerDialog extends DialogFragment implements
         mOnDismissListener = onDismissListener;
     }
 
-    private void adjustDayInMonthIfNeeded(int month, int year) {
-    }
+    //private void adjustDayInMonthIfNeeded(int month, int year) { }
 
     @Override
     public void onClick(View v) {
@@ -465,7 +459,7 @@ public class MultiDatePickerDialog extends DialogFragment implements
     @Override
     public void onYearSelected(int year) {
         mSelectedYear = year;
-        adjustDayInMonthIfNeeded(mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianMonth(), year);
+        //adjustDayInMonthIfNeeded(mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianMonth(), year);
         if (mSelectedDaysCalendars.size() == 1) {
             mSelectedDaysCalendars.get(0).setPersianDate(year
                     , mSelectedDaysCalendars.get(0).getPersianMonth(),

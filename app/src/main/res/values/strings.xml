@@ -64,7 +64,6 @@
     <string name="AM">AM</string>
     <string name="PM">PM</string>
     <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="save">Save</string>
@@ -93,7 +92,6 @@
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>
     <string name="momSettings">Settings</string>
-    <string name="requestFailed">Request failed!</string>
     <string name="exportDone">Done!</string>
     <string name="exportUndone">Failed!</string>
     <string name="importDone">Done!</string>
@@ -135,7 +133,6 @@
 
 
     <!-- JDTP -->
-    <string name="jdtp_done_label" msgid="7007948707597430919">DONE</string>
     <string name="jdtp_ok">OK</string>
     <string name="jdtp_cancel">Cancel</string>
     <string name="jdtp_hour_picker_description" msgid="7586639618712934060">"لغزنده دایره‌ای ساعت"</string>
@@ -150,9 +147,6 @@
     <string name="jdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> حذف شد"</string>
     <string name="jdtp_time_placeholder" translatable="false">--</string>
     <string name="jdtp_time_separator" translatable="false">:</string>
-    <string name="jdtp_radial_numbers_typeface" translatable="false">sans-serif</string>
-    <string name="jdtp_sans_serif" translatable="false">sans-serif</string>
-    <string name="jdtp_day_of_week_label_typeface" translatable="false">sans-serif</string>
     <string name="am_label">AM</string>
     <string name="pm_label">PM</string>
 </resources>

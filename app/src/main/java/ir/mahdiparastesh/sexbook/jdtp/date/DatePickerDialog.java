@@ -170,7 +170,6 @@ public class DatePickerDialog extends DialogFragment implements
         View view = inf.inflate(R.layout.jdtp_date_picker_dialog, null);
         final AppCompatActivity that = (AppCompatActivity) getActivity();
         assert that != null;
-        mDayOfWeekTextView = view.findViewById(R.id.date_picker_header);
         mMonthAndDayView = view.findViewById(R.id.date_picker_month_and_day);
         mMonthAndDayView.setOnClickListener(this);
         mSelectedMonthTextView = view.findViewById(R.id.date_picker_month);
@@ -439,8 +438,7 @@ public class DatePickerDialog extends DialogFragment implements
         mOnDismissListener = onDismissListener;
     }
 
-    private void adjustDayInMonthIfNeeded(int month, int year) {
-    }
+    //private void adjustDayInMonthIfNeeded(int month, int year) { }
 
     @Override
     public void onClick(View v) {
@@ -453,7 +451,7 @@ public class DatePickerDialog extends DialogFragment implements
 
     @Override
     public void onYearSelected(int year) {
-        adjustDayInMonthIfNeeded(mPersianCalendar.getPersianMonth(), year);
+        //adjustDayInMonthIfNeeded(mPersianCalendar.getPersianMonth(), year);
         mPersianCalendar.setPersianDate(year, mPersianCalendar.getPersianMonth(),
                 mPersianCalendar.getPersianDay());
         updatePickers();
