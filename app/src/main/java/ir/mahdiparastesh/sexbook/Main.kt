@@ -42,6 +42,7 @@ class Main : AppCompatActivity() {
 
     companion object {
         lateinit var handler: Handler
+        //val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
 
         fun summarize(m: Model): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
             m.summary.value = Summary(m.onani.value!!); true
@@ -161,6 +162,19 @@ class Main : AppCompatActivity() {
                     matchConstraintPercentWidth = 0.25f + ((0.5f - abs(0.5f - pos)) / 2f)
                 }
         }
+
+        /*(getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+            .createNotificationChannel(NotificationChannel(
+                CHANNEL_BIRTH, "Birthday Notification", NotificationManager.IMPORTANCE_HIGH
+            ).apply { description = "Birthday Notification" })
+        with(NotificationManagerCompat.from(this)) {
+            notify(666, NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
+                setSmallIcon(R.drawable.logo_1)
+                setContentTitle("Hello World")
+                setContentText("Hiyooooooo")
+                priority = NotificationCompat.PRIORITY_HIGH
+            }.build())
+        }*/
 
         checkIntent(intent)
         Work(Work.VIEW_ALL).start()

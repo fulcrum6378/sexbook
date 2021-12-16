@@ -38,17 +38,17 @@ class CrushAdap(val list: List<Crush>, val that: Main) :
         // Click
         h.b.root.setOnClickListener { v ->
             if (!Main.summarize(that.m)) return@setOnClickListener
+            val ins = list[h.layoutPosition].insta
             PopupMenu(ContextThemeWrapper(Fun.c, R.style.AppTheme), v).apply {
                 setOnMenuItemClickListener {
                     when (it.itemId) {
                         R.id.lcInstagram -> {
-                            val ins = list[h.layoutPosition].insta
                             if (ins != null && ins != "") that.startActivity(
                                 Intent(
                                     Intent.ACTION_VIEW,
                                     Uri.parse(INSTA + list[h.layoutPosition].insta)
                                 )
-                            ) else it.isEnabled = false
+                            )
                             true
                         }
                         R.id.lcStatistics -> {
@@ -88,6 +88,7 @@ class CrushAdap(val list: List<Crush>, val that: Main) :
                     )
                     it.title = mNewTitle
                 }
+                menu.findItem(R.id.lcInstagram).isEnabled = ins != null && ins != ""
             }
         }
     }
