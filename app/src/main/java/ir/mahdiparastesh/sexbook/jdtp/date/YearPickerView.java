@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.jdtp.date.DatePickerDialog.OnDateChangedListener;
@@ -48,9 +49,9 @@ public class YearPickerView extends ListView implements OnItemClickListener, OnD
     private void init(Context c) {
         ArrayList<String> years = new ArrayList<>();
         for (int year = mController.getMinYear(); year <= mController.getMaxYear(); year++) {
-            years.add(String.format("%d", year));
+            years.add(String.format(Locale.getDefault(), "%d", year));
         }
-        years = LanguageUtils.getPersianNumbers(years);
+        LanguageUtils.getPersianNumbers(years);
         mAdapter = new YearAdapter(c, R.layout.jdtp_year_label_text_view, years);
         setAdapter(mAdapter);
     }

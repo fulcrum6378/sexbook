@@ -37,8 +37,8 @@ class SumChips : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val ss = s.toString()
-                for (i in 1 until b.ll.childCount) {
-				    if (b.ll[i] is TextView) continue
+                for (i in 0 until b.ll.childCount) {
+                    if (b.ll[i] !is ChipGroup) continue
                     val cg = b.ll[i] as ChipGroup
                     for (y in 1 until cg.childCount) (cg[y] as Chip).apply {
                         chipBackgroundColor = c.getColorStateList(

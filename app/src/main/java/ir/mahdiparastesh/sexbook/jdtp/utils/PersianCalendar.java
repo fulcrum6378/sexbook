@@ -194,7 +194,7 @@ public class PersianCalendar extends GregorianCalendar {
         persianNP = (int) Math.floor(persianDayNo / 12053f);
         persianDayNo = persianDayNo % 12053;
 
-        persianYear = 979 + 33 * persianNP + 4 * (int) (persianDayNo / 1461);
+        persianYear = 979 + 33 * persianNP + 4 * (persianDayNo / 1461);
         persianDayNo = persianDayNo % 1461;
 
         if (persianDayNo >= 366) {
@@ -219,7 +219,7 @@ public class PersianCalendar extends GregorianCalendar {
         persian.setYear(persian.getYear() - 979);
         persian.setDay(persian.getDay() - 1);
 
-        persianDayNo = 365 * persian.getYear() + (int) (persian.getYear() / 33) * 8
+        persianDayNo = 365 * persian.getYear() + (persian.getYear() / 33) * 8
                 + (int) Math.floor(((persian.getYear() % 33) + 3) / 4f);
         for (i = 0; i < persian.getMonth(); ++i)
             persianDayNo += persianDaysInMonth[i];

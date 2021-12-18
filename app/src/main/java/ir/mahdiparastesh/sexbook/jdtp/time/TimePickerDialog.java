@@ -170,6 +170,7 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        assert getDialog() != null;
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.jdtp_time_picker_dialog, null);
         final AppCompatActivity that = (AppCompatActivity) getActivity();

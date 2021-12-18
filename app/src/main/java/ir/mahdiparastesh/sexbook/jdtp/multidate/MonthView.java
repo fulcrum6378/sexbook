@@ -319,14 +319,14 @@ public abstract class MonthView extends View {
     }
 
     protected void drawMonthTitle(Canvas canvas) {
-        int x = (mWidth + 2 * mEdgePadding) / 2;
+        int x = mWidth / 2;
         int y = (getMonthHeaderSize() - MONTH_DAY_LABEL_TEXT_SIZE) / 2;
         canvas.drawText(getMonthAndYearString(), x, y, mMonthTitlePaint);
     }
 
     protected void drawMonthDayLabels(Canvas canvas) {
         int y = getMonthHeaderSize() - (MONTH_DAY_LABEL_TEXT_SIZE / 2);
-        int dayWidthHalf = (mWidth - mEdgePadding * 2) / (mNumDays * 2);
+        int dayWidthHalf = mWidth / (mNumDays * 2);
         float firstX = (2 * (mNumDays - 1) + 1) * dayWidthHalf + rightSpace;
         for (int i = 0; i < mNumDays; i++) {
             int calendarDay = (i + mWeekStart) % mNumDays;
@@ -341,7 +341,7 @@ public abstract class MonthView extends View {
     protected void drawMonthNums(Canvas canvas) {
         int y = (((mRowHeight + MINI_DAY_NUMBER_TEXT_SIZE) / 2) - DAY_SEPARATOR_WIDTH)
                 + getMonthHeaderSize();
-        final float dayWidthHalf = (mWidth - mEdgePadding * 2) / (mNumDays * 2.0f);
+        final float dayWidthHalf = mWidth / (mNumDays * 2.0f);
         int j = findDayOffset();
         float firstX = (2 * (mNumDays - 1) + 1) * dayWidthHalf + rightSpace;
         for (int dayNumber = 1; dayNumber <= mNumCells; dayNumber++) {
@@ -550,7 +550,7 @@ public abstract class MonthView extends View {
             getItemBounds(virtualViewId, mTempRect);
 
             node.setContentDescription(getItemDescription(virtualViewId));
-            //node.setBoundsInParent(mTempRect);
+            node.setBoundsInParent(mTempRect);
             node.addAction(AccessibilityNodeInfo.ACTION_CLICK);
 
             if (virtualViewId == mSelectedDay) node.setSelected(true);
@@ -566,14 +566,14 @@ public abstract class MonthView extends View {
         }
 
         protected void getItemBounds(int day, Rect rect) {
-            final int offsetX = mEdgePadding;
+            // offsetX => mEdgePadding
             final int offsetY = getMonthHeaderSize();
             final int cellHeight = mRowHeight;
-            final int cellWidth = ((mWidth - (2 * mEdgePadding)) / mNumDays);
+            final int cellWidth = mWidth / mNumDays;
             final int index = ((day - 1) + findDayOffset());
             final int row = (index / mNumDays);
             final int column = (index % mNumDays);
-            final int x = (offsetX + (column * cellWidth));
+            final int x = (mEdgePadding + (column * cellWidth));
             final int y = (offsetY + (row * cellHeight));
 
             rect.set(x, y, (x + cellWidth), (y + cellHeight));

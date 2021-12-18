@@ -225,6 +225,7 @@ class ReportAdap(
         if (allMasturbation.size > pos) when (view.tag!!.substring(0, 4)) {
             tagEdit -> {
                 PersianCalendar().apply {
+                    timeInMillis = allMasturbation[pos].time
                     setPersianDate(year, monthOfYear, dayOfMonth)
                     allMasturbation[pos].time = timeInMillis
                 }

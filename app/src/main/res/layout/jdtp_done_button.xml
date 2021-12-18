@@ -6,7 +6,7 @@
     android:layout_height="56dp"
     android:layout_gravity="center_vertical"
     android:background="@android:color/transparent"
-    android:gravity="end|right"
+    android:gravity="end"
     android:orientation="horizontal"
     android:paddingBottom="8dp"
     tools:viewBindingIgnore="true">
@@ -17,8 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="@string/jdtp_cancel" />
+        android:text="@string/cancel" />
 
     <Button
         android:id="@+id/ok"
@@ -26,6 +25,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="@string/jdtp_ok" />
+        android:text="@string/ok" />
 </LinearLayout>

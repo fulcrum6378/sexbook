@@ -13,7 +13,6 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 
 import ir.mahdiparastesh.sexbook.R;
-import ir.mahdiparastesh.sexbook.jdtp.utils.LanguageUtils;
 
 public class TextViewWithCircularIndicator extends AppCompatTextView {
 
@@ -61,11 +60,11 @@ public class TextViewWithCircularIndicator extends AppCompatTextView {
         super.onDraw(canvas);
     }
 
-    @Override
+    /*@Override
     public CharSequence getContentDescription() {
         String itemText = LanguageUtils.getPersianNumbers(getText().toString());
         if (mDrawCircle)
             return String.format(mItemIsSelectedText, itemText);
         else return itemText;
-    }
+    }*/
 }

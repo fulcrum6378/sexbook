@@ -64,6 +64,7 @@
     <string name="AM">AM</string>
     <string name="PM">PM</string>
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="save">Save</string>
@@ -133,8 +134,6 @@
 
 
     <!-- JDTP -->
-    <string name="jdtp_ok">OK</string>
-    <string name="jdtp_cancel">Cancel</string>
     <string name="jdtp_hour_picker_description" msgid="7586639618712934060">"لغزنده دایره‌ای ساعت"</string>
     <string name="jdtp_minute_picker_description" msgid="6024811202872705251">"لغزنده دایره‌ای دقیقه"</string>
     <string name="jdtp_select_hours" msgid="7651068754188418859">Select hour</string>

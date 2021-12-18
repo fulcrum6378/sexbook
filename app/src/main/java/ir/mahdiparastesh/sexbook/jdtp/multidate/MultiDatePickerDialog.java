@@ -137,6 +137,7 @@ public class MultiDatePickerDialog extends DialogFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final AppCompatActivity that = (AppCompatActivity) getActivity();
+        assert that != null;
         that.getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         if (savedInstanceState != null) {
@@ -173,6 +174,7 @@ public class MultiDatePickerDialog extends DialogFragment implements
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) {
+        assert getDialog() != null;
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View view = inf.inflate(R.layout.jdtp_date_picker_dialog, null);
         final AppCompatActivity that = (AppCompatActivity) getActivity();

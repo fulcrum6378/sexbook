@@ -100,13 +100,19 @@ class Main : AppCompatActivity() {
             when (it.itemId) {
                 R.id.momSum -> {
                     if (summarize(m)) AlertDialog.Builder(this).apply {
-                        setTitle("${resources.getString(R.string.momSum)} (" + m.onani.value!!.size + ")")
-                        setView(ViewPager2(c).apply {
-                            layoutParams = ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT
-                            )
-                            adapter = SumAdapter(this@Main)
+                        setTitle("${resources.getString(R.string.momSum)} ("
+                                + m.onani.value!!.size + ")")
+                        setView(ConstraintLayout(c).apply {
+                            addView(ViewPager2(c).apply {
+                                layoutParams = ViewGroup.LayoutParams(-1, -1)
+                                adapter = SumAdapter(this@Main)
+                            })
+                            // The below EditText improves the EditText focus issue when you put
+                            // a Fragment inside a Dialog with a ViewPager in the middle!
+                            addView(EditText(c).apply {
+                                layoutParams = ViewGroup.LayoutParams(-1, -2)
+                                visibility = View.GONE
+                            })
                         })
                         setPositiveButton(R.string.ok, null)
                         setCancelable(true)

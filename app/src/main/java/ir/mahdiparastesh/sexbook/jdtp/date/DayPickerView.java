@@ -137,8 +137,8 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
         MonthView child = (MonthView) view.getChildAt(0);
         if (child == null) return;
 
-        mPreviousScrollPosition = (long) (
-                (long) view.getFirstVisiblePosition() * child.getHeight() - child.getBottom());
+        mPreviousScrollPosition = (long) view.getFirstVisiblePosition() * child.getHeight()
+                - child.getBottom();
         mPreviousScrollState = mCurrentScrollState;
     }
 
