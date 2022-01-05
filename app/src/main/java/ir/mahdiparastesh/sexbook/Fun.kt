@@ -10,8 +10,10 @@ import android.content.SharedPreferences
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
+import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.os.VibratorManager
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
@@ -115,10 +117,12 @@ class Fun {
             else c.resources.getString(R.string.font1Bold)
         )
 
-        @Suppress("DEPRECATION") // Unexplained Android 12 changes
-        fun shake(dur: Long = 90L) {
-            val v = c.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            v.vibrate(VibrationEffect.createOneShot(dur, VibrationEffect.DEFAULT_AMPLITUDE))
+        @Suppress("DEPRECATION")
+        fun shake(c: Context, dur: Long = 60L) {
+            (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                (c.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
+            else c.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
+                .vibrate(VibrationEffect.createOneShot(dur, VibrationEffect.DEFAULT_AMPLITUDE))
         }
     }
 

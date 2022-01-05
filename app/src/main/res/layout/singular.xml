@@ -6,11 +6,19 @@
     tools:context=".stat.Singular"
     tools:ignore="MissingConstraints,ContentDescription">
 
-    <com.anychart.AnyChartView
+    <!--<com.anychart.AnyChartView
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp" />
+        android:layout_margin="20dp" />-->
+
+    <com.db.williamchart.view.BarChartView
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        app:chart_labelsColor="@color/CP"
+        app:chart_labelsSize="10dp" /><!--app:chart_labelsFont="arial"-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/identify"

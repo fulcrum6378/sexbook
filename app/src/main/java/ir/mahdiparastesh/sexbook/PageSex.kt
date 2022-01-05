@@ -182,6 +182,6 @@ class PageSex(val that: Main) : Fragment() {
             override fun onFinish() {
                 adding = false; }
         }
-        Fun.shake()
+        Fun.shake(c)
     }
 }

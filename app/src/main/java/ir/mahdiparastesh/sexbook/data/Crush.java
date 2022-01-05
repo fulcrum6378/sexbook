@@ -61,7 +61,7 @@ public class Crush {
     }
 
     public boolean hasL() {
-        return this.fName != null && !this.fName.equals("");
+        return this.lName != null && !this.lName.equals("");
     }
 
     public String visName() {

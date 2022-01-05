@@ -11,13 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
-import com.anychart.AnyChart
-import com.anychart.chart.common.dataentry.DataEntry
-import com.anychart.chart.common.dataentry.ValueDataEntry
-import com.anychart.enums.Anchor
-import com.anychart.enums.HoverMode
-import com.anychart.enums.Position
-import com.anychart.enums.TooltipPositionMode
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
@@ -50,10 +43,13 @@ class Singular : AppCompatActivity() {
 
         if (m.onani.value == null || m.summary.value == null || m.crush.value == null) {
             onBackPressed(); return; }
-        val data: MutableList<DataEntry> = ArrayList()
+        //val data: MutableList<DataEntry> = ArrayList()
+        val data = ArrayList<Pair<String, Float>>()
         val history = m.summary.value!!.scores[m.crush.value]
+        //sinceTheBeginning(m.onani.value!!)
+        //    .forEach { data.add(ValueDataEntry(it, calcHistory(history!!, it))) }
         sinceTheBeginning(m.onani.value!!)
-            .forEach { data.add(ValueDataEntry(it, calcHistory(history!!, it))) }
+            .forEach { data.add(Pair(it, calcHistory(history!!, it))) }
 
         // Handler
         handler = object : Handler(Looper.getMainLooper()) {
@@ -67,7 +63,7 @@ class Singular : AppCompatActivity() {
             }
         }
 
-        AnyChart.column().apply {
+        /*AnyChart.column().apply {
             column(data).fill("#FFD422").stroke("#FFD422")
                 .tooltip()
                 .titleFormat("{%X}")
@@ -84,7 +80,10 @@ class Singular : AppCompatActivity() {
             interactivity().hoverMode(HoverMode.BY_X)
             background(resources.getString(R.string.anyChartBG))
             b.main.setChart(this)
-        }
+        }*/
+
+        b.main.animation.duration = 1000L
+        b.main.animate(data)
 
         // Night Mode
         if (Fun.night) {
