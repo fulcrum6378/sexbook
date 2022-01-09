@@ -6,7 +6,7 @@
     android:paddingVertical="20dp"
     tools:context=".stat.Popularity">
 
-    <com.anychart.AnyChartView
+    <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
