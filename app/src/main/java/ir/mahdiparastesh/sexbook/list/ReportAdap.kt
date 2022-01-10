@@ -20,6 +20,7 @@ import ir.mahdiparastesh.sexbook.Fun.Companion.color
 import ir.mahdiparastesh.sexbook.Fun.Companion.dp
 import ir.mahdiparastesh.sexbook.Fun.Companion.night
 import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
@@ -33,11 +34,7 @@ import kotlin.collections.ArrayList
 
 import ir.mahdiparastesh.sexbook.jdtp.date.DatePickerDialog as JalaliDatePickerDialog
 
-class ReportAdap(
-    val list: List<Report>,
-    val that: Main,
-    val allMasturbation: ArrayList<Report>? = that.m.onani.value
-) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
+class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
     DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener,
     JalaliDatePickerDialog.OnDateSetListener {
@@ -78,10 +75,10 @@ class ReportAdap(
 
         // Date & Time
         var cal = Calendar.getInstance()
-        cal.timeInMillis = list[i].time
+        cal.timeInMillis = c.m.visOnani.value!![i].time
         h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
         h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
-        h.b.date.text = compileDate(list[i].time)
+        h.b.date.text = compileDate(c.m.visOnani.value!![i].time)
         h.b.clock.setOnClickListener {
             TimePickerDialog.newInstance(
                 this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], false
@@ -91,7 +88,10 @@ class ReportAdap(
                 accentColor = color(R.color.CP)
                 setOkColor(color(R.color.mrvPopupButtons))
                 setCancelColor(color(R.color.mrvPopupButtons))
-                show(that.supportFragmentManager, "edit${allPos(h, list, allMasturbation)}")
+                show(
+                    c.supportFragmentManager,
+                    "edit${allPos(c.m, h.layoutPosition)}"
+                )
             }
         }
         h.b.date.setOnClickListener {
@@ -103,12 +103,18 @@ class ReportAdap(
                 accentColor = color(R.color.CP)
                 setOkColor(color(R.color.mrvPopupButtons))
                 setCancelColor(color(R.color.mrvPopupButtons))
-                show(that.supportFragmentManager, "$tagEdit${allPos(h, list, allMasturbation)}")
+                show(
+                    c.supportFragmentManager,
+                    "$tagEdit${allPos(c.m, h.layoutPosition)}"
+                )
             } else {
                 val jal = Jalali(cal)
                 JalaliDatePickerDialog.newInstance(this, jal.Y, jal.M, jal.D).apply {
                     isThemeDark = night
-                    show(that.supportFragmentManager, "$tagEdit${allPos(h, list, allMasturbation)}")
+                    show(
+                        c.supportFragmentManager,
+                        "$tagEdit${allPos(c.m, h.layoutPosition)}"
+                    )
                 }
             }
         }
@@ -116,32 +122,32 @@ class ReportAdap(
             c.resources.getText(if (cal[Calendar.HOUR_OF_DAY] > 12) R.string.PM else R.string.AM)
 
         // Name
-        h.b.name.setText(list[i].name)
+        h.b.name.setText(c.m.visOnani.value!![i].name)
         var crushes = arrayListOf<String>()
-        if (that.m.summary.value != null)
-            crushes = ArrayList(that.m.summary.value!!.scores.keys)
+        if (c.m.summary.value != null)
+            crushes = ArrayList(c.m.summary.value!!.scores.keys)
         h.b.name.setAdapter(
-            ArrayAdapter(that, android.R.layout.simple_dropdown_item_1line, crushes)
+            ArrayAdapter(c, android.R.layout.simple_dropdown_item_1line, crushes)
         )
         h.b.name.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                saveET(h.b.name, allPos(h, list, allMasturbation), allMasturbation)
+                saveET(c.m, h.b.name, allPos(c.m, h.layoutPosition))
             }
         })
 
         // Type
-        h.b.type.setSelection(list[i].type.toInt(), true)
+        h.b.type.setSelection(c.m.visOnani.value!![i].type.toInt(), true)
         h.b.type.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                if (allMasturbation == null) return
-                val pos = allPos(h, list, allMasturbation)
-                if (allMasturbation.size <= pos || pos < 0) return
-                if (allMasturbation[pos].type == i.toByte()) return
-                allMasturbation[pos].type = i.toByte()
-                Work(Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 1)).start()
+                if (c.m.onani.value == null) return
+                val pos = allPos(c.m, h.layoutPosition)
+                if (c.m.onani.value!!.size <= pos || pos < 0) return
+                if (c.m.onani.value!![pos].type == i.toByte()) return
+                c.m.onani.value!![pos].type = i.toByte()
+                Work(Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 1)).start()
             }
         }
 
@@ -155,9 +161,9 @@ class ReportAdap(
                         true
                     }
                     R.id.lcDelete -> {
-                        if (allMasturbation == null) return@setOnMenuItemClickListener true
-                        val aPos = allPos(h, list, allMasturbation)
-                        Work(Work.DELETE_ONE, listOf(allMasturbation[aPos], aPos)).start()
+                        if (c.m.onani.value == null) return@setOnMenuItemClickListener true
+                        val aPos = allPos(c.m, h.layoutPosition)
+                        Work(Work.DELETE_ONE, listOf(c.m.onani.value!![aPos], aPos)).start()
                         true
                     }
                     // TODO: Estimation
@@ -182,36 +188,36 @@ class ReportAdap(
         h.b.name.setOnLongClickListener(longClick)
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = c.m.visOnani.value!!.size
 
     override fun onDateSet(view: DatePickerDialog, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        if (allMasturbation == null || view.tag == null || view.tag!!.length <= 4) return
+        if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4) return
         val pos = view.tag!!.substring(4).toInt()
-        if (allMasturbation.size > pos) when (view.tag!!.substring(0, 4)) {
+        if (c.m.onani.value!!.size > pos) when (view.tag!!.substring(0, 4)) {
             tagEdit -> {
                 var calc = Calendar.getInstance()
-                calc.timeInMillis = allMasturbation[pos].time
+                calc.timeInMillis = c.m.onani.value!![pos].time
                 calc[Calendar.YEAR] = year
                 calc[Calendar.MONTH] = monthOfYear
                 calc[Calendar.DAY_OF_MONTH] = dayOfMonth
-                allMasturbation[pos].time = calc.timeInMillis
-                Work(Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)).start()
+                c.m.onani.value!![pos].time = calc.timeInMillis
+                Work(Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
             }
         }
     }
 
     override fun onTimeSet(view: TimePickerDialog, hourOfDay: Int, minute: Int, second: Int) {
-        if (allMasturbation == null || view.tag == null || view.tag!!.length <= 4) return
+        if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4) return
         val pos = view.tag!!.substring(4).toInt()
-        if (allMasturbation.size > pos) when (view.tag!!.substring(0, 4)) {
+        if (c.m.onani.value!!.size > pos) when (view.tag!!.substring(0, 4)) {
             tagEdit -> {
                 var calc = Calendar.getInstance()
-                calc.timeInMillis = allMasturbation[pos].time
+                calc.timeInMillis = c.m.onani.value!![pos].time
                 calc[Calendar.HOUR_OF_DAY] = hourOfDay
                 calc[Calendar.MINUTE] = minute
                 calc[Calendar.SECOND] = second
-                allMasturbation[pos].time = calc.timeInMillis
-                Work(Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)).start()
+                c.m.onani.value!![pos].time = calc.timeInMillis
+                Work(Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
             }
         }
     }
@@ -220,16 +226,16 @@ class ReportAdap(
     override fun onDateSet(
         view: JalaliDatePickerDialog, year: Int, monthOfYear: Int, dayOfMonth: Int
     ) {
-        if (allMasturbation == null || view.tag == null || view.tag!!.length <= 4) return
+        if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4) return
         val pos = view.tag!!.substring(4).toInt()
-        if (allMasturbation.size > pos) when (view.tag!!.substring(0, 4)) {
+        if (c.m.onani.value!!.size > pos) when (view.tag!!.substring(0, 4)) {
             tagEdit -> {
                 PersianCalendar().apply {
-                    timeInMillis = allMasturbation[pos].time
+                    timeInMillis = c.m.onani.value!![pos].time
                     setPersianDate(year, monthOfYear, dayOfMonth)
-                    allMasturbation[pos].time = timeInMillis
+                    c.m.onani.value!![pos].time = timeInMillis
                 }
-                Work(Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 0)).start()
+                Work(Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
             }
         }
     }
@@ -255,17 +261,15 @@ class ReportAdap(
 
         fun rotateMin(m: Int) = m * 6f
 
-        fun saveET(et: EditText, pos: Int, allMasturbation: ArrayList<Report>?) {
-            if (allMasturbation == null) return
-            if (allMasturbation.size <= pos || pos < 0) return
-            if (allMasturbation[pos].name == et.text.toString()) return
-            allMasturbation[pos].name = et.text.toString()
-            Work(Work.UPDATE_ONE, listOf(allMasturbation[pos], pos, 1)).start()
+        fun saveET(m: Model, et: EditText, pos: Int) {
+            if (m.onani.value == null) return
+            if (m.onani.value!!.size <= pos || pos < 0) return
+            if (m.onani.value!![pos].name == et.text.toString()) return
+            m.onani.value!![pos].name = et.text.toString()
+            Work(Work.UPDATE_ONE, listOf(m.onani.value!![pos], pos, 1)).start()
         }
 
-        fun allPos(
-            h: RecyclerView.ViewHolder, list: List<Report>, allMasturbation: ArrayList<Report>?
-        ) = allMasturbation!!.indexOf(list[h.layoutPosition])
+        fun allPos(m: Model, pos: Int) = m.onani.value!!.indexOf(m.visOnani.value!![pos])
 
 
         class Sort : Comparator<Report> {

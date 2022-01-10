@@ -13,14 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
 import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
 import ir.mahdiparastesh.sexbook.stat.Singular
 
-class CrushAdap(val list: List<Crush>, val that: Main) :
-    RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
+class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
     class MyViewHolder(val b: ItemCrushBinding) : RecyclerView.ViewHolder(b.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -33,37 +31,38 @@ class CrushAdap(val list: List<Crush>, val that: Main) :
     }
 
     override fun onBindViewHolder(h: MyViewHolder, i: Int) {
-        h.b.name.text = list[i].visName()
+        if (c.m.liefde.value == null) return
+        h.b.name.text = c.m.liefde.value!![i].visName()
 
         // Click
         h.b.root.setOnClickListener { v ->
-            if (!Main.summarize(that.m)) return@setOnClickListener
-            val ins = list[h.layoutPosition].insta
+            if (!Main.summarize(c.m)) return@setOnClickListener
+            val ins = c.m.liefde.value!![h.layoutPosition].insta
             PopupMenu(ContextThemeWrapper(Fun.c, R.style.AppTheme), v).apply {
                 setOnMenuItemClickListener {
                     when (it.itemId) {
                         R.id.lcInstagram -> {
-                            if (ins != null && ins != "") that.startActivity(
+                            if (ins != null && ins != "") c.startActivity(
                                 Intent(
                                     Intent.ACTION_VIEW,
-                                    Uri.parse(INSTA + list[h.layoutPosition].insta)
+                                    Uri.parse(INSTA + c.m.liefde.value!![h.layoutPosition].insta)
                                 )
                             )
                             true
                         }
                         R.id.lcStatistics -> {
-                            that.m.crush.value = list[i].key
-                            that.startActivity(Intent(that, Singular::class.java))
+                            c.m.crush.value = c.m.liefde.value!![i].key
+                            c.startActivity(Intent(c, Singular::class.java))
                             true
                         }
                         R.id.lcDelete -> {
-                            AlertDialog.Builder(that).apply {
-                                setTitle(that.resources.getString(R.string.lcDelete))
-                                setMessage(that.resources.getString(R.string.lcDeleteCrushSure))
+                            AlertDialog.Builder(c).apply {
+                                setTitle(c.resources.getString(R.string.lcDelete))
+                                setMessage(c.resources.getString(R.string.lcDeleteCrushSure))
                                 setPositiveButton(R.string.yes) { _, _ ->
                                     Work(
                                         Work.C_DELETE_ONE,
-                                        listOf(list[h.layoutPosition], h.layoutPosition)
+                                        listOf(c.m.liefde.value!![h.layoutPosition], h.layoutPosition)
                                     ).start()
                                 }
                                 setNegativeButton(R.string.no, null)
@@ -93,7 +92,7 @@ class CrushAdap(val list: List<Crush>, val that: Main) :
         }
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = c.m.liefde.value!!.size
 
     companion object {
         const val INSTA = "https://www.instagram.com/"

@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.Fun.Companion.vis
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Work
@@ -17,10 +16,8 @@ import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 
-class PageLove(val that: Main) : Fragment() {
+class PageLove(val c: Main) : Fragment() {
     private lateinit var b: PageLoveBinding
-    private lateinit var m: Model
-    var adapter: CrushAdap? = null
 
     companion object {
         var handler = MutableLiveData<Handler?>(null)
@@ -29,7 +26,6 @@ class PageLove(val that: Main) : Fragment() {
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
         b = PageLoveBinding.inflate(layoutInflater, parent, false)
-        m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
 
 
         // Handler
@@ -40,23 +36,27 @@ class PageLove(val that: Main) : Fragment() {
                     Work.C_VIEW_ALL -> arrangeList(msg.obj as ArrayList<Crush>)
                     Work.REPLACE_ALL -> Work(Work.C_VIEW_ALL).start()
                     Work.C_DELETE_ONE -> {
-                        m.liefde.value?.removeAt(msg.arg1)
-                        adapter?.notifyItemRemoved(msg.arg1)
+                        c.m.liefde.value?.removeAt(msg.arg1)
+                        b.rv.adapter?.notifyItemRemoved(msg.arg1)
+                        b.rv.adapter?.notifyItemRangeChanged(msg.arg1, b.rv.adapter!!.itemCount)
                     }
                 }
             }
         }
         messages.clear()
 
-        Work(Work.C_VIEW_ALL).start()
         return b.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        Work(Work.C_VIEW_ALL).start()
+    }
+
     fun arrangeList(list: ArrayList<Crush>?) {
-        m.liefde.value = list
+        c.m.liefde.value = list
         if (vis(b.empty, list.isNullOrEmpty())) return
-        m.liefde.value!!.sortWith(Crush.Sort())
-        adapter = CrushAdap(list!!.toList(), that)
-        b.rv.adapter = adapter
+        c.m.liefde.value!!.sortWith(Crush.Sort())
+        b.rv.adapter = CrushAdap(c)
     }
 }

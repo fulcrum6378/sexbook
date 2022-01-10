@@ -9,16 +9,13 @@ import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Summary
 
 class Model : ViewModel() {
-    val loaded: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
-    val onani: MutableLiveData<ArrayList<Report>?> by lazy {
-        MutableLiveData<ArrayList<Report>?>(null)
-    }
-    val liefde: MutableLiveData<ArrayList<Crush>?> by lazy {
-        MutableLiveData<ArrayList<Crush>?>(null)
-    }
-    val crush: MutableLiveData<String?> by lazy { MutableLiveData<String?>(null) }
-    val summary: MutableLiveData<Summary?> by lazy { MutableLiveData<Summary?>() }
-    val recency: MutableLiveData<Recency?> by lazy { MutableLiveData<Recency?>() }
+    val loaded = MutableLiveData(false)
+    val onani = MutableLiveData<ArrayList<Report>?>(null)
+    val visOnani = MutableLiveData<ArrayList<Report>>(arrayListOf())
+    val liefde = MutableLiveData<ArrayList<Crush>?>(null)
+    val crush = MutableLiveData<String?>(null)
+    val summary = MutableLiveData<Summary?>()
+    val recency = MutableLiveData<Recency?>()
 
 
     @Suppress("UNCHECKED_CAST")

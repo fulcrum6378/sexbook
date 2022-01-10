@@ -9,8 +9,6 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.data.Filter
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
@@ -22,14 +20,11 @@ import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PageSex(val that: Main) : Fragment() {
+class PageSex(val c: Main) : Fragment() {
     private lateinit var b: PageSexBinding
-    private lateinit var m: Model
-    var adapter: ReportAdap? = null
 
     companion object {
         var handler = MutableLiveData<Handler?>(null)
-        var reports = ArrayList<Report>()
         var filters: ArrayList<Filter>? = null
         var listFilter = 0
         val messages = MessageInbox(handler)
@@ -38,8 +33,6 @@ class PageSex(val that: Main) : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
         b = PageSexBinding.inflate(layoutInflater, parent, false)
-        m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
-
 
         // Handler
         handler.value = object : Handler(Looper.getMainLooper()) {
@@ -47,14 +40,14 @@ class PageSex(val that: Main) : Fragment() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.VIEW_ALL -> if (msg.obj != null) {
-                        m.onani.value = msg.obj as ArrayList<Report>
+                        c.m.onani.value = msg.obj as ArrayList<Report>
                         resetAllMasturbations()
-                        that.load()
+                        c.load()
                     }
                     Work.VIEW_ONE -> if (msg.obj != null) when (msg.arg1) {
                         Work.ADD_NEW_ITEM -> {
-                            if (m.onani.value == null) m.onani.value = ArrayList()
-                            m.onani.value!!.add(msg.obj as Report)
+                            if (c.m.onani.value == null) c.m.onani.value = ArrayList()
+                            c.m.onani.value!!.add(msg.obj as Report)
                             resetAllMasturbations()
                             adding = false
                             Fun.explode(b.add)
@@ -66,29 +59,32 @@ class PageSex(val that: Main) : Fragment() {
                         Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
                         Work(Work.VIEW_ALL).start()
                     }
-                    Work.UPDATE_ONE -> {
-                        if (m.onani.value != null) {
-                            if (reports.contains(m.onani.value!![msg.arg1])) {
-                                val nominalPos = reports.indexOf(m.onani.value!![msg.arg1])
-                                reports[nominalPos] = m.onani.value!![msg.arg1]
-                                if (msg.arg2 == 0) adapter?.notifyItemChanged(nominalPos)
-                            }
-                            if (msg.arg2 == 0) resetAllMasturbations()
+                    Work.UPDATE_ONE -> if (c.m.onani.value != null) {
+                        if (c.m.visOnani.value!!.contains(c.m.onani.value!![msg.arg1])) {
+                            val nominalPos = c.m.visOnani.value!!
+                                .indexOf(c.m.onani.value!![msg.arg1])
+                            c.m.visOnani.value!![nominalPos] = c.m.onani.value!![msg.arg1]
+                            if (msg.arg2 == 0) b.rv.adapter?.notifyItemChanged(nominalPos)
                         }
+                        if (msg.arg2 == 0) resetAllMasturbations()
+
                     }
-                    Work.DELETE_ONE -> if (m.onani.value != null) {
-                        if (reports.contains(m.onani.value!![msg.arg1])) {
-                            val nominalPos = reports.indexOf(m.onani.value!![msg.arg1])
-                            reports.remove(m.onani.value!![msg.arg1])
-                            m.onani.value!!.remove(m.onani.value!![msg.arg1])
-                            filters?.let {
-                                if (it.size > listFilter) it[listFilter].items =
-                                    it[listFilter].items.apply { remove(msg.arg1) }
-                            }
-                            adapter?.notifyItemRemoved(nominalPos)
+                    Work.DELETE_ONE -> if (c.m.onani.value != null && c.m.visOnani.value!!
+                            .contains(c.m.onani.value!![msg.arg1])
+                    ) {
+                        val nominalPos = c.m.visOnani.value!!
+                            .indexOf(c.m.onani.value!![msg.arg1])
+                        c.m.visOnani.value!!.remove(c.m.onani.value!![msg.arg1])
+                        c.m.onani.value!!.remove(c.m.onani.value!![msg.arg1])
+                        filters?.let {
+                            if (it.size > listFilter) it[listFilter].items =
+                                it[listFilter].items.apply { remove(msg.arg1) }
                         }
-                        resetAllMasturbations()
-                    }
+                        if (c.m.visOnani.value!!.size > 0) {
+                            b.rv.adapter?.notifyItemRemoved(nominalPos)
+                            b.rv.adapter?.notifyItemRangeChanged(nominalPos, b.rv.adapter!!.itemCount)
+                        } else resetAllMasturbations()
+                    } else resetAllMasturbations()
                     Work.SCROLL -> b.rv.smoothScrollBy(0, msg.obj as Int)
                     Work.SPECIAL_ADD -> add()
                 }
@@ -117,8 +113,8 @@ class PageSex(val that: Main) : Fragment() {
     var spnFilterTouched = false
     var filteredOnce = false
     fun resetAllMasturbations() {
-        Collections.sort(m.onani.value!!, ReportAdap.Companion.Sort())
-        filters = filter(m.onani.value!!)
+        Collections.sort(c.m.onani.value!!, ReportAdap.Companion.Sort())
+        filters = filter(c.m.onani.value!!)
         val maxPage = filters!!.size - 1
         if (listFilter == -1) listFilter++
         filterList(
@@ -154,21 +150,21 @@ class PageSex(val that: Main) : Fragment() {
         return filters
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun filterList(i: Int = listFilter) {
-        if (m.onani.value == null) {
-            reports.clear(); return; }
+        if (c.m.onani.value == null) {
+            c.m.visOnani.value!!.clear(); return; }
         listFilter = i
-        reports.clear()
-        if (filters == null) for (o in m.onani.value!!) reports.add(o)
+        c.m.visOnani.value!!.clear()
+        if (filters == null) for (o in c.m.onani.value!!) c.m.visOnani.value!!.add(o)
         else if (!filters.isNullOrEmpty())
             for (o in filters!![listFilter].items)
-                if (m.onani.value!!.size > o)
-                    reports.add(m.onani.value!![o])
-        if (adapter == null) {
-            Main.summarize(m)
-            adapter = ReportAdap(reports, that)
-            b.rv.adapter = adapter
-        } else adapter!!.notifyDataSetChanged()
+                if (c.m.onani.value!!.size > o)
+                    c.m.visOnani.value!!.add(c.m.onani.value!![o])
+        if (b.rv.adapter == null) {
+            Main.summarize(c.m)
+            b.rv.adapter = ReportAdap(c)
+        } else b.rv.adapter!!.notifyDataSetChanged()
     }
 
     private var adding = false
@@ -181,7 +177,7 @@ class PageSex(val that: Main) : Fragment() {
             override fun onTick(p0: Long) {}
             override fun onFinish() {
                 adding = false; }
-        }
+        }.start()
         Fun.shake(c)
     }
 }
