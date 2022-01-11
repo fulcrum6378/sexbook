@@ -84,6 +84,9 @@
     <string name="font1">franklin_gothic.ttf</string>
     <string name="font1Bold">franklin_gothic_bold.ttf</string>
     <string name="shrAdd">Add New Record</string>
+    <string name="bHappyTitle">Happy %s\'s Birthday!</string>
+    <string name="bHappyBef">%d hours remaining to their birthday!</string>
+    <string name="bHappyAft">%d hours past since their birthday!</string>
 
     <!-- Main -->
     <string name="momSum">Summary</string>

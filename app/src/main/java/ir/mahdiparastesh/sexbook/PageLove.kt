@@ -38,7 +38,9 @@ class PageLove(val c: Main) : Fragment() {
                     Work.C_DELETE_ONE -> {
                         c.m.liefde.value?.removeAt(msg.arg1)
                         b.rv.adapter?.notifyItemRemoved(msg.arg1)
-                        b.rv.adapter?.notifyItemRangeChanged(msg.arg1, b.rv.adapter!!.itemCount)
+                        b.rv.adapter?.notifyItemRangeChanged(
+                            msg.arg1, b.rv.adapter!!.itemCount - msg.arg1
+                        )
                     }
                 }
             }

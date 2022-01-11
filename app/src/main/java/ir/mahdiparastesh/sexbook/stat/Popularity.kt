@@ -39,6 +39,7 @@ class Popularity : AppCompatActivity() {
         stars.sortWith(Star.Sort())
 
         b.main.lineChartData = LineChartData().setLines(LineFactory(stars))
+        b.main.isViewportCalculationEnabled = false
     }
 
     class Star(val name: String, val frames: Array<Frame>) {
@@ -56,11 +57,12 @@ class Popularity : AppCompatActivity() {
     class LineFactory(stars: List<Star>) : ArrayList<Line>(stars.map {
         Line(it.frames.mapIndexed { i, frame ->
             PointValue(i.toFloat(), frame.score)
-                .setLabel("${it.name} : ${frame.month}")
+                .setLabel("${it.name} : ${frame.month} (${frame.score})")
         })
             .setColor(
                 arrayListOf(
-                    Color.BLUE, Color.RED, Color.CYAN, Color.GREEN, Color.BLACK
+                    Color.BLUE, Color.RED, Color.CYAN, Color.GREEN,
+                    if (Fun.night) Color.WHITE else Color.BLACK
                 ).random()
             )
             .setCubic(true)

@@ -3,6 +3,9 @@ package ir.mahdiparastesh.sexbook
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.*
 import android.text.SpannableString
@@ -12,6 +15,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.forEach
 import androidx.core.view.get
@@ -42,7 +47,8 @@ class Main : AppCompatActivity() {
 
     companion object {
         lateinit var handler: Handler
-        //val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
+        const val NOTIFY_MAX_DISTANCE = 3
+        val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
 
         fun summarize(m: Model): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
             m.summary.value = Summary(m.onani.value!!); true
@@ -64,14 +70,28 @@ class Main : AppCompatActivity() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
-                    Work.C_VIEW_ALL -> m.liefde.value = (msg.obj as ArrayList<Crush>)
-                        .apply { sortWith(Crush.Sort()) }
+                    Work.C_VIEW_ALL -> {
+                        m.liefde.value = (msg.obj as ArrayList<Crush>)
+                            .apply { sortWith(Crush.Sort()) }
+                        m.liefde.value?.forEach {
+                            if (!it.notifyBirth) return@forEach
+                            val now = Calendar.getInstance()
+                            val bir = Calendar.getInstance()
+                            bir.set(
+                                now[Calendar.YEAR], it.bMonth.toInt(), it.bDay.toInt(),
+                                0, 0, 0
+                            )
+                            val dist = now.timeInMillis - bir.timeInMillis
+                            if (abs(dist) <= NOTIFY_MAX_DISTANCE * 86400000L)
+                                notifyBirth(it, dist)
+                        }
+                    }
                 }
             }
         }
 
         // Loading
-        if (m.loaded.value!!) b.body.removeView(b.load) // its direct parent not "b.root"
+        if (m.loaded.value!!) b.body.removeView(b.load)
         else if (Fun.night) pdcf().apply { b.loadIV.colorFilter = this }
 
         // Toolbar
@@ -100,8 +120,10 @@ class Main : AppCompatActivity() {
             when (it.itemId) {
                 R.id.momSum -> {
                     if (summarize(m)) AlertDialog.Builder(this).apply {
-                        setTitle("${resources.getString(R.string.momSum)} ("
-                                + m.onani.value!!.size + ")")
+                        setTitle(
+                            "${resources.getString(R.string.momSum)} ("
+                                    + m.onani.value!!.size + ")"
+                        )
                         setView(ConstraintLayout(c).apply {
                             addView(ViewPager2(c).apply {
                                 layoutParams = ViewGroup.LayoutParams(-1, -1)
@@ -169,19 +191,6 @@ class Main : AppCompatActivity() {
                 }
         }
 
-        /*(getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-            .createNotificationChannel(NotificationChannel(
-                CHANNEL_BIRTH, "Birthday Notification", NotificationManager.IMPORTANCE_HIGH
-            ).apply { description = "Birthday Notification" })
-        with(NotificationManagerCompat.from(this)) {
-            notify(666, NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
-                setSmallIcon(R.drawable.logo_1)
-                setContentTitle("Hello World")
-                setContentText("Hiyooooooo")
-                priority = NotificationCompat.PRIORITY_HIGH
-            }.build())
-        }*/
-
         checkIntent(intent)
         Work(Work.VIEW_ALL).start()
         Work(Work.C_VIEW_ALL).start()
@@ -235,6 +244,27 @@ class Main : AppCompatActivity() {
                 }
             })
             start()
+        }
+    }
+
+    private fun notifyBirth(crush: Crush, dist: Long) {
+        (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+            .createNotificationChannel(
+                NotificationChannel(
+                    CHANNEL_BIRTH, "Birthday Notification", NotificationManager.IMPORTANCE_HIGH
+                ).apply { description = "Birthday Notification" })
+        with(NotificationManagerCompat.from(this)) {
+            notify(666, NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
+                setSmallIcon(R.mipmap.launcher_round)
+                setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
+                setContentText(
+                    getString(
+                        if (dist < 0L) R.string.bHappyBef else R.string.bHappyAft,
+                        abs(dist / 3600000L)
+                    )
+                )
+                priority = NotificationCompat.PRIORITY_HIGH
+            }.build())
         }
     }
 

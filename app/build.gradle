@@ -11,7 +11,7 @@ android {
         minSdkVersion 26
         targetSdkVersion 31
         versionCode 1
-        versionName '6.9.0'
+        versionName '7.0.0'
     }
 
     buildTypes {
@@ -48,6 +48,5 @@ dependencies {
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
     implementation 'androidx.fragment:fragment-ktx:1.4.0'
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
-    implementation 'com.diogobernardino:williamchart:3.10.1'
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
 }

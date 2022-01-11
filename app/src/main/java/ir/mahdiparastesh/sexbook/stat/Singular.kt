@@ -22,6 +22,9 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 import ir.mahdiparastesh.sexbook.more.Jalali
+import lecho.lib.hellocharts.model.Column
+import lecho.lib.hellocharts.model.ColumnChartData
+import lecho.lib.hellocharts.model.SubcolumnValue
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -43,11 +46,8 @@ class Singular : AppCompatActivity() {
 
         if (m.onani.value == null || m.summary.value == null || m.crush.value == null) {
             onBackPressed(); return; }
-        //val data: MutableList<DataEntry> = ArrayList()
         val data = ArrayList<Pair<String, Float>>()
         val history = m.summary.value!!.scores[m.crush.value]
-        //sinceTheBeginning(m.onani.value!!)
-        //    .forEach { data.add(ValueDataEntry(it, calcHistory(history!!, it))) }
         sinceTheBeginning(m.onani.value!!)
             .forEach { data.add(Pair(it, calcHistory(history!!, it))) }
 
@@ -82,8 +82,7 @@ class Singular : AppCompatActivity() {
             b.main.setChart(this)
         }*/
 
-        b.main.animation.duration = 1000L
-        b.main.animate(data)
+        b.main.columnChartData = ColumnChartData().setColumns(ColumnFactory(data))
 
         // Night Mode
         if (Fun.night) {
@@ -116,6 +115,7 @@ class Singular : AppCompatActivity() {
                 yea = crush!!.bYear.toInt()
                 mon = crush!!.bMonth.toInt()
                 day = crush!!.bDay.toInt()
+                bi.birth.text = "$yea.$mon.$day"
                 if (yea != -1) cal[Calendar.YEAR] = yea
                 if (mon != -1) cal[Calendar.MONTH] = mon
                 if (day != -1) cal[Calendar.DAY_OF_MONTH] = day
@@ -176,7 +176,6 @@ class Singular : AppCompatActivity() {
             }
         }
 
-        // TODO: Implement Birthday Notification
         // TODO: Implement Mass Rename
     }
 
@@ -247,4 +246,14 @@ class Singular : AppCompatActivity() {
             return value
         }
     }
+
+    class ColumnFactory(list: ArrayList<Pair<String, Float>>) : ArrayList<Column>(list.map {
+        Column(
+            listOf(
+                SubcolumnValue(it.second)
+                    .setLabel("${it.first} (${it.second})")
+                    .setColor(Fun.color(if (!Fun.night) R.color.CP else R.color.CPD))
+            )
+        ).setHasLabels(true)
+    })
 }

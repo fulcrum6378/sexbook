@@ -84,6 +84,9 @@
     <string name="font1">vazir_medium.ttf</string>
     <string name="font1Bold">vazir_bold.ttf</string>
     <string name="shrAdd">ایجاد مورد جدید</string>
+    <string name="bHappyTitle">تولد %s مبارک!</string>
+    <string name="bHappyBef">%d ساعت مونده تا تولدش!</string>
+    <string name="bHappyAft">%d ساعت گذشته از تولدش!</string>
 
     <!-- Main -->
     <string name="momSum">خلاصه</string>
