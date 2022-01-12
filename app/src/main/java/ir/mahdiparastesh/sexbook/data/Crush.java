@@ -74,6 +74,10 @@ public class Crush {
         } else return this.fName + " " + this.lName;
     }
 
+    public boolean hasFullBirth() {
+        return bYear != 1 && bMonth != 1 && bDay != -1;
+    }
+
     public static class Sort implements Comparator<Crush> {
         @Override
         public int compare(Crush a, Crush b) {

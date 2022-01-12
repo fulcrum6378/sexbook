@@ -42,7 +42,8 @@
 
         <activity
             android:name=".Settings"
-            android:exported="false">
+            android:exported="false"
+            android:launchMode="singleTop">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -52,15 +53,18 @@
         <activity
             android:name=".stat.Singular"
             android:exported="false"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustPan|adjustResize" />
 
         <activity
             android:name=".stat.Popularity"
-            android:exported="false" /><!--android:screenOrientation="landscape"-->
+            android:exported="false"
+            android:launchMode="singleTop" /><!--android:screenOrientation="landscape"-->
 
         <activity
             android:name=".stat.Growth"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTop" />
 
         <service
             android:name=".more.SexTileService"

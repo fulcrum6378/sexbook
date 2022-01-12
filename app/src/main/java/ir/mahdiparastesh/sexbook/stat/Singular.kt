@@ -35,7 +35,7 @@ class Singular : AppCompatActivity() {
     private var crush: Crush? = null
     private var dateFont: Typeface? = null
 
-    @SuppressLint("InflateParams", "SetTextI18n")
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = SingularBinding.inflate(layoutInflater)
@@ -53,7 +53,6 @@ class Singular : AppCompatActivity() {
 
         // Handler
         handler = object : Handler(Looper.getMainLooper()) {
-            @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.C_VIEW_ONE -> crush = msg.obj as Crush?
@@ -101,10 +100,7 @@ class Singular : AppCompatActivity() {
                     (bi.ll[l] as TextView).typeface = dateFont
 
             // Default Values
-            val cal = Calendar.getInstance()
-            var yea = -1
-            var mon = -1
-            var day = -1
+            val bir = Calendar.getInstance()
             if (crush != null) {
                 bi.fName.setText(crush!!.fName)
                 bi.lName.setText(crush!!.lName)
@@ -112,13 +108,11 @@ class Singular : AppCompatActivity() {
                 bi.real.isChecked = crush!!.real
                 if (crush!!.height != -1f)
                     bi.height.setText(crush!!.height.toString())
-                yea = crush!!.bYear.toInt()
-                mon = crush!!.bMonth.toInt()
-                day = crush!!.bDay.toInt()
-                bi.birth.text = "$yea.$mon.$day"
-                if (yea != -1) cal[Calendar.YEAR] = yea
-                if (mon != -1) cal[Calendar.MONTH] = mon
-                if (day != -1) cal[Calendar.DAY_OF_MONTH] = day
+                crush!!.bYear.toInt().let { if (it != -1) bir[Calendar.YEAR] = it }
+                crush!!.bMonth.toInt().let { if (it != -1) bir[Calendar.MONTH] = it }
+                crush!!.bDay.toInt().let { if (it != -1) bir[Calendar.DAY_OF_MONTH] = it }
+                if (crush!!.hasFullBirth())
+                    bi.birth.text = birthDate(bir)
                 bi.location.setText(crush!!.locat)
                 bi.instagram.setText(crush!!.insta)
                 bi.notifyBirth.isChecked = crush!!.notifyBirth
@@ -128,11 +122,11 @@ class Singular : AppCompatActivity() {
             bi.birth.setOnClickListener {
                 DatePickerDialog.newInstance(
                     { _, year, monthOfYear, dayOfMonth ->
-                        yea = year
-                        mon = monthOfYear
-                        day = dayOfMonth
-                        bi.birth.text = "$yea.$mon.$day"
-                    }, cal[Calendar.YEAR], cal[Calendar.MONTH], cal[Calendar.DAY_OF_MONTH]
+                        bir[Calendar.YEAR] = year
+                        bir[Calendar.MONTH] = monthOfYear
+                        bir[Calendar.DAY_OF_MONTH] = dayOfMonth
+                        bi.birth.text = birthDate(bir)
+                    }, bir[Calendar.YEAR], bir[Calendar.MONTH], bir[Calendar.DAY_OF_MONTH]
                 ).apply {
                     isThemeDark = Fun.night
                     version = DatePickerDialog.Version.VERSION_2
@@ -155,7 +149,9 @@ class Singular : AppCompatActivity() {
                         bi.real.isChecked,
                         if (bi.height.text.toString() != "")
                             bi.height.text.toString().toFloat() else -1f,
-                        yea.toShort(), mon.toByte(), day.toByte(),
+                        bir[Calendar.YEAR].toShort(),
+                        bir[Calendar.MONTH].toByte(),
+                        bir[Calendar.DAY_OF_MONTH].toByte(),
                         if (bi.location.text.toString().isEmpty()) null else
                             bi.location.text.toString(),
                         if (bi.instagram.text.toString().isEmpty()) null else
@@ -245,6 +241,9 @@ class Singular : AppCompatActivity() {
             }
             return value
         }
+
+        fun birthDate(cal: Calendar) =
+            "${cal[Calendar.YEAR]}.${cal[Calendar.MONTH] + 1}.${cal[Calendar.DAY_OF_MONTH]}"
     }
 
     class ColumnFactory(list: ArrayList<Pair<String, Float>>) : ArrayList<Column>(list.map {
