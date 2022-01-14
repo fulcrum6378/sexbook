@@ -15,6 +15,7 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.sp
 import ir.mahdiparastesh.sexbook.more.Jalali
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
@@ -176,7 +177,11 @@ class PageSex(val c: Main) : Fragment() {
         if (adding) return
         if (filters != null) filterList(filters!!.size - 1)
         adding = true
-        Work(c, Work.INSERT_ONE, listOf(Report(Fun.now(), "", 1, "", true, -1L))).start()
+        val newOne = Report(
+            Fun.now(), "", 1, "", true,
+            sp.getLong(Settings.spDefPlace, -1L)
+        )
+        Work(c, Work.INSERT_ONE, listOf(newOne)).start()
         object : CountDownTimer(Work.TIMEOUT, Work.TIMEOUT) {
             override fun onTick(p0: Long) {}
             override fun onFinish() {

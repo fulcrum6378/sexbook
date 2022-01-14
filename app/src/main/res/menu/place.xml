@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/plDefPlace"
+        android:checkable="true"
+        android:checked="false"
+        android:title="@string/plDefPlace" />
+    <item
+        android:id="@+id/plDelete"
+        android:title="@string/delete" />
+</menu>

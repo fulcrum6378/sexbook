@@ -21,6 +21,7 @@ class Settings : BaseActivity() {
 
     companion object {
         const val spCalType = "calendarType"
+        const val spDefPlace = "defaultPlace"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

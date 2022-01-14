@@ -63,4 +63,7 @@ interface Dao {
 
     @Update
     fun pUpdate(item: Place)
+
+    @Delete
+    fun pDelete(item: Place)
 }

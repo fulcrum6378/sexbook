@@ -62,12 +62,6 @@
         <item name="layout_constraintHeight_percent">0.7</item>
     </style>
 
-    <style name="navItemTV" parent="parentConstraint">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/CP3</item>
-    </style>
-
 
     <!-- Singular -->
     <style name="identifyField">

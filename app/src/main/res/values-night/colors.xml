@@ -9,7 +9,7 @@
 
     <!-- GLOBAL -->
     <color name="adBG">#424242</color>
-    <string name="anyChartBG">#3A3A3A</string>
+    <!--<string name="anyChartBG">#3A3A3A</string>-->
     <string name="anyChartADBG">#424242</string>
     <color name="transformer">@color/CPDD</color>
 

@@ -3,19 +3,19 @@ package ir.mahdiparastesh.sexbook.data
 import android.content.Context
 import android.os.Handler
 import androidx.room.Room
-import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.PageLove
-import ir.mahdiparastesh.sexbook.PageSex
+import ir.mahdiparastesh.sexbook.*
 
 class Work(
     val c: Context,
     val action: Int,
     val values: List<Any>? = null,
-    val handler: Handler =
-        if (action < 10)
-            (if (PageSex.handler.value != null) PageSex.handler.value!! else Main.handler)
-        else
-            (if (PageLove.handler.value != null) PageLove.handler.value!! else Main.handler)
+    val handler: Handler = when {
+        action < 10 -> if (PageSex.handler.value != null) PageSex.handler.value!! else Main.handler
+        action < 20 -> if (PageLove.handler.value != null) PageLove.handler.value!! else Main.handler
+        action < 30 -> Places.handler ?: Main.handler
+        action < 40 -> Estimation.handler ?: Main.handler
+        else -> Main.handler
+    }
 ) : Thread() {
     companion object {
         // Report
@@ -40,6 +40,7 @@ class Work(
         const val P_VIEW_ALL = 21
         const val P_INSERT_ONE = 22
         const val P_UPDATE_ONE = 24
+        const val P_DELETE_ONE = 25
 
         // Guess
         const val G_VIEW_ALL = 31
@@ -157,6 +158,14 @@ class Work(
 
             P_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.pUpdate(values[0] as Place)
+                handler.obtainMessage(
+                    action, if (values.size > 1) values[1] as Int else 0,
+                    if (values.size > 2) values[2] as Int else 0, null
+                ).sendToTarget()
+            }
+
+            P_DELETE_ONE -> if (!values.isNullOrEmpty()) {
+                dao.pDelete(values[0] as Place)
                 handler.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null

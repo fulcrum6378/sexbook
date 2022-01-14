@@ -76,6 +76,10 @@ class Main : BaseActivity(true) {
                                 notifyBirth(it, dist)
                         }
                     }
+                    Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>)
+                        .apply { sortWith(Place.Sort()) }
+                    Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>)
+                        .apply { sortWith(Guess.Sort()) }
                 }
             }
         }
@@ -175,6 +179,8 @@ class Main : BaseActivity(true) {
         checkIntent(intent)
         Work(c, Work.VIEW_ALL).start()
         Work(c, Work.C_VIEW_ALL).start()
+        Work(c, Work.P_VIEW_ALL).start()
+        Work(c, Work.G_VIEW_ALL).start()
     }
 
     override fun onNewIntent(intent: Intent?) {

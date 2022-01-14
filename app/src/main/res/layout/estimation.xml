@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/body"
     tools:context=".Estimation"
-    tools:ignore="MissingConstraints">
+    tools:ignore="ContentDescription,MissingConstraints">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

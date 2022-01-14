@@ -9,13 +9,18 @@
     android:paddingHorizontal="10dp"
     android:paddingVertical="17dp">
 
-    <TextView
+    <EditText
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="14sp"
-        android:textColor="@color/mrvDate"
-        android:textSize="17sp"
+        android:autofillHints="addressRegion"
+        android:background="@color/tp"
+        android:hint="@string/plItemHint"
+        android:inputType="textAutoComplete"
+        android:textColor="@color/mrvNotes"
+        android:textColorHint="@color/mrvNotesHint"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

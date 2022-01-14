@@ -84,6 +84,9 @@
     <string name="font1">vazir_medium.ttf</string>
     <string name="font1Bold">vazir_bold.ttf</string>
     <string name="shrAdd">ایجاد مورد جدید</string>
+    <string name="delete">حذف</string>
+    <string name="expand">باز کردن</string>
+    <string name="collapse">بستن</string>
     <string name="bHappyTitle">تولد %s مبارک!</string>
     <string name="bHappyBef">%d ساعت مونده تا تولدش!</string>
     <string name="bHappyAft">%d ساعت گذشته از تولدش!</string>
@@ -110,7 +113,6 @@
     <!-- Page Sex -->
     <string name="mrvNotesHint">.....</string>
     <string name="lcAccurate">دقیق؟</string>
-    <string name="lcDelete">حذف</string>
     <string name="desc">توضیحاتی بنویسید&#8230;</string>
 
     <!-- Page Love -->
@@ -133,6 +135,9 @@
 
     <!-- Places -->
     <string name="plTitle">مکان ها</string>
+    <string name="plItemHint">نام مکان&#8230;</string>
+    <string name="plDeletePlaceSure">آیا از حذف این مکان از لیست اطمینان دارید؟</string>
+    <string name="plDefPlace">مکان پیشفرض</string>
 
     <!-- Estimation -->
     <string name="etTitle">تخمین ها</string>

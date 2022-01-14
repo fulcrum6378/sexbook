@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.list
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Estimation
@@ -10,7 +9,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
     class MyViewHolder(val b: ItemGuessBinding) : RecyclerView.ViewHolder(b.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val b = ItemGuessBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val b = ItemGuessBinding.inflate(c.layoutInflater, parent, false)
         return MyViewHolder(b)
     }
 

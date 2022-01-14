@@ -15,7 +15,7 @@ class Places : BaseActivity() {
     private var adding = false
 
     companion object {
-        lateinit var handler: Handler
+        var handler: Handler? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,12 +28,27 @@ class Places : BaseActivity() {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.P_VIEW_ALL ->
-                        m.places.value = (msg.obj as ArrayList<Place>)
-                            .apply { sortWith(Place.Sort()) }
+                    Work.P_VIEW_ONE -> if (msg.obj != null) when (msg.arg1) {
+                        Work.ADD_NEW_ITEM -> {
+                            if (m.places.value == null) m.places.value = ArrayList()
+                            m.places.value!!.add(msg.obj as Place)
+                            b.list.adapter!!.notifyItemInserted(m.places.value!!.size - 1)
+                            adding = false
+                            Fun.explode(c, b.add)
+                        }
+                    }
+                    Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>)
+                        .apply { sortWith(Place.Sort()) }
                     Work.P_INSERT_ONE -> if (msg.obj != null)
                         Work(c, Work.P_VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()
-                    Work.P_UPDATE_ONE -> {
+                    Work.P_UPDATE_ONE ->
+                        if (msg.arg2 == 1) b.list.adapter?.notifyItemChanged(msg.arg1)
+                    Work.P_DELETE_ONE -> {
+                        m.liefde.value?.removeAt(msg.arg1)
+                        b.list.adapter?.notifyItemRemoved(msg.arg1)
+                        b.list.adapter?.notifyItemRangeChanged(
+                            msg.arg1, b.list.adapter!!.itemCount - msg.arg1
+                        )
                     }
                 }
             }
@@ -41,7 +56,10 @@ class Places : BaseActivity() {
 
         // List
         m.places.observe(this) {
-            if (it == null) return@observe
+            if (it == null) {
+                b.list.adapter = null
+                return@observe
+            }
             if (b.list.adapter == null) b.list.adapter = PlaceAdap(this)
             else b.list.adapter?.notifyDataSetChanged()
         }
@@ -58,5 +76,10 @@ class Places : BaseActivity() {
         }
 
         Work(c, Work.P_VIEW_ALL).start()
+    }
+
+    override fun onDestroy() {
+        handler = null
+        super.onDestroy()
     }
 }

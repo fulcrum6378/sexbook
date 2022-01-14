@@ -1,16 +1,14 @@
 package ir.mahdiparastesh.sexbook.list
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.Editable
-import android.text.SpannableString
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.appcompat.view.ContextThemeWrapper
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.forEach
 import androidx.recyclerview.widget.RecyclerView
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
@@ -19,16 +17,14 @@ import ir.mahdiparastesh.sexbook.Fun.Companion.calType
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.jdtp.utils.PersianCalendar
-import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.dm
+import ir.mahdiparastesh.sexbook.more.*
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.dp
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
-import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
-import ir.mahdiparastesh.sexbook.more.Jalali
-import ir.mahdiparastesh.sexbook.more.TypeAdap
 import java.util.*
 import kotlin.collections.ArrayList
 import ir.mahdiparastesh.sexbook.jdtp.date.DatePickerDialog as JalaliDatePickerDialog
@@ -44,7 +40,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
     class MyViewHolder(val b: ItemReportBinding) : RecyclerView.ViewHolder(b.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val b = ItemReportBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val b = ItemReportBinding.inflate(c.layoutInflater, parent, false)
 
         // Fonts
         b.date.typeface = c.font1Bold
@@ -70,6 +66,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         return MyViewHolder(b)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: MyViewHolder, i: Int) {
 
         // Date & Time
@@ -89,7 +86,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                 setCancelColor(c.color(R.color.mrvPopupButtons))
                 show(
                     c.supportFragmentManager,
-                    "edit${allPos(c.m, h.layoutPosition)}"
+                    "edit${globalPos(c.m, h.layoutPosition)}"
                 )
             }
         }
@@ -104,7 +101,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                 setCancelColor(c.color(R.color.mrvPopupButtons))
                 show(
                     c.supportFragmentManager,
-                    "$tagEdit${allPos(c.m, h.layoutPosition)}"
+                    "$tagEdit${globalPos(c.m, h.layoutPosition)}"
                 )
             } else {
                 val jal = Jalali(cal)
@@ -112,7 +109,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                     isThemeDark = night
                     show(
                         c.supportFragmentManager,
-                        "$tagEdit${allPos(c.m, h.layoutPosition)}"
+                        "$tagEdit${globalPos(c.m, h.layoutPosition)}"
                     )
                 }
             }
@@ -135,7 +132,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                 c.m.visOnani.value!![h.layoutPosition].apply {
                     if (name != h.b.name.text.toString()) {
                         name = h.b.name.text.toString()
-                        update(c.m, this, h.layoutPosition)
+                        update(this, h.layoutPosition)
                     }
                 }
             }
@@ -149,17 +146,17 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                 c.m.visOnani.value!![h.layoutPosition].apply {
                     if (type != i.toByte()) {
                         type = i.toByte()
-                        update(c.m, this, h.layoutPosition)
+                        update(this, h.layoutPosition)
                     }
                 }
             }
         }
 
+        // Overflow
+        h.b.root.setOnClickListener { toggleOverflow(h.b) }
+
         // Descriptions
         h.b.desc.setText(c.m.visOnani.value!![i].desc)
-        h.b.root.setOnClickListener {
-            Fun.vis(h.b.desc, h.b.desc.visibility == View.GONE)
-        }
         h.b.desc.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
@@ -167,47 +164,65 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                 c.m.visOnani.value!![h.layoutPosition].apply {
                     if (desc != h.b.desc.text.toString()) {
                         desc = h.b.desc.text.toString()
-                        update(c.m, this, h.layoutPosition)
+                        update(this, h.layoutPosition)
                     }
                 }
             }
         })
 
+        // Place
+        h.b.placeMark.setColorFilter(c.color(R.color.spnFilterMark))
+        c.m.places.value?.let { l ->
+            h.b.place.adapter = SpinnerAdap(c,
+                ArrayList(l.map { it.name }).apply { add(0, "") })
+        }
+        var placeTouched = false
+        h.b.place.setOnTouchListener { _, _ -> placeTouched = true; false }
+        h.b.place.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(av: AdapterView<*>?) {}
+            override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
+                if (c.m.places.value == null || !placeTouched) return
+                val id = if (i == 0) -1L else c.m.places.value!![i - 1].id
+                c.m.visOnani.value!![h.layoutPosition].apply {
+                    if (plac != id) {
+                        plac = id
+                        update(this, h.layoutPosition)
+                    }
+                }
+            }
+        }
+        h.b.place.setSelection(
+            if (c.m.visOnani.value!![i].plac == -1L) 0
+            else placePos(c.m.visOnani.value!![i].plac, c.m.places.value!!) + 1,
+            true
+        )
+
         // Long Click
         val longClick = View.OnLongClickListener { v ->
-            var popup = PopupMenu(ContextThemeWrapper(c, R.style.AppTheme), v)
-            popup.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.lcAccurate -> {
-                        c.m.visOnani.value!![h.layoutPosition].apply {
-                            if (acur != !it.isChecked) {
-                                acur = !it.isChecked
-                                update(c.m, this, h.layoutPosition)
-                            }
+            MaterialMenu(c, v, R.menu.report, Act().apply {
+                this[R.id.lcExpand] = {
+                    toggleOverflow(h.b)
+                }
+                this[R.id.lcAccurate] = {
+                    c.m.visOnani.value!![h.layoutPosition].apply {
+                        if (acur != !it.isChecked) {
+                            acur = !it.isChecked
+                            update(this, h.layoutPosition)
                         }
-                        true
                     }
-                    R.id.lcDelete -> {
-                        if (c.m.onani.value == null) return@setOnMenuItemClickListener true
-                        val aPos = allPos(c.m, h.layoutPosition)
+                }
+                this[R.id.lcDelete] = {
+                    if (c.m.onani.value != null) {
+                        val aPos = globalPos(c.m, h.layoutPosition)
                         Work(c, Work.DELETE_ONE, listOf(c.m.onani.value!![aPos], aPos)).start()
-                        true
                     }
-                    else -> false
                 }
-            }
-            popup.inflate(R.menu.report)
-            popup.show()
-            popup.menu.forEach {
-                it.title = SpannableString(it.title).apply {
-                    setSpan(
-                        CustomTypefaceSpan("", c.font1, dm.density * 16f), 0,
-                        length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-                    )
-                }
-            }
-            popup.menu.findItem(R.id.lcAccurate).isChecked =
-                c.m.visOnani.value!![h.layoutPosition].acur
+            }).apply {
+                menu.findItem(R.id.lcAccurate).isChecked =
+                    c.m.visOnani.value!![h.layoutPosition].acur
+                if (expanded) menu.findItem(R.id.lcExpand).title =
+                    c.resources.getString(R.string.collapse)
+            }.show()
             true
         }
         h.b.root.setOnLongClickListener(longClick)
@@ -268,12 +283,20 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         }
     }
 
-    fun update(m: Model, updated: Report, nominalPos: Int) {
-        if (m.onani.value == null) return
-        val pos = allPos(m, nominalPos)
-        if (m.onani.value!!.size <= pos || pos < 0) return
-        m.onani.value!![pos] = updated
-        Work(c, Work.UPDATE_ONE, listOf(m.onani.value!![pos], pos, 1)).start()
+    var expanded = false
+    fun toggleOverflow(b: ItemReportBinding) {
+        expanded = !expanded
+        Fun.vis(b.desc, expanded)
+        Fun.vis(b.place, expanded)
+        Fun.vis(b.placeMark, expanded)
+    }
+
+    fun update(updated: Report, nominalPos: Int) {
+        if (c.m.onani.value == null) return
+        val pos = globalPos(c.m, nominalPos)
+        if (c.m.onani.value!!.size <= pos || pos < 0) return
+        c.m.onani.value!![pos] = updated
+        Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 1)).start()
     }
 
     companion object {
@@ -297,11 +320,19 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
 
         fun rotateMin(m: Int) = m * 6f
 
-        fun allPos(m: Model, pos: Int): Int {
+        fun globalPos(m: Model, pos: Int): Int {
             var index = -1
             for (o in m.onani.value!!.indices)
                 if (m.onani.value!![o].id == m.visOnani.value!![pos].id)
                     index = o
+            return index
+        }
+
+        fun placePos(id: Long, list: List<Place>): Int {
+            var index = -1
+            for (i in list.indices)
+                if (list[i].id == id)
+                    index = i
             return index
         }
 

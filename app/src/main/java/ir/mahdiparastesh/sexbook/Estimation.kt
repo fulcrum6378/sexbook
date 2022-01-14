@@ -17,7 +17,7 @@ class Estimation : BaseActivity() {
     private lateinit var b: EstimationBinding
 
     companion object {
-        lateinit var handler: Handler
+        var handler: Handler? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,10 +39,19 @@ class Estimation : BaseActivity() {
 
         // List
         m.guesses.observe(this) {
+            if (it == null) {
+                b.list.adapter = null
+                return@observe
+            }
             if (b.list.adapter == null) b.list.adapter = GuessAdap(this)
             else b.list.adapter?.notifyDataSetChanged()
         }
 
         Work(c, Work.G_VIEW_ALL).start()
+    }
+
+    override fun onDestroy() {
+        Places.handler = null
+        super.onDestroy()
     }
 }

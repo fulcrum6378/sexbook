@@ -37,7 +37,7 @@
         android:paddingStart="28dp"
         android:paddingTop="14dp"
         android:paddingEnd="5dp"
-        android:theme="@style/Theme.MaterialComponents.DayNight"
+        android:theme="@style/AppTheme"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView

@@ -9,7 +9,7 @@
     android:background="@drawable/yellow_box"
     android:paddingHorizontal="10dp"
     android:paddingVertical="12dp"
-    tools:ignore="MissingConstraints,SpUsage">
+    tools:ignore="MissingConstraints,SpUsage,ContentDescription">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clock"
@@ -123,4 +123,28 @@
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/clock"
         tools:ignore="Autofill" />
+
+    <Spinner
+        android:id="@+id/place"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/spn_filter"
+        android:paddingStart="28dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="5dp"
+        android:theme="@style/AppTheme"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/desc" />
+
+    <ImageView
+        android:id="@+id/placeMark"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginEnd="22dp"
+        android:rotation="90"
+        android:src="@drawable/play_3_ntf"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/place"
+        app:layout_constraintEnd_toEndOf="@id/place"
+        app:layout_constraintTop_toTopOf="@id/place" />
 </androidx.constraintlayout.widget.ConstraintLayout>

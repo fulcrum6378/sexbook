@@ -84,9 +84,12 @@
     <string name="font1">franklin_gothic.ttf</string>
     <string name="font1Bold">franklin_gothic_bold.ttf</string>
     <string name="shrAdd">Add New Record</string>
+    <string name="delete">Delete</string>
+    <string name="expand">Expand</string>
+    <string name="collapse">Collapse</string>
     <string name="bHappyTitle">Happy %s\'s Birthday!</string>
-    <string name="bHappyBef">%d hours remaining to their birthday!</string>
-    <string name="bHappyAft">%d hours past since their birthday!</string>
+    <string name="bHappyBef">%d hour(s) remaining to their birthday!</string>
+    <string name="bHappyAft">%d hour(s) past since their birthday!</string>
 
     <!-- Main -->
     <string name="momSum">Summary</string>
@@ -110,7 +113,6 @@
     <!-- Page Sex -->
     <string name="mrvNotesHint">.....</string>
     <string name="lcAccurate">Accurate?</string>
-    <string name="lcDelete">Delete</string>
     <string name="desc">Write descriptions&#8230;</string>
 
     <!-- Page Love -->
@@ -133,6 +135,9 @@
 
     <!-- Places -->
     <string name="plTitle">Places</string>
+    <string name="plItemHint">Place name&#8230;</string>
+    <string name="plDeletePlaceSure">Are you sure you want to delete this place?</string>
+    <string name="plDefPlace">Default Place?</string>
 
     <!-- Estimation -->
     <string name="etTitle">Estimation</string>

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/lcExpand"
+        android:title="@string/expand" />
+    <item
         android:id="@+id/lcAccurate"
         android:checkable="true"
         android:checked="true"
         android:title="@string/lcAccurate" />
     <item
         android:id="@+id/lcDelete"
-        android:title="@string/lcDelete" />
+        android:title="@string/delete" />
 </menu>

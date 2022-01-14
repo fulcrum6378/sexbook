@@ -60,7 +60,7 @@ class Fun {
             return if (s.length == 1) "0$s" else s
         }
 
-        fun calType() = Fun.CalendarType.values()[BaseActivity.sp.getInt(Settings.spCalType, 0)]
+        fun calType() = CalendarType.values()[BaseActivity.sp.getInt(Settings.spCalType, 0)]
 
         fun vis(v: View, b: Boolean = true): Boolean {
             v.visibility = if (b) View.VISIBLE else View.GONE
