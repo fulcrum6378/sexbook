@@ -47,4 +47,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
+
+    <View style="@style/tbShadow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

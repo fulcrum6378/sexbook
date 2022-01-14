@@ -35,6 +35,15 @@ class Work(
         const val C_UPDATE_ONE = 14
         const val C_DELETE_ONE = 15
 
+        // Place
+        const val P_VIEW_ONE = 20
+        const val P_VIEW_ALL = 21
+        const val P_INSERT_ONE = 22
+        const val P_UPDATE_ONE = 24
+
+        // Guess
+        const val G_VIEW_ALL = 31
+
         // PURPOSES
         const val ADD_NEW_ITEM = 0
 
@@ -53,14 +62,14 @@ class Work(
         val dao = db.dao()
         when (action) {
             // Report
-            VIEW_ALL -> handler.obtainMessage(action, dao.getAll()).sendToTarget()
-
             VIEW_ONE -> if (!values.isNullOrEmpty()) handler.obtainMessage(
                 action,
                 if (values.size > 1) values[1] as Int else 0,
                 if (values.size > 2) values[2] as Int else 0,
                 dao.get(values[0] as Long)
             ).sendToTarget()
+
+            VIEW_ALL -> handler.obtainMessage(action, dao.getAll()).sendToTarget()
 
             INSERT_ONE -> {
                 var result: Long = -1
@@ -92,14 +101,14 @@ class Work(
 
 
             // Crush
-            C_VIEW_ALL -> handler.obtainMessage(action, dao.cGetAll()).sendToTarget()
-
             C_VIEW_ONE -> if (!values.isNullOrEmpty()) handler.obtainMessage(
                 action,
                 if (values.size > 1) values[1] as Int else 0,
                 if (values.size > 2) values[2] as Int else 0,
                 dao.cGet(values[0] as String)
             ).sendToTarget()
+
+            C_VIEW_ALL -> handler.obtainMessage(action, dao.cGetAll()).sendToTarget()
 
             C_INSERT_ONE -> {
                 var result: Long = -1
@@ -123,6 +132,31 @@ class Work(
 
             C_DELETE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.cDelete(values[0] as Crush)
+                handler.obtainMessage(
+                    action, if (values.size > 1) values[1] as Int else 0,
+                    if (values.size > 2) values[2] as Int else 0, null
+                ).sendToTarget()
+            }
+
+
+            // Place
+            P_VIEW_ONE -> if (!values.isNullOrEmpty()) handler.obtainMessage(
+                action,
+                if (values.size > 1) values[1] as Int else 0,
+                if (values.size > 2) values[2] as Int else 0,
+                dao.pGet(values[0] as Long)
+            ).sendToTarget()
+
+            P_VIEW_ALL -> handler.obtainMessage(action, dao.pGetAll()).sendToTarget()
+
+            P_INSERT_ONE -> {
+                var result: Long = -1
+                if (!values.isNullOrEmpty()) result = dao.pInsert(values[0] as Place)
+                handler.obtainMessage(action, result).sendToTarget()
+            }
+
+            P_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
+                dao.pUpdate(values[0] as Place)
                 handler.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null

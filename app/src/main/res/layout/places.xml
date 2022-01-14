@@ -3,12 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/body"
-    tools:ignore="MissingConstraints"
-    tools:context=".Places">
+    tools:context=".Places"
+    tools:ignore="MissingConstraints">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/toolbar"
         app:title="@string/plTitle" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add"
+        style="@style/add">
+
+        <ImageView
+            android:id="@+id/addIV"
+            style="@style/addIV"
+            android:src="@drawable/add" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View style="@style/tbShadow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

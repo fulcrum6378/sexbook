@@ -6,10 +6,10 @@ import androidx.room.Dao
 @Dao
 interface Dao {
     // Report
-    @Query("SELECT * FROM report WHERE id LIKE :id LIMIT 1")
+    @Query("SELECT * FROM Report WHERE id LIKE :id LIMIT 1")
     fun get(id: Long): Report
 
-    @Query("SELECT * FROM report")
+    @Query("SELECT * FROM Report")
     fun getAll(): List<Report>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -29,10 +29,10 @@ interface Dao {
 
 
     // Crush
-    @Query("SELECT * FROM crush WHERE key LIKE :key LIMIT 1")
+    @Query("SELECT * FROM Crush WHERE key LIKE :key LIMIT 1")
     fun cGet(key: String): Crush
 
-    @Query("SELECT * FROM crush")
+    @Query("SELECT * FROM Crush")
     fun cGetAll(): List<Crush>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -49,4 +49,18 @@ interface Dao {
 
     @Delete
     fun cDeleteAll(item: List<Crush>)
+
+
+    // Place
+    @Query("SELECT * FROM Place WHERE id LIKE :id LIMIT 1")
+    fun pGet(id: Long): Place
+
+    @Query("SELECT * FROM Place")
+    fun pGetAll(): List<Place>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun pInsert(item: Place): Long
+
+    @Update
+    fun pUpdate(item: Place)
 }

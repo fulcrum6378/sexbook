@@ -20,22 +20,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/add"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_margin="15dp"
-        android:background="@drawable/button_1"
-        android:elevation="2dp"
-        app:layout_constraintBottom_toTopOf="@id/spnFilter"
-        app:layout_constraintEnd_toEndOf="parent">
+        style="@style/add"
+        app:layout_constraintBottom_toTopOf="@id/spnFilter">
 
         <ImageView
             android:id="@+id/addIV"
-            style="@style/parentConstraint"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/add"
-            app:layout_constraintHeight_percent="0.6"
-            app:layout_constraintWidth_percent="0.6" />
+            style="@style/addIV"
+            android:src="@drawable/add" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Spinner

@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Comparator;
+
 @Entity
 public class Place {
     @PrimaryKey(autoGenerate = true)
@@ -15,8 +17,6 @@ public class Place {
     @ColumnInfo(name = "longitude")
     public double longitude;
 
-    // TODO: IMPLEMENT Place
-
     public Place(String name, double latitude, double longitude) {
         this.name = name;
         this.latitude = latitude;
@@ -26,5 +26,12 @@ public class Place {
     public Place setId(long id) {
         this.id = id;
         return this;
+    }
+
+    public static class Sort implements Comparator<Place> {
+        @Override
+        public int compare(Place a, Place b) {
+            return a.name.compareTo(b.name);
+        }
     }
 }

@@ -55,7 +55,6 @@ class Main : BaseActivity(true) {
         setContentView(b.root)
         toolbar(b.toolbar, R.string.app_name)
 
-        // Handler
         handler = object : Handler(Looper.getMainLooper()) {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
@@ -140,11 +139,9 @@ class Main : BaseActivity(true) {
                         fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
                     };true; }
                 R.id.momPlc -> {
-                    true
-                }
+                    startActivity(Intent(this, Places::class.java)); true; }
                 R.id.momEst -> {
-                    true
-                }
+                    startActivity(Intent(this, Estimation::class.java)); true; }
                 R.id.momImport -> exporter.launchImport()
                 R.id.momExport -> exporter.launchExport()
                 R.id.momSettings -> {

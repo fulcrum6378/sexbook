@@ -11,7 +11,7 @@ android {
         minSdkVersion 26
         targetSdkVersion 31
         versionCode 1
-        versionName '7.2.5'
+        versionName '7.3.0'
     }
 
     buildTypes {
