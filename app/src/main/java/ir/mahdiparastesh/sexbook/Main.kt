@@ -162,7 +162,7 @@ class Main : AppCompatActivity() {
                         Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
                     };true; }
                 R.id.momImport -> exporter.launchImport()
-                R.id.momExport -> exporter.launchExport(m.onani.value, m.liefde.value)
+                R.id.momExport -> exporter.launchExport(m)
                 R.id.momSettings -> {
                     startActivity(Intent(this, Settings::class.java)); true; }
                 else -> super.onOptionsItemSelected(it)

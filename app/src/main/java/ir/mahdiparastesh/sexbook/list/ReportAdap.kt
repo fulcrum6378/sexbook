@@ -18,6 +18,7 @@ import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.Fun.Companion.calType
 import ir.mahdiparastesh.sexbook.Fun.Companion.color
 import ir.mahdiparastesh.sexbook.Fun.Companion.dp
+import ir.mahdiparastesh.sexbook.Fun.Companion.font1
 import ir.mahdiparastesh.sexbook.Fun.Companion.night
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
@@ -49,7 +50,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
 
         // Fonts
         b.date.typeface = Fun.font1Bold
-        b.ampm.typeface = Fun.font1
+        b.ampm.typeface = font1
 
         // Date & Time
         if (b.clock.height != 0) clockHeight = b.clock.height
@@ -133,7 +134,12 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                saveET(c.m, h.b.name, allPos(c.m, h.layoutPosition))
+                c.m.visOnani.value!![h.layoutPosition].apply {
+                    if (name != h.b.name.text.toString()) {
+                        name = h.b.name.text.toString()
+                        update(c.m, this, h.layoutPosition)
+                    }
+                }
             }
         })
 
@@ -142,22 +148,45 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         h.b.type.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                if (c.m.onani.value == null) return
-                val pos = allPos(c.m, h.layoutPosition)
-                if (c.m.onani.value!!.size <= pos || pos < 0) return
-                if (c.m.onani.value!![pos].type == i.toByte()) return
-                c.m.onani.value!![pos].type = i.toByte()
-                Work(Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 1)).start()
+                c.m.visOnani.value!![h.layoutPosition].apply {
+                    if (type != i.toByte()) {
+                        type = i.toByte()
+                        update(c.m, this, h.layoutPosition)
+                    }
+                }
             }
         }
+
+        // Descriptions
+        h.b.desc.setText(c.m.visOnani.value!![i].desc)
+        h.b.root.setOnClickListener {
+            Fun.vis(h.b.desc, h.b.desc.visibility == View.GONE)
+        }
+        h.b.desc.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
+            override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                c.m.visOnani.value!![h.layoutPosition].apply {
+                    if (desc != h.b.desc.text.toString()) {
+                        desc = h.b.desc.text.toString()
+                        update(c.m, this, h.layoutPosition)
+                    }
+                }
+            }
+        })
 
         // Long Click
         val longClick = View.OnLongClickListener { v ->
             var popup = PopupMenu(ContextThemeWrapper(c, R.style.AppTheme), v)
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.lcDescriptions -> {
-                        // TODO: Description
+                    R.id.lcAccurate -> {
+                        c.m.visOnani.value!![h.layoutPosition].apply {
+                            if (acur != !it.isChecked) {
+                                acur = !it.isChecked
+                                update(c.m, this, h.layoutPosition)
+                            }
+                        }
                         true
                     }
                     R.id.lcDelete -> {
@@ -166,20 +195,21 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                         Work(Work.DELETE_ONE, listOf(c.m.onani.value!![aPos], aPos)).start()
                         true
                     }
-                    // TODO: Estimation
                     else -> false
                 }
             }
             popup.inflate(R.menu.report)
             popup.show()
             popup.menu.forEach {
-                val mNewTitle = SpannableString(it.title)
-                mNewTitle.setSpan(
-                    CustomTypefaceSpan("", Fun.font1, Fun.dm.density * 16f), 0,
-                    mNewTitle.length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-                )
-                it.title = mNewTitle
+                it.title = SpannableString(it.title).apply {
+                    setSpan(
+                        CustomTypefaceSpan("", font1, Fun.dm.density * 16f), 0,
+                        length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
+                    )
+                }
             }
+            popup.menu.findItem(R.id.lcAccurate).isChecked =
+                c.m.visOnani.value!![h.layoutPosition].acur
             true
         }
         h.b.root.setOnLongClickListener(longClick)
@@ -240,6 +270,14 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         }
     }
 
+    fun update(m: Model, updated: Report, nominalPos: Int) {
+        if (m.onani.value == null) return
+        val pos = allPos(m, nominalPos)
+        if (m.onani.value!!.size <= pos || pos < 0) return
+        m.onani.value!![pos] = updated
+        Work(Work.UPDATE_ONE, listOf(m.onani.value!![pos], pos, 1)).start()
+    }
+
     companion object {
         fun compileDate(time: Long): String {
             val lm = Calendar.getInstance().apply { timeInMillis = time }
@@ -261,15 +299,13 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
 
         fun rotateMin(m: Int) = m * 6f
 
-        fun saveET(m: Model, et: EditText, pos: Int) {
-            if (m.onani.value == null) return
-            if (m.onani.value!!.size <= pos || pos < 0) return
-            if (m.onani.value!![pos].name == et.text.toString()) return
-            m.onani.value!![pos].name = et.text.toString()
-            Work(Work.UPDATE_ONE, listOf(m.onani.value!![pos], pos, 1)).start()
+        fun allPos(m: Model, pos: Int): Int {
+            var index = -1
+            for (o in m.onani.value!!.indices)
+                if (m.onani.value!![o].id == m.visOnani.value!![pos].id)
+                    index = o
+            return index
         }
-
-        fun allPos(m: Model, pos: Int) = m.onani.value!!.indexOf(m.visOnani.value!![pos])
 
 
         class Sort : Comparator<Report> {

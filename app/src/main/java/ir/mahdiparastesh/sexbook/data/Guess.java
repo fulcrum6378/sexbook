@@ -5,32 +5,34 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Report {
+public class Guess {
     @PrimaryKey(autoGenerate = true)
     public long id;
-    @ColumnInfo(name = "time")
-    public long time;
-    @ColumnInfo(name = "name")
-    public String name;
+    @ColumnInfo(name = "sinc")
+    public long sinc;
+    @ColumnInfo(name = "till")
+    public long till;
+    @ColumnInfo(name = "freq")
+    public byte cors;
     @ColumnInfo(name = "type")
     public byte type;
     @ColumnInfo(name = "desc")
     public String desc;
-    @ColumnInfo(name = "accu")
-    public boolean acur;
     @ColumnInfo(name = "plac")
     public long plac;
 
-    public Report(long time, String name, byte type, String desc, boolean acur, long plac) {
-        this.time = time;
-        this.name = name;
+    // TODO: IMPLEMENT Guess
+
+    public Guess(long sinc, long till, byte cors, byte type, String desc, long plac) {
+        this.sinc = sinc;
+        this.till = till;
+        this.cors = cors;
         this.type = type;
         this.desc = desc;
-        this.acur = acur;
         this.plac = plac;
     }
 
-    public Report setId(long id) {
+    public Guess setId(long id) {
         this.id = id;
         return this;
     }

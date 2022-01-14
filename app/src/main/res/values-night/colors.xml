@@ -14,17 +14,8 @@
     <color name="transformer">@color/CPDD</color>
 
     <!-- Main -->
-    <color name="toolbar">@color/CP</color>
-    <color name="tbTitle">@color/CPDD</color>
-    <color name="load">@color/CP</color>
-    <color name="mrvBG">@color/CP</color>
-    <color name="mrvDate">@color/CPDD</color>
-    <color name="mrvNotes">@color/CPDD</color>
-    <color name="mrvNotesHint">@color/CPDD</color>
-    <color name="mrvClock">@color/CP2</color>
     <color name="mrvClockPoint">@color/CPD</color>
     <color name="mrvClockHand">@color/CPDD</color>
-    <color name="mrvAMPM">@color/CPDD</color>
     <color name="mrvPopupButtons">@color/white</color>
     <color name="spnFilterMark">@color/CPDD</color>
     <color name="spnFilterBGPressed">@color/CPDD</color>

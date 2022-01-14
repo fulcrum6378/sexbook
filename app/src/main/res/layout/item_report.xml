@@ -69,10 +69,10 @@
         android:textColor="@color/mrvDate"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toStartOf="@id/name"
         app:layout_constraintStart_toEndOf="@id/clock"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/clock" />
 
     <AutoCompleteTextView
         android:id="@+id/name"
@@ -103,7 +103,24 @@
         android:layout_marginEnd="6dp"
         android:background="@null"
         android:theme="@style/AppTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/clock" />
+
+    <EditText
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tp"
+        android:hint="@string/desc"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:maxLines="10"
+        android:paddingHorizontal="7dp"
+        android:textColor="@color/mrvNotes"
+        android:textColorHint="@color/mrvNotesHint"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/clock"
+        tools:ignore="Autofill" />
 </androidx.constraintlayout.widget.ConstraintLayout>

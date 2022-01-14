@@ -82,7 +82,10 @@ class PageSex(val c: Main) : Fragment() {
                         }
                         if (c.m.visOnani.value!!.size > 0) {
                             b.rv.adapter?.notifyItemRemoved(nominalPos)
-                            b.rv.adapter?.notifyItemRangeChanged(nominalPos, b.rv.adapter!!.itemCount)
+                            b.rv.adapter?.notifyItemRangeChanged(
+                                nominalPos,
+                                b.rv.adapter!!.itemCount
+                            )
                         } else resetAllMasturbations()
                     } else resetAllMasturbations()
                     Work.SCROLL -> b.rv.smoothScrollBy(0, msg.obj as Int)
@@ -172,7 +175,7 @@ class PageSex(val c: Main) : Fragment() {
         if (adding) return
         if (filters != null) filterList(filters!!.size - 1)
         adding = true
-        Work(Work.INSERT_ONE, listOf(Report(Fun.now(), "", 1, "", -1L))).start()
+        Work(Work.INSERT_ONE, listOf(Report(Fun.now(), "", 1, "", true, -1L))).start()
         object : CountDownTimer(Work.TIMEOUT, Work.TIMEOUT) {
             override fun onTick(p0: Long) {}
             override fun onFinish() {

@@ -107,8 +107,9 @@
 
     <!-- Page Sex -->
     <string name="mrvNotesHint">.....</string>
-    <string name="lcDescriptions">توضیحات</string>
+    <string name="lcAccurate">دقیق؟</string>
     <string name="lcDelete">حذف</string>
+    <string name="desc">توضیحاتی بنویسید&#8230;</string>
 
     <!-- Page Love -->
     <string name="emptyLove">بعد از اضافه کردن چند رکورد سکس، بروید به منوی اصلی -> خلاصه -> یک کراش انتخاب کنید -> دکمه «دارای عکس آدمک» (شناسایی) را بزنید.</string>

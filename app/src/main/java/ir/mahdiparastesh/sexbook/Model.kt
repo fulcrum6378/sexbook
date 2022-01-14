@@ -4,15 +4,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.data.Crush
+import ir.mahdiparastesh.sexbook.data.Guess
+import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Summary
 
 class Model : ViewModel() {
-    val loaded = MutableLiveData(false)
     val onani = MutableLiveData<ArrayList<Report>?>(null)
-    val visOnani = MutableLiveData<ArrayList<Report>>(arrayListOf())
     val liefde = MutableLiveData<ArrayList<Crush>?>(null)
+    val places = MutableLiveData<ArrayList<Place>?>(null)
+    val guesses = MutableLiveData<ArrayList<Guess>?>(null)
+
+    val loaded = MutableLiveData(false)
+    val visOnani = MutableLiveData<ArrayList<Report>>(arrayListOf())
     val crush = MutableLiveData<String?>(null)
     val summary = MutableLiveData<Summary?>()
     val recency = MutableLiveData<Recency?>()

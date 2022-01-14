@@ -4,10 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [Report::class, Crush::class],
-    // TODO: Locations table linked to any record
-    version = 1,
-    exportSchema = false
+    entities = [Report::class, Crush::class, Place::class, Guess::class],
+    version = 1, exportSchema = false
 )
 abstract class Database : RoomDatabase() {
     abstract fun dao(): Dao

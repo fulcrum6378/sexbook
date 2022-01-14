@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.c
+import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import java.io.*
 
@@ -43,8 +44,9 @@ class Exporter(that: AppCompatActivity) {
         }
 
     companion object {
-        val mime = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
-        else "application/json"
+        val mime =
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
+            else "application/json"
 
         fun import(uri: Uri, makeSure: Boolean = false, that: AppCompatActivity? = null) {
             var data: String? = null
@@ -90,8 +92,13 @@ class Exporter(that: AppCompatActivity) {
         }
     }
 
-    fun launchExport(reports: ArrayList<Report>?, crushes: ArrayList<Crush>?): Boolean {
-        exported = Exported(reports?.toTypedArray(), crushes?.toTypedArray())
+    fun launchExport(m: Model): Boolean {
+        exported = Exported(
+            m.onani.value?.toTypedArray(),
+            m.liefde.value?.toTypedArray(),
+            m.places.value?.toTypedArray(),
+            m.guesses.value?.toTypedArray()
+        )
         if (exported!!.isEmpty()) {
             Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show(); return true; }
         exportLauncher.launch(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
@@ -110,29 +117,12 @@ class Exporter(that: AppCompatActivity) {
         return true
     }
 
-    data class Exported(val reports: Array<Report>?, val crushes: Array<Crush>?) {
-        fun isEmpty() = reports.isNullOrEmpty() || crushes.isNullOrEmpty()
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-            other as Exported
-            if (reports != null) {
-                if (other.reports == null) return false
-                if (!reports.contentEquals(other.reports)) return false
-            } else if (other.reports != null) return false
-            if (crushes != null) {
-                if (other.crushes == null) return false
-                if (!crushes.contentEquals(other.crushes)) return false
-            } else if (other.crushes != null) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = reports?.contentHashCode() ?: 0
-            result = 31 * result + (crushes?.contentHashCode() ?: 0)
-            return result
-        }
+    class Exported(
+        val reports: Array<Report>?,
+        val crushes: Array<Crush>?,
+        val places: Array<Place>?,
+        val guesses: Array<Guess>?
+    ) {
+        fun isEmpty() = reports.isNullOrEmpty()
     }
 }

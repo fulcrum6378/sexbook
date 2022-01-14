@@ -7,6 +7,7 @@
     <color name="CP2">@color/white</color>
     <color name="CP3">#656D78</color>
     <color name="CP_LIGHT">#FFD422</color>
+    <color name="CP_WEAK">#AF9A7C00</color>
 
     <!-- GLOBAL -->
     <color name="tp">#00000000</color>
@@ -25,7 +26,7 @@
     <color name="mrvBG">@color/CP</color>
     <color name="mrvDate">@color/CPDD</color>
     <color name="mrvNotes">@color/CPDD</color>
-    <color name="mrvNotesHint">@color/CPDD</color>
+    <color name="mrvNotesHint">@color/CP_WEAK</color>
     <color name="mrvClock">@color/CP2</color>
     <color name="mrvClockPoint">@color/CPDD</color>
     <color name="mrvClockHand">@color/CP</color>
