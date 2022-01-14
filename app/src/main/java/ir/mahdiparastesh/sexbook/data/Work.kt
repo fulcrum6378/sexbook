@@ -1,13 +1,14 @@
 package ir.mahdiparastesh.sexbook.data
 
+import android.content.Context
 import android.os.Handler
 import androidx.room.Room
-import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.PageSex
 
 class Work(
+    val c: Context,
     val action: Int,
     val values: List<Any>? = null,
     val handler: Handler =

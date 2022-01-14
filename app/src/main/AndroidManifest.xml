@@ -23,7 +23,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter><!--Must certainly be separated!-->
+            </intent-filter><!-- Must certainly be separated! -->
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -37,6 +37,26 @@
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
+        </activity>
+
+        <activity
+            android:name=".Places"
+            android:exported="false"
+            android:launchMode="singleTop">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main" />
+        </activity>
+
+        <activity
+            android:name=".Estimation"
+            android:exported="false"
+            android:launchMode="singleTop">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main" />
         </activity>
 
         <activity
@@ -58,7 +78,7 @@
         <activity
             android:name=".stat.Popularity"
             android:exported="false"
-            android:launchMode="singleTop" /><!--android:screenOrientation="landscape"-->
+            android:launchMode="singleTop" /><!-- android:screenOrientation="landscape" -->
 
         <activity
             android:name=".stat.Growth"

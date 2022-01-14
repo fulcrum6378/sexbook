@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.data
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -8,19 +9,16 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.Companion.c
-import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.more.BaseActivity
 import java.io.*
 
-class Exporter(that: AppCompatActivity) {
+class Exporter(val c: BaseActivity) {
     var exported: Exported? = null
 
     private var exportLauncher: ActivityResultLauncher<Intent> =
-        that.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        c.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
             val bExp = try {
                 c.contentResolver.openFileDescriptor(it.data!!.data!!, "w")?.use { des ->
@@ -38,9 +36,9 @@ class Exporter(that: AppCompatActivity) {
         }
 
     private var importLauncher: ActivityResultLauncher<Intent> =
-        that.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        c.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
-            import(it.data!!.data!!)
+            import(c, it.data!!.data!!)
         }
 
     companion object {
@@ -48,7 +46,7 @@ class Exporter(that: AppCompatActivity) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
             else "application/json"
 
-        fun import(uri: Uri, makeSure: Boolean = false, that: AppCompatActivity? = null) {
+        fun import(c: BaseActivity, uri: Uri, makeSure: Boolean = false) {
             var data: String? = null
             try {
                 c.contentResolver.openFileDescriptor(uri, "r")?.use { des ->
@@ -72,32 +70,32 @@ class Exporter(that: AppCompatActivity) {
                 Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
                 return
             }
-            if (!makeSure) replace(imported)
-            else AlertDialog.Builder(that!!).apply {
-                setTitle(that.resources.getString(R.string.momImport))
-                setMessage(that.resources.getString(R.string.askImport))
-                setPositiveButton(R.string.yes) { _, _ -> replace(imported) }
+            if (!makeSure) replace(c, imported)
+            else AlertDialog.Builder(c).apply {
+                setTitle(c.resources.getString(R.string.momImport))
+                setMessage(c.resources.getString(R.string.askImport))
+                setPositiveButton(R.string.yes) { _, _ -> replace(c, imported) }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
             }.create().apply {
                 show()
-                Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                Fun.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
+                c.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+                c.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
             }
         }
 
-        fun replace(imported: Exported) {
-            Work(Work.REPLACE_ALL, imported.reports?.toList()).start()
-            Work(Work.C_REPLACE_ALL, imported.crushes?.toList()).start()
+        fun replace(c: Context, imported: Exported) {
+            Work(c, Work.REPLACE_ALL, imported.reports?.toList()).start()
+            Work(c, Work.C_REPLACE_ALL, imported.crushes?.toList()).start()
         }
     }
 
-    fun launchExport(m: Model): Boolean {
+    fun launchExport(): Boolean {
         exported = Exported(
-            m.onani.value?.toTypedArray(),
-            m.liefde.value?.toTypedArray(),
-            m.places.value?.toTypedArray(),
-            m.guesses.value?.toTypedArray()
+            c.m.onani.value?.toTypedArray(),
+            c.m.liefde.value?.toTypedArray(),
+            c.m.places.value?.toTypedArray(),
+            c.m.guesses.value?.toTypedArray()
         )
         if (exported!!.isEmpty()) {
             Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show(); return true; }

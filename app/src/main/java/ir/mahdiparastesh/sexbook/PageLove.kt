@@ -34,7 +34,7 @@ class PageLove(val c: Main) : Fragment() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.C_VIEW_ALL -> arrangeList(msg.obj as ArrayList<Crush>)
-                    Work.REPLACE_ALL -> Work(Work.C_VIEW_ALL).start()
+                    Work.REPLACE_ALL -> Work(c, Work.C_VIEW_ALL).start()
                     Work.C_DELETE_ONE -> {
                         c.m.liefde.value?.removeAt(msg.arg1)
                         b.rv.adapter?.notifyItemRemoved(msg.arg1)
@@ -52,7 +52,7 @@ class PageLove(val c: Main) : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Work(Work.C_VIEW_ALL).start()
+        Work(c, Work.C_VIEW_ALL).start()
     }
 
     fun arrangeList(list: ArrayList<Crush>?) {

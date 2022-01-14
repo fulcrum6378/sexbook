@@ -1,7 +1,7 @@
 package ir.mahdiparastesh.sexbook.jdtp.date;
 
-import static ir.mahdiparastesh.sexbook.Fun.font1;
-import static ir.mahdiparastesh.sexbook.Fun.font1Bold;
+import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFont;
+import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFontBold;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -27,8 +27,8 @@ public class SimpleMonthView extends MonthView {
                     mSelectedCirclePaint);
         }
         if (isHighlighted(year, month, day))
-            mMonthNumPaint.setTypeface(font1Bold);
-        else mMonthNumPaint.setTypeface(font1);
+            mMonthNumPaint.setTypeface(jdtpFontBold);
+        else mMonthNumPaint.setTypeface(jdtpFont);
 
         if (isOutOfRange(year, month, day))
             mMonthNumPaint.setColor(mDisabledDayTextColor);

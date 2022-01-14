@@ -1,6 +1,6 @@
 package ir.mahdiparastesh.sexbook.jdtp.time;
 
-import static ir.mahdiparastesh.sexbook.Fun.font1;
+import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFont;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -195,11 +195,11 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
         mAmPmTextView = view.findViewById(R.id.ampm_label);
         mOkButton = view.findViewById(R.id.ok);
         Button mCancelButton = view.findViewById(R.id.cancel);
-        mOkButton.setTypeface(font1);
-        mCancelButton.setTypeface(font1);
-        mHourView.setTypeface(font1);
-        mMinuteView.setTypeface(font1);
-        mAmPmTextView.setTypeface(font1);
+        mOkButton.setTypeface(jdtpFont);
+        mCancelButton.setTypeface(jdtpFont);
+        mHourView.setTypeface(jdtpFont);
+        mMinuteView.setTypeface(jdtpFont);
+        mAmPmTextView.setTypeface(jdtpFont);
         mAmPmTextView.setOnKeyListener(keyboardListener);
         mAmText = "قبل‌ازظهر";
         mPmText = "بعدازظهر";

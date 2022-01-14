@@ -1,6 +1,6 @@
 package ir.mahdiparastesh.sexbook.jdtp.date;
 
-import static ir.mahdiparastesh.sexbook.Fun.font1;
+import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFont;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -192,7 +192,7 @@ public abstract class MonthView extends View {
         mMonthTitlePaint.setFakeBoldText(true);
         mMonthTitlePaint.setAntiAlias(true);
         mMonthTitlePaint.setTextSize(MONTH_LABEL_TEXT_SIZE);
-        mMonthTitlePaint.setTypeface(font1);
+        mMonthTitlePaint.setTypeface(jdtpFont);
         mMonthTitlePaint.setColor(mDayTextColor);
         mMonthTitlePaint.setTextAlign(Align.CENTER);
         mMonthTitlePaint.setStyle(Style.FILL);
@@ -203,14 +203,14 @@ public abstract class MonthView extends View {
         mSelectedCirclePaint.setColor(mTodayNumberColor);
         mSelectedCirclePaint.setTextAlign(Align.CENTER);
         mSelectedCirclePaint.setStyle(Style.FILL);
-        mSelectedCirclePaint.setTypeface(font1);
+        mSelectedCirclePaint.setTypeface(jdtpFont);
         mSelectedCirclePaint.setAlpha(SELECTED_CIRCLE_ALPHA);
 
         mMonthDayLabelPaint = new Paint();
         mMonthDayLabelPaint.setAntiAlias(true);
         mMonthDayLabelPaint.setTextSize(MONTH_DAY_LABEL_TEXT_SIZE);
         mMonthDayLabelPaint.setColor(mMonthDayTextColor);
-        mMonthDayLabelPaint.setTypeface(font1);
+        mMonthDayLabelPaint.setTypeface(jdtpFont);
         mMonthDayLabelPaint.setStyle(Style.FILL);
         mMonthDayLabelPaint.setTextAlign(Align.CENTER);
         mMonthDayLabelPaint.setFakeBoldText(true);
@@ -220,7 +220,7 @@ public abstract class MonthView extends View {
         mMonthNumPaint.setTextSize(MINI_DAY_NUMBER_TEXT_SIZE);
         mMonthNumPaint.setStyle(Style.FILL);
         mMonthNumPaint.setTextAlign(Align.CENTER);
-        mMonthNumPaint.setTypeface(font1);
+        mMonthNumPaint.setTypeface(jdtpFont);
         mMonthNumPaint.setFakeBoldText(false);
     }
 

@@ -1,6 +1,6 @@
 package ir.mahdiparastesh.sexbook.jdtp.time;
 
-import static ir.mahdiparastesh.sexbook.Fun.font1;
+import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFont;
 
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
@@ -77,7 +77,7 @@ public class RadialTextsView extends View {
         int selectedTextColor = ContextCompat.getColor(c, R.color.jdtp_white);
         mSelectedPaint.setColor(selectedTextColor);
         mSelectedPaint.setAntiAlias(true);
-        mSelectedPaint.setTypeface(font1);
+        mSelectedPaint.setTypeface(jdtpFont);
         mSelectedPaint.setTextAlign(Align.CENTER);
 
         mTexts = texts;
@@ -187,8 +187,8 @@ public class RadialTextsView extends View {
             mTextGridValuesDirty = false;
         }
 
-        drawTexts(canvas, mTextSize, font1, mTexts, mTextGridWidths, mTextGridHeights);
-        if (mHasInnerCircle) drawTexts(canvas, mInnerTextSize, font1, mInnerTexts,
+        drawTexts(canvas, mTextSize, jdtpFont, mTexts, mTextGridWidths, mTextGridHeights);
+        if (mHasInnerCircle) drawTexts(canvas, mInnerTextSize, jdtpFont, mInnerTexts,
                 mInnerTextGridWidths, mInnerTextGridHeights);
     }
 

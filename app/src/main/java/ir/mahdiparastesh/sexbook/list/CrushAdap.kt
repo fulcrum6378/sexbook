@@ -10,11 +10,11 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.forEach
 import androidx.recyclerview.widget.RecyclerView
-import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
+import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.dm
 import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
 import ir.mahdiparastesh.sexbook.stat.Singular
 
@@ -25,7 +25,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
         val b = ItemCrushBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         // Fonts
-        b.name.typeface = Fun.font1Bold
+        b.name.typeface = c.font1Bold
 
         return MyViewHolder(b)
     }
@@ -38,7 +38,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
         h.b.root.setOnClickListener { v ->
             if (!Main.summarize(c.m)) return@setOnClickListener
             val ins = c.m.liefde.value!![h.layoutPosition].insta
-            PopupMenu(ContextThemeWrapper(Fun.c, R.style.AppTheme), v).apply {
+            PopupMenu(ContextThemeWrapper(c, R.style.AppTheme), v).apply {
                 setOnMenuItemClickListener {
                     when (it.itemId) {
                         R.id.lcInstagram -> {
@@ -61,16 +61,19 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
                                 setMessage(c.resources.getString(R.string.lcDeleteCrushSure))
                                 setPositiveButton(R.string.yes) { _, _ ->
                                     Work(
-                                        Work.C_DELETE_ONE,
-                                        listOf(c.m.liefde.value!![h.layoutPosition], h.layoutPosition)
+                                        c, Work.C_DELETE_ONE,
+                                        listOf(
+                                            c.m.liefde.value!![h.layoutPosition],
+                                            h.layoutPosition
+                                        )
                                     ).start()
                                 }
                                 setNegativeButton(R.string.no, null)
                                 setCancelable(true)
                             }.create().apply {
                                 show()
-                                Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                                Fun.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
+                                c.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+                                c.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
                             }
                             true
                         }
@@ -82,7 +85,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
                 menu.forEach {
                     val mNewTitle = SpannableString(it.title)
                     mNewTitle.setSpan(
-                        CustomTypefaceSpan("", Fun.font1, Fun.dm.density * 16f), 0,
+                        CustomTypefaceSpan("", c.font1, dm.density * 16f), 0,
                         mNewTitle.length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
                     )
                     it.title = mNewTitle

@@ -14,6 +14,7 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
+import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Jalali
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
@@ -50,14 +51,14 @@ class PageSex(val c: Main) : Fragment() {
                             c.m.onani.value!!.add(msg.obj as Report)
                             resetAllMasturbations()
                             adding = false
-                            Fun.explode(b.add)
+                            Fun.explode(c, b.add)
                         }
                     }
                     Work.INSERT_ONE -> if (msg.obj != null)
-                        Work(Work.VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()
+                        Work(c, Work.VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()
                     Work.REPLACE_ALL -> {
                         Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
-                        Work(Work.VIEW_ALL).start()
+                        Work(c, Work.VIEW_ALL).start()
                     }
                     Work.UPDATE_ONE -> if (c.m.onani.value != null) {
                         if (c.m.visOnani.value!!.contains(c.m.onani.value!![msg.arg1])) {
@@ -96,7 +97,7 @@ class PageSex(val c: Main) : Fragment() {
         messages.clear()
 
         // Filter
-        b.spnFilterMark.setColorFilter(Fun.color(R.color.spnFilterMark))
+        b.spnFilterMark.setColorFilter(c.color(R.color.spnFilterMark))
         b.spnFilter.setOnTouchListener { _, _ -> spnFilterTouched = true; false }
         b.spnFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(av: AdapterView<*>?) {}
@@ -106,10 +107,10 @@ class PageSex(val c: Main) : Fragment() {
         }
 
         // Add
-        if (Fun.night) Fun.pdcf().apply { b.addIV.colorFilter = this }
+        if (BaseActivity.night) b.addIV.colorFilter = c.pdcf()
         b.add.setOnClickListener { add() }
 
-        Work(Work.VIEW_ALL).start()
+        Work(c, Work.VIEW_ALL).start()
         return b.root
     }
 
@@ -128,7 +129,7 @@ class PageSex(val c: Main) : Fragment() {
             val titles = ArrayList<String>().apply {
                 for (f in filters!!.indices) add(filters!![f].title(c))
             }
-            b.spnFilter.adapter = SpinnerAdap(titles)
+            b.spnFilter.adapter = SpinnerAdap(c, titles)
             spnFilterTouched = false
             b.spnFilter.setSelection(listFilter, true)
         }
@@ -175,7 +176,7 @@ class PageSex(val c: Main) : Fragment() {
         if (adding) return
         if (filters != null) filterList(filters!!.size - 1)
         adding = true
-        Work(Work.INSERT_ONE, listOf(Report(Fun.now(), "", 1, "", true, -1L))).start()
+        Work(c, Work.INSERT_ONE, listOf(Report(Fun.now(), "", 1, "", true, -1L))).start()
         object : CountDownTimer(Work.TIMEOUT, Work.TIMEOUT) {
             override fun onTick(p0: Long) {}
             override fun onFinish() {

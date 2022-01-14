@@ -1,6 +1,6 @@
 package ir.mahdiparastesh.sexbook.jdtp.multidate;
 
-import static ir.mahdiparastesh.sexbook.Fun.font1;
+import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFont;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -182,11 +182,11 @@ public class MultiDatePickerDialog extends DialogFragment implements
         mMonthAndDayView = view.findViewById(R.id.date_picker_month_and_day);
         mMonthAndDayView.setOnClickListener(this);
         mSelectedMonthTextView = view.findViewById(R.id.date_picker_month);
-        mSelectedMonthTextView.setTypeface(font1);
+        mSelectedMonthTextView.setTypeface(jdtpFont);
         mSelectedDayTextView = view.findViewById(R.id.date_picker_day);
-        mSelectedDayTextView.setTypeface(font1);
+        mSelectedDayTextView.setTypeface(jdtpFont);
         mYearView = view.findViewById(R.id.date_picker_year);
-        mYearView.setTypeface(font1);
+        mYearView.setTypeface(jdtpFont);
         mYearView.setOnClickListener(this);
 
         int listPosition = -1;
@@ -238,14 +238,14 @@ public class MultiDatePickerDialog extends DialogFragment implements
                 mCallBack.onDateSet(MultiDatePickerDialog.this, mSelectedDaysCalendars);
             dismiss();
         });
-        okButton.setTypeface(font1);
+        okButton.setTypeface(jdtpFont);
 
         Button cancelButton = view.findViewById(R.id.cancel);
         cancelButton.setOnClickListener(v -> {
             tryVibrate();
             Objects.requireNonNull(getDialog()).cancel();
         });
-        cancelButton.setTypeface(font1);
+        cancelButton.setTypeface(jdtpFont);
         cancelButton.setVisibility(isCancelable() ? View.VISIBLE : View.GONE);
 
         updateDisplay(false);

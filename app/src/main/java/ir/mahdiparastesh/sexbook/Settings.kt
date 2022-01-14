@@ -6,20 +6,16 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
-import androidx.lifecycle.ViewModelProvider
-import ir.mahdiparastesh.sexbook.Fun.Companion.sp
 import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
+import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 
-class Settings : AppCompatActivity() {
-    lateinit var m: Model
+class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
-    private lateinit var tbTitle: TextView
     private lateinit var calendarTypes: Array<String>
     private var changed = false
 
@@ -30,38 +26,19 @@ class Settings : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = SettingsBinding.inflate(layoutInflater)
-        m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
-        Fun.init(this, b.root)
+        toolbar(b.toolbar, R.string.stTitle)
 
-
-        // Toolbar
-        setSupportActionBar(b.toolbar)
-        for (g in 0 until b.toolbar.childCount) {
-            var getTitle = b.toolbar.getChildAt(g)
-            if (getTitle is TextView &&
-                getTitle.text.toString() == resources.getString(R.string.stTitle)
-            ) tbTitle = getTitle
-        }
-        if (::tbTitle.isInitialized) {
-            tbTitle.typeface = Fun.font1Bold
-            tbTitle.textSize = resources.getDimension(R.dimen.tbTitle)
-        }
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-        }
-        b.toolbar.navigationIcon?.apply { colorFilter = Fun.pdcf() }
 
         // Fonts
         for (l in 0 until b.ll.childCount) {
             val first = (b.ll[l] as ConstraintLayout)[0]
-            if (first is TextView) first.typeface = Fun.font1
+            if (first is TextView) first.typeface = font1
         }
 
         // Calendar Type
         calendarTypes = resources.getStringArray(R.array.calendarTypes)
-        b.stCalendarType.adapter = SpinnerAdap(calendarTypes.toList())
+        b.stCalendarType.adapter = SpinnerAdap(this, calendarTypes.toList())
         b.stCalendarType.setSelection(sp.getInt(spCalType, 0))
         b.stCalendarType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -90,8 +67,8 @@ class Settings : AppCompatActivity() {
                 setCancelable(true)
             }.create().apply {
                 show()
-                Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                Fun.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
+                fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+                fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
             }
         }
     }

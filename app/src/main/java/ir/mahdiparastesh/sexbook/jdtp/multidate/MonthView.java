@@ -1,6 +1,6 @@
 package ir.mahdiparastesh.sexbook.jdtp.multidate;
 
-import static ir.mahdiparastesh.sexbook.Fun.font1;
+import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFont;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -184,7 +184,7 @@ public abstract class MonthView extends View {
         mMonthTitlePaint.setFakeBoldText(true);
         mMonthTitlePaint.setAntiAlias(true);
         mMonthTitlePaint.setTextSize(MONTH_LABEL_TEXT_SIZE);
-        mMonthTitlePaint.setTypeface(font1);
+        mMonthTitlePaint.setTypeface(jdtpFont);
         mMonthTitlePaint.setColor(mDayTextColor);
         mMonthTitlePaint.setTextAlign(Align.CENTER);
         mMonthTitlePaint.setStyle(Style.FILL);
@@ -201,7 +201,7 @@ public abstract class MonthView extends View {
         mMonthDayLabelPaint.setAntiAlias(true);
         mMonthDayLabelPaint.setTextSize(MONTH_DAY_LABEL_TEXT_SIZE);
         mMonthDayLabelPaint.setColor(mMonthDayTextColor);
-        mMonthDayLabelPaint.setTypeface(font1);
+        mMonthDayLabelPaint.setTypeface(jdtpFont);
         mMonthDayLabelPaint.setStyle(Style.FILL);
         mMonthDayLabelPaint.setTextAlign(Align.CENTER);
         mMonthDayLabelPaint.setFakeBoldText(true);

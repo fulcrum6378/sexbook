@@ -1,6 +1,6 @@
 package ir.mahdiparastesh.sexbook.jdtp.date;
 
-import static ir.mahdiparastesh.sexbook.Fun.font1;
+import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFont;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -177,13 +177,13 @@ public class DatePickerDialog extends DialogFragment implements
         mYearView = view.findViewById(R.id.date_picker_year);
         Button okButton = view.findViewById(R.id.ok);
         Button cancelButton = view.findViewById(R.id.cancel);
-        okButton.setTypeface(font1);
-        cancelButton.setTypeface(font1);
+        okButton.setTypeface(jdtpFont);
+        cancelButton.setTypeface(jdtpFont);
         if (mDayOfWeekTextView != null)
-            mDayOfWeekTextView.setTypeface(font1);
-        mSelectedMonthTextView.setTypeface(font1);
-        mSelectedDayTextView.setTypeface(font1);
-        mYearView.setTypeface(font1);
+            mDayOfWeekTextView.setTypeface(jdtpFont);
+        mSelectedMonthTextView.setTypeface(jdtpFont);
+        mSelectedDayTextView.setTypeface(jdtpFont);
+        mYearView.setTypeface(jdtpFont);
         mYearView.setOnClickListener(this);
 
         int listPosition = -1;

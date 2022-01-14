@@ -13,23 +13,18 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.forEach
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import ir.mahdiparastesh.sexbook.Fun.Companion.c
-import ir.mahdiparastesh.sexbook.Fun.Companion.dm
-import ir.mahdiparastesh.sexbook.Fun.Companion.pdcf
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
+import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
 import ir.mahdiparastesh.sexbook.stat.*
 import java.util.*
@@ -38,10 +33,8 @@ import kotlin.system.exitProcess
 
 // adb connect 192.168.1.20:
 
-class Main : AppCompatActivity() {
-    lateinit var m: Model
+class Main : BaseActivity(true) {
     private lateinit var b: MainBinding
-    private lateinit var tbTitle: TextView
     private lateinit var exporter: Exporter
     private lateinit var toggleNav: ActionBarDrawerToggle
 
@@ -57,12 +50,10 @@ class Main : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         supportFragmentManager.fragmentFactory = PageFactory()
-        m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         super.onCreate(savedInstanceState)
         b = MainBinding.inflate(layoutInflater)
         setContentView(b.root)
-        Fun.init(this, b.root)
-
+        toolbar(b.toolbar, R.string.app_name)
 
         // Handler
         handler = object : Handler(Looper.getMainLooper()) {
@@ -92,20 +83,7 @@ class Main : AppCompatActivity() {
 
         // Loading
         if (m.loaded.value!!) b.body.removeView(b.load)
-        else if (Fun.night) pdcf().apply { b.loadIV.colorFilter = this }
-
-        // Toolbar
-        setSupportActionBar(b.toolbar)
-        for (g in 0 until b.toolbar.childCount) {
-            var getTitle = b.toolbar[g]
-            if (getTitle is TextView &&
-                getTitle.text.toString() == resources.getString(R.string.app_name)
-            ) tbTitle = getTitle
-        }
-        if (::tbTitle.isInitialized) {
-            tbTitle.typeface = Fun.font1Bold
-            tbTitle.textSize = resources.getDimension(R.dimen.tbTitle)
-        }
+        else if (night) b.loadIV.colorFilter = pdcf()
 
         // Navigation
         toggleNav = ActionBarDrawerToggle(
@@ -115,7 +93,7 @@ class Main : AppCompatActivity() {
             isDrawerIndicatorEnabled = true
             syncState()
         }
-        b.toolbar.navigationIcon?.apply { colorFilter = pdcf() }
+        b.toolbar.navigationIcon?.colorFilter = pdcf()
         b.nav.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.momSum -> {
@@ -140,7 +118,7 @@ class Main : AppCompatActivity() {
                         setCancelable(true)
                     }.create().apply {
                         show()
-                        Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+                        fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
                     }; true; }
                 R.id.momPop -> {
                     if (summarize(m))
@@ -159,10 +137,16 @@ class Main : AppCompatActivity() {
                         setCancelable(true)
                     }.create().apply {
                         show()
-                        Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+                        fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
                     };true; }
+                R.id.momPlc -> {
+                    true
+                }
+                R.id.momEst -> {
+                    true
+                }
                 R.id.momImport -> exporter.launchImport()
-                R.id.momExport -> exporter.launchExport(m)
+                R.id.momExport -> exporter.launchExport()
                 R.id.momSettings -> {
                     startActivity(Intent(this, Settings::class.java)); true; }
                 else -> super.onOptionsItemSelected(it)
@@ -172,7 +156,7 @@ class Main : AppCompatActivity() {
         b.nav.menu.forEach {
             val mNewTitle = SpannableString(it.title)
             mNewTitle.setSpan(
-                CustomTypefaceSpan("", Fun.font1, dm.density * 16f), 0,
+                CustomTypefaceSpan("", font1, dm.density * 16f), 0,
                 mNewTitle.length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
             )
             it.title = mNewTitle
@@ -192,8 +176,8 @@ class Main : AppCompatActivity() {
         }
 
         checkIntent(intent)
-        Work(Work.VIEW_ALL).start()
-        Work(Work.C_VIEW_ALL).start()
+        Work(c, Work.VIEW_ALL).start()
+        Work(c, Work.C_VIEW_ALL).start()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -202,7 +186,7 @@ class Main : AppCompatActivity() {
     }
 
     var exiting = false
-    override fun onBackPressed() {
+    override fun onBackPressed() { // Don't use super's already overriden function
         if (b.root.isDrawerOpen(GravityCompat.START)) {
             b.root.closeDrawer(GravityCompat.START); return; }
         if (!exiting) {
@@ -225,7 +209,7 @@ class Main : AppCompatActivity() {
     fun checkIntent(intent: Intent) {
         when (intent.action) {
             Intent.ACTION_VIEW -> if (intent.data != null)
-                Exporter.import(intent.data!!, true, this)
+                Exporter.import(this, intent.data!!, true)
             Action.ADD.s -> PageSex.messages.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> recreate()
         }
@@ -269,13 +253,13 @@ class Main : AppCompatActivity() {
     }
 
 
-    private inner class SumAdapter(that: Main) : FragmentStateAdapter(that) {
+    private inner class SumAdapter(val c: Main) : FragmentStateAdapter(c) {
         override fun getItemCount(): Int = 3
 
         override fun createFragment(i: Int): Fragment = when (i) {
             1 -> SumCloud()
             2 -> SumPie()
-            else -> SumChips()
+            else -> SumChips(c)
         }
     }
 
@@ -291,6 +275,7 @@ class Main : AppCompatActivity() {
             when (className) {
                 PageSex::class.java.name -> PageSex(this@Main)
                 PageLove::class.java.name -> PageLove(this@Main)
+                SumChips::class.java.name -> PageLove(this@Main)
                 else -> super.instantiate(classLoader, className)
             }
     }

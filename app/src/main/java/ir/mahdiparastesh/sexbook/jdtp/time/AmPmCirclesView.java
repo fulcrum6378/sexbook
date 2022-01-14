@@ -1,6 +1,6 @@
 package ir.mahdiparastesh.sexbook.jdtp.time;
 
-import static ir.mahdiparastesh.sexbook.Fun.font1;
+import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFont;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -56,7 +56,7 @@ public class AmPmCirclesView extends View {
         mAmPmTextColor = ContextCompat.getColor(c, R.color.jdtp_ampm_text_color);
         mAmPmSelectedTextColor = ContextCompat.getColor(c, R.color.jdtp_white);
         mSelectedAlpha = SELECTED_ALPHA;
-        mPaint.setTypeface(font1);
+        mPaint.setTypeface(jdtpFont);
         mPaint.setAntiAlias(true);
         mPaint.setTextAlign(Align.CENTER);
 
@@ -170,6 +170,6 @@ public class AmPmCirclesView extends View {
         canvas.drawText(mAmText, mAmXCenter, textYCenter, mPaint);
         mPaint.setColor(pmTextColor);
         canvas.drawText(mPmText, mPmXCenter, textYCenter, mPaint);
-        mPaint.setTypeface(font1);
+        mPaint.setTypeface(jdtpFont);
     }
 }

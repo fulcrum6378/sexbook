@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.list
 
+import android.content.Context
 import android.text.Editable
 import android.text.SpannableString
 import android.text.TextWatcher
@@ -14,12 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.Companion.c
 import ir.mahdiparastesh.sexbook.Fun.Companion.calType
-import ir.mahdiparastesh.sexbook.Fun.Companion.color
-import ir.mahdiparastesh.sexbook.Fun.Companion.dp
-import ir.mahdiparastesh.sexbook.Fun.Companion.font1
-import ir.mahdiparastesh.sexbook.Fun.Companion.night
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
@@ -27,12 +23,14 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.jdtp.utils.PersianCalendar
+import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.dm
+import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.dp
+import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
 import ir.mahdiparastesh.sexbook.more.Jalali
 import ir.mahdiparastesh.sexbook.more.TypeAdap
 import java.util.*
 import kotlin.collections.ArrayList
-
 import ir.mahdiparastesh.sexbook.jdtp.date.DatePickerDialog as JalaliDatePickerDialog
 
 class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
@@ -49,8 +47,8 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         val b = ItemReportBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         // Fonts
-        b.date.typeface = Fun.font1Bold
-        b.ampm.typeface = font1
+        b.date.typeface = c.font1Bold
+        b.ampm.typeface = c.font1
 
         // Date & Time
         if (b.clock.height != 0) clockHeight = b.clock.height
@@ -67,7 +65,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         }
 
         // Type
-        b.type.adapter = TypeAdap()
+        b.type.adapter = TypeAdap(c)
 
         return MyViewHolder(b)
     }
@@ -79,16 +77,16 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         cal.timeInMillis = c.m.visOnani.value!![i].time
         h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
         h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
-        h.b.date.text = compileDate(c.m.visOnani.value!![i].time)
+        h.b.date.text = compileDate(c, c.m.visOnani.value!![i].time)
         h.b.clock.setOnClickListener {
             TimePickerDialog.newInstance(
                 this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], false
             ).apply {
                 isThemeDark = night
                 version = TimePickerDialog.Version.VERSION_2
-                accentColor = color(R.color.CP)
-                setOkColor(color(R.color.mrvPopupButtons))
-                setCancelColor(color(R.color.mrvPopupButtons))
+                accentColor = c.color(R.color.CP)
+                setOkColor(c.color(R.color.mrvPopupButtons))
+                setCancelColor(c.color(R.color.mrvPopupButtons))
                 show(
                     c.supportFragmentManager,
                     "edit${allPos(c.m, h.layoutPosition)}"
@@ -101,9 +99,9 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
             ).apply {
                 isThemeDark = night
                 version = DatePickerDialog.Version.VERSION_2
-                accentColor = color(R.color.CP)
-                setOkColor(color(R.color.mrvPopupButtons))
-                setCancelColor(color(R.color.mrvPopupButtons))
+                accentColor = c.color(R.color.CP)
+                setOkColor(c.color(R.color.mrvPopupButtons))
+                setCancelColor(c.color(R.color.mrvPopupButtons))
                 show(
                     c.supportFragmentManager,
                     "$tagEdit${allPos(c.m, h.layoutPosition)}"
@@ -192,7 +190,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                     R.id.lcDelete -> {
                         if (c.m.onani.value == null) return@setOnMenuItemClickListener true
                         val aPos = allPos(c.m, h.layoutPosition)
-                        Work(Work.DELETE_ONE, listOf(c.m.onani.value!![aPos], aPos)).start()
+                        Work(c, Work.DELETE_ONE, listOf(c.m.onani.value!![aPos], aPos)).start()
                         true
                     }
                     else -> false
@@ -203,7 +201,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
             popup.menu.forEach {
                 it.title = SpannableString(it.title).apply {
                     setSpan(
-                        CustomTypefaceSpan("", font1, Fun.dm.density * 16f), 0,
+                        CustomTypefaceSpan("", c.font1, dm.density * 16f), 0,
                         length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
                     )
                 }
@@ -231,7 +229,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                 calc[Calendar.MONTH] = monthOfYear
                 calc[Calendar.DAY_OF_MONTH] = dayOfMonth
                 c.m.onani.value!![pos].time = calc.timeInMillis
-                Work(Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
+                Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
             }
         }
     }
@@ -247,7 +245,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                 calc[Calendar.MINUTE] = minute
                 calc[Calendar.SECOND] = second
                 c.m.onani.value!![pos].time = calc.timeInMillis
-                Work(Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
+                Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
             }
         }
     }
@@ -265,7 +263,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                     setPersianDate(year, monthOfYear, dayOfMonth)
                     c.m.onani.value!![pos].time = timeInMillis
                 }
-                Work(Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
+                Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
             }
         }
     }
@@ -275,11 +273,11 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         val pos = allPos(m, nominalPos)
         if (m.onani.value!!.size <= pos || pos < 0) return
         m.onani.value!![pos] = updated
-        Work(Work.UPDATE_ONE, listOf(m.onani.value!![pos], pos, 1)).start()
+        Work(c, Work.UPDATE_ONE, listOf(m.onani.value!![pos], pos, 1)).start()
     }
 
     companion object {
-        fun compileDate(time: Long): String {
+        fun compileDate(c: Context, time: Long): String {
             val lm = Calendar.getInstance().apply { timeInMillis = time }
             if (calType() == Fun.CalendarType.JALALI) {
                 val jal = Jalali(lm)

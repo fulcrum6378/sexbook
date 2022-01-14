@@ -93,6 +93,8 @@
     <string name="momPop">Popularity</string>
     <string name="momGrw">Growth</string>
     <string name="momRec">Recency</string>
+    <string name="momPlc">Places</string>
+    <string name="momEst">Estimation</string>
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>
     <string name="momSettings">Settings</string>
@@ -128,6 +130,12 @@
     <string name="location">Location</string>
     <string name="instagram">Instagram</string>
     <string name="notifyBirth">Notify me in their birthday</string>
+
+    <!-- Places -->
+    <string name="plTitle">Places</string>
+
+    <!-- Estimation -->
+    <string name="etTitle">Estimation</string>
 
     <!-- Settings -->
     <string name="stSP" translatable="false">ir.mahdiparastesh.sexbook.Settings</string>

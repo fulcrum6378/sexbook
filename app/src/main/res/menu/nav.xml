@@ -17,6 +17,14 @@
         android:icon="@drawable/recency"
         android:title="@string/momRec" />
     <item
+        android:id="@+id/momPlc"
+        android:icon="@drawable/places"
+        android:title="@string/momPlc" />
+    <item
+        android:id="@+id/momEst"
+        android:icon="@drawable/estimation"
+        android:title="@string/momEst" />
+    <item
         android:id="@+id/momExport"
         android:icon="@drawable/json_export"
         android:title="@string/momExport" />

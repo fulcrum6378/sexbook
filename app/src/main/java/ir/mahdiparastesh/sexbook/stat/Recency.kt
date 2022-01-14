@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
 import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.Companion.font1
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.RecencyBinding
@@ -32,7 +31,7 @@ class Recency(sum: Summary) {
     }
 
     @SuppressLint("InflateParams", "SetTextI18n")
-    fun draw(that: Main) = SumChipsBinding.inflate(that.layoutInflater, null, false).apply {
+    fun draw(c: Main) = SumChipsBinding.inflate(c.layoutInflater, null, false).apply {
         find.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
@@ -42,7 +41,7 @@ class Recency(sum: Summary) {
                     val tv = this[0] as TextView
                     val look = tv.text.toString()
                         .substring(tv.text.toString().indexOf(".") + 2)
-                    val col = Fun.color(
+                    val col = c.color(
                         if (ss != "" && look.contains(ss, true))
                             R.color.recencySearch else R.color.recency
                     )
@@ -51,13 +50,13 @@ class Recency(sum: Summary) {
                 }
             }
         })
-        find.typeface = font1
+        find.typeface = c.font1
 
         for (r in 0 until res.size) ll.addView(
-            RecencyBinding.inflate(that.layoutInflater).apply {
+            RecencyBinding.inflate(c.layoutInflater).apply {
                 name.apply {
                     text = "${r + 1}. ${res[r].name}"
-                    typeface = font1
+                    typeface = c.font1
                 }
                 val lm = Calendar.getInstance().apply { timeInMillis = res[r].time }
                 if (Fun.calType() == Fun.CalendarType.JALALI) {
@@ -68,12 +67,12 @@ class Recency(sum: Summary) {
                 } else date.text =
                     "${Fun.z(lm[Calendar.YEAR])}.${Fun.z(lm[Calendar.MONTH] + 1)}.${Fun.z(lm[Calendar.DAY_OF_MONTH])} - " +
                             "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
-                date.typeface = font1
+                date.typeface = c.font1
                 if (r == res.size - 1) root.removeViewAt(2)
                 root.setOnClickListener {
-                    if (!Main.summarize(that.m)) return@setOnClickListener
-                    that.m.crush.value = res[r].name
-                    that.startActivity(Intent(that, Singular::class.java))
+                    if (!Main.summarize(c.m)) return@setOnClickListener
+                    c.m.crush.value = res[r].name
+                    c.startActivity(Intent(c, Singular::class.java))
                 }
             }.root
         )

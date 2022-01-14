@@ -1,26 +1,23 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
-import android.graphics.Typeface
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
-import androidx.lifecycle.ViewModelProvider
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.Companion.c
-import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
+import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Jalali
 import lecho.lib.hellocharts.model.Column
 import lecho.lib.hellocharts.model.ColumnChartData
@@ -29,27 +26,22 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
-class Singular : AppCompatActivity() {
+class Singular : BaseActivity() {
     private lateinit var b: SingularBinding
-    private lateinit var m: Model
     private var crush: Crush? = null
-    private var dateFont: Typeface? = null
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = SingularBinding.inflate(layoutInflater)
-        m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         setContentView(b.root)
-        Fun.init(this, b.root)
-        dateFont = Fun.font()
 
         if (m.onani.value == null || m.summary.value == null || m.crush.value == null) {
             onBackPressed(); return; }
         val data = ArrayList<Pair<String, Float>>()
         val history = m.summary.value!!.scores[m.crush.value]
-        sinceTheBeginning(m.onani.value!!)
-            .forEach { data.add(Pair(it, calcHistory(history!!, it))) }
+        sinceTheBeginning(c, m.onani.value!!)
+            .forEach { data.add(Pair(it, calcHistory(c, history!!, it))) }
 
         // Handler
         handler = object : Handler(Looper.getMainLooper()) {
@@ -57,7 +49,7 @@ class Singular : AppCompatActivity() {
                 when (msg.what) {
                     Work.C_VIEW_ONE -> crush = msg.obj as Crush?
                     Work.C_INSERT_ONE, Work.C_UPDATE_ONE ->
-                        Work(Work.C_VIEW_ONE, listOf(m.crush.value!!), handler).start()
+                        Work(c, Work.C_VIEW_ONE, listOf(m.crush.value!!), handler).start()
                 }
             }
         }
@@ -81,23 +73,23 @@ class Singular : AppCompatActivity() {
             b.main.setChart(this)
         }*/
 
-        b.main.columnChartData = ColumnChartData().setColumns(ColumnFactory(data))
+        b.main.columnChartData = ColumnChartData().setColumns(ColumnFactory(this, data))
 
         // Night Mode
-        if (Fun.night) {
-            window.decorView.setBackgroundColor(Fun.color(R.color.CP))
-            b.identifyIV.colorFilter = Fun.pdcf(R.color.CP)
+        if (night) {
+            window.decorView.setBackgroundColor(color(R.color.CP))
+            b.identifyIV.colorFilter = pdcf(R.color.CP)
         }
 
         // Identification
-        Work(Work.C_VIEW_ONE, listOf(m.crush.value!!), handler).start()
+        Work(c, Work.C_VIEW_ONE, listOf(m.crush.value!!), handler).start()
         b.identify.setOnClickListener {
             val bi = IdentifyBinding.inflate(layoutInflater, null, false)
 
             // Fonts
             for (l in 0 until bi.ll.childCount)
                 if (bi.ll[l] is TextView)
-                    (bi.ll[l] as TextView).typeface = dateFont
+                    (bi.ll[l] as TextView).typeface = font1
 
             // Default Values
             val bir = Calendar.getInstance()
@@ -128,11 +120,11 @@ class Singular : AppCompatActivity() {
                         bi.birth.text = birthDate(bir)
                     }, bir[Calendar.YEAR], bir[Calendar.MONTH], bir[Calendar.DAY_OF_MONTH]
                 ).apply {
-                    isThemeDark = Fun.night
+                    isThemeDark = night
                     version = DatePickerDialog.Version.VERSION_2
-                    accentColor = Fun.color(R.color.CP)
-                    setOkColor(Fun.color(R.color.mrvPopupButtons))
-                    setCancelColor(Fun.color(R.color.mrvPopupButtons))
+                    accentColor = color(R.color.CP)
+                    setOkColor(color(R.color.mrvPopupButtons))
+                    setCancelColor(color(R.color.mrvPopupButtons))
                     show(supportFragmentManager, "birth")
                 }
             }
@@ -159,7 +151,7 @@ class Singular : AppCompatActivity() {
                         bi.notifyBirth.isChecked
                     )
                     Work(
-                        if (crush == null) Work.C_INSERT_ONE else Work.C_UPDATE_ONE,
+                        c, if (crush == null) Work.C_INSERT_ONE else Work.C_UPDATE_ONE,
                         listOf(inserted), handler
                     ).start()
                 }
@@ -167,8 +159,8 @@ class Singular : AppCompatActivity() {
                 setCancelable(true)
             }.create().apply {
                 show()
-                Fun.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                Fun.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
+                fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+                fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
             }
         }
 
@@ -178,7 +170,7 @@ class Singular : AppCompatActivity() {
     companion object {
         lateinit var handler: Handler
 
-        fun sinceTheBeginning(mOnani: ArrayList<Report>): List<String> {
+        fun sinceTheBeginning(c: Context, mOnani: ArrayList<Report>): List<String> {
             val now = Calendar.getInstance()
             var oldest = now.timeInMillis
             for (h in mOnani) if (h.time < oldest) oldest = h.time
@@ -213,7 +205,7 @@ class Singular : AppCompatActivity() {
         }
 
         fun calcHistory(
-            list: ArrayList<Summary.Erection>, month: String, growing: Boolean = false
+            c: Context, list: ArrayList<Summary.Erection>, month: String, growing: Boolean = false
         ): Float {
             var value = 0f
             val split = month.split(" ")
@@ -246,13 +238,14 @@ class Singular : AppCompatActivity() {
             "${cal[Calendar.YEAR]}.${cal[Calendar.MONTH] + 1}.${cal[Calendar.DAY_OF_MONTH]}"
     }
 
-    class ColumnFactory(list: ArrayList<Pair<String, Float>>) : ArrayList<Column>(list.map {
-        Column(
-            listOf(
-                SubcolumnValue(it.second)
-                    .setLabel("${it.first} (${it.second})")
-                    .setColor(Fun.color(if (!Fun.night) R.color.CP else R.color.CPD))
-            )
-        ).setHasLabels(true)
-    })
+    class ColumnFactory(c: Singular, list: ArrayList<Pair<String, Float>>) :
+        ArrayList<Column>(list.map {
+            Column(
+                listOf(
+                    SubcolumnValue(it.second)
+                        .setLabel("${it.first} (${it.second})")
+                        .setColor(c.color(if (!night) R.color.CP else R.color.CPD))
+                )
+            ).setHasLabels(true)
+        })
 }

@@ -93,6 +93,8 @@
     <string name="momPop">محبوبیت</string>
     <string name="momGrw">رشد</string>
     <string name="momRec">اخیریت</string>
+    <string name="momPlc">مکان ها</string>
+    <string name="momEst">تخمین ها</string>
     <string name="momImport">وارد کردن از جیسون</string>
     <string name="momExport">استخراج به جیسون</string>
     <string name="momSettings">تنظیمات</string>
@@ -128,6 +130,12 @@
     <string name="location">محل زندگی</string>
     <string name="instagram">اینستاگرام</string>
     <string name="notifyBirth">منو تو روز تولدش خبر کن</string>
+
+    <!-- Places -->
+    <string name="plTitle">مکان ها</string>
+
+    <!-- Estimation -->
+    <string name="etTitle">تخمین ها</string>
 
     <!-- Settings -->
     <string name="stTitle">تنظیمات سکسبوک</string>
