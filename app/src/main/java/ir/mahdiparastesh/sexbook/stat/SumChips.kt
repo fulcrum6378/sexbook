@@ -69,7 +69,7 @@ class SumChips(val c: BaseActivity) : Fragment() {
                         setTextColor(c.color(R.color.chipText))
                         chipBackgroundColor = c.getColorStateList(R.color.chip_normal)
                         setOnClickListener {
-                            c.m.crush.value = crush
+                            c.m.crush = crush
                             startActivity(Intent(c, Singular::class.java))
                         }
                         typeface = c.font1

@@ -7,6 +7,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.*
 import android.text.SpannableString
 import android.view.*
@@ -24,10 +25,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
+import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
 import ir.mahdiparastesh.sexbook.stat.*
-import java.util.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
@@ -59,7 +60,10 @@ class Main : BaseActivity(true) {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
+                    Work.VIEW_ALL -> {
+                        m.onani.value = msg.obj as ArrayList<Report>
+                        instillGuesses()
+                    }
                     Work.C_VIEW_ALL -> {
                         m.liefde.value = (msg.obj as ArrayList<Crush>)
                             .apply { sortWith(Crush.Sort()) }
@@ -77,15 +81,17 @@ class Main : BaseActivity(true) {
                         }
                     }
                     Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>)
-                        .apply { sortWith(Place.Sort()) }
-                    Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>)
-                        .apply { sortWith(Guess.Sort()) }
+                        .apply { sortWith(Place.Sort(Place.Sort.NAME)) }
+                    Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>).apply {
+                        sortWith(Guess.Sort())
+                        instillGuesses()
+                    }
                 }
             }
         }
 
         // Loading
-        if (m.loaded.value!!) b.body.removeView(b.load)
+        if (m.loaded) b.body.removeView(b.load)
         else if (night) b.loadIV.colorFilter = pdcf()
 
         // Navigation
@@ -219,7 +225,7 @@ class Main : BaseActivity(true) {
     }
 
     fun load(sd: Long = 1500, dur: Long = 1000) {
-        if (m.loaded.value!!) return
+        if (m.loaded) return
         val value = -dm.widthPixels.toFloat() * 1.2f
         ObjectAnimator.ofFloat(b.load, "translationX", value).apply {
             startDelay = sd
@@ -227,7 +233,7 @@ class Main : BaseActivity(true) {
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {
                     b.body.removeView(b.load)
-                    m.loaded.value = true
+                    m.loaded = true
                 }
             })
             start()
@@ -253,6 +259,21 @@ class Main : BaseActivity(true) {
                 priority = NotificationCompat.PRIORITY_HIGH
             }.build())
         }
+    }
+
+    fun instillGuesses() {
+        if (m.onani.value == null || m.guesses.value == null) return
+        for (g in m.guesses.value!!) {
+            if (!g.checkValid()) continue
+            var time = g.sinc
+            val share = (86400000.0 / g.freq).toLong()
+
+            while (time <= g.till) {
+                m.onani.value!!.add(Report(time, "[ESTIMATED]", g.type, g.plac))
+                time += share
+            }
+        }
+        m.onani.value!!.sortWith(ReportAdap.Sort())
     }
 
 

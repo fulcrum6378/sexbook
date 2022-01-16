@@ -6,23 +6,34 @@
     android:layout_marginHorizontal="10dp"
     android:layout_marginVertical="6dp"
     android:background="@drawable/yellow_box"
-    android:paddingHorizontal="10dp"
+    android:paddingHorizontal="20dp"
     android:paddingVertical="17dp">
 
     <EditText
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="14sp"
+        android:layout_marginEnd="10sp"
         android:autofillHints="addressRegion"
         android:background="@color/tp"
         android:hint="@string/plItemHint"
         android:inputType="textAutoComplete"
         android:textColor="@color/mrvNotes"
         android:textColorHint="@color/mrvNotesHint"
+        android:textIsSelectable="true"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/sum"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/mrvNotes"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

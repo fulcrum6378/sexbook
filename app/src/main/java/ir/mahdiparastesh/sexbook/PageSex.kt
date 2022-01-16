@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
+import android.icu.util.Calendar
 import android.os.*
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +44,7 @@ class PageSex(val c: Main) : Fragment() {
                 when (msg.what) {
                     Work.VIEW_ALL -> if (msg.obj != null) {
                         c.m.onani.value = msg.obj as ArrayList<Report>
+                        c.instillGuesses()
                         resetAllMasturbations()
                         c.load()
                     }
@@ -118,7 +120,7 @@ class PageSex(val c: Main) : Fragment() {
     var spnFilterTouched = false
     var filteredOnce = false
     fun resetAllMasturbations() {
-        Collections.sort(c.m.onani.value!!, ReportAdap.Companion.Sort())
+        Collections.sort(c.m.onani.value!!, ReportAdap.Sort())
         filters = filter(c.m.onani.value!!)
         val maxPage = filters!!.size - 1
         if (listFilter == -1) listFilter++

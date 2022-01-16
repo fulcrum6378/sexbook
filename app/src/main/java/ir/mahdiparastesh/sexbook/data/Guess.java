@@ -15,7 +15,7 @@ public class Guess {
     @ColumnInfo(name = "till")
     public long till;
     @ColumnInfo(name = "freq")
-    public byte cors;
+    public float freq;
     @ColumnInfo(name = "type")
     public byte type;
     @ColumnInfo(name = "desc")
@@ -23,10 +23,10 @@ public class Guess {
     @ColumnInfo(name = "plac")
     public long plac;
 
-    public Guess(long sinc, long till, byte cors, byte type, String desc, long plac) {
+    public Guess(long sinc, long till, float freq, byte type, String desc, long plac) {
         this.sinc = sinc;
         this.till = till;
-        this.cors = cors;
+        this.freq = freq;
         this.type = type;
         this.desc = desc;
         this.plac = plac;
@@ -35,6 +35,11 @@ public class Guess {
     public Guess setId(long id) {
         this.id = id;
         return this;
+    }
+
+    public boolean checkValid() {
+        return sinc > -1L && till > -1L && freq > 0 &&
+                till > sinc;
     }
 
     public static class Sort implements Comparator<Guess> {

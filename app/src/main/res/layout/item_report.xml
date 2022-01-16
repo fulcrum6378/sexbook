@@ -87,6 +87,7 @@
         android:paddingEnd="15dp"
         android:textColor="@color/mrvNotes"
         android:textColorHint="@color/mrvNotesHint"
+        android:textIsSelectable="true"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toStartOf="@id/type"
@@ -109,18 +110,8 @@
 
     <EditText
         android:id="@+id/desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/tp"
-        android:hint="@string/desc"
-        android:inputType="textMultiLine"
-        android:lines="3"
-        android:maxLines="10"
+        style="@style/desc"
         android:paddingHorizontal="7dp"
-        android:textColor="@color/mrvNotes"
-        android:textColorHint="@color/mrvNotesHint"
-        android:textSize="14sp"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/clock"
         tools:ignore="Autofill" />
 
@@ -129,11 +120,10 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/spn_filter"
-        android:paddingStart="28dp"
+        android:paddingStart="7dp"
         android:paddingTop="10dp"
-        android:paddingEnd="5dp"
+        android:paddingEnd="21dp"
         android:theme="@style/AppTheme"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/desc" />
 
     <ImageView
@@ -143,7 +133,6 @@
         android:layout_marginEnd="22dp"
         android:rotation="90"
         android:src="@drawable/play_3_ntf"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/place"
         app:layout_constraintEnd_toEndOf="@id/place"
         app:layout_constraintTop_toTopOf="@id/place" />

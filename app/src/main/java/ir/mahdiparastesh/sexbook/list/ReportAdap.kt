@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.list
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.util.Calendar
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -10,10 +11,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.calType
+import ir.mahdiparastesh.sexbook.Fun.Companion.vis
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
@@ -21,21 +22,16 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
-import ir.mahdiparastesh.sexbook.jdtp.utils.PersianCalendar
 import ir.mahdiparastesh.sexbook.more.*
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.dp
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.util.*
 import kotlin.collections.ArrayList
-import ir.mahdiparastesh.sexbook.jdtp.date.DatePickerDialog as JalaliDatePickerDialog
 
 class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
-    DatePickerDialog.OnDateSetListener,
-    TimePickerDialog.OnTimeSetListener,
-    JalaliDatePickerDialog.OnDateSetListener {
+    TimePickerDialog.OnTimeSetListener {
 
     var clockHeight = dp(48)
-    val tagEdit = "edit"
 
     class MyViewHolder(val b: ItemReportBinding) : RecyclerView.ViewHolder(b.root)
 
@@ -63,19 +59,27 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         // Type
         b.type.adapter = TypeAdap(c)
 
+        // Place
+        b.placeMark.setColorFilter(c.color(R.color.spnFilterMark))
+        c.m.places.value?.let { l ->
+            b.place.adapter = SpinnerAdap(c,
+                ArrayList(l.map { it.name }).apply { add(0, "") })
+        }
+
         return MyViewHolder(b)
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: MyViewHolder, i: Int) {
+        val itm = c.m.visOnani.value!![i]
 
         // Date & Time
         var cal = Calendar.getInstance()
-        cal.timeInMillis = c.m.visOnani.value!![i].time
+        cal.timeInMillis = itm.time
         h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
         h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
-        h.b.date.text = compileDate(c, c.m.visOnani.value!![i].time)
-        h.b.clock.setOnClickListener {
+        h.b.date.text = compileDate(c, itm.time)
+        if (!itm.estimated) h.b.clock.setOnClickListener {
             TimePickerDialog.newInstance(
                 this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], false
             ).apply {
@@ -89,43 +93,33 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                     "edit${globalPos(c.m, h.layoutPosition)}"
                 )
             }
-        }
-        h.b.date.setOnClickListener {
-            if (calType() == Fun.CalendarType.GREGORY) DatePickerDialog.newInstance(
-                this, cal[Calendar.YEAR], cal[Calendar.MONTH], cal[Calendar.DAY_OF_MONTH]
-            ).apply {
-                isThemeDark = night
-                version = DatePickerDialog.Version.VERSION_2
-                accentColor = c.color(R.color.CP)
-                setOkColor(c.color(R.color.mrvPopupButtons))
-                setCancelColor(c.color(R.color.mrvPopupButtons))
-                show(
-                    c.supportFragmentManager,
-                    "$tagEdit${globalPos(c.m, h.layoutPosition)}"
-                )
-            } else {
-                val jal = Jalali(cal)
-                JalaliDatePickerDialog.newInstance(this, jal.Y, jal.M, jal.D).apply {
-                    isThemeDark = night
-                    show(
-                        c.supportFragmentManager,
-                        "$tagEdit${globalPos(c.m, h.layoutPosition)}"
-                    )
+        } else h.b.clock.setOnClickListener(null)
+        if (!itm.estimated) h.b.date.setOnClickListener {
+            LocalDatePicker(c, "$tagEdit${globalPos(c.m, h.layoutPosition)}", cal) { view, time ->
+                if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4)
+                    return@LocalDatePicker
+                val pos = view.tag!!.substring(4).toInt()
+                if (c.m.onani.value!!.size > pos && view.tag!!.substring(0, 4) == tagEdit) {
+                    c.m.onani.value!![pos].time = time
+                    Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
                 }
             }
-        }
+        } else h.b.date.setOnClickListener(null)
         h.b.ampm.text =
             c.resources.getText(if (cal[Calendar.HOUR_OF_DAY] > 12) R.string.PM else R.string.AM)
 
         // Name
-        h.b.name.setText(c.m.visOnani.value!![i].name)
-        var crushes = arrayListOf<String>()
-        if (c.m.summary.value != null)
-            crushes = ArrayList(c.m.summary.value!!.scores.keys)
-        h.b.name.setAdapter(
-            ArrayAdapter(c, android.R.layout.simple_dropdown_item_1line, crushes)
-        )
-        h.b.name.addTextChangedListener(object : TextWatcher {
+        h.b.name.setText(itm.name)
+        if (!itm.estimated) {
+            var crushes = arrayListOf<String>()
+            if (c.m.summary.value != null)
+                crushes = ArrayList(c.m.summary.value!!.scores.keys)
+            h.b.name.setAdapter(
+                ArrayAdapter(c, android.R.layout.simple_dropdown_item_1line, crushes)
+            )
+        }
+        h.b.name.isEnabled = !itm.estimated
+        val nameWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -136,28 +130,35 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                     }
                 }
             }
-        })
+        }
+        if (!itm.estimated) h.b.name.addTextChangedListener(nameWatcher)
+        else h.b.name.removeTextChangedListener(nameWatcher)
 
         // Type
-        h.b.type.setSelection(c.m.visOnani.value!![i].type.toInt(), true)
-        h.b.type.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-            override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                c.m.visOnani.value!![h.layoutPosition].apply {
-                    if (type != i.toByte()) {
-                        type = i.toByte()
-                        update(this, h.layoutPosition)
+        h.b.type.setSelection(itm.type.toInt(), true)
+        h.b.type.onItemSelectedListener =
+            if (!itm.estimated) object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
+                    c.m.visOnani.value!![h.layoutPosition].apply {
+                        if (type != i.toByte()) {
+                            type = i.toByte()
+                            update(this, h.layoutPosition)
+                        }
                     }
                 }
-            }
-        }
+            } else null
+        h.b.type.isEnabled = !itm.estimated
 
         // Overflow
-        h.b.root.setOnClickListener { toggleOverflow(h.b) }
+        if (!itm.estimated) h.b.root.setOnClickListener { turnOverflow(h.b) }
+        else h.b.root.setOnClickListener(null)
+        if (!itm.estimated) turnOverflow(h.b, false)
+        vis(h.b.desc, !itm.estimated && expanded)
 
         // Descriptions
-        h.b.desc.setText(c.m.visOnani.value!![i].desc)
-        h.b.desc.addTextChangedListener(object : TextWatcher {
+        h.b.desc.setText(if (!itm.estimated) itm.desc else "")
+        val descWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -168,40 +169,42 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                     }
                 }
             }
-        })
+        }
+        if (!itm.estimated) h.b.desc.addTextChangedListener(descWatcher)
+        else h.b.desc.removeTextChangedListener(descWatcher)
+        h.b.desc.isEnabled = !itm.estimated
 
         // Place
-        h.b.placeMark.setColorFilter(c.color(R.color.spnFilterMark))
-        c.m.places.value?.let { l ->
-            h.b.place.adapter = SpinnerAdap(c,
-                ArrayList(l.map { it.name }).apply { add(0, "") })
-        }
         var placeTouched = false
-        h.b.place.setOnTouchListener { _, _ -> placeTouched = true; false }
-        h.b.place.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(av: AdapterView<*>?) {}
-            override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                if (c.m.places.value == null || !placeTouched) return
-                val id = if (i == 0) -1L else c.m.places.value!![i - 1].id
-                c.m.visOnani.value!![h.layoutPosition].apply {
-                    if (plac != id) {
-                        plac = id
-                        update(this, h.layoutPosition)
+        if (!itm.estimated)
+            h.b.place.setOnTouchListener { _, _ -> placeTouched = true; false }
+        else h.b.place.setOnTouchListener(null)
+        h.b.place.onItemSelectedListener =
+            if (!itm.estimated) object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(av: AdapterView<*>?) {}
+                override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
+                    if (c.m.places.value == null || !placeTouched) return
+                    val id = if (i == 0) -1L else c.m.places.value!![i - 1].id
+                    c.m.visOnani.value!![h.layoutPosition].apply {
+                        if (plac != id) {
+                            plac = id
+                            update(this, h.layoutPosition)
+                        }
                     }
                 }
-            }
-        }
+            } else null
         h.b.place.setSelection(
-            if (c.m.visOnani.value!![i].plac == -1L) 0
-            else placePos(c.m.visOnani.value!![i].plac, c.m.places.value!!) + 1,
-            true
+            if (itm.plac == -1L) 0 else placePos(itm.plac, c.m.places.value!!) + 1, true
         )
+        vis(h.b.place, itm.estimated || expanded)
+        vis(h.b.placeMark, !itm.estimated && expanded)
+        h.b.place.isEnabled = !itm.estimated
 
         // Long Click
-        val longClick = View.OnLongClickListener { v ->
+        val longClick = if (!itm.estimated) View.OnLongClickListener { v ->
             MaterialMenu(c, v, R.menu.report, Act().apply {
                 this[R.id.lcExpand] = {
-                    toggleOverflow(h.b)
+                    turnOverflow(h.b)
                 }
                 this[R.id.lcAccurate] = {
                     c.m.visOnani.value!![h.layoutPosition].apply {
@@ -224,30 +227,17 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                     c.resources.getString(R.string.collapse)
             }.show()
             true
-        }
+        } else null
         h.b.root.setOnLongClickListener(longClick)
         h.b.clock.setOnLongClickListener(longClick)
         h.b.date.setOnLongClickListener(longClick)
         h.b.name.setOnLongClickListener(longClick)
+        h.b.root.isClickable = !itm.estimated
+        h.b.root.isLongClickable = !itm.estimated
+        h.b.root.alpha = if (!itm.estimated) 1f else estimatedAlpha
     }
 
     override fun getItemCount() = c.m.visOnani.value!!.size
-
-    override fun onDateSet(view: DatePickerDialog, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4) return
-        val pos = view.tag!!.substring(4).toInt()
-        if (c.m.onani.value!!.size > pos) when (view.tag!!.substring(0, 4)) {
-            tagEdit -> {
-                var calc = Calendar.getInstance()
-                calc.timeInMillis = c.m.onani.value!![pos].time
-                calc[Calendar.YEAR] = year
-                calc[Calendar.MONTH] = monthOfYear
-                calc[Calendar.DAY_OF_MONTH] = dayOfMonth
-                c.m.onani.value!![pos].time = calc.timeInMillis
-                Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
-            }
-        }
-    }
 
     override fun onTimeSet(view: TimePickerDialog, hourOfDay: Int, minute: Int, second: Int) {
         if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4) return
@@ -265,30 +255,12 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         }
     }
 
-    // Repaired version of https://github.com/mohamad-amin/PersianMaterialDateTimePicker
-    override fun onDateSet(
-        view: JalaliDatePickerDialog, year: Int, monthOfYear: Int, dayOfMonth: Int
-    ) {
-        if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4) return
-        val pos = view.tag!!.substring(4).toInt()
-        if (c.m.onani.value!!.size > pos) when (view.tag!!.substring(0, 4)) {
-            tagEdit -> {
-                PersianCalendar().apply {
-                    timeInMillis = c.m.onani.value!![pos].time
-                    setPersianDate(year, monthOfYear, dayOfMonth)
-                    c.m.onani.value!![pos].time = timeInMillis
-                }
-                Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
-            }
-        }
-    }
-
-    var expanded = false
-    fun toggleOverflow(b: ItemReportBinding) {
-        expanded = !expanded
-        Fun.vis(b.desc, expanded)
-        Fun.vis(b.place, expanded)
-        Fun.vis(b.placeMark, expanded)
+    var expanded = true
+    fun turnOverflow(b: ItemReportBinding, expand: Boolean = !expanded) {
+        expanded = expand
+        vis(b.desc, expand)
+        vis(b.place, expand)
+        vis(b.placeMark, expand)
     }
 
     fun update(updated: Report, nominalPos: Int) {
@@ -300,6 +272,9 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
     }
 
     companion object {
+        const val tagEdit = "edit"
+        const val estimatedAlpha = 0.6f
+
         fun compileDate(c: Context, time: Long): String {
             val lm = Calendar.getInstance().apply { timeInMillis = time }
             if (calType() == Fun.CalendarType.JALALI) {
@@ -335,10 +310,10 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
                     index = i
             return index
         }
+    }
 
-
-        class Sort : Comparator<Report> {
-            override fun compare(a: Report, b: Report) = a.time.compareTo(b.time)
-        }
+    // Don't migrate to Java!
+    class Sort : Comparator<Report> {
+        override fun compare(a: Report, b: Report) = a.time.compareTo(b.time)
     }
 }

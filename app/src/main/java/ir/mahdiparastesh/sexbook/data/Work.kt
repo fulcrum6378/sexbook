@@ -39,11 +39,17 @@ class Work(
         const val P_VIEW_ONE = 20
         const val P_VIEW_ALL = 21
         const val P_INSERT_ONE = 22
+        const val P_REPLACE_ALL = 23
         const val P_UPDATE_ONE = 24
         const val P_DELETE_ONE = 25
 
         // Guess
+        const val G_VIEW_ONE = 30
         const val G_VIEW_ALL = 31
+        const val G_INSERT_ONE = 32
+        const val G_REPLACE_ALL = 33
+        const val G_UPDATE_ONE = 34
+        const val G_DELETE_ONE = 35
 
         // PURPOSES
         const val ADD_NEW_ITEM = 0
@@ -156,6 +162,12 @@ class Work(
                 handler.obtainMessage(action, result).sendToTarget()
             }
 
+            P_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
+                dao.pDeleteAll(dao.pGetAll())
+                dao.pReplaceAll(values as List<Place>)
+                handler.obtainMessage(action).sendToTarget()
+            }
+
             P_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.pUpdate(values[0] as Place)
                 handler.obtainMessage(
@@ -166,6 +178,45 @@ class Work(
 
             P_DELETE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.pDelete(values[0] as Place)
+                handler.obtainMessage(
+                    action, if (values.size > 1) values[1] as Int else 0,
+                    if (values.size > 2) values[2] as Int else 0, null
+                ).sendToTarget()
+            }
+
+
+            // Guess
+            G_VIEW_ONE -> if (!values.isNullOrEmpty()) handler.obtainMessage(
+                action,
+                if (values.size > 1) values[1] as Int else 0,
+                if (values.size > 2) values[2] as Int else 0,
+                dao.gGet(values[0] as Long)
+            ).sendToTarget()
+
+            G_VIEW_ALL -> handler.obtainMessage(action, dao.gGetAll()).sendToTarget()
+
+            G_INSERT_ONE -> {
+                var result: Long = -1
+                if (!values.isNullOrEmpty()) result = dao.gInsert(values[0] as Guess)
+                handler.obtainMessage(action, result).sendToTarget()
+            }
+
+            G_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
+                dao.gDeleteAll(dao.gGetAll())
+                dao.gReplaceAll(values as List<Guess>)
+                handler.obtainMessage(action).sendToTarget()
+            }
+
+            G_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
+                dao.gUpdate(values[0] as Guess)
+                handler.obtainMessage(
+                    action, if (values.size > 1) values[1] as Int else 0,
+                    if (values.size > 2) values[2] as Int else 0, null
+                ).sendToTarget()
+            }
+
+            G_DELETE_ONE -> if (!values.isNullOrEmpty()) {
+                dao.gDelete(values[0] as Guess)
                 handler.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null

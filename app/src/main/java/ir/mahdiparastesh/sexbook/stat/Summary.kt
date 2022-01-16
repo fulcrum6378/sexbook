@@ -4,8 +4,6 @@ import android.os.Parcel
 import android.os.Parcelable
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
-import java.util.*
-import kotlin.collections.HashMap
 
 @Suppress("SameParameterValue")
 class Summary(list: List<Report>) {

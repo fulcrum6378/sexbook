@@ -35,11 +35,11 @@ interface Dao {
     @Query("SELECT * FROM Crush")
     fun cGetAll(): List<Crush>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun cReplaceAll(list: List<Crush>)
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun cInsert(item: Crush): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun cReplaceAll(list: List<Crush>)
 
     @Update
     fun cUpdate(item: Crush)
@@ -61,9 +61,38 @@ interface Dao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun pInsert(item: Place): Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun pReplaceAll(list: List<Place>)
+
     @Update
     fun pUpdate(item: Place)
 
     @Delete
     fun pDelete(item: Place)
+
+    @Delete
+    fun pDeleteAll(item: List<Place>)
+
+
+    // Guess
+    @Query("SELECT * FROM Guess WHERE id LIKE :id LIMIT 1")
+    fun gGet(id: Long): Guess
+
+    @Query("SELECT * FROM Guess")
+    fun gGetAll(): List<Guess>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun gInsert(item: Guess): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun gReplaceAll(list: List<Guess>)
+
+    @Update
+    fun gUpdate(item: Guess)
+
+    @Delete
+    fun gDelete(item: Guess)
+
+    @Delete
+    fun gDeleteAll(item: List<Guess>)
 }

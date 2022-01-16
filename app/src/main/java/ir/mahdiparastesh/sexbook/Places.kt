@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.*
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Work
@@ -12,6 +13,7 @@ import java.util.*
 @SuppressLint("NotifyDataSetChanged")
 class Places : BaseActivity() {
     private lateinit var b: PlacesBinding
+    private var changed = false
     private var adding = false
 
     companion object {
@@ -27,6 +29,9 @@ class Places : BaseActivity() {
         handler = object : Handler(Looper.getMainLooper()) {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
+                if (msg.what in arrayOf(Work.P_INSERT_ONE, Work.P_UPDATE_ONE, Work.P_DELETE_ONE))
+                    changed = true
+
                 when (msg.what) {
                     Work.P_VIEW_ONE -> if (msg.obj != null) when (msg.arg1) {
                         Work.ADD_NEW_ITEM -> {
@@ -37,14 +42,23 @@ class Places : BaseActivity() {
                             Fun.explode(c, b.add)
                         }
                     }
-                    Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>)
-                        .apply { sortWith(Place.Sort()) }
+                    Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>).apply {
+                        for (p in indices) {
+                            var sum = 0L
+                            for (r in m.onani.value!!)
+                                if (r.plac == this[p].id)
+                                    sum++
+                            this[p].sum = sum
+                        }
+                        sortWith(Place.Sort(Place.Sort.NAME))
+                        sortWith(Place.Sort(Place.Sort.SUM))
+                    }
                     Work.P_INSERT_ONE -> if (msg.obj != null)
                         Work(c, Work.P_VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()
                     Work.P_UPDATE_ONE ->
                         if (msg.arg2 == 1) b.list.adapter?.notifyItemChanged(msg.arg1)
                     Work.P_DELETE_ONE -> {
-                        m.liefde.value?.removeAt(msg.arg1)
+                        m.places.value?.removeAt(msg.arg1)
                         b.list.adapter?.notifyItemRemoved(msg.arg1)
                         b.list.adapter?.notifyItemRangeChanged(
                             msg.arg1, b.list.adapter!!.itemCount - msg.arg1
@@ -81,5 +95,12 @@ class Places : BaseActivity() {
     override fun onDestroy() {
         handler = null
         super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        if (changed) {
+            finish()
+            startActivity(Intent(this, Main::class.java).setAction(Main.Action.RELOAD.s))
+        } else super.onBackPressed()
     }
 }

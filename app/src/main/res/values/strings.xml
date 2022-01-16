@@ -141,6 +141,11 @@
 
     <!-- Estimation -->
     <string name="etTitle">Estimation</string>
+    <!--suppress CheckTagEmptyBody -->
+    <string name="etDateHint"></string>
+    <string name="etSince">Since</string>
+    <string name="etUntil">Until</string>
+    <string name="etFreq">Times Per Day</string>
 
     <!-- Settings -->
     <string name="stSP" translatable="false">ir.mahdiparastesh.sexbook.Settings</string>

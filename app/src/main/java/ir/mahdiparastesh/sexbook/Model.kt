@@ -16,9 +16,9 @@ class Model : ViewModel() {
     val places = MutableLiveData<ArrayList<Place>?>(null)
     val guesses = MutableLiveData<ArrayList<Guess>?>(null)
 
-    val loaded = MutableLiveData(false)
+    var loaded = false
+    var crush: String? = null
     val visOnani = MutableLiveData<ArrayList<Report>>(arrayListOf())
-    val crush = MutableLiveData<String?>(null)
     val summary = MutableLiveData<Summary?>()
     val recency = MutableLiveData<Recency?>()
 

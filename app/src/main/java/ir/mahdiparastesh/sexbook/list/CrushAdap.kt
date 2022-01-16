@@ -43,7 +43,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
                     )
                 }
                 this[R.id.lcStatistics] = {
-                    c.m.crush.value = c.m.liefde.value!![i].key
+                    c.m.crush = c.m.liefde.value!![i].key
                     c.startActivity(Intent(c, Singular::class.java))
                 }
                 this[R.id.lcDelete] = {

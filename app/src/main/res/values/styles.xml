@@ -52,6 +52,20 @@
         <item name="layout_constraintHeight_percent">0.6</item>
     </style>
 
+    <style name="desc">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/tp</item>
+        <item name="android:hint">@string/desc</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:minLines">2</item>
+        <item name="android:maxLines">10</item>
+        <item name="android:paddingVertical">10sp</item>
+        <item name="android:textColor">@color/mrvNotes</item>
+        <item name="android:textColorHint">@color/mrvNotesHint</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 
     <!-- Main -->
     <style name="loadIV" parent="parentConstraint">
@@ -86,6 +100,32 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/identifySep</item>
         <item name="android:layout_marginVertical">8dp</item>
+    </style>
+
+
+    <!-- Estimation -->
+    <style name="etDateButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/spn_filter</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingVertical">12dp</item>
+        <item name="android:text">@string/etDateHint</item>
+        <item name="android:textColor">@color/mrvDate</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginVertical">8dp</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+
+    <style name="etDateLabel">
+        <item name="android:layout_width">40sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/mrvNotes</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
     </style>
 
 

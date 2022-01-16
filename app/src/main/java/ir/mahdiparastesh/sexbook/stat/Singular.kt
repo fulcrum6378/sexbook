@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,8 +10,8 @@ import android.os.Message
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Report
@@ -19,11 +20,10 @@ import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Jalali
+import ir.mahdiparastesh.sexbook.more.LocalDatePicker
 import lecho.lib.hellocharts.model.Column
 import lecho.lib.hellocharts.model.ColumnChartData
 import lecho.lib.hellocharts.model.SubcolumnValue
-import java.util.*
-import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
 class Singular : BaseActivity() {
@@ -36,10 +36,10 @@ class Singular : BaseActivity() {
         b = SingularBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        if (m.onani.value == null || m.summary.value == null || m.crush.value == null) {
+        if (m.onani.value == null || m.summary.value == null || m.crush == null) {
             onBackPressed(); return; }
         val data = ArrayList<Pair<String, Float>>()
-        val history = m.summary.value!!.scores[m.crush.value]
+        val history = m.summary.value!!.scores[m.crush]
         sinceTheBeginning(c, m.onani.value!!)
             .forEach { data.add(Pair(it, calcHistory(c, history!!, it))) }
 
@@ -49,29 +49,10 @@ class Singular : BaseActivity() {
                 when (msg.what) {
                     Work.C_VIEW_ONE -> crush = msg.obj as Crush?
                     Work.C_INSERT_ONE, Work.C_UPDATE_ONE ->
-                        Work(c, Work.C_VIEW_ONE, listOf(m.crush.value!!), handler).start()
+                        Work(c, Work.C_VIEW_ONE, listOf(m.crush!!), handler).start()
                 }
             }
         }
-
-        /*AnyChart.column().apply {
-            column(data).fill("#FFD422").stroke("#FFD422")
-                .tooltip()
-                .titleFormat("{%X}")
-                .position(Position.CENTER_BOTTOM)
-                .anchor(Anchor.CENTER_BOTTOM)
-                .offsetX(0.0)
-                .offsetY(5.0)
-                .format("{%Value}{groupsSeparator: }")
-            animation(true)
-            title(m.crush.value)
-            yScale().minimum(0.0)
-            yAxis(0).labels().format("{%Value}{groupsSeparator: }")
-            tooltip().positionMode(TooltipPositionMode.POINT)
-            interactivity().hoverMode(HoverMode.BY_X)
-            background(resources.getString(R.string.anyChartBG))
-            b.main.setChart(this)
-        }*/
 
         b.main.columnChartData = ColumnChartData().setColumns(ColumnFactory(this, data))
 
@@ -82,7 +63,7 @@ class Singular : BaseActivity() {
         }
 
         // Identification
-        Work(c, Work.C_VIEW_ONE, listOf(m.crush.value!!), handler).start()
+        Work(c, Work.C_VIEW_ONE, listOf(m.crush!!), handler).start()
         b.identify.setOnClickListener {
             val bi = IdentifyBinding.inflate(layoutInflater, null, false)
 
@@ -104,7 +85,7 @@ class Singular : BaseActivity() {
                 crush!!.bMonth.toInt().let { if (it != -1) bir[Calendar.MONTH] = it }
                 crush!!.bDay.toInt().let { if (it != -1) bir[Calendar.DAY_OF_MONTH] = it }
                 if (crush!!.hasFullBirth())
-                    bi.birth.text = birthDate(bir)
+                    bi.birth.text = fullDate(bir)
                 bi.location.setText(crush!!.locat)
                 bi.instagram.setText(crush!!.insta)
                 bi.notifyBirth.isChecked = crush!!.notifyBirth
@@ -112,29 +93,18 @@ class Singular : BaseActivity() {
 
             // Birth
             bi.birth.setOnClickListener {
-                DatePickerDialog.newInstance(
-                    { _, year, monthOfYear, dayOfMonth ->
-                        bir[Calendar.YEAR] = year
-                        bir[Calendar.MONTH] = monthOfYear
-                        bir[Calendar.DAY_OF_MONTH] = dayOfMonth
-                        bi.birth.text = birthDate(bir)
-                    }, bir[Calendar.YEAR], bir[Calendar.MONTH], bir[Calendar.DAY_OF_MONTH]
-                ).apply {
-                    isThemeDark = night
-                    version = DatePickerDialog.Version.VERSION_2
-                    accentColor = color(R.color.CP)
-                    setOkColor(color(R.color.mrvPopupButtons))
-                    setCancelColor(color(R.color.mrvPopupButtons))
-                    show(supportFragmentManager, "birth")
+                LocalDatePicker(this@Singular, "birth", bir) { _, time ->
+                    bir.timeInMillis = time
+                    bi.birth.text = fullDate(bir)
                 }
             }
 
             AlertDialog.Builder(this).apply {
-                setTitle("${resources.getString(R.string.identify)}: ${m.crush.value}")
+                setTitle("${resources.getString(R.string.identify)}: ${m.crush}")
                 setView(bi.root)
                 setPositiveButton(R.string.save) { _, _ ->
                     val inserted = Crush(
-                        m.crush.value!!,
+                        m.crush!!,
                         if (bi.fName.text.toString().isEmpty()) null else bi.fName.text.toString(),
                         if (bi.lName.text.toString().isEmpty()) null else bi.lName.text.toString(),
                         bi.masc.isChecked,
@@ -233,9 +203,6 @@ class Singular : BaseActivity() {
             }
             return value
         }
-
-        fun birthDate(cal: Calendar) =
-            "${cal[Calendar.YEAR]}.${cal[Calendar.MONTH] + 1}.${cal[Calendar.DAY_OF_MONTH]}"
     }
 
     class ColumnFactory(c: Singular, list: ArrayList<Pair<String, Float>>) :

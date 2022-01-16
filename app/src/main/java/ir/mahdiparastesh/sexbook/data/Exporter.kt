@@ -87,6 +87,8 @@ class Exporter(val c: BaseActivity) {
         fun replace(c: Context, imported: Exported) {
             Work(c, Work.REPLACE_ALL, imported.reports?.toList()).start()
             Work(c, Work.C_REPLACE_ALL, imported.crushes?.toList()).start()
+            Work(c, Work.P_REPLACE_ALL, imported.places?.toList()).start()
+            Work(c, Work.G_REPLACE_ALL, imported.guesses?.toList()).start()
         }
     }
 

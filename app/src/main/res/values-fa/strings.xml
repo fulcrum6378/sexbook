@@ -141,6 +141,11 @@
 
     <!-- Estimation -->
     <string name="etTitle">تخمین ها</string>
+    <!--suppress CheckTagEmptyBody -->
+    <string name="etDateHint"></string>
+    <string name="etSince">از</string>
+    <string name="etUntil">تا</string>
+    <string name="etFreq">بار در هر روز</string>
 
     <!-- Settings -->
     <string name="stTitle">تنظیمات سکسبوک</string>

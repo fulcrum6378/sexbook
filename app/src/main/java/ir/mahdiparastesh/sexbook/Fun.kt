@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.icu.util.Calendar
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -13,7 +14,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import java.util.*
+import ir.mahdiparastesh.sexbook.more.Jalali
 
 class Fun {
     companion object {
@@ -73,6 +74,15 @@ class Fun {
                 (c.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
             else c.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
                 .vibrate(VibrationEffect.createOneShot(dur, VibrationEffect.DEFAULT_AMPLITUDE))
+        }
+
+        fun fullDate(cal: Calendar) = when (calType()) {
+            CalendarType.JALALI -> {
+                val j = Jalali(cal)
+                "${z(j.Y)}.${z(j.M + 1)}.${z(j.D)}"
+            }
+            else -> "${z(cal[Calendar.YEAR])}.${z(cal[Calendar.MONTH] + 1)}" +
+                    ".${z(cal[Calendar.DAY_OF_MONTH])}"
         }
     }
 

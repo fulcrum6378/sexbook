@@ -1,11 +1,13 @@
 package ir.mahdiparastesh.sexbook.list
 
+import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import ir.mahdiparastesh.sexbook.Fun.Companion.vis
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings.Companion.spDefPlace
@@ -27,6 +29,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<PlaceAdap.MyViewHolder>() 
         return MyViewHolder(b)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: MyViewHolder, i: Int) {
         if (c.m.places.value == null) return
 
@@ -44,6 +47,12 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<PlaceAdap.MyViewHolder>() 
                 }
             }
         })
+
+        // Sum
+        (c.m.places.value!![i].sum >= 0L).apply {
+            vis(h.b.sum, this)
+            h.b.sum.text = if (this) "{${c.m.places.value!![i].sum}}" else ""
+        }
 
         // Click
         val longClick = View.OnLongClickListener { v ->
