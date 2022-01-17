@@ -28,10 +28,13 @@ import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
+class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
+    RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
     TimePickerDialog.OnTimeSetListener {
 
     var clockHeight = dp(48)
+    val expansion = BooleanArray(itemCount) { autoExpand }
+    val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
 
     class MyViewHolder(val b: ItemReportBinding) : RecyclerView.ViewHolder(b.root)
 
@@ -61,10 +64,8 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
 
         // Place
         b.placeMark.setColorFilter(c.color(R.color.spnFilterMark))
-        c.m.places.value?.let { l ->
-            b.place.adapter = SpinnerAdap(c,
-                ArrayList(l.map { it.name }).apply { add(0, "") })
-        }
+        if (places != null) b.place.adapter =
+            SpinnerAdap(c, ArrayList(places.map { it.name }).apply { add(0, "") })
 
         return MyViewHolder(b)
     }
@@ -151,10 +152,13 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         h.b.type.isEnabled = !itm.estimated
 
         // Overflow
-        if (!itm.estimated) h.b.root.setOnClickListener { turnOverflow(h.b) }
-        else h.b.root.setOnClickListener(null)
-        if (!itm.estimated) turnOverflow(h.b, false)
-        vis(h.b.desc, !itm.estimated && expanded)
+        if (!itm.estimated) {
+            h.b.root.setOnClickListener { turnOverflow(h.layoutPosition, h.b) }
+            turnOverflow(i, h.b, expansion[i])
+        } else {
+            h.b.root.setOnClickListener(null)
+            vis(h.b.desc, false)
+        }
 
         // Descriptions
         h.b.desc.setText(if (!itm.estimated) itm.desc else "")
@@ -196,15 +200,17 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         h.b.place.setSelection(
             if (itm.plac == -1L) 0 else placePos(itm.plac, c.m.places.value!!) + 1, true
         )
-        vis(h.b.place, itm.estimated || expanded)
-        vis(h.b.placeMark, !itm.estimated && expanded)
+        if (itm.estimated) {
+            vis(h.b.place)
+            vis(h.b.placeMark)
+        }
         h.b.place.isEnabled = !itm.estimated
 
         // Long Click
         val longClick = if (!itm.estimated) View.OnLongClickListener { v ->
             MaterialMenu(c, v, R.menu.report, Act().apply {
                 this[R.id.lcExpand] = {
-                    turnOverflow(h.b)
+                    turnOverflow(h.layoutPosition, h.b)
                 }
                 this[R.id.lcAccurate] = {
                     c.m.visOnani.value!![h.layoutPosition].apply {
@@ -223,7 +229,7 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
             }).apply {
                 menu.findItem(R.id.lcAccurate).isChecked =
                     c.m.visOnani.value!![h.layoutPosition].acur
-                if (expanded) menu.findItem(R.id.lcExpand).title =
+                if (expansion[h.layoutPosition]) menu.findItem(R.id.lcExpand).title =
                     c.resources.getString(R.string.collapse)
             }.show()
             true
@@ -255,9 +261,8 @@ class ReportAdap(val c: Main) : RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
         }
     }
 
-    var expanded = true
-    fun turnOverflow(b: ItemReportBinding, expand: Boolean = !expanded) {
-        expanded = expand
+    fun turnOverflow(i: Int, b: ItemReportBinding, expand: Boolean = !expansion[i]) {
+        expansion[i] = expand
         vis(b.desc, expand)
         vis(b.place, expand)
         vis(b.placeMark, expand)

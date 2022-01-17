@@ -45,7 +45,7 @@ class Main : BaseActivity(true) {
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
 
         fun summarize(m: Model): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
-            m.summary.value = Summary(m.onani.value!!); true
+            m.summary.value = Summary(m.onani.value!!.filter { !it.estimated }); true
         } else false
     }
 
@@ -81,7 +81,6 @@ class Main : BaseActivity(true) {
                         }
                     }
                     Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>)
-                        .apply { sortWith(Place.Sort(Place.Sort.NAME)) }
                     Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>).apply {
                         sortWith(Guess.Sort())
                         instillGuesses()

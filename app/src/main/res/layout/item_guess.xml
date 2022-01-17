@@ -59,6 +59,7 @@
         android:inputType="numberDecimal"
         android:maxLength="5"
         android:textColor="@color/mrvDate"
+        android:textIsSelectable="true"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/type"

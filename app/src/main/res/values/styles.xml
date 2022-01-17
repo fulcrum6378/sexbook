@@ -61,6 +61,7 @@
         <item name="android:minLines">2</item>
         <item name="android:maxLines">10</item>
         <item name="android:paddingVertical">10sp</item>
+        <item name="android:textIsSelectable">true</item>
         <item name="android:textColor">@color/mrvNotes</item>
         <item name="android:textColorHint">@color/mrvNotesHint</item>
         <item name="android:textSize">14sp</item>
@@ -88,6 +89,7 @@
     <style name="identifyET" parent="identifyField">
         <item name="android:paddingHorizontal">5dp</item>
         <item name="android:background">@color/tp</item>
+        <item name="android:textIsSelectable">true</item>
     </style>
 
     <style name="identifyButton" parent="identifyField">
@@ -110,7 +112,7 @@
         <item name="android:background">@drawable/spn_filter</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:paddingVertical">12dp</item>
+        <item name="android:paddingVertical">7dp</item>
         <item name="android:text">@string/etDateHint</item>
         <item name="android:textColor">@color/mrvDate</item>
         <item name="android:textStyle">bold</item>

@@ -130,7 +130,7 @@ class PageSex(val c: Main) : Fragment() {
         )
         if (filters != null) {
             val titles = ArrayList<String>().apply {
-                for (f in filters!!.indices) add(filters!![f].title(c))
+                for (f in filters!!.indices) add("${f + 1}. ${filters!![f].title(c)}")
             }
             b.spnFilter.adapter = SpinnerAdap(c, titles)
             spnFilterTouched = false
