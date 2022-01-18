@@ -22,7 +22,7 @@ public class Report {
     @ColumnInfo(name = "plac")
     public long plac;
     @Ignore
-    public boolean estimated;
+    private transient boolean estimated;
 
     public Report(long time, String name, byte type, String desc, boolean acur, long plac) {
         this.time = time;
@@ -45,5 +45,9 @@ public class Report {
     public Report setId(long id) {
         this.id = id;
         return this;
+    }
+
+    public boolean isReal() {
+        return !estimated;
     }
 }

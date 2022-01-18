@@ -45,7 +45,7 @@ class Main : BaseActivity(true) {
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
 
         fun summarize(m: Model): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
-            m.summary.value = Summary(m.onani.value!!.filter { !it.estimated }); true
+            m.summary.value = Summary(m.onani.value!!.filter { it.isReal }); true
         } else false
     }
 

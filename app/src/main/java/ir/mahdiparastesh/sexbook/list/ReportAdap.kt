@@ -80,7 +80,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
         h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
         h.b.date.text = compileDate(c, itm.time)
-        if (!itm.estimated) h.b.clock.setOnClickListener {
+        if (itm.isReal) h.b.clock.setOnClickListener {
             TimePickerDialog.newInstance(
                 this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], false
             ).apply {
@@ -95,7 +95,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
                 )
             }
         } else h.b.clock.setOnClickListener(null)
-        if (!itm.estimated) h.b.date.setOnClickListener {
+        if (itm.isReal) h.b.date.setOnClickListener {
             LocalDatePicker(c, "$tagEdit${globalPos(c.m, h.layoutPosition)}", cal) { view, time ->
                 if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4)
                     return@LocalDatePicker
@@ -111,7 +111,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
 
         // Name
         h.b.name.setText(itm.name)
-        if (!itm.estimated) {
+        if (itm.isReal) {
             var crushes = arrayListOf<String>()
             if (c.m.summary.value != null)
                 crushes = ArrayList(c.m.summary.value!!.scores.keys)
@@ -119,7 +119,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
                 ArrayAdapter(c, android.R.layout.simple_dropdown_item_1line, crushes)
             )
         }
-        h.b.name.isEnabled = !itm.estimated
+        h.b.name.isEnabled = itm.isReal
         val nameWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
@@ -132,13 +132,13 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
                 }
             }
         }
-        if (!itm.estimated) h.b.name.addTextChangedListener(nameWatcher)
+        if (itm.isReal) h.b.name.addTextChangedListener(nameWatcher)
         else h.b.name.removeTextChangedListener(nameWatcher)
 
         // Type
         h.b.type.setSelection(itm.type.toInt(), true)
         h.b.type.onItemSelectedListener =
-            if (!itm.estimated) object : AdapterView.OnItemSelectedListener {
+            if (itm.isReal) object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                 override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
                     c.m.visOnani.value!![h.layoutPosition].apply {
@@ -149,10 +149,10 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
                     }
                 }
             } else null
-        h.b.type.isEnabled = !itm.estimated
+        h.b.type.isEnabled = itm.isReal
 
         // Overflow
-        if (!itm.estimated) {
+        if (itm.isReal) {
             h.b.root.setOnClickListener { turnOverflow(h.layoutPosition, h.b) }
             turnOverflow(i, h.b, expansion[i])
         } else {
@@ -161,7 +161,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         }
 
         // Descriptions
-        h.b.desc.setText(if (!itm.estimated) itm.desc else "")
+        h.b.desc.setText(if (itm.isReal) itm.desc else "")
         val descWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
@@ -174,21 +174,21 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
                 }
             }
         }
-        if (!itm.estimated) h.b.desc.addTextChangedListener(descWatcher)
+        if (itm.isReal) h.b.desc.addTextChangedListener(descWatcher)
         else h.b.desc.removeTextChangedListener(descWatcher)
-        h.b.desc.isEnabled = !itm.estimated
+        h.b.desc.isEnabled = itm.isReal
 
         // Place
         var placeTouched = false
-        if (!itm.estimated)
+        if (itm.isReal)
             h.b.place.setOnTouchListener { _, _ -> placeTouched = true; false }
         else h.b.place.setOnTouchListener(null)
         h.b.place.onItemSelectedListener =
-            if (!itm.estimated) object : AdapterView.OnItemSelectedListener {
+            if (itm.isReal) object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(av: AdapterView<*>?) {}
                 override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                    if (c.m.places.value == null || !placeTouched) return
-                    val id = if (i == 0) -1L else c.m.places.value!![i - 1].id
+                    if (places == null || !placeTouched) return
+                    val id = if (i == 0) -1L else places[i - 1].id
                     c.m.visOnani.value!![h.layoutPosition].apply {
                         if (plac != id) {
                             plac = id
@@ -198,16 +198,17 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
                 }
             } else null
         h.b.place.setSelection(
-            if (itm.plac == -1L) 0 else placePos(itm.plac, c.m.places.value!!) + 1, true
+            if (itm.plac == -1L || places == null) 0
+            else placePos(itm.plac, places) + 1, true
         )
-        if (itm.estimated) {
+        if (!itm.isReal) {
             vis(h.b.place)
             vis(h.b.placeMark)
         }
-        h.b.place.isEnabled = !itm.estimated
+        h.b.place.isEnabled = itm.isReal
 
         // Long Click
-        val longClick = if (!itm.estimated) View.OnLongClickListener { v ->
+        val longClick = if (itm.isReal) View.OnLongClickListener { v ->
             MaterialMenu(c, v, R.menu.report, Act().apply {
                 this[R.id.lcExpand] = {
                     turnOverflow(h.layoutPosition, h.b)
@@ -238,9 +239,9 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         h.b.clock.setOnLongClickListener(longClick)
         h.b.date.setOnLongClickListener(longClick)
         h.b.name.setOnLongClickListener(longClick)
-        h.b.root.isClickable = !itm.estimated
-        h.b.root.isLongClickable = !itm.estimated
-        h.b.root.alpha = if (!itm.estimated) 1f else estimatedAlpha
+        h.b.root.isClickable = itm.isReal
+        h.b.root.isLongClickable = itm.isReal
+        h.b.root.alpha = if (itm.isReal) 1f else estimatedAlpha
     }
 
     override fun getItemCount() = c.m.visOnani.value!!.size

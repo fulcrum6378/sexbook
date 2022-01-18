@@ -11,13 +11,15 @@
 
     <EditText
         android:id="@+id/name"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10sp"
         android:autofillHints="addressRegion"
         android:background="@color/tp"
         android:hint="@string/plItemHint"
-        android:inputType="textAutoComplete"
+        android:inputType="textMultiLine|textAutoComplete"
+        android:lineSpacingMultiplier="1.3"
+        android:maxLines="5"
         android:textColor="@color/mrvNotes"
         android:textColorHint="@color/mrvNotesHint"
         android:textIsSelectable="true"

@@ -32,11 +32,11 @@
     <Spinner
         android:id="@+id/spnFilter"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/spn_filter"
-        android:paddingStart="28dp"
-        android:paddingTop="14dp"
-        android:paddingEnd="5dp"
+        android:paddingVertical="16dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="42dp"
         android:theme="@style/AppTheme"
         app:layout_constraintBottom_toBottomOf="parent" />
 
