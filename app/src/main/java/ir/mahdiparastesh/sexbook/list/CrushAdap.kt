@@ -27,7 +27,18 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
 
     override fun onBindViewHolder(h: MyViewHolder, i: Int) {
         if (c.m.liefde.value == null) return
+
+        // Name
         h.b.name.text = c.m.liefde.value!![i].visName()
+
+        // Sum
+        h.b.sum.text =
+            if (c.m.summary.value != null) {
+                var sum = 0f
+                c.m.summary.value!!.scores[c.m.liefde.value!![i].key]
+                    ?.forEach { sum += it.value }
+                "{$sum}"
+            } else ""
 
         // Click
         h.b.root.setOnClickListener { v ->

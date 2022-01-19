@@ -146,6 +146,7 @@
     <string name="etSince">از</string>
     <string name="etUntil">تا</string>
     <string name="etFreq">بار در هر روز</string>
+    <string name="etDeleteGuessSure">آیا از حذف این تخمین اطمینان دارید؟</string>
 
     <!-- Settings -->
     <string name="stTitle">تنظیمات سکسبوک</string>

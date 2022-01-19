@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
+import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Report
@@ -48,8 +49,10 @@ class Singular : BaseActivity() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.C_VIEW_ONE -> crush = msg.obj as Crush?
-                    Work.C_INSERT_ONE, Work.C_UPDATE_ONE ->
+                    Work.C_INSERT_ONE, Work.C_UPDATE_ONE -> {
+                        PageLove.changed = true
                         Work(c, Work.C_VIEW_ONE, listOf(m.crush!!), handler).start()
+                    }
                 }
             }
         }

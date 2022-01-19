@@ -25,6 +25,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
+import ir.mahdiparastesh.sexbook.list.GuessAdap
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
@@ -60,13 +61,9 @@ class Main : BaseActivity(true) {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.VIEW_ALL -> {
-                        m.onani.value = msg.obj as ArrayList<Report>
-                        instillGuesses()
-                    }
+                    Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
                     Work.C_VIEW_ALL -> {
                         m.liefde.value = (msg.obj as ArrayList<Crush>)
-                            .apply { sortWith(Crush.Sort()) }
                         m.liefde.value?.forEach {
                             if (!it.notifyBirth) return@forEach
                             val now = Calendar.getInstance()
@@ -82,7 +79,7 @@ class Main : BaseActivity(true) {
                     }
                     Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>)
                     Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>).apply {
-                        sortWith(Guess.Sort())
+                        sortWith(GuessAdap.Sort())
                         instillGuesses()
                     }
                 }
@@ -182,7 +179,7 @@ class Main : BaseActivity(true) {
         }
 
         checkIntent(intent)
-        Work(c, Work.VIEW_ALL).start()
+        // Work(c, Work.VIEW_ALL).start()
         Work(c, Work.C_VIEW_ALL).start()
         Work(c, Work.P_VIEW_ALL).start()
         Work(c, Work.G_VIEW_ALL).start()

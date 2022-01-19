@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/spn_filter"
         android:paddingVertical="16dp"
-        android:paddingStart="32dp"
+        android:paddingStart="26dp"
         android:paddingEnd="42dp"
         android:theme="@style/AppTheme"
         app:layout_constraintBottom_toBottomOf="parent" />

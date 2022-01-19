@@ -43,7 +43,7 @@ class Places : BaseActivity() {
                         }
                     }
                     Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>).apply {
-                        for (p in indices) {
+                        if (m.onani.value != null) for (p in indices) {
                             var sum = 0L
                             for (r in m.onani.value!!)
                                 if (r.plac == this[p].id)
@@ -51,7 +51,7 @@ class Places : BaseActivity() {
                             this[p].sum = sum
                         }
                         sortWith(Place.Sort(Place.Sort.NAME))
-                        sortWith(Place.Sort(Place.Sort.SUM))
+                        if (m.onani.value != null) sortWith(Place.Sort(Place.Sort.SUM))
                     }
                     Work.P_INSERT_ONE -> if (msg.obj != null)
                         Work(c, Work.P_VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()

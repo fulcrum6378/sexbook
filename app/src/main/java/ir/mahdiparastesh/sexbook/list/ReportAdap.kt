@@ -33,7 +33,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
     TimePickerDialog.OnTimeSetListener {
 
     var clockHeight = dp(48)
-    val expansion = BooleanArray(itemCount) { autoExpand }
+    var expansion = arExpansion()
     val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
 
     class MyViewHolder(val b: ItemReportBinding) : RecyclerView.ViewHolder(b.root)
@@ -275,6 +275,16 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         if (c.m.onani.value!!.size <= pos || pos < 0) return
         c.m.onani.value!![pos] = updated
         Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 1)).start()
+    }
+
+    fun arExpansion() = BooleanArray(itemCount) { autoExpand }
+
+    fun notifyAnyChange() {
+        val oldExp = expansion
+        expansion = arExpansion()
+        for (i in oldExp.indices) {
+            if (expansion.size > i) expansion[i] = oldExp[i]
+        }
     }
 
     companion object {

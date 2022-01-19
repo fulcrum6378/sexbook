@@ -73,7 +73,6 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<PlaceAdap.MyViewHolder>() 
                                 c, Work.P_DELETE_ONE,
                                 listOf(c.m.places.value!![h.layoutPosition], h.layoutPosition)
                             ).start()
-                            c.m.places.value!!.removeAt(h.layoutPosition)
                         }
                         setNegativeButton(R.string.no, null)
                         setCancelable(true)

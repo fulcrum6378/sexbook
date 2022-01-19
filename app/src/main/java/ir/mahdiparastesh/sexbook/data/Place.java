@@ -18,7 +18,7 @@ public class Place {
     @ColumnInfo(name = "longitude")
     public double longitude;
     @Ignore
-    public long sum = -1L;
+    public transient long sum = -1L;
 
     public Place(String name, double latitude, double longitude) {
         this.name = name;

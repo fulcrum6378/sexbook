@@ -42,11 +42,9 @@ class PageSex(val c: Main) : Fragment() {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.VIEW_ALL -> if (msg.obj != null) {
-                        c.m.onani.value = msg.obj as ArrayList<Report>
-                        c.instillGuesses()
-                        resetAllMasturbations()
-                        c.load()
+                    Work.VIEW_ALL -> {
+                        c.m.onani.value = msg.obj as ArrayList<Report>?
+                        receivedData()
                     }
                     Work.VIEW_ONE -> if (msg.obj != null) when (msg.arg1) {
                         Work.ADD_NEW_ITEM -> {
@@ -113,8 +111,15 @@ class PageSex(val c: Main) : Fragment() {
         if (BaseActivity.night) b.addIV.colorFilter = c.pdcf()
         b.add.setOnClickListener { add() }
 
-        Work(c, Work.VIEW_ALL).start()
+        if (c.m.onani.value == null) Work(c, Work.VIEW_ALL).start()
+        else receivedData()
         return b.root
+    }
+
+    fun receivedData() {
+        c.instillGuesses()
+        resetAllMasturbations()
+        c.load()
     }
 
     var spnFilterTouched = false
@@ -171,7 +176,10 @@ class PageSex(val c: Main) : Fragment() {
         if (b.rv.adapter == null) {
             Main.summarize(c.m)
             b.rv.adapter = ReportAdap(c)
-        } else b.rv.adapter!!.notifyDataSetChanged()
+        } else {
+            (b.rv.adapter!! as ReportAdap).notifyAnyChange()
+            b.rv.adapter!!.notifyDataSetChanged()
+        }
     }
 
     private var adding = false

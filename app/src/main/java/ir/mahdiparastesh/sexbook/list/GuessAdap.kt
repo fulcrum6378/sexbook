@@ -7,19 +7,24 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Estimation
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.data.Guess
+import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
-import ir.mahdiparastesh.sexbook.more.LocalDatePicker
-import ir.mahdiparastesh.sexbook.more.SpinnerAdap
-import ir.mahdiparastesh.sexbook.more.TypeAdap
+import ir.mahdiparastesh.sexbook.more.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.set
 
 class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder>() {
     var sinc = defTime()
     var till = defTime()
+    val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
 
     class MyViewHolder(val b: ItemGuessBinding) : RecyclerView.ViewHolder(b.root)
 
@@ -31,7 +36,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
 
         // Place
         b.placeMark.setColorFilter(c.color(R.color.spnFilterMark))
-        c.m.places.value?.let { l ->
+        places?.let { l ->
             b.place.adapter = SpinnerAdap(c,
                 ArrayList(l.map { it.name }).apply { add(0, "") })
         }
@@ -134,8 +139,8 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
         h.b.place.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(av: AdapterView<*>?) {}
             override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                if (c.m.places.value == null || !placeTouched) return
-                val id = if (i == 0) -1L else c.m.places.value!![i - 1].id
+                if (places == null || !placeTouched) return
+                val id = if (i == 0) -1L else places[i - 1].id
                 c.m.guesses.value!![h.layoutPosition].apply {
                     if (plac != id) {
                         plac = id
@@ -145,10 +150,42 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
             }
         }
         h.b.place.setSelection(
-            if (c.m.guesses.value!![i].plac == -1L) 0
-            else ReportAdap.placePos(c.m.guesses.value!![i].plac, c.m.places.value!!) + 1,
+            if (c.m.guesses.value!![i].plac == -1L || places == null) 0
+            else ReportAdap.placePos(c.m.guesses.value!![i].plac, places) + 1,
             true
         )
+
+        // Long Click
+        val longClick = View.OnLongClickListener { v ->
+            MaterialMenu(c, v, R.menu.guess, Act().apply {
+                this[R.id.glDelete] = {
+                    AlertDialog.Builder(c).apply {
+                        setTitle(c.resources.getString(R.string.delete))
+                        setMessage(c.resources.getString(R.string.etDeleteGuessSure))
+                        setPositiveButton(R.string.yes) { _, _ ->
+                            Work(
+                                c, Work.G_DELETE_ONE,
+                                listOf(c.m.guesses.value!![h.layoutPosition], h.layoutPosition)
+                            ).start()
+                        }
+                        setNegativeButton(R.string.no, null)
+                        setCancelable(true)
+                    }.create().apply {
+                        show()
+                        c.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+                        c.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
+                    }
+                }
+            }).show()
+            true
+        }
+        h.b.root.setOnLongClickListener(longClick)
+        h.b.sinc.setOnLongClickListener(longClick)
+        h.b.till.setOnLongClickListener(longClick)
+        h.b.freq.setOnLongClickListener(longClick)
+        h.b.type.setOnLongClickListener(longClick)
+        h.b.desc.setOnLongClickListener(longClick)
+        h.b.place.setOnLongClickListener(longClick)
     }
 
     override fun getItemCount() = c.m.guesses.value!!.size
@@ -164,5 +201,10 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
         this[Calendar.MINUTE] = 0
         this[Calendar.SECOND] = 0
         this[Calendar.MILLISECOND] = 0
+    }
+
+    // Don't migrate to Java!
+    class Sort : Comparator<Guess> {
+        override fun compare(a: Guess, b: Guess) = a.sinc.compareTo(b.sinc)
     }
 }

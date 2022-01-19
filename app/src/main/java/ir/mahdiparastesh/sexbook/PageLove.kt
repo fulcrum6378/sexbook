@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -22,18 +23,21 @@ class PageLove(val c: Main) : Fragment() {
     companion object {
         var handler = MutableLiveData<Handler?>(null)
         val messages = MessageInbox(PageSex.handler)
+        var changed = false
     }
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
         b = PageLoveBinding.inflate(layoutInflater, parent, false)
-
 
         // Handler
         handler.value = object : Handler(Looper.getMainLooper()) {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.C_VIEW_ALL -> arrangeList(msg.obj as ArrayList<Crush>)
+                    Work.C_VIEW_ALL -> {
+                        c.m.liefde.value = msg.obj as ArrayList<Crush>
+                        receivedData()
+                    }
                     Work.REPLACE_ALL -> Work(c, Work.C_VIEW_ALL).start()
                     Work.C_DELETE_ONE -> {
                         c.m.liefde.value?.removeAt(msg.arg1)
@@ -47,18 +51,26 @@ class PageLove(val c: Main) : Fragment() {
         }
         messages.clear()
 
+        if (c.m.liefde.value == null) Work(c, Work.C_VIEW_ALL).start()
+        else receivedData()
         return b.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
-        Work(c, Work.C_VIEW_ALL).start()
+        Main.summarize(c.m)
+        if (changed) Work(c, Work.C_VIEW_ALL).start()
+        else b.rv.adapter?.notifyDataSetChanged()
     }
 
-    fun arrangeList(list: ArrayList<Crush>?) {
-        c.m.liefde.value = list
-        if (vis(b.empty, list.isNullOrEmpty())) return
-        c.m.liefde.value!!.sortWith(Crush.Sort())
+    fun receivedData() {
+        c.m.liefde.value?.sortWith(Crush.Sort())
+        arrangeList()
+    }
+
+    fun arrangeList() {
+        if (vis(b.empty, c.m.liefde.value.isNullOrEmpty())) return
         b.rv.adapter = CrushAdap(c)
     }
 }

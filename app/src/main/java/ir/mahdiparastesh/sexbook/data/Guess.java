@@ -4,8 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.Comparator;
-
 @Entity
 public class Guess {
     @PrimaryKey(autoGenerate = true)
@@ -40,12 +38,5 @@ public class Guess {
     public boolean checkValid() {
         return sinc > -1L && till > -1L && freq > 0 &&
                 till > sinc;
-    }
-
-    public static class Sort implements Comparator<Guess> {
-        @Override
-        public int compare(Guess a, Guess b) {
-            return (int) (a.sinc - b.sinc);
-        }
     }
 }
