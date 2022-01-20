@@ -180,6 +180,7 @@ class PageSex(val c: Main) : Fragment() {
             (b.rv.adapter!! as ReportAdap).notifyAnyChange()
             b.rv.adapter!!.notifyDataSetChanged()
         }
+        b.rv.scrollToPosition(c.m.visOnani.value!!.size - 1)
     }
 
     private var adding = false

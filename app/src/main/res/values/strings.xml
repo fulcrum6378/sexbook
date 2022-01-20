@@ -69,7 +69,8 @@
     <string name="no">No</string>
     <string name="save">Save</string>
     <string name="discard">Discard</string>
-    <string name="unknown">Plus %1$s from unknown people.</string>
+    <string name="unknown">Plus %s from unknown people.</string>
+    <string name="estimated">Plus %s estimated items.</string>
     <string-array name="types">
         <item>Wet Dream</item>
         <item>Masturbation</item>

@@ -104,8 +104,7 @@ class Main : BaseActivity(true) {
                 R.id.momSum -> {
                     if (summarize(m)) AlertDialog.Builder(this).apply {
                         setTitle(
-                            "${resources.getString(R.string.momSum)} ("
-                                    + m.onani.value!!.size + ")"
+                            "${resources.getString(R.string.momSum)} (${m.onani.value!!.size})"
                         )
                         setView(ConstraintLayout(c).apply {
                             addView(ViewPager2(c).apply {
@@ -178,6 +177,9 @@ class Main : BaseActivity(true) {
                 }
         }
 
+        // Observers
+        m.onani.observe(this) { instilledGuesses = false }
+
         checkIntent(intent)
         // Work(c, Work.VIEW_ALL).start()
         Work(c, Work.C_VIEW_ALL).start()
@@ -216,7 +218,10 @@ class Main : BaseActivity(true) {
             Intent.ACTION_VIEW -> if (intent.data != null)
                 Exporter.import(this, intent.data!!, true)
             Action.ADD.s -> PageSex.messages.add(Work.SPECIAL_ADD)
-            Action.RELOAD.s -> recreate()
+            Action.RELOAD.s -> {
+                m.onani.value = null
+                recreate()
+            }
         }
     }
 
@@ -257,8 +262,9 @@ class Main : BaseActivity(true) {
         }
     }
 
+    var instilledGuesses = false
     fun instillGuesses() {
-        if (m.onani.value == null || m.guesses.value == null) return
+        if (m.onani.value == null || m.guesses.value == null || instilledGuesses) return
         for (g in m.guesses.value!!) {
             if (!g.checkValid()) continue
             var time = g.sinc
@@ -270,6 +276,7 @@ class Main : BaseActivity(true) {
             }
         }
         m.onani.value!!.sortWith(ReportAdap.Sort())
+        instilledGuesses = true
     }
 
 

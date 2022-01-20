@@ -75,16 +75,23 @@ class SumChips(val c: BaseActivity) : Fragment() {
                         typeface = c.font1
                     })
             })
-        if (c.m.summary.value!!.unknown > 0f) b.ll.addView(TextView(c).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            setPadding(0, dp(7), 0, 0)
-            text = getString(R.string.unknown, c.m.summary.value!!.unknown.toString())
-            setTextColor(c.color(R.color.searchHint))
-            typeface = c.font1
-        })
+        if (c.m.summary.value!!.unknown > 0f) b.ll.addView(
+            plus(getString(R.string.unknown, c.m.summary.value!!.unknown.toString()))
+        )
+        c.m.onani.value!!.filter { !it.isReal }.size.also {
+            if (it > 0f) b.ll.addView(plus(getString(R.string.estimated, it.toString())))
+        }
 
         return b.root
+    }
+
+    fun plus(s: String) = TextView(c).apply {
+        layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        setPadding(0, dp(7), 0, 0)
+        text = s
+        setTextColor(c.color(R.color.searchHint))
+        typeface = c.font1
     }
 }

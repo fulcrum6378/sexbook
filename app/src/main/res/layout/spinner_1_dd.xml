@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/spnFilterDDBG"
+    android:background="@drawable/spn_filter_dd"
     android:paddingHorizontal="17dp"
     android:paddingVertical="15dp"
     android:textColor="@color/spnFilterDDTV"

@@ -107,7 +107,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
             }
         } else h.b.date.setOnClickListener(null)
         h.b.ampm.text =
-            c.resources.getText(if (cal[Calendar.HOUR_OF_DAY] > 12) R.string.PM else R.string.AM)
+            c.resources.getText(if (cal[Calendar.HOUR_OF_DAY] >= 12) R.string.PM else R.string.AM)
 
         // Name
         h.b.name.setText(itm.name)
