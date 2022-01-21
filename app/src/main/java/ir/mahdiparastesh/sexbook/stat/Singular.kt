@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.stat
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -31,7 +30,6 @@ class Singular : BaseActivity() {
     private lateinit var b: SingularBinding
     private var crush: Crush? = null
 
-    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = SingularBinding.inflate(layoutInflater)
@@ -76,6 +74,7 @@ class Singular : BaseActivity() {
                     (bi.ll[l] as TextView).typeface = font1
 
             // Default Values
+            var isBirthSet = false
             val bir = Calendar.getInstance()
             if (crush != null) {
                 bi.fName.setText(crush!!.fName)
@@ -97,6 +96,7 @@ class Singular : BaseActivity() {
             // Birth
             bi.birth.setOnClickListener {
                 LocalDatePicker(this@Singular, "birth", bir) { _, time ->
+                    isBirthSet = true
                     bir.timeInMillis = time
                     bi.birth.text = fullDate(bir)
                 }
@@ -114,9 +114,9 @@ class Singular : BaseActivity() {
                         bi.real.isChecked,
                         if (bi.height.text.toString() != "")
                             bi.height.text.toString().toFloat() else -1f,
-                        bir[Calendar.YEAR].toShort(),
-                        bir[Calendar.MONTH].toByte(),
-                        bir[Calendar.DAY_OF_MONTH].toByte(),
+                        if (isBirthSet) bir[Calendar.YEAR].toShort() else -1,
+                        if (isBirthSet) bir[Calendar.MONTH].toByte() else -1,
+                        if (isBirthSet) bir[Calendar.DAY_OF_MONTH].toByte() else -1,
                         if (bi.location.text.toString().isEmpty()) null else
                             bi.location.text.toString(),
                         if (bi.instagram.text.toString().isEmpty()) null else

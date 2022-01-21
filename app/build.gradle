@@ -4,14 +4,14 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 31
-    buildToolsVersion "30.0.3" // Don't upgrade to 31.0.0 or 32rc
+    buildToolsVersion "32" // If you delete this line, the default version will be used.
 
     defaultConfig {
         applicationId "ir.mahdiparastesh.sexbook"
         minSdkVersion 26
         targetSdkVersion 31
         versionCode 1
-        versionName '7.9.5'
+        versionName '8.0.0'
     }
 
     buildTypes {

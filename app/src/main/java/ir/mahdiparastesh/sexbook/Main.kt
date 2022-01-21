@@ -62,10 +62,8 @@ class Main : BaseActivity(true) {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
-                    Work.C_VIEW_ALL -> {
-                        m.liefde.value = (msg.obj as ArrayList<Crush>)
-                        m.liefde.value?.forEach {
-                            if (!it.notifyBirth) return@forEach
+                    Work.C_VIEW_ALL -> m.liefde.value = (msg.obj as ArrayList<Crush>).apply {
+                        for (it in this) if (it.notifyBirth && it.hasFullBirth()) {
                             val now = Calendar.getInstance()
                             val bir = Calendar.getInstance()
                             bir.set(
