@@ -83,7 +83,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
         }
     }
 
-    override fun getItemCount() = c.m.liefde.value!!.size
+    override fun getItemCount() = c.m.liefde.value?.size ?: 0
 
     companion object {
         const val INSTA = "https://www.instagram.com/"

@@ -93,7 +93,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<PlaceAdap.MyViewHolder>() 
         h.b.name.setOnLongClickListener(longClick)
     }
 
-    override fun getItemCount() = c.m.places.value!!.size
+    override fun getItemCount() = c.m.places.value?.size ?: 0
 
     fun update(i: Int, refresh: Int = 1) {
         if (c.m.places.value == null) return

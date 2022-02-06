@@ -17,8 +17,6 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
 import ir.mahdiparastesh.sexbook.more.*
-import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.set
 
 class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder>() {
@@ -184,7 +182,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
         h.b.place.setOnLongClickListener(longClick)
     }
 
-    override fun getItemCount() = c.m.guesses.value!!.size
+    override fun getItemCount() = c.m.guesses.value?.size ?: 0
 
     fun update(i: Int, refresh: Int = 0) {
         if (c.m.guesses.value == null) return

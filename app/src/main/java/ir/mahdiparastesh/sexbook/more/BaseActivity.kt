@@ -77,7 +77,7 @@ abstract class BaseActivity(val isMain: Boolean = false) : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
-        tb.navigationIcon?.apply { colorFilter = pdcf() }
+        tb.navigationIcon?.colorFilter = pdcf()
     }
 
     fun font(bold: Boolean = false): Typeface = Typeface.createFromAsset(

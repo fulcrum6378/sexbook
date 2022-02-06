@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ir.mahdiparastesh.sexbook">
 
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/new_backup"
+        android:fullBackupContent="@xml/old_backup"
         android:icon="@mipmap/launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="UnusedAttribute">
 
         <activity
             android:name=".Main"
@@ -23,9 +26,9 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter><!-- Must certainly be separated! -->
+            </intent-filter>
 
-            <intent-filter>
+            <intent-filter android:label="@string/momImport">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />

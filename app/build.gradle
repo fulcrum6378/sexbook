@@ -11,7 +11,7 @@ android {
         minSdkVersion 26
         targetSdkVersion 31
         versionCode 1
-        versionName '8.0.0'
+        versionName '8.0.5'
     }
 
     buildTypes {
@@ -46,7 +46,7 @@ dependencies {
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
-    implementation 'androidx.fragment:fragment-ktx:1.4.0'
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
 }

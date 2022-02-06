@@ -8,7 +8,6 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PlacesBinding
 import ir.mahdiparastesh.sexbook.list.PlaceAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import java.util.*
 
 @SuppressLint("NotifyDataSetChanged")
 class Places : BaseActivity() {
@@ -88,6 +87,9 @@ class Places : BaseActivity() {
             }.start()
             Fun.shake(c)
         }
+
+        // Miscellaneous
+        if (night) b.addIV.colorFilter = pdcf(R.color.CPD)
 
         Work(c, Work.P_VIEW_ALL).start()
     }

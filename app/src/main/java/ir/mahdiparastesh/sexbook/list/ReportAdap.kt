@@ -25,9 +25,8 @@ import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.more.*
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.dp
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
-import java.util.*
-import kotlin.collections.ArrayList
 
+@SuppressLint("UseRequireInsteadOfGet")
 class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
     RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
     TimePickerDialog.OnTimeSetListener {
@@ -244,7 +243,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         h.b.root.alpha = if (itm.isReal) 1f else estimatedAlpha
     }
 
-    override fun getItemCount() = c.m.visOnani.value!!.size
+    override fun getItemCount() = c.m.visOnani.value?.size ?: 0
 
     override fun onTimeSet(view: TimePickerDialog, hourOfDay: Int, minute: Int, second: Int) {
         if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4) return

@@ -10,8 +10,10 @@ import android.content.Intent
 import android.icu.util.Calendar
 import android.os.*
 import android.text.SpannableString
-import android.view.*
-import android.widget.*
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -32,8 +34,6 @@ import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
 import ir.mahdiparastesh.sexbook.stat.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
-
-// adb connect 192.168.1.20:
 
 class Main : BaseActivity(true) {
     private lateinit var b: MainBinding
@@ -218,6 +218,10 @@ class Main : BaseActivity(true) {
             Action.ADD.s -> PageSex.messages.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> {
                 m.onani.value = null
+                m.visOnani.value?.clear()
+                m.liefde.value = null
+                m.places.value = null
+                m.guesses.value = null
                 recreate()
             }
         }

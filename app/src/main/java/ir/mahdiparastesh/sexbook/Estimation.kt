@@ -28,8 +28,10 @@ class Estimation : BaseActivity() {
         handler = object : Handler(Looper.getMainLooper()) {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
-                if (msg.what in arrayOf(Work.G_INSERT_ONE, Work.G_UPDATE_ONE, Work.G_DELETE_ONE))
-                    changed = true
+                if (msg.what in arrayOf(
+                        Work.G_VIEW_ONE, Work.G_INSERT_ONE, Work.G_UPDATE_ONE, Work.G_DELETE_ONE
+                    )
+                ) changed = true
 
                 when (msg.what) {
                     Work.G_VIEW_ONE -> if (msg.obj != null) when (msg.arg1) {
@@ -78,6 +80,9 @@ class Estimation : BaseActivity() {
             }.start()
             Fun.shake(c)
         }
+
+        // Miscellaneous
+        if (night) b.addIV.colorFilter = pdcf(R.color.CPD)
 
         Work(c, Work.G_VIEW_ALL).start()
     }
