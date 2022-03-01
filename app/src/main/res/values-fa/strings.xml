@@ -69,8 +69,9 @@
     <string name="no">خیر</string>
     <string name="save">ذخیره</string>
     <string name="discard">لغو</string>
-    <string name="unknown">بعلاوه %s مورد از افراد ناشناس!</string>
-    <string name="estimated">بعلاوه %s مورد حدسی!</string>
+    <string name="excStat">بعلاوه %s مورد مستثنی از آمارگیری.</string>
+    <string name="unknown">بعلاوه %s مورد از افراد ناشناس.</string>
+    <string name="estimated">بعلاوه %s مورد حدسی.</string>
     <string-array name="types">
         <item>احتلام</item>
         <item>خودارضایی</item>

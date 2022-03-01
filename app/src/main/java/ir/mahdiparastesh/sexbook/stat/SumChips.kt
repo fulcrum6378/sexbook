@@ -75,10 +75,13 @@ class SumChips(val c: BaseActivity) : Fragment() {
                         typeface = c.font1
                     })
             })
-        if (c.m.summary.value!!.unknown > 0f) b.ll.addView(
-            plus(getString(R.string.unknown, c.m.summary.value!!.unknown.toString()))
-        )
-        c.m.onani.value!!.filter { !it.isReal }.size.also {
+        c.m.summary.value!!.nExcStat.let {
+            if (it > 0f) b.ll.addView(plus(getString(R.string.excStat, it.toString())))
+        }
+        c.m.summary.value!!.unknown.let {
+            if (it > 0f) b.ll.addView(plus(getString(R.string.unknown, it.toString())))
+        }
+        c.m.summary.value!!.nEstimated.also {
             if (it > 0f) b.ll.addView(plus(getString(R.string.estimated, it.toString())))
         }
 

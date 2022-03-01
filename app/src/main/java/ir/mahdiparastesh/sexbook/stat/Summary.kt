@@ -6,9 +6,10 @@ import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 
 @Suppress("SameParameterValue")
-class Summary(list: List<Report>) {
+class Summary(list: List<Report>, val nEstimated: Int, val nExcStat: Int) {
     var scores: HashMap<String, ArrayList<Erection>>
     var unknown = 0f
+    val actual = list.size
 
     init {
         var all = arrayListOf<List<List<String>>?>()

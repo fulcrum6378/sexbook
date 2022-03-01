@@ -69,6 +69,7 @@
     <string name="no">No</string>
     <string name="save">Save</string>
     <string name="discard">Discard</string>
+    <string name="excStat">Plus %s excluded from statisticisation.</string>
     <string name="unknown">Plus %s from unknown people.</string>
     <string name="estimated">Plus %s estimated items.</string>
     <string-array name="types">

@@ -36,6 +36,8 @@ import ir.mahdiparastesh.sexbook.stat.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
+// adb connect 192.168.1.20:
+
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var b: MainBinding
     private lateinit var exporter: Exporter
@@ -47,10 +49,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
 
         fun summarize(m: Model): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
-            m.summary.value = Summary(m.onani.value!!.filter {
-                it.isReal && it.time > sp.getLong(Settings.spStatSince, 0)
-            }); true
-        } else false
+            val nUnreal: Int
+            val nEstimated: Int
+            var filtered: List<Report> = m.onani.value!!
+            filtered = filtered.filter { it.isReal }.also { nUnreal = filtered.size - it.size }
+            filtered = filtered.filter { it.time > sp.getLong(Settings.spStatSince, 0) }
+                .also { nEstimated = filtered.size - it.size }
+            m.summary.value = Summary(filtered, nUnreal, nEstimated); true; } else false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -138,7 +143,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         R.id.momSum -> {
             if (summarize(m)) AlertDialog.Builder(this).apply {
                 setTitle(
-                    "${resources.getString(R.string.momSum)} (${m.onani.value!!.size})"
+                    "${resources.getString(R.string.momSum)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})"
                 )
                 setView(ConstraintLayout(c).apply {
                     addView(ViewPager2(c).apply {
