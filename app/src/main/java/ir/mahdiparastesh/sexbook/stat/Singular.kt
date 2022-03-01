@@ -13,6 +13,7 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
@@ -108,8 +109,8 @@ class Singular : BaseActivity() {
                 setPositiveButton(R.string.save) { _, _ ->
                     val inserted = Crush(
                         m.crush!!,
-                        if (bi.fName.text.toString().isEmpty()) null else bi.fName.text.toString(),
-                        if (bi.lName.text.toString().isEmpty()) null else bi.lName.text.toString(),
+                        bi.fName.text.toString().ifEmpty { null },
+                        bi.lName.text.toString().ifEmpty { null },
                         bi.masc.isChecked,
                         bi.real.isChecked,
                         if (bi.height.text.toString() != "")
@@ -117,10 +118,8 @@ class Singular : BaseActivity() {
                         if (isBirthSet) bir[Calendar.YEAR].toShort() else -1,
                         if (isBirthSet) bir[Calendar.MONTH].toByte() else -1,
                         if (isBirthSet) bir[Calendar.DAY_OF_MONTH].toByte() else -1,
-                        if (bi.location.text.toString().isEmpty()) null else
-                            bi.location.text.toString(),
-                        if (bi.instagram.text.toString().isEmpty()) null else
-                            bi.instagram.text.toString(),
+                        bi.location.text.toString().ifEmpty { null },
+                        bi.instagram.text.toString().ifEmpty { null },
                         bi.notifyBirth.isChecked
                     )
                     Work(
@@ -146,8 +145,9 @@ class Singular : BaseActivity() {
         fun sinceTheBeginning(c: Context, mOnani: ArrayList<Report>): List<String> {
             val now = Calendar.getInstance()
             var oldest = now.timeInMillis
-            for (h in mOnani) if (h.time < oldest) oldest = h.time
-            val beg = Calendar.getInstance().apply { timeInMillis = oldest }
+            val statSinc = sp.getLong(Settings.spStatSince, 0L)
+            for (h in mOnani) if (h.time in statSinc until oldest) oldest = h.time
+            val beg = Fun.calendar(oldest)
             val list = arrayListOf<String>()
             if (Fun.calType() != Fun.CalendarType.JALALI) {
                 val yDist = now[Calendar.YEAR] - beg[Calendar.YEAR]
@@ -174,7 +174,7 @@ class Singular : BaseActivity() {
                     )
                 }
             }
-            return list.toList()
+            return list
         }
 
         fun calcHistory(
@@ -189,7 +189,7 @@ class Singular : BaseActivity() {
                 }
             )
             for (i in list) {
-                var lm = Calendar.getInstance().apply { timeInMillis = i.time }
+                var lm = Fun.calendar(i.time)
                 var yea: Int
                 var mon: Int
                 if (Fun.calType() == Fun.CalendarType.JALALI) Jalali(lm).apply {

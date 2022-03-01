@@ -153,6 +153,7 @@
     <string name="stSP" translatable="false">ir.mahdiparastesh.sexbook.Settings</string>
     <string name="stTitle">Sexbook Settings</string>
     <string name="stCalendarType">Calendar Type</string>
+    <string name="stStatSince">Statisticise Since</string>
     <string name="stTruncate">Reset Database</string>
     <string name="stTruncateSure">Are you sure tou want to remove all your personal data?</string>
 

@@ -9,7 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.*
-import android.text.SpannableString
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -25,17 +25,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.more.CustomTypefaceSpan
+import ir.mahdiparastesh.sexbook.more.MaterialMenu.Companion.stylise
 import ir.mahdiparastesh.sexbook.stat.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
-class Main : BaseActivity(true) {
+class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var b: MainBinding
     private lateinit var exporter: Exporter
     private lateinit var toggleNav: ActionBarDrawerToggle
@@ -46,7 +47,9 @@ class Main : BaseActivity(true) {
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
 
         fun summarize(m: Model): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
-            m.summary.value = Summary(m.onani.value!!.filter { it.isReal }); true
+            m.summary.value = Summary(m.onani.value!!.filter {
+                it.isReal && it.time > sp.getLong(Settings.spStatSince, 0)
+            }); true
         } else false
     }
 
@@ -97,69 +100,10 @@ class Main : BaseActivity(true) {
             syncState()
         }
         b.toolbar.navigationIcon?.colorFilter = pdcf()
-        b.nav.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.momSum -> {
-                    if (summarize(m)) AlertDialog.Builder(this).apply {
-                        setTitle(
-                            "${resources.getString(R.string.momSum)} (${m.onani.value!!.size})"
-                        )
-                        setView(ConstraintLayout(c).apply {
-                            addView(ViewPager2(c).apply {
-                                layoutParams = ViewGroup.LayoutParams(-1, -1)
-                                adapter = SumAdapter(this@Main)
-                            })
-                            // The below EditText improves the EditText focus issue when you put
-                            // a Fragment inside a Dialog with a ViewPager in the middle!
-                            addView(EditText(c).apply {
-                                layoutParams = ViewGroup.LayoutParams(-1, -2)
-                                visibility = View.GONE
-                            })
-                        })
-                        setPositiveButton(R.string.ok, null)
-                        setCancelable(true)
-                    }.create().apply {
-                        show()
-                        fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                    }; true; }
-                R.id.momPop -> {
-                    if (summarize(m))
-                        startActivity(Intent(this, Popularity::class.java))
-                    true; }
-                R.id.momGrw -> {
-                    if (summarize(m))
-                        startActivity(Intent(this, Growth::class.java))
-                    true; }
-                R.id.momRec -> {
-                    m.recency.value = Recency(m.summary.value!!)
-                    if (summarize(m)) AlertDialog.Builder(this).apply {
-                        setTitle(resources.getString(R.string.momRec))
-                        setView(m.recency.value!!.draw(this@Main))
-                        setPositiveButton(R.string.ok, null)
-                        setCancelable(true)
-                    }.create().apply {
-                        show()
-                        fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                    };true; }
-                R.id.momPlc -> {
-                    startActivity(Intent(this, Places::class.java)); true; }
-                R.id.momEst -> {
-                    startActivity(Intent(this, Estimation::class.java)); true; }
-                R.id.momImport -> exporter.launchImport()
-                R.id.momExport -> exporter.launchExport()
-                R.id.momSettings -> {
-                    startActivity(Intent(this, Settings::class.java)); true; }
-                else -> super.onOptionsItemSelected(it)
-            }
-        }
-        //b.nav.addHeaderView()
+        b.nav.setNavigationItemSelectedListener(this)
         b.nav.menu.forEach {
-            val mNewTitle = SpannableString(it.title)
-            mNewTitle.setSpan(
-                CustomTypefaceSpan("", font1, dm.density * 16f), 0,
-                mNewTitle.length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-            )
-            it.title = mNewTitle
+            it.stylise(this@Main)
+            //it.icon?.colorFilter = pdcf()
         }
         exporter = Exporter(this)
 
@@ -190,6 +134,60 @@ class Main : BaseActivity(true) {
         if (intent != null) checkIntent(intent)
     }
 
+    override fun onNavigationItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.momSum -> {
+            if (summarize(m)) AlertDialog.Builder(this).apply {
+                setTitle(
+                    "${resources.getString(R.string.momSum)} (${m.onani.value!!.size})"
+                )
+                setView(ConstraintLayout(c).apply {
+                    addView(ViewPager2(c).apply {
+                        layoutParams = ViewGroup.LayoutParams(-1, -1)
+                        adapter = SumAdapter(this@Main)
+                    })
+                    // The below EditText improves the EditText focus issue when you put
+                    // a Fragment inside a Dialog with a ViewPager in the middle!
+                    addView(EditText(c).apply {
+                        layoutParams = ViewGroup.LayoutParams(-1, -2)
+                        visibility = View.GONE
+                    })
+                })
+                setPositiveButton(R.string.ok, null)
+                setCancelable(true)
+            }.create().apply {
+                show()
+                fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+            }; true; }
+        R.id.momPop -> {
+            if (summarize(m))
+                startActivity(Intent(this, Popularity::class.java))
+            true; }
+        R.id.momGrw -> {
+            if (summarize(m))
+                startActivity(Intent(this, Growth::class.java))
+            true; }
+        R.id.momRec -> {
+            m.recency.value = Recency(m.summary.value!!)
+            if (summarize(m)) AlertDialog.Builder(this).apply {
+                setTitle(resources.getString(R.string.momRec))
+                setView(m.recency.value!!.draw(this@Main))
+                setPositiveButton(R.string.ok, null)
+                setCancelable(true)
+            }.create().apply {
+                show()
+                fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+            };true; }
+        R.id.momPlc -> {
+            startActivity(Intent(this, Places::class.java)); true; }
+        R.id.momEst -> {
+            startActivity(Intent(this, Estimation::class.java)); true; }
+        R.id.momImport -> exporter.launchImport()
+        R.id.momExport -> exporter.launchExport()
+        R.id.momSettings -> {
+            startActivity(Intent(this, Settings::class.java)); true; }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     var exiting = false
     override fun onBackPressed() { // Don't use super's already overriden function
         if (b.root.isDrawerOpen(GravityCompat.START)) {
@@ -207,7 +205,7 @@ class Main : BaseActivity(true) {
         }
         moveTaskToBack(true)
         Process.killProcess(Process.myPid())
-        exitProcess(1)
+        exitProcess(0)
     }
 
 

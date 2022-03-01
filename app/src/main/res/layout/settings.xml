@@ -38,6 +38,22 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/stStatSince"
+                style="@style/stItem">
+
+                <TextView
+                    style="@style/stItemTV"
+                    android:text="@string/stStatSince" />
+
+                <TextView
+                    android:id="@+id/stStatSinceDate"
+                    style="@style/stItemTV"
+                    android:layout_marginEnd="5sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@null" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/stTruncate"
                 style="@style/stItem">
 

@@ -57,7 +57,7 @@ class Recency(sum: Summary) {
                     text = "${r + 1}. ${res[r].name}"
                     typeface = c.font1
                 }
-                val lm = Calendar.getInstance().apply { timeInMillis = res[r].time }
+                val lm = Fun.calendar(res[r].time)
                 date.text = "${fullDate(lm)} - " +
                         "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
                 date.typeface = c.font1

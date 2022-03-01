@@ -6,12 +6,11 @@ import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.forEach
-import ir.mahdiparastesh.sexbook.R
 
 typealias Act = HashMap<Int, (item: MenuItem) -> Unit>
 
 class MaterialMenu(val c: BaseActivity, v: View, res: Int, actions: Act) :
-    PopupMenu(ContextThemeWrapper(c, R.style.AppTheme), v) {
+    PopupMenu(ContextThemeWrapper(c, c.theme), v) {
     init {
         setOnMenuItemClickListener {
             if (it.itemId in actions) {
@@ -20,18 +19,23 @@ class MaterialMenu(val c: BaseActivity, v: View, res: Int, actions: Act) :
             } else false
         }
         inflate(res)
-
     }
 
     override fun show() {
-        menu.forEach {
-            val mNewTitle = SpannableString(it.title)
-            mNewTitle.setSpan(
-                CustomTypefaceSpan("", c.font1, BaseActivity.dm.density * 16f), 0,
-                mNewTitle.length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-            )
-            it.title = mNewTitle
-        }
+        menu.forEach { it.stylise(c) }
         super.show()
+    }
+
+    companion object {
+        fun MenuItem.stylise(c: BaseActivity) {
+            if (title == null) return
+            title = SpannableString(title).apply {
+                setSpan(
+                    CustomTypefaceSpan(
+                        c.font1, BaseActivity.dm.density * 15.5f, null
+                    ), 0, length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
+                )
+            }
+        }
     }
 }

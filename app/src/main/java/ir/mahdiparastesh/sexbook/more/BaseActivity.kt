@@ -15,10 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 
-abstract class BaseActivity(val isMain: Boolean = false) : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
     lateinit var m: Model
     lateinit var c: Context
     lateinit var font1: Typeface
@@ -73,7 +74,7 @@ abstract class BaseActivity(val isMain: Boolean = false) : AppCompatActivity() {
         }
         tbTitle?.typeface = font1Bold
         tbTitle?.textSize = resources.getDimension(R.dimen.tbTitle)
-        if (!isMain) supportActionBar?.apply {
+        if (this !is Main) supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }

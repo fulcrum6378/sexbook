@@ -12,6 +12,7 @@ import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.LocalDatePicker
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 
 class Settings : BaseActivity() {
@@ -22,6 +23,7 @@ class Settings : BaseActivity() {
     companion object {
         const val spCalType = "calendarType"
         const val spDefPlace = "defaultPlace"
+        const val spStatSince = "statisticiseSince"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +52,20 @@ class Settings : BaseActivity() {
                     putInt(spCalType, i)
                     apply()
                 }
+            }
+        }
+
+        // Statisticise Since
+        val statSinc = Fun.calendar(sp.getLong(spStatSince, 0))
+        b.stStatSinceDate.text = if (!sp.contains(spStatSince)) "..." else Fun.fullDate(statSinc)
+        b.stStatSince.setOnClickListener {
+            LocalDatePicker(
+                this@Settings, "stat",
+                if (!sp.contains(spStatSince)) Fun.calendar(Fun.now()) else statSinc
+            ) { _, time ->
+                val cal = Fun.defCalendar(time)
+                b.stStatSinceDate.text = Fun.fullDate(cal)
+                sp.edit().putLong(spStatSince, time).apply()
             }
         }
 

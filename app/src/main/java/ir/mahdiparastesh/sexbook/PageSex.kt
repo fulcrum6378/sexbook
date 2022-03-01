@@ -21,7 +21,6 @@ import ir.mahdiparastesh.sexbook.more.Jalali
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 import java.util.*
-import kotlin.collections.ArrayList
 
 class PageSex(val c: Main) : Fragment() {
     private lateinit var b: PageSexBinding
@@ -147,7 +146,7 @@ class PageSex(val c: Main) : Fragment() {
     fun filter(reports: ArrayList<Report>): ArrayList<Filter> {
         val filters: ArrayList<Filter> = ArrayList()
         for (r in reports.indices) {
-            val lm = Calendar.getInstance().apply { timeInMillis = reports[r].time }
+            val lm = Fun.calendar(reports[r].time)
             var ym = arrayOf(lm[Calendar.YEAR], lm[Calendar.MONTH])
             if (Fun.calType() == Fun.CalendarType.JALALI)
                 Jalali(lm).apply { ym = arrayOf(Y, M) }

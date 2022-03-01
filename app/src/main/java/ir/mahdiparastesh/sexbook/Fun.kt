@@ -84,6 +84,16 @@ class Fun {
             else -> "${z(cal[Calendar.YEAR])}.${z(cal[Calendar.MONTH] + 1)}" +
                     ".${z(cal[Calendar.DAY_OF_MONTH])}"
         }
+
+        fun calendar(time: Long): Calendar = Calendar.getInstance().apply { timeInMillis = time }
+
+        fun defCalendar(time: Long): Calendar = Calendar.getInstance().apply {
+            timeInMillis = time
+            this[Calendar.HOUR] = 0
+            this[Calendar.MINUTE] = 0
+            this[Calendar.SECOND] = 0
+            this[Calendar.MILLISECOND] = 0
+        }
     }
 
     enum class CalendarType { GREGORY, JALALI }

@@ -74,8 +74,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         val itm = c.m.visOnani.value!![i]
 
         // Date & Time
-        var cal = Calendar.getInstance()
-        cal.timeInMillis = itm.time
+        var cal = Fun.calendar(itm.time)
         h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
         h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
         h.b.date.text = compileDate(c, itm.time)
@@ -250,8 +249,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         val pos = view.tag!!.substring(4).toInt()
         if (c.m.onani.value!!.size > pos) when (view.tag!!.substring(0, 4)) {
             tagEdit -> {
-                var calc = Calendar.getInstance()
-                calc.timeInMillis = c.m.onani.value!![pos].time
+                var calc = Fun.calendar(c.m.onani.value!![pos].time)
                 calc[Calendar.HOUR_OF_DAY] = hourOfDay
                 calc[Calendar.MINUTE] = minute
                 calc[Calendar.SECOND] = second
@@ -291,7 +289,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         const val estimatedAlpha = 0.6f
 
         fun compileDate(c: Context, time: Long): String {
-            val lm = Calendar.getInstance().apply { timeInMillis = time }
+            val lm = Fun.calendar(time)
             if (calType() == Fun.CalendarType.JALALI) {
                 val jal = Jalali(lm)
                 return "${c.resources.getStringArray(R.array.jMonths)[jal.M]} ${jal.D}"
