@@ -38,6 +38,7 @@ class Settings : BaseActivity() {
             val first = (b.ll[l] as ConstraintLayout)[0]
             if (first is TextView) first.typeface = font1
         }
+        b.stStatSinceDate.typeface = font1
 
         // Calendar Type
         calendarTypes = resources.getStringArray(R.array.calendarTypes)
