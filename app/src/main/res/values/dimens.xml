@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="statusBarSize">24dp</dimen>
-    <dimen name="tbTitle">7.5sp</dimen>
+    <dimen name="tbTitle">21sp</dimen>
 
 
     <!-- JDTP -->
@@ -34,10 +34,9 @@
     <dimen name="jdtp_month_list_item_header_height">56dp</dimen>
     <dimen name="jdtp_month_day_label_text_size">12sp</dimen>
     <dimen name="jdtp_day_number_select_circle_radius">16dp</dimen>
-    <dimen name="jdtp_month_select_circle_radius">45dp</dimen>
-    <dimen name="jdtp_selected_date_year_size">25dp</dimen>
-    <dimen name="jdtp_selected_date_day_size">70dp</dimen>
-    <dimen name="jdtp_selected_date_month_size">25dp</dimen>
+    <dimen name="jdtp_selected_date_year_size">25sp</dimen>
+    <dimen name="jdtp_selected_date_day_size">70sp</dimen>
+    <dimen name="jdtp_selected_date_month_size">25sp</dimen>
     <dimen name="jdtp_time_picker_header_text_size">12sp</dimen>
     <dimen name="jdtp_month_label_size">14sp</dimen>
     <dimen name="jdtp_day_number_size">12sp</dimen>

@@ -69,6 +69,7 @@ class Fun {
         }
 
         @Suppress("DEPRECATION")
+        @JvmStatic
         fun Context.shake(dur: Long = 48L) {
             val vib = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 (getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator

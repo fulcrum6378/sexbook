@@ -59,7 +59,7 @@ class Singular : BaseActivity() {
         b.main.columnChartData = ColumnChartData().setColumns(ColumnFactory(this, data))
 
         // Night Mode
-        if (night) {
+        if (night()) {
             window.decorView.setBackgroundColor(color(R.color.CP))
             b.identifyIV.colorFilter = pdcf(R.color.CP)
         }
@@ -219,7 +219,7 @@ class Singular : BaseActivity() {
                 listOf(
                     SubcolumnValue(it.second)
                         .setLabel("${it.first} (${it.second})")
-                        .setColor(c.color(if (!night) R.color.CP else R.color.CPD))
+                        .setColor(c.color(if (!c.night()) R.color.CP else R.color.CPD))
                 )
             ).setHasLabels(true)
         })

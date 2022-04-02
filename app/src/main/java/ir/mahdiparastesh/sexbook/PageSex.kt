@@ -15,7 +15,7 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
-import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.sp
 import ir.mahdiparastesh.sexbook.more.Jalali
 import ir.mahdiparastesh.sexbook.more.MessageInbox
@@ -107,7 +107,7 @@ class PageSex(val c: Main) : Fragment() {
         }
 
         // Add
-        if (BaseActivity.night) b.addIV.colorFilter = c.pdcf()
+        if (c.night()) b.addIV.colorFilter = c.pdcf()
         b.add.setOnClickListener { add() }
 
         if (c.m.onani.value == null) Work(c, Work.VIEW_ALL).start()

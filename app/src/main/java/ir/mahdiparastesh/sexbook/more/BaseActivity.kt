@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.more
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
@@ -31,10 +32,12 @@ abstract class BaseActivity : AppCompatActivity() {
         lateinit var jdtpFont: Typeface
         lateinit var jdtpFontBold: Typeface
         var dm = DisplayMetrics()
-        var night = false
         var dirRtl = false
 
         fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
+
+        fun Context.night(): Boolean = resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +46,6 @@ abstract class BaseActivity : AppCompatActivity() {
         c = applicationContext
 
         dm = resources.displayMetrics
-        night = c.resources.getBoolean(R.bool.night)
         dirRtl = c.resources.getBoolean(R.bool.dirRtl)
         sp = getSharedPreferences(
             resources.getString(R.string.stSP), Context.MODE_PRIVATE
@@ -67,13 +69,11 @@ abstract class BaseActivity : AppCompatActivity() {
     fun toolbar(tb: Toolbar, title: Int) {
         setSupportActionBar(tb)
         for (g in 0 until tb.childCount) {
-            var getTitle = tb.getChildAt(g)
-            if (getTitle is TextView &&
-                getTitle.text.toString() == resources.getString(title)
-            ) tbTitle = getTitle
+            val getTitle = tb.getChildAt(g)
+            if (getTitle is TextView && getTitle.text.toString() == getString(title))
+                tbTitle = getTitle
         }
         tbTitle?.typeface = font1Bold
-        tbTitle?.textSize = resources.getDimension(R.dimen.tbTitle)
         if (this !is Main) supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)

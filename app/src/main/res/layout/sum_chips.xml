@@ -8,8 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="21dp"
-        android:paddingVertical="15dp">
+        android:paddingStart="21dp"
+        android:paddingTop="15dp"
+        android:paddingEnd="21dp"
+        android:paddingBottom="15dp">
 
         <EditText
             android:id="@+id/find"
@@ -20,8 +22,10 @@
             android:background="@color/tp"
             android:hint="@string/findChip"
             android:inputType="text"
-            android:paddingHorizontal="5dp"
-            android:paddingVertical="17dp"
+            android:paddingStart="5dp"
+            android:paddingTop="17dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="17dp"
             android:textColorHint="@color/searchHint"
             android:textIsSelectable="true"
             android:textSize="14sp" />

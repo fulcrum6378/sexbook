@@ -16,7 +16,7 @@ class Popularity : BaseActivity() {
         super.onCreate(savedInstanceState)
         b = PopularityBinding.inflate(layoutInflater)
         setContentView(b.root)
-        if (night) window.decorView.setBackgroundColor(color(R.color.CP))
+        if (night()) window.decorView.setBackgroundColor(color(R.color.CP))
 
         if (m.onani.value == null || m.summary.value == null) {
             onBackPressed(); return; }
@@ -32,7 +32,7 @@ class Popularity : BaseActivity() {
         stars.sortWith(Star.Sort(1))
         stars.sortWith(Star.Sort())
 
-        b.main.lineChartData = LineChartData().setLines(LineFactory(stars))
+        b.main.lineChartData = LineChartData().setLines(LineFactory(this, stars))
         b.main.isViewportCalculationEnabled = false
     }
 
@@ -48,7 +48,7 @@ class Popularity : BaseActivity() {
         data class Frame(val score: Float, val month: String)
     }
 
-    class LineFactory(stars: List<Star>) : ArrayList<Line>(stars.map {
+    class LineFactory(c: BaseActivity, stars: List<Star>) : ArrayList<Line>(stars.map {
         Line(it.frames.mapIndexed { i, frame ->
             PointValue(i.toFloat(), frame.score)
                 .setLabel("${it.name} : ${frame.month} (${frame.score})")
@@ -56,7 +56,7 @@ class Popularity : BaseActivity() {
             .setColor(
                 arrayListOf(
                     Color.BLUE, Color.RED, Color.CYAN, Color.GREEN,
-                    if (night) Color.WHITE else Color.BLACK
+                    if (c.night()) Color.WHITE else Color.BLACK
                 ).random()
             )
             .setCubic(true)

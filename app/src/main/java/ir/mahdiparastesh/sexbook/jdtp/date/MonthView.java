@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -255,7 +256,9 @@ public abstract class MonthView extends View {
         mPersianCalendar.setPersianDate(mYear, mMonth, 1);
         mDayOfWeekStart = mPersianCalendar.get(Calendar.DAY_OF_WEEK);
 
-        mWeekStart = params.getOrDefault(VIEW_PARAMS_WEEK_START, Calendar.SATURDAY);
+        mWeekStart = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) ?
+                params.getOrDefault(VIEW_PARAMS_WEEK_START, Calendar.SATURDAY)
+                : params.get(VIEW_PARAMS_WEEK_START);
 
         mNumCells = Utils.getDaysInMonth(mMonth, mYear);
         for (int i = 0; i < mNumCells; i++) {

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <shortcut
         android:icon="@drawable/add_yellow"
         android:shortcutId="shrAdd"
-        android:shortcutShortLabel="@string/shrAdd">
+        android:shortcutShortLabel="@string/shrAdd"
+        tools:ignore="UnusedAttribute">
 
         <intent
             android:action="ir.mahdiparastesh.sexbook.ACTION.ADD"

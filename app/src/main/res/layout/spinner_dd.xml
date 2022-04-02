@@ -4,8 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/spn_filter_dd"
-    android:paddingHorizontal="17dp"
-    android:paddingVertical="15dp"
+    android:paddingStart="17dp"
+    android:paddingTop="15dp"
+    android:paddingEnd="17dp"
+    android:paddingBottom="15dp"
     android:textColor="@color/spnFilterDDTV"
     android:textSize="14sp"
     tools:viewBindingIgnore="true" />

@@ -7,11 +7,12 @@ import ir.mahdiparastesh.sexbook.Fun.CalendarType
 import ir.mahdiparastesh.sexbook.Fun.Companion.calType
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.jdtp.utils.PersianCalendar
+import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.util.*
 
 class LocalDatePicker(
     c: BaseActivity, tag: String, default: Calendar,
-    listener: (view: DialogFragment, time: Long) -> Unit,
+    listener: (view: DialogFragment, time: Long) -> Unit
 ) {
     init {
         if (calType() == CalendarType.JALALI) {
@@ -25,7 +26,7 @@ class LocalDatePicker(
                     listener(view, cal.timeInMillis)
                 }, jal.Y, jal.M, jal.D
             ).apply {
-                isThemeDark = BaseActivity.night
+                isThemeDark = c.night()
                 show(c.supportFragmentManager, tag)
             }
         } else DatePickerDialog.newInstance(
@@ -40,7 +41,7 @@ class LocalDatePicker(
             default[Calendar.MONTH],
             default[Calendar.DAY_OF_MONTH]
         ).apply {
-            isThemeDark = BaseActivity.night
+            isThemeDark = c.night()
             version = DatePickerDialog.Version.VERSION_2
             accentColor = c.color(R.color.CP)
             setOkColor(c.color(R.color.mrvPopupButtons))

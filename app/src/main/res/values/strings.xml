@@ -1,4 +1,4 @@
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Sexbook</string>
 
     <!-- Global -->
@@ -90,8 +90,8 @@
     <string name="expand">Expand</string>
     <string name="collapse">Collapse</string>
     <string name="bHappyTitle">Happy %s\'s Birthday!</string>
-    <string name="bHappyBef">%d hour(s) remaining to their birthday!</string>
-    <string name="bHappyAft">%d hour(s) past since their birthday!</string>
+    <string name="bHappyBef" tools:ignore="PluralsCandidate">%d hour(s) remaining to their birthday!</string>
+    <string name="bHappyAft" tools:ignore="PluralsCandidate">%d hour(s) past since their birthday!</string>
 
     <!-- Main -->
     <string name="momSum">Summary</string>

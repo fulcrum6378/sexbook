@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/button_3"
-    android:paddingHorizontal="8dp">
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp">
 
     <TextView
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingVertical="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:textAlignment="viewStart"
         android:textColor="@color/recency"
         android:textSize="14sp"

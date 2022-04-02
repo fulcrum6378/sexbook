@@ -4,10 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginVertical="7dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="7dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="7dp"
     android:background="@drawable/yellow_box"
-    android:paddingVertical="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     tools:ignore="ContentDescription,MissingConstraints,RtlSymmetry,SpUsage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,7 +107,6 @@
         android:layout_height="28dp"
         android:layout_marginEnd="16dp"
         android:background="@null"
-        android:theme="@style/AppTheme"
         app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/clock" />
@@ -112,8 +114,10 @@
     <EditText
         android:id="@+id/desc"
         style="@style/desc"
-        android:layout_marginHorizontal="10dp"
-        android:paddingHorizontal="7dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:paddingStart="7dp"
+        android:paddingEnd="7dp"
         app:layout_constraintTop_toBottomOf="@id/clock"
         tools:ignore="Autofill" />
 
@@ -122,10 +126,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/spn_filter"
-        android:paddingVertical="12dp"
         android:paddingStart="17dp"
+        android:paddingTop="12dp"
         android:paddingEnd="34dp"
-        android:theme="@style/AppTheme"
+        android:paddingBottom="12dp"
         app:layout_constraintTop_toBottomOf="@id/desc" />
 
     <ImageView

@@ -83,7 +83,7 @@ class Estimation : BaseActivity() {
         }
 
         // Miscellaneous
-        if (night) b.addIV.colorFilter = pdcf(R.color.CPD)
+        if (night()) b.addIV.colorFilter = pdcf(R.color.CPD)
 
         Work(c, Work.G_VIEW_ALL).start()
     }

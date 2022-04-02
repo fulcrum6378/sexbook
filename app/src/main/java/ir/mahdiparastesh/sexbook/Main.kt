@@ -36,7 +36,7 @@ import java.util.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
-// adb connect 192.168.1.20:
+// adb connect adb-R58MA6P17YD-MEhKF8._adb-tls-connect._tcp
 
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var b: MainBinding
@@ -94,7 +94,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
         // Loading
         if (m.loaded) b.body.removeView(b.load)
-        else if (night) b.loadIV.colorFilter = pdcf()
+        else if (night()) b.loadIV.colorFilter = pdcf()
 
         // Navigation
         toggleNav = ActionBarDrawerToggle(

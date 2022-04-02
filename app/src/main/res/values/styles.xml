@@ -27,6 +27,7 @@
         <item name="popupTheme">@style/Widget.MaterialComponents.PopupMenu</item>
         <item name="titleMarginStart">0dp</item>
         <item name="titleTextColor">@color/tbTitle</item>
+        <item name="titleTextAppearance">@style/SexTheme.Toolbar</item>
     </style>
 
     <style name="tbShadow" parent="shadow_1">
@@ -60,7 +61,8 @@
         <item name="android:inputType">textMultiLine</item>
         <item name="android:minLines">2</item>
         <item name="android:maxLines">10</item>
-        <item name="android:paddingVertical">10sp</item>
+        <item name="android:paddingTop">10sp</item>
+        <item name="android:paddingBottom">10sp</item>
         <item name="android:textIsSelectable">true</item>
         <item name="android:textColor">@color/mrvNotes</item>
         <item name="android:textColorHint">@color/mrvNotesHint</item>
@@ -83,11 +85,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:paddingVertical">12dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
     </style>
 
     <style name="identifyET" parent="identifyField">
-        <item name="android:paddingHorizontal">5dp</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
         <item name="android:background">@color/tp</item>
         <item name="android:textIsSelectable">true</item>
     </style>
@@ -101,7 +105,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/identifySep</item>
-        <item name="android:layout_marginVertical">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
     </style>
 
 
@@ -112,11 +117,13 @@
         <item name="android:background">@drawable/spn_filter</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:paddingVertical">7dp</item>
+        <item name="android:paddingTop">7dp</item>
+        <item name="android:paddingBottom">7dp</item>
         <item name="android:text">@string/etDateHint</item>
         <item name="android:textColor">@color/mrvDate</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginVertical">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_marginStart">5dp</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
@@ -135,11 +142,15 @@
     <style name="stItem">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginHorizontal">10dp</item>
-        <item name="android:layout_marginVertical">7dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginTop">7dp</item>
+        <item name="android:layout_marginBottom">7dp</item>
         <item name="android:background">@drawable/yellow_box</item>
-        <item name="android:paddingHorizontal">10dp</item>
-        <item name="android:paddingVertical">15dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
     </style>
 
     <style name="stItemTV">
@@ -147,7 +158,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/stItemTV</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:paddingHorizontal">7sp</item>
+        <item name="android:paddingStart">7sp</item>
+        <item name="android:paddingEnd">7sp</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>

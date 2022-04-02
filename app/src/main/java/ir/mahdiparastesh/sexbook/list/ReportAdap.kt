@@ -82,7 +82,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
             TimePickerDialog.newInstance(
                 this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], false
             ).apply {
-                isThemeDark = night
+                isThemeDark = c.night()
                 version = TimePickerDialog.Version.VERSION_2
                 accentColor = c.color(R.color.CP)
                 setOkColor(c.color(R.color.mrvPopupButtons))

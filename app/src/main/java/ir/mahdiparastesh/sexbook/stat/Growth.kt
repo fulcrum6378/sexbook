@@ -14,7 +14,7 @@ class Growth : BaseActivity() {
         super.onCreate(savedInstanceState)
         b = GrowthBinding.inflate(layoutInflater)
         setContentView(b.root)
-        if (night) window.decorView.setBackgroundColor(color(R.color.CP))
+        if (night()) window.decorView.setBackgroundColor(color(R.color.CP))
 
         if (m.onani.value == null || m.summary.value == null) {
             onBackPressed(); return; }
@@ -30,6 +30,6 @@ class Growth : BaseActivity() {
         stars.sortWith(Star.Sort(1))
         stars.sortWith(Star.Sort())
 
-        b.main.lineChartData = LineChartData().setLines(Popularity.LineFactory(stars))
+        b.main.lineChartData = LineChartData().setLines(Popularity.LineFactory(this, stars))
     }
 }

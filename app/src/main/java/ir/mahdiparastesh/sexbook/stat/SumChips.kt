@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
@@ -35,8 +35,8 @@ class SumChips(val c: BaseActivity) : Fragment() {
                     if (b.ll[i] !is ChipGroup) continue
                     val cg = b.ll[i] as ChipGroup
                     for (y in 1 until cg.childCount) (cg[y] as Chip).apply {
-                        chipBackgroundColor = c.getColorStateList(
-                            if (ss != "" && text.toString().contains(ss, true))
+                        chipBackgroundColor = AppCompatResources.getColorStateList(
+                            c.c, if (ss != "" && text.toString().contains(ss, true))
                                 R.color.chip_search else R.color.chip_normal
                         )
                     }
@@ -45,7 +45,7 @@ class SumChips(val c: BaseActivity) : Fragment() {
         })
         b.find.typeface = c.font1
         for (r in c.m.summary.value!!.results().calculations) b.ll.addView(
-            ChipGroup(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
+            ChipGroup(c, null, 0).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                 )
@@ -61,13 +61,14 @@ class SumChips(val c: BaseActivity) : Fragment() {
                     typeface = c.font1
                 })
                 for (crush in r.value) addView(
-                    Chip(ContextThemeWrapper(c, R.style.AppTheme), null, 0).apply {
+                    Chip(c, null, 0).apply {
                         layoutParams = ChipGroup.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                         )
                         text = crush
                         setTextColor(c.color(R.color.chipText))
-                        chipBackgroundColor = c.getColorStateList(R.color.chip_normal)
+                        chipBackgroundColor =
+                            AppCompatResources.getColorStateList(c.c, R.color.chip_normal)
                         setOnClickListener {
                             c.m.crush = crush
                             startActivity(Intent(c, Singular::class.java))

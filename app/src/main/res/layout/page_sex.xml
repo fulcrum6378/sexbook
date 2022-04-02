@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingHorizontal="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:paddingTop="20dp"
         android:paddingBottom="85dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -34,10 +35,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/spn_filter"
-        android:paddingVertical="16dp"
         android:paddingStart="26dp"
+        android:paddingTop="16dp"
         android:paddingEnd="42dp"
-        android:theme="@style/AppTheme"
+        android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView

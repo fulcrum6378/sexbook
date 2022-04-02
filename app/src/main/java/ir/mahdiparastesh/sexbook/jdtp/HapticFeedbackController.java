@@ -4,9 +4,9 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.SystemClock;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.provider.Settings;
+
+import ir.mahdiparastesh.sexbook.Fun;
 
 public class HapticFeedbackController {
     private static final int VIBRATE_DELAY_MS = 125;
@@ -20,7 +20,6 @@ public class HapticFeedbackController {
     private final Context mContext;
     private final ContentObserver mContentObserver;
 
-    private Vibrator mVibrator;
     private boolean mIsGloballyEnabled;
     private long mLastVibrate;
 
@@ -35,23 +34,20 @@ public class HapticFeedbackController {
     }
 
     public void start() {
-        mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
         mIsGloballyEnabled = checkGlobalSetting(mContext);
         Uri uri = Settings.System.getUriFor(Settings.System.HAPTIC_FEEDBACK_ENABLED);
         mContext.getContentResolver().registerContentObserver(uri, false, mContentObserver);
     }
 
     public void stop() {
-        mVibrator = null;
         mContext.getContentResolver().unregisterContentObserver(mContentObserver);
     }
 
     public void tryVibrate() {
-        if (mVibrator != null && mIsGloballyEnabled) {
+        if (mIsGloballyEnabled) {
             long now = SystemClock.uptimeMillis();
             if (now - mLastVibrate >= VIBRATE_DELAY_MS) {
-                mVibrator.vibrate(VibrationEffect.createOneShot(VIBRATE_LENGTH_MS,
-                        VibrationEffect.DEFAULT_AMPLITUDE));
+                Fun.Companion.shake(mContext, VIBRATE_LENGTH_MS);
                 mLastVibrate = now;
             }
         }
