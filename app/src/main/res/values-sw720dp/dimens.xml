@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="statusBarSize">24dp</dimen>
+    <dimen name="tbTitle">24sp</dimen>
+    <dimen name="nameFont">18.5sp</dimen>
+    <dimen name="descFont">16sp</dimen>
+    <dimen name="descPadV">12sp</dimen>
+    <dimen name="menuFont">16sp</dimen>
+    <dimen name="spnFont">18sp</dimen>
+    <dimen name="markSize">14dp</dimen>
+    <dimen name="itemMarH">13dp</dimen>
+    <dimen name="itemMarV">10dp</dimen>
+    <dimen name="itemPadH">23dp</dimen>
+    <dimen name="itemPadV">20dp</dimen>
+
+    <!-- Main-->
+    <dimen name="reportPadV">16dp</dimen>
+    <dimen name="reportPadH">18dp</dimen>
+    <dimen name="clockSize">52dp</dimen>
+    <dimen name="ampmFont">13dp</dimen>
+    <dimen name="dateFont">24dp</dimen>
+    <dimen name="typeSize">33dp</dimen>
+    <dimen name="typeMarEnd">25dp</dimen>
+    <dimen name="placeMarkMarEnd">24dp</dimen>
+    <dimen name="spnFilterPadV">19dp</dimen>
+    <dimen name="crushNameFont">19.5sp</dimen>
+
+    <!-- Places -->
+    <dimen name="sumFont">18sp</dimen>
+
+    <!-- Estimation-->
+    <dimen name="etPadH">24dp</dimen>
+    <dimen name="etPadV">12dp</dimen>
+    <dimen name="etDateLabel">16sp</dimen>
+    <dimen name="etDateButton">20sp</dimen>
+
+    <!-- Settings -->
+    <dimen name="stItemTVFont">19sp</dimen>
+    <dimen name="stItemPadH">13dp</dimen>
+    <dimen name="stItemPadV">18dp</dimen>
+</resources>

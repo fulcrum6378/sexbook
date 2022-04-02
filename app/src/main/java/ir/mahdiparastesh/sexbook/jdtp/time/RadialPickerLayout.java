@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
+import android.icu.text.DateFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateUtils;

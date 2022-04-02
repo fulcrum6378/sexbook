@@ -56,17 +56,17 @@
     <style name="desc">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/tp</item>
+        <item name="android:background">@null</item>
         <item name="android:hint">@string/desc</item>
         <item name="android:inputType">textMultiLine</item>
         <item name="android:minLines">2</item>
         <item name="android:maxLines">10</item>
-        <item name="android:paddingTop">10sp</item>
-        <item name="android:paddingBottom">10sp</item>
+        <item name="android:paddingTop">@dimen/descPadV</item>
+        <item name="android:paddingBottom">@dimen/descPadV</item>
         <item name="android:textIsSelectable">true</item>
         <item name="android:textColor">@color/mrvNotes</item>
         <item name="android:textColorHint">@color/mrvNotesHint</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/descFont</item>
     </style>
 
 
@@ -92,7 +92,7 @@
     <style name="identifyET" parent="identifyField">
         <item name="android:paddingStart">5dp</item>
         <item name="android:paddingEnd">5dp</item>
-        <item name="android:background">@color/tp</item>
+        <item name="android:background">@null</item>
         <item name="android:textIsSelectable">true</item>
     </style>
 
@@ -116,7 +116,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/spn_filter</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/etDateButton</item>
         <item name="android:paddingTop">7dp</item>
         <item name="android:paddingBottom">7dp</item>
         <item name="android:text">@string/etDateHint</item>
@@ -132,7 +132,7 @@
         <item name="android:layout_width">40sp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAlignment">viewStart</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/etDateLabel</item>
         <item name="android:textColor">@color/mrvNotes</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
     </style>
@@ -147,17 +147,17 @@
         <item name="android:layout_marginTop">7dp</item>
         <item name="android:layout_marginBottom">7dp</item>
         <item name="android:background">@drawable/yellow_box</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:paddingTop">15dp</item>
-        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingStart">@dimen/stItemPadH</item>
+        <item name="android:paddingEnd">@dimen/stItemPadH</item>
+        <item name="android:paddingTop">@dimen/stItemPadV</item>
+        <item name="android:paddingBottom">@dimen/stItemPadV</item>
     </style>
 
     <style name="stItemTV">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/stItemTV</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/stItemTVFont</item>
         <item name="android:paddingStart">7sp</item>
         <item name="android:paddingEnd">7sp</item>
         <item name="layout_constraintTop_toTopOf">parent</item>

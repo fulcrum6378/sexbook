@@ -13,13 +13,13 @@
         android:paddingEnd="21dp"
         android:paddingBottom="15dp">
 
-        <EditText
+        <ir.mahdiparastesh.sexbook.more.SoftEditText
             android:id="@+id/find"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:autofillHints="personName"
-            android:background="@color/tp"
+            android:background="@null"
             android:hint="@string/findChip"
             android:inputType="text"
             android:paddingStart="5dp"

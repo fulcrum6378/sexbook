@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="6dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="6dp"
+    android:layout_marginStart="@dimen/itemMarH"
+    android:layout_marginTop="@dimen/itemMarV"
+    android:layout_marginEnd="@dimen/itemMarH"
+    android:layout_marginBottom="@dimen/itemMarV"
     android:background="@drawable/yellow_box"
-    android:paddingTop="9dp"
-    android:paddingBottom="9dp"
+    android:paddingTop="@dimen/etPadV"
+    android:paddingBottom="@dimen/etPadV"
     tools:ignore="ContentDescription,LabelFor,MissingConstraints">
 
     <TextView
         android:id="@+id/sincLabel"
         style="@style/etDateLabel"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="@dimen/etPadH"
         android:text="@string/etSince"
         app:layout_constraintBottom_toBottomOf="@id/sinc"
         app:layout_constraintTop_toTopOf="@id/sinc" />
@@ -24,14 +24,14 @@
     <TextView
         android:id="@+id/sinc"
         style="@style/etDateButton"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="@dimen/etPadH"
         app:layout_constraintStart_toEndOf="@id/sincLabel"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tillLabel"
         style="@style/etDateLabel"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="@dimen/etPadH"
         android:text="@string/etUntil"
         app:layout_constraintBottom_toBottomOf="@id/till"
         app:layout_constraintTop_toTopOf="@id/till" />
@@ -39,7 +39,7 @@
     <TextView
         android:id="@+id/till"
         style="@style/etDateButton"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="@dimen/etPadH"
         app:layout_constraintStart_toEndOf="@id/tillLabel"
         app:layout_constraintTop_toBottomOf="@id/sinc" />
 
@@ -47,12 +47,12 @@
         android:id="@+id/freqLabel"
         style="@style/etDateLabel"
         android:layout_width="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="@dimen/etPadH"
         android:text="@string/etFreq"
         app:layout_constraintBottom_toBottomOf="@id/freq"
         app:layout_constraintTop_toTopOf="@id/freq" />
 
-    <EditText
+    <ir.mahdiparastesh.sexbook.more.SoftEditText
         android:id="@+id/freq"
         android:layout_width="0dp"
         android:layout_height="30sp"
@@ -60,7 +60,7 @@
         android:layout_marginTop="15sp"
         android:layout_marginEnd="30sp"
         android:layout_marginBottom="15sp"
-        android:background="@color/tp"
+        android:background="@null"
         android:importantForAutofill="no"
         android:inputType="numberDecimal"
         android:maxLength="5"
@@ -82,12 +82,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/freq" />
 
-    <EditText
+    <ir.mahdiparastesh.sexbook.more.SoftEditText
         android:id="@+id/desc"
         style="@style/desc"
         android:importantForAutofill="no"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:paddingStart="@dimen/etPadH"
+        android:paddingEnd="@dimen/etPadH"
         app:layout_constraintTop_toBottomOf="@id/freq" />
 
     <Spinner
@@ -95,17 +95,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/spn_filter"
-        android:paddingStart="20dp"
+        android:paddingStart="@dimen/etPadH"
         android:paddingTop="12dp"
-        android:paddingEnd="20dp"
+        android:paddingEnd="@dimen/etPadH"
         android:paddingBottom="12dp"
         app:layout_constraintTop_toBottomOf="@id/desc" />
 
     <ImageView
         android:id="@+id/placeMark"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_marginEnd="20dp"
+        android:layout_width="@dimen/markSize"
+        android:layout_height="@dimen/markSize"
+        android:layout_marginEnd="@dimen/placeMarkMarEnd"
         android:rotation="90"
         android:src="@drawable/play_3_ntf"
         app:layout_constraintBottom_toBottomOf="@id/place"

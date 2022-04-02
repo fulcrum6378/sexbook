@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="7dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="7dp"
+    android:layout_marginStart="@dimen/itemMarH"
+    android:layout_marginTop="@dimen/itemMarV"
+    android:layout_marginEnd="@dimen/itemMarH"
+    android:layout_marginBottom="@dimen/itemMarV"
     android:background="@drawable/yellow_box"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
+    android:paddingTop="@dimen/reportPadV"
+    android:paddingBottom="@dimen/reportPadV"
     tools:ignore="ContentDescription,MissingConstraints,RtlSymmetry,SpUsage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clock"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="10dp"
+        android:layout_width="@dimen/clockSize"
+        android:layout_height="@dimen/clockSize"
+        android:layout_marginStart="@dimen/reportPadH"
         android:background="@drawable/clock_bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/mrvAMPM"
-        android:textSize="11dp"
+        android:textSize="@dimen/ampmFont"
         app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintStart_toEndOf="@id/clock" />
 
@@ -70,18 +70,18 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="20dp"
         android:textColor="@color/mrvDate"
-        android:textSize="20dp"
+        android:textSize="@dimen/dateFont"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toStartOf="@id/name"
         app:layout_constraintStart_toEndOf="@id/clock"
         app:layout_constraintTop_toTopOf="@id/clock" />
 
-    <AutoCompleteTextView
+    <ir.mahdiparastesh.sexbook.more.SoftAutoCompleteTextView
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/tp"
+        android:background="@null"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
         android:hint="@string/mrvNotesHint"
@@ -92,7 +92,7 @@
         android:textColor="@color/mrvNotes"
         android:textColorHint="@color/mrvNotesHint"
         android:textIsSelectable="true"
-        android:textSize="16sp"
+        android:textSize="@dimen/nameFont"
         app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toStartOf="@id/type"
         app:layout_constraintHorizontal_bias="1"
@@ -103,19 +103,19 @@
 
     <Spinner
         android:id="@+id/type"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="@dimen/typeSize"
+        android:layout_height="@dimen/typeSize"
+        android:layout_marginEnd="@dimen/typeMarEnd"
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/clock" />
 
-    <EditText
+    <ir.mahdiparastesh.sexbook.more.SoftEditText
         android:id="@+id/desc"
         style="@style/desc"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="@dimen/reportPadH"
+        android:layout_marginEnd="@dimen/reportPadH"
         android:paddingStart="7dp"
         android:paddingEnd="7dp"
         app:layout_constraintTop_toBottomOf="@id/clock"
@@ -134,9 +134,9 @@
 
     <ImageView
         android:id="@+id/placeMark"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_marginEnd="20dp"
+        android:layout_width="@dimen/markSize"
+        android:layout_height="@dimen/markSize"
+        android:layout_marginEnd="@dimen/placeMarkMarEnd"
         android:rotation="90"
         android:src="@drawable/play_3_ntf"
         app:layout_constraintBottom_toBottomOf="@id/place"

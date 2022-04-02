@@ -9,5 +9,5 @@
     android:paddingEnd="17dp"
     android:paddingBottom="15dp"
     android:textColor="@color/spnFilterDDTV"
-    android:textSize="14sp"
+    android:textSize="@dimen/menuFont"
     tools:viewBindingIgnore="true" />

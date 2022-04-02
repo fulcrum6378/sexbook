@@ -36,15 +36,15 @@
         android:layout_height="wrap_content"
         android:background="@drawable/spn_filter"
         android:paddingStart="26dp"
-        android:paddingTop="16dp"
+        android:paddingTop="@dimen/spnFilterPadV"
         android:paddingEnd="42dp"
-        android:paddingBottom="16dp"
+        android:paddingBottom="@dimen/spnFilterPadV"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
         android:id="@+id/spnFilterMark"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
+        android:layout_width="@dimen/markSize"
+        android:layout_height="@dimen/markSize"
         android:layout_marginEnd="22dp"
         android:rotation="90"
         android:src="@drawable/play_3_ntf"

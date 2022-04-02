@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- JDTP -->
+    <dimen name="jdtp_ampm_label_size">16dp</dimen>
+    <dimen name="jdtp_ampm_left_padding">6dip</dimen>
+    <dimen name="jdtp_header_height">96dip</dimen>
+    <dimen name="jdtp_separator_padding">5dip</dimen>
+    <dimen name="jdtp_time_label_size">64dp</dimen>
+</resources>
