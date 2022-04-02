@@ -22,21 +22,9 @@ public class CustomTypefaceSpan extends TypefaceSpan {
 
     private static void applyCustomTypeFace(Paint paint, Typeface tf, float ts,
                                             @Nullable @ColorInt Integer tc) {
-        int oldStyle;
-        Typeface old = paint.getTypeface();
-        if (old == null) oldStyle = Typeface.NORMAL;
-        else oldStyle = old.getStyle();
-
-        int fake = oldStyle & ~tf.getStyle();
-        if ((fake & Typeface.BOLD) != Typeface.NORMAL)
-            paint.setFakeBoldText(true);
-
-        if ((fake & Typeface.ITALIC) != Typeface.NORMAL)
-            paint.setTextSkewX(-0.25f);
-
         paint.setTextSize(ts);
-        if (tc != null) paint.setColor(tc);
         paint.setTypeface(tf);
+        if (tc != null) paint.setColor(tc);
     }
 
     @Override

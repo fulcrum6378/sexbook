@@ -139,8 +139,13 @@ class Singular : BaseActivity() {
         // TODO: Implement Mass Rename
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        handler = null
+    }
+
     companion object {
-        lateinit var handler: Handler
+        var handler: Handler? = null
 
         fun sinceTheBeginning(c: Context, mOnani: ArrayList<Report>): List<String> {
             val now = Calendar.getInstance()

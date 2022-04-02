@@ -44,7 +44,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var toggleNav: ActionBarDrawerToggle
 
     companion object {
-        lateinit var handler: Handler
+        var handler: Handler? = null
         const val NOTIFY_MAX_DISTANCE = 3
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
 
@@ -106,10 +106,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         }
         b.toolbar.navigationIcon?.colorFilter = pdcf()
         b.nav.setNavigationItemSelectedListener(this)
-        b.nav.menu.forEach {
-            it.stylise(this@Main)
-            //it.icon?.colorFilter = pdcf()
-        }
+        b.nav.menu.forEach { it.stylise(this@Main) }
         exporter = Exporter(this)
 
         // Pager
@@ -211,6 +208,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         moveTaskToBack(true)
         Process.killProcess(Process.myPid())
         exitProcess(0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler = null
     }
 
 

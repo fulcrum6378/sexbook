@@ -9,7 +9,7 @@ class Work(
     val c: Context,
     val action: Int,
     val values: List<Any>? = null,
-    val handler: Handler = when {
+    val handler: Handler? = when {
         action < 10 -> if (PageSex.handler.value != null) PageSex.handler.value!! else Main.handler
         action < 20 -> if (PageLove.handler.value != null) PageLove.handler.value!! else Main.handler
         action < 30 -> Places.handler ?: Main.handler
@@ -69,158 +69,158 @@ class Work(
         val dao = db.dao()
         when (action) {
             // Report
-            VIEW_ONE -> if (!values.isNullOrEmpty()) handler.obtainMessage(
+            VIEW_ONE -> if (!values.isNullOrEmpty()) handler?.obtainMessage(
                 action,
                 if (values.size > 1) values[1] as Int else 0,
                 if (values.size > 2) values[2] as Int else 0,
                 dao.get(values[0] as Long)
-            ).sendToTarget()
+            )?.sendToTarget()
 
-            VIEW_ALL -> handler.obtainMessage(action, dao.getAll()).sendToTarget()
+            VIEW_ALL -> handler?.obtainMessage(action, dao.getAll())?.sendToTarget()
 
             INSERT_ONE -> {
                 var result: Long = -1
                 if (!values.isNullOrEmpty()) result = dao.insert(values[0] as Report)
-                handler.obtainMessage(action, result).sendToTarget()
+                handler?.obtainMessage(action, result)?.sendToTarget()
             }
 
             REPLACE_ALL -> if (!values.isNullOrEmpty()) {
                 dao.deleteAll(dao.getAll())
                 dao.replaceAll(values as List<Report>)
-                handler.obtainMessage(action).sendToTarget()
+                handler?.obtainMessage(action)?.sendToTarget()
             }
 
             UPDATE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.update(values[0] as Report)
-                handler.obtainMessage(
+                handler?.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null
-                ).sendToTarget()
+                )?.sendToTarget()
             }
 
             DELETE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.delete(values[0] as Report)
-                handler.obtainMessage(
+                handler?.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null
-                ).sendToTarget()
+                )?.sendToTarget()
             }
 
 
             // Crush
-            C_VIEW_ONE -> if (!values.isNullOrEmpty()) handler.obtainMessage(
+            C_VIEW_ONE -> if (!values.isNullOrEmpty()) handler?.obtainMessage(
                 action,
                 if (values.size > 1) values[1] as Int else 0,
                 if (values.size > 2) values[2] as Int else 0,
                 dao.cGet(values[0] as String)
-            ).sendToTarget()
+            )?.sendToTarget()
 
-            C_VIEW_ALL -> handler.obtainMessage(action, dao.cGetAll()).sendToTarget()
+            C_VIEW_ALL -> handler?.obtainMessage(action, dao.cGetAll())?.sendToTarget()
 
             C_INSERT_ONE -> {
                 var result: Long = -1
                 if (!values.isNullOrEmpty()) result = dao.cInsert(values[0] as Crush)
-                handler.obtainMessage(action, result).sendToTarget()
+                handler?.obtainMessage(action, result)?.sendToTarget()
             }
 
             C_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
                 dao.cDeleteAll(dao.cGetAll())
                 dao.cReplaceAll(values as List<Crush>)
-                handler.obtainMessage(action).sendToTarget()
+                handler?.obtainMessage(action)?.sendToTarget()
             }
 
             C_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.cUpdate(values[0] as Crush)
-                handler.obtainMessage(
+                handler?.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null
-                ).sendToTarget()
+                )?.sendToTarget()
             }
 
             C_DELETE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.cDelete(values[0] as Crush)
-                handler.obtainMessage(
+                handler?.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null
-                ).sendToTarget()
+                )?.sendToTarget()
             }
 
 
             // Place
-            P_VIEW_ONE -> if (!values.isNullOrEmpty()) handler.obtainMessage(
+            P_VIEW_ONE -> if (!values.isNullOrEmpty()) handler?.obtainMessage(
                 action,
                 if (values.size > 1) values[1] as Int else 0,
                 if (values.size > 2) values[2] as Int else 0,
                 dao.pGet(values[0] as Long)
-            ).sendToTarget()
+            )?.sendToTarget()
 
-            P_VIEW_ALL -> handler.obtainMessage(action, dao.pGetAll()).sendToTarget()
+            P_VIEW_ALL -> handler?.obtainMessage(action, dao.pGetAll())?.sendToTarget()
 
             P_INSERT_ONE -> {
                 var result: Long = -1
                 if (!values.isNullOrEmpty()) result = dao.pInsert(values[0] as Place)
-                handler.obtainMessage(action, result).sendToTarget()
+                handler?.obtainMessage(action, result)?.sendToTarget()
             }
 
             P_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
                 dao.pDeleteAll(dao.pGetAll())
                 dao.pReplaceAll(values as List<Place>)
-                handler.obtainMessage(action).sendToTarget()
+                handler?.obtainMessage(action)?.sendToTarget()
             }
 
             P_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.pUpdate(values[0] as Place)
-                handler.obtainMessage(
+                handler?.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null
-                ).sendToTarget()
+                )?.sendToTarget()
             }
 
             P_DELETE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.pDelete(values[0] as Place)
-                handler.obtainMessage(
+                handler?.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null
-                ).sendToTarget()
+                )?.sendToTarget()
             }
 
 
             // Guess
-            G_VIEW_ONE -> if (!values.isNullOrEmpty()) handler.obtainMessage(
+            G_VIEW_ONE -> if (!values.isNullOrEmpty()) handler?.obtainMessage(
                 action,
                 if (values.size > 1) values[1] as Int else 0,
                 if (values.size > 2) values[2] as Int else 0,
                 dao.gGet(values[0] as Long)
-            ).sendToTarget()
+            )?.sendToTarget()
 
-            G_VIEW_ALL -> handler.obtainMessage(action, dao.gGetAll()).sendToTarget()
+            G_VIEW_ALL -> handler?.obtainMessage(action, dao.gGetAll())?.sendToTarget()
 
             G_INSERT_ONE -> {
                 var result: Long = -1
                 if (!values.isNullOrEmpty()) result = dao.gInsert(values[0] as Guess)
-                handler.obtainMessage(action, result).sendToTarget()
+                handler?.obtainMessage(action, result)?.sendToTarget()
             }
 
             G_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
                 dao.gDeleteAll(dao.gGetAll())
                 dao.gReplaceAll(values as List<Guess>)
-                handler.obtainMessage(action).sendToTarget()
+                handler?.obtainMessage(action)?.sendToTarget()
             }
 
             G_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.gUpdate(values[0] as Guess)
-                handler.obtainMessage(
+                handler?.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null
-                ).sendToTarget()
+                )?.sendToTarget()
             }
 
             G_DELETE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.gDelete(values[0] as Guess)
-                handler.obtainMessage(
+                handler?.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, null
-                ).sendToTarget()
+                )?.sendToTarget()
             }
         }
         db.close()

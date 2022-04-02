@@ -12,7 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import java.io.*
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 class Exporter(val c: BaseActivity) {
     var exported: Exported? = null
@@ -51,10 +52,9 @@ class Exporter(val c: BaseActivity) {
             try {
                 c.contentResolver.openFileDescriptor(uri, "r")?.use { des ->
                     val sb = StringBuffer()
-                    FileInputStream(des.fileDescriptor).apply {
+                    FileInputStream(des.fileDescriptor).use { fis ->
                         var i: Int
-                        while (read().also { r -> i = r } != -1) sb.append(i.toChar())
-                        close()
+                        while (fis.read().also { r -> i = r } != -1) sb.append(i.toChar())
                     }
                     data = sb.toString()
                 }

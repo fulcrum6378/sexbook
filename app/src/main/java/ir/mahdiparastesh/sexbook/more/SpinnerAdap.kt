@@ -7,9 +7,9 @@ import android.widget.TextView
 import ir.mahdiparastesh.sexbook.R
 
 class SpinnerAdap(val c: BaseActivity, items: List<String>) :
-    ArrayAdapter<String>(c, R.layout.spinner_1, items) {
+    ArrayAdapter<String>(c, R.layout.spinner, items) {
     init {
-        setDropDownViewResource(R.layout.spinner_1_dd)
+        setDropDownViewResource(R.layout.spinner_dd)
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

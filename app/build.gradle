@@ -11,7 +11,7 @@ android {
         minSdkVersion 26
         targetSdkVersion 31
         versionCode 1
-        versionName '8.1.5'
+        versionName '8.2.0'
     }
 
     buildTypes {
