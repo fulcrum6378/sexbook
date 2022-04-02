@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.icu.util.Calendar
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -15,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Jalali
+import java.util.*
 
 class Fun {
     companion object {
@@ -69,11 +69,13 @@ class Fun {
         }
 
         @Suppress("DEPRECATION")
-        fun shake(c: Context, dur: Long = 60L) {
-            (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-                (c.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
-            else c.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
-                .vibrate(VibrationEffect.createOneShot(dur, VibrationEffect.DEFAULT_AMPLITUDE))
+        fun Context.shake(dur: Long = 48L) {
+            val vib = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                (getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
+            else getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                vib.vibrate(VibrationEffect.createOneShot(dur, VibrationEffect.DEFAULT_AMPLITUDE))
+            else vib.vibrate(dur)
         }
 
         fun fullDate(cal: Calendar) = when (calType()) {

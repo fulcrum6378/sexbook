@@ -92,7 +92,7 @@ class Exporter(val c: BaseActivity) {
         }
     }
 
-    fun launchExport(): Boolean {
+    fun launchExport() {
         exported = Exported(
             c.m.onani.value?.filter { it.isReal }?.toTypedArray(),
             c.m.liefde.value?.toTypedArray(),
@@ -100,13 +100,12 @@ class Exporter(val c: BaseActivity) {
             c.m.guesses.value?.toTypedArray()
         )
         if (exported!!.isEmpty()) {
-            Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show(); return true; }
+            Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show(); return; }
         exportLauncher.launch(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = mime
             putExtra(Intent.EXTRA_TITLE, "sexbook.json")
         })
-        return true
     }
 
     fun launchImport(): Boolean {

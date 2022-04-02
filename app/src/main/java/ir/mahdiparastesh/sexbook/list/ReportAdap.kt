@@ -2,7 +2,6 @@ package ir.mahdiparastesh.sexbook.list
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.icu.util.Calendar
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -25,6 +24,7 @@ import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.more.*
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.dp
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
+import java.util.*
 
 @SuppressLint("UseRequireInsteadOfGet")
 class ReportAdap(val c: Main, val autoExpand: Boolean = false) :

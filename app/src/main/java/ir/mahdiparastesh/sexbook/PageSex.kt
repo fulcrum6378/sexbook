@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
-import android.icu.util.Calendar
 import android.os.*
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import ir.mahdiparastesh.sexbook.Fun.Companion.shake
 import ir.mahdiparastesh.sexbook.data.Filter
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
@@ -197,6 +197,6 @@ class PageSex(val c: Main) : Fragment() {
             override fun onFinish() {
                 adding = false; }
         }.start()
-        Fun.shake(c)
+        c.c.shake()
     }
 }

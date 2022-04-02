@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.content.Context
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,6 +24,7 @@ import ir.mahdiparastesh.sexbook.more.LocalDatePicker
 import lecho.lib.hellocharts.model.Column
 import lecho.lib.hellocharts.model.ColumnChartData
 import lecho.lib.hellocharts.model.SubcolumnValue
+import java.util.*
 
 @Suppress("UNCHECKED_CAST")
 class Singular : BaseActivity() {

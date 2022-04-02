@@ -7,7 +7,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.icu.util.Calendar
 import android.os.*
 import android.view.MenuItem
 import android.view.View
@@ -33,6 +32,7 @@ import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.MaterialMenu.Companion.stylise
 import ir.mahdiparastesh.sexbook.stat.*
+import java.util.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
@@ -136,9 +136,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         if (intent != null) checkIntent(intent)
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.momSum -> {
-            if (summarize(m)) AlertDialog.Builder(this).apply {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.momSum -> if (summarize(m)) AlertDialog.Builder(this).apply {
                 setTitle(
                     "${resources.getString(R.string.momSum)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})"
                 )
@@ -159,35 +159,33 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
             }.create().apply {
                 show()
                 fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-            }; true; }
-        R.id.momPop -> {
-            if (summarize(m))
+            }
+            R.id.momPop -> if (summarize(m))
                 startActivity(Intent(this, Popularity::class.java))
-            true; }
-        R.id.momGrw -> {
-            if (summarize(m))
+            R.id.momGrw -> if (summarize(m))
                 startActivity(Intent(this, Growth::class.java))
-            true; }
-        R.id.momRec -> {
-            m.recency.value = Recency(m.summary.value!!)
-            if (summarize(m)) AlertDialog.Builder(this).apply {
-                setTitle(resources.getString(R.string.momRec))
-                setView(m.recency.value!!.draw(this@Main))
-                setPositiveButton(R.string.ok, null)
-                setCancelable(true)
-            }.create().apply {
-                show()
-                fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-            };true; }
-        R.id.momPlc -> {
-            startActivity(Intent(this, Places::class.java)); true; }
-        R.id.momEst -> {
-            startActivity(Intent(this, Estimation::class.java)); true; }
-        R.id.momImport -> exporter.launchImport()
-        R.id.momExport -> exporter.launchExport()
-        R.id.momSettings -> {
-            startActivity(Intent(this, Settings::class.java)); true; }
-        else -> super.onOptionsItemSelected(item)
+            R.id.momRec -> if (m.summary.value != null) {
+                m.recency.value = Recency(m.summary.value!!)
+                if (summarize(m)) AlertDialog.Builder(this).apply {
+                    setTitle(resources.getString(R.string.momRec))
+                    setView(m.recency.value!!.draw(this@Main))
+                    setPositiveButton(R.string.ok, null)
+                    setCancelable(true)
+                }.create().apply {
+                    show()
+                    fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
+                }
+            }
+            R.id.momPlc ->
+                startActivity(Intent(this, Places::class.java))
+            R.id.momEst ->
+                startActivity(Intent(this, Estimation::class.java))
+            R.id.momImport -> exporter.launchImport()
+            R.id.momExport -> exporter.launchExport()
+            R.id.momSettings ->
+                startActivity(Intent(this, Settings::class.java))
+        }
+        return true
     }
 
     var exiting = false
@@ -249,11 +247,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     }
 
     private fun notifyBirth(crush: Crush, dist: Long) {
-        (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-            .createNotificationChannel(
-                NotificationChannel(
-                    CHANNEL_BIRTH, "Birthday Notification", NotificationManager.IMPORTANCE_HIGH
-                ).apply { description = "Birthday Notification" })
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+                .createNotificationChannel(
+                    NotificationChannel(
+                        CHANNEL_BIRTH, "Birthday Notification", NotificationManager.IMPORTANCE_HIGH
+                    ).apply { description = "Birthday Notification" })
         with(NotificationManagerCompat.from(this)) {
             notify(666, NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
                 setSmallIcon(R.mipmap.launcher_round)
