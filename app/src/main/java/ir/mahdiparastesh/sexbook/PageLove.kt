@@ -17,7 +17,8 @@ import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 
-class PageLove(val c: Main) : Fragment() {
+class PageLove : Fragment() {
+    val c: Main by lazy { activity as Main }
     private lateinit var b: PageLoveBinding
 
     companion object {

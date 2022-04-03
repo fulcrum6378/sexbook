@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -13,6 +14,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.Jalali
 import java.util.*
 
@@ -97,6 +99,11 @@ class Fun {
             this[Calendar.SECOND] = 0
             this[Calendar.MILLISECOND] = 0
         }
+
+        fun BaseActivity.randomColor() = arrayListOf(
+            Color.BLUE, Color.RED, Color.CYAN, Color.GREEN, Color.MAGENTA,
+            if (night()) Color.WHITE else Color.BLACK
+        ).random()
     }
 
     enum class CalendarType { GREGORY, JALALI }

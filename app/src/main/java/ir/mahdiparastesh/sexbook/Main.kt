@@ -21,7 +21,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentFactory
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationView
@@ -59,7 +58,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        supportFragmentManager.fragmentFactory = PageFactory()
         super.onCreate(savedInstanceState)
         b = MainBinding.inflate(layoutInflater)
         setContentView(b.root)
@@ -286,31 +284,18 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     }
 
 
-    private inner class SumAdapter(val c: Main) : FragmentStateAdapter(c) {
-        override fun getItemCount(): Int = 3
-
+    private inner class SumAdapter(c: Main) : FragmentStateAdapter(c) {
+        override fun getItemCount(): Int = 2
         override fun createFragment(i: Int): Fragment = when (i) {
-            1 -> SumCloud()
-            2 -> SumPie()
-            else -> SumChips(c)
+            1 -> SumPie()
+            else -> SumChips()
         }
     }
 
-    private inner class PageAdapter(val that: Main) : FragmentStateAdapter(that) {
+    private inner class PageAdapter(c: Main) : FragmentStateAdapter(c) {
         override fun getItemCount(): Int = 2
-
         override fun createFragment(i: Int): Fragment =
-            if (i == 0) PageSex(that) else PageLove(that)
-    }
-
-    private inner class PageFactory : FragmentFactory() {
-        override fun instantiate(classLoader: ClassLoader, className: String): Fragment =
-            when (className) {
-                PageSex::class.java.name -> PageSex(this@Main)
-                PageLove::class.java.name -> PageLove(this@Main)
-                SumChips::class.java.name -> PageLove(this@Main)
-                else -> super.instantiate(classLoader, className)
-            }
+            if (i == 0) PageSex() else PageLove()
     }
 
     enum class Action(val s: String) {

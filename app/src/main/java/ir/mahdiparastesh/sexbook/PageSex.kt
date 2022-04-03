@@ -22,7 +22,8 @@ import ir.mahdiparastesh.sexbook.more.MessageInbox
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 import java.util.*
 
-class PageSex(val c: Main) : Fragment() {
+class PageSex : Fragment() {
+    val c: Main by lazy { activity as Main }
     private lateinit var b: PageSexBinding
 
     companion object {

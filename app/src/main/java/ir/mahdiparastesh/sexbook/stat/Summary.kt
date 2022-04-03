@@ -123,7 +123,8 @@ class Summary(list: List<Report>, val nEstimated: Int, val nExcStat: Int) {
             else results[sumErect]!!.add(key)
             results[sumErect]!!.sort()
         }
-        results = results.toSortedMap(reverseOrder()).toMutableMap() as HashMap<Float, ArrayList<String>>
+        results =
+            results.toSortedMap(reverseOrder()).toMutableMap() as HashMap<Float, ArrayList<String>>
         return Result(results, scores)
     }
 

@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.graphics.Color
 import android.os.Bundle
+import ir.mahdiparastesh.sexbook.Fun.Companion.randomColor
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.PopularityBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
@@ -53,12 +54,7 @@ class Popularity : BaseActivity() {
             PointValue(i.toFloat(), frame.score)
                 .setLabel("${it.name} : ${frame.month} (${frame.score})")
         })
-            .setColor(
-                arrayListOf(
-                    Color.BLUE, Color.RED, Color.CYAN, Color.GREEN,
-                    if (c.night()) Color.WHITE else Color.BLACK
-                ).random()
-            )
+            .setColor(c.randomColor())
             .setCubic(true)
             .setHasLabelsOnlyForSelected(true)
     })
