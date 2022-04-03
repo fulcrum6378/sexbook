@@ -1,0 +1,5 @@
+-keep class ir.mahdiparastesh.sexbook.data.Exporter$Exported { <fields>; }
+-keep class ir.mahdiparastesh.sexbook.data.Report { <fields>; }
+-keep class ir.mahdiparastesh.sexbook.data.Crush { <fields>; }
+-keep class ir.mahdiparastesh.sexbook.data.Place { <fields>; }
+-keep class ir.mahdiparastesh.sexbook.data.Guess { <fields>; }

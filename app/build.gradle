@@ -11,14 +11,30 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 1
-        versionName '8.5.5'
+        versionName '8.6.0'
     }
 
+    signingConfigs {
+        release {
+            storeFile file('D:\\Experimental\\mahdiparastesh.jks')
+            keyAlias 'sexbook'
+            storePassword "${System.getenv("JERK")}"
+            keyPassword "${System.getenv("JERK")}"
+        }
+    }
     buildTypes {
+        demo {
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
