@@ -35,8 +35,6 @@ import java.util.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
-// adb connect adb-R58MA6P17YD-MEhKF8._adb-tls-connect._tcp
-
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var b: MainBinding
     private lateinit var exporter: Exporter
@@ -48,13 +46,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
 
         fun summarize(m: Model): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
-            val nUnreal: Int
             val nEstimated: Int
+            var nExcluded = 0
             var filtered: List<Report> = m.onani.value!!
-            filtered = filtered.filter { it.isReal }.also { nUnreal = filtered.size - it.size }
-            filtered = filtered.filter { it.time > sp.getLong(Settings.spStatSince, 0) }
-                .also { nEstimated = filtered.size - it.size }
-            m.summary.value = Summary(filtered, nUnreal, nEstimated); true; } else false
+            filtered = filtered.filter { it.isReal }.also { nEstimated = filtered.size - it.size }
+            if (sp.getBoolean(Settings.spStatSinceCb, false))
+                filtered = filtered.filter { it.time > sp.getLong(Settings.spStatSince, 0) }
+                    .also { nExcluded = filtered.size - it.size }
+            m.summary.value = Summary(filtered, nEstimated, nExcluded); true; } else false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -174,14 +173,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
                     fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
                 }
             }
-            R.id.momPlc ->
-                startActivity(Intent(this, Places::class.java))
-            R.id.momEst ->
-                startActivity(Intent(this, Estimation::class.java))
+            R.id.momPlc -> startActivity(Intent(this, Places::class.java))
+            R.id.momEst -> startActivity(Intent(this, Estimation::class.java))
             R.id.momImport -> exporter.launchImport()
             R.id.momExport -> exporter.launchExport()
-            R.id.momSettings ->
-                startActivity(Intent(this, Settings::class.java))
+            R.id.momSettings -> startActivity(Intent(this, Settings::class.java))
         }
         return true
     }

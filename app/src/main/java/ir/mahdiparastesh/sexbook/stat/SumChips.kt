@@ -77,7 +77,7 @@ class SumChips : Fragment() {
                         typeface = c.font1
                     })
             })
-        c.m.summary.value!!.nExcStat.let {
+        c.m.summary.value!!.nExcluded.let {
             if (it > 0f) b.ll.addView(plus(getString(R.string.excStat, it.toString())))
         }
         c.m.summary.value!!.unknown.let {

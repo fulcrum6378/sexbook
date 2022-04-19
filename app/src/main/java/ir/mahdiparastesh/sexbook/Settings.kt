@@ -24,6 +24,7 @@ class Settings : BaseActivity() {
         const val spCalType = "calendarType"
         const val spDefPlace = "defaultPlace"
         const val spStatSince = "statisticiseSince"
+        const val spStatSinceCb = "statisticiseSinceCb"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +58,10 @@ class Settings : BaseActivity() {
         }
 
         // Statisticise Since
+        b.stStatSinceDateCb.isChecked = sp.getBoolean(spStatSinceCb, false)
+        b.stStatSinceDateCb.setOnCheckedChangeListener { _, isChecked ->
+            sp.edit().putBoolean(spStatSinceCb, isChecked).apply()
+        }
         val statSinc = Fun.calendar(sp.getLong(spStatSince, 0))
         b.stStatSinceDate.text = if (!sp.contains(spStatSince)) "..." else Fun.fullDate(statSinc)
         b.stStatSince.setOnClickListener {

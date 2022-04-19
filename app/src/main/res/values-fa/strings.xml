@@ -81,7 +81,7 @@
     </string-array>
     <string-array name="calendarTypes">
         <item>میلادی</item>
-        <item>جلالی</item>
+        <item>شمسی</item>
     </string-array>
     <string name="font1">vazir_medium.ttf</string>
     <string name="font1Bold">vazir_bold.ttf</string>

@@ -150,8 +150,10 @@ class Singular : BaseActivity() {
         fun sinceTheBeginning(c: Context, mOnani: ArrayList<Report>): List<String> {
             val now = Calendar.getInstance()
             var oldest = now.timeInMillis
-            val statSinc = sp.getLong(Settings.spStatSince, 0L)
-            for (h in mOnani) if (h.time in statSinc until oldest) oldest = h.time
+            if (sp.getBoolean(Settings.spStatSinceCb, false)) {
+                val statSinc = sp.getLong(Settings.spStatSince, 0L)
+                for (h in mOnani) if (h.time in statSinc until oldest) oldest = h.time
+            } else for (h in mOnani) if (h.time < oldest) oldest = h.time
             val beg = Fun.calendar(oldest)
             val list = arrayListOf<String>()
             if (Fun.calType() != Fun.CalendarType.JALALI) {

@@ -44,7 +44,8 @@
                 android:id="@+id/stStatSince"
                 style="@style/stItem">
 
-                <TextView
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stStatSinceDateCb"
                     style="@style/stItemTV"
                     android:text="@string/stStatSince" />
 
