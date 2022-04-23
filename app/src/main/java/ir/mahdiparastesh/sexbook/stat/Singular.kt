@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
 import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
@@ -88,7 +89,7 @@ class Singular : BaseActivity() {
                 crush!!.bMonth.toInt().let { if (it != -1) bir[Calendar.MONTH] = it }
                 crush!!.bDay.toInt().let { if (it != -1) bir[Calendar.DAY_OF_MONTH] = it }
                 if (crush!!.hasFullBirth())
-                    bi.birth.text = fullDate(bir)
+                    bi.birth.text = bir.fullDate()
                 bi.location.setText(crush!!.locat)
                 bi.instagram.setText(crush!!.insta)
                 bi.notifyBirth.isChecked = crush!!.notifyBirth
@@ -99,7 +100,7 @@ class Singular : BaseActivity() {
                 LocalDatePicker(this@Singular, "birth", bir) { _, time ->
                     isBirthSet = true
                     bir.timeInMillis = time
-                    bi.birth.text = fullDate(bir)
+                    bi.birth.text = bir.fullDate()
                 }
             }
 
@@ -154,7 +155,7 @@ class Singular : BaseActivity() {
                 val statSinc = sp.getLong(Settings.spStatSince, 0L)
                 for (h in mOnani) if (h.time in statSinc until oldest) oldest = h.time
             } else for (h in mOnani) if (h.time < oldest) oldest = h.time
-            val beg = Fun.calendar(oldest)
+            val beg = oldest.calendar()
             val list = arrayListOf<String>()
             if (Fun.calType() != Fun.CalendarType.JALALI) {
                 val yDist = now[Calendar.YEAR] - beg[Calendar.YEAR]
@@ -196,7 +197,7 @@ class Singular : BaseActivity() {
                 }
             )
             for (i in list) {
-                var lm = Fun.calendar(i.time)
+                var lm = i.time.calendar()
                 var yea: Int
                 var mon: Int
                 if (Fun.calType() == Fun.CalendarType.JALALI) Jalali(lm).apply {

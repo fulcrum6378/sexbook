@@ -6,13 +6,11 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
+import android.os.*
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.viewbinding.ViewBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.Jalali
@@ -22,23 +20,26 @@ class Fun {
     companion object {
         fun now() = Calendar.getInstance().timeInMillis
 
-        fun explode(
-            c: Context, v: View, dur: Long = 522, src: Int = R.drawable.button_1,
+        fun View.explode(
+            c: Context, dur: Long = 522, src: Int = R.drawable.button_1,
             alpha: Float = 1f, max: Float = 4f
         ) {
-            if (v.parent !is ConstraintLayout) return
-            val parent = v.parent as ConstraintLayout
+            if (parent !is ConstraintLayout) return
+            val parent = parent as ConstraintLayout
             var ex = View(c).apply {
                 background = ContextCompat.getDrawable(c, src)
-                translationX = v.translationX
-                translationY = v.translationY
-                scaleX = v.scaleX
-                scaleY = v.scaleY
+                translationX = translationX
+                translationY = translationY
+                scaleX = scaleX
+                scaleY = scaleY
                 this.alpha = alpha
             }
-            parent.addView(ex, parent.indexOfChild(v), ConstraintLayout.LayoutParams(0, 0).apply {
-                topToTop = v.id; leftToLeft = v.id; rightToRight = v.id; bottomToBottom = v.id
-            })
+            parent.addView(
+                ex,
+                parent.indexOfChild(this),
+                ConstraintLayout.LayoutParams(0, 0).apply {
+                    topToTop = id; leftToLeft = id; rightToRight = id; bottomToBottom = id
+                })
 
             var explode = AnimatorSet().setDuration(dur)
             var hide = ObjectAnimator.ofFloat(ex, "alpha", 0f)
@@ -65,8 +66,8 @@ class Fun {
 
         fun calType() = CalendarType.values()[BaseActivity.sp.getInt(Settings.spCalType, 0)]
 
-        fun vis(v: View, b: Boolean = true): Boolean {
-            v.visibility = if (b) View.VISIBLE else View.GONE
+        fun View.vis(b: Boolean = true): Boolean {
+            visibility = if (b) View.VISIBLE else View.GONE
             return b
         }
 
@@ -81,19 +82,20 @@ class Fun {
             else vib.vibrate(dur)
         }
 
-        fun fullDate(cal: Calendar) = when (calType()) {
+        fun Calendar.fullDate() = when (calType()) {
             CalendarType.JALALI -> {
-                val j = Jalali(cal)
+                val j = Jalali(this)
                 "${z(j.Y)}.${z(j.M + 1)}.${z(j.D)}"
             }
-            else -> "${z(cal[Calendar.YEAR])}.${z(cal[Calendar.MONTH] + 1)}" +
-                    ".${z(cal[Calendar.DAY_OF_MONTH])}"
+            else -> "${z(this[Calendar.YEAR])}.${z(this[Calendar.MONTH] + 1)}" +
+                    ".${z(this[Calendar.DAY_OF_MONTH])}"
         }
 
-        fun calendar(time: Long): Calendar = Calendar.getInstance().apply { timeInMillis = time }
+        fun Long.calendar(): Calendar =
+            Calendar.getInstance().apply { timeInMillis = this@calendar }
 
-        fun defCalendar(time: Long): Calendar = Calendar.getInstance().apply {
-            timeInMillis = time
+        fun Long.defCalendar(): Calendar = Calendar.getInstance().apply {
+            timeInMillis = this@defCalendar
             this[Calendar.HOUR] = 0
             this[Calendar.MINUTE] = 0
             this[Calendar.SECOND] = 0
@@ -104,6 +106,16 @@ class Fun {
             Color.BLUE, Color.RED, Color.CYAN, Color.GREEN, Color.MAGENTA,
             if (night()) Color.WHITE else Color.BLACK
         ).random()
+
+        fun ViewBinding.setOnLoadListener(func: () -> Unit): CountDownTimer =
+            object : CountDownTimer(5000, 50) {
+                override fun onFinish() {}
+                override fun onTick(millisUntilFinished: Long) {
+                    if (root.width <= 0) return
+                    func()
+                    this.cancel()
+                }
+            }.start()
     }
 
     enum class CalendarType { GREGORY, JALALI }

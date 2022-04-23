@@ -3,6 +3,7 @@ package ir.mahdiparastesh.sexbook
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.*
+import ir.mahdiparastesh.sexbook.Fun.Companion.explode
 import ir.mahdiparastesh.sexbook.Fun.Companion.shake
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Work
@@ -39,7 +40,7 @@ class Places : BaseActivity() {
                             m.places.value!!.add(msg.obj as Place)
                             b.list.adapter!!.notifyItemInserted(m.places.value!!.size - 1)
                             adding = false
-                            Fun.explode(c, b.add)
+                            b.add.explode(c)
                         }
                     }
                     Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>).apply {

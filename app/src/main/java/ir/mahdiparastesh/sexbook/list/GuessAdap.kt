@@ -47,13 +47,13 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
 
         // Since
         if (c.m.guesses.value!![i].sinc > -1L)
-            h.b.sinc.text = fullDate(defCalendar(c.m.guesses.value!![i].sinc))
+            h.b.sinc.text = c.m.guesses.value!![i].sinc.defCalendar().fullDate()
         else h.b.sinc.setText(R.string.etDateHint)
         h.b.sinc.setOnClickListener {
             val oldTime = c.m.guesses.value!![h.layoutPosition].sinc
-            val oldSinc = defCalendar(if (oldTime > -1L) oldTime else now())
+            val oldSinc = (if (oldTime > -1L) oldTime else now()).defCalendar()
             LocalDatePicker(c, "sinc", oldSinc) { _, time ->
-                h.b.sinc.text = fullDate(defCalendar(time))
+                h.b.sinc.text = time.defCalendar().fullDate()
                 c.m.guesses.value!![h.layoutPosition].apply {
                     if (sinc != time) {
                         sinc = time
@@ -65,13 +65,13 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
 
         // Until
         if (c.m.guesses.value!![i].till > -1L)
-            h.b.till.text = fullDate(defCalendar(c.m.guesses.value!![i].till))
+            h.b.till.text = c.m.guesses.value!![i].till.defCalendar().fullDate()
         else h.b.till.setText(R.string.etDateHint)
         h.b.till.setOnClickListener {
             val oldTime = c.m.guesses.value!![h.layoutPosition].till
-            val oldTill = defCalendar(if (oldTime > -1L) oldTime else now())
+            val oldTill = (if (oldTime > -1L) oldTime else now()).defCalendar()
             LocalDatePicker(c, "till", oldTill) { _, time ->
-                h.b.till.text = fullDate(defCalendar(time))
+                h.b.till.text = time.defCalendar().fullDate()
                 c.m.guesses.value!![h.layoutPosition].apply {
                     if (till != time) {
                         till = time

@@ -19,9 +19,13 @@ class SumPie : Fragment() {
         b = SumPieBinding.inflate(layoutInflater, parent, false)
 
         val data = arrayListOf<SliceValue>()
-        c.m.summary.value!!.scores.entries.sortedBy { Summary.sumErections(it.value) }.forEach {
-            data.add(SliceValue(Summary.sumErections(it.value), c.color(R.color.CPD))
-                .apply { setLabel(it.key) })
+        c.m.summary.value!!.scores.entries.sortedBy {
+            it.value.sumOf { s -> s.value.toDouble() }.toFloat()
+        }.forEach {
+            data.add(SliceValue(
+                it.value.sumOf { s -> s.value.toDouble() }.toFloat(),
+                c.color(R.color.CPD)
+            ).apply { setLabel(it.key) })
         }
         b.root.pieChartData = PieChartData(data).apply {
             setHasLabelsOnlyForSelected(true) //setHasLabels(true)

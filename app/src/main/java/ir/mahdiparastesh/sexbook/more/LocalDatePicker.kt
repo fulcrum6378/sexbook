@@ -2,9 +2,9 @@ package ir.mahdiparastesh.sexbook.more
 
 import androidx.fragment.app.DialogFragment
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.CalendarType
 import ir.mahdiparastesh.sexbook.Fun.Companion.calType
+import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.jdtp.utils.PersianCalendar
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
@@ -31,7 +31,7 @@ class LocalDatePicker(
             }
         } else DatePickerDialog.newInstance(
             { view, year, monthOfYear, dayOfMonth ->
-                val cal = Fun.calendar(default.timeInMillis)
+                val cal = default.timeInMillis.calendar()
                 cal[Calendar.YEAR] = year
                 cal[Calendar.MONTH] = monthOfYear
                 cal[Calendar.DAY_OF_MONTH] = dayOfMonth

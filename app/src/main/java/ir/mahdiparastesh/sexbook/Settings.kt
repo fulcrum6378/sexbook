@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
+import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
+import ir.mahdiparastesh.sexbook.Fun.Companion.defCalendar
+import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
 import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
@@ -62,15 +65,15 @@ class Settings : BaseActivity() {
         b.stStatSinceDateCb.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spStatSinceCb, isChecked).apply()
         }
-        val statSinc = Fun.calendar(sp.getLong(spStatSince, 0))
-        b.stStatSinceDate.text = if (!sp.contains(spStatSince)) "..." else Fun.fullDate(statSinc)
+        val statSinc = sp.getLong(spStatSince, 0).calendar()
+        b.stStatSinceDate.text = if (!sp.contains(spStatSince)) "..." else statSinc.fullDate()
         b.stStatSince.setOnClickListener {
             LocalDatePicker(
                 this@Settings, "stat",
-                if (!sp.contains(spStatSince)) Fun.calendar(Fun.now()) else statSinc
+                if (!sp.contains(spStatSince)) Fun.now().calendar() else statSinc
             ) { _, time ->
-                val cal = Fun.defCalendar(time)
-                b.stStatSinceDate.text = Fun.fullDate(cal)
+                val cal = time.defCalendar()
+                b.stStatSinceDate.text = cal.fullDate()
                 sp.edit().putLong(spStatSince, time).apply()
             }
         }

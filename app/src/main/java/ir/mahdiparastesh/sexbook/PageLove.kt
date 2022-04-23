@@ -71,7 +71,7 @@ class PageLove : Fragment() {
     }
 
     fun arrangeList() {
-        if (vis(b.empty, c.m.liefde.value.isNullOrEmpty())) return
+        if (b.empty.vis(c.m.liefde.value.isNullOrEmpty())) return
         b.rv.adapter = CrushAdap(c)
     }
 }

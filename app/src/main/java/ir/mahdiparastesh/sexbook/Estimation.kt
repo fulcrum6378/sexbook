@@ -3,6 +3,7 @@ package ir.mahdiparastesh.sexbook
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.*
+import ir.mahdiparastesh.sexbook.Fun.Companion.explode
 import ir.mahdiparastesh.sexbook.Fun.Companion.shake
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Work
@@ -41,7 +42,7 @@ class Estimation : BaseActivity() {
                             m.guesses.value!!.add(msg.obj as Guess)
                             b.list.adapter!!.notifyItemInserted(m.guesses.value!!.size - 1)
                             adding = false
-                            Fun.explode(c, b.add)
+                            b.add.explode(c)
                         }
                     }
                     Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>)

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.calType
+import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.vis
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
@@ -74,7 +75,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         val itm = c.m.visOnani.value!![i]
 
         // Date & Time
-        var cal = Fun.calendar(itm.time)
+        var cal = itm.time.calendar()
         h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
         h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
         h.b.date.text = compileDate(c, itm.time)
@@ -155,7 +156,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
             turnOverflow(i, h.b, expansion[i])
         } else {
             h.b.root.setOnClickListener(null)
-            vis(h.b.desc, false)
+            h.b.desc.vis(false)
         }
 
         // Descriptions
@@ -200,8 +201,8 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
             else placePos(itm.plac, places) + 1, true
         )
         if (!itm.isReal) {
-            vis(h.b.place)
-            vis(h.b.placeMark)
+            h.b.place.vis()
+            h.b.placeMark.vis()
         }
         h.b.place.isEnabled = itm.isReal
 
@@ -249,7 +250,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         val pos = view.tag!!.substring(4).toInt()
         if (c.m.onani.value!!.size > pos) when (view.tag!!.substring(0, 4)) {
             tagEdit -> {
-                var calc = Fun.calendar(c.m.onani.value!![pos].time)
+                var calc = c.m.onani.value!![pos].time.calendar()
                 calc[Calendar.HOUR_OF_DAY] = hourOfDay
                 calc[Calendar.MINUTE] = minute
                 calc[Calendar.SECOND] = second
@@ -261,9 +262,9 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
 
     fun turnOverflow(i: Int, b: ItemReportBinding, expand: Boolean = !expansion[i]) {
         expansion[i] = expand
-        vis(b.desc, expand)
-        vis(b.place, expand)
-        vis(b.placeMark, expand)
+        b.desc.vis(expand)
+        b.place.vis(expand)
+        b.placeMark.vis(expand)
     }
 
     fun update(updated: Report, nominalPos: Int) {
@@ -289,7 +290,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         const val estimatedAlpha = 0.6f
 
         fun compileDate(c: Context, time: Long): String {
-            val lm = Fun.calendar(time)
+            val lm = time.calendar()
             if (calType() == Fun.CalendarType.JALALI) {
                 val jal = Jalali(lm)
                 return "${c.resources.getStringArray(R.array.jMonths)[jal.M]} ${jal.D}"

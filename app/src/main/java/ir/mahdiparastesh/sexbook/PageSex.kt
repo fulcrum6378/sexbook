@@ -9,6 +9,8 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
+import ir.mahdiparastesh.sexbook.Fun.Companion.explode
 import ir.mahdiparastesh.sexbook.Fun.Companion.shake
 import ir.mahdiparastesh.sexbook.data.Filter
 import ir.mahdiparastesh.sexbook.data.Report
@@ -52,7 +54,7 @@ class PageSex : Fragment() {
                             c.m.onani.value!!.add(msg.obj as Report)
                             resetAllMasturbations()
                             adding = false
-                            Fun.explode(c, b.add)
+                            b.add.explode(c)
                         }
                     }
                     Work.INSERT_ONE -> if (msg.obj != null)
@@ -147,7 +149,7 @@ class PageSex : Fragment() {
     fun filter(reports: ArrayList<Report>): ArrayList<Filter> {
         val filters: ArrayList<Filter> = ArrayList()
         for (r in reports.indices) {
-            val lm = Fun.calendar(reports[r].time)
+            val lm = reports[r].time.calendar()
             var ym = arrayOf(lm[Calendar.YEAR], lm[Calendar.MONTH])
             if (Fun.calType() == Fun.CalendarType.JALALI)
                 Jalali(lm).apply { ym = arrayOf(Y, M) }

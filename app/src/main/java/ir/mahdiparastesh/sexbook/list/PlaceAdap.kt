@@ -50,7 +50,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<PlaceAdap.MyViewHolder>() 
 
         // Sum
         (c.m.places.value!![i].sum >= 0L).apply {
-            vis(h.b.sum, this)
+            h.b.sum.vis(this)
             h.b.sum.text = if (this) "{${c.m.places.value!![i].sum}}" else ""
         }
 

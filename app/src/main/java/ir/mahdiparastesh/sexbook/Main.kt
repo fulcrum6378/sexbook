@@ -10,6 +10,7 @@ import android.content.Intent
 import android.os.*
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
@@ -24,6 +25,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationView
+import ir.mahdiparastesh.sexbook.Fun.Companion.setOnLoadListener
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
@@ -37,7 +39,7 @@ import kotlin.system.exitProcess
 
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var b: MainBinding
-    private lateinit var exporter: Exporter
+    private val exporter = Exporter(this)
     private lateinit var toggleNav: ActionBarDrawerToggle
 
     companion object {
@@ -92,6 +94,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         // Loading
         if (m.loaded) b.body.removeView(b.load)
         else if (night()) b.loadIV.colorFilter = pdcf()
+        b.setOnLoadListener {
+            b.loadIV.alpha = 1f
+            ViewAnimationUtils.createCircularReveal(
+                b.loadIV, b.loadIV.width / 2, b.loadIV.height / 2,
+                0f, b.loadIV.width / 2f
+            ).start()
+        }
 
         // Navigation
         toggleNav = ActionBarDrawerToggle(
@@ -104,10 +113,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         b.toolbar.navigationIcon?.colorFilter = pdcf()
         b.nav.setNavigationItemSelectedListener(this)
         b.nav.menu.forEach { it.stylise(this@Main) }
-        exporter = Exporter(this)
 
         // Pager
-        b.pager.adapter = PageAdapter(this)
+        b.pager.adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount(): Int = 2
+            override fun createFragment(i: Int): Fragment =
+                if (i == 0) PageSex() else PageLove()
+        }
         b.pager.setPageTransformer { _, pos ->
             b.transformer.layoutParams =
                 (b.transformer.layoutParams as ConstraintLayout.LayoutParams).apply {
@@ -121,16 +133,16 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         // Observers
         m.onani.observe(this) { instilledGuesses = false }
 
-        checkIntent(intent)
+        intent.check()
         // Work(c, Work.VIEW_ALL).start()
         Work(c, Work.C_VIEW_ALL).start()
         Work(c, Work.P_VIEW_ALL).start()
         Work(c, Work.G_VIEW_ALL).start()
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        if (intent != null) checkIntent(intent)
+        intent.check()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -208,10 +220,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     }
 
 
-    fun checkIntent(intent: Intent) {
-        when (intent.action) {
-            Intent.ACTION_VIEW -> if (intent.data != null)
-                Exporter.import(this, intent.data!!, true)
+    fun Intent.check() {
+        when (action) {
+            Intent.ACTION_VIEW -> if (data != null)
+                Exporter.import(this@Main, intent.data!!, true)
             Action.ADD.s -> PageSex.messages.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> {
                 m.onani.value = null
@@ -231,7 +243,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
             startDelay = sd
             duration = dur
             addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     b.body.removeView(b.load)
                     m.loaded = true
                 }
@@ -286,12 +298,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
             1 -> SumPie()
             else -> SumChips()
         }
-    }
-
-    private inner class PageAdapter(c: Main) : FragmentStateAdapter(c) {
-        override fun getItemCount(): Int = 2
-        override fun createFragment(i: Int): Fragment =
-            if (i == 0) PageSex() else PageLove()
     }
 
     enum class Action(val s: String) {

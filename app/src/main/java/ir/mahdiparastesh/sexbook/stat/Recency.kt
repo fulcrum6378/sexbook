@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
 import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
@@ -57,8 +58,8 @@ class Recency(sum: Summary) {
                     text = "${r + 1}. ${res[r].name}"
                     typeface = c.font1
                 }
-                val lm = Fun.calendar(res[r].time)
-                date.text = "${fullDate(lm)} - " +
+                val lm = res[r].time.calendar()
+                date.text = "${lm.fullDate()} - " +
                         "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
                 date.typeface = c.font1
                 if (r == res.size - 1) root.removeViewAt(2)
