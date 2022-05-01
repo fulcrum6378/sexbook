@@ -46,8 +46,7 @@
 
             <ImageView
                 android:id="@+id/loadIV"
-                style="@style/loadIV"
-                android:alpha="0" />
+                style="@style/loadIV" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,11 +8,12 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.*
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -24,8 +25,11 @@ import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.material.navigation.NavigationView
-import ir.mahdiparastesh.sexbook.Fun.Companion.setOnLoadListener
+import ir.mahdiparastesh.sexbook.Fun.Companion.isReady
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
@@ -41,6 +45,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var b: MainBinding
     private val exporter = Exporter(this)
     private lateinit var toggleNav: ActionBarDrawerToggle
+    private lateinit var adBanner: AdView
 
     companion object {
         var handler: Handler? = null
@@ -94,13 +99,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         // Loading
         if (m.loaded) b.body.removeView(b.load)
         else if (night()) b.loadIV.colorFilter = pdcf()
-        b.setOnLoadListener {
-            b.loadIV.alpha = 1f
-            ViewAnimationUtils.createCircularReveal(
-                b.loadIV, b.loadIV.width / 2, b.loadIV.height / 2,
-                0f, b.loadIV.width / 2f
-            ).start()
-        }
 
         // Navigation
         toggleNav = ActionBarDrawerToggle(
@@ -143,6 +141,16 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         intent.check()
+    }
+
+    override fun onInitializationComplete(adsInitStatus: InitializationStatus) {
+        super.onInitializationComplete(adsInitStatus)
+        if (!adsInitStatus.isReady()) return
+        adBanner = Fun.adaptiveBanner(this, "ca-app-pub-9457309151954418/9298848860")
+        b.nav.addView(adBanner, FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply { gravity = Gravity.BOTTOM })
+        adBanner.loadAd(AdRequest.Builder().build())
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

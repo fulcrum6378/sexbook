@@ -6,11 +6,17 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
-import android.os.*
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.viewbinding.ViewBinding
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.initialization.AdapterStatus
+import com.google.android.gms.ads.initialization.InitializationStatus
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.Jalali
@@ -18,6 +24,8 @@ import java.util.*
 
 class Fun {
     companion object {
+        private const val ADMOB = "com.google.android.gms.ads.MobileAds"
+
         fun now() = Calendar.getInstance().timeInMillis
 
         fun View.explode(
@@ -35,8 +43,7 @@ class Fun {
                 this.alpha = alpha
             }
             parent.addView(
-                ex,
-                parent.indexOfChild(this),
+                ex, parent.indexOfChild(this),
                 ConstraintLayout.LayoutParams(0, 0).apply {
                     topToTop = id; leftToLeft = id; rightToRight = id; bottomToBottom = id
                 })
@@ -107,15 +114,17 @@ class Fun {
             if (night()) Color.WHITE else Color.BLACK
         ).random()
 
-        fun ViewBinding.setOnLoadListener(func: () -> Unit): CountDownTimer =
-            object : CountDownTimer(5000, 50) {
-                override fun onFinish() {}
-                override fun onTick(millisUntilFinished: Long) {
-                    if (root.width <= 0) return
-                    func()
-                    this.cancel()
-                }
-            }.start()
+        fun InitializationStatus.isReady(): Boolean = if (adapterStatusMap.containsKey(ADMOB))
+            adapterStatusMap[ADMOB]?.initializationState == AdapterStatus.State.READY
+        else false
+
+        fun adaptiveBanner(c: BaseActivity, unitId: String) = AdView(c).apply {
+            id = R.id.adBanner
+            adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                c, (BaseActivity.dm.widthPixels / BaseActivity.dm.density).toInt()
+            )
+            adUnitId = unitId
+        }
     }
 
     enum class CalendarType { GREGORY, JALALI }

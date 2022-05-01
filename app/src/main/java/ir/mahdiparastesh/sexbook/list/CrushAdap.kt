@@ -32,18 +32,13 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
         h.b.name.text = c.m.liefde.value!![i].visName()
 
         // Sum
-        h.b.sum.text =
-            if (c.m.summary.value != null) {
-                var sum = 0f
-                c.m.summary.value!!.scores[c.m.liefde.value!![i].key]
-                    ?.forEach { sum += it.value }
-                "{$sum}"
-            } else ""
+        h.b.sum.text = c.m.summary.value?.scores?.get(c.m.liefde.value!![i].key)
+            ?.sumOf { it.value.toDouble() }?.let { "{$it}" } ?: ""
 
         // Click
         h.b.root.setOnClickListener { v ->
             if (!Main.summarize(c.m)) return@setOnClickListener
-            val ins = c.m.liefde.value!![h.layoutPosition].insta
+            val ins = c.m.liefde.value?.get(h.layoutPosition)?.insta
             MaterialMenu(c, v, R.menu.crush, Act().apply {
                 this[R.id.lcInstagram] = {
                     if (ins != null && ins != "") c.startActivity(
@@ -78,8 +73,12 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
                         c.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
                     }
                 }
-            }).apply { menu.findItem(R.id.lcInstagram).isEnabled = ins != null && ins != "" }
-                .show()
+            }).apply {
+                menu.findItem(R.id.lcInstagram).isEnabled = ins != null && ins != ""
+                val sum = c.m.summary.value?.scores?.get(c.m.liefde.value!![i].key)
+                    ?.sumOf { it.value.toDouble() }
+                menu.findItem(R.id.lcStatistics).isEnabled = sum != null && sum > 0.0
+            }.show()
         }
     }
 

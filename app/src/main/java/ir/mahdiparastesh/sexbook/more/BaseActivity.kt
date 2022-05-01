@@ -16,23 +16,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.initialization.InitializationStatus
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
+import ir.mahdiparastesh.sexbook.Fun.Companion.isReady
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListener {
     lateinit var m: Model
     lateinit var c: Context
     lateinit var font1: Typeface
     lateinit var font1Bold: Typeface
     var tbTitle: TextView? = null
+    private var retryForAd = 0
 
     companion object {
+        const val ADMOB_DELAY = 2000L
+        const val MAX_AD_RETRY = 2
         lateinit var sp: SharedPreferences
         lateinit var jdtpFont: Typeface
         lateinit var jdtpFontBold: Typeface
         var dm = DisplayMetrics()
         var dirRtl = false
+        var adsInitStatus: InitializationStatus? = null
 
         fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
 
@@ -66,6 +74,23 @@ abstract class BaseActivity : AppCompatActivity() {
             if (!dirRtl) ViewGroup.LAYOUT_DIRECTION_LTR else ViewGroup.LAYOUT_DIRECTION_RTL
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (adsInitStatus?.isReady() != true)
+            Delay(ADMOB_DELAY) { initAdmob() }
+        else onInitializationComplete(adsInitStatus!!)
+    }
+
+    override fun onInitializationComplete(adsInitStatus: InitializationStatus) {
+        Companion.adsInitStatus = adsInitStatus
+        if (!adsInitStatus.isReady()) {
+            if (retryForAd < MAX_AD_RETRY) Delay(ADMOB_DELAY) {
+                initAdmob()
+                retryForAd++
+            } else retryForAd = 0
+            return; }
+    }
+
     fun toolbar(tb: Toolbar, title: Int) {
         setSupportActionBar(tb)
         for (g in 0 until tb.childCount) {
@@ -95,5 +120,10 @@ abstract class BaseActivity : AppCompatActivity() {
         setTextColor(color(R.color.mrvPopupButtons))
         //setBackgroundColor(color(R.color.CP))
         typeface = font1
+    }
+
+    private fun initAdmob() {
+        retryForAd = 0
+        MobileAds.initialize(c, this)
     }
 }

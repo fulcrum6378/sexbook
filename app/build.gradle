@@ -10,8 +10,8 @@ android {
         applicationId 'ir.mahdiparastesh.sexbook'
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 3
-        versionName '8.8.5'
+        versionCode 4
+        versionName '9.0.0'
     }
 
     signingConfigs {
@@ -61,4 +61,5 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
 }

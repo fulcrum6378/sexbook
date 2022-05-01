@@ -41,8 +41,10 @@ class Singular : BaseActivity() {
             onBackPressed(); return; }
         val data = ArrayList<Pair<String, Float>>()
         val history = m.summary.value!!.scores[m.crush]
+        if (history == null) {
+            onBackPressed(); return; }
         sinceTheBeginning(c, m.onani.value!!)
-            .forEach { data.add(Pair(it, calcHistory(c, history!!, it))) }
+            .forEach { data.add(Pair(it, calcHistory(c, history, it))) }
 
         // Handler
         handler = object : Handler(Looper.getMainLooper()) {
