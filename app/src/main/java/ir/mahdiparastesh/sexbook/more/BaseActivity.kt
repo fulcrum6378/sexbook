@@ -25,8 +25,8 @@ import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 
 abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListener {
+    val c: Context get() = applicationContext
     lateinit var m: Model
-    lateinit var c: Context
     lateinit var font1: Typeface
     lateinit var font1Bold: Typeface
     var tbTitle: TextView? = null
@@ -51,7 +51,6 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
-        c = applicationContext
 
         dm = resources.displayMetrics
         dirRtl = c.resources.getBoolean(R.bool.dirRtl)

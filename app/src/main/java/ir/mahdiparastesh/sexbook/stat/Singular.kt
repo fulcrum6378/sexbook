@@ -90,8 +90,10 @@ class Singular : BaseActivity() {
                 crush!!.bYear.toInt().let { if (it != -1) bir[Calendar.YEAR] = it }
                 crush!!.bMonth.toInt().let { if (it != -1) bir[Calendar.MONTH] = it }
                 crush!!.bDay.toInt().let { if (it != -1) bir[Calendar.DAY_OF_MONTH] = it }
-                if (crush!!.hasFullBirth())
+                if (crush!!.hasFullBirth()) {
                     bi.birth.text = bir.fullDate()
+                    isBirthSet = true
+                }
                 bi.location.setText(crush!!.locat)
                 bi.instagram.setText(crush!!.insta)
                 bi.notifyBirth.isChecked = crush!!.notifyBirth
