@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -19,30 +18,28 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
+import ir.mahdiparastesh.sexbook.*
 import ir.mahdiparastesh.sexbook.Fun.Companion.isReady
-import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.Model
-import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.stat.Summary
 
 abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListener {
     val c: Context get() = applicationContext
     lateinit var m: Model
+    lateinit var sp: SharedPreferences
     lateinit var font1: Typeface
     lateinit var font1Bold: Typeface
     var tbTitle: TextView? = null
+    val dm: DisplayMetrics by lazy { resources.displayMetrics }
+    val dirRtl: Boolean by lazy { c.resources.getBoolean(R.bool.dirRtl) }
     private var retryForAd = 0
 
     companion object {
         const val ADMOB_DELAY = 2000L
         const val MAX_AD_RETRY = 2
-        lateinit var sp: SharedPreferences
-        lateinit var jdtpFont: Typeface
-        lateinit var jdtpFontBold: Typeface
-        var dm = DisplayMetrics()
-        var dirRtl = false
+        lateinit var jdtpFont: Typeface // TODO: BAD
+        lateinit var jdtpFontBold: Typeface // BAD
         var adsInitStatus: InitializationStatus? = null
-
-        fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
 
         fun Context.night(): Boolean = resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
@@ -52,11 +49,8 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
         super.onCreate(savedInstanceState)
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
 
-        dm = resources.displayMetrics
-        dirRtl = c.resources.getBoolean(R.bool.dirRtl)
-        sp = getSharedPreferences(
-            resources.getString(R.string.stSP), Context.MODE_PRIVATE
-        )
+        if (this is Main) Settings.migrateSp()
+        initSp()
         if (!::font1.isInitialized) {
             font1 = font()
             jdtpFont = font1
@@ -90,6 +84,10 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
             return; }
     }
 
+    fun initSp() {
+        sp = getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
+    }
+
     fun toolbar(tb: Toolbar, title: Int) {
         setSupportActionBar(tb)
         for (g in 0 until tb.childCount) {
@@ -110,19 +108,29 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
         else c.resources.getString(R.string.font1Bold)
     )
 
+    fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
+
     fun color(res: Int) = ContextCompat.getColor(c, res)
 
     fun pdcf(res: Int = R.color.CPDD) =
         PorterDuffColorFilter(ContextCompat.getColor(c, res), PorterDuff.Mode.SRC_IN)
 
-    fun fixADButton(button: Button) = button.apply {
-        setTextColor(color(R.color.mrvPopupButtons))
-        //setBackgroundColor(color(R.color.CP))
-        typeface = font1
-    }
+    fun calType() = Fun.CalendarType.values()[sp.getInt(Settings.spCalType, 0)]
 
     private fun initAdmob() {
         retryForAd = 0
         MobileAds.initialize(c, this)
     }
+
+    fun summarize(): Boolean =
+        if (m.onani.value != null && m.onani.value!!.size > 0) {
+            val nEstimated: Int
+            var nExcluded = 0
+            var filtered: List<Report> = m.onani.value!!
+            filtered =
+                filtered.filter { it.isReal }.also { nEstimated = filtered.size - it.size }
+            if (sp.getBoolean(Settings.spStatSinceCb, false))
+                filtered = filtered.filter { it.time > sp.getLong(Settings.spStatSince, 0) }
+                    .also { nExcluded = filtered.size - it.size }
+            m.summary.value = Summary(filtered, nEstimated, nExcluded); true; } else false
 }

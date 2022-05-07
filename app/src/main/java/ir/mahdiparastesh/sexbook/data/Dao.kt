@@ -29,7 +29,7 @@ interface Dao {
 
 
     // Crush
-    @Query("SELECT * FROM Crush WHERE key LIKE :key LIMIT 1")
+    @Query("SELECT * FROM Crush WHERE `key` LIKE :key LIMIT 1")
     fun cGet(key: String): Crush
 
     @Query("SELECT * FROM Crush")

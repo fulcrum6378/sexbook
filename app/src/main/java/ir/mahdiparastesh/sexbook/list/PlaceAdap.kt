@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.Fun.Companion.vis
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
@@ -14,7 +15,6 @@ import ir.mahdiparastesh.sexbook.Settings.Companion.spDefPlace
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemPlaceBinding
 import ir.mahdiparastesh.sexbook.more.Act
-import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.sp
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
 
 class PlaceAdap(val c: Places) : RecyclerView.Adapter<PlaceAdap.MyViewHolder>() {
@@ -58,7 +58,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<PlaceAdap.MyViewHolder>() 
         val longClick = View.OnLongClickListener { v ->
             MaterialMenu(c, v, R.menu.place, Act().apply {
                 this[R.id.plDefPlace] = {
-                    sp.edit().apply {
+                    c.sp.edit().apply {
                         putLong(spDefPlace, c.m.places.value!![h.layoutPosition].id)
                         apply()
                     }
@@ -76,14 +76,10 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<PlaceAdap.MyViewHolder>() 
                         }
                         setNegativeButton(R.string.no, null)
                         setCancelable(true)
-                    }.create().apply {
-                        show()
-                        c.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                        c.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
-                    }
+                    }.show().stylise(c)
                 }
             }).apply {
-                if (sp.contains(spDefPlace) && sp.getLong(spDefPlace, -1L)
+                if (c.sp.contains(spDefPlace) && c.sp.getLong(spDefPlace, -1L)
                     == c.m.places.value!![h.layoutPosition].id
                 ) menu.findItem(R.id.plDefPlace).isChecked = true
             }.show()

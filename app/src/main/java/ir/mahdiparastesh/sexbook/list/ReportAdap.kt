@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook.list
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.Companion.calType
 import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.vis
 import ir.mahdiparastesh.sexbook.Main
@@ -23,7 +21,6 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.more.*
-import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.dp
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.util.*
 
@@ -32,7 +29,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
     RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
     TimePickerDialog.OnTimeSetListener {
 
-    var clockHeight = dp(48)
+    var clockHeight = c.dp(48)
     var expansion = arExpansion()
     val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
 
@@ -289,9 +286,9 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         const val tagEdit = "edit"
         const val estimatedAlpha = 0.6f
 
-        fun compileDate(c: Context, time: Long): String {
+        fun compileDate(c: BaseActivity, time: Long): String {
             val lm = time.calendar()
-            if (calType() == Fun.CalendarType.JALALI) {
+            if (c.calType() == Fun.CalendarType.JALALI) {
                 val jal = Jalali(lm)
                 return "${c.resources.getStringArray(R.array.jMonths)[jal.M]} ${jal.D}"
             }

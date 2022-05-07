@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook.data
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -10,6 +9,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
+import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import java.io.FileInputStream
@@ -77,18 +77,25 @@ class Exporter(val c: BaseActivity) {
                 setPositiveButton(R.string.yes) { _, _ -> replace(c, imported) }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
-            }.create().apply {
-                show()
-                c.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                c.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
-            }
+            }.show().stylise(c)
         }
 
-        fun replace(c: Context, imported: Exported) {
+        fun replace(c: BaseActivity, imported: Exported) {
             Work(c, Work.REPLACE_ALL, imported.reports?.toList()).start()
             Work(c, Work.C_REPLACE_ALL, imported.crushes?.toList()).start()
             Work(c, Work.P_REPLACE_ALL, imported.places?.toList()).start()
             Work(c, Work.G_REPLACE_ALL, imported.guesses?.toList()).start()
+            if (imported.settings != null) c.sp.edit().apply {
+                imported.settings.forEach { (k, v) ->
+                    when (v) {
+                        is Boolean -> putBoolean(k, v)
+                        is Double -> // all numbers become Double in SP.
+                            if (v.toString().length > 5) putLong(k, v.toLong())
+                            else putInt(k, v.toInt())
+                        is String -> putString(k, v)
+                    }
+                }
+            }.apply()
         }
     }
 
@@ -97,7 +104,8 @@ class Exporter(val c: BaseActivity) {
             c.m.onani.value?.filter { it.isReal }?.toTypedArray(),
             c.m.liefde.value?.toTypedArray(),
             c.m.places.value?.toTypedArray(),
-            c.m.guesses.value?.toTypedArray()
+            c.m.guesses.value?.toTypedArray(),
+            c.sp.all
         )
         if (exported!!.isEmpty()) {
             Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show(); return; }
@@ -120,7 +128,8 @@ class Exporter(val c: BaseActivity) {
         val reports: Array<Report>?,
         val crushes: Array<Crush>?,
         val places: Array<Place>?,
-        val guesses: Array<Guess>?
+        val guesses: Array<Guess>?,
+        val settings: Map<String, *>? = null
     ) {
         fun isEmpty() = reports.isNullOrEmpty()
     }

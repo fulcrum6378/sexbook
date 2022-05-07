@@ -30,6 +30,7 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.Fun.Companion.isReady
+import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
@@ -51,16 +52,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         var handler: Handler? = null
         const val NOTIFY_MAX_DISTANCE = 3
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
-
-        fun summarize(m: Model): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
-            val nEstimated: Int
-            var nExcluded = 0
-            var filtered: List<Report> = m.onani.value!!
-            filtered = filtered.filter { it.isReal }.also { nEstimated = filtered.size - it.size }
-            if (sp.getBoolean(Settings.spStatSinceCb, false))
-                filtered = filtered.filter { it.time > sp.getLong(Settings.spStatSince, 0) }
-                    .also { nExcluded = filtered.size - it.size }
-            m.summary.value = Summary(filtered, nEstimated, nExcluded); true; } else false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,7 +146,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.momSum -> if (summarize(m)) AlertDialog.Builder(this).apply {
+            R.id.momSum -> if (summarize()) AlertDialog.Builder(this).apply {
                 setTitle(
                     "${resources.getString(R.string.momSum)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})"
                 )
@@ -173,25 +164,19 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
                 })
                 setPositiveButton(R.string.ok, null)
                 setCancelable(true)
-            }.create().apply {
-                show()
-                fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-            }
-            R.id.momPop -> if (summarize(m))
+            }.show().stylise(this)
+            R.id.momPop -> if (summarize())
                 startActivity(Intent(this, Popularity::class.java))
-            R.id.momGrw -> if (summarize(m))
+            R.id.momGrw -> if (summarize())
                 startActivity(Intent(this, Growth::class.java))
             R.id.momRec -> if (m.summary.value != null) {
                 m.recency.value = Recency(m.summary.value!!)
-                if (summarize(m)) AlertDialog.Builder(this).apply {
+                if (summarize()) AlertDialog.Builder(this).apply {
                     setTitle(resources.getString(R.string.momRec))
                     setView(m.recency.value!!.draw(this@Main))
                     setPositiveButton(R.string.ok, null)
                     setCancelable(true)
-                }.create().apply {
-                    show()
-                    fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                }
+                }.show().stylise(this)
             }
             R.id.momPlc -> startActivity(Intent(this, Places::class.java))
             R.id.momEst -> startActivity(Intent(this, Estimation::class.java))
@@ -239,6 +224,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
                 m.liefde.value = null
                 m.places.value = null
                 m.guesses.value = null
+                initSp()
                 recreate()
             }
         }
@@ -269,7 +255,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
                     ).apply { description = "Birthday Notification" })
         with(NotificationManagerCompat.from(this)) {
             notify(666, NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
-                setSmallIcon(R.mipmap.launcher_round)
+                setSmallIcon(R.drawable.notification)
                 setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
                 setContentText(
                     getString(

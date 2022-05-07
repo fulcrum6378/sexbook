@@ -12,11 +12,10 @@
         android:fullBackupContent="@xml/old_backup"
         android:icon="@mipmap/launcher"
         android:label="@string/app_name"
-        android:resizeableActivity="false"
         android:roundIcon="@mipmap/launcher_round"
         android:supportsRtl="true"
         android:theme="@style/SexTheme"
-        tools:ignore="UnusedAttribute">
+        tools:ignore="UnusedAttribute"><!--android:resizeableActivity="false"-->
 
         <activity
             android:name=".Main"

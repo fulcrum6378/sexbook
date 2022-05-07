@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.stat
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +10,7 @@ import androidx.core.view.get
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
+import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -43,8 +43,8 @@ class Singular : BaseActivity() {
         val history = m.summary.value!!.scores[m.crush]
         if (history == null) {
             onBackPressed(); return; }
-        sinceTheBeginning(c, m.onani.value!!)
-            .forEach { data.add(Pair(it, calcHistory(c, history, it))) }
+        sinceTheBeginning(this, m.onani.value!!)
+            .forEach { data.add(Pair(it, calcHistory(this, history, it))) }
 
         // Handler
         handler = object : Handler(Looper.getMainLooper()) {
@@ -82,16 +82,16 @@ class Singular : BaseActivity() {
             val bir = Calendar.getInstance()
             if (crush != null) {
                 bi.fName.setText(crush!!.fName)
+                bi.mName.setText(crush!!.mName)
                 bi.lName.setText(crush!!.lName)
                 bi.masc.isChecked = crush!!.masc
-                bi.real.isChecked = crush!!.real
                 if (crush!!.height != -1f)
                     bi.height.setText(crush!!.height.toString())
                 crush!!.bYear.toInt().let { if (it != -1) bir[Calendar.YEAR] = it }
                 crush!!.bMonth.toInt().let { if (it != -1) bir[Calendar.MONTH] = it }
                 crush!!.bDay.toInt().let { if (it != -1) bir[Calendar.DAY_OF_MONTH] = it }
                 if (crush!!.hasFullBirth()) {
-                    bi.birth.text = bir.fullDate()
+                    bi.birth.text = bir.fullDate(this)
                     isBirthSet = true
                 }
                 bi.location.setText(crush!!.locat)
@@ -101,10 +101,10 @@ class Singular : BaseActivity() {
 
             // Birth
             bi.birth.setOnClickListener {
-                LocalDatePicker(this@Singular, "birth", bir) { _, time ->
+                LocalDatePicker(this, "birth", bir) { _, time ->
                     isBirthSet = true
                     bir.timeInMillis = time
-                    bi.birth.text = bir.fullDate()
+                    bi.birth.text = bir.fullDate(this)
                 }
             }
 
@@ -115,9 +115,9 @@ class Singular : BaseActivity() {
                     val inserted = Crush(
                         m.crush!!,
                         bi.fName.text.toString().ifEmpty { null },
+                        bi.mName.text.toString().ifEmpty { null },
                         bi.lName.text.toString().ifEmpty { null },
                         bi.masc.isChecked,
-                        bi.real.isChecked,
                         if (bi.height.text.toString() != "")
                             bi.height.text.toString().toFloat() else -1f,
                         if (isBirthSet) bir[Calendar.YEAR].toShort() else -1,
@@ -134,11 +134,7 @@ class Singular : BaseActivity() {
                 }
                 setNegativeButton(R.string.discard, null)
                 setCancelable(true)
-            }.create().apply {
-                show()
-                fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
-            }
+            }.show().stylise(this)
         }
 
         // TODO: Implement Mass Rename
@@ -152,16 +148,16 @@ class Singular : BaseActivity() {
     companion object {
         var handler: Handler? = null
 
-        fun sinceTheBeginning(c: Context, mOnani: ArrayList<Report>): List<String> {
+        fun sinceTheBeginning(c: BaseActivity, mOnani: ArrayList<Report>): List<String> {
             val now = Calendar.getInstance()
             var oldest = now.timeInMillis
-            if (sp.getBoolean(Settings.spStatSinceCb, false)) {
-                val statSinc = sp.getLong(Settings.spStatSince, 0L)
+            if (c.sp.getBoolean(Settings.spStatSinceCb, false)) {
+                val statSinc = c.sp.getLong(Settings.spStatSince, 0L)
                 for (h in mOnani) if (h.time in statSinc until oldest) oldest = h.time
             } else for (h in mOnani) if (h.time < oldest) oldest = h.time
             val beg = oldest.calendar()
             val list = arrayListOf<String>()
-            if (Fun.calType() != Fun.CalendarType.JALALI) {
+            if (c.calType() != Fun.CalendarType.JALALI) {
                 val yDist = now[Calendar.YEAR] - beg[Calendar.YEAR]
                 for (y in 0 until (yDist + 1)) {
                     var start = 0
@@ -190,12 +186,15 @@ class Singular : BaseActivity() {
         }
 
         fun calcHistory(
-            c: Context, list: ArrayList<Summary.Erection>, month: String, growing: Boolean = false
+            c: BaseActivity,
+            list: ArrayList<Summary.Erection>,
+            month: String,
+            growing: Boolean = false
         ): Float {
             var value = 0f
             val split = month.split(" ")
             val months = c.resources.getStringArray(
-                when (Fun.calType()) {
+                when (c.calType()) {
                     Fun.CalendarType.JALALI -> R.array.jMonths
                     else -> R.array.months
                 }
@@ -204,7 +203,7 @@ class Singular : BaseActivity() {
                 var lm = i.time.calendar()
                 var yea: Int
                 var mon: Int
-                if (Fun.calType() == Fun.CalendarType.JALALI) Jalali(lm).apply {
+                if (c.calType() == Fun.CalendarType.JALALI) Jalali(lm).apply {
                     yea = Y
                     mon = M
                 } else {

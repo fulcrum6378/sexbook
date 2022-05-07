@@ -59,12 +59,12 @@ class Recency(sum: Summary) {
                     typeface = c.font1
                 }
                 val lm = res[r].time.calendar()
-                date.text = "${lm.fullDate()} - " +
+                date.text = "${lm.fullDate(c)} - " +
                         "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
                 date.typeface = c.font1
                 if (r == res.size - 1) root.removeViewAt(2)
                 root.setOnClickListener {
-                    if (!Main.summarize(c.m)) return@setOnClickListener
+                    if (!c.summarize()) return@setOnClickListener
                     c.m.crush = res[r].name
                     c.startActivity(Intent(c, Singular::class.java))
                 }

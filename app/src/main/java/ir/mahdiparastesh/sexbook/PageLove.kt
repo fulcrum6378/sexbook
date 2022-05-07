@@ -60,7 +60,7 @@ class PageLove : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
-        Main.summarize(c.m)
+        c.summarize()
         if (changed) Work(c, Work.C_VIEW_ALL).start()
         else b.rv.adapter?.notifyDataSetChanged()
     }

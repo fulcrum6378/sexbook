@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Work
@@ -37,7 +38,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
 
         // Click
         h.b.root.setOnClickListener { v ->
-            if (!Main.summarize(c.m)) return@setOnClickListener
+            if (!c.summarize()) return@setOnClickListener
             val ins = c.m.liefde.value?.get(h.layoutPosition)?.insta
             MaterialMenu(c, v, R.menu.crush, Act().apply {
                 this[R.id.lcInstagram] = {
@@ -67,11 +68,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
                         }
                         setNegativeButton(R.string.no, null)
                         setCancelable(true)
-                    }.create().apply {
-                        show()
-                        c.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                        c.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
-                    }
+                    }.show().stylise(c)
                 }
             }).apply {
                 menu.findItem(R.id.lcInstagram).isEnabled = ins != null && ins != ""

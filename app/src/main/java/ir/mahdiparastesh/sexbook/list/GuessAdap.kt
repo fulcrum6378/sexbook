@@ -12,6 +12,7 @@ import ir.mahdiparastesh.sexbook.Estimation
 import ir.mahdiparastesh.sexbook.Fun.Companion.defCalendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
 import ir.mahdiparastesh.sexbook.Fun.Companion.now
+import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
@@ -47,13 +48,13 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
 
         // Since
         if (c.m.guesses.value!![i].sinc > -1L)
-            h.b.sinc.text = c.m.guesses.value!![i].sinc.defCalendar().fullDate()
+            h.b.sinc.text = c.m.guesses.value!![i].sinc.defCalendar().fullDate(c)
         else h.b.sinc.setText(R.string.etDateHint)
         h.b.sinc.setOnClickListener {
             val oldTime = c.m.guesses.value!![h.layoutPosition].sinc
             val oldSinc = (if (oldTime > -1L) oldTime else now()).defCalendar()
             LocalDatePicker(c, "sinc", oldSinc) { _, time ->
-                h.b.sinc.text = time.defCalendar().fullDate()
+                h.b.sinc.text = time.defCalendar().fullDate(c)
                 c.m.guesses.value!![h.layoutPosition].apply {
                     if (sinc != time) {
                         sinc = time
@@ -65,13 +66,13 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
 
         // Until
         if (c.m.guesses.value!![i].till > -1L)
-            h.b.till.text = c.m.guesses.value!![i].till.defCalendar().fullDate()
+            h.b.till.text = c.m.guesses.value!![i].till.defCalendar().fullDate(c)
         else h.b.till.setText(R.string.etDateHint)
         h.b.till.setOnClickListener {
             val oldTime = c.m.guesses.value!![h.layoutPosition].till
             val oldTill = (if (oldTime > -1L) oldTime else now()).defCalendar()
             LocalDatePicker(c, "till", oldTill) { _, time ->
-                h.b.till.text = time.defCalendar().fullDate()
+                h.b.till.text = time.defCalendar().fullDate(c)
                 c.m.guesses.value!![h.layoutPosition].apply {
                     if (till != time) {
                         till = time
@@ -165,11 +166,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
                         }
                         setNegativeButton(R.string.no, null)
                         setCancelable(true)
-                    }.create().apply {
-                        show()
-                        c.fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                        c.fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
-                    }
+                    }.show().stylise(c)
                 }
             }).show()
             true

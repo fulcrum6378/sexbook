@@ -18,7 +18,6 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
-import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.sp
 import ir.mahdiparastesh.sexbook.more.Jalali
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
@@ -61,7 +60,7 @@ class PageSex : Fragment() {
                         Work(c, Work.VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()
                     Work.REPLACE_ALL -> {
                         Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
-                        Work(c, Work.VIEW_ALL).start()
+                        c.recreate() // Work(c, Work.VIEW_ALL).start()
                     }
                     Work.UPDATE_ONE -> if (c.m.onani.value != null) {
                         if (c.m.visOnani.value!!.contains(c.m.onani.value!![msg.arg1])) {
@@ -151,7 +150,7 @@ class PageSex : Fragment() {
         for (r in reports.indices) {
             val lm = reports[r].time.calendar()
             var ym = arrayOf(lm[Calendar.YEAR], lm[Calendar.MONTH])
-            if (Fun.calType() == Fun.CalendarType.JALALI)
+            if (c.calType() == Fun.CalendarType.JALALI)
                 Jalali(lm).apply { ym = arrayOf(Y, M) }
             var filterExists = false
             for (f in filters.indices) if (filters[f].year == ym[0] && filters[f].month == ym[1]) {
@@ -176,7 +175,7 @@ class PageSex : Fragment() {
                 if (c.m.onani.value!!.size > o)
                     c.m.visOnani.value!!.add(c.m.onani.value!![o])
         if (b.rv.adapter == null) {
-            Main.summarize(c.m)
+            c.summarize()
             b.rv.adapter = ReportAdap(c)
         } else {
             (b.rv.adapter!! as ReportAdap).notifyAnyChange()
@@ -192,9 +191,9 @@ class PageSex : Fragment() {
         adding = true
         val newOne = Report(
             Fun.now(), "", 1, "", true,
-            sp.getLong(Settings.spDefPlace, -1L)
+            c.sp.getLong(Settings.spDefPlace, -1L)
         )
-        Work(c, Work.INSERT_ONE, listOf(newOne)).start()
+        Work(c.c, Work.INSERT_ONE, listOf(newOne)).start()
         object : CountDownTimer(Work.TIMEOUT, Work.TIMEOUT) {
             override fun onTick(p0: Long) {}
             override fun onFinish() {

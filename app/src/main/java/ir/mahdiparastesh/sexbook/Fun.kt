@@ -11,6 +11,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.google.android.gms.ads.AdSize
@@ -71,8 +72,6 @@ class Fun {
             return if (s.length == 1) "0$s" else s
         }
 
-        fun calType() = CalendarType.values()[BaseActivity.sp.getInt(Settings.spCalType, 0)]
-
         fun View.vis(b: Boolean = true): Boolean {
             visibility = if (b) View.VISIBLE else View.GONE
             return b
@@ -89,7 +88,7 @@ class Fun {
             else vib.vibrate(dur)
         }
 
-        fun Calendar.fullDate() = when (calType()) {
+        fun Calendar.fullDate(c: BaseActivity) = when (c.calType()) {
             CalendarType.JALALI -> {
                 val j = Jalali(this)
                 "${z(j.Y)}.${z(j.M + 1)}.${z(j.D)}"
@@ -121,9 +120,28 @@ class Fun {
         fun adaptiveBanner(c: BaseActivity, unitId: String) = AdView(c).apply {
             id = R.id.adBanner
             adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                c, (BaseActivity.dm.widthPixels / BaseActivity.dm.density).toInt()
+                c, (c.dm.widthPixels / c.dm.density).toInt()
             )
             adUnitId = unitId
+        }
+
+        fun AlertDialog.stylise(c: BaseActivity) {
+            // Don't move this function to BaseActivity
+            getButton(AlertDialog.BUTTON_POSITIVE)?.apply {
+                setTextColor(c.color(R.color.mrvPopupButtons))
+                //setBackgroundColor(color(R.color.CP))
+                typeface = c.font1
+            }
+            getButton(AlertDialog.BUTTON_NEGATIVE)?.apply {
+                setTextColor(c.color(R.color.mrvPopupButtons))
+                //setBackgroundColor(color(R.color.CP))
+                typeface = c.font1
+            }
+            getButton(AlertDialog.BUTTON_NEUTRAL)?.apply {
+                setTextColor(c.color(R.color.mrvPopupButtons))
+                //setBackgroundColor(color(R.color.CP))
+                typeface = c.font1
+            }
         }
     }
 

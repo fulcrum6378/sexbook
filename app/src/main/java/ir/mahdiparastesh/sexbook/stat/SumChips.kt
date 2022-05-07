@@ -17,8 +17,6 @@ import com.google.android.material.chip.ChipGroup
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SumChipsBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.dm
-import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.dp
 
 class SumChips : Fragment() {
     val c: BaseActivity by lazy { activity as BaseActivity }
@@ -54,11 +52,11 @@ class SumChips : Fragment() {
                     layoutParams = ChipGroup.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                     )
-                    setPadding(0, dp(12), 0, 0)
+                    setPadding(0, c.dp(12), 0, 0)
                     text = (if (r.key % 1 > 0) r.key.toString()
                     else r.key.toInt().toString()).plus(": ")
                     setTextColor(c.color(R.color.recency))
-                    textSize = dm.density * 5
+                    textSize = c.dm.density * 5
                     typeface = c.font1
                 })
                 for (crush in r.value) addView(
@@ -94,7 +92,7 @@ class SumChips : Fragment() {
         layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        setPadding(0, dp(7), 0, 0)
+        setPadding(0, c.dp(7), 0, 0)
         text = s
         setTextColor(c.color(R.color.searchHint))
         typeface = c.font1

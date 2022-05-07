@@ -25,6 +25,17 @@
         <View style="@style/identifySep" />
 
         <ir.mahdiparastesh.sexbook.more.SoftEditText
+            android:id="@+id/mName"
+            style="@style/identifyET"
+            android:autofillHints="personMiddleName"
+            android:hint="@string/middleName"
+            android:inputType="text"
+            android:maxLength="100"
+            android:maxLines="1" />
+
+        <View style="@style/identifySep" />
+
+        <ir.mahdiparastesh.sexbook.more.SoftEditText
             android:id="@+id/lName"
             style="@style/identifyET"
             android:autofillHints="personFamilyName"
@@ -40,18 +51,7 @@
             style="@style/identifyField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:text="@string/masculine" />
-
-        <View style="@style/identifySep" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/real"
-            style="@style/identifyField"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/real" />
 
         <View style="@style/identifySep" />
 

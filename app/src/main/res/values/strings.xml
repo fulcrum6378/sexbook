@@ -81,7 +81,7 @@
     </string-array>
     <string-array name="calendarTypes">
         <item>Gregorian</item>
-        <item>Persian</item>
+        <item>Iranian</item>
     </string-array>
     <string name="font1">franklin_gothic.ttf</string>
     <string name="font1Bold">franklin_gothic_bold.ttf</string>
@@ -126,6 +126,7 @@
     <!-- Singular -->
     <string name="identify">Identification</string>
     <string name="firstName">First Name</string>
+    <string name="middleName">Middle Name</string>
     <string name="lastName">Last Name</string>
     <string name="masculine">Masculine</string>
     <string name="real">Real Person</string>
@@ -151,12 +152,13 @@
     <string name="etDeleteGuessSure">Are you sure you want to delete this estimation?</string>
 
     <!-- Settings -->
-    <string name="stSP" translatable="false">ir.mahdiparastesh.sexbook.Settings</string>
     <string name="stTitle">Sexbook Settings</string>
     <string name="stCalendarType">Calendar Type</string>
     <string name="stStatSince">Statisticise Since</string>
-    <string name="stTruncate">Reset Database</string>
-    <string name="stTruncateSure">Are you sure tou want to remove all your personal data?</string>
+    <string name="stReset">Reset Settings</string>
+    <string name="stResetSure">Are you sure tou want to all the settings back to default?</string>
+    <string name="stTruncate">Remove All Data</string>
+    <string name="stTruncateSure">Are you sure you want to remove all your personal data?</string>
 
 
     <!-- JDTP -->

@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -11,12 +12,15 @@ import androidx.core.view.get
 import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.defCalendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
+import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
-import ir.mahdiparastesh.sexbook.data.DbFile
+import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.LocalDatePicker
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
+import kotlinx.coroutines.runBlocking
+import java.io.File
 
 class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
@@ -28,6 +32,18 @@ class Settings : BaseActivity() {
         const val spDefPlace = "defaultPlace"
         const val spStatSince = "statisticiseSince"
         const val spStatSinceCb = "statisticiseSinceCb"
+        // Beware of the numerical fields; go to Exporter$Companion.replace() for modifications.
+
+        @SuppressLint("SdCardPath")
+        const val spPath = "/data/data/ir.mahdiparastesh.sexbook/shared_prefs/"
+        const val spName = "settings"
+
+        fun migrateSp() {
+            File("${spPath}ir.mahdiparastesh.sexbook.Settings.xml")
+                .apply { if (exists()) renameTo(spFile()) }
+        }
+
+        fun spFile() = File("${spPath}${spName}.xml")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,23 +82,37 @@ class Settings : BaseActivity() {
             sp.edit().putBoolean(spStatSinceCb, isChecked).apply()
         }
         val statSinc = sp.getLong(spStatSince, 0).calendar()
-        b.stStatSinceDate.text = if (!sp.contains(spStatSince)) "..." else statSinc.fullDate()
+        b.stStatSinceDate.text =
+            if (!sp.contains(spStatSince)) "..." else statSinc.fullDate(this)
         b.stStatSince.setOnClickListener {
             LocalDatePicker(
-                this@Settings, "stat",
-                if (!sp.contains(spStatSince)) Fun.now().calendar() else statSinc
+                this, "stat", if (!sp.contains(spStatSince)) Fun.now().calendar() else statSinc
             ) { _, time ->
                 val cal = time.defCalendar()
-                b.stStatSinceDate.text = cal.fullDate()
+                b.stStatSinceDate.text = cal.fullDate(this)
                 sp.edit().putLong(spStatSince, time).apply()
             }
         }
 
-        // Truncate
+        // Removal
+        b.stReset.setOnClickListener {
+            AlertDialog.Builder(this).apply {
+                setTitle(R.string.stReset)
+                setMessage(R.string.stResetSure)
+                setPositiveButton(R.string.yes) { _, _ ->
+                    runBlocking { spFile().also { if (it.exists()) it.delete() } }
+                    initSp()
+                    changed = true
+                    recreate()
+                }
+                setNegativeButton(R.string.no, null)
+                setCancelable(true)
+            }.show().stylise(this)
+        }
         b.stTruncate.setOnClickListener {
             AlertDialog.Builder(this).apply {
-                setTitle(resources.getString(R.string.stTruncate))
-                setMessage(resources.getString(R.string.stTruncateSure))
+                setTitle(R.string.stTruncate)
+                setMessage(R.string.stTruncateSure)
                 setPositiveButton(R.string.yes) { _, _ ->
                     DbFile(DbFile.Triple.MAIN).delete()
                     DbFile(DbFile.Triple.SHARED_MEMORY).delete()
@@ -91,11 +121,7 @@ class Settings : BaseActivity() {
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
-            }.create().apply {
-                show()
-                fixADButton(getButton(AlertDialog.BUTTON_POSITIVE))
-                fixADButton(getButton(AlertDialog.BUTTON_NEGATIVE))
-            }
+            }.show().stylise(this)
         }
     }
 

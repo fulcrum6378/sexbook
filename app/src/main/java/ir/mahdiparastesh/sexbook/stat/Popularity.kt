@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.stat
 
-import android.graphics.Color
 import android.os.Bundle
 import ir.mahdiparastesh.sexbook.Fun.Companion.randomColor
 import ir.mahdiparastesh.sexbook.R
@@ -21,13 +20,13 @@ class Popularity : BaseActivity() {
 
         if (m.onani.value == null || m.summary.value == null) {
             onBackPressed(); return; }
-        val stb = Singular.sinceTheBeginning(c, m.onani.value!!)
+        val stb = Singular.sinceTheBeginning(this, m.onani.value!!)
         var stars = ArrayList<Star>()
         for (x in m.summary.value!!.scores) {
             if (Summary.isUnknown(x.key)) continue
             val scores = ArrayList<Star.Frame>()
             for (month in stb)
-                scores.add(Star.Frame(Singular.calcHistory(c, x.value, month), month))
+                scores.add(Star.Frame(Singular.calcHistory(this, x.value, month), month))
             stars.add(Star(x.key, scores.toTypedArray()))
         }
         stars.sortWith(Star.Sort(1))

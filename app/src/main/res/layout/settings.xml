@@ -58,6 +58,15 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/stReset"
+                style="@style/stItem">
+
+                <TextView
+                    style="@style/stItemTV"
+                    android:text="@string/stReset" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/stTruncate"
                 style="@style/stItem">
 
