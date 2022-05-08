@@ -17,14 +17,13 @@ import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.LocalDatePicker
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 import java.io.File
 
 class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
-    private lateinit var calendarTypes: Array<String>
+    private val calendarTypes: Array<String> by lazy { resources.getStringArray(R.array.calendarTypes) }
     private var changed = false
 
     companion object {
@@ -61,7 +60,6 @@ class Settings : BaseActivity() {
         b.stStatSinceDate.typeface = font1
 
         // Calendar Type
-        calendarTypes = resources.getStringArray(R.array.calendarTypes)
         b.stCalendarType.adapter = SpinnerAdap(this, calendarTypes.toList())
         b.stCalendarType.setSelection(sp.getInt(spCalType, 0))
         b.stCalendarType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -98,8 +96,11 @@ class Settings : BaseActivity() {
                 setMessage(R.string.stResetSure)
                 setPositiveButton(R.string.yes) { _, _ ->
                     sp.edit().apply { for (k in sp.all.keys) remove(k) }.apply()
+                    // spinners and checkboxes saved their instance and after recreation and setting
+                    // their values, they saved their values into SP. After assigning their
+                    // "saveEnabled" to "false", it worked like a charm!
+                    recreate()
                     changed = true
-                    Delay(500) { recreate() }
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)

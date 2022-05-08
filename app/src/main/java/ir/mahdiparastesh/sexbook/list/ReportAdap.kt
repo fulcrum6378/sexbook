@@ -10,12 +10,9 @@ import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
-import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.*
 import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.vis
-import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.Model
-import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
@@ -87,8 +84,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 setCancelColor(c.color(R.color.mrvPopupButtons))
                 setOnDismissListener { dialogDismissed() }
                 show(
-                    c.supportFragmentManager,
-                    "edit${globalPos(c.m, h.layoutPosition)}"
+                    c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}"
                 )
             }
             mayShowAd()
@@ -293,7 +289,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         showingDialog = true
         if (refrainFromAd == 0) {
             c.loadInterstitial("ca-app-pub-9457309151954418/4827392445") { !c.showingAd && !showingDialog }
-            refrainFromAd += 3
+            refrainFromAd += PageSex.DISMISSAL_REFRAIN_FROM_AD_TIMES
         }
     }
 

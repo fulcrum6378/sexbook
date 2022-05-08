@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/launcher_round"
         android:supportsRtl="true"
         android:theme="@style/SexTheme"
-        tools:ignore="UnusedAttribute"><!--android:resizeableActivity="false"-->
+        tools:ignore="UnusedAttribute">
 
         <activity
             android:name=".Main"

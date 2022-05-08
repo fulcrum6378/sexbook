@@ -11,6 +11,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.ColorRes
 import androidx.annotation.MainThread
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -32,11 +33,11 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
     val c: Context get() = applicationContext
     lateinit var m: Model
     lateinit var sp: SharedPreferences
-    lateinit var font1: Typeface
-    lateinit var font1Bold: Typeface
+    val font1: Typeface by lazy { font() }
+    val font1Bold: Typeface by lazy { font(true) }
     private var tbTitle: TextView? = null
     val dm: DisplayMetrics by lazy { resources.displayMetrics }
-    private val dirRtl: Boolean by lazy { c.resources.getBoolean(R.bool.dirRtl) }
+    private val dirRtl by lazy { c.resources.getBoolean(R.bool.dirRtl) }
     var interstitialAd: InterstitialAd? = null
     var loadingAd = false
     var showingAd = false
@@ -58,14 +59,8 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         if (this is Main) Settings.migrateSp()
         sp = getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
-        if (!::font1.isInitialized) {
-            font1 = font()
-            jdtpFont = font1
-        }
-        if (!::font1Bold.isInitialized) {
-            font1Bold = font(true)
-            jdtpFontBold = font1Bold
-        }
+        jdtpFont = font1
+        jdtpFontBold = font1Bold
     }
 
     override fun setContentView(root: View?) {
@@ -113,9 +108,9 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
 
     fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
 
-    fun color(res: Int) = ContextCompat.getColor(c, res)
+    fun color(@ColorRes res: Int) = ContextCompat.getColor(c, res)
 
-    fun pdcf(res: Int = R.color.CPDD) =
+    fun pdcf(@ColorRes res: Int = R.color.CPDD) =
         PorterDuffColorFilter(ContextCompat.getColor(c, res), PorterDuff.Mode.SRC_IN)
 
     fun calType() = Fun.CalendarType.values()[sp.getInt(Settings.spCalType, 0)]

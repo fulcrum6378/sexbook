@@ -8,15 +8,13 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.*
-import android.view.Gravity
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -43,7 +41,8 @@ import java.util.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
-class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
+    Toolbar.OnMenuItemClickListener {
     private lateinit var b: MainBinding
     private val exporter = Exporter(this)
     private lateinit var toggleNav: ActionBarDrawerToggle
@@ -51,9 +50,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var adBannerLoaded = false
 
     companion object {
-        var handler: Handler? = null
         const val NOTIFY_MAX_DISTANCE = 3
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
+        var handler: Handler? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -192,6 +191,26 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
             R.id.momImport -> exporter.launchImport()
             R.id.momExport -> exporter.launchExport()
             R.id.momSettings -> startActivity(Intent(this, Settings::class.java))
+        }
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+        b.toolbar.inflateMenu(R.menu.main_tlb)
+        b.toolbar.setOnMenuItemClickListener(this)
+        b.toolbar.menu.forEach { it.icon?.colorFilter = pdcf() }
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        b.toolbar.menu.forEach { it.stylise(this) }
+        return true
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.mtCrush -> b.pager.setCurrentItem(1, true)
         }
         return true
     }

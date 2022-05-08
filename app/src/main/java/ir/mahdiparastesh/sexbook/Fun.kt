@@ -11,6 +11,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.view.View
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -30,7 +31,7 @@ class Fun {
         fun now() = Calendar.getInstance().timeInMillis
 
         fun View.explode(
-            c: Context, dur: Long = 522, src: Int = R.drawable.button_1,
+            c: Context, dur: Long = 522, @DrawableRes src: Int = R.drawable.button_1,
             alpha: Float = 1f, max: Float = 4f
         ) {
             if (parent !is ConstraintLayout) return

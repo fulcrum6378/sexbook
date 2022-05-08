@@ -118,6 +118,7 @@
     <string name="desc">Write descriptions&#8230;</string>
 
     <!-- Page Love -->
+    <string name="crushes">List of Crushes</string>
     <string name="emptyLove">After adding some sex records, go to Navigation Menu -> Summary -> Select a crush -> Hit the top right button with a \"Person\" (Identification) icon.</string>
     <string name="lcStatistics">Statistics</string>
     <string name="lcInstagram">Instagram</string>

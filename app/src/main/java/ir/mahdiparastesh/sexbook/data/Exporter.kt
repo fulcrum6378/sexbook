@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
 import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -90,8 +91,10 @@ class Exporter(val c: BaseActivity) {
                     when (v) {
                         is Boolean -> putBoolean(k, v)
                         is Double -> // all numbers become Double in SP.
-                            if (v.toString().length > 5) putLong(k, v.toLong())
-                            else putInt(k, v.toInt())
+                            when (k) {
+                                Settings.spDefPlace, Settings.spStatSince -> putLong(k, v.toLong())
+                                Settings.spCalType -> putInt(k, v.toInt())
+                            }
                         is String -> putString(k, v)
                     }
                 }
