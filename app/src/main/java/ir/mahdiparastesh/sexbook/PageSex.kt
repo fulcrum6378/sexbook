@@ -1,7 +1,10 @@
 package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
-import android.os.*
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +21,7 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
+import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Jalali
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
@@ -124,7 +128,7 @@ class PageSex : Fragment() {
     }
 
     var spnFilterTouched = false
-    var filteredOnce = false
+    private var filteredOnce = false
     fun resetAllMasturbations() {
         Collections.sort(c.m.onani.value!!, ReportAdap.Sort())
         filters = filter(c.m.onani.value!!)
@@ -145,7 +149,7 @@ class PageSex : Fragment() {
         filteredOnce = true
     }
 
-    fun filter(reports: ArrayList<Report>): ArrayList<Filter> {
+    private fun filter(reports: ArrayList<Report>): ArrayList<Filter> {
         val filters: ArrayList<Filter> = ArrayList()
         for (r in reports.indices) {
             val lm = reports[r].time.calendar()
@@ -194,11 +198,7 @@ class PageSex : Fragment() {
             c.sp.getLong(Settings.spDefPlace, -1L)
         )
         Work(c.c, Work.INSERT_ONE, listOf(newOne)).start()
-        object : CountDownTimer(Work.TIMEOUT, Work.TIMEOUT) {
-            override fun onTick(p0: Long) {}
-            override fun onFinish() {
-                adding = false; }
-        }.start()
+        Delay { adding = false }
         c.c.shake()
     }
 }

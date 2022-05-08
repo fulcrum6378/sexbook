@@ -109,7 +109,7 @@
     <string name="importOpenError">متاسفانه هنگام بازکردن فایل خطایی رخ داد!</string>
     <string name="importReadError">متاسفانه هنگام خواندن فایل خطایی رخ داد!</string>
     <string name="noRecords">شما هیچ چیزی ثبت نکرده اید!</string>
-    <string name="askImport">آیا از جایگزین کردن تمام این موارد اطمینان دارید؟</string>
+    <string name="askImport">آیا از جایگزین کردن تمام اطلاعات اپلیکیشن اطمینان دارید؟</string>
     <string name="findChip">یک کراش انتخاب کنید&#8230;</string>
 
     <!-- Page Sex -->

@@ -22,6 +22,14 @@ class Model : ViewModel() {
     val summary = MutableLiveData<Summary?>()
     val recency = MutableLiveData<Recency?>()
 
+    fun reset() {
+        onani.value = null
+        visOnani.value?.clear()
+        liefde.value = null
+        places.value = null
+        guesses.value = null
+    }
+
 
     @Suppress("UNCHECKED_CAST")
     class Factory : ViewModelProvider.Factory {

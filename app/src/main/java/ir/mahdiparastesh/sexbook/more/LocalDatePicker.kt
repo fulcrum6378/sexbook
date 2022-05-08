@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.more
 
+import android.content.DialogInterface
 import androidx.fragment.app.DialogFragment
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun.CalendarType
@@ -11,6 +12,7 @@ import java.util.*
 
 class LocalDatePicker(
     c: BaseActivity, tag: String, default: Calendar,
+    dismissal: (DialogInterface) -> Unit = {},
     listener: (view: DialogFragment, time: Long) -> Unit
 ) {
     init {
@@ -25,6 +27,7 @@ class LocalDatePicker(
                     listener(view, cal.timeInMillis)
                 }, jal.Y, jal.M, jal.D
             ).apply {
+                setOnDismissListener(dismissal)
                 isThemeDark = c.night()
                 show(c.supportFragmentManager, tag)
             }
@@ -45,6 +48,7 @@ class LocalDatePicker(
             accentColor = c.color(R.color.CP)
             setOkColor(c.color(R.color.mrvPopupButtons))
             setCancelColor(c.color(R.color.mrvPopupButtons))
+            setOnDismissListener(dismissal)
             show(c.supportFragmentManager, tag)
         }
     }

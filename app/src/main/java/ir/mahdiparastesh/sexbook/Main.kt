@@ -36,6 +36,7 @@ import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.MaterialMenu.Companion.stylise
 import ir.mahdiparastesh.sexbook.stat.*
 import java.util.*
@@ -47,6 +48,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val exporter = Exporter(this)
     private lateinit var toggleNav: ActionBarDrawerToggle
     private lateinit var adBanner: AdView
+    private var adBannerLoaded = false
 
     companion object {
         var handler: Handler? = null
@@ -92,10 +94,18 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         else if (night()) b.loadIV.colorFilter = pdcf()
 
         // Navigation
-        toggleNav = ActionBarDrawerToggle(
+        toggleNav = object : ActionBarDrawerToggle(
             this, b.root, b.toolbar, R.string.navOpen, R.string.navClose
-        ).apply {
-            b.root.addDrawerListener(this)
+        ) {
+            override fun onDrawerOpened(drawerView: View) {
+                super.onDrawerOpened(drawerView)
+                if (::adBanner.isInitialized && !adBannerLoaded) {
+                    adBanner.loadAd(AdRequest.Builder().build())
+                    adBannerLoaded = true
+                }
+            }
+        }.apply {
+            b.root.addDrawerListener(this@apply)
             isDrawerIndicatorEnabled = true
             syncState()
         }
@@ -141,7 +151,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         b.nav.addView(adBanner, FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ).apply { gravity = Gravity.BOTTOM })
-        adBanner.loadAd(AdRequest.Builder().build())
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -187,18 +196,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         return true
     }
 
-    var exiting = false
+    private var exiting = false
     override fun onBackPressed() { // Don't use super's already overriden function
         if (b.root.isDrawerOpen(GravityCompat.START)) {
             b.root.closeDrawer(GravityCompat.START); return; }
         if (!exiting) {
             exiting = true
-            object : CountDownTimer(4000, 4000) {
-                override fun onTick(p0: Long) {}
-                override fun onFinish() {
-                    exiting = false
-                }
-            }.start()
+            Delay(4000) { exiting = false }
             Toast.makeText(c, R.string.toExit, Toast.LENGTH_SHORT).show()
             return
         }
@@ -213,18 +217,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     }
 
 
-    fun Intent.check() {
+    private fun Intent.check() {
         when (action) {
             Intent.ACTION_VIEW -> if (data != null)
                 Exporter.import(this@Main, intent.data!!, true)
             Action.ADD.s -> PageSex.messages.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> {
-                m.onani.value = null
-                m.visOnani.value?.clear()
-                m.liefde.value = null
-                m.places.value = null
-                m.guesses.value = null
-                initSp()
+                m.reset()
                 recreate()
             }
         }
@@ -268,7 +267,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
         }
     }
 
-    var instilledGuesses = false
+    private var instilledGuesses = false
     fun instillGuesses() {
         if (m.onani.value == null || m.guesses.value == null || instilledGuesses) return
         for (g in m.guesses.value!!) {

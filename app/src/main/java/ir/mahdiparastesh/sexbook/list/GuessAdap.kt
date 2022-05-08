@@ -21,12 +21,12 @@ import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
 import ir.mahdiparastesh.sexbook.more.*
 import kotlin.collections.set
 
-class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder>() {
+class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGuessBinding>>() {
     val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
 
-    class MyViewHolder(val b: ItemGuessBinding) : RecyclerView.ViewHolder(b.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup, viewType: Int
+    ): AnyViewHolder<ItemGuessBinding> {
         val b = ItemGuessBinding.inflate(c.layoutInflater, parent, false)
 
         // Type
@@ -39,11 +39,11 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<GuessAdap.MyViewHolder
                 ArrayList(l.map { it.name }).apply { add(0, "") })
         }
 
-        return MyViewHolder(b)
+        return AnyViewHolder(b)
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onBindViewHolder(h: MyViewHolder, i: Int) {
+    override fun onBindViewHolder(h: AnyViewHolder<ItemGuessBinding>, i: Int) {
         if (c.m.guesses.value == null) return
 
         // Since

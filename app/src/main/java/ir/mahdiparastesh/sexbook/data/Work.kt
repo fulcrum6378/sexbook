@@ -10,7 +10,7 @@ import ir.mahdiparastesh.sexbook.*
 class Work(
     val c: Context,
     val action: Int,
-    val values: List<Any>? = null,
+    private val values: List<Any>? = null,
     val handler: Handler? = when {
         action < 10 -> if (PageSex.handler.value != null) PageSex.handler.value!! else Main.handler
         action < 20 -> if (PageLove.handler.value != null) PageLove.handler.value!! else Main.handler

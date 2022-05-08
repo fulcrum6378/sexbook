@@ -11,8 +11,8 @@ import ir.mahdiparastesh.sexbook.databinding.TypeSelectorDdBinding
 
 class TypeAdap(
     val c: BaseActivity,
-    val names: Array<String> = c.resources.getStringArray(R.array.types),
-    val types: Array<Type> = arrayOf(
+    private val names: Array<String> = c.resources.getStringArray(R.array.types),
+    private val types: Array<Type> = arrayOf(
         Type(names[0], R.drawable.wet_dream),
         Type(names[1], R.drawable.masturbation),
         Type(names[2], R.drawable.oral_sex),

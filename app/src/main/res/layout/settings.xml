@@ -37,7 +37,8 @@
                 <Spinner
                     android:id="@+id/stCalendarType"
                     style="@style/stItemTweak"
-                    android:backgroundTint="@color/stItemTV" />
+                    android:backgroundTint="@color/stItemTV"
+                    android:saveEnabled="false" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,6 +48,7 @@
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stStatSinceDateCb"
                     style="@style/stItemTV"
+                    android:saveEnabled="false"
                     android:text="@string/stStatSince" />
 
                 <TextView

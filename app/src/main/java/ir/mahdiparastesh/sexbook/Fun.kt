@@ -145,5 +145,6 @@ class Fun {
         }
     }
 
-    enum class CalendarType { GREGORY, JALALI }
+    @Suppress("unused")
+    enum class CalendarType { GREGORIAN, JALALI }
 }

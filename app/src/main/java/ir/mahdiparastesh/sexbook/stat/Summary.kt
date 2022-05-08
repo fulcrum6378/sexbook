@@ -158,6 +158,7 @@ class Summary(list: List<Report>, val nEstimated: Int, val nExcluded: Int) {
         return index
     }
 
+    @Suppress("SameParameterValue")
     private fun List<Meaning>.mAnyOf(vararg those: Meaning): Boolean {
         val sum = arrayListOf<Int>()
         those.forEach { t ->
@@ -189,7 +190,7 @@ class Summary(list: List<Report>, val nEstimated: Int, val nExcluded: Int) {
         }
         results =
             results.toSortedMap(reverseOrder()).toMutableMap() as HashMap<Float, ArrayList<String>>
-        return Result(results, scores)
+        return Result(results/*, scores*/)
     }
 
 
@@ -206,16 +207,16 @@ class Summary(list: List<Report>, val nEstimated: Int, val nExcluded: Int) {
     @Suppress("UNCHECKED_CAST")
     class Result(
         var calculations: HashMap<Float, ArrayList<String>>,
-        var scores: HashMap<String, ArrayList<Erection>>
+        //var scores: HashMap<String, ArrayList<Erection>>
     ) : Parcelable {
         private constructor(parcel: Parcel) : this(
             calculations = parcel.readSerializable() as HashMap<Float, ArrayList<String>>,
-            scores = parcel.readSerializable() as HashMap<String, ArrayList<Erection>>
+            //scores = parcel.readSerializable() as HashMap<String, ArrayList<Erection>>
         )
 
         override fun writeToParcel(out: Parcel?, flags: Int) {
             out?.writeSerializable(calculations)
-            out?.writeSerializable(scores)
+            //out?.writeSerializable(scores)
         }
 
         override fun describeContents() = 0

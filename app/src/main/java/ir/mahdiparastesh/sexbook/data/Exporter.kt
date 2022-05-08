@@ -16,7 +16,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 class Exporter(val c: BaseActivity) {
-    var exported: Exported? = null
+    private var exported: Exported? = null
 
     private var exportLauncher: ActivityResultLauncher<Intent> =
         c.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -47,7 +47,7 @@ class Exporter(val c: BaseActivity) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
             else "application/json"
 
-        fun import(c: BaseActivity, uri: Uri, makeSure: Boolean = false) {
+        fun import(c: BaseActivity, uri: Uri, makeSure: Boolean = true) {
             var data: String? = null
             try {
                 c.contentResolver.openFileDescriptor(uri, "r")?.use { des ->
@@ -80,7 +80,7 @@ class Exporter(val c: BaseActivity) {
             }.show().stylise(c)
         }
 
-        fun replace(c: BaseActivity, imported: Exported) {
+        private fun replace(c: BaseActivity, imported: Exported) {
             Work(c, Work.REPLACE_ALL, imported.reports?.toList()).start()
             Work(c, Work.C_REPLACE_ALL, imported.crushes?.toList()).start()
             Work(c, Work.P_REPLACE_ALL, imported.places?.toList()).start()
@@ -96,6 +96,7 @@ class Exporter(val c: BaseActivity) {
                     }
                 }
             }.apply()
+            c.m.reset()
         }
     }
 

@@ -25,17 +25,17 @@ import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.util.*
 
 @SuppressLint("UseRequireInsteadOfGet")
-class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
-    RecyclerView.Adapter<ReportAdap.MyViewHolder>(),
+class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
+    RecyclerView.Adapter<AnyViewHolder<ItemReportBinding>>(),
     TimePickerDialog.OnTimeSetListener {
 
-    var clockHeight = c.dp(48)
-    var expansion = arExpansion()
+    private var clockHeight = c.dp(48)
+    private var expansion = arExpansion()
     val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
 
-    class MyViewHolder(val b: ItemReportBinding) : RecyclerView.ViewHolder(b.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup, viewType: Int
+    ): AnyViewHolder<ItemReportBinding> {
         val b = ItemReportBinding.inflate(c.layoutInflater, parent, false)
 
         // Fonts
@@ -64,11 +64,11 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         if (places != null) b.place.adapter =
             SpinnerAdap(c, ArrayList(places.map { it.name }).apply { add(0, "") })
 
-        return MyViewHolder(b)
+        return AnyViewHolder(b)
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onBindViewHolder(h: MyViewHolder, i: Int) {
+    override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
         val itm = c.m.visOnani.value!![i]
 
         // Date & Time
@@ -85,14 +85,18 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
                 accentColor = c.color(R.color.CP)
                 setOkColor(c.color(R.color.mrvPopupButtons))
                 setCancelColor(c.color(R.color.mrvPopupButtons))
+                setOnDismissListener { dialogDismissed() }
                 show(
                     c.supportFragmentManager,
                     "edit${globalPos(c.m, h.layoutPosition)}"
                 )
             }
+            mayShowAd()
         } else h.b.clock.setOnClickListener(null)
         if (itm.isReal) h.b.date.setOnClickListener {
-            LocalDatePicker(c, "$tagEdit${globalPos(c.m, h.layoutPosition)}", cal) { view, time ->
+            LocalDatePicker(
+                c, "$tagEdit${globalPos(c.m, h.layoutPosition)}", cal, { dialogDismissed() }
+            ) { view, time ->
                 if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4)
                     return@LocalDatePicker
                 val pos = view.tag!!.substring(4).toInt()
@@ -101,6 +105,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
                     Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
                 }
             }
+            mayShowAd()
         } else h.b.date.setOnClickListener(null)
         h.b.ampm.text =
             c.resources.getText(if (cal[Calendar.HOUR_OF_DAY] >= 12) R.string.PM else R.string.AM)
@@ -257,7 +262,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         }
     }
 
-    fun turnOverflow(i: Int, b: ItemReportBinding, expand: Boolean = !expansion[i]) {
+    private fun turnOverflow(i: Int, b: ItemReportBinding, expand: Boolean = !expansion[i]) {
         expansion[i] = expand
         b.desc.vis(expand)
         b.place.vis(expand)
@@ -272,7 +277,7 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 1)).start()
     }
 
-    fun arExpansion() = BooleanArray(itemCount) { autoExpand }
+    private fun arExpansion() = BooleanArray(itemCount) { autoExpand }
 
     fun notifyAnyChange() {
         val oldExp = expansion
@@ -280,6 +285,21 @@ class ReportAdap(val c: Main, val autoExpand: Boolean = false) :
         for (i in oldExp.indices) {
             if (expansion.size > i) expansion[i] = oldExp[i]
         }
+    }
+
+    private var refrainFromAd = 0
+    private var showingDialog = false
+    private fun mayShowAd() {
+        showingDialog = true
+        if (refrainFromAd == 0) {
+            c.loadInterstitial("ca-app-pub-9457309151954418/4827392445") { !c.showingAd && !showingDialog }
+            refrainFromAd += 3
+        }
+    }
+
+    private fun dialogDismissed() {
+        showingDialog = false
+        c.showInterstitial()
     }
 
     companion object {

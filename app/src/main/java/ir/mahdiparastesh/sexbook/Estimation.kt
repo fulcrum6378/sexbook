@@ -10,6 +10,7 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.EstimationBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.Delay
 
 @SuppressLint("NotifyDataSetChanged")
 class Estimation : BaseActivity() {
@@ -75,11 +76,7 @@ class Estimation : BaseActivity() {
             if (adding) return@setOnClickListener
             adding = true
             Work(c, Work.G_INSERT_ONE, listOf(Guess(-1L, -1L, 0f, 1, "", -1L))).start()
-            object : CountDownTimer(Work.TIMEOUT, Work.TIMEOUT) {
-                override fun onTick(p0: Long) {}
-                override fun onFinish() {
-                    adding = false; }
-            }.start()
+            Delay { adding = false }
             c.shake()
         }
 

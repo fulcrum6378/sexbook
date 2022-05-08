@@ -2,7 +2,10 @@ package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.*
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import ir.mahdiparastesh.sexbook.Fun.Companion.explode
 import ir.mahdiparastesh.sexbook.Fun.Companion.shake
 import ir.mahdiparastesh.sexbook.data.Place
@@ -10,6 +13,7 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PlacesBinding
 import ir.mahdiparastesh.sexbook.list.PlaceAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.Delay
 
 @SuppressLint("NotifyDataSetChanged")
 class Places : BaseActivity() {
@@ -82,11 +86,7 @@ class Places : BaseActivity() {
             if (adding) return@setOnClickListener
             adding = true
             Work(c, Work.P_INSERT_ONE, listOf(Place("", -1.0, -1.0))).start()
-            object : CountDownTimer(Work.TIMEOUT, Work.TIMEOUT) {
-                override fun onTick(p0: Long) {}
-                override fun onFinish() {
-                    adding = false; }
-            }.start()
+            Delay { adding = false }
             c.shake()
         }
 

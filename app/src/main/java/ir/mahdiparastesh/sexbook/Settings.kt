@@ -17,9 +17,9 @@ import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.LocalDatePicker
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
-import kotlinx.coroutines.runBlocking
 import java.io.File
 
 class Settings : BaseActivity() {
@@ -43,7 +43,7 @@ class Settings : BaseActivity() {
                 .apply { if (exists()) renameTo(spFile()) }
         }
 
-        fun spFile() = File("${spPath}${spName}.xml")
+        private fun spFile() = File("${spPath}${spName}.xml")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,10 +69,7 @@ class Settings : BaseActivity() {
             override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
                 if (sp.getInt(spCalType, 0) == i) return
                 changed = true
-                sp.edit().apply {
-                    putInt(spCalType, i)
-                    apply()
-                }
+                sp.edit().putInt(spCalType, i).apply()
             }
         }
 
@@ -100,10 +97,9 @@ class Settings : BaseActivity() {
                 setTitle(R.string.stReset)
                 setMessage(R.string.stResetSure)
                 setPositiveButton(R.string.yes) { _, _ ->
-                    runBlocking { spFile().also { if (it.exists()) it.delete() } }
-                    initSp()
+                    sp.edit().apply { for (k in sp.all.keys) remove(k) }.apply()
                     changed = true
-                    recreate()
+                    Delay(500) { recreate() }
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)

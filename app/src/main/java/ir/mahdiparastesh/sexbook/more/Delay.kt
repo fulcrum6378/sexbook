@@ -4,9 +4,10 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.os.SystemClock
+import ir.mahdiparastesh.sexbook.data.Work
 
 open class Delay(
-    private val timeout: Long = 5000L,
+    private val timeout: Long = Work.TIMEOUT,
     private val looper: Looper = Looper.myLooper()!!,
     private val listener: () -> Unit,
 ) {

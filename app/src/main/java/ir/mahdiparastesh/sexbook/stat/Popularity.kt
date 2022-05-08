@@ -37,7 +37,7 @@ class Popularity : BaseActivity() {
     }
 
     class Star(val name: String, val frames: Array<Frame>) {
-        class Sort(val by: Int = 0) : Comparator<Star> {
+        class Sort(private val by: Int = 0) : Comparator<Star> {
             override fun compare(a: Star, b: Star) = when (by) {
                 1 -> a.name.compareTo(b.name)
                 else -> b.frames.sumOf { (it.score * 100f).toInt() } -

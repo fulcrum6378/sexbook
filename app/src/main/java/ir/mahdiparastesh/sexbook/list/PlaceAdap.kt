@@ -15,22 +15,21 @@ import ir.mahdiparastesh.sexbook.Settings.Companion.spDefPlace
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemPlaceBinding
 import ir.mahdiparastesh.sexbook.more.Act
+import ir.mahdiparastesh.sexbook.more.AnyViewHolder
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
 
-class PlaceAdap(val c: Places) : RecyclerView.Adapter<PlaceAdap.MyViewHolder>() {
-    class MyViewHolder(val b: ItemPlaceBinding) : RecyclerView.ViewHolder(b.root)
+class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBinding>>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup, viewType: Int
+    ): AnyViewHolder<ItemPlaceBinding> {
         val b = ItemPlaceBinding.inflate(c.layoutInflater, parent, false)
-
-        // Fonts
         b.name.typeface = c.font1Bold
-
-        return MyViewHolder(b)
+        return AnyViewHolder(b)
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(h: MyViewHolder, i: Int) {
+    override fun onBindViewHolder(h: AnyViewHolder<ItemPlaceBinding>, i: Int) {
         if (c.m.places.value == null) return
 
         // Name

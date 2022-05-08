@@ -11,22 +11,21 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
 import ir.mahdiparastesh.sexbook.more.Act
+import ir.mahdiparastesh.sexbook.more.AnyViewHolder
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
 import ir.mahdiparastesh.sexbook.stat.Singular
 
-class CrushAdap(val c: Main) : RecyclerView.Adapter<CrushAdap.MyViewHolder>() {
-    class MyViewHolder(val b: ItemCrushBinding) : RecyclerView.ViewHolder(b.root)
+class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBinding>>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup, viewType: Int
+    ): AnyViewHolder<ItemCrushBinding> {
         val b = ItemCrushBinding.inflate(c.layoutInflater, parent, false)
-
-        // Fonts
         b.name.typeface = c.font1Bold
-
-        return MyViewHolder(b)
+        return AnyViewHolder(b)
     }
 
-    override fun onBindViewHolder(h: MyViewHolder, i: Int) {
+    override fun onBindViewHolder(h: AnyViewHolder<ItemCrushBinding>, i: Int) {
         if (c.m.liefde.value == null) return
 
         // Name

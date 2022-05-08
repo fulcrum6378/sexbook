@@ -11,15 +11,20 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.MainThread
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.*
 import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import ir.mahdiparastesh.sexbook.*
 import ir.mahdiparastesh.sexbook.Fun.Companion.isReady
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.stat.Summary
 
@@ -29,9 +34,12 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
     lateinit var sp: SharedPreferences
     lateinit var font1: Typeface
     lateinit var font1Bold: Typeface
-    var tbTitle: TextView? = null
+    private var tbTitle: TextView? = null
     val dm: DisplayMetrics by lazy { resources.displayMetrics }
-    val dirRtl: Boolean by lazy { c.resources.getBoolean(R.bool.dirRtl) }
+    private val dirRtl: Boolean by lazy { c.resources.getBoolean(R.bool.dirRtl) }
+    var interstitialAd: InterstitialAd? = null
+    var loadingAd = false
+    var showingAd = false
     private var retryForAd = 0
 
     companion object {
@@ -48,9 +56,8 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
-
         if (this is Main) Settings.migrateSp()
-        initSp()
+        sp = getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
         if (!::font1.isInitialized) {
             font1 = font()
             jdtpFont = font1
@@ -84,11 +91,7 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
             return; }
     }
 
-    fun initSp() {
-        sp = getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
-    }
-
-    fun toolbar(tb: Toolbar, title: Int) {
+    fun toolbar(tb: Toolbar, @StringRes title: Int) {
         setSupportActionBar(tb)
         for (g in 0 until tb.childCount) {
             val getTitle = tb.getChildAt(g)
@@ -103,7 +106,7 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
         tb.navigationIcon?.colorFilter = pdcf()
     }
 
-    fun font(bold: Boolean = false): Typeface = Typeface.createFromAsset(
+    private fun font(bold: Boolean = false): Typeface = Typeface.createFromAsset(
         c.assets, if (!bold) c.resources.getString(R.string.font1)
         else c.resources.getString(R.string.font1Bold)
     )
@@ -122,6 +125,35 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
         MobileAds.initialize(c, this)
     }
 
+    @MainThread
+    fun loadInterstitial(adUnitId: String, autoPlay: () -> Boolean) {
+        if (adsInitStatus?.isReady() != true) {
+            if (retryForAd < MAX_AD_RETRY) Delay(ADMOB_DELAY) {
+                loadInterstitial(adUnitId) { false }
+                retryForAd++
+            } else retryForAd = 0
+            return; }
+        if (interstitialAd != null || loadingAd) return
+        loadingAd = true
+        InterstitialAd.load(
+            c, adUnitId, AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    loadingAd = false
+                }
+
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    loadingAd = false
+                    interstitialAd = ad.apply { fullScreenContentCallback = InterstitialCallback() }
+                    if (autoPlay()) showInterstitial()
+                }
+            })
+    }
+
+    @MainThread
+    fun showInterstitial() {
+        if (!showingAd) interstitialAd?.show(this@BaseActivity)
+    }
+
     fun summarize(): Boolean =
         if (m.onani.value != null && m.onani.value!!.size > 0) {
             val nEstimated: Int
@@ -133,4 +165,20 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
                 filtered = filtered.filter { it.time > sp.getLong(Settings.spStatSince, 0) }
                     .also { nExcluded = filtered.size - it.size }
             m.summary.value = Summary(filtered, nEstimated, nExcluded); true; } else false
+
+    inner class InterstitialCallback : FullScreenContentCallback() {
+        override fun onAdShowedFullScreenContent() {
+            showingAd = true
+        }
+
+        override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+            showingAd = false
+            interstitialAd = null
+        }
+
+        override fun onAdDismissedFullScreenContent() {
+            showingAd = false
+            interstitialAd = null
+        }
+    }
 }
