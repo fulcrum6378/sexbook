@@ -75,10 +75,10 @@ class SumChips : Fragment() {
                         typeface = c.font1
                     })
             })
-        c.m.summary.value!!.nExcluded.let {
+        c.m.summary.value!!.nExcluded.also {
             if (it > 0f) b.ll.addView(plus(getString(R.string.excStat, it.toString())))
         }
-        c.m.summary.value!!.unknown.let {
+        c.m.summary.value!!.unknown.also {
             if (it > 0f) b.ll.addView(plus(getString(R.string.unknown, it.toString())))
         }
         c.m.summary.value!!.nEstimated.also {

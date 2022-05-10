@@ -34,8 +34,10 @@ class Summary(list: List<Report>, val nEstimated: Int, val nExcluded: Int) {
             val shape = arrayListOf<ArrayList<Boolean>>()
             split.forEach { s1 ->
                 var thisShape = arrayListOf<Boolean>()
-                // Check if it is a  person's name
-                s1.forEach { s2 -> thisShape.add(s2[0].isUpperCase() || s2[0] == '#') }
+                // Check if it is a person's name
+                s1.forEach { s2 ->
+                    if (s2.isNotEmpty()) thisShape.add(s2[0].isUpperCase() || s2[0] == '#')
+                }
                 shape.add(thisShape)
             } // shape.size is certainly 1+ now...
             var meanArray = arrayListOf<Meaning>()
@@ -127,20 +129,9 @@ class Summary(list: List<Report>, val nEstimated: Int, val nExcluded: Int) {
         }
     }
 
-    private fun String.fixKey(): String {
-        var fixKey = this
-        if (fixKey.length > 1) {
-            if (fixKey[0].toString() == " ") fixKey = fixKey.substring(1)
-            if (fixKey[fixKey.length - 1].toString() == " ") fixKey =
-                fixKey.substring(0, fixKey.length - 2)
-            if (fixKey[0].toString() == "\n") fixKey = fixKey.substring(1)
-            if (fixKey[fixKey.length - 1].toString() == "\n") fixKey =
-                fixKey.substring(0, fixKey.length - 2)
-        }
-        return fixKey
-            .replace(" and ", " + ")
-            .replace(" & ", " + ")
-    }
+    private fun String.fixKey() = trim()
+        .replace(" and ", " + ")
+        .replace(" & ", " + ")
 
     private fun HashMap<String, ArrayList<Erection>>.insert(
         theKey: String, time: Long, value: Float = 1f
