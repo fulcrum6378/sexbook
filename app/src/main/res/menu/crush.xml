@@ -4,9 +4,9 @@
         android:id="@+id/lcInstagram"
         android:title="@string/lcInstagram" />
     <item
+        android:id="@+id/lcIdentify"
+        android:title="@string/identify" />
+    <item
         android:id="@+id/lcStatistics"
         android:title="@string/lcStatistics" />
-    <item
-        android:id="@+id/lcDelete"
-        android:title="@string/delete" />
 </menu>

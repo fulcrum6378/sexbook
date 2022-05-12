@@ -149,17 +149,15 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
         if (!showingAd) interstitialAd?.show(this@BaseActivity)
     }
 
-    fun summarize(): Boolean =
-        if (m.onani.value != null && m.onani.value!!.size > 0) {
-            val nEstimated: Int
-            var nExcluded = 0
-            var filtered: List<Report> = m.onani.value!!
-            filtered =
-                filtered.filter { it.isReal }.also { nEstimated = filtered.size - it.size }
-            if (sp.getBoolean(Settings.spStatSinceCb, false))
-                filtered = filtered.filter { it.time > sp.getLong(Settings.spStatSince, 0) }
-                    .also { nExcluded = filtered.size - it.size }
-            m.summary.value = Summary(filtered, nEstimated, nExcluded); true; } else false
+    fun summarize(): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
+        val nEstimated: Int
+        var nExcluded = 0
+        var filtered: List<Report> = m.onani.value!!
+        filtered = filtered.filter { it.isReal }.also { nEstimated = filtered.size - it.size }
+        if (sp.getBoolean(Settings.spStatSinceCb, false))
+            filtered = filtered.filter { it.time > sp.getLong(Settings.spStatSince, 0) }
+                .also { nExcluded = filtered.size - it.size }
+        m.summary.value = Summary(filtered, nEstimated, nExcluded); true; } else false
 
     inner class InterstitialCallback : FullScreenContentCallback() {
         override fun onAdShowedFullScreenContent() {

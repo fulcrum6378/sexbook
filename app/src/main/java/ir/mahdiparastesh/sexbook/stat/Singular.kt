@@ -51,7 +51,7 @@ class Singular : BaseActivity() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.C_VIEW_ONE -> crush = msg.obj as Crush?
-                    Work.C_INSERT_ONE, Work.C_UPDATE_ONE -> {
+                    Work.C_INSERT_ONE, Work.C_UPDATE_ONE, Work.C_DELETE_ONE -> {
                         PageLove.changed = true
                         Work(c, Work.C_VIEW_ONE, listOf(m.crush!!), handler).start()
                     }
@@ -69,73 +69,7 @@ class Singular : BaseActivity() {
 
         // Identification
         Work(c, Work.C_VIEW_ONE, listOf(m.crush!!), handler).start()
-        b.identify.setOnClickListener {
-            val bi = IdentifyBinding.inflate(layoutInflater, null, false)
-
-            // Fonts
-            for (l in 0 until bi.ll.childCount)
-                if (bi.ll[l] is TextView)
-                    (bi.ll[l] as TextView).typeface = font1
-
-            // Default Values
-            var isBirthSet = false
-            val bir = Calendar.getInstance()
-            if (crush != null) {
-                bi.fName.setText(crush!!.fName)
-                bi.mName.setText(crush!!.mName)
-                bi.lName.setText(crush!!.lName)
-                bi.masc.isChecked = crush!!.masc
-                if (crush!!.height != -1f)
-                    bi.height.setText(crush!!.height.toString())
-                crush!!.bYear.toInt().let { if (it != -1) bir[Calendar.YEAR] = it }
-                crush!!.bMonth.toInt().let { if (it != -1) bir[Calendar.MONTH] = it }
-                crush!!.bDay.toInt().let { if (it != -1) bir[Calendar.DAY_OF_MONTH] = it }
-                if (crush!!.hasFullBirth()) {
-                    bi.birth.text = bir.fullDate(this)
-                    isBirthSet = true
-                }
-                bi.location.setText(crush!!.locat)
-                bi.instagram.setText(crush!!.insta)
-                bi.notifyBirth.isChecked = crush!!.notifyBirth
-            }
-
-            // Birth
-            bi.birth.setOnClickListener {
-                LocalDatePicker(this, "birth", bir) { _, time ->
-                    isBirthSet = true
-                    bir.timeInMillis = time
-                    bi.birth.text = bir.fullDate(this)
-                }
-            }
-
-            AlertDialog.Builder(this).apply {
-                setTitle("${resources.getString(R.string.identify)}: ${m.crush}")
-                setView(bi.root)
-                setPositiveButton(R.string.save) { _, _ ->
-                    val inserted = Crush(
-                        m.crush!!,
-                        bi.fName.text.toString().ifEmpty { null },
-                        bi.mName.text.toString().ifEmpty { null },
-                        bi.lName.text.toString().ifEmpty { null },
-                        bi.masc.isChecked,
-                        if (bi.height.text.toString() != "")
-                            bi.height.text.toString().toFloat() else -1f,
-                        if (isBirthSet) bir[Calendar.YEAR].toShort() else -1,
-                        if (isBirthSet) bir[Calendar.MONTH].toByte() else -1,
-                        if (isBirthSet) bir[Calendar.DAY_OF_MONTH].toByte() else -1,
-                        bi.location.text.toString().ifEmpty { null },
-                        bi.instagram.text.toString().ifEmpty { null },
-                        bi.notifyBirth.isChecked
-                    )
-                    Work(
-                        c, if (crush == null) Work.C_INSERT_ONE else Work.C_UPDATE_ONE,
-                        listOf(inserted), handler
-                    ).start()
-                }
-                setNegativeButton(R.string.discard, null)
-                setCancelable(true)
-            }.show().stylise(this)
-        }
+        b.identify.setOnClickListener { identify(this, crush, handler) }
 
         // TODO: Implement Mass Rename
     }
@@ -186,9 +120,7 @@ class Singular : BaseActivity() {
         }
 
         fun calcHistory(
-            c: BaseActivity,
-            list: ArrayList<Summary.Erection>,
-            month: String,
+            c: BaseActivity, list: ArrayList<Summary.Erection>, month: String,
             growing: Boolean = false
         ): Float {
             var value = 0f
@@ -216,6 +148,86 @@ class Singular : BaseActivity() {
                 ) value += i.value
             }
             return value
+        }
+
+        fun identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
+            val bi = IdentifyBinding.inflate(c.layoutInflater, null, false)
+
+            // Fonts
+            for (l in 0 until bi.ll.childCount)
+                if (bi.ll[l] is TextView)
+                    (bi.ll[l] as TextView).typeface = c.font1
+
+            // Default Values
+            var isBirthSet = false
+            val bir = Calendar.getInstance()
+            if (crush != null) {
+                bi.fName.setText(crush.fName)
+                bi.mName.setText(crush.mName)
+                bi.lName.setText(crush.lName)
+                bi.masc.isChecked = crush.masc
+                if (crush.height != -1f)
+                    bi.height.setText(crush.height.toString())
+                crush.bYear.toInt().let { if (it != -1) bir[Calendar.YEAR] = it }
+                crush.bMonth.toInt().let { if (it != -1) bir[Calendar.MONTH] = it }
+                crush.bDay.toInt().let { if (it != -1) bir[Calendar.DAY_OF_MONTH] = it }
+                if (crush.hasFullBirth()) {
+                    bi.birth.text = bir.fullDate(c)
+                    isBirthSet = true
+                }
+                bi.location.setText(crush.locat)
+                bi.instagram.setText(crush.insta)
+                bi.notifyBirth.isChecked = crush.notifyBirth
+            }
+
+            // Birth
+            bi.birth.setOnClickListener {
+                LocalDatePicker(c, "birth", bir) { _, time ->
+                    isBirthSet = true
+                    bir.timeInMillis = time
+                    bi.birth.text = bir.fullDate(c)
+                }
+            }
+
+            AlertDialog.Builder(c).apply {
+                setTitle("${c.resources.getString(R.string.identify)}: ${c.m.crush}")
+                setView(bi.root)
+                setPositiveButton(R.string.save) { _, _ ->
+                    val inserted = Crush(
+                        c.m.crush!!,
+                        bi.fName.text.toString().ifEmpty { null },
+                        bi.mName.text.toString().ifEmpty { null },
+                        bi.lName.text.toString().ifEmpty { null },
+                        bi.masc.isChecked,
+                        if (bi.height.text.toString() != "")
+                            bi.height.text.toString().toFloat() else -1f,
+                        if (isBirthSet) bir[Calendar.YEAR].toShort() else -1,
+                        if (isBirthSet) bir[Calendar.MONTH].toByte() else -1,
+                        if (isBirthSet) bir[Calendar.DAY_OF_MONTH].toByte() else -1,
+                        bi.location.text.toString().ifEmpty { null },
+                        bi.instagram.text.toString().ifEmpty { null },
+                        bi.notifyBirth.isChecked
+                    )
+                    Work(
+                        c, if (crush == null) Work.C_INSERT_ONE else Work.C_UPDATE_ONE,
+                        listOf(inserted), handler
+                    ).start()
+                }
+                setNegativeButton(R.string.discard, null)
+                setNeutralButton(R.string.clear) { ad1, _ ->
+                    if (crush == null) return@setNeutralButton
+                    AlertDialog.Builder(c).apply {
+                        setTitle(c.getString(R.string.crushClear, crush.key))
+                        setMessage(R.string.crushClearSure)
+                        setPositiveButton(R.string.yes) { _, _ ->
+                            Work(c, Work.C_DELETE_ONE, listOf(crush), handler).start()
+                            ad1.dismiss()
+                        }
+                        setNegativeButton(R.string.no, null)
+                    }.show().stylise(c)
+                }
+                setCancelable(true)
+            }.show().stylise(c)
         }
     }
 

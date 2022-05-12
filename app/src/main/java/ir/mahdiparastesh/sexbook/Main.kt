@@ -128,8 +128,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 }
         }
 
-        // Observers
+        // Miscellaneous
         m.onani.observe(this) { instilledGuesses = false }
+        if (m.showingSummary) summary()
+        if (m.showingRecency) recency()
 
         intent.check()
         // Work(c, Work.VIEW_ALL).start()
@@ -154,38 +156,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.momSum -> if (summarize()) AlertDialog.Builder(this).apply {
-                setTitle(
-                    "${resources.getString(R.string.momSum)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})"
-                )
-                setView(ConstraintLayout(c).apply {
-                    addView(ViewPager2(c).apply {
-                        layoutParams = ViewGroup.LayoutParams(-1, -1)
-                        adapter = SumAdapter(this@Main)
-                    })
-                    // The below EditText improves the EditText focus issue when you put
-                    // a Fragment inside a Dialog with a ViewPager in the middle!
-                    addView(EditText(c).apply {
-                        layoutParams = ViewGroup.LayoutParams(-1, -2)
-                        visibility = View.GONE
-                    })
-                })
-                setPositiveButton(R.string.ok, null)
-                setCancelable(true)
-            }.show().stylise(this)
+            R.id.momSum -> summary()
             R.id.momPop -> if (summarize())
                 startActivity(Intent(this, Popularity::class.java))
             R.id.momGrw -> if (summarize())
                 startActivity(Intent(this, Growth::class.java))
-            R.id.momRec -> if (m.summary.value != null) {
-                m.recency.value = Recency(m.summary.value!!)
-                if (summarize()) AlertDialog.Builder(this).apply {
-                    setTitle(resources.getString(R.string.momRec))
-                    setView(m.recency.value!!.draw(this@Main))
-                    setPositiveButton(R.string.ok, null)
-                    setCancelable(true)
-                }.show().stylise(this)
-            }
+            R.id.momRec -> recency()
             R.id.momPlc -> startActivity(Intent(this, Places::class.java))
             R.id.momEst -> startActivity(Intent(this, Estimation::class.java))
             R.id.momImport -> exporter.launchImport()
@@ -264,6 +240,44 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
     }
 
+    private fun summary() {
+        if (summarize()) AlertDialog.Builder(this).apply {
+            setTitle(
+                "${resources.getString(R.string.momSum)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})"
+            )
+            setView(ConstraintLayout(c).apply {
+                addView(ViewPager2(c).apply {
+                    layoutParams = ViewGroup.LayoutParams(-1, -1)
+                    adapter = SumAdapter(this@Main)
+                })
+                // The below EditText improves the EditText focus issue when you put
+                // a Fragment inside a Dialog with a ViewPager in the middle!
+                addView(EditText(c).apply {
+                    layoutParams = ViewGroup.LayoutParams(-1, -2)
+                    visibility = View.GONE
+                })
+            })
+            setPositiveButton(R.string.ok, null)
+            setCancelable(true)
+            setOnDismissListener { m.showingSummary = false }
+            m.showingSummary = true
+        }.show().stylise(this)
+    }
+
+    private fun recency() {
+        if (summarize()) {
+            m.recency.value = Recency(m.summary.value!!)
+            AlertDialog.Builder(this).apply {
+                setTitle(resources.getString(R.string.momRec))
+                setView(m.recency.value!!.draw(this@Main))
+                setPositiveButton(R.string.ok, null)
+                setCancelable(true)
+                setOnDismissListener { m.showingRecency = false }
+                m.showingRecency = true
+            }.show().stylise(this)
+        }
+    }
+
     private fun notifyBirth(crush: Crush, dist: Long) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
@@ -289,6 +303,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private var instilledGuesses = false
     fun instillGuesses() {
         if (m.onani.value == null || m.guesses.value == null || instilledGuesses) return
+        m.onani.value = m.onani.value?.filter { it.isReal }?.let { ArrayList(it) }
         for (g in m.guesses.value!!) {
             if (!g.checkValid()) continue
             var time = g.sinc

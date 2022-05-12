@@ -92,6 +92,7 @@
     <string name="bHappyTitle">تولد %s مبارک!</string>
     <string name="bHappyBef">%d ساعت مونده تا تولدش!</string>
     <string name="bHappyAft">%d ساعت گذشته از تولدش!</string>
+    <string name="clear">پاکسازی</string>
 
     <!-- Main -->
     <string name="momSum">خلاصه</string>
@@ -122,9 +123,8 @@
     <string name="emptyLove">بعد از اضافه کردن چند رکورد سکس، بروید به منوی اصلی -> خلاصه -> یک کراش انتخاب کنید -> دکمه «دارای عکس آدمک» (شناسایی) را بزنید.</string>
     <string name="lcStatistics">آمار</string>
     <string name="lcInstagram">اینستاگرام</string>
-    <string name="lcDeleteCrushSure">آیا از حذف این مخاطب اطمینان دارید؟</string>
 
-    <!-- Singular -->
+    <!-- Identification -->
     <string name="identify">شناسایی</string>
     <string name="firstName">نام</string>
     <string name="middleName">نام وسط</string>
@@ -136,6 +136,8 @@
     <string name="location">محل زندگی</string>
     <string name="instagram">اینستاگرام</string>
     <string name="notifyBirth">منو تو روز تولدش خبر کن</string>
+    <string name="crushClear">پاکسازی اطلاعات: %s</string>
+    <string name="crushClearSure">آیا از پاکسازی مشخصات فردی این شخص اطمینان دارید؟ (موارد سکس حذف «نخواهند» شد)</string>
 
     <!-- Places -->
     <string name="plTitle">مکان ها</string>

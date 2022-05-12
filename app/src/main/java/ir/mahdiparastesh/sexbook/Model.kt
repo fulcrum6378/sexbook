@@ -21,6 +21,8 @@ class Model : ViewModel() {
     val visOnani = MutableLiveData<ArrayList<Report>>(arrayListOf())
     val summary = MutableLiveData<Summary?>()
     val recency = MutableLiveData<Recency?>()
+    var showingSummary = false
+    var showingRecency = false
 
     fun reset() {
         onani.value = null
