@@ -87,7 +87,7 @@ public class Crush {
     public static class Sort implements Comparator<Crush> {
         @Override
         public int compare(Crush a, Crush b) {
-            return a.visName().compareTo(b.visName());
+            return a.visName().toLowerCase().compareTo(b.visName().toLowerCase());
         }
     }
 }

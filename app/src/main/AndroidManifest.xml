@@ -47,33 +47,21 @@
             android:name=".Places"
             android:exported="false"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Main" />
-        </activity>
+            android:parentActivityName=".Main"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
             android:name=".Estimation"
             android:exported="false"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Main" />
-        </activity>
+            android:parentActivityName=".Main"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
             android:name=".Settings"
             android:exported="false"
-            android:launchMode="singleTop">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Main" />
-        </activity>
+            android:launchMode="singleTop"
+            android:parentActivityName=".Main" />
 
         <activity
             android:name=".stat.Singular"

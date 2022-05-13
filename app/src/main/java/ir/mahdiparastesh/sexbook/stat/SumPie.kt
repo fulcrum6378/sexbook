@@ -12,7 +12,7 @@ import lecho.lib.hellocharts.model.PieChartData
 import lecho.lib.hellocharts.model.SliceValue
 
 class SumPie : Fragment() {
-    val c: BaseActivity by lazy { activity as BaseActivity }
+    val c: BaseActivity get() = activity as BaseActivity
     private lateinit var b: SumPieBinding
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {

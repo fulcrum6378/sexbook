@@ -45,7 +45,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener {
     private lateinit var b: MainBinding
     private val exporter = Exporter(this)
-    private lateinit var toggleNav: ActionBarDrawerToggle
     private lateinit var adBanner: AdView
     private var adBannerLoaded = false
 
@@ -93,7 +92,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         else if (night()) b.loadIV.colorFilter = pdcf()
 
         // Navigation
-        toggleNav = object : ActionBarDrawerToggle(
+        object : ActionBarDrawerToggle(
             this, b.root, b.toolbar, R.string.navOpen, R.string.navClose
         ) {
             override fun onDrawerOpened(drawerView: View) {
@@ -152,6 +151,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         b.nav.addView(adBanner, FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ).apply { gravity = Gravity.BOTTOM })
+        PageLove.handler.value?.obtainMessage(Work.ADMOB_LOADED)?.sendToTarget()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

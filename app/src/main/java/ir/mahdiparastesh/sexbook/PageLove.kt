@@ -18,7 +18,7 @@ import ir.mahdiparastesh.sexbook.list.CrushAdap
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 
 class PageLove : Fragment() {
-    val c: Main by lazy { activity as Main }
+    val c: Main get() = activity as Main
     private lateinit var b: PageLoveBinding
 
     companion object {
@@ -40,12 +40,14 @@ class PageLove : Fragment() {
                         receivedData()
                     }
                     Work.REPLACE_ALL -> Work(c, Work.C_VIEW_ALL).start()
-                    Work.C_DELETE_ONE -> {
-                        c.m.liefde.value?.removeAt(msg.arg1)
-                        b.rv.adapter?.notifyItemRemoved(msg.arg1)
-                        b.rv.adapter?.notifyItemRangeChanged(
-                            msg.arg1, b.rv.adapter!!.itemCount - msg.arg1
-                        )
+                    Work.C_DELETE_ONE -> if (b.rv.adapter != null)
+                        c.m.liefde.value?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
+                            c.m.liefde.value?.removeAt(it)
+                            b.rv.adapter?.notifyItemRemoved(it)
+                            b.rv.adapter?.notifyItemRangeChanged(it, b.rv.adapter!!.itemCount - it)
+                        }
+                    Work.ADMOB_LOADED -> {
+                        /// TODO
                     }
                 }
             }

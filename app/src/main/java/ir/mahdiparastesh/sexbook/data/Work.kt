@@ -59,6 +59,7 @@ class Work(
         // Other
         const val TIMEOUT = 5000L
         const val SPECIAL_ADD = 100
+        const val ADMOB_LOADED = 101
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -160,7 +161,7 @@ class Work(
                 dao.cDelete(values[0] as Crush)
                 handler?.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
-                    if (values.size > 2) values[2] as Int else 0, null
+                    if (values.size > 2) values[2] as Int else 0, values[0]
                 )?.sendToTarget()
             }
 

@@ -28,7 +28,7 @@ import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 import java.util.*
 
 class PageSex : Fragment() {
-    val c: Main by lazy { activity as Main }
+    val c: Main get() = activity as Main
     private lateinit var b: PageSexBinding
 
     companion object {
@@ -76,7 +76,6 @@ class PageSex : Fragment() {
                             if (msg.arg2 == 0) b.rv.adapter?.notifyItemChanged(nominalPos)
                         }
                         if (msg.arg2 == 0) resetAllMasturbations()
-
                     }
                     Work.DELETE_ONE -> if (c.m.onani.value != null && c.m.visOnani.value!!
                             .contains(c.m.onani.value!![msg.arg1])

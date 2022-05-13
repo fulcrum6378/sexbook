@@ -19,7 +19,7 @@ import ir.mahdiparastesh.sexbook.databinding.SumChipsBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 
 class SumChips : Fragment() {
-    val c: BaseActivity by lazy { activity as BaseActivity }
+    val c: BaseActivity get() = activity as BaseActivity
     private lateinit var b: SumChipsBinding
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
