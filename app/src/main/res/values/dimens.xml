@@ -2,7 +2,7 @@
 <resources>
     <dimen name="statusBarSize">24dp</dimen>
     <dimen name="tbTitle">21sp</dimen>
-    <dimen name="nameFont">16sp</dimen>
+    <dimen name="nameFont">14sp</dimen>
     <dimen name="descFont">14sp</dimen>
     <dimen name="descPadV">10sp</dimen>
     <dimen name="menuFont">14sp</dimen>
@@ -19,7 +19,7 @@
     <dimen name="reportPadH">10dp</dimen>
     <dimen name="clockSize">41dp</dimen>
     <dimen name="ampmFont">11dp</dimen>
-    <dimen name="dateFont">20dp</dimen>
+    <dimen name="dateFont">17dp</dimen>
     <dimen name="typeSize">28dp</dimen>
     <dimen name="typeMarEnd">17dp</dimen>
     <dimen name="spnFilterPadV">16dp</dimen>

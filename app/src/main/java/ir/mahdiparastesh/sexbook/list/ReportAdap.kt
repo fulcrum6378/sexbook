@@ -144,6 +144,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                             update(this, h.layoutPosition)
                         }
                     }
+                    c.sp.edit().putInt(Settings.spPrefersOrgType, i).apply()
                 }
             } else null
         h.b.type.isEnabled = itm.isReal

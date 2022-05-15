@@ -8,8 +8,11 @@ import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import ir.mahdiparastesh.sexbook.Fun.Companion.vis
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Work
@@ -18,8 +21,11 @@ import ir.mahdiparastesh.sexbook.list.CrushAdap
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 
 class PageLove : Fragment() {
-    val c: Main get() = activity as Main
+    val c: Main by lazy { activity as Main }
+    // If you use "get()", when you open the app and go to PageLove, then come back
+    // and go picture-in-picture, it crashes.
     private lateinit var b: PageLoveBinding
+    private lateinit var adBanner: AdView
 
     companion object {
         var handler = MutableLiveData<Handler?>(null)
@@ -47,7 +53,11 @@ class PageLove : Fragment() {
                             b.rv.adapter?.notifyItemRangeChanged(it, b.rv.adapter!!.itemCount - it)
                         }
                     Work.ADMOB_LOADED -> {
-                        /// TODO
+                        adBanner = Fun.adaptiveBanner(c, "ca-app-pub-9457309151954418/4204909055")
+                        b.root.addView(adBanner, Fun.adaptiveBannerLp())
+                        adBanner.loadAd(AdRequest.Builder().build())
+                        b.rv.layoutParams = (b.rv.layoutParams as ConstraintLayout.LayoutParams)
+                            .apply { bottomToTop = R.id.adBanner }
                     }
                 }
             }

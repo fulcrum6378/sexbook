@@ -129,7 +129,8 @@
     <string name="firstName">First Name</string>
     <string name="middleName">Middle Name</string>
     <string name="lastName">Last Name</string>
-    <string name="masculine">Masculine</string>
+    <string name="masculine">Man</string>
+    <string name="feminine">Woman</string>
     <string name="real">Real Person</string>
     <string name="height">Height (cm)</string>
     <string name="birth">Birth Date</string>

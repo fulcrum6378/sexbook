@@ -94,15 +94,6 @@ class Summary(list: List<Report>, val nEstimated: Int, val nExcluded: Int) {
                     scores.insert(each.joinToString(), time, 1f / allExceptLast.size.toFloat())
                 }
             }
-            // All Are Real Persons with second names,
-            // or complicated name like "Queeny <v>an <d>er Zande"
-            else if (m.mAnyOf(
-                    Meaning.ONE, Meaning.MORE_THAN_ONE,
-                    Meaning.ONE_WITH_DESCRIPTION, Meaning.SOME_WITH_DESCRIPTION
-                )
-            ) a.forEach { each ->
-                scores.insert(each.joinToString(" "), time, 1f / a.size.toFloat())
-            }
             // 's
             else if (k.contains("'s ", true)) {
                 if (a.size > 1 &&
@@ -125,6 +116,15 @@ class Summary(list: List<Report>, val nEstimated: Int, val nExcluded: Int) {
                 ) for (each in a) {
                     scores.insert(unEs(each[0]), time, 1f / a.size.toFloat())
                 } else scores.insert(k, time)
+            }
+            // All Are Real Persons with second names,
+            // or complicated name like "Queeny <v>an <d>er Zande"
+            else if (m.mAnyOf(
+                    Meaning.ONE, Meaning.MORE_THAN_ONE,
+                    Meaning.ONE_WITH_DESCRIPTION, Meaning.SOME_WITH_DESCRIPTION
+                )
+            ) a.forEach { each ->
+                scores.insert(each.joinToString(" "), time, 1f / a.size.toFloat())
             } else scores.insert(k, time)
         }
     }

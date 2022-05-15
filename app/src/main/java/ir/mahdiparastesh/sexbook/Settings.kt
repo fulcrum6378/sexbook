@@ -33,6 +33,10 @@ class Settings : BaseActivity() {
         const val spStatSinceCb = "statisticiseSinceCb"
         // Beware of the numerical fields; go to Exporter$Companion.replace() for modifications.
 
+        // Hidden
+        const val spPrefersMasculine = "prefersMasculine"
+        const val spPrefersOrgType = "prefersOrgType"
+
         @SuppressLint("SdCardPath")
         const val spPath = "/data/data/ir.mahdiparastesh.sexbook/shared_prefs/"
         const val spName = "settings"

@@ -129,7 +129,8 @@
     <string name="firstName">نام</string>
     <string name="middleName">نام وسط</string>
     <string name="lastName">نام خانوادگی</string>
-    <string name="masculine">مذکر؟</string>
+    <string name="masculine">مرد</string>
+    <string name="feminine">زن</string>
     <string name="real">شخص واقعی؟</string>
     <string name="height">قد (سانت)</string>
     <string name="birth">تاریخ تولد</string>
@@ -157,7 +158,7 @@
     <!-- Settings -->
     <string name="stTitle">تنظیمات سکسبوک</string>
     <string name="stCalendarType">نوع تقویم</string>
-    <string name="stStatSince">آمارگیری ابتدای</string>
+    <string name="stStatSince">آمارگیری از ابتدای</string>
     <string name="stReset">بازنشانی تنظیمات</string>
     <string name="stResetSure">آیا مطمئنید که می خواهید تمام تنظیمات را به پیشفرض بازگردانید؟</string>
     <string name="stTruncate">حذف تمام داده ها</string>

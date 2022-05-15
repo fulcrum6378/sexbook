@@ -28,7 +28,7 @@ import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 import java.util.*
 
 class PageSex : Fragment() {
-    val c: Main get() = activity as Main
+    val c: Main by lazy { activity as Main }
     private lateinit var b: PageSexBinding
 
     companion object {
@@ -196,8 +196,8 @@ class PageSex : Fragment() {
         if (filters != null) filterList(filters!!.size - 1)
         adding = true
         val newOne = Report(
-            Fun.now(), "", 1, "", true,
-            c.sp.getLong(Settings.spDefPlace, -1L)
+            Fun.now(), "", c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
+            "", true, c.sp.getLong(Settings.spDefPlace, -1L)
         )
         Work(c.c, Work.INSERT_ONE, listOf(newOne)).start()
         Delay { adding = false }

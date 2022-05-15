@@ -11,6 +11,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -125,6 +126,10 @@ class Fun {
             )
             adUnitId = unitId
         }
+
+        fun adaptiveBannerLp() = ConstraintLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }
 
         fun AlertDialog.stylise(c: BaseActivity) {
             // Don't move this function to BaseActivity

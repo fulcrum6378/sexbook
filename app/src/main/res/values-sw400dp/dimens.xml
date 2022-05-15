@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="nameFont">16sp</dimen>
+
+    <!-- Main-->
+    <dimen name="dateFont">20dp</dimen>
+</resources>

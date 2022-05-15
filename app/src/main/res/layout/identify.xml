@@ -46,12 +46,41 @@
 
         <View style="@style/identifySep" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/masc"
+        <LinearLayout
             style="@style/identifyField"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/masculine" />
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/feminine"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/feminine"
+                android:textAlignment="viewStart"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal">
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/masc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/masculine"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/masculine"
+                android:textAlignment="viewEnd"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <View style="@style/identifySep" />
 

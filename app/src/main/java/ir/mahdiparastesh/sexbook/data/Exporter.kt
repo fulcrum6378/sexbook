@@ -93,7 +93,8 @@ class Exporter(val c: BaseActivity) {
                         is Double -> // all numbers become Double in SP.
                             when (k) {
                                 Settings.spDefPlace, Settings.spStatSince -> putLong(k, v.toLong())
-                                Settings.spCalType -> putInt(k, v.toInt())
+                                Settings.spCalType, Settings.spPrefersOrgType ->
+                                    putInt(k, v.toInt())
                             }
                         is String -> putString(k, v)
                     }

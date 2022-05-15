@@ -98,7 +98,7 @@
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/clock"
-        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintWidth_percent="0.46"
         tools:ignore="RtlSymmetry" />
 
     <Spinner

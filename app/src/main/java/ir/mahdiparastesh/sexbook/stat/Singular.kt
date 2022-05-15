@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.forEach
 import androidx.core.view.get
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
@@ -27,7 +29,6 @@ import lecho.lib.hellocharts.model.ColumnChartData
 import lecho.lib.hellocharts.model.SubcolumnValue
 import java.util.*
 
-@Suppress("UNCHECKED_CAST")
 class Singular : BaseActivity() {
     private lateinit var b: SingularBinding
     private var crush: Crush? = null
@@ -154,9 +155,11 @@ class Singular : BaseActivity() {
             val bi = IdentifyBinding.inflate(c.layoutInflater, null, false)
 
             // Fonts
-            for (l in 0 until bi.ll.childCount)
-                if (bi.ll[l] is TextView)
-                    (bi.ll[l] as TextView).typeface = c.font1
+            for (l in 0 until bi.ll.childCount) when (bi.ll[l]) {
+                is TextView -> (bi.ll[l] as TextView).typeface = c.font1
+                is LinearLayout -> (bi.ll[l] as LinearLayout)
+                    .forEach { if (it is TextView) it.typeface = c.font1 }
+            }
 
             // Default Values
             var isBirthSet = false
@@ -178,6 +181,13 @@ class Singular : BaseActivity() {
                 bi.location.setText(crush.locat)
                 bi.instagram.setText(crush.insta)
                 bi.notifyBirth.isChecked = crush.notifyBirth
+            } else {
+                bi.masc.isChecked = c.sp.getBoolean(Settings.spPrefersMasculine, false)
+            }
+
+            // Masculine
+            bi.masc.setOnCheckedChangeListener { _, isChecked ->
+                c.sp.edit().putBoolean(Settings.spPrefersMasculine, isChecked).apply()
             }
 
             // Birth
@@ -190,7 +200,7 @@ class Singular : BaseActivity() {
             }
 
             AlertDialog.Builder(c).apply {
-                setTitle("${c.resources.getString(R.string.identify)}: ${c.m.crush}")
+                setTitle("${c.resources.getString(R.string.identify)}: ${crush?.key ?: c.m.crush}")
                 setView(bi.root)
                 setPositiveButton(R.string.save) { _, _ ->
                     val inserted = Crush(
