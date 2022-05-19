@@ -162,9 +162,10 @@ class Summary(list: List<Report>, val nEstimated: Int, val nExcluded: Int) {
         return sumOfList == size
     }
 
-    private fun unEs(name: String) = if (name.indexOf("'s", ignoreCase = true) != -1)
-        name.substring(0, name.indexOf("'s", ignoreCase = true))
-    else name
+    private fun unEs(name: String): String {
+        val sIndex = name.indexOf("'s", ignoreCase = true)
+        return if (sIndex != -1) name.substring(0, sIndex) else name
+    }
 
     fun results(): Result {
         var results = HashMap<Float, ArrayList<String>>()

@@ -11,8 +11,8 @@ android {
         minSdkVersion 21
         //noinspection OldTargetApi
         targetSdkVersion 31
-        versionCode 5
-        versionName '9.7.5'
+        versionCode 7
+        versionName '9.7.75'
     }
 
     signingConfigs {

@@ -110,9 +110,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         b.toolbar.navigationIcon?.colorFilter = pdcf()
         b.nav.setNavigationItemSelectedListener(this)
         b.nav.menu.forEach { it.stylise(this@Main) }
-        b.toolbar.setOnClickListener {
-            Toast.makeText(c, "${dm.widthPixels / dm.density}", Toast.LENGTH_LONG).show()
-        }
 
         // Pager
         b.pager.adapter = object : FragmentStateAdapter(this) {
