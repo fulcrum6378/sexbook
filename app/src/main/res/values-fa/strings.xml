@@ -1,9 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">سکسبوک</string>
 
-    <!-- Global -->
-    <string name="navOpen">بازکردن</string>
-    <string name="navClose">بستن</string>
+    <!-- FONTS -->
+    <string name="font1">vazir_medium.ttf</string>
+    <string name="font1Bold">vazir_bold.ttf</string>
+
+    <!-- GLOBAL -->
+    <string name="sOpen">بازکردن</string>
+    <string name="close">بستن</string>
     <string name="toExit">برای خروج دوباره ضربه بزنید&#8230;</string>
     <string-array name="months">
         <item>ژان</item>
@@ -83,8 +88,6 @@
         <item>میلادی</item>
         <item>شمسی</item>
     </string-array>
-    <string name="font1">vazir_medium.ttf</string>
-    <string name="font1Bold">vazir_bold.ttf</string>
     <string name="shrAdd">ایجاد مورد جدید</string>
     <string name="delete">حذف</string>
     <string name="expand">باز کردن</string>
@@ -114,7 +117,6 @@
     <string name="findChip">یک کراش انتخاب کنید&#8230;</string>
 
     <!-- Page Sex -->
-    <string name="mrvNotesHint">.....</string>
     <string name="lcAccurate">دقیق؟</string>
     <string name="desc">توضیحاتی بنویسید&#8230;</string>
 
@@ -131,7 +133,6 @@
     <string name="lastName">نام خانوادگی</string>
     <string name="masculine">مرد</string>
     <string name="feminine">زن</string>
-    <string name="real">شخص واقعی؟</string>
     <string name="height">قد (سانت)</string>
     <string name="birth">تاریخ تولد</string>
     <string name="location">محل زندگی</string>
@@ -148,8 +149,6 @@
 
     <!-- Estimation -->
     <string name="etTitle">تخمین ها</string>
-    <!--suppress CheckTagEmptyBody -->
-    <string name="etDateHint"></string>
     <string name="etSince">از</string>
     <string name="etUntil">تا</string>
     <string name="etFreq">بار در هر روز</string>
@@ -170,12 +169,10 @@
     <string name="jdtp_minute_picker_description" msgid="6024811202872705251">"لغزنده دایره‌ای دقیقه"</string>
     <string name="jdtp_select_hours" msgid="7651068754188418859">"انتخاب ساعت"</string>
     <string name="jdtp_select_minutes" msgid="8327182090226828481">"انتخاب دقیقه"</string>
-    <string name="jdtp_day_picker_description">جدول ماهیانه روزها</string>
+    <string name="jdtp_day_picker_description">جدول ماهانه روزها</string>
     <string name="jdtp_year_picker_description">لیست سال ها</string>
     <string name="jdtp_select_day">ماه و روز را انتخاب کنید</string>
     <string name="jdtp_select_year">سال را انتخاب کنید</string>
     <string name="jdtp_item_is_selected" msgid="2674929164900463786">"<xliff:g id="ITEM">%1$s</xliff:g> انتخاب شد"</string>
     <string name="jdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> حذف شد"</string>
-    <string name="am_label">قبل‌ازظهر</string>
-    <string name="pm_label">بعدازظهر</string>
 </resources>

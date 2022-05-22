@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Seksboek</string>
+
+    <!-- GLOBAL -->
+    <string name="sOpen">Open</string>
+    <string name="close">Sluit</string>
+    <string name="toExit">Dubbeltik om af te sluiten&#8230;</string>
+    <string-array name="months">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>Mei</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Aug</item>
+        <item>Sep</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
+    </string-array>
+    <string-array name="monthsFull">
+        <item>Januari</item>
+        <item>Februari</item>
+        <item>Maart</item>
+        <item>April</item>
+        <item>Mei</item>
+        <item>Juni</item>
+        <item>Juli</item>
+        <item>Augustus</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+    <string name="ok">Oké</string>
+    <string name="cancel">Annuleren</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
+    <string name="save">Opslaan</string>
+    <string name="discard">Weggooien</string>
+    <string name="excStat">Plus %s uitgesloten van statistiek.</string>
+    <string name="unknown">Plus %s van onbekende mensen.</string>
+    <string name="estimated">Plus %s geschatte items.</string>
+    <string-array name="types">
+        <item>Natte Droom</item>
+        <item>Masturbatie</item>
+        <item>Orale Seks</item>
+        <item>Anale Seks</item>
+        <item>Vaginale Seks</item>
+    </string-array>
+    <string-array name="calendarTypes">
+        <item>Gregoriaans</item>
+        <item>Iraans</item>
+    </string-array>
+    <string name="shrAdd">Nieuw Record Toevoegen</string>
+    <string name="delete">Verwijderen</string>
+    <string name="expand">Uitbreiden</string>
+    <string name="collapse">Instorten</string>
+    <string name="bHappyTitle">Gefeliciteerd met de verjaardag van %s!</string>
+    <string name="bHappyBef">Nog %d uur tot hun verjaardag!</string>
+    <string name="bHappyAft">%d uur voorbij sinds hun verjaardag!</string>
+    <string name="clear">Duidelijk</string>
+
+    <!-- Main -->
+    <string name="momSum">Samenvatting</string>
+    <string name="momPop">Populariteit</string>
+    <string name="momGrw">Groei</string>
+    <string name="momRec">Recentheid</string>
+    <string name="momPlc">Plaatsen</string>
+    <string name="momEst">Schatting</string>
+    <string name="momImport">Importeren uit Json</string>
+    <string name="momExport">Exporteren naar Json</string>
+    <string name="momSettings">Instellingen</string>
+    <string name="exportDone">Klaar!</string>
+    <string name="exportUndone">Mislukt!</string>
+    <string name="importDone">Klaar!</string>
+    <string name="importOpenError">Helaas is er een fout opgetreden bij het openen van het bestand!</string>
+    <string name="importReadError">Helaas is er een fout opgetreden tijdens het lezen van het bestand!</string>
+    <string name="noRecords">U heeft nog geen gegevens!</string>
+    <string name="askImport">Weet u zeker dat u alle app-gegevens wilt vervangen?</string>
+    <string name="findChip">Vind een crush&#8230;</string>
+
+    <!-- Page Sex -->
+    <string name="mrvNotesHint">.....</string>
+    <string name="lcAccurate">Nauwkeurig?</string>
+    <string name="desc">Schrijf beschrijvingen&#8230;</string>
+
+    <!-- Page Love -->
+    <string name="crushes">Lijst met verpletteringen</string>
+    <string name="emptyLove">Nadat je wat seksgegevens hebt toegevoegd, ga je naar Navigatiemenu -> Samenvatting -> Selecteer een verliefdheid -> Druk op de rechterbovenhoekknop met een \"Persoon\" (Identificatie)-pictogram.</string>
+    <string name="lcStatistics">Statistieken</string>
+    <string name="lcInstagram">Instagram</string>
+
+    <!-- Identification -->
+    <string name="identify">Identificatie</string>
+    <string name="firstName">Voornaam</string>
+    <string name="middleName">Midden-naam</string>
+    <string name="lastName">Achternaam</string>
+    <string name="masculine">Man</string>
+    <string name="feminine">Vrouw</string>
+    <string name="height">Hoogte (cm)</string>
+    <string name="birth">Geboortedatum</string>
+    <string name="location">Plaats</string>
+    <string name="instagram">Instagram</string>
+    <string name="notifyBirth">Breng me op zijn/haar verjaardag op de hoogte</string>
+    <string name="crushClear">Wis de informatie: %s</string>
+    <string name="crushClearSure">Weet u zeker dat u de gegevens van deze persoon wilt wissen? (DIT OMVAT NIET DE SEX RECORDS!)</string>
+
+    <!-- Places -->
+    <string name="plTitle">Places</string>
+    <string name="plItemHint">Place name&#8230;</string>
+    <string name="plDeletePlaceSure">Are you sure you want to delete this place?</string>
+    <string name="plDefPlace">Default Place?</string>
+
+    <!-- Estimation -->
+    <string name="etTitle">Schatting</string>
+    <string name="etSince">Sinds</string>
+    <string name="etUntil">Totdat</string>
+    <string name="etFreq">Keer Per Dag</string>
+    <string name="etDeleteGuessSure">Weet u zeker dat u deze schatting wilt verwijderen?</string>
+
+    <!-- Settings -->
+    <string name="stTitle">Seksboek Instellingen</string>
+    <string name="stCalendarType">Kalendertype</string>
+    <string name="stStatSince">Statistiek Sinds</string>
+    <string name="stReset">Reset Instellingen</string>
+    <string name="stResetSure">Weet je zeker dat je alle instellingen terug wilt zetten naar de standaardinstellingen?</string>
+    <string name="stTruncate">Alle gegevens verwijderen</string>
+    <string name="stTruncateSure">Weet u zeker dat u al uw persoonlijke gegevens wilt verwijderen?</string>
+
+
+    <!-- JDTP -->
+    <string name="jdtp_hour_picker_description" msgid="7586639618712934060">"Uur spinner"</string>
+    <string name="jdtp_minute_picker_description" msgid="6024811202872705251">"Minute spinner"</string>
+    <string name="jdtp_select_hours" msgid="7651068754188418859">Selecteer uur</string>
+    <string name="jdtp_select_minutes" msgid="8327182090226828481">Selecteer minuut</string>
+    <string name="jdtp_day_picker_description">Maandraster van dagen</string>
+    <string name="jdtp_year_picker_description">jaar lijst</string>
+    <string name="jdtp_select_day">Selecteer maand en dag</string>
+    <string name="jdtp_select_year">Selecteer jaar</string>
+    <string name="jdtp_item_is_selected" msgid="2674929164900463786">"<xliff:g id="ITEM">%1$s</xliff:g> geselecteerd"</string>
+    <string name="jdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> verwijderd"</string>
+</resources>

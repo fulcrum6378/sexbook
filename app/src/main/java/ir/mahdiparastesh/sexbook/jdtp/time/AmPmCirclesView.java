@@ -64,8 +64,8 @@ public class AmPmCirclesView extends View {
                 Float.parseFloat(res.getString(R.string.jdtp_circle_radius_multiplier));
         mAmPmCircleRadiusMultiplier =
                 Float.parseFloat(res.getString(R.string.jdtp_ampm_circle_radius_multiplier));
-        mAmText = getContext().getString(R.string.am_label);
-        mPmText = getContext().getString(R.string.pm_label);
+        mAmText = getContext().getString(R.string.AM);
+        mPmText = getContext().getString(R.string.PM);
 
         setAmOrPm(amOrPm);
         mAmOrPmPressed = -1;
