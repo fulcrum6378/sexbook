@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Sexbuch</string>
+
+    <!-- GLOBAL -->
+    <string name="sOpen">Öffne</string>
+    <string name="close">Schließe</string>
+    <string name="toExit">Zum Beenden doppeltippen&#8230;</string>
+    <string-array name="months">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>Mai</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Aug</item>
+        <item>Sep</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dez</item>
+    </string-array>
+    <string-array name="monthsFull">
+        <item>Januar</item>
+        <item>Februar</item>
+        <item>Marsch</item>
+        <item>April</item>
+        <item>Mai</item>
+        <item>Juni</item>
+        <item>Juli</item>
+        <item>August</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>Dezember</item>
+    </string-array>
+    <string name="ok">OK</string>
+    <string name="cancel">Absagen</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="save">Speichern</string>
+    <string name="discard">Verwerfen</string>
+    <string name="excStat">Plus %s von der Statistik ausgeschlossen.</string>
+    <string name="unknown">Plus %s von unbekannten Personen.</string>
+    <string name="estimated">Plus %s geschätzte Artikel.</string>
+    <string-array name="types">
+        <item>Pollution</item>
+        <item>Masturbation</item>
+        <item>Oralsex</item>
+        <item>Analsex</item>
+        <item>Vaginaler Sex</item>
+    </string-array>
+    <string-array name="calendarTypes">
+        <item>Gregorianischer</item>
+        <item>Iranischer</item>
+    </string-array>
+    <string name="shrAdd">Neuen Datensatz hinzufügen</string>
+    <string name="delete">Löschen</string>
+    <string name="expand">Erweitern</string>
+    <string name="collapse">Zusammenbruch</string>
+    <string name="bHappyTitle">Alles Gute zum Geburtstag von %s!</string>
+    <string name="bHappyBef">Noch %d Stunde(n) bis zu ihrem Geburtstag!</string>
+    <string name="bHappyAft">%d Stunde(n) sind seit ihrem Geburtstag vergangen!</string>
+    <string name="clear">Klar</string>
+
+    <!-- Main -->
+    <string name="momSum">Zusammenfassung</string>
+    <string name="momPop">Popularität</string>
+    <string name="momGrw">Wachstum</string>
+    <string name="momRec">Neuheit</string>
+    <string name="momPlc">Setzt</string>
+    <string name="momEst">Einschätzung</string>
+    <string name="momImport">Import aus Json</string>
+    <string name="momExport">Export nach Json</string>
+    <string name="momSettings">Einstellungen</string>
+    <string name="exportDone">Erledigt!</string>
+    <string name="exportUndone">Gescheitert!</string>
+    <string name="importDone">Erledigt!</string>
+    <string name="importOpenError">Leider ist beim Öffnen der Datei ein Fehler aufgetreten!</string>
+    <string name="importReadError">Leider ist beim Lesen der Datei ein Fehler aufgetreten!</string>
+    <string name="noRecords">Sie haben noch keine Aufzeichnungen!</string>
+    <string name="askImport">Möchten Sie wirklich alle App-Daten ersetzen?</string>
+    <string name="findChip">Suche einen Schwarm&#8230;</string>
+
+    <!-- Page Sex -->
+    <string name="lcAccurate">Präzise?</string>
+    <string name="desc">Beschreibungen schreiben&#8230;</string>
+
+    <!-- Page Love -->
+    <string name="crushes">Liste der Crushes</string>
+    <string name="emptyLove">Nachdem Sie einige Sexaufzeichnungen hinzugefügt haben, gehen Sie zu Navigationsmenü -> Zusammenfassung -> Schwarm auswählen -> Klicken Sie auf die Schaltfläche oben rechts mit einem Symbol \"Person\" (Identifikation).</string>
+    <string name="lcStatistics">Statistiken</string>
+    <string name="lcInstagram">Instagram</string>
+
+    <!-- Identification -->
+    <string name="identify">Identifikation</string>
+    <string name="firstName">Vorname</string>
+    <string name="middleName">Zweiter Vorname</string>
+    <string name="lastName">Familienname</string>
+    <string name="masculine">Mann</string>
+    <string name="feminine">Frau</string>
+    <string name="height">Höhe (cm)</string>
+    <string name="birth">Geburtsdatum</string>
+    <string name="location">Standort</string>
+    <string name="instagram">Instagram</string>
+    <string name="notifyBirth">Benachrichtigen Sie mich an ihrem Geburtstag</string>
+    <string name="crushClear">Klar Informationen: %s</string>
+    <string name="crushClearSure">Möchten Sie die Informationen dieser Person wirklich löschen? (DAS SCHLIESST DIE SEXAUFZEICHNUNGEN NICHT EIN!)</string>
+
+    <!-- Places -->
+    <string name="plTitle">Setzt</string>
+    <string name="plItemHint">Name des Ortes&#8230;</string>
+    <string name="plDeletePlaceSure">Möchten Sie diesen Ort wirklich löschen?</string>
+    <string name="plDefPlace">Standardort?</string>
+
+    <!-- Estimation -->
+    <string name="etTitle">Einschätzung</string>
+    <string name="etSince">Seit</string>
+    <string name="etUntil">Bis</string>
+    <string name="etFreq">Mal pro Tag</string>
+    <string name="etDeleteGuessSure">Möchten Sie diese Schätzung wirklich löschen?</string>
+
+    <!-- Settings -->
+    <string name="stTitle">Sexbuch-Einstellungen</string>
+    <string name="stCalendarType">Kalendertyp</string>
+    <string name="stStatSince">Statistik seit</string>
+    <string name="stReset">Einstellungen zurücksetzen</string>
+    <string name="stResetSure">Sind Sie sicher, dass Sie alle Einstellungen auf die Standardeinstellungen zurücksetzen möchten?</string>
+    <string name="stTruncate">Alle Daten entfernen</string>
+    <string name="stTruncateSure">Sind Sie sicher, dass Sie alle Ihre persönlichen Daten löschen möchten?</string>
+
+
+    <!-- JDTP -->
+    <string name="jdtp_hour_picker_description" msgid="7586639618712934060">"Stundenspinner"</string>
+    <string name="jdtp_minute_picker_description" msgid="6024811202872705251">"Minutenspinner"</string>
+    <string name="jdtp_select_hours" msgid="7651068754188418859">Stunde auswählen</string>
+    <string name="jdtp_select_minutes" msgid="8327182090226828481">Minute auswählen</string>
+    <string name="jdtp_day_picker_description">Monatsraster von Tagen</string>
+    <string name="jdtp_year_picker_description">Jahresliste</string>
+    <string name="jdtp_select_day">Monat und Tag auswählen</string>
+    <string name="jdtp_select_year">Jahr auswählen</string>
+    <string name="jdtp_item_is_selected" msgid="2674929164900463786">"<xliff:g id="ITEM">%1$s</xliff:g> ausgewählt"</string>
+    <string name="jdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> gelöscht"</string>
+</resources>
