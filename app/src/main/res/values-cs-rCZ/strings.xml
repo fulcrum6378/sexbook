@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Sexbook</string>
+
+    <!-- GLOBAL -->
+    <string name="sOpen">Otevři</string>
+    <string name="close">Zavři</string>
+    <string name="toExit">Dvojitým klepnutím ukončíte&#8230;</string>
+    <string-array name="months">
+        <item>Led</item>
+        <item>Unr</item>
+        <item>Brz</item>
+        <item>Dbn</item>
+        <item>Kvt</item>
+        <item>Cvn</item>
+        <item>Cvc</item>
+        <item>Srp</item>
+        <item>Zar</item>
+        <item>Rij</item>
+        <item>Lst</item>
+        <item>Prs</item>
+    </string-array>
+    <string-array name="monthsFull">
+        <item>Leden</item>
+        <item>Únor</item>
+        <item>Březen</item>
+        <item>Duben</item>
+        <item>Května</item>
+        <item>Červen</item>
+        <item>Červenec</item>
+        <item>Srpen</item>
+        <item>Září</item>
+        <item>Říjen</item>
+        <item>Listopad</item>
+        <item>Prosinec</item>
+    </string-array>
+    <string name="ok">OK</string>
+    <string name="cancel">Zrušení</string>
+    <string name="yes">Ano</string>
+    <string name="no">Ne</string>
+    <string name="save">Uložit</string>
+    <string name="discard">Vyřadit</string>
+    <string name="excStat">Plus %s vyloučeno ze statistiky.</string>
+    <string name="unknown">Plus %s od neznámých lidí.</string>
+    <string name="estimated">Plus %s odhadované položky.</string>
+    <string-array name="types">
+        <item>Poluce</item>
+        <item>Masturbace</item>
+        <item>Orální Sex</item>
+        <item>Anální Sex</item>
+        <item>Vaginální Sex</item>
+    </string-array>
+    <string-array name="calendarTypes">
+        <item>Gregoriánský</item>
+        <item>Íránský</item>
+    </string-array>
+    <string name="shrAdd">Přidat Nový Záznam</string>
+    <string name="delete">Vymazat</string>
+    <string name="expand">Rozšířit</string>
+    <string name="collapse">Kolaps</string>
+    <string name="bHappyTitle">Všechno nejlepší k narozeninám %s!</string>
+    <string name="bHappyBef">Do jejich narozenin zbývá %d hodin(a)!</string>
+    <string name="bHappyAft">%d hodin uplynulo od jejich narozenin!</string>
+    <string name="clear">Vyčistěte</string>
+
+    <!-- Main -->
+    <string name="momSum">Souhrn</string>
+    <string name="momPop">Popularita</string>
+    <string name="momGrw">Růst</string>
+    <string name="momRec">Aktuálnost</string>
+    <string name="momPlc">Místa</string>
+    <string name="momEst">Odhad</string>
+    <string name="momImport">Import z Json</string>
+    <string name="momExport">Export do Json</string>
+    <string name="momSettings">Nastavení</string>
+    <string name="exportDone">Hotovo!</string>
+    <string name="exportUndone">Nepodařilo se!</string>
+    <string name="importDone">Hotovo!</string>
+    <string name="importOpenError">Bohužel došlo k chybě při otevírání souboru!</string>
+    <string name="importReadError">Bohužel při čtení souboru došlo k chybě!</string>
+    <string name="noRecords">Zatím nemáte žádné záznamy!</string>
+    <string name="askImport">Opravdu chcete nahradit všechna data aplikace?</string>
+    <string name="findChip">Najít zamilovanost&#8230;</string>
+
+    <!-- Page Sex -->
+    <string name="lcAccurate">Přesný?</string>
+    <string name="desc">Pište popisy&#8230;</string>
+
+    <!-- Page Love -->
+    <string name="crushes">Seznam Crushes</string>
+    <string name="emptyLove">Po přidání některých záznamů o sexu přejděte do Navigační nabídky -> Souhrn -> Vybrat zamilovanost -> Stiskněte pravé horní tlačítko s ikonou "Osoba" (Identifikace).</string>
+    <string name="lcStatistics">Statistika</string>
+    <string name="lcInstagram">Instagram</string>
+
+    <!-- Identification -->
+    <string name="identify">Identifikace</string>
+    <string name="firstName">Jméno</string>
+    <string name="middleName">Prostřední jméno</string>
+    <string name="lastName">Příjmení</string>
+    <string name="masculine">Muž</string>
+    <string name="feminine">Žena</string>
+    <string name="height">Výška (cm)</string>
+    <string name="birth">Datum narození</string>
+    <string name="location">Umístění</string>
+    <string name="instagram">Instagram</string>
+    <string name="notifyBirth">Upozornit mě na jejich narozeniny</string>
+    <string name="crushClear">Vymažte informace: %s</string>
+    <string name="crushClearSure">Opravdu chcete vymazat informace o této osobě? (NEZAHRNUJÍ ZÁZNAMY SEXU!)</string>
+
+    <!-- Places -->
+    <string name="plTitle">Místa</string>
+    <string name="plItemHint">Název místa&#8230;</string>
+    <string name="plDeletePlaceSure">Opravdu chcete toto místo smazat?</string>
+    <string name="plDefPlace">Výchozí místo?</string>
+
+    <!-- Estimation -->
+    <string name="etTitle">Odhad</string>
+    <string name="etSince">Od té doby</string>
+    <string name="etUntil">Až do</string>
+    <string name="etFreq">krát za den</string>
+    <string name="etDeleteGuessSure">Opravdu chcete smazat tento odhad?</string>
+
+    <!-- Settings -->
+    <string name="stTitle">Nastavení Sexbooku</string>
+    <string name="stCalendarType">Typ kalendáře</string>
+    <string name="stStatSince">Statistika od</string>
+    <string name="stReset">Resetovat nastavení</string>
+    <string name="stResetSure">Opravdu chcete všechna nastavení vrátit na výchozí hodnoty?</string>
+    <string name="stTruncate">Odebrat všechna data</string>
+    <string name="stTruncateSure">Opravdu chcete odstranit všechny své osobní údaje?</string>
+
+
+    <!-- JDTP -->
+    <string name="jdtp_hour_picker_description" msgid="7586639618712934060">"Hodinový spinner"</string>
+    <string name="jdtp_minute_picker_description" msgid="6024811202872705251">"Minutová rotačka"</string>
+    <string name="jdtp_select_hours" msgid="7651068754188418859">Vyberte hodinu</string>
+    <string name="jdtp_select_minutes" msgid="8327182090226828481">Vyberte minutu</string>
+    <string name="jdtp_day_picker_description">Měsíční mřížka dnů</string>
+    <string name="jdtp_year_picker_description">Ročníkový seznam</string>
+    <string name="jdtp_select_day">Vyberte měsíc a den</string>
+    <string name="jdtp_select_year">Vyberte rok</string>
+    <string name="jdtp_item_is_selected" msgid="2674929164900463786">"<xliff:g id="ITEM">%1$s</xliff:g> vybraný"</string>
+    <string name="jdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> smazáno"</string>
+</resources>
