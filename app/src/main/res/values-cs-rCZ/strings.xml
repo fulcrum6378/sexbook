@@ -34,6 +34,8 @@
         <item>Listopad</item>
         <item>Prosinec</item>
     </string-array>
+    <string name="AM" translatable="false">DOP</string>
+    <string name="PM" translatable="false">ODP</string>
     <string name="ok">OK</string>
     <string name="cancel">Zrušení</string>
     <string name="yes">Ano</string>

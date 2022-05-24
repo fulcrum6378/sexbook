@@ -213,8 +213,8 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 }
                 this[R.id.lcAccurate] = {
                     c.m.visOnani.value!![h.layoutPosition].apply {
-                        if (acur != !it.isChecked) {
-                            acur = !it.isChecked
+                        if (accu != !it.isChecked) {
+                            accu = !it.isChecked
                             update(this, h.layoutPosition)
                         }
                     }
@@ -227,7 +227,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 }
             }).apply {
                 menu.findItem(R.id.lcAccurate).isChecked =
-                    c.m.visOnani.value!![h.layoutPosition].acur
+                    c.m.visOnani.value!![h.layoutPosition].accu
                 if (expansion[h.layoutPosition]) menu.findItem(R.id.lcExpand).title =
                     c.resources.getString(R.string.collapse)
             }.show()
