@@ -227,7 +227,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     fun load(sd: Long = 1500, dur: Long = 1000) {
         if (m.loaded) return
         val value = -dm.widthPixels.toFloat() * 1.2f
-        ObjectAnimator.ofFloat(b.load, "translationX", value).apply {
+        ObjectAnimator.ofFloat(b.load, View.TRANSLATION_X, value).apply {
             startDelay = sd
             duration = dur
             addListener(object : AnimatorListenerAdapter() {
@@ -242,9 +242,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     private fun summary() {
         if (summarize()) AlertDialog.Builder(this).apply {
-            setTitle(
-                "${resources.getString(R.string.momSum)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})"
-            )
+            setTitle("${getString(R.string.momSum)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})")
             setView(ConstraintLayout(c).apply {
                 addView(ViewPager2(c).apply {
                     layoutParams = ViewGroup.LayoutParams(-1, -1)
@@ -280,11 +278,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     private fun notifyBirth(crush: Crush, dist: Long) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-                .createNotificationChannel(
-                    NotificationChannel(
-                        CHANNEL_BIRTH, "Birthday Notification", NotificationManager.IMPORTANCE_HIGH
-                    ).apply { description = "Birthday Notification" })
+            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
+                NotificationChannel(
+                    CHANNEL_BIRTH, getString(R.string.birthDateNtf),
+                    NotificationManager.IMPORTANCE_HIGH
+                )
+            )
         with(NotificationManagerCompat.from(this)) {
             notify(666, NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
                 setSmallIcon(R.drawable.notification)
@@ -310,7 +309,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             val share = (86400000.0 / g.freq).toLong()
 
             while (time <= g.till) {
-                m.onani.value!!.add(Report(time, "[ESTIMATED]", g.type, g.plac))
+                m.onani.value!!.add(Report(time, getString(R.string.recEstimated), g.type, g.plac))
                 time += share
             }
         }

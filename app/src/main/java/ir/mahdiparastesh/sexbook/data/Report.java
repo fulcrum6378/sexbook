@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.data;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -9,17 +8,11 @@ import androidx.room.PrimaryKey;
 public class Report {
     @PrimaryKey(autoGenerate = true)
     public long id;
-    @ColumnInfo(name = "time")
     public long time;
-    @ColumnInfo(name = "name")
     public String name;
-    @ColumnInfo(name = "type")
     public byte type;
-    @ColumnInfo(name = "desc")
     public String desc;
-    @ColumnInfo(name = "accu")
     public boolean acur;
-    @ColumnInfo(name = "plac")
     public long plac;
     @Ignore
     private transient boolean estimated;

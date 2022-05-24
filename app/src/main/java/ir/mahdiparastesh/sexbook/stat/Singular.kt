@@ -200,7 +200,7 @@ class Singular : BaseActivity() {
             }
 
             AlertDialog.Builder(c).apply {
-                setTitle("${c.resources.getString(R.string.identify)}: ${crush?.key ?: c.m.crush}")
+                setTitle("${c.getString(R.string.identify)}: ${crush?.key ?: c.m.crush}")
                 setView(bi.root)
                 setPositiveButton(R.string.save) { _, _ ->
                     val inserted = Crush(

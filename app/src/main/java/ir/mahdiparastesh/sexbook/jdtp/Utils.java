@@ -36,9 +36,9 @@ public class Utils {
         Keyframe k3 = Keyframe.ofFloat(1f, 1f);
 
         PropertyValuesHolder scaleX = PropertyValuesHolder.ofKeyframe(
-                "scaleX", k0, k1, k2, k3);
+                View.SCALE_X, k0, k1, k2, k3);
         PropertyValuesHolder scaleY = PropertyValuesHolder.ofKeyframe(
-                "scaleY", k0, k1, k2, k3);
+                View.SCALE_Y, k0, k1, k2, k3);
         ObjectAnimator pulseAnimator =
                 ObjectAnimator.ofPropertyValuesHolder(labelToAnimate, scaleX, scaleY);
         pulseAnimator.setDuration(PULSE_ANIMATOR_DURATION);

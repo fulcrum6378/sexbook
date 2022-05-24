@@ -48,9 +48,8 @@ public class YearPickerView extends ListView implements OnItemClickListener, OnD
 
     private void init(Context c) {
         ArrayList<String> years = new ArrayList<>();
-        for (int year = mController.getMinYear(); year <= mController.getMaxYear(); year++) {
+        for (int year = mController.getMinYear(); year <= mController.getMaxYear(); year++)
             years.add(String.format(Locale.getDefault(), "%d", year));
-        }
         LanguageUtils.getPersianNumbers(years);
         mAdapter = new YearAdapter(c, R.layout.jdtp_year_label_text_view, years);
         setAdapter(mAdapter);
@@ -90,8 +89,7 @@ public class YearPickerView extends ListView implements OnItemClickListener, OnD
             TextViewWithCircularIndicator v = (TextViewWithCircularIndicator)
                     super.getView(position, convertView, parent);
             v.requestLayout();
-            int year = getYearFromTextView(v);
-            boolean selected = mController.getSelectedDay().year == year;
+            boolean selected = mController.getSelectedDay().year == getYearFromTextView(v);
             v.drawIndicator(selected);
             if (selected) mSelectedView = v;
             return v;

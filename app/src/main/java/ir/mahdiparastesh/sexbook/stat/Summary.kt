@@ -85,7 +85,7 @@ class Summary(list: List<Report>, val nEstimated: Int, val nExcluded: Int) {
             }
             // His & Her & Their
             else if (a.size > 1 && last.size > 1 &&
-                (last[0].equals("His", true) ||
+                (last[0].equals("His", true) || // TODO translate!?!?
                         last[0].equals("Her", true) ||
                         last[0].equals("Their", true)
                         ) && mAllExceptLast.all { it == Meaning.ONE }

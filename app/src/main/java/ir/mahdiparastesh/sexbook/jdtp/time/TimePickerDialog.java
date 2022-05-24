@@ -202,7 +202,7 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
         mAmPmTextView.setTypeface(jdtpFont);
         mAmPmTextView.setOnKeyListener(keyboardListener);
         mAmText = "قبل‌ازظهر";
-        mPmText = "بعدازظهر";
+        mPmText = "بعدازظهر"; // TODO translate
 
         mHapticFeedbackController = new HapticFeedbackController(getActivity());
 
@@ -670,7 +670,7 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
             char amChar;
             char pmChar;
             for (int i = 0; i < Math.max(mAmText.length(), mPmText.length()); i++) {
-                amChar = "AM".toLowerCase(Locale.getDefault()).charAt(i);
+                amChar = "AM".toLowerCase(Locale.getDefault()).charAt(i); // TODO translate
                 pmChar = "PM".toLowerCase(Locale.getDefault()).charAt(i);
                 if (amChar != pmChar) {
                     KeyEvent[] events = kcm.getEvents(new char[]{amChar, pmChar});

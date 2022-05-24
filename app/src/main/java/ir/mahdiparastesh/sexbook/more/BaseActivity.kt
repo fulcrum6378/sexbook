@@ -57,7 +57,6 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
-        if (this is Main) Settings.migrateSp()
         sp = getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
         jdtpFont = font1
         jdtpFontBold = font1Bold

@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -19,7 +18,6 @@ import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.LocalDatePicker
 import ir.mahdiparastesh.sexbook.more.SpinnerAdap
-import java.io.File
 
 class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
@@ -37,16 +35,11 @@ class Settings : BaseActivity() {
         const val spPrefersMasculine = "prefersMasculine"
         const val spPrefersOrgType = "prefersOrgType"
 
-        @SuppressLint("SdCardPath")
-        const val spPath = "/data/data/ir.mahdiparastesh.sexbook/shared_prefs/"
+        //@SuppressLint("SdCardPath")
+        //const val spPath = "/data/data/ir.mahdiparastesh.sexbook/shared_prefs/"
         const val spName = "settings"
 
-        fun migrateSp() {
-            File("${spPath}ir.mahdiparastesh.sexbook.Settings.xml")
-                .apply { if (exists()) renameTo(spFile()) }
-        }
-
-        private fun spFile() = File("${spPath}${spName}.xml")
+        //private fun spFile() = File("${spPath}${spName}.xml")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

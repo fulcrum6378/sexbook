@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.data;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -11,11 +10,8 @@ import java.util.Comparator;
 public class Place {
     @PrimaryKey(autoGenerate = true)
     public long id;
-    @ColumnInfo(name = "name")
     public String name;
-    @ColumnInfo(name = "latitude")
     public double latitude;
-    @ColumnInfo(name = "longitude")
     public double longitude;
     @Ignore
     public transient long sum = -1L;

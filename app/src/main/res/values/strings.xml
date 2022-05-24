@@ -95,6 +95,7 @@
     <string name="bHappyTitle">Happy %s\'s Birthday!</string>
     <string name="bHappyBef" tools:ignore="PluralsCandidate">%d hour(s) remaining to their birthday!</string>
     <string name="bHappyAft" tools:ignore="PluralsCandidate">%d hour(s) past since their birthday!</string>
+    <string name="birthDateNtf">Birthday Notification</string>
     <string name="clear">Clear</string>
 
     <!-- Main -->
@@ -120,6 +121,7 @@
     <string name="mrvNotesHint" translatable="false">.....</string>
     <string name="lcAccurate">Accurate?</string>
     <string name="desc">Write descriptions&#8230;</string>
+    <string name="recEstimated">[ESTIMATED]</string>
 
     <!-- Page Love -->
     <string name="crushes">List of Crushes</string>

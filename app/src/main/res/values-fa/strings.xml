@@ -95,6 +95,7 @@
     <string name="bHappyTitle">تولد %s مبارک!</string>
     <string name="bHappyBef">%d ساعت مونده تا تولدش!</string>
     <string name="bHappyAft">%d ساعت گذشته از تولدش!</string>
+    <string name="birthDateNtf">اطلاع رسانی روز تولد</string>
     <string name="clear">پاکسازی</string>
 
     <!-- Main -->
@@ -119,6 +120,7 @@
     <!-- Page Sex -->
     <string name="lcAccurate">دقیق؟</string>
     <string name="desc">توضیحاتی بنویسید&#8230;</string>
+    <string name="recEstimated">[حدسی]</string>
 
     <!-- Page Love -->
     <string name="crushes">لیست کراش ها</string>

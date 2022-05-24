@@ -61,6 +61,7 @@
     <string name="bHappyTitle">Alles Gute zum Geburtstag von %s!</string>
     <string name="bHappyBef">Noch %d Stunde(n) bis zu ihrem Geburtstag!</string>
     <string name="bHappyAft">%d Stunde(n) sind seit ihrem Geburtstag vergangen!</string>
+    <string name="birthDateNtf">Geburtstagsbenachrichtigung</string>
     <string name="clear">Klar</string>
 
     <!-- Main -->
@@ -85,6 +86,7 @@
     <!-- Page Sex -->
     <string name="lcAccurate">Präzise?</string>
     <string name="desc">Beschreibungen schreiben&#8230;</string>
+    <string name="recEstimated">[GESCHÄTZT]</string>
 
     <!-- Page Love -->
     <string name="crushes">Liste der Crushes</string>

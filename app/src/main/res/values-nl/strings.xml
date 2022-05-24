@@ -80,12 +80,14 @@
     <string name="importReadError">Helaas is er een fout opgetreden tijdens het lezen van het bestand!</string>
     <string name="noRecords">U heeft nog geen gegevens!</string>
     <string name="askImport">Weet u zeker dat u alle app-gegevens wilt vervangen?</string>
+    <string name="birthDateNtf">Verjaardagsmelding</string>
     <string name="findChip">Vind een crush&#8230;</string>
 
     <!-- Page Sex -->
     <string name="mrvNotesHint">.....</string>
     <string name="lcAccurate">Nauwkeurig?</string>
     <string name="desc">Schrijf beschrijvingen&#8230;</string>
+    <string name="recEstimated">[GESCHATTE]</string>
 
     <!-- Page Love -->
     <string name="crushes">Lijst met verpletteringen</string>
