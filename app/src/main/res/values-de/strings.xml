@@ -52,7 +52,7 @@
     </string-array>
     <string-array name="calendarTypes">
         <item>Gregorianischer</item>
-        <item>Iranischer</item>
+        <item>Persisch</item>
     </string-array>
     <string name="shrAdd">Neuen Datensatz hinzufügen</string>
     <string name="delete">Löschen</string>

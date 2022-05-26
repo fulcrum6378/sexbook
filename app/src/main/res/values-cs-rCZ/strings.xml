@@ -54,7 +54,7 @@
     </string-array>
     <string-array name="calendarTypes">
         <item>Gregoriánský</item>
-        <item>Íránský</item>
+        <item>Peršan</item>
     </string-array>
     <string name="shrAdd">Přidat Nový Záznam</string>
     <string name="delete">Vymazat</string>
