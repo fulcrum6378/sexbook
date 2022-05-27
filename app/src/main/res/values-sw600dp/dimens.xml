@@ -5,7 +5,6 @@
     <dimen name="jdtp_date_picker_view_animator_height">400dp</dimen>
     <dimen name="jdtp_day_number_select_circle_radius">20dp</dimen>
     <dimen name="jdtp_day_number_size">18sp</dimen>
-    <dimen name="jdtp_extra_time_label_margin">-50dp</dimen>
     <dimen name="jdtp_month_day_label_text_size">12sp</dimen>
     <dimen name="jdtp_month_label_size">20sp</dimen>
     <dimen name="jdtp_month_list_item_header_height">75dp</dimen>

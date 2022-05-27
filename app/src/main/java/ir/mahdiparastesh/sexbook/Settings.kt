@@ -73,12 +73,13 @@ class Settings : BaseActivity() {
         b.stStatSinceDateCb.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spStatSinceCb, isChecked).apply()
         }
-        val statSinc = sp.getLong(spStatSince, 0).calendar()
         b.stStatSinceDate.text =
-            if (!sp.contains(spStatSince)) "..." else statSinc.fullDate(this)
+            if (!sp.contains(spStatSince)) "..."
+            else sp.getLong(spStatSince, 0).calendar().fullDate(this)
         b.stStatSince.setOnClickListener {
             LocalDatePicker(
-                this, "stat", if (!sp.contains(spStatSince)) Fun.now().calendar() else statSinc
+                this, "stat", if (!sp.contains(spStatSince)) Fun.now().calendar()
+                else sp.getLong(spStatSince, 0).calendar()
             ) { _, time ->
                 val cal = time.defCalendar()
                 b.stStatSinceDate.text = cal.fullDate(this)
