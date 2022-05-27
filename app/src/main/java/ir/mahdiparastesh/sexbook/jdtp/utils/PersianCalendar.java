@@ -1,23 +1,17 @@
 package ir.mahdiparastesh.sexbook.jdtp.utils;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import ir.mahdiparastesh.sexbook.R;
+
 public class PersianCalendar extends GregorianCalendar {
     private int persianYear, persianMonth, persianDay;
-    private String delimiter = "/";
-
-    private long convertToMillis(long julianDate) {
-        return PersianCalendarConstants.MILLIS_JULIAN_EPOCH
-                + julianDate
-                * PersianCalendarConstants.MILLIS_OF_A_DAY
-                + PersianCalendarUtils.ceil(getTimeInMillis()
-                        - PersianCalendarConstants.MILLIS_JULIAN_EPOCH,
-                PersianCalendarConstants.MILLIS_OF_A_DAY);
-    }
 
     public PersianCalendar() {
         super(TimeZone.getDefault(), Locale.getDefault());
@@ -28,10 +22,6 @@ public class PersianCalendar extends GregorianCalendar {
         this.persianYear = persianYearMonthDay.year;
         this.persianMonth = persianYearMonthDay.month;
         this.persianDay = persianYearMonthDay.day;
-    }
-
-    public boolean isPersianLeapYear() {
-        return PersianCalendarUtils.isPersianLeapYear(this.persianYear);
     }
 
     public void setPersianDate(int persianYear, int persianMonth, int persianDay) {
@@ -48,19 +38,15 @@ public class PersianCalendar extends GregorianCalendar {
     }
 
     public int getPersianMonth() {
-        return this.persianMonth;
+        return persianMonth;
     }
 
-    public String getPersianMonthName() {
-        return PersianCalendarConstants.persianMonthNames[this.persianMonth];
+    public String getPersianMonthName(Context c) {
+        return c.getResources().getStringArray(R.array.jMonthsFull)[persianMonth];
     }
 
     public int getPersianDay() {
         return this.persianDay;
-    }
-
-    public String getPersianLongDateAndTime() {
-        return getPersianLongDate() + " ساعت " + get(HOUR_OF_DAY) + ":" + get(MINUTE) + ":" + get(SECOND);
     }
 
     public String getPersianWeekDayName() {
@@ -82,14 +68,15 @@ public class PersianCalendar extends GregorianCalendar {
         }
     }
 
-    public String getPersianLongDate() {
+    public String getPersianLongDate(Context c) {
         return getPersianWeekDayName() + "  "
                 + formatToMilitary(this.persianDay) + "  "
-                + getPersianMonthName() + "  " + this.persianYear;
+                + getPersianMonthName(c) + "  " + this.persianYear;
 
     }
 
     public String getPersianShortDate() {
+        String delimiter = "/";
         return "" + formatToMilitary(this.persianYear) + delimiter
                 + formatToMilitary(getPersianMonth()) + delimiter
                 + formatToMilitary(this.persianDay);
@@ -97,39 +84,6 @@ public class PersianCalendar extends GregorianCalendar {
 
     private String formatToMilitary(int i) {
         return (i < 9) ? "0" + i : String.valueOf(i);
-    }
-
-    public void addPersianDate(int field, int amount) {
-        if (amount == 0) return;
-        if (field < 0 || field >= ZONE_OFFSET)
-            throw new IllegalArgumentException();
-
-        if (field == YEAR) {
-            setPersianDate(this.persianYear + amount, getPersianMonth(), this.persianDay);
-            return;
-        } else if (field == MONTH) {
-            setPersianDate(this.persianYear
-                            + ((getPersianMonth() + amount) / 12),
-                    (getPersianMonth() + amount) % 12, this.persianDay);
-            return;
-        }
-        add(field, amount);
-        calculatePersianDate();
-    }
-
-    public void parse(String dateString) {
-        PersianCalendar p = new PersianDateParser(dateString, delimiter)
-                .getPersianDate();
-        setPersianDate(p.getPersianYear(), p.getPersianMonth(),
-                p.getPersianDay());
-    }
-
-    public String getDelimiter() {
-        return delimiter;
-    }
-
-    public void setDelimiter(String delimiter) {
-        this.delimiter = delimiter;
     }
 
     @NonNull
@@ -283,6 +237,7 @@ public class PersianCalendar extends GregorianCalendar {
             return month;
         }
 
+        @SuppressWarnings("unused")
         public void setMonth(int month) {
             this.month = month;
         }

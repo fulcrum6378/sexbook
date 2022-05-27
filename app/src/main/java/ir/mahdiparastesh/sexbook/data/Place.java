@@ -22,10 +22,10 @@ public class Place {
         this.longitude = longitude;
     }
 
-    public Place setId(long id) {
+    /*public Place setId(long id) {
         this.id = id;
         return this;
-    }
+    }*/
 
     public static class Sort implements Comparator<Place> {
         public static final byte SUM = 0, NAME = 1;

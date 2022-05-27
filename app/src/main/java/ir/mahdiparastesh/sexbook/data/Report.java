@@ -35,10 +35,10 @@ public class Report {
         this.plac = plac;
     }
 
-    public Report setId(long id) {
+    /*public Report setId(long id) {
         this.id = id;
         return this;
-    }
+    }*/
 
     public boolean isReal() {
         return !estimated;

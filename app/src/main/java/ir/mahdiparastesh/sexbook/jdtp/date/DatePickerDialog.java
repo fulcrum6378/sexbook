@@ -24,8 +24,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -71,7 +69,6 @@ public class DatePickerDialog extends DialogFragment implements
 
     private AccessibleDateAnimator mAnimator;
 
-    private TextView mDayOfWeekTextView;
     private LinearLayout mMonthAndDayView;
     private TextView mSelectedMonthTextView;
     private TextView mSelectedDayTextView;
@@ -179,8 +176,6 @@ public class DatePickerDialog extends DialogFragment implements
         Button cancelButton = view.findViewById(R.id.cancel);
         okButton.setTypeface(jdtpFont);
         cancelButton.setTypeface(jdtpFont);
-        if (mDayOfWeekTextView != null)
-            mDayOfWeekTextView.setTypeface(jdtpFont);
         mSelectedMonthTextView.setTypeface(jdtpFont);
         mSelectedDayTextView.setTypeface(jdtpFont);
         mYearView.setTypeface(jdtpFont);
@@ -299,7 +294,7 @@ public class DatePickerDialog extends DialogFragment implements
                 }
                 pulseAnimator.start();
 
-                String dayString = LanguageUtils.getPersianNumbers(mPersianCalendar.getPersianLongDate());
+                String dayString = LanguageUtils.getPersianNumbers(mPersianCalendar.getPersianLongDate(getContext()));
                 mAnimator.setContentDescription(mDayPickerDescription + ": " + dayString);
                 Utils.tryAccessibilityAnnounce(mAnimator, mSelectDay);
                 break;
@@ -327,11 +322,8 @@ public class DatePickerDialog extends DialogFragment implements
     }
 
     private void updateDisplay(boolean announce) {
-        if (mDayOfWeekTextView != null)
-            mDayOfWeekTextView.setText(mPersianCalendar.getPersianWeekDayName());
-
         mSelectedMonthTextView.setText(LanguageUtils.
-                getPersianNumbers(mPersianCalendar.getPersianMonthName()));
+                getPersianNumbers(mPersianCalendar.getPersianMonthName(getContext())));
         mSelectedDayTextView.setText(LanguageUtils.
                 getPersianNumbers(String.valueOf(mPersianCalendar.getPersianDay())));
         mYearView.setText(LanguageUtils.
@@ -341,16 +333,13 @@ public class DatePickerDialog extends DialogFragment implements
         long millis = mPersianCalendar.getTimeInMillis();
         mAnimator.setDateMillis(millis);
         String monthAndDayText = LanguageUtils.getPersianNumbers(
-                mPersianCalendar.getPersianMonthName() + " " +
+                mPersianCalendar.getPersianMonthName(getContext()) + " " +
                         mPersianCalendar.getPersianDay()
         );
         mMonthAndDayView.setContentDescription(monthAndDayText);
 
-        if (announce) {
-            String fullDateText = LanguageUtils.
-                    getPersianNumbers(mPersianCalendar.getPersianLongDate());
-            Utils.tryAccessibilityAnnounce(mAnimator, fullDateText);
-        }
+        if (announce) Utils.tryAccessibilityAnnounce(mAnimator, LanguageUtils.
+                getPersianNumbers(mPersianCalendar.getPersianLongDate(getContext())));
     }
 
     public void setThemeDark(boolean themeDark) {
@@ -362,7 +351,7 @@ public class DatePickerDialog extends DialogFragment implements
         return mThemeDark;
     }
 
-    public void setFirstDayOfWeek(int startOfWeek) {
+    /*public void setFirstDayOfWeek(int startOfWeek) {
         if (startOfWeek < Calendar.SUNDAY || startOfWeek > Calendar.SATURDAY) {
             throw new IllegalArgumentException("Value must be between Calendar.SUNDAY and " +
                     "Calendar.SATURDAY");
@@ -370,9 +359,9 @@ public class DatePickerDialog extends DialogFragment implements
         mWeekStart = startOfWeek;
         if (mDayPickerView != null)
             mDayPickerView.onChange();
-    }
+    }*/
 
-    public void setYearRange(int startYear, int endYear) {
+    /*public void setYearRange(int startYear, int endYear) {
         if (endYear < startYear) {
             throw new IllegalArgumentException("Year end must be larger than or equal to year start");
         }
@@ -382,54 +371,54 @@ public class DatePickerDialog extends DialogFragment implements
         if (mDayPickerView != null) {
             mDayPickerView.onChange();
         }
-    }
+    }*/
 
-    public void setMinDate(PersianCalendar calendar) {
+    /*public void setMinDate(PersianCalendar calendar) {
         mMinDate = calendar;
         if (mDayPickerView != null) mDayPickerView.onChange();
-    }
+    }*/
 
     @Override
     public PersianCalendar getMinDate() {
         return mMinDate;
     }
 
-    public void setMaxDate(PersianCalendar calendar) {
+    /*public void setMaxDate(PersianCalendar calendar) {
         mMaxDate = calendar;
 
         if (mDayPickerView != null) mDayPickerView.onChange();
-    }
-
+    }*/
 
     @Override
     public PersianCalendar getMaxDate() {
         return mMaxDate;
     }
 
-    public void setHighlightedDays(PersianCalendar[] highlightedDays) {
+    /*public void setHighlightedDays(PersianCalendar[] highlightedDays) {
         Arrays.sort(highlightedDays);
         this.highlightedDays = highlightedDays;
-    }
+    }*/
 
     @Override
     public PersianCalendar[] getHighlightedDays() {
         return highlightedDays;
     }
 
-    public void setSelectableDays(PersianCalendar[] selectableDays) {
+    /*public void setSelectableDays(PersianCalendar[] selectableDays) {
         Arrays.sort(selectableDays);
         this.selectableDays = selectableDays;
-    }
+    }*/
 
     @Override
     public PersianCalendar[] getSelectableDays() {
         return selectableDays;
     }
 
-    public void setOnDateSetListener(OnDateSetListener listener) {
+    /*public void setOnDateSetListener(OnDateSetListener listener) {
         mCallBack = listener;
-    }
+    }*/
 
+    @SuppressWarnings("unused")
     public void setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
         mOnCancelListener = onCancelListener;
     }
@@ -504,10 +493,10 @@ public class DatePickerDialog extends DialogFragment implements
         mListeners.add(listener);
     }
 
-    @Override
+    /*@Override
     public void unregisterOnDateChangedListener(OnDateChangedListener listener) {
         mListeners.remove(listener);
-    }
+    }*/
 
     @Override
     public void tryVibrate() {

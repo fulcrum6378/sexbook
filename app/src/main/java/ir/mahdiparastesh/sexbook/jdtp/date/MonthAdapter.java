@@ -65,7 +65,7 @@ public abstract class MonthAdapter extends BaseAdapter implements OnDayClickList
             day = mPersianCalendar.getPersianDay();
         }
 
-        public int getYear() {
+        /*public int getYear() {
             return year;
         }
 
@@ -75,7 +75,7 @@ public abstract class MonthAdapter extends BaseAdapter implements OnDayClickList
 
         public int getDay() {
             return day;
-        }
+        }*/
     }
 
     public MonthAdapter(Context c, DatePickerController controller) {
@@ -90,9 +90,9 @@ public abstract class MonthAdapter extends BaseAdapter implements OnDayClickList
         notifyDataSetChanged();
     }
 
-    public CalendarDay getSelectedDay() {
+    /*public CalendarDay getSelectedDay() {
         return mSelectedDay;
-    }
+    }*/
 
     protected void init() {
         mSelectedDay = new CalendarDay(System.currentTimeMillis());
@@ -161,9 +161,8 @@ public abstract class MonthAdapter extends BaseAdapter implements OnDayClickList
         return mSelectedDay.year == year && mSelectedDay.month == month;
     }
 
-
     @Override
-    public void onDayClick(MonthView view, CalendarDay day) {
+    public void onDayClick(CalendarDay day) {
         if (day != null) onDayTapped(day);
     }
 

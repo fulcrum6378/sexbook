@@ -48,7 +48,7 @@ class Exporter(val c: BaseActivity) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
             else "application/json"
 
-        fun import(c: BaseActivity, uri: Uri, makeSure: Boolean = true) {
+        fun import(c: BaseActivity, uri: Uri) {
             var data: String? = null
             try {
                 c.contentResolver.openFileDescriptor(uri, "r")?.use { des ->
@@ -71,8 +71,7 @@ class Exporter(val c: BaseActivity) {
                 Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
                 return
             }
-            if (!makeSure) replace(c, imported)
-            else AlertDialog.Builder(c).apply {
+            AlertDialog.Builder(c).apply {
                 setTitle(c.resources.getString(R.string.momImport))
                 setMessage(c.resources.getString(R.string.askImport))
                 setPositiveButton(R.string.yes) { _, _ -> replace(c, imported) }

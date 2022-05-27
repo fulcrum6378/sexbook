@@ -177,18 +177,6 @@
 
 
     <!-- JDTP -->
-    <style name="jdtp_time_label">
-        <item name="android:textSize">@dimen/jdtp_time_label_size</item>
-        <item name="android:textColor">@color/jdtp_numbers_text_color</item>
-    </style>
-
-    <style name="jdtp_ampm_label">
-        <item name="android:textSize">@dimen/jdtp_ampm_label_size</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/jdtp_ampm_text_color</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
     <style name="jdtp_ActionButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/jdtp_material_button_height</item>

@@ -10,7 +10,7 @@ public interface DatePickerController {
 
     void registerOnDateChangedListener(DatePickerDialog.OnDateChangedListener listener);
 
-    void unregisterOnDateChangedListener(DatePickerDialog.OnDateChangedListener listener);
+    //void unregisterOnDateChangedListener(DatePickerDialog.OnDateChangedListener listener);
 
     MonthAdapter.CalendarDay getSelectedDay();
 

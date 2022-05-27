@@ -18,16 +18,9 @@ public class LanguageUtils {
         return string;
     }
 
-    public static String[] getPersianNumbers(String[] strings) {
-        for (int i=0; i<strings.length; i++)
-            strings[i] = getPersianNumbers(strings[i]);
-        return strings;
-    }
-
-    public static ArrayList<String> getPersianNumbers(ArrayList<String> strings) {
-        for (int i=0; i<strings.size(); i++)
+    public static void getPersianNumbers(ArrayList<String> strings) {
+        for (int i = 0; i < strings.size(); i++)
             strings.set(i, getPersianNumbers(strings.get(i)));
-        return strings;
     }
 
     public static String getLatinNumbers(String string) {

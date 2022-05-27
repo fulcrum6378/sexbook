@@ -59,15 +59,9 @@
 
     <!-- JDTP -->
     <color name="jdtp_white">#ffffff</color>
-    <color name="jdtp_background_color">@color/jdtp_white</color>
-    <color name="jdtp_circle_background">@color/jdtp_background_color</color>
     <color name="jdtp_circle_color">#f5f5f5</color>
-    <color name="jdtp_ampm_text_color">@color/CPD</color>
-    <color name="jdtp_numbers_text_color">#ff212121</color>
-    <color name="jdtp_transparent_black">#7f000000</color>
     <color name="jdtp_accent_color">@color/CP</color>
     <color name="jdtp_accent_color_focused">#76ffffff</color>
-    <color name="jdtp_accent_color_dark">#00796b</color>
     <color name="jdtp_date_picker_text_normal">#ff212121</color>
     <color name="jdtp_date_picker_text_highlighted">@color/jdtp_date_picker_text_normal</color>
     <color name="jdtp_date_picker_text_disabled">#ccc</color>
@@ -80,7 +74,5 @@
     <color name="jdtp_date_picker_view_animator">@android:color/white</color>
     <color name="jdtp_button_color">@color/CPD</color>
     <color name="jdtp_button_selected">#33969696</color>
-    <color name="jdtp_circle_background_dark_theme">#525252</color>
-    <color name="jdtp_red">@color/jdtp_accent_color</color>
     <color name="jdtp_light_gray">#424242</color>
 </resources>

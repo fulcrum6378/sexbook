@@ -23,10 +23,10 @@ public class Guess {
         this.plac = plac;
     }
 
-    public Guess setId(long id) {
+    /*public Guess setId(long id) {
         this.id = id;
         return this;
-    }
+    }*/
 
     public boolean checkValid() {
         return sinc > -1L && till > -1L && freq > 0 &&

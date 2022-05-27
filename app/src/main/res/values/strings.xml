@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Sexbook</string>
 
     <!-- FONTS -->
@@ -170,27 +170,9 @@
 
 
     <!-- JDTP -->
-    <string name="jdtp_hour_picker_description" msgid="7586639618712934060">"Hour spinner"</string>
-    <string name="jdtp_minute_picker_description" msgid="6024811202872705251">"Minute spinner"</string>
-    <string name="jdtp_select_hours" msgid="7651068754188418859">Select hour</string>
-    <string name="jdtp_select_minutes" msgid="8327182090226828481">Select minute</string>
     <string name="jdtp_day_picker_description">Month grid of days</string>
     <string name="jdtp_year_picker_description">Year list</string>
     <string name="jdtp_select_day">Select month and day</string>
     <string name="jdtp_select_year">Select year</string>
-    <string name="jdtp_item_is_selected" msgid="2674929164900463786">"<xliff:g id="ITEM">%1$s</xliff:g> selected"</string>
-    <string name="jdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> deleted"</string>
-    <string name="jdtp_time_placeholder" translatable="false">--</string>
-    <string name="jdtp_time_separator" translatable="false">:</string>
-
-    <string name="jdtp_circle_radius_multiplier" format="float" translatable="false">0.82</string>
-    <string name="jdtp_circle_radius_multiplier_24HourMode" format="float" translatable="false">0.85</string>
-    <string name="jdtp_selection_radius_multiplier" format="float" translatable="false">0.16</string>
-    <string name="jdtp_ampm_circle_radius_multiplier" format="float" translatable="false">0.22</string>
-    <string name="jdtp_numbers_radius_multiplier_normal" format="float" translatable="false">0.81</string>
-    <string name="jdtp_numbers_radius_multiplier_inner" format="float" translatable="false">0.60</string>
-    <string name="jdtp_numbers_radius_multiplier_outer" format="float" translatable="false">0.83</string>
-    <string name="jdtp_text_size_multiplier_normal" format="float" translatable="false">0.12</string>
-    <string name="jdtp_text_size_multiplier_inner" format="float" translatable="false">0.11</string>
-    <string name="jdtp_text_size_multiplier_outer" format="float" translatable="false">0.08</string>
+    <string name="jdtp_item_is_selected">"%s selected"</string>
 </resources>

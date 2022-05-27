@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="app_name">Sexbuch</string>
 
     <!-- GLOBAL -->
@@ -133,14 +133,9 @@
 
 
     <!-- JDTP -->
-    <string name="jdtp_hour_picker_description" msgid="7586639618712934060">"Stundenspinner"</string>
-    <string name="jdtp_minute_picker_description" msgid="6024811202872705251">"Minutenspinner"</string>
-    <string name="jdtp_select_hours" msgid="7651068754188418859">Stunde auswählen</string>
-    <string name="jdtp_select_minutes" msgid="8327182090226828481">Minute auswählen</string>
     <string name="jdtp_day_picker_description">Monatsraster von Tagen</string>
     <string name="jdtp_year_picker_description">Jahresliste</string>
     <string name="jdtp_select_day">Monat und Tag auswählen</string>
     <string name="jdtp_select_year">Jahr auswählen</string>
-    <string name="jdtp_item_is_selected" msgid="2674929164900463786">"<xliff:g id="ITEM">%1$s</xliff:g> ausgewählt"</string>
-    <string name="jdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> gelöscht"</string>
+    <string name="jdtp_item_is_selected">"%s ausgewählt"</string>
 </resources>

@@ -12,20 +12,16 @@ import java.util.Locale;
 import ir.mahdiparastesh.sexbook.jdtp.utils.LanguageUtils;
 
 public class SimpleMonthView extends MonthView {
-    final DatePickerController controller;
 
     public SimpleMonthView(Context c, AttributeSet attr, DatePickerController controller) {
         super(c, attr, controller);
-        this.controller = controller;
     }
 
     @Override
-    public void drawMonthDay(Canvas canvas, int year, int month, int day,
-                             int x, int y, int startX, int stopX, int startY, int stopY) {
-        if (mSelectedDay == day) {
+    public void drawMonthDay(Canvas canvas, int year, int month, int day, int x, int y) {
+        if (mSelectedDay == day)
             canvas.drawCircle(x, y - (MINI_DAY_NUMBER_TEXT_SIZE / 3f), DAY_SELECTED_CIRCLE_SIZE,
                     mSelectedCirclePaint);
-        }
         if (isHighlighted(year, month, day))
             mMonthNumPaint.setTypeface(jdtpFontBold);
         else mMonthNumPaint.setTypeface(jdtpFont);

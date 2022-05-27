@@ -215,7 +215,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private fun Intent.check() {
         when (action) {
             Intent.ACTION_VIEW -> if (data != null)
-                Exporter.import(this@Main, intent.data!!, true)
+                Exporter.import(this@Main, intent.data!!)
             Action.ADD.s -> PageSex.messages.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> {
                 m.reset()

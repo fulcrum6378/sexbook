@@ -26,7 +26,7 @@ public class AccessibleDateAnimator extends ViewAnimator {
             PersianCalendar mPersianCalendar = new PersianCalendar();
             mPersianCalendar.setTimeInMillis(mDateMillis);
             String dateString = LanguageUtils.getPersianNumbers(
-                    mPersianCalendar.getPersianMonthName() + " " +
+                    mPersianCalendar.getPersianMonthName(getContext()) + " " +
                             mPersianCalendar.getPersianYear()
             );
             event.getText().add(dateString);

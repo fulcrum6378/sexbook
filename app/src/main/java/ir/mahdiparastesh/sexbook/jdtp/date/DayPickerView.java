@@ -27,15 +27,12 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
     public static final int LIST_TOP_OFFSET = -1;
 
     protected final float mFriction = 1.0f;
-    protected Context mContext;
     protected Handler mHandler;
 
     protected final MonthAdapter.CalendarDay mSelectedDay = new MonthAdapter.CalendarDay();
     protected MonthAdapter mAdapter;
     protected final MonthAdapter.CalendarDay mTempDay = new MonthAdapter.CalendarDay();
 
-    protected int mCurrentMonthDisplayed;
-    protected long mPreviousScrollPosition;
     protected int mPreviousScrollState = OnScrollListener.SCROLL_STATE_IDLE;
     protected int mCurrentScrollState = OnScrollListener.SCROLL_STATE_IDLE;
     private DatePickerController mController;
@@ -43,12 +40,12 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
 
     public DayPickerView(Context c, AttributeSet attrs) {
         super(c, attrs);
-        init(c);
+        init();
     }
 
     public DayPickerView(Context c, DatePickerController controller) {
         super(c);
-        init(c);
+        init();
         setController(controller);
     }
 
@@ -59,17 +56,11 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
         onDateChanged();
     }
 
-    public void init(Context c) {
+    public void init() {
         mHandler = new Handler();
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         setDrawSelectorOnTop(false);
-
-        mContext = c;
         setUpListView();
-    }
-
-    public void onChange() {
-        refreshAdapter();
     }
 
     protected void refreshAdapter() {
@@ -115,14 +106,13 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
         if (setSelected) mAdapter.setSelectedDay(mSelectedDay);
 
         if (position != selectedPosition || forceScroll) {
-            setMonthDisplayed(mTempDay);
+            setMonthDisplayed();
             mPreviousScrollState = OnScrollListener.SCROLL_STATE_FLING;
             if (animate)
                 smoothScrollToPositionFromTop(position, LIST_TOP_OFFSET, GOTO_SCROLL_DURATION);
             else
                 postSetSelection(position);
-        } else if (setSelected)
-            setMonthDisplayed(mSelectedDay);
+        } else if (setSelected) setMonthDisplayed();
     }
 
     public void postSetSelection(final int position) {
@@ -135,15 +125,10 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
     public void onScroll(
             AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         MonthView child = (MonthView) view.getChildAt(0);
-        if (child == null) return;
-
-        mPreviousScrollPosition = (long) view.getFirstVisiblePosition() * child.getHeight()
-                - child.getBottom();
-        mPreviousScrollState = mCurrentScrollState;
+        if (child != null) mPreviousScrollState = mCurrentScrollState;
     }
 
-    protected void setMonthDisplayed(MonthAdapter.CalendarDay date) {
-        mCurrentMonthDisplayed = date.month;
+    protected void setMonthDisplayed() {
         invalidateViews();
     }
 
@@ -261,12 +246,12 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
         event.setItemCount(-1);
     }
 
-    private static String getMonthAndYearString(MonthAdapter.CalendarDay day) {
+    private static String getMonthAndYearString(Context c, MonthAdapter.CalendarDay day) {
         PersianCalendar mPersianCalendar = new PersianCalendar();
         mPersianCalendar.setPersianDate(day.year, day.month, day.day);
 
         String sb = "";
-        sb += mPersianCalendar.getPersianMonthName();
+        sb += mPersianCalendar.getPersianMonthName(c);
         sb += " ";
         sb += mPersianCalendar.getPersianYear();
         return sb;
@@ -309,7 +294,7 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
         }
 
         Utils.tryAccessibilityAnnounce(this,
-                LanguageUtils.getPersianNumbers(getMonthAndYearString(day)));
+                LanguageUtils.getPersianNumbers(getMonthAndYearString(getContext(), day)));
         goTo(day, true, false, true);
         mPerformingScroll = true;
         return true;

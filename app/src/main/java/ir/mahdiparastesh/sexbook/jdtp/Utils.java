@@ -9,9 +9,6 @@ import ir.mahdiparastesh.sexbook.jdtp.utils.PersianCalendarUtils;
 
 public class Utils {
     public static final int PULSE_ANIMATOR_DURATION = 544;
-    public static final int SELECTED_ALPHA = 255;
-    public static final int SELECTED_ALPHA_THEME_DARK = 255;
-    public static final int FULL_ALPHA = 255;
 
     public static void tryAccessibilityAnnounce(View view, CharSequence text) {
         if (view != null && text != null)
@@ -30,10 +27,10 @@ public class Utils {
 
     public static ObjectAnimator getPulseAnimator(View labelToAnimate, float decreaseRatio,
                                                   float increaseRatio) {
-        Keyframe k0 = Keyframe.ofFloat(0f, 1f);
-        Keyframe k1 = Keyframe.ofFloat(0.275f, decreaseRatio);
-        Keyframe k2 = Keyframe.ofFloat(0.69f, increaseRatio);
-        Keyframe k3 = Keyframe.ofFloat(1f, 1f);
+        Keyframe k0 = Keyframe.ofFloat(0f, 1f),
+                k1 = Keyframe.ofFloat(0.275f, decreaseRatio),
+                k2 = Keyframe.ofFloat(0.69f, increaseRatio),
+                k3 = Keyframe.ofFloat(1f, 1f);
 
         PropertyValuesHolder scaleX = PropertyValuesHolder.ofKeyframe(
                 View.SCALE_X, k0, k1, k2, k3);

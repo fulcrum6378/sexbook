@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- JDTP -->
-    <dimen name="jdtp_ampm_label_size">16dp</dimen>
-    <dimen name="jdtp_ampm_left_padding">6dip</dimen>
     <dimen name="jdtp_date_picker_component_width">400dp</dimen>
     <dimen name="jdtp_date_picker_view_animator_height">400dp</dimen>
     <dimen name="jdtp_day_number_select_circle_radius">20dp</dimen>
     <dimen name="jdtp_day_number_size">18sp</dimen>
     <dimen name="jdtp_extra_time_label_margin">-50dp</dimen>
-    <dimen name="jdtp_header_height">120dip</dimen>
     <dimen name="jdtp_month_day_label_text_size">12sp</dimen>
     <dimen name="jdtp_month_label_size">20sp</dimen>
     <dimen name="jdtp_month_list_item_header_height">75dp</dimen>
-    <dimen name="jdtp_picker_dimen">400dip</dimen>
     <dimen name="jdtp_selected_calendar_layout_height">360dp</dimen>
     <dimen name="jdtp_selected_date_day_size">150dp</dimen>
     <dimen name="jdtp_selected_date_month_size">45dp</dimen>
     <dimen name="jdtp_selected_date_year_size">45dp</dimen>
-    <dimen name="jdtp_separator_padding">5dip</dimen>
-    <dimen name="jdtp_time_label_size">76dp</dimen>
-    <dimen name="jdtp_time_picker_header_text_size">18dp</dimen>
-    <dimen name="jdtp_time_picker_height">450dp</dimen>
     <dimen name="jdtp_year_label_height">96dp</dimen>
     <dimen name="jdtp_year_label_text_size">33dp</dimen>
 </resources>

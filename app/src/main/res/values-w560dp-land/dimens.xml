@@ -2,5 +2,4 @@
 <resources>
     <!-- JDTP -->
     <dimen name="jdtp_date_picker_component_width">270dp</dimen>
-    <dimen name="jdtp_picker_dimen">270dip</dimen>
 </resources>
