@@ -62,6 +62,15 @@
     <string name="bHappyBef">Nog %d uur tot hun verjaardag!</string>
     <string name="bHappyAft">%d uur voorbij sinds hun verjaardag!</string>
     <string name="clear">Duidelijk</string>
+    <string-array name="week">
+        <item>Zondag</item>
+        <item>Maandag</item>
+        <item>Dinsdag</item>
+        <item>Woensdag</item>
+        <item>Donderdag</item>
+        <item>Vrijdag</item>
+        <item>Zaterdag</item>
+    </string-array>
 
     <!-- Main -->
     <string name="momSum">Samenvatting</string>

@@ -97,6 +97,15 @@
     <string name="bHappyAft" tools:ignore="PluralsCandidate">%d hour(s) past since their birthday!</string>
     <string name="birthDateNtf">Birthday Notification</string>
     <string name="clear">Clear</string>
+    <string-array name="week">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
 
     <!-- Main -->
     <string name="momSum">Summary</string>

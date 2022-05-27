@@ -121,8 +121,10 @@ class Fun {
 
         fun adaptiveBanner(c: BaseActivity, unitId: String) = AdView(c).apply {
             id = R.id.adBanner
-            adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                c, (c.dm.widthPixels / c.dm.density).toInt()
+            setAdSize(
+                AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                    c, (c.dm.widthPixels / c.dm.density).toInt()
+                )
             )
             adUnitId = unitId
         }

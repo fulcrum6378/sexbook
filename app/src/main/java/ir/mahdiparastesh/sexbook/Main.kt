@@ -52,6 +52,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         const val NOTIFY_MAX_DISTANCE = 3
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
         var handler: Handler? = null
+        @JvmStatic var jdtpArabicNumbers = true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,6 +132,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         m.onani.observe(this) { instilledGuesses = false }
         if (m.showingSummary) summary()
         if (m.showingRecency) recency()
+        jdtpArabicNumbers = resources.getBoolean(R.bool.jdtpArabicNumbers)
 
         intent.check()
         // Work(c, Work.VIEW_ALL).start()

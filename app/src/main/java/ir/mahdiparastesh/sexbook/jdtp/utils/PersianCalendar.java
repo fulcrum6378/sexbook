@@ -49,27 +49,12 @@ public class PersianCalendar extends GregorianCalendar {
         return this.persianDay;
     }
 
-    public String getPersianWeekDayName() {
-        switch (get(DAY_OF_WEEK)) {
-            case SATURDAY:
-                return PersianCalendarConstants.persianWeekDays[0];
-            case SUNDAY:
-                return PersianCalendarConstants.persianWeekDays[1];
-            case MONDAY:
-                return PersianCalendarConstants.persianWeekDays[2];
-            case TUESDAY:
-                return PersianCalendarConstants.persianWeekDays[3];
-            case WEDNESDAY:
-                return PersianCalendarConstants.persianWeekDays[4];
-            case THURSDAY:
-                return PersianCalendarConstants.persianWeekDays[5];
-            default:
-                return PersianCalendarConstants.persianWeekDays[6];
-        }
+    public String getPersianWeekDayName(Context c) {
+        return c.getResources().getStringArray(R.array.week)[get(DAY_OF_WEEK) - 1];
     }
 
     public String getPersianLongDate(Context c) {
-        return getPersianWeekDayName() + "  "
+        return getPersianWeekDayName(c) + "  "
                 + formatToMilitary(this.persianDay) + "  "
                 + getPersianMonthName(c) + "  " + this.persianYear;
 
