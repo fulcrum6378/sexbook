@@ -27,6 +27,7 @@ import ir.mahdiparastesh.sexbook.more.LocalDatePicker
 import lecho.lib.hellocharts.model.Column
 import lecho.lib.hellocharts.model.ColumnChartData
 import lecho.lib.hellocharts.model.SubcolumnValue
+import java.text.DateFormatSymbols
 import java.util.*
 
 class Singular : BaseActivity() {
@@ -100,7 +101,7 @@ class Singular : BaseActivity() {
                     if (y == 0) start = beg[Calendar.MONTH]
                     if (y == yDist) end = now[Calendar.MONTH]
                     for (m in start..end) list.add(
-                        "${c.resources.getStringArray(R.array.months)[m]} ${beg[Calendar.YEAR] + y}"
+                        "${DateFormatSymbols().shortMonths[m]} ${beg[Calendar.YEAR] + y}"
                     )
                 }
             } else {
@@ -126,12 +127,10 @@ class Singular : BaseActivity() {
         ): Float {
             var value = 0f
             val split = month.split(" ")
-            val months = c.resources.getStringArray(
-                when (c.calType()) {
-                    Fun.CalendarType.JALALI -> R.array.jMonths
-                    else -> R.array.months
-                }
-            )
+            val months = when (c.calType()) {
+                Fun.CalendarType.JALALI -> c.resources.getStringArray(R.array.jMonths)
+                else -> DateFormatSymbols().shortMonths
+            }
             for (i in list) {
                 var lm = i.time.calendar()
                 var yea: Int

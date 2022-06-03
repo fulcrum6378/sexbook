@@ -19,6 +19,7 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.more.*
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
+import java.text.DateFormatSymbols
 import java.util.*
 
 @SuppressLint("UseRequireInsteadOfGet")
@@ -104,7 +105,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             mayShowAd()
         } else h.b.date.setOnClickListener(null)
         h.b.ampm.text =
-            c.resources.getText(if (cal[Calendar.HOUR_OF_DAY] >= 12) R.string.PM else R.string.AM)
+            DateFormatSymbols().amPmStrings[if (cal[Calendar.HOUR_OF_DAY] < 12) 0 else 1]
 
         // Name
         h.b.name.setText(itm.name)
@@ -309,7 +310,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 val jal = Jalali(lm)
                 return "${c.resources.getStringArray(R.array.jMonths)[jal.M]} ${jal.D}"
             }
-            return "${c.resources.getStringArray(R.array.months)[lm.get(Calendar.MONTH)]} " +
+            return "${DateFormatSymbols().shortMonths[lm.get(Calendar.MONTH)]} " +
                     "${lm.get(Calendar.DAY_OF_MONTH)}"
         }
 

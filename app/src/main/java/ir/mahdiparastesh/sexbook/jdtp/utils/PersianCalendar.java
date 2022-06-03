@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import java.text.DateFormatSymbols;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -49,12 +50,12 @@ public class PersianCalendar extends GregorianCalendar {
         return this.persianDay;
     }
 
-    public String getPersianWeekDayName(Context c) {
-        return c.getResources().getStringArray(R.array.week)[get(DAY_OF_WEEK) - 1];
+    public String getPersianWeekDayName() {
+        return new DateFormatSymbols().getWeekdays()[get(DAY_OF_WEEK)];
     }
 
     public String getPersianLongDate(Context c) {
-        return getPersianWeekDayName(c) + "  "
+        return getPersianWeekDayName() + "  "
                 + formatToMilitary(this.persianDay) + "  "
                 + getPersianMonthName(c) + "  " + this.persianYear;
 

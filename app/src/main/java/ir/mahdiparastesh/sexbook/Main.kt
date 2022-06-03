@@ -134,6 +134,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (m.showingRecency) recency()
         jdtpArabicNumbers = resources.getBoolean(R.bool.jdtpArabicNumbers)
 
+        // TODO String.format(Locale.getDefault(),"%d", 22)
+
         intent.check()
         // Work(c, Work.VIEW_ALL).start()
         Work(c, Work.C_VIEW_ALL).start()
@@ -257,7 +259,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     visibility = View.GONE
                 })
             })
-            setPositiveButton(R.string.ok, null)
+            setPositiveButton(android.R.string.ok, null)
             setCancelable(true)
             setOnDismissListener { m.showingSummary = false }
             m.showingSummary = true
@@ -270,7 +272,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             AlertDialog.Builder(this).apply {
                 setTitle(resources.getString(R.string.momRec))
                 setView(m.recency.value!!.draw(this@Main))
-                setPositiveButton(R.string.ok, null)
+                setPositiveButton(android.R.string.ok, null)
                 setCancelable(true)
                 setOnDismissListener { m.showingRecency = false }
                 m.showingRecency = true

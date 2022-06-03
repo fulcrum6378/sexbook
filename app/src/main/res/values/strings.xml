@@ -10,34 +10,6 @@
     <string name="sOpen">Open</string>
     <string name="close">Close</string>
     <string name="toExit">Double tap to exit&#8230;</string>
-    <string-array name="months">
-        <item>Jan</item>
-        <item>Feb</item>
-        <item>Mar</item>
-        <item>Apr</item>
-        <item>May</item>
-        <item>Jun</item>
-        <item>Jul</item>
-        <item>Aug</item>
-        <item>Sep</item>
-        <item>Oct</item>
-        <item>Nov</item>
-        <item>Dec</item>
-    </string-array>
-    <string-array name="monthsFull">
-        <item>January</item>
-        <item>February</item>
-        <item>March</item>
-        <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
-        <item>August</item>
-        <item>September</item>
-        <item>October</item>
-        <item>November</item>
-        <item>December</item>
-    </string-array>
     <string-array name="jMonths" translatable="false">
         <item>Far</item>
         <item>Ord</item>
@@ -66,10 +38,6 @@
         <item>Bahman</item>
         <item>Esfand</item>
     </string-array>
-    <string name="AM" translatable="false">AM</string>
-    <string name="PM" translatable="false">PM</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="save">Save</string>
@@ -97,15 +65,6 @@
     <string name="bHappyAft" tools:ignore="PluralsCandidate">%d hour(s) past since their birthday!</string>
     <string name="birthDateNtf">Birthday Notification</string>
     <string name="clear">Clear</string>
-    <string-array name="week">
-        <item>Sunday</item>
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-    </string-array>
 
     <!-- Main -->
     <string name="momSum">Summary</string>

@@ -10,34 +10,6 @@
     <string name="sOpen">بازکردن</string>
     <string name="close">بستن</string>
     <string name="toExit">برای خروج دوباره ضربه بزنید&#8230;</string>
-    <string-array name="months">
-        <item>ژان</item>
-        <item>فور</item>
-        <item>مار</item>
-        <item>آور</item>
-        <item>می</item>
-        <item>جون</item>
-        <item>جول</item>
-        <item>آگو</item>
-        <item>سپت</item>
-        <item>اکت</item>
-        <item>نوا</item>
-        <item>دسا</item>
-    </string-array>
-    <string-array name="monthsFull">
-        <item>ژانویه</item>
-        <item>فوریه</item>
-        <item>مارس</item>
-        <item>آوریل</item>
-        <item>می</item>
-        <item>جون</item>
-        <item>جولای</item>
-        <item>آگوست</item>
-        <item>سپتامبر</item>
-        <item>اکتبر</item>
-        <item>نوامبر</item>
-        <item>دسامبر</item>
-    </string-array>
     <string-array name="jMonths">
         <item>فرو</item>
         <item>ارد</item>
@@ -66,10 +38,6 @@
         <item>بهمن</item>
         <item>اسفند</item>
     </string-array>
-    <string name="AM">ق.ظ.</string>
-    <string name="PM">ب.ظ.</string>
-    <string name="ok">باشه</string>
-    <string name="cancel">لغو</string>
     <string name="yes">بله</string>
     <string name="no">خیر</string>
     <string name="save">ذخیره</string>

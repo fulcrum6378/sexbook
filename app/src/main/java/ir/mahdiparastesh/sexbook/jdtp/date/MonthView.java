@@ -337,7 +337,7 @@ public abstract class MonthView extends View {
             int calendarDay = (i + mWeekStart) % mNumDays;
             int x = (int) (firstX - (2 * i + 1) * dayWidthHalf + mEdgePadding);
             mDayLabelCalendar.set(Calendar.DAY_OF_WEEK, calendarDay);
-            canvas.drawText(mDayLabelCalendar.getPersianWeekDayName(getContext()).substring(0, 1),
+            canvas.drawText(mDayLabelCalendar.getPersianWeekDayName().substring(0, 1),
                     x, y, mMonthDayLabelPaint);
         }
     }
