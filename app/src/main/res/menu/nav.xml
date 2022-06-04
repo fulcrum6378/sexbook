@@ -19,11 +19,11 @@
     <item
         android:id="@+id/momPlc"
         android:icon="@drawable/places"
-        android:title="@string/momPlc" />
+        android:title="@string/places" />
     <item
         android:id="@+id/momEst"
         android:icon="@drawable/estimation"
-        android:title="@string/momEst" />
+        android:title="@string/estimation" />
     <item
         android:id="@+id/momExport"
         android:icon="@drawable/json_export"

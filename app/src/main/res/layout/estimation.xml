@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/toolbar"
-        app:title="@string/etTitle" />
+        app:title="@string/estimation" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"

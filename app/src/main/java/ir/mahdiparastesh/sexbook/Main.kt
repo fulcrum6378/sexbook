@@ -134,8 +134,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (m.showingRecency) recency()
         jdtpArabicNumbers = resources.getBoolean(R.bool.jdtpArabicNumbers)
 
-        // TODO String.format(Locale.getDefault(),"%d", 22)
-
         intent.check()
         // Work(c, Work.VIEW_ALL).start()
         Work(c, Work.C_VIEW_ALL).start()

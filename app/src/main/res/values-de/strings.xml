@@ -39,8 +39,6 @@
     <string name="momPop">Popularität</string>
     <string name="momGrw">Wachstum</string>
     <string name="momRec">Neuheit</string>
-    <string name="momPlc">Setzt</string>
-    <string name="momEst">Einschätzung</string>
     <string name="momImport">Import aus Json</string>
     <string name="momExport">Export nach Json</string>
     <string name="momSettings">Einstellungen</string>
@@ -62,7 +60,6 @@
     <string name="crushes">Liste der Crushes</string>
     <string name="emptyLove">Nachdem Sie einige Sexaufzeichnungen hinzugefügt haben, gehen Sie zu Navigationsmenü -> Zusammenfassung -> Schwarm auswählen -> Klicken Sie auf die Schaltfläche oben rechts mit einem Symbol \"Person\" (Identifikation).</string>
     <string name="lcStatistics">Statistiken</string>
-    <string name="lcInstagram">Instagram</string>
 
     <!-- Identification -->
     <string name="identify">Identifikation</string>
@@ -74,19 +71,18 @@
     <string name="height">Höhe (cm)</string>
     <string name="birth">Geburtsdatum</string>
     <string name="location">Standort</string>
-    <string name="instagram">Instagram</string>
     <string name="notifyBirth">Benachrichtigen Sie mich an ihrem Geburtstag</string>
     <string name="crushClear">Klar Informationen: %s</string>
     <string name="crushClearSure">Möchten Sie die Informationen dieser Person wirklich löschen? (DAS SCHLIESST DIE SEXAUFZEICHNUNGEN NICHT EIN!)</string>
 
     <!-- Places -->
-    <string name="plTitle">Setzt</string>
+    <string name="places">Setzt</string>
     <string name="plItemHint">Name des Ortes&#8230;</string>
     <string name="plDeletePlaceSure">Möchten Sie diesen Ort wirklich löschen?</string>
     <string name="plDefPlace">Standardort?</string>
 
     <!-- Estimation -->
-    <string name="etTitle">Einschätzung</string>
+    <string name="estimation">Einschätzung</string>
     <string name="etSince">Seit</string>
     <string name="etUntil">Bis</string>
     <string name="etFreq">Mal pro Tag</string>

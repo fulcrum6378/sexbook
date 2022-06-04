@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sexbok</string>
+
+    <!-- GLOBAL -->
+    <string name="sOpen">Åpne</string>
+    <string name="close">Lukk</string>
+    <string name="toExit">Dobbelttrykk for å avslutte&#8230;</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nei</string>
+    <string name="save">Lagre</string>
+    <string name="discard">Kast</string>
+    <string name="excStat">Pluss %s ekskludert fra statistikk.</string>
+    <string name="unknown">Pluss %s fra ukjente personer.</string>
+    <string name="estimated">Pluss %s estimerte varer.</string>
+    <string-array name="types">
+        <item>Nattlig utslipp</item>
+        <item>Onani</item>
+        <item>Oralsex</item>
+        <item>Analsex</item>
+        <item>Vaginal sex</item>
+    </string-array>
+    <string-array name="calendarTypes">
+        <item>Gregorianske</item>
+        <item>Persisk</item>
+    </string-array>
+    <string name="shrAdd">Legg til ny post</string>
+    <string name="delete">Slett</string>
+    <string name="expand">Utvide</string>
+    <string name="collapse">Kollapse</string>
+    <string name="bHappyTitle">Gratulerer med bursdagen til %s!</string>
+    <string name="bHappyBef">%d time(r) igjen til bursdagen deres!</string>
+    <string name="bHappyAft">%d time(r) har gått siden bursdagen deres!</string>
+    <string name="birthDateNtf">Bursdagsvarsel</string>
+    <string name="clear">Klar</string>
+
+    <!-- Main -->
+    <string name="momSum">Sammendrag</string>
+    <string name="momPop">Popularitet</string>
+    <string name="momGrw">Vekst</string>
+    <string name="momRec">Nylig</string>
+    <string name="momImport">Importer fra Json</string>
+    <string name="momExport">Eksporter til Json</string>
+    <string name="momSettings">Innstillinger</string>
+    <string name="exportDone">Ferdig!</string>
+    <string name="exportUndone">Mislyktes!</string>
+    <string name="importDone">Ferdig!</string>
+    <string name="importOpenError">Dessverre oppstod det en feil under åpning av filen!</string>
+    <string name="importReadError">Dessverre oppstod det en feil under lesing av filen!</string>
+    <string name="noRecords">Du har ingen poster ennå!</string>
+    <string name="askImport">Er du sikker på at du vil erstatte alle appdataene?</string>
+    <string name="findChip">Finn en forelskelse&#8230;</string>
+
+    <!-- Page Sex -->
+    <string name="lcAccurate">Korrekt?</string>
+    <string name="desc">Skriv beskrivelser&#8230;</string>
+    <string name="recEstimated">[ESTIMERT]</string>
+
+    <!-- Page Love -->
+    <string name="crushes">Liste over Forelskelser</string>
+    <string name="emptyLove">Etter å ha lagt til noen sex-poster, gå til Navigasjonsmeny -> Sammendrag -> Velg en forelskelse -> Trykk på den øverste høyre knappen med et \"Person\" (identifikasjon)-ikon.</string>
+    <string name="lcStatistics">Statistikk</string>
+
+    <!-- Identification -->
+    <string name="identify">Identifikasjon</string>
+    <string name="firstName">Fornavn</string>
+    <string name="middleName">Mellomnavn</string>
+    <string name="lastName">Etternavn</string>
+    <string name="masculine">Mann</string>
+    <string name="feminine">Kvinne</string>
+    <string name="height">Høyde (cm)</string>
+    <string name="birth">Bursdag</string>
+    <string name="location">Plassering</string>
+    <string name="notifyBirth">Gi meg beskjed i bursdagen deres</string>
+    <string name="crushClear">Tydelig informasjon: %s</string>
+    <string name="crushClearSure">Er du sikker på at du vil slette denne personens informasjon? (DETTE INKLUDERER IKKE SEX RECORDS!)</string>
+
+    <!-- Places -->
+    <string name="places">Steder</string>
+    <string name="plItemHint">Stedsnavn&#8230;</string>
+    <string name="plDeletePlaceSure">Er du sikker på at du vil slette dette stedet?</string>
+    <string name="plDefPlace">Standardsted?</string>
+
+    <!-- Estimation -->
+    <string name="estimation">Anslag</string>
+    <string name="etSince">Siden</string>
+    <string name="etUntil">Før</string>
+    <string name="etFreq">ganger per dag</string>
+    <string name="etDeleteGuessSure">Er du sikker på at du vil slette dette anslaget?</string>
+
+    <!-- Settings -->
+    <string name="stTitle">Sexbok-innstillinger</string>
+    <string name="stCalendarType">Kalendertype</string>
+    <string name="stStatSince">Statistikk siden</string>
+    <string name="stReset">Tilbakestill innstillinger</string>
+    <string name="stResetSure">Er du sikker på at du vil tilbakestille alle innstillingene til standard?</string>
+    <string name="stTruncate">Fjern alle data</string>
+    <string name="stTruncateSure">Er du sikker på at du vil fjerne alle dine personlige data?</string>
+
+
+    <!-- JDTP -->
+    <string name="jdtp_day_picker_description">Månedsrutenett over dager</string>
+    <string name="jdtp_year_picker_description">Årsliste</string>
+    <string name="jdtp_select_day">Velg måned og dag</string>
+    <string name="jdtp_select_year">Velg år</string>
+    <string name="jdtp_item_is_selected">"%s valgt"</string>
+</resources>

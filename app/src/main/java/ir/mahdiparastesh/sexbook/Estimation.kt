@@ -26,7 +26,7 @@ class Estimation : BaseActivity() {
         super.onCreate(savedInstanceState)
         b = EstimationBinding.inflate(layoutInflater)
         setContentView(b.root)
-        toolbar(b.toolbar, R.string.etTitle)
+        toolbar(b.toolbar, R.string.estimation)
 
         handler = object : Handler(Looper.getMainLooper()) {
             @Suppress("UNCHECKED_CAST")

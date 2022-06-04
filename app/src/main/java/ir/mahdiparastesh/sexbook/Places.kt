@@ -29,7 +29,7 @@ class Places : BaseActivity() {
         super.onCreate(savedInstanceState)
         b = PlacesBinding.inflate(layoutInflater)
         setContentView(b.root)
-        toolbar(b.toolbar, R.string.plTitle)
+        toolbar(b.toolbar, R.string.places)
 
         handler = object : Handler(Looper.getMainLooper()) {
             @Suppress("UNCHECKED_CAST")

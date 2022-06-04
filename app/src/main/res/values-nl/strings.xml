@@ -38,8 +38,6 @@
     <string name="momPop">Populariteit</string>
     <string name="momGrw">Groei</string>
     <string name="momRec">Recentheid</string>
-    <string name="momPlc">Plaatsen</string>
-    <string name="momEst">Schatting</string>
     <string name="momImport">Importeren uit Json</string>
     <string name="momExport">Exporteren naar Json</string>
     <string name="momSettings">Instellingen</string>
@@ -63,7 +61,6 @@
     <string name="crushes">Lijst met verpletteringen</string>
     <string name="emptyLove">Nadat je wat seksgegevens hebt toegevoegd, ga je naar Navigatiemenu -> Samenvatting -> Selecteer een verliefdheid -> Druk op de rechterbovenhoekknop met een \"Persoon\" (Identificatie)-pictogram.</string>
     <string name="lcStatistics">Statistieken</string>
-    <string name="lcInstagram">Instagram</string>
 
     <!-- Identification -->
     <string name="identify">Identificatie</string>
@@ -75,19 +72,18 @@
     <string name="height">Hoogte (cm)</string>
     <string name="birth">Geboortedatum</string>
     <string name="location">Plaats</string>
-    <string name="instagram">Instagram</string>
     <string name="notifyBirth">Breng me op zijn/haar verjaardag op de hoogte</string>
     <string name="crushClear">Wis de informatie: %s</string>
     <string name="crushClearSure">Weet u zeker dat u de gegevens van deze persoon wilt wissen? (DIT OMVAT NIET DE SEX RECORDS!)</string>
 
     <!-- Places -->
-    <string name="plTitle">Plaatsen</string>
+    <string name="places">Plaatsen</string>
     <string name="plItemHint">Naam van de plaats&#8230;</string>
     <string name="plDeletePlaceSure">Weet je zeker dat je deze plaats wilt verwijderen?</string>
     <string name="plDefPlace">Standaard plaats?</string>
 
     <!-- Estimation -->
-    <string name="etTitle">Schatting</string>
+    <string name="estimation">Schatting</string>
     <string name="etSince">Sinds</string>
     <string name="etUntil">Totdat</string>
     <string name="etFreq">Keer Per Dag</string>
