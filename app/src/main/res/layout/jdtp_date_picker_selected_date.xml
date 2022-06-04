@@ -10,7 +10,7 @@
     android:orientation="vertical"
     tools:viewBindingIgnore="true">
 
-    <ir.mahdiparastesh.sexbook.jdtp.AccessibleLinearLayout
+    <ir.mahdiparastesh.sexbook.mdtp.AccessibleLinearLayout
         android:id="@+id/date_picker_month_and_day"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
-        android:textColor="@color/jdtp_date_picker_selector">
+        android:textColor="@color/date_picker_selector">
 
         <TextView
             android:id="@+id/date_picker_month"
@@ -27,7 +27,7 @@
             android:duplicateParentState="true"
             android:gravity="center_horizontal|bottom"
             android:includeFontPadding="false"
-            android:textColor="@color/jdtp_date_picker_selector"
+            android:textColor="@color/date_picker_selector"
             android:textSize="@dimen/jdtp_selected_date_month_size"
             tools:text="May" />
 
@@ -41,19 +41,19 @@
             android:duplicateParentState="true"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:textColor="@color/jdtp_date_picker_selector"
+            android:textColor="@color/date_picker_selector"
             android:textSize="@dimen/jdtp_selected_date_day_size"
             tools:text="15" />
-    </ir.mahdiparastesh.sexbook.jdtp.AccessibleLinearLayout>
+    </ir.mahdiparastesh.sexbook.mdtp.AccessibleLinearLayout>
 
-    <ir.mahdiparastesh.sexbook.jdtp.AccessibleTextView
+    <ir.mahdiparastesh.sexbook.mdtp.AccessibleTextView
         android:id="@+id/date_picker_year"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_horizontal|top"
         android:includeFontPadding="false"
-        android:textColor="@color/jdtp_date_picker_selector"
+        android:textColor="@color/date_picker_selector"
         android:textSize="@dimen/jdtp_selected_date_year_size"
         tools:text="2015" />
 </LinearLayout>

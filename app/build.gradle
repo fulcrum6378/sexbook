@@ -57,7 +57,6 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'

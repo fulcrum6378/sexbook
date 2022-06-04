@@ -2,11 +2,11 @@ package ir.mahdiparastesh.sexbook.more
 
 import android.content.DialogInterface
 import androidx.fragment.app.DialogFragment
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import ir.mahdiparastesh.sexbook.mdtp.gdate.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun.CalendarType
 import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.jdtp.utils.PersianCalendar
+import ir.mahdiparastesh.sexbook.mdtp.utils.PersianCalendar
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.util.*
 
@@ -19,7 +19,7 @@ class LocalDatePicker(
         if (c.calType() == CalendarType.JALALI) {
             val jal = Jalali(default)
             // Repaired version of https://github.com/mohamad-amin/PersianMaterialDateTimePicker
-            ir.mahdiparastesh.sexbook.jdtp.date.DatePickerDialog.newInstance(
+            ir.mahdiparastesh.sexbook.mdtp.jdate.DatePickerDialog.newInstance(
                 { view, year, monthOfYear, dayOfMonth ->
                     val cal = PersianCalendar()
                     cal.timeInMillis = default.timeInMillis
