@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -25,11 +26,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-
-import ir.mahdiparastesh.sexbook.R;
-import ir.mahdiparastesh.sexbook.mdtp.HapticFeedbackController;
-import ir.mahdiparastesh.sexbook.mdtp.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -37,6 +33,10 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import ir.mahdiparastesh.sexbook.R;
+import ir.mahdiparastesh.sexbook.mdtp.HapticFeedbackController;
+import ir.mahdiparastesh.sexbook.mdtp.Utils;
 
 public class DatePickerDialog extends AppCompatDialogFragment implements
         OnClickListener, DatePickerController {
@@ -339,13 +339,14 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
         animation2.setDuration(ANIMATION_DURATION);
         mAnimator.setOutAnimation(animation2);
 
+        Typeface font1 = Utils.mdtpFont(activity, false);
         Button okButton = view.findViewById(R.id.mdtp_ok);
         okButton.setOnClickListener(v -> {
             tryVibrate();
             notifyOnDateListener();
             dismiss();
         });
-        okButton.setTypeface(ResourcesCompat.getFont(activity, R.font.robotomedium));
+        okButton.setTypeface(font1);
         okButton.setText(android.R.string.ok);
 
         Button cancelButton = view.findViewById(R.id.mdtp_cancel);
@@ -353,14 +354,13 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
             tryVibrate();
             if (getDialog() != null) getDialog().cancel();
         });
-        cancelButton.setTypeface(ResourcesCompat.getFont(activity, R.font.robotomedium));
+        cancelButton.setTypeface(font1);
         cancelButton.setText(android.R.string.cancel);
         cancelButton.setVisibility(isCancelable() ? View.VISIBLE : View.GONE);
 
         // If an accent color has not been set manually, get it from the context
-        if (mAccentColor == null) {
-            mAccentColor = Utils.getAccentColorFromThemeIfAvailable(getActivity());
-        }
+        if (mAccentColor == null)
+            mAccentColor = Utils.getAccentColorFromThemeIfAvailable(activity);
         if (mDatePickerHeaderView != null)
             mDatePickerHeaderView.setBackgroundColor(Utils.darkenColor(mAccentColor));
         view.findViewById(R.id.mdtp_day_picker_selected_date_layout).setBackgroundColor(mAccentColor);

@@ -18,7 +18,7 @@
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
-        android:textColor="@color/date_picker_selector">
+        android:textColor="@color/mdtp_date_picker_selector">
 
         <TextView
             android:id="@+id/date_picker_month"
@@ -27,7 +27,7 @@
             android:duplicateParentState="true"
             android:gravity="center_horizontal|bottom"
             android:includeFontPadding="false"
-            android:textColor="@color/date_picker_selector"
+            android:textColor="@color/mdtp_date_picker_selector"
             android:textSize="@dimen/jdtp_selected_date_month_size"
             tools:text="May" />
 
@@ -41,7 +41,7 @@
             android:duplicateParentState="true"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:textColor="@color/date_picker_selector"
+            android:textColor="@color/mdtp_date_picker_selector"
             android:textSize="@dimen/jdtp_selected_date_day_size"
             tools:text="15" />
     </ir.mahdiparastesh.sexbook.mdtp.AccessibleLinearLayout>
@@ -53,7 +53,7 @@
         android:layout_gravity="center"
         android:gravity="center_horizontal|top"
         android:includeFontPadding="false"
-        android:textColor="@color/date_picker_selector"
+        android:textColor="@color/mdtp_date_picker_selector"
         android:textSize="@dimen/jdtp_selected_date_year_size"
         tools:text="2015" />
 </LinearLayout>

@@ -1,7 +1,5 @@
 package ir.mahdiparastesh.sexbook.mdtp.jdate;
 
-import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFont;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -9,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -31,8 +30,7 @@ import java.util.List;
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
 import ir.mahdiparastesh.sexbook.mdtp.jdate.MonthAdapter.CalendarDay;
-import ir.mahdiparastesh.sexbook.mdtp.utils.LanguageUtils;
-import ir.mahdiparastesh.sexbook.mdtp.utils.PersianCalendar;
+import ir.mahdiparastesh.sexbook.mdtp.PersianCalendar;
 
 public abstract class MonthView extends View {
     public static final String VIEW_PARAMS_HEIGHT = "height";
@@ -187,11 +185,13 @@ public abstract class MonthView extends View {
     }
 
     protected void initView() {
+        Typeface font1 = Utils.mdtpFont(getContext(), false);
+
         mMonthTitlePaint = new Paint();
         mMonthTitlePaint.setFakeBoldText(true);
         mMonthTitlePaint.setAntiAlias(true);
         mMonthTitlePaint.setTextSize(MONTH_LABEL_TEXT_SIZE);
-        mMonthTitlePaint.setTypeface(jdtpFont);
+        mMonthTitlePaint.setTypeface(font1);
         mMonthTitlePaint.setColor(mDayTextColor);
         mMonthTitlePaint.setTextAlign(Align.CENTER);
         mMonthTitlePaint.setStyle(Style.FILL);
@@ -202,14 +202,14 @@ public abstract class MonthView extends View {
         mSelectedCirclePaint.setColor(mTodayNumberColor);
         mSelectedCirclePaint.setTextAlign(Align.CENTER);
         mSelectedCirclePaint.setStyle(Style.FILL);
-        mSelectedCirclePaint.setTypeface(jdtpFont);
+        mSelectedCirclePaint.setTypeface(font1);
         mSelectedCirclePaint.setAlpha(SELECTED_CIRCLE_ALPHA);
 
         mMonthDayLabelPaint = new Paint();
         mMonthDayLabelPaint.setAntiAlias(true);
         mMonthDayLabelPaint.setTextSize(MONTH_DAY_LABEL_TEXT_SIZE);
         mMonthDayLabelPaint.setColor(mMonthDayTextColor);
-        mMonthDayLabelPaint.setTypeface(jdtpFont);
+        mMonthDayLabelPaint.setTypeface(font1);
         mMonthDayLabelPaint.setStyle(Style.FILL);
         mMonthDayLabelPaint.setTextAlign(Align.CENTER);
         mMonthDayLabelPaint.setFakeBoldText(true);
@@ -219,7 +219,7 @@ public abstract class MonthView extends View {
         mMonthNumPaint.setTextSize(MINI_DAY_NUMBER_TEXT_SIZE);
         mMonthNumPaint.setStyle(Style.FILL);
         mMonthNumPaint.setTextAlign(Align.CENTER);
-        mMonthNumPaint.setTypeface(jdtpFont);
+        mMonthNumPaint.setTypeface(font1);
         mMonthNumPaint.setFakeBoldText(false);
     }
 
@@ -319,7 +319,7 @@ public abstract class MonthView extends View {
 
     private String getMonthAndYearString() {
         mStringBuilder.setLength(0);
-        return LanguageUtils.getPersianNumbers(
+        return Utils.getPersianNumbers(
                 mPersianCalendar.getPersianMonthName(getContext()) + " " + mPersianCalendar.getPersianYear());
     }
 
@@ -587,7 +587,7 @@ public abstract class MonthView extends View {
 
         protected CharSequence getItemDescription(int day) {
             mTempCalendar.setPersianDate(mYear, mMonth, day);
-            final String date = LanguageUtils.getPersianNumbers(mTempCalendar.getPersianLongDate(getContext()));
+            final String date = Utils.getPersianNumbers(mTempCalendar.getPersianLongDate(getContext()));
 
             if (day == mSelectedDay)
                 return getContext().getString(R.string.jdtp_item_is_selected, date);

@@ -5,8 +5,8 @@ import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.ViewAnimator;
 
-import ir.mahdiparastesh.sexbook.mdtp.utils.LanguageUtils;
-import ir.mahdiparastesh.sexbook.mdtp.utils.PersianCalendar;
+import ir.mahdiparastesh.sexbook.mdtp.Utils;
+import ir.mahdiparastesh.sexbook.mdtp.PersianCalendar;
 
 public class AccessibleDateAnimator extends ViewAnimator {
     private long mDateMillis;
@@ -25,7 +25,7 @@ public class AccessibleDateAnimator extends ViewAnimator {
             event.getText().clear();
             PersianCalendar mPersianCalendar = new PersianCalendar();
             mPersianCalendar.setTimeInMillis(mDateMillis);
-            String dateString = LanguageUtils.getPersianNumbers(
+            String dateString = Utils.getPersianNumbers(
                     mPersianCalendar.getPersianMonthName(getContext()) + " " +
                             mPersianCalendar.getPersianYear()
             );

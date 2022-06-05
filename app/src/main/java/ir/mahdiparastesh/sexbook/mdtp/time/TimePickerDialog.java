@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyCharacterMap;
@@ -27,7 +28,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -248,30 +248,14 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         return mAccentColor;
     }
 
-    /**
-     * Set whether the device should vibrate when touching fields
-     *
-     * @param vibrate true if the device should vibrate when touching a field
-     */
     public void vibrate(boolean vibrate) {
         mVibrate = vibrate;
     }
 
-    /**
-     * Set whether the picker should dismiss itself when it's pausing or whether it should try to survive an orientation change
-     *
-     * @param dismissOnPause true if the picker should dismiss itself
-     */
     public void dismissOnPause(boolean dismissOnPause) {
         mDismissOnPause = dismissOnPause;
     }
 
-    /**
-     * Set whether an additional picker for seconds should be shown
-     * Will enable minutes picker as well if seconds picker should be shown
-     *
-     * @param enableSeconds true if the seconds picker should be shown
-     */
     public void enableSeconds(boolean enableSeconds) {
         if (enableSeconds) mEnableMinutes = true;
         mEnableSeconds = enableSeconds;
@@ -363,9 +347,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
      * The interval for all three time components can be set independently
      * If you are not using the seconds / minutes picker, set the respective item to 60 for
      * better performance.
-     *
-     * @param hourInterval   The interval between 2 selectable hours ([1,24])
-     * @param minuteInterval The interval between 2 selectable minutes ([1,60])
      */
     @SuppressWarnings({"SameParameterValue", "WeakerAccess"})
     public void setTimeInterval(@IntRange(from = 1, to = 24) int hourInterval,
@@ -679,6 +660,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             tryVibrate();
         });
 
+        Typeface font1 = Utils.mdtpFont(context, false);
         mOkButton = view.findViewById(R.id.mdtp_ok);
         mOkButton.setOnClickListener(v -> {
             if (mInKbMode && isTypedTimeFullyLegal()) {
@@ -690,7 +672,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             dismiss();
         });
         mOkButton.setOnKeyListener(keyboardListener);
-        mOkButton.setTypeface(ResourcesCompat.getFont(context, R.font.robotomedium));
+        mOkButton.setTypeface(font1);
         if (mOkString != null) mOkButton.setText(mOkString);
         else mOkButton.setText(mOkResid);
 
@@ -699,7 +681,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             tryVibrate();
             if (getDialog() != null) getDialog().cancel();
         });
-        mCancelButton.setTypeface(ResourcesCompat.getFont(context, R.font.robotomedium));
+        mCancelButton.setTypeface(font1);
         if (mCancelString != null) mCancelButton.setText(mCancelString);
         else mCancelButton.setText(mCancelResid);
         mCancelButton.setVisibility(isCancelable() ? View.VISIBLE : View.GONE);

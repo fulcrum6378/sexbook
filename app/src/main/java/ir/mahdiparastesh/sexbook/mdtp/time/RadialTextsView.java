@@ -184,9 +184,7 @@ public class RadialTextsView extends View {
     @Override
     public void onDraw(Canvas canvas) {
         int viewWidth = getWidth();
-        if (viewWidth == 0 || !mIsInitialized) {
-            return;
-        }
+        if (viewWidth == 0 || !mIsInitialized) return;
 
         if (!mDrawValuesReady) {
             mXCenter = getWidth() / 2;

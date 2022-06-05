@@ -1,20 +1,21 @@
 package ir.mahdiparastesh.sexbook.mdtp.jdate;
 
-import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFont;
-import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFontBold;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 
 import java.util.Locale;
 
-import ir.mahdiparastesh.sexbook.mdtp.utils.LanguageUtils;
+import ir.mahdiparastesh.sexbook.mdtp.Utils;
 
 public class SimpleMonthView extends MonthView {
 
-    public SimpleMonthView(Context c, AttributeSet attr, DatePickerController controller) {
-        super(c, attr, controller);
+    public SimpleMonthView(Context context, AttributeSet attr, DatePickerController controller) {
+        super(context, attr, controller);
+    }
+
+    public SimpleMonthView(Context context) {
+        super(context);
     }
 
     @Override
@@ -23,8 +24,8 @@ public class SimpleMonthView extends MonthView {
             canvas.drawCircle(x, y - (MINI_DAY_NUMBER_TEXT_SIZE / 3f), DAY_SELECTED_CIRCLE_SIZE,
                     mSelectedCirclePaint);
         if (isHighlighted(year, month, day))
-            mMonthNumPaint.setTypeface(jdtpFontBold);
-        else mMonthNumPaint.setTypeface(jdtpFont);
+            mMonthNumPaint.setTypeface(Utils.mdtpFont(getContext(), true));
+        else mMonthNumPaint.setTypeface(Utils.mdtpFont(getContext(), false));
 
         if (isOutOfRange(year, month, day))
             mMonthNumPaint.setColor(mDisabledDayTextColor);
@@ -36,7 +37,7 @@ public class SimpleMonthView extends MonthView {
             mMonthNumPaint.setColor(isHighlighted(year, month, day)
                     ? mHighlightedDayTextColor : mDayTextColor);
 
-        canvas.drawText(LanguageUtils.getPersianNumbers(String.format(Locale.getDefault(),
+        canvas.drawText(Utils.getPersianNumbers(String.format(Locale.getDefault(),
                 "%d", day)), x, y, mMonthNumPaint);
     }
 }

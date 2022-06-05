@@ -35,11 +35,7 @@ class Settings : BaseActivity() {
         const val spPrefersMasculine = "prefersMasculine"
         const val spPrefersOrgType = "prefersOrgType"
 
-        //@SuppressLint("SdCardPath")
-        //const val spPath = "/data/data/ir.mahdiparastesh.sexbook/shared_prefs/"
         const val spName = "settings"
-
-        //private fun spFile() = File("${spPath}${spName}.xml")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

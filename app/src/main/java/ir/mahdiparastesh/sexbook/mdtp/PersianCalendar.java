@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.mdtp.utils;
+package ir.mahdiparastesh.sexbook.mdtp;
 
 import android.content.Context;
 

@@ -1,5 +1,7 @@
 package ir.mahdiparastesh.sexbook.mdtp;
 
+import static ir.mahdiparastesh.sexbook.Main.getJdtpArabicNumbers;
+
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
@@ -7,17 +9,16 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.os.Build;
+import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.AttrRes;
-import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import ir.mahdiparastesh.sexbook.R;
-import ir.mahdiparastesh.sexbook.mdtp.utils.PersianCalendarUtils;
 
 @SuppressWarnings("WeakerAccess")
 public class Utils {
@@ -106,5 +107,49 @@ public class Utils {
         else if (PersianCalendarUtils.isPersianLeapYear(year))
             return 30;
         else return 29;
+    }
+
+    public static String getPersianNumbers(String string) {
+        if (getJdtpArabicNumbers()) {
+            string = string.replace("0", "۰");
+            string = string.replace("1", "١");
+            string = string.replace("2", "۲");
+            string = string.replace("3", "۳");
+            string = string.replace("4", "۴");
+            string = string.replace("5", "۵");
+            string = string.replace("6", "۶");
+            string = string.replace("7", "۷");
+            string = string.replace("8", "۸");
+            string = string.replace("9", "۹");
+        }
+        return string;
+    }
+
+    public static void getPersianNumbers(ArrayList<String> strings) {
+        for (int i = 0; i < strings.size(); i++)
+            strings.set(i, getPersianNumbers(strings.get(i)));
+    }
+
+    public static String getLatinNumbers(String string) {
+        if (getJdtpArabicNumbers()) {
+            string = string.replace("۰", "0");
+            string = string.replace("١", "1");
+            string = string.replace("۲", "2");
+            string = string.replace("۳", "3");
+            string = string.replace("۴", "4");
+            string = string.replace("۵", "5");
+            string = string.replace("۶", "6");
+            string = string.replace("۷", "7");
+            string = string.replace("۸", "8");
+            string = string.replace("۹", "9");
+        }
+        return string;
+    }
+
+    public static Typeface mdtpFont(Context c, boolean bold) {
+        return Typeface.createFromAsset(
+                c.getAssets(), bold ? c.getResources().getString(R.string.font1Bold)
+                        : c.getResources().getString(R.string.font1)
+        );
     }
 }

@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.mdtp.jdate;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.StateListDrawable;
@@ -17,9 +18,10 @@ import java.util.List;
 import java.util.Locale;
 
 import ir.mahdiparastesh.sexbook.R;
+import ir.mahdiparastesh.sexbook.mdtp.Utils;
 import ir.mahdiparastesh.sexbook.mdtp.jdate.DatePickerDialog.OnDateChangedListener;
-import ir.mahdiparastesh.sexbook.mdtp.utils.LanguageUtils;
 
+@SuppressLint("ViewConstructor")
 public class YearPickerView extends ListView implements OnItemClickListener, OnDateChangedListener {
     private final DatePickerController mController;
     private YearAdapter mAdapter;
@@ -50,7 +52,7 @@ public class YearPickerView extends ListView implements OnItemClickListener, OnD
         ArrayList<String> years = new ArrayList<>();
         for (int year = mController.getMinYear(); year <= mController.getMaxYear(); year++)
             years.add(String.format(Locale.getDefault(), "%d", year));
-        LanguageUtils.getPersianNumbers(years);
+        Utils.getPersianNumbers(years);
         mAdapter = new YearAdapter(c, R.layout.jdtp_year_label_text_view, years);
         setAdapter(mAdapter);
     }
@@ -75,7 +77,7 @@ public class YearPickerView extends ListView implements OnItemClickListener, OnD
     }
 
     private static int getYearFromTextView(TextView view) {
-        return Integer.parseInt(LanguageUtils.getLatinNumbers(view.getText().toString()));
+        return Integer.parseInt(Utils.getLatinNumbers(view.getText().toString()));
     }
 
     private class YearAdapter extends ArrayAdapter<String> {

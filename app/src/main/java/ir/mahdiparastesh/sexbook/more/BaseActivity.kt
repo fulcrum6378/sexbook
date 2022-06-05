@@ -46,8 +46,6 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
     companion object {
         const val ADMOB_DELAY = 2000L
         const val MAX_AD_RETRY = 2
-        lateinit var jdtpFont: Typeface // TODO: BAD
-        lateinit var jdtpFontBold: Typeface // BAD
         var adsInitStatus: InitializationStatus? = null
 
         fun Context.night(): Boolean = resources.configuration.uiMode and
@@ -58,8 +56,6 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
         super.onCreate(savedInstanceState)
         m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
         sp = getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
-        jdtpFont = font1
-        jdtpFontBold = font1Bold
     }
 
     override fun setContentView(root: View?) {
@@ -93,9 +89,12 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
                 tbTitle = getTitle
         }
         tbTitle?.typeface = font1Bold
-        if (this !is Main) supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
+        if (this !is Main) {
+            supportActionBar?.apply {
+                setDisplayHomeAsUpEnabled(true)
+                setDisplayShowHomeEnabled(true)
+            }
+            tb.setNavigationOnClickListener { onBackPressed() }
         }
         tb.navigationIcon?.colorFilter = pdcf()
     }

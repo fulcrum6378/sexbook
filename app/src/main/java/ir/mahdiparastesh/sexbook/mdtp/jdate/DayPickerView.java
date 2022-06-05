@@ -16,8 +16,7 @@ import androidx.annotation.NonNull;
 
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
 import ir.mahdiparastesh.sexbook.mdtp.jdate.DatePickerDialog.OnDateChangedListener;
-import ir.mahdiparastesh.sexbook.mdtp.utils.LanguageUtils;
-import ir.mahdiparastesh.sexbook.mdtp.utils.PersianCalendar;
+import ir.mahdiparastesh.sexbook.mdtp.PersianCalendar;
 
 public abstract class DayPickerView extends ListView implements OnScrollListener,
         OnDateChangedListener {
@@ -293,8 +292,8 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
             }
         }
 
-        Utils.tryAccessibilityAnnounce(this,
-                LanguageUtils.getPersianNumbers(getMonthAndYearString(getContext(), day)));
+        Utils.tryAccessibilityAnnounce(this, Utils.getPersianNumbers(
+                getMonthAndYearString(getContext(), day)));
         goTo(day, true, false, true);
         mPerformingScroll = true;
         return true;

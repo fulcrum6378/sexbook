@@ -1,11 +1,10 @@
 package ir.mahdiparastesh.sexbook.mdtp.jdate;
 
-import static ir.mahdiparastesh.sexbook.more.BaseActivity.jdtpFont;
-
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +29,7 @@ import java.util.Objects;
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.mdtp.HapticFeedbackController;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
-import ir.mahdiparastesh.sexbook.mdtp.utils.LanguageUtils;
-import ir.mahdiparastesh.sexbook.mdtp.utils.PersianCalendar;
+import ir.mahdiparastesh.sexbook.mdtp.PersianCalendar;
 
 public class DatePickerDialog extends DialogFragment implements
         OnClickListener, DatePickerController {
@@ -172,13 +170,15 @@ public class DatePickerDialog extends DialogFragment implements
         mSelectedMonthTextView = view.findViewById(R.id.date_picker_month);
         mSelectedDayTextView = view.findViewById(R.id.date_picker_day);
         mYearView = view.findViewById(R.id.date_picker_year);
+
+        Typeface font1 = Utils.mdtpFont(that, false);
         Button okButton = view.findViewById(R.id.ok);
         Button cancelButton = view.findViewById(R.id.cancel);
-        okButton.setTypeface(jdtpFont);
-        cancelButton.setTypeface(jdtpFont);
-        mSelectedMonthTextView.setTypeface(jdtpFont);
-        mSelectedDayTextView.setTypeface(jdtpFont);
-        mYearView.setTypeface(jdtpFont);
+        okButton.setTypeface(font1);
+        cancelButton.setTypeface(font1);
+        mSelectedMonthTextView.setTypeface(font1);
+        mSelectedDayTextView.setTypeface(font1);
+        mYearView.setTypeface(font1);
         mYearView.setOnClickListener(this);
 
         int listPosition = -1;
@@ -294,7 +294,7 @@ public class DatePickerDialog extends DialogFragment implements
                 }
                 pulseAnimator.start();
 
-                String dayString = LanguageUtils.getPersianNumbers(mPersianCalendar.getPersianLongDate(getContext()));
+                String dayString = Utils.getPersianNumbers(mPersianCalendar.getPersianLongDate(getContext()));
                 mAnimator.setContentDescription(mDayPickerDescription + ": " + dayString);
                 Utils.tryAccessibilityAnnounce(mAnimator, mSelectDay);
                 break;
@@ -313,8 +313,8 @@ public class DatePickerDialog extends DialogFragment implements
                 }
                 pulseAnimator.start();
 
-                String yearString = LanguageUtils.
-                        getPersianNumbers(String.valueOf(mPersianCalendar.getPersianYear()));
+                String yearString = Utils.getPersianNumbers(
+                        String.valueOf(mPersianCalendar.getPersianYear()));
                 mAnimator.setContentDescription(mYearPickerDescription + ": " + yearString);
                 Utils.tryAccessibilityAnnounce(mAnimator, mSelectYear);
                 break;
@@ -322,23 +322,21 @@ public class DatePickerDialog extends DialogFragment implements
     }
 
     private void updateDisplay(boolean announce) {
-        mSelectedMonthTextView.setText(LanguageUtils.
-                getPersianNumbers(mPersianCalendar.getPersianMonthName(getContext())));
-        mSelectedDayTextView.setText(LanguageUtils.
-                getPersianNumbers(String.valueOf(mPersianCalendar.getPersianDay())));
-        mYearView.setText(LanguageUtils.
-                getPersianNumbers(String.valueOf(mPersianCalendar.getPersianYear())));
+        mSelectedMonthTextView.setText(Utils.getPersianNumbers(
+                mPersianCalendar.getPersianMonthName(getContext())));
+        mSelectedDayTextView.setText(Utils.getPersianNumbers(
+                String.valueOf(mPersianCalendar.getPersianDay())));
+        mYearView.setText(Utils.getPersianNumbers(
+                String.valueOf(mPersianCalendar.getPersianYear())));
 
-
-        long millis = mPersianCalendar.getTimeInMillis();
-        mAnimator.setDateMillis(millis);
-        String monthAndDayText = LanguageUtils.getPersianNumbers(
+        mAnimator.setDateMillis(mPersianCalendar.getTimeInMillis());
+        String monthAndDayText = Utils.getPersianNumbers(
                 mPersianCalendar.getPersianMonthName(getContext()) + " " +
                         mPersianCalendar.getPersianDay()
         );
         mMonthAndDayView.setContentDescription(monthAndDayText);
 
-        if (announce) Utils.tryAccessibilityAnnounce(mAnimator, LanguageUtils.
+        if (announce) Utils.tryAccessibilityAnnounce(mAnimator, Utils.
                 getPersianNumbers(mPersianCalendar.getPersianLongDate(getContext())));
     }
 
@@ -493,10 +491,10 @@ public class DatePickerDialog extends DialogFragment implements
         mListeners.add(listener);
     }
 
-    /*@Override
+    @Override
     public void unregisterOnDateChangedListener(OnDateChangedListener listener) {
         mListeners.remove(listener);
-    }*/
+    }
 
     @Override
     public void tryVibrate() {

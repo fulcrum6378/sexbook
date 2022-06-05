@@ -1,6 +1,6 @@
 package ir.mahdiparastesh.sexbook.mdtp.jdate;
 
-import ir.mahdiparastesh.sexbook.mdtp.utils.PersianCalendar;
+import ir.mahdiparastesh.sexbook.mdtp.PersianCalendar;
 
 public interface DatePickerController {
 

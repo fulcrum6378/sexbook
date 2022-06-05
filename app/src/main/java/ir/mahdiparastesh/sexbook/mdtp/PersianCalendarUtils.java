@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.mdtp.utils;
+package ir.mahdiparastesh.sexbook.mdtp;
 
 public class PersianCalendarUtils {
 	public static boolean isPersianLeapYear(int persianYear) {
