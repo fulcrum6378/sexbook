@@ -175,31 +175,6 @@
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 
-
-    <!-- JDTP -->
-    <style name="jdtp_ActionButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/jdtp_material_button_height</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:focusable">true</item>
-    </style>
-
-    <style name="jdtp_ActionButton.Text">
-        <item name="android:textSize">@dimen/jdtp_material_button_textsize</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:gravity">center</item>
-        <item name="android:stateListAnimator">@null</item>
-        <item name="android:background">@drawable/jdtp_material_button_background</item>
-        <item name="android:minWidth">@dimen/jdtp_material_button_minwidth</item>
-        <item name="android:paddingLeft">@dimen/jdtp_material_button_textpadding_horizontal</item>
-        <item name="android:paddingRight">@dimen/jdtp_material_button_textpadding_horizontal</item>
-        <item name="android:textColor">@color/jdtp_button_color</item>
-        <item name="android:textAllCaps">true</item>
-    </style>
-
-
-
     <!-- MDTP -->
     <attr name="mdtp_theme_dark" format="boolean">false</attr>
     <bool name="mdtp_title_all_caps">true</bool>
@@ -246,7 +221,6 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <!-- Style for dialog labels. -->
     <style name="mdtp_time_label_thin">
         <item name="android:fontFamily">sans-serif-light</item>
     </style>

@@ -27,11 +27,12 @@ class LocalDatePicker(
                     listener(view, cal.timeInMillis)
                 }, jal.Y, jal.M, jal.D
             ).apply {
-                setOnDismissListener(dismissal)
                 isThemeDark = c.night()
+                setOnDismissListener(dismissal)
                 show(c.supportFragmentManager, tag)
             }
         } else DatePickerDialog.newInstance(
+            // Customised version of https://github.com/wdullaer/MaterialDateTimePicker
             { view, year, monthOfYear, dayOfMonth ->
                 val cal = default.timeInMillis.calendar()
                 cal[Calendar.YEAR] = year
@@ -44,7 +45,7 @@ class LocalDatePicker(
             default[Calendar.DAY_OF_MONTH]
         ).apply {
             isThemeDark = c.night()
-            version = DatePickerDialog.Version.VERSION_2
+            version = DatePickerDialog.Version.VERSION_1
             accentColor = c.color(R.color.CP)
             setOkColor(c.color(R.color.mrvPopupButtons))
             setCancelColor(c.color(R.color.mrvPopupButtons))

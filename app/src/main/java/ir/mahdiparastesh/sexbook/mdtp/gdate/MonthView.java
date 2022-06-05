@@ -66,7 +66,7 @@ public abstract class MonthView extends View {
     protected int mMonth;
     protected int mYear;
     protected int mWidth;
-    protected int mRowHeight;
+    protected final int mRowHeight;
     protected boolean mHasToday = false;
     protected int mSelectedDay = -1;
     protected int mToday = DEFAULT_SELECTED_DAY;

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ir.mahdiparastesh.sexbook.mdtp.VerticalTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mdtp_date_picker_header"
     android:layout_width="@dimen/mdtp_date_picker_title_height"
     android:layout_height="match_parent"

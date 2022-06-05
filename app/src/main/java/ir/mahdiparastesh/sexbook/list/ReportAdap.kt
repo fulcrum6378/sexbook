@@ -84,9 +84,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 setOkColor(c.color(R.color.mrvPopupButtons))
                 setCancelColor(c.color(R.color.mrvPopupButtons))
                 setOnDismissListener { dialogDismissed() }
-                show(
-                    c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}"
-                )
+                show(c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}")
             }
             mayShowAd()
         } else h.b.clock.setOnClickListener(null)

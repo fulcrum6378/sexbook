@@ -175,7 +175,9 @@ public class DatePickerDialog extends DialogFragment implements
         Button okButton = view.findViewById(R.id.mdtp_ok);
         Button cancelButton = view.findViewById(R.id.mdtp_cancel);
         okButton.setTypeface(font1);
+        okButton.setTextColor(that.getResources().getColor(R.color.jdtp_button_color));
         cancelButton.setTypeface(font1);
+        cancelButton.setTextColor(that.getResources().getColor(R.color.jdtp_button_color));
         mSelectedMonthTextView.setTypeface(font1);
         mSelectedDayTextView.setTypeface(font1);
         mYearView.setTypeface(font1);
@@ -206,8 +208,8 @@ public class DatePickerDialog extends DialogFragment implements
         mYearPickerDescription = res.getString(R.string.mdtp_year_picker_description);
         mSelectYear = res.getString(R.string.mdtp_select_year);
 
-        int bgColorResource = mThemeDark ? R.color.jdtp_date_picker_view_animator_dark_theme
-                : R.color.jdtp_date_picker_view_animator;
+        int bgColorResource = mThemeDark ? R.color.mdtp_date_picker_view_animator_dark_theme
+                : R.color.mdtp_date_picker_view_animator;
         view.setBackgroundColor(ContextCompat.getColor(that, bgColorResource));
 
         mAnimator = view.findViewById(R.id.animator);

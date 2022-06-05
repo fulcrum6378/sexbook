@@ -108,37 +108,37 @@ public abstract class MonthView extends View {
         boolean darkTheme = mController != null && mController.isThemeDark();
         if (darkTheme) {
             mDayTextColor = ContextCompat.getColor(c,
-                    R.color.jdtp_date_picker_text_normal_dark_theme);
+                    R.color.mdtp_date_picker_text_normal_dark_theme);
             mMonthDayTextColor = ContextCompat.getColor(c,
-                    R.color.jdtp_date_picker_month_day_dark_theme);
+                    R.color.mdtp_date_picker_month_day_dark_theme);
             mDisabledDayTextColor = ContextCompat.getColor(c,
-                    R.color.jdtp_date_picker_text_disabled_dark_theme);
+                    R.color.mdtp_date_picker_text_disabled_dark_theme);
             mHighlightedDayTextColor = ContextCompat.getColor(c,
-                    R.color.jdtp_date_picker_text_highlighted_dark_theme);
+                    R.color.mdtp_date_picker_text_highlighted_dark_theme);
         } else {
             mDayTextColor = ContextCompat.getColor(c,
-                    R.color.jdtp_date_picker_text_normal);
+                    R.color.mdtp_date_picker_text_normal);
             mMonthDayTextColor = ContextCompat.getColor(c,
-                    R.color.jdtp_date_picker_month_day);
+                    R.color.mdtp_date_picker_month_day);
             mDisabledDayTextColor = ContextCompat.getColor(c,
-                    R.color.jdtp_date_picker_text_disabled);
+                    R.color.mdtp_date_picker_text_disabled);
             mHighlightedDayTextColor = ContextCompat.getColor(c,
-                    R.color.jdtp_date_picker_text_highlighted);
+                    R.color.mdtp_date_picker_text_highlighted);
         }
-        mSelectedDayTextColor = ContextCompat.getColor(c, R.color.jdtp_white);
+        mSelectedDayTextColor = ContextCompat.getColor(c, R.color.mdtp_white);
         mTodayNumberColor = ContextCompat.getColor(c, R.color.jdtp_accent_color);
 
         mStringBuilder = new StringBuilder(50);
 
-        MINI_DAY_NUMBER_TEXT_SIZE = res.getDimensionPixelSize(R.dimen.jdtp_day_number_size);
-        MONTH_LABEL_TEXT_SIZE = res.getDimensionPixelSize(R.dimen.jdtp_month_label_size);
+        MINI_DAY_NUMBER_TEXT_SIZE = res.getDimensionPixelSize(R.dimen.mdtp_day_number_size);
+        MONTH_LABEL_TEXT_SIZE = res.getDimensionPixelSize(R.dimen.mdtp_month_label_size);
         MONTH_DAY_LABEL_TEXT_SIZE = res.getDimensionPixelSize(
-                R.dimen.jdtp_month_day_label_text_size);
-        MONTH_HEADER_SIZE = res.getDimensionPixelOffset(R.dimen.jdtp_month_list_item_header_height);
+                R.dimen.mdtp_month_day_label_text_size);
+        MONTH_HEADER_SIZE = res.getDimensionPixelOffset(R.dimen.mdtp_month_list_item_header_height);
         DAY_SELECTED_CIRCLE_SIZE = res.getDimensionPixelSize(
-                R.dimen.jdtp_day_number_select_circle_radius);
+                R.dimen.mdtp_day_number_select_circle_radius);
 
-        mRowHeight = (res.getDimensionPixelOffset(R.dimen.jdtp_date_picker_view_animator_height)
+        mRowHeight = (res.getDimensionPixelOffset(R.dimen.mdtp_date_picker_view_animator_height)
                 - getMonthHeaderSize()) / MAX_NUM_ROWS;
 
         mTouchHelper = getMonthViewTouchHelper();
