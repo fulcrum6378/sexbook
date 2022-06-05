@@ -97,16 +97,19 @@
     <string name="stTruncate">Fjern alle data</string>
     <string name="stTruncateSure">Er du sikker på at du vil fjerne alle dine personlige data?</string>
 
-    <!-- MDTP --><!--TODO-->
-    <string name="mdtp_hour_picker_description">Hours circular slider</string>
-    <string name="mdtp_minute_picker_description">Minutes circular slider</string>
-    <string name="mdtp_second_picker_description">Seconds circular slider</string>
-    <string name="mdtp_select_hours">Select hours</string>
-    <string name="mdtp_select_minutes">Select minutes</string>
-    <string name="mdtp_select_seconds">Select seconds</string>
-    <string name="mdtp_day_picker_description">"Månedsrutenett over dager"</string>
-    <string name="mdtp_year_picker_description">"Årsliste"</string>
+    <!-- MDTP -->
+    <string name="mdtp_hour_picker_description">Timer sirkulær skyveknapp</string>
+    <string name="mdtp_minute_picker_description">Minutter sirkulær skyveknapp</string>
+    <string name="mdtp_second_picker_description">Sekunder sirkulær skyveknapp</string>
+    <string name="mdtp_select_hours">Velg timer</string>
+    <string name="mdtp_select_minutes">Velg minutter</string>
+    <string name="mdtp_select_seconds">Velg sekunder</string>
+    <string name="mdtp_day_picker_description">Månedsrutenett over dager</string>
+    <string name="mdtp_year_picker_description">Årsliste</string>
     <string name="mdtp_select_day">Velg måned og dag</string>
     <string name="mdtp_select_year">Velg år</string>
     <string name="mdtp_item_is_selected">"%s valgt"</string>
+    <string name="mdtp_deleted_key">%1$s slettet</string>
+    <string name="mdtp_next_month_arrow_description">Neste måned</string>
+    <string name="mdtp_previous_month_arrow_description">Forrige måned</string>
 </resources>

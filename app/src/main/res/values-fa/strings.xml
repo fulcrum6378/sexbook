@@ -131,14 +131,20 @@
     <string name="stTruncateSure">آیا از حذف تمام داده ها اطمینان دارید؟</string>
 
     <!-- MDTP -->
-    <string name="mdtp_hour_picker_description">"لغزنده دایره‌ای ساعت"</string>
-    <string name="mdtp_minute_picker_description">"لغزنده دایره‌ای دقیقه"</string>
-    <string name="mdtp_select_hours">"انتخاب ساعت"</string>
-    <string name="mdtp_select_minutes">"انتخاب دقیقه"</string>
-    <string name="mdtp_day_picker_description">"روزهای ماه به صورت جدول"</string>
-    <string name="mdtp_year_picker_description">"لیست سال ها"</string>
-    <string name="mdtp_select_day">"ماه و روز را انتخاب کنید"</string>
-    <string name="mdtp_select_year">"سال را انتخاب کنید"</string>
-    <string name="mdtp_item_is_selected">"%s انتخاب شد"</string>
-    <string name="mdtp_deleted_key">"%s حذف شد"</string>
+    <string name="mdtp_hour_picker_description">لغزنده دایره‌ای ساعت</string>
+    <string name="mdtp_minute_picker_description">لغزنده دایره‌ای دقیقه</string>
+    <string name="mdtp_second_picker_description">لغزنده دایره ای ثانیه</string>
+    <string name="mdtp_select_hours">انتخاب ساعت</string>
+    <string name="mdtp_select_minutes">انتخاب دقیقه</string>
+    <string name="mdtp_select_seconds">انتخاب ثانیه</string>
+    <string name="mdtp_day_picker_description">روزهای ماه به صورت جدول</string>
+    <string name="mdtp_year_picker_description">لیست سال ها</string>
+    <string name="mdtp_select_day">ماه و روز را انتخاب کنید</string>
+    <string name="mdtp_select_year">سال را انتخاب کنید</string>
+    <string name="mdtp_item_is_selected">%s انتخاب شد</string>
+    <string name="mdtp_deleted_key">%s حذف شد</string>
+    <string name="mdtp_next_month_arrow_description">ماه بعد</string>
+    <string name="mdtp_previous_month_arrow_description">ماه قبل</string>
+    <string name="mdtp_am">ق.ظ</string>
+    <string name="mdtp_pm">ب.ظ</string>
 </resources>

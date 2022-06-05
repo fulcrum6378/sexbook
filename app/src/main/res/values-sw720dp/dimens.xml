@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="statusBarSize">24dp</dimen>
-    <dimen name="tbTitle">24sp</dimen>
+    <dimen name="tbTitle">24.5sp</dimen>
     <dimen name="nameFont">18.5sp</dimen>
     <dimen name="descFont">16sp</dimen>
     <dimen name="descPadV">12sp</dimen>

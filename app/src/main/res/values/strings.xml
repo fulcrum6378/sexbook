@@ -149,6 +149,6 @@
     <string name="mdtp_previous_month_arrow_description">Previous Month</string>
     <string name="mdtp_time_placeholder" translatable="false">00</string>
     <string name="mdtp_time_separator" translatable="false">:</string>
-    <string name="mdtp_am">am</string>
-    <string name="mdtp_pm">pm</string>
+    <string name="mdtp_am" translatable="false">AM</string>
+    <string name="mdtp_pm" translatable="false">PM</string>
 </resources>

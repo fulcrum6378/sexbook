@@ -22,8 +22,11 @@ class SumChips : Fragment() {
     val c: BaseActivity by lazy { activity as BaseActivity }
     private lateinit var b: SumChipsBinding
 
-    override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
-        b = SumChipsBinding.inflate(layoutInflater, parent, false)
+    override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
+        SumChipsBinding.inflate(inf, parent, false).apply { b = this }.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         b.find.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
@@ -43,6 +46,7 @@ class SumChips : Fragment() {
             }
         })
         b.find.typeface = c.font1
+        if (c.m.summary.value == null) return
         for (r in c.m.summary.value!!.results().calculations) b.ll.addView(
             ChipGroup(c, null, 0).apply {
                 layoutParams = LinearLayout.LayoutParams(
@@ -75,17 +79,15 @@ class SumChips : Fragment() {
                         typeface = c.font1
                     })
             })
-        c.m.summary.value!!.nExcluded.also {
+        c.m.summary.value?.nExcluded?.also {
             if (it > 0f) b.ll.addView(plus(getString(R.string.excStat, it.toString())))
         }
-        c.m.summary.value!!.unknown.also {
+        c.m.summary.value?.unknown?.also {
             if (it > 0f) b.ll.addView(plus(getString(R.string.unknown, it.toString())))
         }
-        c.m.summary.value!!.nEstimated.also {
+        c.m.summary.value?.nEstimated?.also {
             if (it > 0f) b.ll.addView(plus(getString(R.string.estimated, it.toString())))
         }
-
-        return b.root
     }
 
     fun plus(s: String) = TextView(c).apply {
