@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mdtp_day_picker_selected_date_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/mdtp_date_picker_header_height"
@@ -8,7 +9,8 @@
     android:background="@color/mdtp_accent_color"
     android:gravity="top"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:viewBindingIgnore="true">
 
     <ir.mahdiparastesh.sexbook.mdtp.AccessibleTextView
         android:id="@+id/mdtp_date_picker_year"
@@ -31,7 +33,8 @@
         android:background="@android:color/transparent"
         android:clickable="true"
         android:orientation="horizontal"
-        android:textColor="@color/mdtp_date_picker_selector">
+        android:textColor="@color/mdtp_date_picker_selector"
+        android:focusable="true">
 
         <TextView
             android:id="@+id/mdtp_date_picker_day"

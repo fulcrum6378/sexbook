@@ -59,7 +59,6 @@ public abstract class MonthView extends View {
 
     protected final int mEdgePadding = 0;
 
-
     protected Paint mMonthNumPaint;
     protected Paint mMonthTitlePaint;
     protected Paint mSelectedCirclePaint;
@@ -590,7 +589,7 @@ public abstract class MonthView extends View {
             final String date = Utils.getPersianNumbers(mTempCalendar.getPersianLongDate(getContext()));
 
             if (day == mSelectedDay)
-                return getContext().getString(R.string.jdtp_item_is_selected, date);
+                return getContext().getString(R.string.mdtp_item_is_selected, date);
 
             return date;
         }

@@ -13,7 +13,6 @@ import java.util.TimeZone;
 import ir.mahdiparastesh.sexbook.mdtp.gdate.MonthAdapter.MonthViewHolder;
 import ir.mahdiparastesh.sexbook.mdtp.gdate.MonthView.OnDayClickListener;
 
-@SuppressWarnings("WeakerAccess")
 public abstract class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder> implements OnDayClickListener {
 
     protected final DatePickerController mController;

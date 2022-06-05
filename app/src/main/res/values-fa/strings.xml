@@ -130,11 +130,15 @@
     <string name="stTruncate">حذف تمام داده ها</string>
     <string name="stTruncateSure">آیا از حذف تمام داده ها اطمینان دارید؟</string>
 
-
-    <!-- JDTP -->
-    <string name="jdtp_day_picker_description">جدول ماهانه روزها</string>
-    <string name="jdtp_year_picker_description">لیست سال ها</string>
-    <string name="jdtp_select_day">ماه و روز را انتخاب کنید</string>
-    <string name="jdtp_select_year">سال را انتخاب کنید</string>
-    <string name="jdtp_item_is_selected">"%s انتخاب شد"</string>
+    <!-- MDTP -->
+    <string name="mdtp_hour_picker_description">"لغزنده دایره‌ای ساعت"</string>
+    <string name="mdtp_minute_picker_description">"لغزنده دایره‌ای دقیقه"</string>
+    <string name="mdtp_select_hours">"انتخاب ساعت"</string>
+    <string name="mdtp_select_minutes">"انتخاب دقیقه"</string>
+    <string name="mdtp_day_picker_description">"روزهای ماه به صورت جدول"</string>
+    <string name="mdtp_year_picker_description">"لیست سال ها"</string>
+    <string name="mdtp_select_day">"ماه و روز را انتخاب کنید"</string>
+    <string name="mdtp_select_year">"سال را انتخاب کنید"</string>
+    <string name="mdtp_item_is_selected">"%s انتخاب شد"</string>
+    <string name="mdtp_deleted_key">"%s حذف شد"</string>
 </resources>

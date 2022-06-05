@@ -29,19 +29,19 @@ public class YearPickerView extends ListView implements OnItemClickListener, OnD
     private final int mChildSize;
     private TextViewWithCircularIndicator mSelectedView;
 
-    public YearPickerView(Context c, DatePickerController controller) {
-        super(c);
+    public YearPickerView(Context context, DatePickerController controller) {
+        super(context);
         mController = controller;
         mController.registerOnDateChangedListener(this);
         ViewGroup.LayoutParams frame = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);
         setLayoutParams(frame);
-        Resources res = c.getResources();
+        Resources res = context.getResources();
         mViewSize = res.getDimensionPixelOffset(R.dimen.jdtp_date_picker_view_animator_height);
         mChildSize = res.getDimensionPixelOffset(R.dimen.jdtp_year_label_height);
         setVerticalFadingEdgeEnabled(true);
         setFadingEdgeLength(mChildSize / 3);
-        init(c);
+        init(context);
         setOnItemClickListener(this);
         setSelector(new StateListDrawable());
         setDividerHeight(0);

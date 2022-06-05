@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.mdtp.gdate;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.StateListDrawable;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.mdtp.gdate.DatePickerDialog.OnDateChangedListener;
 
+@SuppressLint("ViewConstructor")
 public class YearPickerView extends ListView implements OnItemClickListener, OnDateChangedListener {
     private final DatePickerController mController;
     private YearAdapter mAdapter;

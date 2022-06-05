@@ -152,4 +152,24 @@ public class Utils {
                         : c.getResources().getString(R.string.font1)
         );
     }
+
+    public static Typeface mdtpAmPmFont(Context c) {
+        return Typeface.create("sans-serif", Typeface.NORMAL);
+    }
+
+    public static Typeface mdtpTimeCircleFont(Context c, boolean innerCircleIn24HM) {
+        return Typeface.create("sans-serif", Typeface.NORMAL);
+    }
+
+    public static Typeface mdtpMonthTitleFont(Context c) {
+        return Typeface.create("sans-serif", Typeface.BOLD);
+    }
+
+    public static Typeface mdtpDayOfWeekFont(Context c) {
+        return Typeface.create("sans-serif-light", Typeface.BOLD);
+    }
+
+    public static Typeface mdtpDayOfMonth(Context c, boolean isHighlighted) {
+        return Typeface.create(Typeface.DEFAULT, isHighlighted ? Typeface.BOLD : Typeface.NORMAL);
+    }
 }

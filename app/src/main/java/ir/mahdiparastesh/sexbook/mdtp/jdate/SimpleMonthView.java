@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.mdtp.jdate;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -8,14 +9,11 @@ import java.util.Locale;
 
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
 
+@SuppressLint("ViewConstructor")
 public class SimpleMonthView extends MonthView {
 
     public SimpleMonthView(Context context, AttributeSet attr, DatePickerController controller) {
         super(context, attr, controller);
-    }
-
-    public SimpleMonthView(Context context) {
-        super(context);
     }
 
     @Override
@@ -23,6 +21,7 @@ public class SimpleMonthView extends MonthView {
         if (mSelectedDay == day)
             canvas.drawCircle(x, y - (MINI_DAY_NUMBER_TEXT_SIZE / 3f), DAY_SELECTED_CIRCLE_SIZE,
                     mSelectedCirclePaint);
+
         if (isHighlighted(year, month, day))
             mMonthNumPaint.setTypeface(Utils.mdtpFont(getContext(), true));
         else mMonthNumPaint.setTypeface(Utils.mdtpFont(getContext(), false));

@@ -97,11 +97,16 @@
     <string name="stTruncate">Fjern alle data</string>
     <string name="stTruncateSure">Er du sikker på at du vil fjerne alle dine personlige data?</string>
 
-
-    <!-- JDTP -->
-    <string name="jdtp_day_picker_description">Månedsrutenett over dager</string>
-    <string name="jdtp_year_picker_description">Årsliste</string>
-    <string name="jdtp_select_day">Velg måned og dag</string>
-    <string name="jdtp_select_year">Velg år</string>
-    <string name="jdtp_item_is_selected">"%s valgt"</string>
+    <!-- MDTP --><!--TODO-->
+    <string name="mdtp_hour_picker_description">Hours circular slider</string>
+    <string name="mdtp_minute_picker_description">Minutes circular slider</string>
+    <string name="mdtp_second_picker_description">Seconds circular slider</string>
+    <string name="mdtp_select_hours">Select hours</string>
+    <string name="mdtp_select_minutes">Select minutes</string>
+    <string name="mdtp_select_seconds">Select seconds</string>
+    <string name="mdtp_day_picker_description">"Månedsrutenett over dager"</string>
+    <string name="mdtp_year_picker_description">"Årsliste"</string>
+    <string name="mdtp_select_day">Velg måned og dag</string>
+    <string name="mdtp_select_year">Velg år</string>
+    <string name="mdtp_item_is_selected">"%s valgt"</string>
 </resources>

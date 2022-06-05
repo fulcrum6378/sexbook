@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mdtp_done_background"
     android:layout_width="match_parent"
     android:layout_height="56dp"
@@ -7,7 +8,8 @@
     android:background="@android:color/transparent"
     android:gravity="end"
     android:orientation="horizontal"
-    android:paddingBottom="8dp">
+    android:paddingBottom="8dp"
+    tools:viewBindingIgnore="true">
 
     <Button
         android:id="@+id/mdtp_cancel"
@@ -15,7 +17,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:text="@android:string/cancel" />
 
     <Button
@@ -24,6 +25,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:text="@android:string/ok" />
 </LinearLayout>

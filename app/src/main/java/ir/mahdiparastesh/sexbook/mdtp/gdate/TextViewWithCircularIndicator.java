@@ -15,14 +15,11 @@ import androidx.core.content.ContextCompat;
 
 import ir.mahdiparastesh.sexbook.R;
 
-/**
- * A text view which, when pressed or activated, displays a colored circle around the text.
- */
 public class TextViewWithCircularIndicator extends androidx.appcompat.widget.AppCompatTextView {
 
     private static final int SELECTED_CIRCLE_ALPHA = 255;
 
-    Paint mCirclePaint = new Paint();
+    final Paint mCirclePaint = new Paint();
 
     private int mCircleColor;
     private final String mItemIsSelectedText;
@@ -52,13 +49,6 @@ public class TextViewWithCircularIndicator extends androidx.appcompat.widget.App
         setTextColor(createTextColor(color, darkMode));
     }
 
-    /**
-     * Programmatically set the color state list (see mdtp_date_picker_year_selector)
-     *
-     * @param accentColor pressed state text color
-     * @param darkMode    current theme mode
-     * @return ColorStateList with pressed state
-     */
     private ColorStateList createTextColor(int accentColor, boolean darkMode) {
         int[][] states = new int[][]{
                 new int[]{android.R.attr.state_pressed}, // pressed

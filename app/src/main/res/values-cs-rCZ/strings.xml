@@ -97,11 +97,15 @@
     <string name="stTruncate">Odebrat všechna data</string>
     <string name="stTruncateSure">Opravdu chcete odstranit všechny své osobní údaje?</string>
 
-
-    <!-- JDTP -->
-    <string name="jdtp_day_picker_description">Měsíční mřížka dnů</string>
-    <string name="jdtp_year_picker_description">Ročníkový seznam</string>
-    <string name="jdtp_select_day">Vyberte měsíc a den</string>
-    <string name="jdtp_select_year">Vyberte rok</string>
-    <string name="jdtp_item_is_selected">"%s vybraný"</string>
+    <!-- MDTP -->
+    <string name="mdtp_hour_picker_description">"Kruhový posuvník hodin"</string>
+    <string name="mdtp_minute_picker_description">"Kruhový posuvník minut"</string>
+    <string name="mdtp_select_hours">"Zvolte hodiny"</string>
+    <string name="mdtp_select_minutes">"Zvolte minuty"</string>
+    <string name="mdtp_day_picker_description">"Dny uspořádané po měsících"</string>
+    <string name="mdtp_year_picker_description">"Seznam roků"</string>
+    <string name="mdtp_select_day">"Vyberte měsíc a den"</string>
+    <string name="mdtp_select_year">"Vyberte rok"</string>
+    <string name="mdtp_item_is_selected">"Vybrána položka %s"</string>
+    <string name="mdtp_deleted_key">"%s smazáno"</string>
 </resources>

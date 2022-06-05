@@ -16,10 +16,8 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 
 import ir.mahdiparastesh.sexbook.R;
+import ir.mahdiparastesh.sexbook.mdtp.Utils;
 
-/**
- * A view to show a series of numbers in a circular pattern.
- */
 public class RadialTextsView extends View {
 
     private final Paint mPaint = new Paint();
@@ -77,10 +75,8 @@ public class RadialTextsView extends View {
         // Set up the paint.
         int textColorRes = controller.isThemeDark() ? R.color.mdtp_white : R.color.mdtp_numbers_text_color;
         mPaint.setColor(ContextCompat.getColor(context, textColorRes));
-        String typefaceFamily = res.getString(R.string.mdtp_radial_numbers_typeface);
-        mTypefaceLight = Typeface.create(typefaceFamily, Typeface.NORMAL);
-        String typefaceFamilyRegular = res.getString(R.string.mdtp_sans_serif);
-        mTypefaceRegular = Typeface.create(typefaceFamilyRegular, Typeface.NORMAL);
+        mTypefaceLight = Utils.mdtpTimeCircleFont(context, false);
+        mTypefaceRegular = Utils.mdtpTimeCircleFont(context, true);
         mPaint.setAntiAlias(true);
         mPaint.setTextAlign(Align.CENTER);
 
@@ -155,11 +151,6 @@ public class RadialTextsView extends View {
         mIsInitialized = true;
     }
 
-    /**
-     * Set the value of the selected text. Depending on the theme this will be rendered differently
-     *
-     * @param selection The text which is currently selected
-     */
     protected void setSelection(int selection) {
         this.selection = selection;
     }
@@ -230,10 +221,8 @@ public class RadialTextsView extends View {
 
         // Draw the texts in the pre-calculated positions.
         drawTexts(canvas, mTextSize, mTypefaceLight, mTexts, mTextGridWidths, mTextGridHeights);
-        if (mHasInnerCircle) {
-            drawTexts(canvas, mInnerTextSize, mTypefaceRegular, mInnerTexts,
-                    mInnerTextGridWidths, mInnerTextGridHeights);
-        }
+        if (mHasInnerCircle) drawTexts(canvas, mInnerTextSize, mTypefaceRegular, mInnerTexts,
+                mInnerTextGridWidths, mInnerTextGridHeights);
     }
 
     /**

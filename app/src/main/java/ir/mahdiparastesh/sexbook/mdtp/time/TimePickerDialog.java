@@ -25,7 +25,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.content.ContextCompat;
 
@@ -61,11 +60,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     private static final String KEY_DISMISS = "dismiss";
     private static final String KEY_ENABLE_SECONDS = "enable_seconds";
     private static final String KEY_ENABLE_MINUTES = "enable_minutes";
-    private static final String KEY_OK_RESID = "ok_resid";
-    private static final String KEY_OK_STRING = "ok_string";
     private static final String KEY_OK_COLOR = "ok_color";
-    private static final String KEY_CANCEL_RESID = "cancel_resid";
-    private static final String KEY_CANCEL_STRING = "cancel_string";
     private static final String KEY_CANCEL_COLOR = "cancel_color";
     private static final String KEY_VERSION = "version";
     private static final String KEY_TIMEPOINTLIMITER = "timepoint_limiter";
@@ -113,11 +108,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     private boolean mDismissOnPause;
     private boolean mEnableSeconds;
     private boolean mEnableMinutes;
-    private int mOkResid;
-    private String mOkString;
     private Integer mOkColor = null;
-    private int mCancelResid;
-    private String mCancelString;
     private Integer mCancelColor = null;
     private Version mVersion;
     private DefaultTimepointLimiter mDefaultLimiter = new DefaultTimepointLimiter();
@@ -183,8 +174,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         mDismissOnPause = false;
         mEnableSeconds = false;
         mEnableMinutes = true;
-        mOkResid = R.string.mdtp_ok;
-        mCancelResid = R.string.mdtp_cancel;
         mVersion = Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? Version.VERSION_1 : Version.VERSION_2;
         // Throw away the current TimePicker, which might contain old state if the dialog instance is reused
         mTimePicker = null;
@@ -360,8 +349,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
      * The interval for all three time components can be set independently
      * If you are not using the seconds / minutes picker, set the respective item to 60 for
      * better performance.
-     *
-     * @param hourInterval The interval between 2 selectable hours ([1,24])
      */
     @SuppressWarnings("unused")
     public void setTimeInterval(@IntRange(from = 1, to = 24) int hourInterval) {
@@ -381,66 +368,28 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         mOnDismissListener = onDismissListener;
     }
 
-    /**
-     * Set the time that will be shown when the picker opens for the first time
-     * Overrides the value given in newInstance()
-     *
-     * @param hourOfDay the hour of the day
-     * @param minute    the minute of the hour
-     * @param second    the second of the minute
-     * @deprecated in favor of {@link #setInitialSelection(int, int, int)}
-     */
     @Deprecated
     public void setStartTime(int hourOfDay, int minute, int second) {
         mInitialTime = roundToNearest(new Timepoint(hourOfDay, minute, second));
         mInKbMode = false;
     }
 
-    /**
-     * Set the time that will be shown when the picker opens for the first time
-     * Overrides the value given in newInstance
-     *
-     * @param hourOfDay the hour of the day
-     * @param minute    the minute of the hour
-     * @deprecated in favor of {@link #setInitialSelection(int, int)}
-     */
     @SuppressWarnings({"unused", "deprecation"})
     @Deprecated
     public void setStartTime(int hourOfDay, int minute) {
         setStartTime(hourOfDay, minute, 0);
     }
 
-    /**
-     * Set the time that will be shown when the picker opens for the first time
-     * Overrides the value given in newInstance()
-     *
-     * @param hourOfDay the hour of the day
-     * @param minute    the minute of the hour
-     * @param second    the second of the minute
-     */
     @SuppressWarnings("WeakerAccess")
     public void setInitialSelection(int hourOfDay, int minute, int second) {
         setInitialSelection(new Timepoint(hourOfDay, minute, second));
     }
 
-    /**
-     * Set the time that will be shown when the picker opens for the first time
-     * Overrides the value given in newInstance
-     *
-     * @param hourOfDay the hour of the day
-     * @param minute    the minute of the hour
-     */
     @SuppressWarnings({"unused", "WeakerAccess"})
     public void setInitialSelection(int hourOfDay, int minute) {
         setInitialSelection(hourOfDay, minute, 0);
     }
 
-    /**
-     * Set the time that will be shown when the picker opens for the first time
-     * Overrides the value given in newInstance()
-     *
-     * @param time the Timepoint selected when the Dialog opens
-     */
     @SuppressWarnings("WeakerAccess")
     public void setInitialSelection(Timepoint time) {
         mInitialTime = roundToNearest(time);
@@ -448,51 +397,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     }
 
     /**
-     * Set the label for the Ok button (max 12 characters)
-     *
-     * @param okString A literal String to be used as the Ok button label
-     */
-    @SuppressWarnings("unused")
-    public void setOkText(String okString) {
-        mOkString = okString;
-    }
-
-    /**
-     * Set the label for the Ok button (max 12 characters)
-     *
-     * @param okResid A resource ID to be used as the Ok button label
-     */
-    @SuppressWarnings("unused")
-    public void setOkText(@StringRes int okResid) {
-        mOkString = null;
-        mOkResid = okResid;
-    }
-
-    /**
-     * Set the label for the Cancel button (max 12 characters)
-     *
-     * @param cancelString A literal String to be used as the Cancel button label
-     */
-    @SuppressWarnings("unused")
-    public void setCancelText(String cancelString) {
-        mCancelString = cancelString;
-    }
-
-    /**
-     * Set the label for the Cancel button (max 12 characters)
-     *
-     * @param cancelResid A resource ID to be used as the Cancel button label
-     */
-    @SuppressWarnings("unused")
-    public void setCancelText(@StringRes int cancelResid) {
-        mCancelString = null;
-        mCancelResid = cancelResid;
-    }
-
-    /**
      * Set which layout version the picker should use
-     *
-     * @param version The version to use
      */
     public void setVersion(Version version) {
         mVersion = version;
@@ -501,8 +406,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     /**
      * Pass in a custom implementation of TimeLimiter
      * Disables setSelectableTimes, setDisabledTimes, setTimeInterval, setMinTime and setMaxTime
-     *
-     * @param limiter A custom implementation of TimeLimiter
      */
     @SuppressWarnings("unused")
     public void setTimepointLimiter(TimepointLimiter limiter) {
@@ -514,21 +417,11 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         return mVersion;
     }
 
-    /**
-     * Get a reference to the OnTimeSetListener callback
-     *
-     * @return OnTimeSetListener the callback
-     */
     @SuppressWarnings("unused")
     public OnTimeSetListener getOnTimeSetListener() {
         return mCallback;
     }
 
-    /**
-     * Set the Locale which will be used to generate various strings throughout the picker
-     *
-     * @param locale Locale
-     */
     @SuppressWarnings("unused")
     public void setLocale(Locale locale) {
         mLocale = locale;
@@ -552,13 +445,9 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             mDismissOnPause = savedInstanceState.getBoolean(KEY_DISMISS);
             mEnableSeconds = savedInstanceState.getBoolean(KEY_ENABLE_SECONDS);
             mEnableMinutes = savedInstanceState.getBoolean(KEY_ENABLE_MINUTES);
-            mOkResid = savedInstanceState.getInt(KEY_OK_RESID);
-            mOkString = savedInstanceState.getString(KEY_OK_STRING);
             if (savedInstanceState.containsKey(KEY_OK_COLOR))
                 mOkColor = savedInstanceState.getInt(KEY_OK_COLOR);
             if (mOkColor == Integer.MAX_VALUE) mOkColor = null;
-            mCancelResid = savedInstanceState.getInt(KEY_CANCEL_RESID);
-            mCancelString = savedInstanceState.getString(KEY_CANCEL_STRING);
             if (savedInstanceState.containsKey(KEY_CANCEL_COLOR))
                 mCancelColor = savedInstanceState.getInt(KEY_CANCEL_COLOR);
             mVersion = (Version) savedInstanceState.getSerializable(KEY_VERSION);
@@ -582,15 +471,15 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        int viewRes = mVersion == Version.VERSION_1 ? R.layout.mdtp_time_picker_dialog : R.layout.mdtp_time_picker_dialog_v2;
+        int viewRes = mVersion == Version.VERSION_1
+                ? R.layout.mdtp_time_picker_dialog : R.layout.mdtp_time_picker_dialog_v2;
         View view = inflater.inflate(viewRes, container, false);
         KeyboardListener keyboardListener = new KeyboardListener();
         view.findViewById(R.id.mdtp_time_picker_dialog).setOnKeyListener(keyboardListener);
 
         // If an accent color has not been set manually, get it from the context
-        if (mAccentColor == null) {
+        if (mAccentColor == null)
             mAccentColor = Utils.getAccentColorFromThemeIfAvailable(getActivity());
-        }
 
         // if theme mode has not been set by java code, check if it is specified in Style.xml
         if (!mThemeDarkChanged) {
@@ -673,8 +562,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         });
         mOkButton.setOnKeyListener(keyboardListener);
         mOkButton.setTypeface(font1);
-        if (mOkString != null) mOkButton.setText(mOkString);
-        else mOkButton.setText(mOkResid);
+        mOkButton.setText(android.R.string.ok);
 
         Button mCancelButton = view.findViewById(R.id.mdtp_cancel);
         mCancelButton.setOnClickListener(v -> {
@@ -682,8 +570,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             if (getDialog() != null) getDialog().cancel();
         });
         mCancelButton.setTypeface(font1);
-        if (mCancelString != null) mCancelButton.setText(mCancelString);
-        else mCancelButton.setText(mCancelResid);
+        mCancelButton.setText(android.R.string.cancel);
         mCancelButton.setVisibility(isCancelable() ? View.VISIBLE : View.GONE);
 
         // Enable or disable the AM/PM view.
@@ -915,7 +802,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     }
 
     @Override
-    public void onConfigurationChanged(final Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull final Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         ViewGroup viewGroup = (ViewGroup) getView();
         if (viewGroup != null) {
@@ -939,13 +826,13 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     }
 
     @Override
-    public void onCancel(DialogInterface dialog) {
+    public void onCancel(@NonNull DialogInterface dialog) {
         super.onCancel(dialog);
         if (mOnCancelListener != null) mOnCancelListener.onCancel(dialog);
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         if (mOnDismissListener != null) mOnDismissListener.onDismiss(dialog);
     }
@@ -999,11 +886,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             outState.putBoolean(KEY_DISMISS, mDismissOnPause);
             outState.putBoolean(KEY_ENABLE_SECONDS, mEnableSeconds);
             outState.putBoolean(KEY_ENABLE_MINUTES, mEnableMinutes);
-            outState.putInt(KEY_OK_RESID, mOkResid);
-            outState.putString(KEY_OK_STRING, mOkString);
             if (mOkColor != null) outState.putInt(KEY_OK_COLOR, mOkColor);
-            outState.putInt(KEY_CANCEL_RESID, mCancelResid);
-            outState.putString(KEY_CANCEL_STRING, mCancelString);
             if (mCancelColor != null) outState.putInt(KEY_CANCEL_COLOR, mCancelColor);
             outState.putSerializable(KEY_VERSION, mVersion);
             outState.putParcelable(KEY_TIMEPOINTLIMITER, mLimiter);
@@ -1068,9 +951,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
 
     /**
      * Round a given Timepoint to the nearest valid Timepoint
-     *
-     * @param time Timepoint - The timepoint to round
-     * @return Timepoint - The nearest valid Timepoint
      */
     private Timepoint roundToNearest(@NonNull Timepoint time) {
         return roundToNearest(time, null);
@@ -1083,8 +963,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
 
     /**
      * Get the configured resolution of the current picker in terms of Timepoint components
-     *
-     * @return Timepoint.TYPE (hour, minute or second)
      */
     @NonNull
     Timepoint.TYPE getPickerResolution() {
@@ -1108,9 +986,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         CharSequence text = String.format(mLocale, format, value);
         mHourView.setText(text);
         mHourSpaceView.setText(text);
-        if (announce) {
-            Utils.tryAccessibilityAnnounce(mTimePicker, text);
-        }
+        if (announce) Utils.tryAccessibilityAnnounce(mTimePicker, text);
     }
 
     private void setMinute(int value) {
@@ -1184,9 +1060,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
 
     /**
      * For keyboard mode, processes key events.
-     *
-     * @param keyCode the pressed key.
-     * @return true if the key was successfully processed, false otherwise.
      */
     private boolean processKeyUp(int keyCode) {
         if (keyCode == KeyEvent.KEYCODE_TAB) {
@@ -1254,10 +1127,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     /**
      * Try to start keyboard mode with the specified key, as long as the timepicker is not in the
      * middle of a touch-event.
-     *
-     * @param keyCode The key to use as the first press. Keyboard mode will not be started if the
-     *                key is not legal to start with. Or, pass in -1 to get into keyboard mode without a starting
-     *                key.
      */
     private void tryStartingKbMode(int keyCode) {
         if (mTimePicker.trySettingInputEnabled(false) &&
@@ -1342,8 +1211,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
 
     /**
      * Get out of keyboard mode. If there is nothing in typedTimes, revert to TimePicker's time.
-     *
-     * @param updateDisplays If true, update the displays with the relevant time.
      */
     private void finishKbMode(boolean updateDisplays) {
         mInKbMode = false;

@@ -1,11 +1,9 @@
 package ir.mahdiparastesh.sexbook.mdtp.time;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
-import android.graphics.Typeface;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
@@ -60,8 +58,6 @@ public class AmPmCirclesView extends View {
     public void initialize(Context context, Locale locale, TimePickerController controller, int amOrPm) {
         if (mIsInitialized) return;
 
-        Resources res = context.getResources();
-
         if (controller.isThemeDark()) {
             mUnselectedColor = ContextCompat.getColor(context, R.color.mdtp_circle_background_dark_theme);
             mAmPmTextColor = ContextCompat.getColor(context, R.color.mdtp_white);
@@ -78,16 +74,14 @@ public class AmPmCirclesView extends View {
         mTouchedColor = Utils.darkenColor(mSelectedColor);
         mAmPmSelectedTextColor = ContextCompat.getColor(context, R.color.mdtp_white);
 
-        String typefaceFamily = res.getString(R.string.mdtp_sans_serif);
-        Typeface tf = Typeface.create(typefaceFamily, Typeface.NORMAL);
-        mPaint.setTypeface(tf);
+        mPaint.setTypeface(Utils.mdtpAmPmFont(context));
         mPaint.setAntiAlias(true);
         mPaint.setTextAlign(Align.CENTER);
 
         mCircleRadiusMultiplier =
-                Float.parseFloat(res.getString(R.string.mdtp_circle_radius_multiplier));
+                Float.parseFloat(context.getString(R.string.mdtp_circle_radius_multiplier));
         mAmPmCircleRadiusMultiplier =
-                Float.parseFloat(res.getString(R.string.mdtp_ampm_circle_radius_multiplier));
+                Float.parseFloat(context.getString(R.string.mdtp_ampm_circle_radius_multiplier));
         String[] amPmTexts = new DateFormatSymbols(locale).getAmPmStrings();
         mAmText = amPmTexts[0];
         mPmText = amPmTexts[1];

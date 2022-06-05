@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mdtp_date_picker_header"
     android:layout_width="match_parent"
     android:layout_height="@dimen/mdtp_date_picker_title_height"
@@ -9,4 +10,5 @@
     android:includeFontPadding="false"
     android:textAllCaps="@bool/mdtp_title_all_caps"
     android:textColor="@color/mdtp_white"
-    android:textSize="@dimen/mdtp_date_picker_header_text_size" />
+    android:textSize="@dimen/mdtp_date_picker_header_text_size"
+    tools:viewBindingIgnore="true" />
