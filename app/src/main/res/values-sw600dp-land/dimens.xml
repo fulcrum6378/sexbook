@@ -5,7 +5,6 @@
     <dimen name="mdtp_date_picker_title_padding">14dp</dimen>
     <dimen name="mdtp_date_picker_header_width">220dp</dimen>
     <dimen name="mdtp_date_picker_header_height">456dp</dimen>
-    <dimen name="mdtp_time_label_right_padding">16dp</dimen>
     <dimen name="mdtp_time_label_size">64dp</dimen>
     <dimen name="mdtp_time_label_subscript_size">32dp</dimen>
     <dimen name="mdtp_ampm_label_size">16dp</dimen>
