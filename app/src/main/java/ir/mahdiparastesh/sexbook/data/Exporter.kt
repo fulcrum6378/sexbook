@@ -9,7 +9,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
-import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.more.BaseActivity
@@ -77,7 +76,7 @@ class Exporter(val c: BaseActivity) {
                 setPositiveButton(R.string.yes) { _, _ -> replace(c, imported) }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
-            }.show().stylise(c)
+            }.show()
         }
 
         private fun replace(c: BaseActivity, imported: Exported) {

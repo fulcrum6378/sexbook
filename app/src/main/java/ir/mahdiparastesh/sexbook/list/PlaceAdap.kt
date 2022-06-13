@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.Fun.Companion.vis
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
@@ -22,18 +21,15 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): AnyViewHolder<ItemPlaceBinding> {
-        val b = ItemPlaceBinding.inflate(c.layoutInflater, parent, false)
-        b.name.typeface = c.font1Bold
-        return AnyViewHolder(b)
-    }
+    ): AnyViewHolder<ItemPlaceBinding> =
+        AnyViewHolder(ItemPlaceBinding.inflate(c.layoutInflater, parent, false))
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<ItemPlaceBinding>, i: Int) {
         if (c.m.places.value == null) return
 
         // Name
-        h.b.name.setText(c.m.places.value!![i].name)
+        h.b.name.text = c.m.places.value!![i].name
         h.b.name.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
@@ -75,7 +71,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
                         }
                         setNegativeButton(R.string.no, null)
                         setCancelable(true)
-                    }.show().stylise(c)
+                    }.show()
                 }
             }).apply {
                 if (c.sp.contains(spDefPlace) && c.sp.getLong(spDefPlace, -1L)

@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/SexTheme"
+        android:theme="@style/Theme.Sexbook"
         tools:ignore="UnusedAttribute">
 
         <activity

@@ -2,10 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Sexbook</string>
 
-    <!-- FONTS -->
-    <string name="font1" translatable="false">franklin_gothic.ttf</string>
-    <string name="font1Bold" translatable="false">franklin_gothic_bold.ttf</string>
-
     <!-- GLOBAL -->
     <string name="sOpen">Open</string>
     <string name="close">Close</string>

@@ -14,6 +14,7 @@ import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.AttrRes;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -147,10 +148,8 @@ public class Utils {
     }
 
     public static Typeface mdtpFont(Context c, boolean bold) {
-        return Typeface.createFromAsset(
-                c.getAssets(), bold ? c.getResources().getString(R.string.font1Bold)
-                        : c.getResources().getString(R.string.font1)
-        );
+        return bold ? ResourcesCompat.getFont(c, R.font.bold)
+                : ResourcesCompat.getFont(c, R.font.normal);
     }
 
     public static Typeface mdtpAmPmFont(Context c) {

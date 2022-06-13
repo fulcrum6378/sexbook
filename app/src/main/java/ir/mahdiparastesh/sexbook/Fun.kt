@@ -13,7 +13,6 @@ import android.os.VibratorManager
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.google.android.gms.ads.AdSize
@@ -26,13 +25,16 @@ import ir.mahdiparastesh.sexbook.more.Jalali
 import java.util.*
 
 class Fun {
+    // Latin Font: Franklin Gothic
+    // Persian Font: Vazir
+
     companion object {
         private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
         fun now() = Calendar.getInstance().timeInMillis
 
         fun View.explode(
-            c: Context, dur: Long = 522, @DrawableRes src: Int = R.drawable.button_1,
+            c: Context, dur: Long = 522, @DrawableRes src: Int = R.drawable.button,
             alpha: Float = 1f, max: Float = 4f
         ) {
             if (parent !is ConstraintLayout) return
@@ -91,7 +93,7 @@ class Fun {
         }
 
         fun Calendar.fullDate(c: BaseActivity) = when (c.calType()) {
-            CalendarType.JALALI -> {
+            CalendarType.PERSIAN -> {
                 val j = Jalali(this)
                 "${z(j.Y)}.${z(j.M + 1)}.${z(j.D)}"
             }
@@ -132,27 +134,8 @@ class Fun {
         fun adaptiveBannerLp() = ConstraintLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ).apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }
-
-        fun AlertDialog.stylise(c: BaseActivity) {
-            // Don't move this function to BaseActivity
-            getButton(AlertDialog.BUTTON_POSITIVE)?.apply {
-                setTextColor(c.color(R.color.mrvPopupButtons))
-                //setBackgroundColor(color(R.color.CP))
-                typeface = c.font1
-            }
-            getButton(AlertDialog.BUTTON_NEGATIVE)?.apply {
-                setTextColor(c.color(R.color.mrvPopupButtons))
-                //setBackgroundColor(color(R.color.CP))
-                typeface = c.font1
-            }
-            getButton(AlertDialog.BUTTON_NEUTRAL)?.apply {
-                setTextColor(c.color(R.color.mrvPopupButtons))
-                //setBackgroundColor(color(R.color.CP))
-                typeface = c.font1
-            }
-        }
     }
 
     @Suppress("unused")
-    enum class CalendarType { GREGORIAN, JALALI }
+    enum class CalendarType { GREGORIAN, PERSIAN }
 }

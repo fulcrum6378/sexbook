@@ -54,17 +54,18 @@
             app:layout_constraintWidth_percent="0.13" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/ampm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/mrvAMPM"
         android:textAllCaps="true"
+        android:textColor="@color/mrvAMPM"
         android:textSize="@dimen/ampmFont"
+        app:fontFamily="@font/normal"
         app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintStart_toEndOf="@id/clock" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,7 +73,7 @@
         android:layout_marginStart="20dp"
         android:textColor="@color/mrvDate"
         android:textSize="@dimen/dateFont"
-        android:textStyle="bold"
+        app:fontFamily="@font/bold"
         app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toStartOf="@id/name"
         app:layout_constraintStart_toEndOf="@id/clock"

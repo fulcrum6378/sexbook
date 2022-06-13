@@ -1,19 +1,26 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="SexTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+    <style name="Theme.Sexbook.Base" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/CP</item>
         <item name="colorPrimaryDark">@color/CPD</item>
         <item name="colorAccent">@color/CA</item>
         <item name="android:navigationBarColor" tools:ignore="NewApi">@color/CP</item>
-        <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
+        <item name="popupMenuStyle">@style/Widget.Material3.PopupMenu</item>
         <item name="android:contextPopupMenuStyle" tools:ignore="NewApi">
-            @style/Widget.MaterialComponents.PopupMenu.ContextMenu
+            @style/Widget.Material3.PopupMenu.ContextMenu
         </item>
         <item name="android:statusBarColor">@color/CP</item>
+        <item name="alertDialogTheme">@style/Theme.Sexbook.Dialogue</item>
+    </style>
+
+    <style name="Theme.Sexbook" parent="Theme.Sexbook.Base">
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
     </style>
 
-    <style name="SexTheme.Toolbar" parent="SexTheme">
-        <item name="android:textSize">@dimen/tbTitle</item>
+    <style name="Theme.Sexbook.Dialogue" parent="Theme.Material3.DayNight.Dialog.Alert">
+        <item name="fontFamily">@font/normal</item>
+        <!-- buttons' text colour and their ripple effects -->
+        <item name="colorPrimary">@color/mrvPopupButtons</item>
     </style>
 </resources>

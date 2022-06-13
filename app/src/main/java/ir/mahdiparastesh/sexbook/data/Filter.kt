@@ -12,7 +12,7 @@ class Filter(var year: Int, var month: Int, var items: ArrayList<Int>) {
 
     fun title(c: BaseActivity) = "${
         when (c.calType()) {
-            Fun.CalendarType.JALALI -> c.resources.getStringArray(R.array.jMonthsFull)[month]
+            Fun.CalendarType.PERSIAN -> c.resources.getStringArray(R.array.jMonthsFull)[month]
             else -> DateFormatSymbols().months[month]
         }
     } $year : {${items.size}}"

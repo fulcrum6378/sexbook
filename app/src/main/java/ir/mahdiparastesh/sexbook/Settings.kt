@@ -4,20 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.widget.TextView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.get
 import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.defCalendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
-import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.LocalDatePicker
-import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 
 class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
@@ -44,16 +40,9 @@ class Settings : BaseActivity() {
         setContentView(b.root)
         toolbar(b.toolbar, R.string.stTitle)
 
-
-        // Fonts
-        for (l in 0 until b.ll.childCount) {
-            val first = (b.ll[l] as ConstraintLayout)[0]
-            if (first is TextView) first.typeface = font1
-        }
-        b.stStatSinceDate.typeface = font1
-
         // Calendar Type
-        b.stCalendarType.adapter = SpinnerAdap(this, calendarTypes.toList())
+        b.stCalendarType.adapter = ArrayAdapter(c, R.layout.spinner, calendarTypes.toList())
+            .apply { setDropDownViewResource(R.layout.spinner_dd) }
         b.stCalendarType.setSelection(sp.getInt(spCalType, 0))
         b.stCalendarType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -98,7 +87,7 @@ class Settings : BaseActivity() {
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
-            }.show().stylise(this)
+            }.show()
         }
         b.stTruncate.setOnClickListener {
             AlertDialog.Builder(this).apply {
@@ -112,7 +101,7 @@ class Settings : BaseActivity() {
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
-            }.show().stylise(this)
+            }.show()
         }
     }
 

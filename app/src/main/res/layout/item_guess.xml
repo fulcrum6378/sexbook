@@ -13,42 +13,47 @@
     android:paddingBottom="@dimen/etPadV"
     tools:ignore="ContentDescription,LabelFor,MissingConstraints">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/sincLabel"
         style="@style/etDateLabel"
         android:layout_marginStart="@dimen/etPadH"
         android:text="@string/etSince"
+        app:fontFamily="@font/normal"
         app:layout_constraintBottom_toBottomOf="@id/sinc"
         app:layout_constraintTop_toTopOf="@id/sinc" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/sinc"
         style="@style/etDateButton"
         android:layout_marginEnd="@dimen/etPadH"
+        app:fontFamily="@font/normal"
         app:layout_constraintStart_toEndOf="@id/sincLabel"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tillLabel"
         style="@style/etDateLabel"
         android:layout_marginStart="@dimen/etPadH"
         android:text="@string/etUntil"
+        app:fontFamily="@font/normal"
         app:layout_constraintBottom_toBottomOf="@id/till"
         app:layout_constraintTop_toTopOf="@id/till" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/till"
         style="@style/etDateButton"
         android:layout_marginEnd="@dimen/etPadH"
+        app:fontFamily="@font/normal"
         app:layout_constraintStart_toEndOf="@id/tillLabel"
         app:layout_constraintTop_toBottomOf="@id/sinc" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/freqLabel"
         style="@style/etDateLabel"
         android:layout_width="wrap_content"
         android:layout_marginStart="@dimen/etPadH"
         android:text="@string/etFreq"
+        app:fontFamily="@font/normal"
         app:layout_constraintBottom_toBottomOf="@id/freq"
         app:layout_constraintTop_toTopOf="@id/freq" />
 
@@ -67,7 +72,7 @@
         android:textColor="@color/mrvDate"
         android:textIsSelectable="true"
         android:textSize="15sp"
-        android:textStyle="bold"
+        app:fontFamily="@font/bold"
         app:layout_constraintEnd_toStartOf="@id/type"
         app:layout_constraintStart_toEndOf="@id/freqLabel"
         app:layout_constraintTop_toBottomOf="@id/till" />

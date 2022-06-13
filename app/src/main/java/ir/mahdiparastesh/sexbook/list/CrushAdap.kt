@@ -17,11 +17,8 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): AnyViewHolder<ItemCrushBinding> {
-        val b = ItemCrushBinding.inflate(c.layoutInflater, parent, false)
-        b.name.typeface = c.font1Bold
-        return AnyViewHolder(b)
-    }
+    ): AnyViewHolder<ItemCrushBinding> =
+        AnyViewHolder(ItemCrushBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<ItemCrushBinding>, i: Int) {
         if (c.m.liefde.value == null) return

@@ -9,7 +9,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import ir.mahdiparastesh.sexbook.mdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.*
 import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.vis
@@ -17,6 +16,7 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
+import ir.mahdiparastesh.sexbook.mdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.more.*
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.text.DateFormatSymbols
@@ -35,10 +35,6 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         parent: ViewGroup, viewType: Int
     ): AnyViewHolder<ItemReportBinding> {
         val b = ItemReportBinding.inflate(c.layoutInflater, parent, false)
-
-        // Fonts
-        b.date.typeface = c.font1Bold
-        b.ampm.typeface = c.font1
 
         // Date & Time
         if (b.clock.height != 0) clockHeight = b.clock.height
@@ -59,8 +55,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
         // Place
         b.placeMark.setColorFilter(c.color(R.color.spnFilterMark))
-        if (places != null) b.place.adapter =
-            SpinnerAdap(c, ArrayList(places.map { it.name }).apply { add(0, "") })
+        if (places != null)
+            b.place.adapter = ArrayAdapter(c, R.layout.spinner,
+                ArrayList(places.map { it.name }).apply { add(0, "") })
+                .apply { setDropDownViewResource(R.layout.spinner_dd) }
 
         return AnyViewHolder(b)
     }
@@ -304,7 +302,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
         fun compileDate(c: BaseActivity, time: Long): String {
             val lm = time.calendar()
-            if (c.calType() == Fun.CalendarType.JALALI) {
+            if (c.calType() == Fun.CalendarType.PERSIAN) {
                 val jal = Jalali(lm)
                 return "${c.resources.getStringArray(R.array.jMonths)[jal.M]} ${jal.D}"
             }

@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.graphics.Typeface
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
@@ -33,8 +32,6 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
     val c: Context get() = applicationContext
     lateinit var m: Model
     lateinit var sp: SharedPreferences
-    val font1: Typeface by lazy { font() }
-    val font1Bold: Typeface by lazy { font(true) }
     private var tbTitle: TextView? = null
     val dm: DisplayMetrics by lazy { resources.displayMetrics }
     private val dirRtl by lazy { c.resources.getBoolean(R.bool.dirRtl) }
@@ -88,7 +85,6 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
             if (getTitle is TextView && getTitle.text.toString() == getString(title))
                 tbTitle = getTitle
         }
-        tbTitle?.typeface = font1Bold
         if (this !is Main) {
             supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
@@ -98,11 +94,6 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
         }
         tb.navigationIcon?.colorFilter = pdcf()
     }
-
-    private fun font(bold: Boolean = false): Typeface = Typeface.createFromAsset(
-        c.assets, if (!bold) c.resources.getString(R.string.font1)
-        else c.resources.getString(R.string.font1Bold)
-    )
 
     fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
 

@@ -5,7 +5,9 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.forEach
+import ir.mahdiparastesh.sexbook.R
 
 typealias Act = HashMap<Int, (item: MenuItem) -> Unit>
 
@@ -32,7 +34,8 @@ class MaterialMenu(val c: BaseActivity, v: View, res: Int, actions: Act) :
             title = SpannableString(title).apply {
                 setSpan(
                     CustomTypefaceSpan(
-                        c.font1, c.dm.density * 15.5f, null
+                        ResourcesCompat.getFont(c, R.font.normal)!!,
+                        c.dm.density * 15.5f, null
                     ), 0, length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
                 )
             }

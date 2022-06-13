@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -25,7 +26,6 @@ import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Jalali
 import ir.mahdiparastesh.sexbook.more.MessageInbox
-import ir.mahdiparastesh.sexbook.more.SpinnerAdap
 import java.util.*
 
 class PageSex : Fragment() {
@@ -146,7 +146,8 @@ class PageSex : Fragment() {
             val titles = ArrayList<String>().apply {
                 for (f in filters!!.indices) add("${f + 1}. ${filters!![f].title(c)}")
             }
-            b.spnFilter.adapter = SpinnerAdap(c, titles)
+            b.spnFilter.adapter = ArrayAdapter(c, R.layout.spinner, titles)
+                .apply { setDropDownViewResource(R.layout.spinner_dd) }
             spnFilterTouched = false
             b.spnFilter.setSelection(listFilter, true)
         }
@@ -158,7 +159,7 @@ class PageSex : Fragment() {
         for (r in reports.indices) {
             val lm = reports[r].time.calendar()
             var ym = arrayOf(lm[Calendar.YEAR], lm[Calendar.MONTH])
-            if (c.calType() == Fun.CalendarType.JALALI)
+            if (c.calType() == Fun.CalendarType.PERSIAN)
                 Jalali(lm).apply { ym = arrayOf(Y, M) }
             var filterExists = false
             for (f in filters.indices) if (filters[f].year == ym[0] && filters[f].month == ym[1]) {

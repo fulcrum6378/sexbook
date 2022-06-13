@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -28,6 +29,7 @@
             android:paddingBottom="17dp"
             android:textColorHint="@color/searchHint"
             android:textIsSelectable="true"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            app:fontFamily="@font/normal" />
     </LinearLayout>
 </ScrollView>

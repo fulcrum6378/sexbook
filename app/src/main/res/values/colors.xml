@@ -4,54 +4,45 @@
     <color name="CPD">#D6AD00</color>
     <color name="CPDD">#9A7C00</color>
     <color name="CA">@color/CP3</color>
-    <color name="CP2">@color/white</color>
+    <color name="CP2">@android:color/white</color>
     <color name="CP3">#656D78</color>
     <color name="CP_LIGHT">#FFD422</color>
-    <color name="CP_WEAK">#AF9A7C00</color>
 
     <!-- GLOBAL -->
     <color name="shadow_1">#55000000</color>
-    <color name="white">#FFF</color>
-    <color name="black">#000</color>
-    <color name="adBG">#FFF</color>
-    <!--<string name="anyChartBG">#FFFFFF</string>-->
-    <string name="anyChartADBG">#FFFFFF</string>
     <color name="transformer">@color/CPD</color>
+    <color name="divider">#D4D8DD</color>
+    <color name="ripple">@color/CP</color>
+    <color name="yellowRipple">@color/CPD</color>
 
     <!-- Main -->
     <color name="toolbar">@color/CP</color>
     <color name="tbTitle">@color/CPDD</color>
     <color name="load">@color/CP</color>
+    <color name="navItems">#574600</color>
+    <color name="navRipple">#669A7C00</color>
     <color name="mrvBG">@color/CP</color>
     <color name="mrvDate">@color/CPDD</color>
     <color name="mrvNotes">@color/CPDD</color>
-    <color name="mrvNotesHint">@color/CP_WEAK</color>
+    <color name="mrvNotesHint">#AF9A7C00</color>
     <color name="mrvClock">@color/CP2</color>
     <color name="mrvClockPoint">@color/CPDD</color>
     <color name="mrvClockHand">@color/CP</color>
     <color name="mrvAMPM">@color/CPDD</color>
     <color name="mrvPopupButtons">@color/CA</color>
     <color name="spnFilterMark">@color/CPDD</color>
-    <color name="spnFilterBGPressed">@color/CPDD</color>
-    <color name="spnFilterBG">@color/CP</color>
-    <color name="spnFilterTV">@color/CPDD</color>
-    <color name="spnFilterDDTV">@color/CPDD</color>
     <color name="spnFilterDDBG">@color/CP2</color>
-    <color name="recency">@color/black</color>
+    <color name="recency">@android:color/black</color>
     <color name="recencySearch">@color/CPD</color>
-    <color name="recencyDiv">#EFEFEF</color>
     <color name="chipNormalNormal">#DDD</color>
     <color name="chipNormalFocus">@color/chipNormalHover</color>
     <color name="chipNormalHover">#AFAFAF</color>
     <color name="chipSearchNormal">@color/CP</color>
     <color name="chipSearchFocus">@color/CPD</color>
     <color name="chipSearchHover">@color/CPD</color>
-    <color name="chipText">@color/black</color>
+    <color name="chipText">@android:color/black</color>
     <color name="searchHint">@color/CP3</color>
     <color name="empty">@color/shadow_1</color>
-
-    <!-- Singular-->
-    <color name="identifySep">#D4D8DD</color>
 
     <!-- Settings -->
     <color name="stItemTV">@color/mrvNotes</color>

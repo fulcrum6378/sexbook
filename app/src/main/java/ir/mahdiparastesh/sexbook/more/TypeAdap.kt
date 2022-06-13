@@ -33,7 +33,6 @@ class TypeAdap(
             icon.setImageResource(types[i].icon)
             icon.colorFilter = c.pdcf(R.color.mrvNotes)
             name.text = types[i].name
-            name.typeface = c.font1
         }.root
 
     data class Type(val name: String, val icon: Int)

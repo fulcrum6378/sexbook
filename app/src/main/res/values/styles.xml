@@ -27,7 +27,7 @@
         <item name="popupTheme">@style/Widget.MaterialComponents.PopupMenu</item>
         <item name="titleMarginStart">0dp</item>
         <item name="titleTextColor">@color/tbTitle</item>
-        <item name="titleTextAppearance">@style/SexTheme.Toolbar</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Sexbook.Toolbar</item>
     </style>
 
     <style name="tbShadow" parent="shadow_1">
@@ -40,7 +40,7 @@
         <item name="android:layout_width">65dp</item>
         <item name="android:layout_height">65dp</item>
         <item name="android:layout_margin">15dp</item>
-        <item name="android:background">@drawable/button_1</item>
+        <item name="android:background">@drawable/button</item>
         <item name="android:elevation">2dp</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
@@ -67,6 +67,19 @@
         <item name="android:textColor">@color/mrvNotes</item>
         <item name="android:textColorHint">@color/mrvNotesHint</item>
         <item name="android:textSize">@dimen/descFont</item>
+        <item name="fontFamily">@font/normal</item>
+    </style>
+
+
+    <!-- #TextAppearance -->
+    <style name="TextAppearance.Sexbook.Toolbar" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/tbTitle</item>
+        <item name="fontFamily">@font/bold</item>
+    </style>
+
+    <style name="TextAppearance.Fortuna.Navigation" parent="@android:style/TextAppearance">
+        <item name="fontFamily">@font/normal</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
 
@@ -87,6 +100,7 @@
         <item name="android:textSize">18sp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
+        <item name="fontFamily">@font/normal</item>
     </style>
 
     <style name="identifyET" parent="identifyField">
@@ -97,14 +111,14 @@
     </style>
 
     <style name="identifyButton" parent="identifyField">
-        <item name="android:background">@drawable/button_3</item>
+        <item name="android:background">@drawable/button_mask</item>
         <item name="android:textAlignment">center</item>
     </style>
 
     <style name="identifySep">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/identifySep</item>
+        <item name="android:background">@color/divider</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
     </style>
@@ -166,6 +180,7 @@
         <item name="layout_constraintBottom_toBottomOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="buttonTint">@color/stItemTV</item>
+        <item name="fontFamily">@font/normal</item>
     </style>
 
     <style name="stItemTweak">

@@ -3,16 +3,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion '32' // If you delete this line, the default version will be used.
+    compileSdkVersion 32
+    buildToolsVersion '33.0.0'
 
     defaultConfig {
         applicationId 'ir.mahdiparastesh.sexbook'
         minSdkVersion 21
-        //noinspection OldTargetApi
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 11
-        versionName '10.6.3'
+        versionName '10.9.5'
     }
 
     signingConfigs {

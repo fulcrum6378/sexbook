@@ -2,10 +2,6 @@
 <resources>
     <string name="app_name">سکسبوک</string>
 
-    <!-- FONTS -->
-    <string name="font1">vazir_medium.ttf</string>
-    <string name="font1Bold">vazir_bold.ttf</string>
-
     <!-- GLOBAL -->
     <string name="sOpen">بازکردن</string>
     <string name="close">بستن</string>

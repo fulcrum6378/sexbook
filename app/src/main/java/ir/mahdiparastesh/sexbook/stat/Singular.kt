@@ -4,15 +4,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.forEach
-import androidx.core.view.get
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
-import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -93,7 +88,7 @@ class Singular : BaseActivity() {
             } else for (h in mOnani) if (h.time < oldest) oldest = h.time
             val beg = oldest.calendar()
             val list = arrayListOf<String>()
-            if (c.calType() != Fun.CalendarType.JALALI) {
+            if (c.calType() != Fun.CalendarType.PERSIAN) {
                 val yDist = now[Calendar.YEAR] - beg[Calendar.YEAR]
                 for (y in 0 until (yDist + 1)) {
                     var start = 0
@@ -128,14 +123,14 @@ class Singular : BaseActivity() {
             var value = 0f
             val split = month.split(" ")
             val months = when (c.calType()) {
-                Fun.CalendarType.JALALI -> c.resources.getStringArray(R.array.jMonths)
+                Fun.CalendarType.PERSIAN -> c.resources.getStringArray(R.array.jMonths)
                 else -> DateFormatSymbols().shortMonths
             }
             for (i in list) {
                 var lm = i.time.calendar()
                 var yea: Int
                 var mon: Int
-                if (c.calType() == Fun.CalendarType.JALALI) Jalali(lm).apply {
+                if (c.calType() == Fun.CalendarType.PERSIAN) Jalali(lm).apply {
                     yea = Y
                     mon = M
                 } else {
@@ -152,13 +147,6 @@ class Singular : BaseActivity() {
 
         fun identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
             val bi = IdentifyBinding.inflate(c.layoutInflater, null, false)
-
-            // Fonts
-            for (l in 0 until bi.ll.childCount) when (bi.ll[l]) {
-                is TextView -> (bi.ll[l] as TextView).typeface = c.font1
-                is LinearLayout -> (bi.ll[l] as LinearLayout)
-                    .forEach { if (it is TextView) it.typeface = c.font1 }
-            }
 
             // Default Values
             var isBirthSet = false
@@ -233,10 +221,10 @@ class Singular : BaseActivity() {
                             ad1.dismiss()
                         }
                         setNegativeButton(R.string.no, null)
-                    }.show().stylise(c)
+                    }.show()
                 }
                 setCancelable(true)
-            }.show().stylise(c)
+            }.show()
         }
     }
 

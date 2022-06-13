@@ -30,7 +30,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItem">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/stItemTV"
                     android:text="@string/stCalendarType" />
 
@@ -51,10 +51,11 @@
                     android:saveEnabled="false"
                     android:text="@string/stStatSince" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/stStatSinceDate"
                     style="@style/stItemTV"
                     android:layout_marginEnd="5sp"
+                    app:fontFamily="@font/normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@null" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -63,7 +64,7 @@
                 android:id="@+id/stReset"
                 style="@style/stItem">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/stItemTV"
                     android:text="@string/stReset" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -72,7 +73,7 @@
                 android:id="@+id/stTruncate"
                 style="@style/stItem">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/stItemTV"
                     android:text="@string/stTruncate" />
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,8 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
@@ -45,14 +46,13 @@ class SumChips : Fragment() {
                 }
             }
         })
-        b.find.typeface = c.font1
         if (c.m.summary.value == null) return
         for (r in c.m.summary.value!!.results().calculations) b.ll.addView(
             ChipGroup(c, null, 0).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                 )
-                addView(TextView(c).apply {
+                addView(AppCompatTextView(c).apply {
                     layoutParams = ChipGroup.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                     )
@@ -61,7 +61,7 @@ class SumChips : Fragment() {
                     else r.key.toInt().toString()).plus(": ")
                     setTextColor(c.color(R.color.recency))
                     textSize = c.dm.density * 5
-                    typeface = c.font1
+                    typeface = ResourcesCompat.getFont(c, R.font.normal)!!
                 })
                 for (crush in r.value) addView(
                     Chip(c, null, 0).apply {
@@ -76,7 +76,7 @@ class SumChips : Fragment() {
                             c.m.crush = crush
                             startActivity(Intent(c, Singular::class.java))
                         }
-                        typeface = c.font1
+                        typeface = ResourcesCompat.getFont(c, R.font.normal)!!
                     })
             })
         c.m.summary.value?.nExcluded?.also {
@@ -90,13 +90,13 @@ class SumChips : Fragment() {
         }
     }
 
-    fun plus(s: String) = TextView(c).apply {
+    fun plus(s: String) = AppCompatTextView(c).apply {
         layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
         setPadding(0, c.dp(7), 0, 0)
         text = s
         setTextColor(c.color(R.color.searchHint))
-        typeface = c.font1
+        typeface = ResourcesCompat.getFont(c, R.font.normal)!!
     }
 }

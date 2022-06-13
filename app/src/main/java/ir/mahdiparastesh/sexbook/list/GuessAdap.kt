@@ -6,13 +6,13 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Estimation
 import ir.mahdiparastesh.sexbook.Fun.Companion.defCalendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
 import ir.mahdiparastesh.sexbook.Fun.Companion.now
-import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
@@ -35,8 +35,9 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         // Place
         b.placeMark.setColorFilter(c.color(R.color.spnFilterMark))
         places?.let { l ->
-            b.place.adapter = SpinnerAdap(c,
+            b.place.adapter = ArrayAdapter(c, R.layout.spinner,
                 ArrayList(l.map { it.name }).apply { add(0, "") })
+                .apply { setDropDownViewResource(R.layout.spinner_dd) }
         }
 
         return AnyViewHolder(b)
@@ -166,7 +167,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                         }
                         setNegativeButton(R.string.no, null)
                         setCancelable(true)
-                    }.show().stylise(c)
+                    }.show()
                 }
             }).show()
             true

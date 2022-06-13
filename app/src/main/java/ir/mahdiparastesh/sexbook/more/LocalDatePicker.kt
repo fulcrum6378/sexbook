@@ -16,7 +16,7 @@ class LocalDatePicker(
     listener: (view: DialogFragment, time: Long) -> Unit
 ) {
     init {
-        if (c.calType() == CalendarType.JALALI) {
+        if (c.calType() == CalendarType.PERSIAN) {
             val jal = Jalali(default)
             // Repaired version of https://github.com/mohamad-amin/PersianMaterialDateTimePicker
             ir.mahdiparastesh.sexbook.mdtp.jdate.DatePickerDialog.newInstance(

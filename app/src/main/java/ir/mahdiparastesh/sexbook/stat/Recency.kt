@@ -50,18 +50,13 @@ class Recency(sum: Summary) {
                 }
             }
         })
-        find.typeface = c.font1
 
         for (r in 0 until res.size) ll.addView(
             RecencyBinding.inflate(c.layoutInflater).apply {
-                name.apply {
-                    text = "${r + 1}. ${res[r].name}"
-                    typeface = c.font1
-                }
+                name.text = "${r + 1}. ${res[r].name}"
                 val lm = res[r].time.calendar()
                 date.text = "${lm.fullDate(c)} - " +
                         "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
-                date.typeface = c.font1
                 if (r == res.size - 1) root.removeViewAt(2)
                 root.setOnClickListener {
                     if (!c.summarize()) return@setOnClickListener

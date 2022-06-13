@@ -13,7 +13,7 @@
     android:paddingEnd="@dimen/itemPadH"
     android:paddingBottom="@dimen/itemPadV">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -23,18 +23,18 @@
         android:maxLines="5"
         android:textColor="@color/mrvDate"
         android:textSize="@dimen/crushNameFont"
-        android:textStyle="bold"
+        app:fontFamily="@font/bold"
         app:layout_constraintEnd_toStartOf="@id/sum"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/sum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/mrvNotes"
         android:textSize="16sp"
-        android:textStyle="bold"
+        app:fontFamily="@font/bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

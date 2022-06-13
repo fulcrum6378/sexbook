@@ -19,7 +19,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -28,14 +27,12 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.Fun.Companion.isReady
-import ir.mahdiparastesh.sexbook.Fun.Companion.stylise
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Delay
-import ir.mahdiparastesh.sexbook.more.MaterialMenu.Companion.stylise
 import ir.mahdiparastesh.sexbook.stat.*
 import java.util.*
 import kotlin.math.abs
@@ -52,7 +49,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         const val NOTIFY_MAX_DISTANCE = 3
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
         var handler: Handler? = null
-        @JvmStatic var jdtpArabicNumbers = true
+        @JvmStatic
+        var jdtpArabicNumbers = true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,9 +106,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             isDrawerIndicatorEnabled = true
             syncState()
         }
-        b.toolbar.navigationIcon?.colorFilter = pdcf()
         b.nav.setNavigationItemSelectedListener(this)
-        b.nav.menu.forEach { it.stylise(this@Main) }
+        b.toolbar.navigationIcon?.colorFilter = pdcf()
 
         // Pager
         b.pager.adapter = object : FragmentStateAdapter(this) {
@@ -177,12 +174,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         super.onCreateOptionsMenu(menu)
         b.toolbar.inflateMenu(R.menu.main_tlb)
         b.toolbar.setOnMenuItemClickListener(this)
-        b.toolbar.menu.forEach { it.icon?.colorFilter = pdcf() }
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        b.toolbar.menu.forEach { it.stylise(this) }
         return true
     }
 
@@ -216,8 +211,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     private fun Intent.check() {
         when (action) {
-            Intent.ACTION_VIEW -> if (data != null)
-                Exporter.import(this@Main, intent.data!!)
+            Intent.ACTION_VIEW -> data?.also { Exporter.import(this@Main, it) }
             Action.ADD.s -> PageSex.messages.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> {
                 m.reset()
@@ -261,7 +255,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             setCancelable(true)
             setOnDismissListener { m.showingSummary = false }
             m.showingSummary = true
-        }.show().stylise(this)
+        }.show()
     }
 
     private fun recency() {
@@ -274,7 +268,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 setCancelable(true)
                 setOnDismissListener { m.showingRecency = false }
                 m.showingRecency = true
-            }.show().stylise(this)
+            }.show()
         }
     }
 
