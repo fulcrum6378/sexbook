@@ -148,8 +148,7 @@ public class Utils {
     }
 
     public static Typeface mdtpFont(Context c, boolean bold) {
-        return bold ? ResourcesCompat.getFont(c, R.font.bold)
-                : ResourcesCompat.getFont(c, R.font.normal);
+        return ResourcesCompat.getFont(c, bold ? R.font.bold : R.font.normal);
     }
 
     public static Typeface mdtpAmPmFont(Context c) {

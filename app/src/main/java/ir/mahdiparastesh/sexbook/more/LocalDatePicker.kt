@@ -47,8 +47,8 @@ class LocalDatePicker(
             isThemeDark = c.night()
             version = DatePickerDialog.Version.VERSION_1
             accentColor = c.color(R.color.CP)
-            setOkColor(c.color(R.color.mrvPopupButtons))
-            setCancelColor(c.color(R.color.mrvPopupButtons))
+            setOkColor(c.color(R.color.dialogText))
+            setCancelColor(c.color(R.color.dialogText))
             setOnDismissListener(dismissal)
             show(c.supportFragmentManager, tag)
         }

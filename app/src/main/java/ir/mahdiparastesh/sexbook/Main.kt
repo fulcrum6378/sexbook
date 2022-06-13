@@ -49,6 +49,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         const val NOTIFY_MAX_DISTANCE = 3
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
         var handler: Handler? = null
+
         @JvmStatic
         var jdtpArabicNumbers = true
     }
@@ -177,10 +178,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         return true
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        return true
-    }
-
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
@@ -239,14 +236,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private fun summary() {
         if (summarize()) AlertDialog.Builder(this).apply {
             setTitle("${getString(R.string.momSum)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})")
-            setView(ConstraintLayout(c).apply {
-                addView(ViewPager2(c).apply {
+            setView(ConstraintLayout(this@Main).apply {
+                addView(ViewPager2(this@Main).apply {
                     layoutParams = ViewGroup.LayoutParams(-1, -1)
                     adapter = SumAdapter(this@Main)
                 })
                 // The below EditText improves the EditText focus issue when you put
                 // a Fragment inside a Dialog with a ViewPager in the middle!
-                addView(EditText(c).apply {
+                addView(EditText(this@Main).apply {
                     layoutParams = ViewGroup.LayoutParams(-1, -2)
                     visibility = View.GONE
                 })

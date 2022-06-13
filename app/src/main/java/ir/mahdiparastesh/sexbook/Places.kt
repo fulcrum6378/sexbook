@@ -44,7 +44,7 @@ class Places : BaseActivity() {
                             m.places.value!!.add(msg.obj as Place)
                             b.list.adapter!!.notifyItemInserted(m.places.value!!.size - 1)
                             adding = false
-                            b.add.explode(c)
+                            b.add.explode(this@Places)
                         }
                     }
                     Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>).apply {
@@ -91,7 +91,7 @@ class Places : BaseActivity() {
         }
 
         // Miscellaneous
-        if (night()) b.addIV.colorFilter = pdcf(R.color.CPD)
+        if (night()) b.addIV.colorFilter = pdcf()
 
         Work(c, Work.P_VIEW_ALL).start()
     }

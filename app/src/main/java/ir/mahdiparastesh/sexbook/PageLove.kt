@@ -13,19 +13,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import ir.mahdiparastesh.sexbook.Fun.Companion.isReady
 import ir.mahdiparastesh.sexbook.Fun.Companion.vis
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
+import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 
 class PageLove : Fragment() {
-    val c: Main by lazy { activity as Main }
-    // If you use "get()", when you open the app and go to PageLove, then come back
-    // and go picture-in-picture, it crashes.
+    val c: Main by lazy { activity as Main } // don't define it as a getter.
     private lateinit var b: PageLoveBinding
-    private lateinit var adBanner: AdView
+    private var adBanner: AdView? = null
 
     companion object {
         var handler = MutableLiveData<Handler?>(null)
@@ -33,8 +33,12 @@ class PageLove : Fragment() {
         var changed = false
     }
 
-    override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
-        b = PageLoveBinding.inflate(layoutInflater, parent, false)
+    override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
+        PageLoveBinding.inflate(layoutInflater, parent, false).apply { b = this }.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (BaseActivity.adsInitStatus?.isReady() == true) loadAd()
 
         // Handler
         handler.value = object : Handler(Looper.getMainLooper()) {
@@ -52,13 +56,7 @@ class PageLove : Fragment() {
                             b.rv.adapter?.notifyItemRemoved(it)
                             b.rv.adapter?.notifyItemRangeChanged(it, b.rv.adapter!!.itemCount - it)
                         }
-                    Work.ADMOB_LOADED -> {
-                        adBanner = Fun.adaptiveBanner(c, "ca-app-pub-9457309151954418/4204909055")
-                        b.root.addView(adBanner, Fun.adaptiveBannerLp())
-                        adBanner.loadAd(AdRequest.Builder().build())
-                        b.rv.layoutParams = (b.rv.layoutParams as ConstraintLayout.LayoutParams)
-                            .apply { bottomToTop = R.id.adBanner }
-                    }
+                    Work.ADMOB_LOADED -> loadAd()
                 }
             }
         }
@@ -66,7 +64,6 @@ class PageLove : Fragment() {
 
         if (c.m.liefde.value == null) Work(c, Work.C_VIEW_ALL).start()
         else receivedData()
-        return b.root
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -85,5 +82,14 @@ class PageLove : Fragment() {
     private fun arrangeList() {
         if (b.empty.vis(c.m.liefde.value.isNullOrEmpty())) return
         b.rv.adapter = CrushAdap(c)
+    }
+
+    private fun loadAd() {
+        if (adBanner != null) return
+        adBanner = Fun.adaptiveBanner(c, "ca-app-pub-9457309151954418/4204909055")
+        b.root.addView(adBanner, Fun.adaptiveBannerLp())
+        adBanner?.loadAd(AdRequest.Builder().build())
+        b.rv.layoutParams = (b.rv.layoutParams as ConstraintLayout.LayoutParams)
+            .apply { bottomToTop = R.id.adBanner }
     }
 }

@@ -1,9 +1,11 @@
 package ir.mahdiparastesh.sexbook.stat
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,65 +40,71 @@ class SumChips : Fragment() {
                     if (b.ll[i] !is ChipGroup) continue
                     val cg = b.ll[i] as ChipGroup
                     for (y in 1 until cg.childCount) (cg[y] as Chip).apply {
+                        val bb = ss != "" && text.toString().contains(ss, true)
                         chipBackgroundColor = AppCompatResources.getColorStateList(
-                            c.c, if (ss != "" && text.toString().contains(ss, true))
-                                R.color.chip_search else R.color.chip_normal
+                            c, if (bb) R.color.chip_search else R.color.chip_normal
                         )
+                        setTextColor(c.color(if (bb) android.R.color.white else R.color.chipText))
                     }
                 }
             }
         })
         if (c.m.summary.value == null) return
         for (r in c.m.summary.value!!.results().calculations) b.ll.addView(
-            ChipGroup(c, null, 0).apply {
+            ChipGroup(b.ll.context).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                 )
-                addView(AppCompatTextView(c).apply {
+                addView(AppCompatTextView(context).apply {
                     layoutParams = ChipGroup.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                     )
                     setPadding(0, c.dp(12), 0, 0)
                     text = (if (r.key % 1 > 0) r.key.toString()
                     else r.key.toInt().toString()).plus(": ")
-                    setTextColor(c.color(R.color.recency))
                     textSize = c.dm.density * 5
                     typeface = ResourcesCompat.getFont(c, R.font.normal)!!
                 })
                 for (crush in r.value) addView(
-                    Chip(c, null, 0).apply {
+                    Chip(ContextThemeWrapper(c.c, R.style.Theme_MaterialComponents)).apply {
                         layoutParams = ChipGroup.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                         )
                         text = crush
-                        setTextColor(c.color(R.color.chipText))
                         chipBackgroundColor =
                             AppCompatResources.getColorStateList(c, R.color.chip_normal)
                         setOnClickListener {
                             c.m.crush = crush
                             startActivity(Intent(c, Singular::class.java))
                         }
+                        setTextColor(c.color(R.color.chipText))
                         typeface = ResourcesCompat.getFont(c, R.font.normal)!!
                     })
             })
         c.m.summary.value?.nExcluded?.also {
-            if (it > 0f) b.ll.addView(plus(getString(R.string.excStat, it.toString())))
+            if (it > 0f) b.ll.addView(
+                plus(b.ll.context, getString(R.string.excStat, it.toString()))
+            )
         }
         c.m.summary.value?.unknown?.also {
-            if (it > 0f) b.ll.addView(plus(getString(R.string.unknown, it.toString())))
+            if (it > 0f) b.ll.addView(
+                plus(b.ll.context, getString(R.string.unknown, it.toString()))
+            )
         }
         c.m.summary.value?.nEstimated?.also {
-            if (it > 0f) b.ll.addView(plus(getString(R.string.estimated, it.toString())))
+            if (it > 0f) b.ll.addView(
+                plus(b.ll.context, getString(R.string.estimated, it.toString()))
+            )
         }
     }
 
-    fun plus(s: String) = AppCompatTextView(c).apply {
+    fun plus(c: Context, s: String) = AppCompatTextView(c).apply {
         layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        setPadding(0, c.dp(7), 0, 0)
+        setPadding(0, this@SumChips.c.dp(7), 0, 0)
         text = s
-        setTextColor(c.color(R.color.searchHint))
+        alpha = .8f
         typeface = ResourcesCompat.getFont(c, R.font.normal)!!
     }
 }

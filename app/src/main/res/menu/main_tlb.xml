@@ -5,6 +5,6 @@
         android:id="@+id/mtCrush"
         android:icon="@drawable/crush"
         android:title="@string/crushes"
-        app:iconTint="@color/tbTitle"
+        app:iconTint="?android:attr/textColor"
         app:showAsAction="always" />
 </menu>

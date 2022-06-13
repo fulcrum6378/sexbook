@@ -8,21 +8,21 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.appcompat.widget.AppCompatEditText
 
 class SoftEditText(
-    c: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int
-) : AppCompatEditText(c, attrs, defStyleAttr) {
-    constructor(c: Context, attrs: AttributeSet?) : this(c, attrs, R.attr.editTextStyle)
-    constructor(c: Context) : this(c, null, R.attr.editTextStyle)
+    context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int
+) : AppCompatEditText(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, R.attr.editTextStyle)
+    constructor(context: Context) : this(context, null)
 
     override fun isTextSelectable(): Boolean = false
 }
 
 class SoftAutoCompleteTextView(
-    c: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int
-) : AppCompatAutoCompleteTextView(c, attrs, defStyleAttr) {
-    constructor(c: Context, attrs: AttributeSet?) :
-            this(c, attrs, R.attr.autoCompleteTextViewStyle)
+    context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int
+) : AppCompatAutoCompleteTextView(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?) :
+            this(context, attrs, R.attr.autoCompleteTextViewStyle)
 
-    constructor(c: Context) : this(c, null, R.attr.autoCompleteTextViewStyle)
+    constructor(context: Context) : this(context, null)
 
     override fun isTextSelectable(): Boolean = false
 }

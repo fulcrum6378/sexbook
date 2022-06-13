@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="20dp"
-    android:paddingBottom="20dp">
+    android:paddingBottom="20dp"
+    android:theme="@style/Theme.Sexbook.Dialogue.Layout">
 
     <LinearLayout
         android:id="@+id/ll"
@@ -71,7 +72,8 @@
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/masc"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:theme="@style/Theme.Sexbook.Switch.Dialogue" />
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -133,6 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
-            android:text="@string/notifyBirth" />
+            android:text="@string/notifyBirth"
+            android:theme="@style/Theme.Sexbook.Switch.Dialogue" />
     </LinearLayout>
 </ScrollView>

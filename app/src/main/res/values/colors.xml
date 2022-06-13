@@ -3,33 +3,30 @@
     <color name="CP">#FFD422</color>
     <color name="CPD">#D6AD00</color>
     <color name="CPDD">#9A7C00</color>
-    <color name="CA">@color/CP3</color>
+    <color name="CPDDD">#6F5900</color>
     <color name="CP2">@android:color/white</color>
     <color name="CP3">#656D78</color>
     <color name="CP_LIGHT">#FFD422</color>
 
     <!-- GLOBAL -->
-    <color name="shadow_1">#55000000</color>
+    <color name="shadow">#55000000</color>
     <color name="transformer">@color/CPD</color>
-    <color name="divider">#D4D8DD</color>
+    <color name="divider">#E7E8EB</color>
     <color name="ripple">@color/CP</color>
     <color name="yellowRipple">@color/CPD</color>
+    <color name="dialogText">@color/CPDDD</color>
+    <color name="hint">#AF9A7C00</color>
+    <color name="dialogHint">#AF6F5900</color>
 
     <!-- Main -->
     <color name="toolbar">@color/CP</color>
-    <color name="tbTitle">@color/CPDD</color>
     <color name="load">@color/CP</color>
     <color name="navItems">#574600</color>
     <color name="navRipple">#669A7C00</color>
     <color name="mrvBG">@color/CP</color>
-    <color name="mrvDate">@color/CPDD</color>
-    <color name="mrvNotes">@color/CPDD</color>
-    <color name="mrvNotesHint">#AF9A7C00</color>
     <color name="mrvClock">@color/CP2</color>
     <color name="mrvClockPoint">@color/CPDD</color>
     <color name="mrvClockHand">@color/CP</color>
-    <color name="mrvAMPM">@color/CPDD</color>
-    <color name="mrvPopupButtons">@color/CA</color>
     <color name="spnFilterMark">@color/CPDD</color>
     <color name="spnFilterDDBG">@color/CP2</color>
     <color name="recency">@android:color/black</color>
@@ -40,12 +37,9 @@
     <color name="chipSearchNormal">@color/CP</color>
     <color name="chipSearchFocus">@color/CPD</color>
     <color name="chipSearchHover">@color/CPD</color>
-    <color name="chipText">@android:color/black</color>
+    <color name="chipText">@color/CPDDD</color>
     <color name="searchHint">@color/CP3</color>
-    <color name="empty">@color/shadow_1</color>
-
-    <!-- Settings -->
-    <color name="stItemTV">@color/mrvNotes</color>
+    <color name="empty">@color/shadow</color>
 
     <!-- MDTP -->
     <color name="mdtp_white">#ffffff</color>

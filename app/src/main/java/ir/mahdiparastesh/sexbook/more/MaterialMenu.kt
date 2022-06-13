@@ -1,18 +1,15 @@
 package ir.mahdiparastesh.sexbook.more
 
-import android.text.SpannableString
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.forEach
 import ir.mahdiparastesh.sexbook.R
 
 typealias Act = HashMap<Int, (item: MenuItem) -> Unit>
 
 class MaterialMenu(val c: BaseActivity, v: View, res: Int, actions: Act) :
-    PopupMenu(ContextThemeWrapper(c, c.theme), v) {
+    PopupMenu(ContextThemeWrapper(c, R.style.Theme_Sexbook_Popup), v) {
     init {
         setOnMenuItemClickListener {
             if (it.itemId in actions) {
@@ -21,24 +18,5 @@ class MaterialMenu(val c: BaseActivity, v: View, res: Int, actions: Act) :
             } else false
         }
         inflate(res)
-    }
-
-    override fun show() {
-        menu.forEach { it.stylise(c) }
-        super.show()
-    }
-
-    companion object {
-        fun MenuItem.stylise(c: BaseActivity) {
-            if (title == null) return
-            title = SpannableString(title).apply {
-                setSpan(
-                    CustomTypefaceSpan(
-                        ResourcesCompat.getFont(c, R.font.normal)!!,
-                        c.dm.density * 15.5f, null
-                    ), 0, length, SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-                )
-            }
-        }
     }
 }

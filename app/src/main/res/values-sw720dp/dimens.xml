@@ -3,9 +3,10 @@
     <dimen name="statusBarSize">24dp</dimen>
     <dimen name="tbTitle">24.5sp</dimen>
     <dimen name="nameFont">18.5sp</dimen>
-    <dimen name="descFont">16sp</dimen>
+    <dimen name="descFont">16.5sp</dimen>
     <dimen name="descPadV">12sp</dimen>
     <dimen name="menuFont">16sp</dimen>
+    <dimen name="adButtonFont">17sp</dimen>
     <dimen name="spnFont">18sp</dimen>
     <dimen name="markSize">14dp</dimen>
     <dimen name="itemMarH">13dp</dimen>
@@ -14,6 +15,7 @@
     <dimen name="itemPadV">20dp</dimen>
 
     <!-- Main-->
+    <dimen name="navFont">16.5sp</dimen>
     <dimen name="reportPadV">16dp</dimen>
     <dimen name="reportPadH">18dp</dimen>
     <dimen name="clockSize">52dp</dimen>

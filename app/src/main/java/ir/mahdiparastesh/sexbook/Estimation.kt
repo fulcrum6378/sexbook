@@ -43,7 +43,7 @@ class Estimation : BaseActivity() {
                             m.guesses.value!!.add(msg.obj as Guess)
                             b.list.adapter!!.notifyItemInserted(m.guesses.value!!.size - 1)
                             adding = false
-                            b.add.explode(c)
+                            b.add.explode(this@Estimation)
                         }
                     }
                     Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>)
@@ -81,7 +81,7 @@ class Estimation : BaseActivity() {
         }
 
         // Miscellaneous
-        if (night()) b.addIV.colorFilter = pdcf(R.color.CPD)
+        if (night()) b.addIV.colorFilter = pdcf()
 
         Work(c, Work.G_VIEW_ALL).start()
     }

@@ -25,13 +25,13 @@ class TypeAdap(
     override fun getView(i: Int, convertView: View?, parent: ViewGroup): View =
         TypeSelectorBinding.inflate(LayoutInflater.from(parent.context), parent, false).apply {
             root.setImageResource(types[i].icon)
-            root.colorFilter = c.pdcf(R.color.mrvNotes)
+            root.colorFilter = c.pdcf(R.color.CPDD)
         }.root
 
     override fun getDropDownView(i: Int, convertView: View?, parent: ViewGroup): View =
         TypeSelectorDdBinding.inflate(LayoutInflater.from(parent.context), parent, false).apply {
             icon.setImageResource(types[i].icon)
-            icon.colorFilter = c.pdcf(R.color.mrvNotes)
+            icon.colorFilter = c.pdcf(R.color.dialogText)
             name.text = types[i].name
         }.root
 

@@ -34,7 +34,7 @@ class Fun {
         fun now() = Calendar.getInstance().timeInMillis
 
         fun View.explode(
-            c: Context, dur: Long = 522, @DrawableRes src: Int = R.drawable.button,
+            c: BaseActivity, dur: Long = 522, @DrawableRes src: Int = R.drawable.button,
             alpha: Float = 1f, max: Float = 4f
         ) {
             if (parent !is ConstraintLayout) return

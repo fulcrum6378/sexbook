@@ -41,9 +41,12 @@ class PageSex : Fragment() {
         val messages = MessageInbox(handler)
     }
 
+    override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
+        PageSexBinding.inflate(layoutInflater, parent, false).apply { b = this }.root
+
     @SuppressLint("ClickableViewAccessibility")
-    override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
-        b = PageSexBinding.inflate(layoutInflater, parent, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // Handler
         handler.value = object : Handler(Looper.getMainLooper()) {
@@ -122,7 +125,6 @@ class PageSex : Fragment() {
 
         if (c.m.onani.value == null) Work(c, Work.VIEW_ALL).start()
         else receivedData()
-        return b.root
     }
 
     fun receivedData() {

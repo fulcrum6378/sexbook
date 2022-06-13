@@ -3,14 +3,17 @@
     <style name="Theme.Sexbook.Base" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/CP</item>
         <item name="colorPrimaryDark">@color/CPD</item>
-        <item name="colorAccent">@color/CA</item>
+        <item name="colorAccent">@color/CP3</item>
         <item name="android:navigationBarColor" tools:ignore="NewApi">@color/CP</item>
-        <item name="popupMenuStyle">@style/Widget.Material3.PopupMenu</item>
-        <item name="android:contextPopupMenuStyle" tools:ignore="NewApi">
-            @style/Widget.Material3.PopupMenu.ContextMenu
-        </item>
         <item name="android:statusBarColor">@color/CP</item>
         <item name="alertDialogTheme">@style/Theme.Sexbook.Dialogue</item>
+        <item name="android:textColor">@color/CPDD</item>
+        <item name="android:editTextColor">@color/CPDD</item>
+        <item name="android:textColorHint">@color/hint</item>
+        <item name="titleTextColor">@color/CPDD</item>
+        <item name="checkboxStyle">@style/Theme.Sexbook.Checkbox</item>
+        <!--<item name="colorSurface">popup menu color</item>-->
+        <!--<item name="colorControlNormal">@color/CPDD</item>-->
     </style>
 
     <style name="Theme.Sexbook" parent="Theme.Sexbook.Base">
@@ -20,7 +23,38 @@
 
     <style name="Theme.Sexbook.Dialogue" parent="Theme.Material3.DayNight.Dialog.Alert">
         <item name="fontFamily">@font/normal</item>
+        <!-- applying these colours to those elements vary by parent Theme type. -->
+        <item name="android:textColor">@color/dialogText</item><!-- title -->
+        <item name="android:textColorPrimary">@color/dialogText</item><!-- message -->
         <!-- buttons' text colour and their ripple effects -->
-        <item name="colorPrimary">@color/mrvPopupButtons</item>
+        <item name="colorPrimary">@color/dialogText</item>
+        <item name="buttonBarButtonStyle">@style/Theme.Sexbook.Dialogue.Button</item>
+    </style>
+
+    <style name="Theme.Sexbook.Dialogue.Layout" parent="Theme.Sexbook">
+        <item name="android:textColor">@color/dialogText</item>
+        <item name="android:editTextColor">@color/dialogText</item>
+        <item name="android:textColorHint">@color/dialogHint</item>
+    </style>
+
+    <style name="Theme.Sexbook.Dialogue.Button" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textSize">@dimen/adButtonFont</item>
+    </style>
+
+    <style name="Theme.Sexbook.Checkbox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="android:textColor">?android:attr/textColor</item>
+        <item name="buttonTint">?android:attr/textColor</item>
+    </style>
+
+    <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">
+        <item name="android:textColor">@color/CPDDD</item>
+        <item name="colorPrimary">@color/CPD</item>
+        <item name="colorOnSurface">@color/CPDD</item>
+        <item name="switchStyle">@style/Theme.Sexbook.Switch.Dialogue</item>
+    </style>
+
+    <style name="Theme.Sexbook.Popup" parent="Widget.Material3.PopupMenu">
+        <item name="fontFamily">@font/normal</item>
+        <item name="android:textColor">@color/dialogText</item>
     </style>
 </resources>

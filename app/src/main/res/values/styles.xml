@@ -10,7 +10,7 @@
     <style name="shadow_1">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">5dp</item>
-        <item name="android:background">@drawable/shadow_1</item>
+        <item name="android:background">@drawable/shadow</item>
     </style>
 
     <style name="body">
@@ -24,9 +24,7 @@
         <item name="android:layout_height">?actionBarSize</item>
         <item name="android:background">@color/toolbar</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
-        <item name="popupTheme">@style/Widget.MaterialComponents.PopupMenu</item>
         <item name="titleMarginStart">0dp</item>
-        <item name="titleTextColor">@color/tbTitle</item>
         <item name="titleTextAppearance">@style/TextAppearance.Sexbook.Toolbar</item>
     </style>
 
@@ -64,8 +62,6 @@
         <item name="android:paddingTop">@dimen/descPadV</item>
         <item name="android:paddingBottom">@dimen/descPadV</item>
         <item name="android:textIsSelectable">true</item>
-        <item name="android:textColor">@color/mrvNotes</item>
-        <item name="android:textColorHint">@color/mrvNotesHint</item>
         <item name="android:textSize">@dimen/descFont</item>
         <item name="fontFamily">@font/normal</item>
     </style>
@@ -79,7 +75,7 @@
 
     <style name="TextAppearance.Fortuna.Navigation" parent="@android:style/TextAppearance">
         <item name="fontFamily">@font/normal</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">@dimen/navFont</item>
     </style>
 
 
@@ -134,7 +130,6 @@
         <item name="android:paddingTop">7dp</item>
         <item name="android:paddingBottom">7dp</item>
         <item name="android:text">@string/etDateHint</item>
-        <item name="android:textColor">@color/mrvDate</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
@@ -147,7 +142,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAlignment">viewStart</item>
         <item name="android:textSize">@dimen/etDateLabel</item>
-        <item name="android:textColor">@color/mrvNotes</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
     </style>
 
@@ -170,7 +164,6 @@
     <style name="stItemTV">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/stItemTV</item>
         <item name="android:textSize">@dimen/stItemTVFont</item>
         <item name="android:paddingStart">7sp</item>
         <item name="android:paddingEnd">7sp</item>
@@ -179,7 +172,6 @@
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
-        <item name="buttonTint">@color/stItemTV</item>
         <item name="fontFamily">@font/normal</item>
     </style>
 

@@ -25,7 +25,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="7sp"
         android:layout_marginEnd="12sp"
-        android:textColor="@color/mrvNotes"
+        android:textColor="@color/dialogText"
         android:textSize="17sp"
         app:fontFamily="@font/normal" />
 </LinearLayout>

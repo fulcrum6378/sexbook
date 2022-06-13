@@ -57,6 +57,7 @@
         android:layout_gravity="start"
         android:background="@color/CP"
         android:paddingTop="@dimen/statusBarSize"
+        app:itemIconPadding="@dimen/navFont"
         app:itemIconTint="@color/navItems"
         app:itemRippleColor="@color/navRipple"
         app:itemTextAppearance="@style/TextAppearance.Fortuna.Navigation"

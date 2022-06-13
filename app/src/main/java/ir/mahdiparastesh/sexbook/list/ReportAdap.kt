@@ -79,8 +79,8 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 isThemeDark = c.night()
                 version = TimePickerDialog.Version.VERSION_2
                 accentColor = c.color(R.color.CP)
-                setOkColor(c.color(R.color.mrvPopupButtons))
-                setCancelColor(c.color(R.color.mrvPopupButtons))
+                setOkColor(c.color(R.color.dialogText))
+                setCancelColor(c.color(R.color.dialogText))
                 setOnDismissListener { dialogDismissed() }
                 show(c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}")
             }

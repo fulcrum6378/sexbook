@@ -41,8 +41,9 @@ class Settings : BaseActivity() {
         toolbar(b.toolbar, R.string.stTitle)
 
         // Calendar Type
-        b.stCalendarType.adapter = ArrayAdapter(c, R.layout.spinner, calendarTypes.toList())
-            .apply { setDropDownViewResource(R.layout.spinner_dd) }
+        b.stCalendarType.adapter =
+            ArrayAdapter(this@Settings, R.layout.spinner, calendarTypes.toList())
+                .apply { setDropDownViewResource(R.layout.spinner_dd) }
         b.stCalendarType.setSelection(sp.getInt(spCalType, 0))
         b.stCalendarType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}

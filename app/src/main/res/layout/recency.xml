@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:background="@drawable/button_mask"
     android:paddingStart="8dp"
-    android:paddingEnd="8dp">
+    android:paddingEnd="8dp"
+    android:theme="@style/Theme.Sexbook.Dialogue.Layout">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/name"
@@ -14,7 +15,6 @@
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:textAlignment="viewStart"
-        android:textColor="@color/recency"
         android:textSize="14sp"
         app:fontFamily="@font/normal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,7 +28,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textColor="@color/recency"
         android:textSize="12sp"
         app:fontFamily="@font/normal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,6 +39,7 @@
         android:id="@+id/sep"
         android:layout_width="0dp"
         android:layout_height="1dp"
+        android:alpha="0.8"
         android:background="@color/divider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

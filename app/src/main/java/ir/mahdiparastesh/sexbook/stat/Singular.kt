@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.content.res.AppCompatResources
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
@@ -147,6 +148,10 @@ class Singular : BaseActivity() {
 
         fun identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
             val bi = IdentifyBinding.inflate(c.layoutInflater, null, false)
+            AppCompatResources.getColorStateList(c, R.color.chip_normal).also {
+                bi.masc.trackTintList = it
+                bi.notifyBirth.trackTintList = it
+            }
 
             // Default Values
             var isBirthSet = false
