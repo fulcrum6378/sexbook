@@ -33,7 +33,8 @@ class Popularity : BaseActivity() {
         stars.sortWith(Star.Sort())
 
         b.main.lineChartData = LineChartData().setLines(LineFactory(this, stars))
-        b.main.isViewportCalculationEnabled = false
+        b.main.isViewportCalculationEnabled = false // never do it before setLineChatData
+        // it cannot be zoomed out.
     }
 
     class Star(val name: String, val frames: Array<Frame>) {

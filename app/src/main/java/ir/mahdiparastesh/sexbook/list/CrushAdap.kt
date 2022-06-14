@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.list
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.view.ViewGroup
@@ -37,12 +38,15 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
             val ins = cr?.insta
             MaterialMenu(c, v, R.menu.crush, Act().apply {
                 this[R.id.lcInstagram] = {
-                    if (ins != null && ins != "") c.startActivity(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse(INSTA + c.m.liefde.value!![h.layoutPosition].insta)
+                    if (ins != null && ins != "") try {
+                        c.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(INSTA + c.m.liefde.value!![h.layoutPosition].insta)
+                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         )
-                    )
+                    } catch (e: ActivityNotFoundException) {
+                    }
                 }
                 this[R.id.lcIdentify] = {
                     if (cr != null) Singular.identify(c, cr, PageLove.handler.value)
