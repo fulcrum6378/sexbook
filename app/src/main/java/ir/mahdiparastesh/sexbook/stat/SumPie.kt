@@ -15,13 +15,16 @@ class SumPie : Fragment() {
     val c: BaseActivity by lazy { activity as BaseActivity }
     private lateinit var b: SumPieBinding
 
-    override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View {
-        b = SumPieBinding.inflate(layoutInflater, parent, false)
+    override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
+        SumPieBinding.inflate(layoutInflater, parent, false).apply { b = this }.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val data = arrayListOf<SliceValue>()
-        c.m.summary.value!!.scores.entries.sortedBy {
+        c.m.summary.value?.scores?.entries?.sortedBy {
             it.value.sumOf { s -> s.value.toDouble() }.toFloat()
-        }.forEach {
+        }?.forEach {
             data.add(SliceValue(
                 it.value.sumOf { s -> s.value.toDouble() }.toFloat(),
                 c.color(R.color.CPD)
@@ -30,7 +33,5 @@ class SumPie : Fragment() {
         b.root.pieChartData = PieChartData(data).apply {
             setHasLabelsOnlyForSelected(true) //setHasLabels(true)
         }
-
-        return b.root
     }
 }

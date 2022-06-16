@@ -69,7 +69,7 @@
     <string name="momGrw">رشد</string>
     <string name="momRec">اخیریت</string>
     <string name="momImport">وارد کردن از جیسون</string>
-    <string name="momExport">استخراج به جیسون</string>
+    <string name="momExport">استخراج در جیسون</string>
     <string name="momSettings">تنظیمات</string>
     <string name="exportDone">انجام شد!</string>
     <string name="exportUndone">ناموفق!</string>

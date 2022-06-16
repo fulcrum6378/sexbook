@@ -27,7 +27,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
     RecyclerView.Adapter<AnyViewHolder<ItemReportBinding>>(),
     TimePickerDialog.OnTimeSetListener {
 
-    private var clockHeight = c.dp(48)
+    private var clockHeight = c.resources.getDimension(R.dimen.clockSize)
     private var expansion = arExpansion()
     val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
 
@@ -37,7 +37,6 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         val b = ItemReportBinding.inflate(c.layoutInflater, parent, false)
 
         // Date & Time
-        if (b.clock.height != 0) clockHeight = b.clock.height
         val pointHeight = clockHeight * perh(b.point)
         val hourHeight = clockHeight * perh(b.clockHour)
         val minuteHeight = clockHeight * perh(b.clockMin)
