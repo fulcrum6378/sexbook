@@ -157,7 +157,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         when (item.itemId) {
             R.id.momSum -> summary()
             R.id.momPop -> if (summarize())
-                startActivity(Intent(this, Popularity::class.java))
+                startActivity(Intent(this, Adorability::class.java))
             R.id.momGrw -> if (summarize())
                 startActivity(Intent(this, Growth::class.java))
             R.id.momRec -> recency()
@@ -235,7 +235,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     private fun summary() {
         if (summarize()) AlertDialog.Builder(this).apply {
-            setTitle("${getString(R.string.momSum)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})")
+            setTitle("${getString(R.string.summary)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})")
             setView(ConstraintLayout(this@Main).apply {
                 addView(ViewPager2(this@Main).apply {
                     layoutParams = ViewGroup.LayoutParams(-1, -1)
@@ -259,7 +259,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (summarize()) {
             m.recency.value = Recency(m.summary.value!!)
             AlertDialog.Builder(this).apply {
-                setTitle(resources.getString(R.string.momRec))
+                setTitle(resources.getString(R.string.recency))
                 setView(m.recency.value!!.draw(this@Main))
                 setPositiveButton(android.R.string.ok, null)
                 setCancelable(true)

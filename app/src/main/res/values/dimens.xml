@@ -113,5 +113,4 @@
     <dimen name="mdtp_material_button_textsize">14sp</dimen>
     <dimen name="mdtp_material_button_minwidth">64dp</dimen>
     <dimen name="mdtp_material_button_textpadding_horizontal">8dp</dimen>
-    <dimen name="jdtp_selected_date_height">190dp</dimen>
 </resources>

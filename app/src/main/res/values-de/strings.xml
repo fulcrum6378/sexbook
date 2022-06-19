@@ -35,10 +35,6 @@
     <string name="clear">Klar</string>
 
     <!-- Main -->
-    <string name="momSum">Zusammenfassung</string>
-    <string name="momPop">Popularität</string>
-    <string name="momGrw">Wachstum</string>
-    <string name="momRec">Neuheit</string>
     <string name="momImport">Import aus Json</string>
     <string name="momExport">Export nach Json</string>
     <string name="momSend">Senden Sie Json an</string>
@@ -60,7 +56,13 @@
     <!-- Page Love -->
     <string name="crushes">Liste der Crushes</string>
     <string name="emptyLove">Nachdem Sie einige Sexaufzeichnungen hinzugefügt haben, gehen Sie zu Navigationsmenü -> Zusammenfassung -> Schwarm auswählen -> Klicken Sie auf die Schaltfläche oben rechts mit einem Symbol \"Person\" (Identifikation).</string>
-    <string name="lcStatistics">Statistiken</string>
+
+    <!-- #Statistics -->
+    <string name="summary">Zusammenfassung</string>
+    <string name="adorability">Bewunderung</string>
+    <string name="growth">Wachstum</string>
+    <string name="recency">Neuheit</string>
+    <string name="statistics">Statistiken</string>
 
     <!-- Identification -->
     <string name="identify">Identifikation</string>

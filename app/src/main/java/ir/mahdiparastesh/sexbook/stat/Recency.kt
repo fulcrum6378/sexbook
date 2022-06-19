@@ -26,8 +26,7 @@ class Recency(sum: Summary) {
             for (e in erections) if (e.time > mostRecent) mostRecent = e.time
             res.add(Item(name, mostRecent))
         }
-        res.sortBy { it.time }
-        res.reverse()
+        res.sortByDescending { it.time }
     }
 
     @SuppressLint("InflateParams", "SetTextI18n")

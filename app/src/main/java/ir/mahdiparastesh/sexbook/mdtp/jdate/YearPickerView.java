@@ -53,7 +53,7 @@ public class YearPickerView extends ListView implements OnItemClickListener, OnD
         for (int year = mController.getMinYear(); year <= mController.getMaxYear(); year++)
             years.add(String.format(Locale.getDefault(), "%d", year));
         Utils.getPersianNumbers(years);
-        mAdapter = new YearAdapter(c, R.layout.jdtp_year_label_text_view, years);
+        mAdapter = new YearAdapter(c, R.layout.mdtp_year_label_text_view, years);
         setAdapter(mAdapter);
     }
 

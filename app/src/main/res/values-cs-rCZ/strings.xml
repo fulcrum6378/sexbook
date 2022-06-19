@@ -35,10 +35,6 @@
     <string name="clear">Vyčistěte</string>
 
     <!-- Main -->
-    <string name="momSum">Souhrn</string>
-    <string name="momPop">Popularita</string>
-    <string name="momGrw">Růst</string>
-    <string name="momRec">Aktuálnost</string>
     <string name="momImport">Import z Json</string>
     <string name="momExport">Export do Json</string>
     <string name="momSend">Pošlete Json na</string>
@@ -60,7 +56,13 @@
     <!-- Page Love -->
     <string name="crushes">Seznam Crushes</string>
     <string name="emptyLove">Po přidání některých záznamů o sexu přejděte do Navigační nabídky -> Souhrn -> Vybrat zamilovanost -> Stiskněte pravé horní tlačítko s ikonou "Osoba" (Identifikace).</string>
-    <string name="lcStatistics">Statistika</string>
+
+    <!-- #Statistics -->
+    <string name="summary">Souhrn</string>
+    <string name="adorability">Rozkošnost</string>
+    <string name="growth">Růst</string>
+    <string name="recency">Aktuálnost</string>
+    <string name="statistics">Statistika</string>
 
     <!-- Identification -->
     <string name="identify">Identifikace</string>

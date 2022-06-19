@@ -23,13 +23,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Objects;
 
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.mdtp.HapticFeedbackController;
-import ir.mahdiparastesh.sexbook.mdtp.Utils;
 import ir.mahdiparastesh.sexbook.mdtp.PersianCalendar;
+import ir.mahdiparastesh.sexbook.mdtp.Utils;
 
 public class DatePickerDialog extends DialogFragment implements
         OnClickListener, DatePickerController {
@@ -162,14 +164,14 @@ public class DatePickerDialog extends DialogFragment implements
     @Override
     public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) {
         Objects.requireNonNull(getDialog()).getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        View view = inf.inflate(R.layout.jdtp_date_picker_dialog, null);
+        View view = inf.inflate(R.layout.mdtp_date_picker_dialog, null);
         final AppCompatActivity that = (AppCompatActivity) getActivity();
         assert that != null;
-        mMonthAndDayView = view.findViewById(R.id.date_picker_month_and_day);
+        mMonthAndDayView = view.findViewById(R.id.mdtp_date_picker_month_and_day);
         mMonthAndDayView.setOnClickListener(this);
-        mSelectedMonthTextView = view.findViewById(R.id.date_picker_month);
-        mSelectedDayTextView = view.findViewById(R.id.date_picker_day);
-        mYearView = view.findViewById(R.id.date_picker_year);
+        mSelectedMonthTextView = view.findViewById(R.id.mdtp_date_picker_month);
+        mSelectedDayTextView = view.findViewById(R.id.mdtp_date_picker_day);
+        mYearView = view.findViewById(R.id.mdtp_date_picker_year);
 
         Typeface font1 = Utils.mdtpFont(that, false);
         Button okButton = view.findViewById(R.id.mdtp_ok);
@@ -212,7 +214,7 @@ public class DatePickerDialog extends DialogFragment implements
                 : R.color.mdtp_date_picker_view_animator;
         view.setBackgroundColor(ContextCompat.getColor(that, bgColorResource));
 
-        mAnimator = view.findViewById(R.id.animator);
+        mAnimator = view.findViewById(R.id.mdtp_animator);
         mAnimator.addView(mDayPickerView);
         mAnimator.addView(mYearPickerView);
         mAnimator.setDateMillis(mPersianCalendar.getTimeInMillis());
@@ -351,7 +353,8 @@ public class DatePickerDialog extends DialogFragment implements
         return mThemeDark;
     }
 
-    /*public void setFirstDayOfWeek(int startOfWeek) {
+    @SuppressWarnings("unused")
+    public void setFirstDayOfWeek(int startOfWeek) {
         if (startOfWeek < Calendar.SUNDAY || startOfWeek > Calendar.SATURDAY) {
             throw new IllegalArgumentException("Value must be between Calendar.SUNDAY and " +
                     "Calendar.SATURDAY");
@@ -359,64 +362,68 @@ public class DatePickerDialog extends DialogFragment implements
         mWeekStart = startOfWeek;
         if (mDayPickerView != null)
             mDayPickerView.onChange();
-    }*/
+    }
 
-    /*public void setYearRange(int startYear, int endYear) {
+    @SuppressWarnings("unused")
+    public void setYearRange(int startYear, int endYear) {
         if (endYear < startYear) {
             throw new IllegalArgumentException("Year end must be larger than or equal to year start");
         }
 
         mMinYear = startYear;
         mMaxYear = endYear;
-        if (mDayPickerView != null) {
-            mDayPickerView.onChange();
-        }
-    }*/
+        if (mDayPickerView != null) mDayPickerView.onChange();
+    }
 
-    /*public void setMinDate(PersianCalendar calendar) {
+    @SuppressWarnings("unused")
+    public void setMinDate(PersianCalendar calendar) {
         mMinDate = calendar;
         if (mDayPickerView != null) mDayPickerView.onChange();
-    }*/
+    }
 
     @Override
     public PersianCalendar getMinDate() {
         return mMinDate;
     }
 
-    /*public void setMaxDate(PersianCalendar calendar) {
+    @SuppressWarnings("unused")
+    public void setMaxDate(PersianCalendar calendar) {
         mMaxDate = calendar;
 
         if (mDayPickerView != null) mDayPickerView.onChange();
-    }*/
+    }
 
     @Override
     public PersianCalendar getMaxDate() {
         return mMaxDate;
     }
 
-    /*public void setHighlightedDays(PersianCalendar[] highlightedDays) {
+    @SuppressWarnings("unused")
+    public void setHighlightedDays(PersianCalendar[] highlightedDays) {
         Arrays.sort(highlightedDays);
         this.highlightedDays = highlightedDays;
-    }*/
+    }
 
     @Override
     public PersianCalendar[] getHighlightedDays() {
         return highlightedDays;
     }
 
-    /*public void setSelectableDays(PersianCalendar[] selectableDays) {
+    @SuppressWarnings("unused")
+    public void setSelectableDays(PersianCalendar[] selectableDays) {
         Arrays.sort(selectableDays);
         this.selectableDays = selectableDays;
-    }*/
+    }
 
     @Override
     public PersianCalendar[] getSelectableDays() {
         return selectableDays;
     }
 
-    /*public void setOnDateSetListener(OnDateSetListener listener) {
+    @SuppressWarnings("unused")
+    public void setOnDateSetListener(OnDateSetListener listener) {
         mCallBack = listener;
-    }*/
+    }
 
     @SuppressWarnings("unused")
     public void setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
@@ -427,20 +434,22 @@ public class DatePickerDialog extends DialogFragment implements
         mOnDismissListener = onDismissListener;
     }
 
-    //private void adjustDayInMonthIfNeeded(int month, int year) { }
+    @SuppressWarnings("unused")
+    private void adjustDayInMonthIfNeeded(int month, int year) {
+    }
 
     @Override
     public void onClick(View v) {
         tryVibrate();
-        if (v.getId() == R.id.date_picker_year)
+        if (v.getId() == R.id.mdtp_date_picker_year)
             setCurrentView(YEAR_VIEW);
-        else if (v.getId() == R.id.date_picker_month_and_day)
+        else if (v.getId() == R.id.mdtp_date_picker_month_and_day)
             setCurrentView(MONTH_AND_DAY_VIEW);
     }
 
     @Override
     public void onYearSelected(int year) {
-        //adjustDayInMonthIfNeeded(mPersianCalendar.getPersianMonth(), year);
+        adjustDayInMonthIfNeeded(mPersianCalendar.getPersianMonth(), year);
         mPersianCalendar.setPersianDate(year, mPersianCalendar.getPersianMonth(),
                 mPersianCalendar.getPersianDay());
         updatePickers();
@@ -456,9 +465,8 @@ public class DatePickerDialog extends DialogFragment implements
     }
 
     private void updatePickers() {
-        for (OnDateChangedListener listener : mListeners) {
+        for (OnDateChangedListener listener : mListeners)
             listener.onDateChanged();
-        }
     }
 
 

@@ -34,10 +34,6 @@
     <string name="clear">Duidelijk</string>
 
     <!-- Main -->
-    <string name="momSum">Samenvatting</string>
-    <string name="momPop">Populariteit</string>
-    <string name="momGrw">Groei</string>
-    <string name="momRec">Recentheid</string>
     <string name="momImport">Importeren uit Json</string>
     <string name="momExport">Exporteren naar Json</string>
     <string name="momSend">Stuur Json naar</string>
@@ -61,7 +57,13 @@
     <!-- Page Love -->
     <string name="crushes">Lijst met verpletteringen</string>
     <string name="emptyLove">Nadat je wat seksgegevens hebt toegevoegd, ga je naar Navigatiemenu -> Samenvatting -> Selecteer een verliefdheid -> Druk op de rechterbovenhoekknop met een \"Persoon\" (Identificatie)-pictogram.</string>
-    <string name="lcStatistics">Statistieken</string>
+
+    <!-- #Statistics -->
+    <string name="summary">Samenvatting</string>
+    <string name="adorability">Schattigheid</string>
+    <string name="growth">Groei</string>
+    <string name="recency">Recentheid</string>
+    <string name="statistics">Statistieken</string>
 
     <!-- Identification -->
     <string name="identify">Identificatie</string>

@@ -3,18 +3,18 @@ package ir.mahdiparastesh.sexbook.stat
 import android.os.Bundle
 import ir.mahdiparastesh.sexbook.Fun.Companion.randomColor
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.databinding.PopularityBinding
+import ir.mahdiparastesh.sexbook.databinding.AdorabilityBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import lecho.lib.hellocharts.model.Line
 import lecho.lib.hellocharts.model.LineChartData
 import lecho.lib.hellocharts.model.PointValue
 
-class Popularity : BaseActivity() {
-    private lateinit var b: PopularityBinding
+class Adorability : BaseActivity() {
+    private lateinit var b: AdorabilityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        b = PopularityBinding.inflate(layoutInflater)
+        b = AdorabilityBinding.inflate(layoutInflater)
         setContentView(b.root)
         if (night()) window.decorView.setBackgroundColor(color(R.color.CP))
 

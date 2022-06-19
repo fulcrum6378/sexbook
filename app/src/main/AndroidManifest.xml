@@ -70,7 +70,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan|adjustResize" />
 
         <activity
-            android:name=".stat.Popularity"
+            android:name=".stat.Adorability"
             android:exported="false"
             android:launchMode="singleTop" /><!-- android:screenOrientation="landscape" -->
 

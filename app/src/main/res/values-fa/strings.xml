@@ -64,10 +64,6 @@
     <string name="clear">پاکسازی</string>
 
     <!-- Main -->
-    <string name="momSum">خلاصه</string>
-    <string name="momPop">محبوبیت</string>
-    <string name="momGrw">رشد</string>
-    <string name="momRec">اخیریت</string>
     <string name="momImport">وارد کردن از جیسون</string>
     <string name="momExport">استخراج در جیسون</string>
     <string name="momSend">ارسال جیسون به</string>
@@ -89,7 +85,13 @@
     <!-- Page Love -->
     <string name="crushes">لیست کراش ها</string>
     <string name="emptyLove">بعد از اضافه کردن چند رکورد سکس، بروید به منوی اصلی -> خلاصه -> یک کراش انتخاب کنید -> دکمه «دارای عکس آدمک» (شناسایی) را بزنید.</string>
-    <string name="lcStatistics">آمار</string>
+
+    <!-- #Statistics -->
+    <string name="summary">خلاصه</string>
+    <string name="adorability">محبوبیت</string>
+    <string name="growth">رشد</string>
+    <string name="recency">تازگی</string>
+    <string name="statistics">آمار</string>
 
     <!-- Identification -->
     <string name="identify">شناسایی</string>

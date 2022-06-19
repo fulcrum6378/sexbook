@@ -8,13 +8,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/parentConstraint"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingStart="10dp"
         android:paddingTop="20dp"
         android:paddingEnd="10dp"
-        android:paddingBottom="25dp"
+        android:paddingBottom="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <androidx.appcompat.widget.AppCompatTextView

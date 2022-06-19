@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/body"
-    tools:context=".stat.Popularity">
+    tools:context=".stat.Adorability">
 
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/main"
@@ -22,7 +22,7 @@
         android:paddingTop="6sp"
         android:paddingEnd="11sp"
         android:paddingBottom="6sp"
-        android:text="@string/momPop"
+        android:text="@string/adorability"
         android:textSize="18sp"
         app:fontFamily="@font/bold"
         app:layout_constraintEnd_toEndOf="parent"

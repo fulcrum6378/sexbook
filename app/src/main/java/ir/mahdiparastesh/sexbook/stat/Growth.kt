@@ -4,7 +4,7 @@ import android.os.Bundle
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.GrowthBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.stat.Popularity.Star
+import ir.mahdiparastesh.sexbook.stat.Adorability.Star
 import lecho.lib.hellocharts.model.LineChartData
 
 class Growth : BaseActivity() {
@@ -30,6 +30,6 @@ class Growth : BaseActivity() {
         stars.sortWith(Star.Sort(1))
         stars.sortWith(Star.Sort())
 
-        b.main.lineChartData = LineChartData().setLines(Popularity.LineFactory(this, stars))
+        b.main.lineChartData = LineChartData().setLines(Adorability.LineFactory(this, stars))
     }
 }

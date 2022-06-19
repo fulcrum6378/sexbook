@@ -6,6 +6,4 @@
     <dimen name="mdtp_selected_date_year_size">30dp</dimen>
     <dimen name="mdtp_selected_date_day_size">100dp</dimen>
     <dimen name="mdtp_selected_date_month_size">30dp</dimen>
-
-    <dimen name="jdtp_selected_date_height">190dp</dimen>
 </resources>

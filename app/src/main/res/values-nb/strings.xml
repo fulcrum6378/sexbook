@@ -35,10 +35,6 @@
     <string name="clear">Klar</string>
 
     <!-- Main -->
-    <string name="momSum">Sammendrag</string>
-    <string name="momPop">Popularitet</string>
-    <string name="momGrw">Vekst</string>
-    <string name="momRec">Nylig</string>
     <string name="momImport">Importer fra Json</string>
     <string name="momExport">Eksporter til Json</string>
     <string name="momSend">Send Json til</string>
@@ -60,7 +56,13 @@
     <!-- Page Love -->
     <string name="crushes">Liste over Forelskelser</string>
     <string name="emptyLove">Etter å ha lagt til noen sex-poster, gå til Navigasjonsmeny -> Sammendrag -> Velg en forelskelse -> Trykk på den øverste høyre knappen med et \"Person\" (identifikasjon)-ikon.</string>
-    <string name="lcStatistics">Statistikk</string>
+
+    <!-- #Statistics -->
+    <string name="summary">Sammendrag</string>
+    <string name="adorability">Yndig</string>
+    <string name="growth">Vekst</string>
+    <string name="recency">Nylig</string>
+    <string name="statistics">Statistikk</string>
 
     <!-- Identification -->
     <string name="identify">Identifikasjon</string>

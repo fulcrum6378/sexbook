@@ -22,7 +22,7 @@
         android:paddingTop="6sp"
         android:paddingEnd="11sp"
         android:paddingBottom="6sp"
-        android:text="@string/momGrw"
+        android:text="@string/growth"
         android:textSize="18sp"
         app:fontFamily="@font/bold"
         app:layout_constraintEnd_toEndOf="parent"

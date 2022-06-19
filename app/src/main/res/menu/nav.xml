@@ -3,19 +3,19 @@
     <item
         android:id="@+id/momSum"
         android:icon="@drawable/summary"
-        android:title="@string/momSum" />
+        android:title="@string/summary" />
     <item
         android:id="@+id/momPop"
-        android:icon="@drawable/popularity"
-        android:title="@string/momPop" />
+        android:icon="@drawable/adorability"
+        android:title="@string/adorability" />
     <item
         android:id="@+id/momGrw"
         android:icon="@drawable/growth"
-        android:title="@string/momGrw" />
+        android:title="@string/growth" />
     <item
         android:id="@+id/momRec"
         android:icon="@drawable/recency"
-        android:title="@string/momRec" />
+        android:title="@string/recency" />
     <item
         android:id="@+id/momPlc"
         android:icon="@drawable/places"

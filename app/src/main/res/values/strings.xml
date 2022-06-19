@@ -64,10 +64,6 @@
     <string name="clear">Clear</string>
 
     <!-- Main -->
-    <string name="momSum">Summary</string>
-    <string name="momPop">Popularity</string>
-    <string name="momGrw">Growth</string>
-    <string name="momRec">Recency</string>
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>
     <string name="momSend">Send Json to</string>
@@ -90,7 +86,13 @@
     <!-- Page Love -->
     <string name="crushes">List of Crushes</string>
     <string name="emptyLove">After adding some sex records, go to Navigation Menu -> Summary -> Select a crush -> Hit the top right button with a \"Person\" (Identification) icon.</string>
-    <string name="lcStatistics">Statistics</string>
+
+    <!-- #Statistics -->
+    <string name="summary">Summary</string>
+    <string name="adorability">Adorability</string>
+    <string name="growth">Growth</string>
+    <string name="recency">Recency</string>
+    <string name="statistics">Statistics</string>
 
     <!-- Identification -->
     <string name="identify">Identification</string>

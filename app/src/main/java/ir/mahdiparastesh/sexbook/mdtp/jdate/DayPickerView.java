@@ -62,6 +62,10 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
         setUpListView();
     }
 
+    public void onChange() {
+        refreshAdapter();
+    }
+
     protected void refreshAdapter() {
         if (mAdapter == null) mAdapter = createMonthAdapter(getContext(), mController);
         else mAdapter.setSelectedDay(mSelectedDay);
