@@ -41,6 +41,7 @@
     <string name="momRec">Aktuálnost</string>
     <string name="momImport">Import z Json</string>
     <string name="momExport">Export do Json</string>
+    <string name="momSend">Pošlete Json na</string>
     <string name="momSettings">Nastavení</string>
     <string name="exportDone">Hotovo!</string>
     <string name="exportUndone">Nepodařilo se!</string>

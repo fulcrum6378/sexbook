@@ -41,6 +41,7 @@
     <string name="momRec">Nylig</string>
     <string name="momImport">Importer fra Json</string>
     <string name="momExport">Eksporter til Json</string>
+    <string name="momSend">Send Json til</string>
     <string name="momSettings">Innstillinger</string>
     <string name="exportDone">Ferdig!</string>
     <string name="exportUndone">Mislyktes!</string>

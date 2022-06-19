@@ -8,10 +8,16 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
 import com.google.gson.Gson
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
@@ -21,19 +27,22 @@ class Exporter(val c: BaseActivity) {
     private var exportLauncher: ActivityResultLauncher<Intent> =
         c.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
-            val bExp = try {
-                c.contentResolver.openFileDescriptor(it.data!!.data!!, "w")?.use { des ->
-                    FileOutputStream(des.fileDescriptor).use { fos ->
-                        fos.write(Gson().toJson(exported).toByteArray())
+            CoroutineScope(Dispatchers.IO).launch {
+                var bExp = false
+                runCatching {
+                    c.contentResolver.openFileDescriptor(it.data!!.data!!, "w")?.use { des ->
+                        FileOutputStream(des.fileDescriptor).use { fos ->
+                            fos.write(exported!!.binary())
+                        }
                     }
+                }.onSuccess { bExp = true }
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        c, if (bExp) R.string.exportDone else R.string.exportUndone,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
-                true
-            } catch (ignored: Exception) {
-                false
             }
-            Toast.makeText(
-                c, if (bExp) R.string.exportDone else R.string.exportUndone, Toast.LENGTH_LONG
-            ).show()
         }
 
     private var importLauncher: ActivityResultLauncher<Intent> =
@@ -43,6 +52,7 @@ class Exporter(val c: BaseActivity) {
         }
 
     companion object {
+        const val EXPORT_NAME = "sexbook.json"
         val mime =
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
             else "application/json"
@@ -103,19 +113,11 @@ class Exporter(val c: BaseActivity) {
     }
 
     fun launchExport() {
-        exported = Exported(
-            c.m.onani.value?.filter { it.isReal }?.toTypedArray(),
-            c.m.liefde.value?.toTypedArray(),
-            c.m.places.value?.toTypedArray(),
-            c.m.guesses.value?.toTypedArray(),
-            c.sp.all
-        )
-        if (exported!!.isEmpty()) {
-            Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show(); return; }
+        if (!export()) return
         exportLauncher.launch(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = mime
-            putExtra(Intent.EXTRA_TITLE, "sexbook.json")
+            putExtra(Intent.EXTRA_TITLE, EXPORT_NAME)
         })
     }
 
@@ -127,6 +129,39 @@ class Exporter(val c: BaseActivity) {
         return true
     }
 
+    fun send() {
+        if (!export()) return
+        val cache = File(c.cacheDir, EXPORT_NAME)
+        CoroutineScope(Dispatchers.IO).launch {
+            runCatching {
+                FileOutputStream(cache).use { it.write(exported!!.binary()) }
+            }.onSuccess {
+                withContext(Dispatchers.Main) {
+                    Intent(Intent.ACTION_SEND).apply {
+                        type = mime
+                        putExtra(
+                            Intent.EXTRA_STREAM,
+                            FileProvider.getUriForFile(c, c.packageName, cache)
+                        )
+                    }.also { c.startActivity(it) }
+                }
+            }
+        }
+    }
+
+    private fun export(): Boolean {
+        exported = Exported(
+            c.m.onani.value?.filter { it.isReal }?.toTypedArray(),
+            c.m.liefde.value?.toTypedArray(),
+            c.m.places.value?.toTypedArray(),
+            c.m.guesses.value?.toTypedArray(),
+            c.sp.all
+        )
+        val emp = exported!!.isEmpty()
+        if (emp) Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show()
+        return !emp
+    }
+
     class Exported(
         val reports: Array<Report>?,
         val crushes: Array<Crush>?,
@@ -135,5 +170,7 @@ class Exporter(val c: BaseActivity) {
         val settings: Map<String, *>? = null
     ) {
         fun isEmpty() = reports.isNullOrEmpty()
+
+        fun binary() = Gson().toJson(this).toByteArray()
     }
 }

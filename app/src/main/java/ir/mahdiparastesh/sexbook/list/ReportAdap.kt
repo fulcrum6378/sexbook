@@ -22,7 +22,6 @@ import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.text.DateFormatSymbols
 import java.util.*
 
-@SuppressLint("UseRequireInsteadOfGet")
 class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
     RecyclerView.Adapter<AnyViewHolder<ItemReportBinding>>(),
     TimePickerDialog.OnTimeSetListener {
@@ -72,6 +71,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
         h.b.date.text = compileDate(c, itm.time)
         if (itm.isReal) h.b.clock.setOnClickListener {
+            if (c.m.onani.value == null) return@setOnClickListener
             TimePickerDialog.newInstance(
                 this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], false
             ).apply {
@@ -86,6 +86,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             mayShowAd()
         } else h.b.clock.setOnClickListener(null)
         if (itm.isReal) h.b.date.setOnClickListener {
+            if (c.m.onani.value == null) return@setOnClickListener
             LocalDatePicker(
                 c, "$tagEdit${globalPos(c.m, h.layoutPosition)}", cal, { dialogDismissed() }
             ) { view, time ->

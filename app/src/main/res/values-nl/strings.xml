@@ -40,6 +40,7 @@
     <string name="momRec">Recentheid</string>
     <string name="momImport">Importeren uit Json</string>
     <string name="momExport">Exporteren naar Json</string>
+    <string name="momSend">Stuur Json naar</string>
     <string name="momSettings">Instellingen</string>
     <string name="exportDone">Klaar!</string>
     <string name="exportUndone">Mislukt!</string>

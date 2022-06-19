@@ -33,6 +33,10 @@
         android:icon="@drawable/json_import"
         android:title="@string/momImport" />
     <item
+        android:id="@+id/momSend"
+        android:icon="@drawable/send"
+        android:title="@string/momSend" />
+    <item
         android:id="@+id/momSettings"
         android:icon="@drawable/settings"
         android:title="@string/momSettings" />

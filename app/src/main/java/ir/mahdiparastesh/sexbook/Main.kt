@@ -133,7 +133,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         jdtpArabicNumbers = resources.getBoolean(R.bool.jdtpArabicNumbers)
 
         intent.check()
-        // Work(c, Work.VIEW_ALL).start()
         Work(c, Work.C_VIEW_ALL).start()
         Work(c, Work.P_VIEW_ALL).start()
         Work(c, Work.G_VIEW_ALL).start()
@@ -166,6 +165,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momEst -> startActivity(Intent(this, Estimation::class.java))
             R.id.momImport -> exporter.launchImport()
             R.id.momExport -> exporter.launchExport()
+            R.id.momSend -> exporter.send()
             R.id.momSettings -> startActivity(Intent(this, Settings::class.java))
         }
         return true
@@ -277,8 +277,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     NotificationManager.IMPORTANCE_HIGH
                 )
             )
-        with(NotificationManagerCompat.from(this)) {
-            notify(666, NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
+        NotificationManagerCompat.from(this)
+            .notify(666, NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
                 setSmallIcon(R.drawable.notification)
                 setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
                 setContentText(
@@ -289,7 +289,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 )
                 priority = NotificationCompat.PRIORITY_HIGH
             }.build())
-        }
     }
 
     private var instilledGuesses = false

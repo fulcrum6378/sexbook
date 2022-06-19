@@ -70,6 +70,7 @@
     <string name="momRec">اخیریت</string>
     <string name="momImport">وارد کردن از جیسون</string>
     <string name="momExport">استخراج در جیسون</string>
+    <string name="momSend">ارسال جیسون به</string>
     <string name="momSettings">تنظیمات</string>
     <string name="exportDone">انجام شد!</string>
     <string name="exportUndone">ناموفق!</string>
