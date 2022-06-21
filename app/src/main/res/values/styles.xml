@@ -183,7 +183,6 @@
     </style>
 
     <!-- MDTP -->
-    <attr name="mdtp_theme_dark" format="boolean">false</attr>
     <bool name="mdtp_title_all_caps">true</bool>
 
     <style name="mdtp_time_label">

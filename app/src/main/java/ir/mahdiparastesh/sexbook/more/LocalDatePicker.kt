@@ -2,12 +2,11 @@ package ir.mahdiparastesh.sexbook.more
 
 import android.content.DialogInterface
 import androidx.fragment.app.DialogFragment
-import ir.mahdiparastesh.sexbook.mdtp.gdate.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun.CalendarType
 import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.mdtp.PersianCalendar
-import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
+import ir.mahdiparastesh.sexbook.mdtp.gdate.DatePickerDialog
 import java.util.*
 
 class LocalDatePicker(
@@ -27,7 +26,6 @@ class LocalDatePicker(
                     listener(view, cal.timeInMillis)
                 }, jal.Y, jal.M, jal.D
             ).apply {
-                isThemeDark = c.night()
                 setOnDismissListener(dismissal)
                 show(c.supportFragmentManager, tag)
             }
@@ -44,7 +42,6 @@ class LocalDatePicker(
             default[Calendar.MONTH],
             default[Calendar.DAY_OF_MONTH]
         ).apply {
-            isThemeDark = c.night()
             version = DatePickerDialog.Version.VERSION_1
             accentColor = c.color(R.color.CP)
             setOkColor(c.color(R.color.dialogText))

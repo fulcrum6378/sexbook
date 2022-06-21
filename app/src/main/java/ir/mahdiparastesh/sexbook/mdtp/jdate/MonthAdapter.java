@@ -90,9 +90,10 @@ public abstract class MonthAdapter extends BaseAdapter implements OnDayClickList
         notifyDataSetChanged();
     }
 
-    /*public CalendarDay getSelectedDay() {
+    @SuppressWarnings("unused")
+    public CalendarDay getSelectedDay() {
         return mSelectedDay;
-    }*/
+    }
 
     protected void init() {
         mSelectedDay = new CalendarDay(System.currentTimeMillis());

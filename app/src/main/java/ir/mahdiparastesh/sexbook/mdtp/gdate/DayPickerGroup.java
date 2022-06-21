@@ -68,12 +68,6 @@ public class DayPickerGroup extends ViewGroup
             nextButton.setMinimumWidth(size);
         }
 
-        if (controller.isThemeDark()) {
-            int color = ContextCompat.getColor(getContext(), R.color.mdtp_date_picker_text_normal_dark_theme);
-            prevButton.setColorFilter(color);
-            nextButton.setColorFilter(color);
-        }
-
         prevButton.setOnClickListener(this);
         nextButton.setOnClickListener(this);
 

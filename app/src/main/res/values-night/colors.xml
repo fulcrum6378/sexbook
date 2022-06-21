@@ -25,4 +25,14 @@
     <color name="chipText">@color/CPD</color>
     <color name="searchHint">#AAFFFFFF</color>
     <color name="empty">@color/searchHint</color>
+
+    <!-- MDTP -->
+    <color name="mdtp_accent_color_dark">#444</color>
+    <color name="mdtp_date_picker_view_animator">@color/mdtp_light_gray</color>
+    <color name="mdtp_date_picker_text_normal">@color/mdtp_white</color>
+    <color name="mdtp_date_picker_month_day">#b4b4b4</color>
+    <color name="mdtp_date_picker_text_disabled">#767676</color>
+    <color name="mdtp_date_picker_text_highlighted">@color/mdtp_date_picker_text_normal</color>
+    <color name="mdtp_calendar_today_number">@color/CP_LIGHT</color>
+    <color name="mdtp_calendar_selected_day_text">@color/CPDDD</color>
 </resources>

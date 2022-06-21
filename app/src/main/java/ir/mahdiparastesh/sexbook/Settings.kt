@@ -25,11 +25,13 @@ class Settings : BaseActivity() {
         const val spDefPlace = "defaultPlace"
         const val spStatSince = "statisticiseSince"
         const val spStatSinceCb = "statisticiseSinceCb"
+        const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // TODO
         // Beware of the numerical fields; go to Exporter$Companion.replace() for modifications.
 
         // Hidden
         const val spPrefersMasculine = "prefersMasculine"
         const val spPrefersOrgType = "prefersOrgType"
+        const val spLastNotifiedBirthAt = "lastNotifiedBirthAt" // TODO
 
         const val spName = "settings"
     }

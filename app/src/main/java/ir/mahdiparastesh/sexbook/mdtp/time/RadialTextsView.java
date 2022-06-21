@@ -73,7 +73,7 @@ public class RadialTextsView extends View {
         Resources res = context.getResources();
 
         // Set up the paint.
-        int textColorRes = controller.isThemeDark() ? R.color.mdtp_white : R.color.mdtp_numbers_text_color;
+        int textColorRes = Utils.night(context) ? R.color.mdtp_white : R.color.mdtp_numbers_text_color;
         mPaint.setColor(ContextCompat.getColor(context, textColorRes));
         mTypefaceLight = Utils.mdtpTimeCircleFont(context, false);
         mTypefaceRegular = Utils.mdtpTimeCircleFont(context, true);
@@ -87,9 +87,7 @@ public class RadialTextsView extends View {
         mSelectedPaint.setTextAlign(Align.CENTER);
 
         // Set up the inactive paint
-        int inactiveColorRes = controller.isThemeDark() ? R.color.mdtp_date_picker_text_disabled_dark_theme
-                : R.color.mdtp_date_picker_text_disabled;
-        mInactivePaint.setColor(ContextCompat.getColor(context, inactiveColorRes));
+        mInactivePaint.setColor(ContextCompat.getColor(context, R.color.mdtp_date_picker_text_disabled));
         mInactivePaint.setAntiAlias(true);
         mInactivePaint.setTextAlign(Align.CENTER);
 

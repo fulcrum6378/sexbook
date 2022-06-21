@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ir.mahdiparastesh.sexbook.R;
+import ir.mahdiparastesh.sexbook.mdtp.TextViewWithCircularIndicator;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
 import ir.mahdiparastesh.sexbook.mdtp.jdate.DatePickerDialog.OnDateChangedListener;
 

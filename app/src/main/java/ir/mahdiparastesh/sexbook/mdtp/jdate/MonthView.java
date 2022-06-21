@@ -28,9 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import ir.mahdiparastesh.sexbook.R;
+import ir.mahdiparastesh.sexbook.mdtp.PersianCalendar;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
 import ir.mahdiparastesh.sexbook.mdtp.jdate.MonthAdapter.CalendarDay;
-import ir.mahdiparastesh.sexbook.mdtp.PersianCalendar;
 
 public abstract class MonthView extends View {
     public static final String VIEW_PARAMS_HEIGHT = "height";
@@ -105,28 +105,12 @@ public abstract class MonthView extends View {
         mDayLabelCalendar = new PersianCalendar();
         mPersianCalendar = new PersianCalendar();
 
-        boolean darkTheme = mController != null && mController.isThemeDark();
-        if (darkTheme) {
-            mDayTextColor = ContextCompat.getColor(c,
-                    R.color.mdtp_date_picker_text_normal_dark_theme);
-            mMonthDayTextColor = ContextCompat.getColor(c,
-                    R.color.mdtp_date_picker_month_day_dark_theme);
-            mDisabledDayTextColor = ContextCompat.getColor(c,
-                    R.color.mdtp_date_picker_text_disabled_dark_theme);
-            mHighlightedDayTextColor = ContextCompat.getColor(c,
-                    R.color.mdtp_date_picker_text_highlighted_dark_theme);
-        } else {
-            mDayTextColor = ContextCompat.getColor(c,
-                    R.color.mdtp_date_picker_text_normal);
-            mMonthDayTextColor = ContextCompat.getColor(c,
-                    R.color.mdtp_date_picker_month_day);
-            mDisabledDayTextColor = ContextCompat.getColor(c,
-                    R.color.mdtp_date_picker_text_disabled);
-            mHighlightedDayTextColor = ContextCompat.getColor(c,
-                    R.color.mdtp_date_picker_text_highlighted);
-        }
-        mSelectedDayTextColor = ContextCompat.getColor(c, R.color.mdtp_white);
-        mTodayNumberColor = ContextCompat.getColor(c, R.color.jdtp_accent_color);
+        mDayTextColor = ContextCompat.getColor(c, R.color.mdtp_date_picker_text_normal);
+        mMonthDayTextColor = ContextCompat.getColor(c, R.color.mdtp_date_picker_month_day);
+        mDisabledDayTextColor = ContextCompat.getColor(c, R.color.mdtp_date_picker_text_disabled);
+        mHighlightedDayTextColor = ContextCompat.getColor(c, R.color.mdtp_date_picker_text_highlighted);
+        mSelectedDayTextColor = ContextCompat.getColor(c, R.color.mdtp_calendar_selected_day_text);
+        mTodayNumberColor = ContextCompat.getColor(c, R.color.mdtp_calendar_today_number);
 
         mStringBuilder = new StringBuilder(50);
 

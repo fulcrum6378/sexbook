@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.Objects;
 
 import ir.mahdiparastesh.sexbook.R;
+import ir.mahdiparastesh.sexbook.mdtp.AccessibleDateAnimator;
 import ir.mahdiparastesh.sexbook.mdtp.HapticFeedbackController;
 import ir.mahdiparastesh.sexbook.mdtp.PersianCalendar;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
@@ -53,7 +54,6 @@ public class DatePickerDialog extends DialogFragment implements
     private static final String KEY_MAX_DATE = "max_date";
     private static final String KEY_HIGHLIGHTED_DAYS = "highlighted_days";
     private static final String KEY_SELECTABLE_DAYS = "selectable_days";
-    private static final String KEY_THEME_DARK = "theme_dark";
 
     private static final int DEFAULT_START_YEAR = 1350;
     private static final int DEFAULT_END_YEAR = 1450;
@@ -85,7 +85,6 @@ public class DatePickerDialog extends DialogFragment implements
     private PersianCalendar mMaxDate;
     private PersianCalendar[] highlightedDays;
     private PersianCalendar[] selectableDays;
-    private boolean mThemeDark;
 
     private HapticFeedbackController mHapticFeedbackController;
 
@@ -116,7 +115,6 @@ public class DatePickerDialog extends DialogFragment implements
     public void initialize(OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth) {
         mCallBack = callBack;
         mPersianCalendar.setPersianDate(year, monthOfYear, dayOfMonth);
-        mThemeDark = false;
     }
 
     @Override
@@ -157,7 +155,6 @@ public class DatePickerDialog extends DialogFragment implements
         outState.putSerializable(KEY_MAX_DATE, mMaxDate);
         outState.putSerializable(KEY_HIGHLIGHTED_DAYS, highlightedDays);
         outState.putSerializable(KEY_SELECTABLE_DAYS, selectableDays);
-        outState.putBoolean(KEY_THEME_DARK, mThemeDark);
     }
 
     @SuppressLint("InflateParams")
@@ -177,9 +174,9 @@ public class DatePickerDialog extends DialogFragment implements
         Button okButton = view.findViewById(R.id.mdtp_ok);
         Button cancelButton = view.findViewById(R.id.mdtp_cancel);
         okButton.setTypeface(font1);
-        okButton.setTextColor(that.getResources().getColor(R.color.jdtp_button_color));
+        okButton.setTextColor(that.getResources().getColor(R.color.mdtp_button_color));
         cancelButton.setTypeface(font1);
-        cancelButton.setTextColor(that.getResources().getColor(R.color.jdtp_button_color));
+        cancelButton.setTextColor(that.getResources().getColor(R.color.mdtp_button_color));
         mSelectedMonthTextView.setTypeface(font1);
         mSelectedDayTextView.setTypeface(font1);
         mYearView.setTypeface(font1);
@@ -199,7 +196,6 @@ public class DatePickerDialog extends DialogFragment implements
             mMaxDate = (PersianCalendar) savedInstanceState.getSerializable(KEY_MAX_DATE);
             highlightedDays = (PersianCalendar[]) savedInstanceState.getSerializable(KEY_HIGHLIGHTED_DAYS);
             selectableDays = (PersianCalendar[]) savedInstanceState.getSerializable(KEY_SELECTABLE_DAYS);
-            mThemeDark = savedInstanceState.getBoolean(KEY_THEME_DARK);
         }
         mDayPickerView = new SimpleDayPickerView(that, this);
         mYearPickerView = new YearPickerView(that, this);
@@ -210,10 +206,7 @@ public class DatePickerDialog extends DialogFragment implements
         mYearPickerDescription = res.getString(R.string.mdtp_year_picker_description);
         mSelectYear = res.getString(R.string.mdtp_select_year);
 
-        int bgColorResource = mThemeDark ? R.color.mdtp_date_picker_view_animator_dark_theme
-                : R.color.mdtp_date_picker_view_animator;
-        view.setBackgroundColor(ContextCompat.getColor(that, bgColorResource));
-
+        view.setBackgroundColor(ContextCompat.getColor(that, R.color.mdtp_date_picker_view_animator));
         mAnimator = view.findViewById(R.id.mdtp_animator);
         mAnimator.addView(mDayPickerView);
         mAnimator.addView(mYearPickerView);
@@ -342,15 +335,6 @@ public class DatePickerDialog extends DialogFragment implements
 
         if (announce) Utils.tryAccessibilityAnnounce(mAnimator, Utils.
                 getPersianNumbers(mPersianCalendar.getPersianLongDate(getContext())));
-    }
-
-    public void setThemeDark(boolean themeDark) {
-        mThemeDark = themeDark;
-    }
-
-    @Override
-    public boolean isThemeDark() {
-        return mThemeDark;
     }
 
     @SuppressWarnings("unused")

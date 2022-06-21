@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.mdtp.gdate;
+package ir.mahdiparastesh.sexbook.mdtp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,11 +11,12 @@ import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 
 import ir.mahdiparastesh.sexbook.R;
 
-public class TextViewWithCircularIndicator extends androidx.appcompat.widget.AppCompatTextView {
+public class TextViewWithCircularIndicator extends AppCompatTextView {
 
     private static final int SELECTED_CIRCLE_ALPHA = 255;
 
@@ -43,22 +44,20 @@ public class TextViewWithCircularIndicator extends androidx.appcompat.widget.App
         mCirclePaint.setAlpha(SELECTED_CIRCLE_ALPHA);
     }
 
-    public void setAccentColor(int color, boolean darkMode) {
+    public void setAccentColor(int color) {
         mCircleColor = color;
         mCirclePaint.setColor(mCircleColor);
-        setTextColor(createTextColor(color, darkMode));
+        setTextColor(createTextColor(color));
     }
 
-    private ColorStateList createTextColor(int accentColor, boolean darkMode) {
+    private ColorStateList createTextColor(int accentColor) {
         int[][] states = new int[][]{
                 new int[]{android.R.attr.state_pressed}, // pressed
                 new int[]{android.R.attr.state_selected}, // selected
                 new int[]{}
         };
         int[] colors = new int[]{
-                accentColor,
-                Color.WHITE,
-                darkMode ? Color.WHITE : Color.BLACK
+                accentColor, Color.WHITE, Utils.night(getContext()) ? Color.WHITE : Color.BLACK
         };
         return new ColorStateList(states, colors);
     }

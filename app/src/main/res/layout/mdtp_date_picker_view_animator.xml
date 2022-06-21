@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     tools:viewBindingIgnore="true">
 
-    <ir.mahdiparastesh.sexbook.mdtp.gdate.AccessibleDateAnimator
+    <ir.mahdiparastesh.sexbook.mdtp.AccessibleDateAnimator
         android:id="@+id/mdtp_animator"
         android:layout_width="@dimen/mdtp_date_picker_component_width"
         android:layout_height="@dimen/mdtp_date_picker_view_animator_height"

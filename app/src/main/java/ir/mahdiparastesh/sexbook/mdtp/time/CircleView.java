@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
 import androidx.core.content.ContextCompat;
+
 import android.view.View;
 
 import ir.mahdiparastesh.sexbook.R;
+import ir.mahdiparastesh.sexbook.mdtp.Utils;
 
 /**
  * Draws a simple white circle on which the numbers will be drawn.
@@ -38,7 +41,7 @@ public class CircleView extends View {
 
         Resources res = context.getResources();
 
-        int colorRes = controller.isThemeDark() ? R.color.mdtp_circle_background_dark_theme : R.color.mdtp_circle_color;
+        int colorRes = Utils.night(context) ? R.color.mdtp_circle_background_dark_theme : R.color.mdtp_circle_color;
         mCircleColor = ContextCompat.getColor(context, colorRes);
         mDotColor = controller.getAccentColor();
         mPaint.setAntiAlias(true);
@@ -74,7 +77,7 @@ public class CircleView extends View {
                 // a slightly higher center. To keep the entire view centered vertically, we'll
                 // have to push it up by half the radius of the AM/PM circles.
                 int amPmCircleRadius = (int) (mCircleRadius * mAmPmCircleRadiusMultiplier);
-                mYCenter -= amPmCircleRadius*0.75;
+                mYCenter -= amPmCircleRadius * 0.75;
             }
 
             mDrawValuesReady = true;

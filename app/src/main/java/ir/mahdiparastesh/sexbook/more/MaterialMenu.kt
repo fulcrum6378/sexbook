@@ -8,7 +8,7 @@ import ir.mahdiparastesh.sexbook.R
 
 typealias Act = HashMap<Int, (item: MenuItem) -> Unit>
 
-class MaterialMenu(val c: BaseActivity, v: View, res: Int, actions: Act) :
+class MaterialMenu(c: BaseActivity, v: View, res: Int, actions: Act) :
     PopupMenu(ContextThemeWrapper(c, R.style.Theme_Sexbook_Popup), v) {
     init {
         setOnMenuItemClickListener {

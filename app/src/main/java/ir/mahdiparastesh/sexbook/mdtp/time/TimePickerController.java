@@ -2,8 +2,6 @@ package ir.mahdiparastesh.sexbook.mdtp.time;
 
 interface TimePickerController {
 
-    boolean isThemeDark();
-
     boolean is24HourMode();
 
     int getAccentColor();

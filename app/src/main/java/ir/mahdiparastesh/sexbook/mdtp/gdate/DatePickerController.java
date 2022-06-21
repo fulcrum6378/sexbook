@@ -17,8 +17,6 @@ public interface DatePickerController {
 
     MonthAdapter.CalendarDay getSelectedDay();
 
-    boolean isThemeDark();
-
     int getAccentColor();
 
     boolean isHighlighted(int year, int month, int day);

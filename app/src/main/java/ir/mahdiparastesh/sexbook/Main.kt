@@ -277,8 +277,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     NotificationManager.IMPORTANCE_HIGH
                 )
             )
-        NotificationManagerCompat.from(this)
-            .notify(666, NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
+        NotificationManagerCompat.from(this).notify(crush.key.length + crush.visName().length,
+            NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
                 setSmallIcon(R.drawable.notification)
                 setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
                 setContentText(
@@ -288,7 +288,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     )
                 )
                 priority = NotificationCompat.PRIORITY_HIGH
-            }.build())
+            }.build()
+        )
     }
 
     private var instilledGuesses = false

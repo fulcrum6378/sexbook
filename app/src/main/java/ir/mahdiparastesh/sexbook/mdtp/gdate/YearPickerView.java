@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import ir.mahdiparastesh.sexbook.R;
+import ir.mahdiparastesh.sexbook.mdtp.TextViewWithCircularIndicator;
 import ir.mahdiparastesh.sexbook.mdtp.gdate.DatePickerDialog.OnDateChangedListener;
 
 @SuppressLint("ViewConstructor")
@@ -104,21 +105,19 @@ public class YearPickerView extends ListView implements OnItemClickListener, OnD
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             TextViewWithCircularIndicator v;
-            if (convertView != null) {
+            if (convertView != null)
                 v = (TextViewWithCircularIndicator) convertView;
-            } else {
+            else {
                 v = (TextViewWithCircularIndicator) LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.mdtp_year_label_text_view, parent, false);
-                v.setAccentColor(mController.getAccentColor(), mController.isThemeDark());
+                v.setAccentColor(mController.getAccentColor());
             }
             int year = mMinYear + position;
             boolean selected = mController.getSelectedDay().year == year;
             v.setText(String.format(mController.getLocale(), "%d", year));
             v.drawIndicator(selected);
             v.requestLayout();
-            if (selected) {
-                mSelectedView = v;
-            }
+            if (selected) mSelectedView = v;
             return v;
         }
     }
@@ -136,9 +135,7 @@ public class YearPickerView extends ListView implements OnItemClickListener, OnD
 
     public int getFirstPositionOffset() {
         final View firstChild = getChildAt(0);
-        if (firstChild == null) {
-            return 0;
-        }
+        if (firstChild == null) return 0;
         return firstChild.getTop();
     }
 

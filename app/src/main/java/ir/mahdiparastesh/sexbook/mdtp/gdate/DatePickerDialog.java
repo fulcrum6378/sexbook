@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import ir.mahdiparastesh.sexbook.R;
+import ir.mahdiparastesh.sexbook.mdtp.AccessibleDateAnimator;
 import ir.mahdiparastesh.sexbook.mdtp.HapticFeedbackController;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
 
@@ -63,8 +64,6 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
     private static final String KEY_CURRENT_VIEW = "current_view";
     private static final String KEY_LIST_POSITION_OFFSET = "list_position_offset";
     private static final String KEY_HIGHLIGHTED_DAYS = "highlighted_days";
-    private static final String KEY_THEME_DARK = "theme_dark";
-    private static final String KEY_THEME_DARK_CHANGED = "theme_dark_changed";
     private static final String KEY_ACCENT = "accent";
     private static final String KEY_VIBRATE = "vibrate";
     private static final String KEY_DISMISS = "dismiss";
@@ -108,8 +107,6 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
     private int mWeekStart = mCalendar.getFirstDayOfWeek();
     private String mTitle;
     private HashSet<Calendar> highlightedDays = new HashSet<>();
-    private boolean mThemeDark = false;
-    private boolean mThemeDarkChanged = false;
     private Integer mAccentColor = null;
     private boolean mVibrate = true;
     private boolean mDismissOnPause = false;
@@ -220,8 +217,6 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
         }
         outState.putInt(KEY_LIST_POSITION, listPosition);
         outState.putSerializable(KEY_HIGHLIGHTED_DAYS, highlightedDays);
-        outState.putBoolean(KEY_THEME_DARK, mThemeDark);
-        outState.putBoolean(KEY_THEME_DARK_CHANGED, mThemeDarkChanged);
         if (mAccentColor != null) outState.putInt(KEY_ACCENT, mAccentColor);
         outState.putBoolean(KEY_VIBRATE, mVibrate);
         outState.putBoolean(KEY_DISMISS, mDismissOnPause);
@@ -255,8 +250,6 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
             listPositionOffset = savedInstanceState.getInt(KEY_LIST_POSITION_OFFSET);
             //noinspection unchecked
             highlightedDays = (HashSet<Calendar>) savedInstanceState.getSerializable(KEY_HIGHLIGHTED_DAYS);
-            mThemeDark = savedInstanceState.getBoolean(KEY_THEME_DARK);
-            mThemeDarkChanged = savedInstanceState.getBoolean(KEY_THEME_DARK_CHANGED);
             if (savedInstanceState.containsKey(KEY_ACCENT))
                 mAccentColor = savedInstanceState.getInt(KEY_ACCENT);
             mVibrate = savedInstanceState.getBoolean(KEY_VIBRATE);
@@ -312,17 +305,13 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
         mDayPickerView = new DayPickerGroup(activity, this);
         mYearPickerView = new YearPickerView(activity, this);
 
-        // if theme mode has not been set by java code, check if it is specified in Style.xml
-        if (!mThemeDarkChanged)
-            mThemeDark = Utils.isDarkTheme(activity, mThemeDark);
-
         Resources res = getResources();
         mDayPickerDescription = res.getString(R.string.mdtp_day_picker_description);
         mSelectDay = res.getString(R.string.mdtp_select_day);
         mYearPickerDescription = res.getString(R.string.mdtp_year_picker_description);
         mSelectYear = res.getString(R.string.mdtp_select_year);
 
-        int bgColorResource = mThemeDark ? R.color.mdtp_date_picker_view_animator_dark_theme : R.color.mdtp_date_picker_view_animator;
+        int bgColorResource = R.color.mdtp_date_picker_view_animator;
         int bgColor = ContextCompat.getColor(activity, bgColorResource);
         view.setBackgroundColor(bgColor);
 
@@ -547,16 +536,6 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
     @SuppressWarnings("unused")
     public void autoDismiss(boolean autoDismiss) {
         mAutoDismiss = autoDismiss;
-    }
-
-    public void setThemeDark(boolean themeDark) {
-        mThemeDark = themeDark;
-        mThemeDarkChanged = true;
-    }
-
-    @Override
-    public boolean isThemeDark() {
-        return mThemeDark;
     }
 
     @SuppressWarnings("unused")

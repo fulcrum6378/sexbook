@@ -6,20 +6,21 @@ import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.View;
 
-import androidx.annotation.AttrRes;
 import androidx.core.content.res.ResourcesCompat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import ir.mahdiparastesh.sexbook.Fun;
 import ir.mahdiparastesh.sexbook.R;
+import ir.mahdiparastesh.sexbook.Settings;
 
 @SuppressWarnings("WeakerAccess")
 public class Utils {
@@ -77,19 +78,6 @@ public class Utils {
         context.getTheme().resolveAttribute(android.R.attr.colorAccent, typedValue, true);
         return typedValue.data;
         // Next, try colorAccent from support lib
-    }
-
-    public static boolean isDarkTheme(Context context, boolean current) {
-        return resolveBoolean(context, R.attr.mdtp_theme_dark, current);
-    }
-
-    private static boolean resolveBoolean(Context context, @AttrRes int attr, boolean fallback) {
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});
-        try {
-            return a.getBoolean(0, fallback);
-        } finally {
-            a.recycle();
-        }
     }
 
     public static Calendar trimToMidnight(Calendar calendar) {
@@ -169,5 +157,17 @@ public class Utils {
 
     public static Typeface mdtpDayOfMonth(Context c, boolean isHighlighted) {
         return Typeface.create(Typeface.DEFAULT, isHighlighted ? Typeface.BOLD : Typeface.NORMAL);
+    }
+
+
+    public static boolean isGregorian(Context c) {
+        return Fun.CalendarType.values()[
+                c.getSharedPreferences(Settings.spName, Context.MODE_PRIVATE).getInt(Settings.spCalType, 0)
+                ] == Fun.CalendarType.GREGORIAN;
+    }
+
+    public static boolean night(Context c) {
+        return (c.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+                == Configuration.UI_MODE_NIGHT_YES;
     }
 }

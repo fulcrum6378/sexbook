@@ -53,8 +53,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     private static final String KEY_CURRENT_ITEM_SHOWING = "current_item_showing";
     private static final String KEY_IN_KB_MODE = "in_kb_mode";
     private static final String KEY_TYPED_TIMES = "typed_times";
-    private static final String KEY_THEME_DARK = "theme_dark";
-    private static final String KEY_THEME_DARK_CHANGED = "theme_dark_changed";
     private static final String KEY_ACCENT = "accent";
     private static final String KEY_VIBRATE = "vibrate";
     private static final String KEY_DISMISS = "dismiss";
@@ -101,8 +99,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     private Timepoint mInitialTime;
     private boolean mIs24HourMode;
     private String mTitle;
-    private boolean mThemeDark;
-    private boolean mThemeDarkChanged;
     private boolean mVibrate;
     private Integer mAccentColor = null;
     private boolean mDismissOnPause;
@@ -168,8 +164,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         mIs24HourMode = is24HourMode;
         mInKbMode = false;
         mTitle = "";
-        mThemeDark = false;
-        mThemeDarkChanged = false;
         mVibrate = true;
         mDismissOnPause = false;
         mEnableSeconds = false;
@@ -186,11 +180,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     @SuppressWarnings("unused")
     public String getTitle() {
         return mTitle;
-    }
-
-    public void setThemeDark(boolean dark) {
-        mThemeDark = dark;
-        mThemeDarkChanged = true;
     }
 
     @SuppressWarnings("unused")
@@ -220,11 +209,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     @SuppressWarnings("unused")
     public void setCancelColor(@ColorInt int color) {
         mCancelColor = Color.argb(255, Color.red(color), Color.green(color), Color.blue(color));
-    }
-
-    @Override
-    public boolean isThemeDark() {
-        return mThemeDark;
     }
 
     @Override
@@ -437,8 +421,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             mIs24HourMode = savedInstanceState.getBoolean(KEY_IS_24_HOUR_VIEW);
             mInKbMode = savedInstanceState.getBoolean(KEY_IN_KB_MODE);
             mTitle = savedInstanceState.getString(KEY_TITLE);
-            mThemeDark = savedInstanceState.getBoolean(KEY_THEME_DARK);
-            mThemeDarkChanged = savedInstanceState.getBoolean(KEY_THEME_DARK_CHANGED);
             if (savedInstanceState.containsKey(KEY_ACCENT))
                 mAccentColor = savedInstanceState.getInt(KEY_ACCENT);
             mVibrate = savedInstanceState.getBoolean(KEY_VIBRATE);
@@ -480,11 +462,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         // If an accent color has not been set manually, get it from the context
         if (mAccentColor == null)
             mAccentColor = Utils.getAccentColorFromThemeIfAvailable(getActivity());
-
-        // if theme mode has not been set by java code, check if it is specified in Style.xml
-        if (!mThemeDarkChanged) {
-            mThemeDark = Utils.isDarkTheme(getActivity(), mThemeDark);
-        }
 
         Resources res = getResources();
         Context context = requireActivity();
@@ -792,12 +769,13 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         }
 
         int circleBackground = ContextCompat.getColor(context, R.color.mdtp_circle_background);
-        int backgroundColor = ContextCompat.getColor(context, R.color.mdtp_background_color);
-        int darkBackgroundColor = ContextCompat.getColor(context, R.color.mdtp_light_gray);
         int lightGray = ContextCompat.getColor(context, R.color.mdtp_light_gray);
 
-        mTimePicker.setBackgroundColor(mThemeDark ? lightGray : circleBackground);
-        view.findViewById(R.id.mdtp_time_picker_dialog).setBackgroundColor(mThemeDark ? darkBackgroundColor : backgroundColor);
+        boolean night = Utils.night(context);
+        mTimePicker.setBackgroundColor(night ? lightGray : circleBackground);
+        view.findViewById(R.id.mdtp_time_picker_dialog)
+                .setBackgroundColor(ContextCompat.getColor(context,
+                        night ? R.color.mdtp_light_gray : R.color.mdtp_background_color));
         return view;
     }
 
@@ -879,8 +857,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
                 outState.putIntegerArrayList(KEY_TYPED_TIMES, mTypedTimes);
             }
             outState.putString(KEY_TITLE, mTitle);
-            outState.putBoolean(KEY_THEME_DARK, mThemeDark);
-            outState.putBoolean(KEY_THEME_DARK_CHANGED, mThemeDarkChanged);
             if (mAccentColor != null) outState.putInt(KEY_ACCENT, mAccentColor);
             outState.putBoolean(KEY_VIBRATE, mVibrate);
             outState.putBoolean(KEY_DISMISS, mDismissOnPause);

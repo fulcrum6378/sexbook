@@ -58,15 +58,14 @@ public class AmPmCirclesView extends View {
     public void initialize(Context context, Locale locale, TimePickerController controller, int amOrPm) {
         if (mIsInitialized) return;
 
-        if (controller.isThemeDark()) {
+        mAmPmDisabledTextColor = ContextCompat.getColor(context, R.color.mdtp_date_picker_text_disabled);
+        if (Utils.night(context)) {
             mUnselectedColor = ContextCompat.getColor(context, R.color.mdtp_circle_background_dark_theme);
             mAmPmTextColor = ContextCompat.getColor(context, R.color.mdtp_white);
-            mAmPmDisabledTextColor = ContextCompat.getColor(context, R.color.mdtp_date_picker_text_disabled_dark_theme);
             mSelectedAlpha = SELECTED_ALPHA_THEME_DARK;
         } else {
             mUnselectedColor = ContextCompat.getColor(context, R.color.mdtp_white);
             mAmPmTextColor = ContextCompat.getColor(context, R.color.mdtp_ampm_text_color);
-            mAmPmDisabledTextColor = ContextCompat.getColor(context, R.color.mdtp_date_picker_text_disabled);
             mSelectedAlpha = SELECTED_ALPHA;
         }
 

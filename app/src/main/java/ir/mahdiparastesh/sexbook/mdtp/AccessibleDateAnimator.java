@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.mdtp.gdate;
+package ir.mahdiparastesh.sexbook.mdtp;
 
 import android.content.Context;
 import android.text.format.DateUtils;
@@ -22,10 +22,20 @@ public class AccessibleDateAnimator extends ViewAnimator {
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             // Clear the event's current text so that only the current date will be spoken.
             event.getText().clear();
-            int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR |
-                    DateUtils.FORMAT_SHOW_WEEKDAY;
+            String dateString;
+            if (Utils.isGregorian(getContext())) {
+                int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR |
+                        DateUtils.FORMAT_SHOW_WEEKDAY;
 
-            String dateString = DateUtils.formatDateTime(getContext(), mDateMillis, flags);
+                dateString = DateUtils.formatDateTime(getContext(), mDateMillis, flags);
+            } else {// Persian
+                PersianCalendar mPersianCalendar = new PersianCalendar();
+                mPersianCalendar.setTimeInMillis(mDateMillis);
+                dateString = Utils.getPersianNumbers(
+                        mPersianCalendar.getPersianMonthName(getContext()) + " " +
+                                mPersianCalendar.getPersianYear()
+                );
+            }
             event.getText().add(dateString);
             return true;
         }

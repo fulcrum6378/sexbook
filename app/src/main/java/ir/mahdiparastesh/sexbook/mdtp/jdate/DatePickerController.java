@@ -15,8 +15,6 @@ public interface DatePickerController {
 
     MonthAdapter.CalendarDay getSelectedDay();
 
-    boolean isThemeDark();
-
     PersianCalendar[] getHighlightedDays();
 
     PersianCalendar[] getSelectableDays();
