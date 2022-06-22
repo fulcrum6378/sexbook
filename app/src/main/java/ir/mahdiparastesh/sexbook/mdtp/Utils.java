@@ -161,9 +161,9 @@ public class Utils {
 
 
     public static boolean isGregorian(Context c) {
-        return Fun.CalendarType.values()[
+        return CalendarType.values()[
                 c.getSharedPreferences(Settings.spName, Context.MODE_PRIVATE).getInt(Settings.spCalType, 0)
-                ] == Fun.CalendarType.GREGORIAN;
+                ] == CalendarType.GREGORIAN;
     }
 
     public static boolean night(Context c) {

@@ -135,7 +135,4 @@ class Fun {
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ).apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }
     }
-
-    @Suppress("unused")
-    enum class CalendarType { GREGORIAN, PERSIAN }
 }

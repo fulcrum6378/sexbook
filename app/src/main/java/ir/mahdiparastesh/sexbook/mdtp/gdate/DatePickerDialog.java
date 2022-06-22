@@ -36,6 +36,7 @@ import java.util.TimeZone;
 
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.mdtp.AccessibleDateAnimator;
+import ir.mahdiparastesh.sexbook.mdtp.CalendarType;
 import ir.mahdiparastesh.sexbook.mdtp.HapticFeedbackController;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
 
@@ -77,6 +78,7 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
     private static final String KEY_DATERANGELIMITER = "daterangelimiter";
     private static final String KEY_SCROLL_ORIENTATION = "scrollorientation";
     private static final String KEY_LOCALE = "locale";
+    private static final String KEY_CALENDAR_TYPE = "calendar_type";
 
     private static final int ANIMATION_DURATION = 300;
     private static final int ANIMATION_DELAY = 500;
@@ -120,6 +122,7 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
     private Locale mLocale = Locale.getDefault();
     private DefaultDateRangeLimiter mDefaultLimiter = new DefaultDateRangeLimiter();
     private DateRangeLimiter mDateRangeLimiter = mDefaultLimiter;
+    private CalendarType mCalendarType = CalendarType.GREGORIAN;
 
     private HapticFeedbackController mHapticFeedbackController;
 
@@ -144,10 +147,19 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
         // Empty constructor required for dialog fragment.
     }
 
+    @SuppressWarnings("unused")
     public static DatePickerDialog newInstance(OnDateSetListener callBack,
                                                int year, int monthOfYear, int dayOfMonth) {
+        return newInstance(callBack, year, monthOfYear, dayOfMonth, CalendarType.GREGORIAN);
+    }
+
+    @SuppressWarnings("unused")
+    public static DatePickerDialog newInstance(OnDateSetListener callBack,
+                                               int year, int monthOfYear, int dayOfMonth,
+                                               CalendarType calendarType) {
         DatePickerDialog ret = new DatePickerDialog();
         ret.initialize(callBack, year, monthOfYear, dayOfMonth);
+        ret.mCalendarType = calendarType;
         return ret;
     }
 
@@ -230,6 +242,7 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
         outState.putSerializable(KEY_TIMEZONE, mTimezone);
         outState.putParcelable(KEY_DATERANGELIMITER, mDateRangeLimiter);
         outState.putSerializable(KEY_LOCALE, mLocale);
+        outState.putSerializable(KEY_CALENDAR_TYPE, mCalendarType.toString());
     }
 
     @Override
@@ -238,12 +251,12 @@ public class DatePickerDialog extends AppCompatDialogFragment implements
         int listPosition = -1;
         int listPositionOffset = 0;
         int currentView = mDefaultView;
-        if (mScrollOrientation == null) {
+        if (mScrollOrientation == null)
             mScrollOrientation = mVersion == Version.VERSION_1
                     ? ScrollOrientation.VERTICAL
                     : ScrollOrientation.HORIZONTAL;
-        }
         if (savedInstanceState != null) {
+            mCalendarType = CalendarType.valueOf(savedInstanceState.getString(KEY_CALENDAR_TYPE));
             mWeekStart = savedInstanceState.getInt(KEY_WEEK_START);
             currentView = savedInstanceState.getInt(KEY_CURRENT_VIEW);
             listPosition = savedInstanceState.getInt(KEY_LIST_POSITION);
