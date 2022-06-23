@@ -1,10 +1,11 @@
-package ir.mahdiparastesh.sexbook.mdtp.gdate;
+package ir.mahdiparastesh.sexbook.mdtp.date;
 
-import java.util.Calendar;
+import android.icu.util.Calendar;
+import android.icu.util.TimeZone;
+
 import java.util.Locale;
-import java.util.TimeZone;
 
-public interface DatePickerController {
+public interface DatePickerController<CAL extends Calendar> {
 
     void onYearSelected(int year);
 
@@ -15,7 +16,7 @@ public interface DatePickerController {
     @SuppressWarnings("unused")
     void unregisterOnDateChangedListener(DatePickerDialog.OnDateChangedListener listener);
 
-    MonthAdapter.CalendarDay getSelectedDay();
+    MonthAdapter.CalendarDay<CAL> getSelectedDay();
 
     int getAccentColor();
 
@@ -27,9 +28,9 @@ public interface DatePickerController {
 
     int getMaxYear();
 
-    Calendar getStartDate();
+    CAL getStartDate();
 
-    Calendar getEndDate();
+    CAL getEndDate();
 
     boolean isOutOfRange(int year, int month, int day);
 
@@ -42,4 +43,6 @@ public interface DatePickerController {
     DatePickerDialog.Version getVersion();
 
     DatePickerDialog.ScrollOrientation getScrollOrientation();
+
+    Class<CAL> getCalendarType();
 }

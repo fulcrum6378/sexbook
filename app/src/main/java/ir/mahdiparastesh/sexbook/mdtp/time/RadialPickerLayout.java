@@ -20,7 +20,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import java.util.Calendar;
+import android.icu.util.Calendar;
 import java.util.Locale;
 
 import ir.mahdiparastesh.sexbook.R;

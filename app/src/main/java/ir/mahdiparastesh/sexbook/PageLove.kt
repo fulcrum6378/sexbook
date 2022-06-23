@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import ir.mahdiparastesh.sexbook.Fun.Companion.isReady
-import ir.mahdiparastesh.sexbook.Fun.Companion.vis
+import ir.mahdiparastesh.sexbook.Fun.isReady
+import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import ir.mahdiparastesh.sexbook.Fun.Companion.vis
+import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings.Companion.spDefPlace

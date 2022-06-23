@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.mdtp.gdate;
+package ir.mahdiparastesh.sexbook.mdtp.date;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
@@ -22,19 +23,17 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.customview.widget.ExploreByTouchHelper;
 
 import java.security.InvalidParameterException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
-import ir.mahdiparastesh.sexbook.mdtp.gdate.MonthAdapter.CalendarDay;
+import ir.mahdiparastesh.sexbook.mdtp.date.MonthAdapter.CalendarDay;
 
-public abstract class MonthView extends View {
+public abstract class MonthView<CAL extends Calendar> extends View {
 
     protected static final int DEFAULT_SELECTED_DAY = -1;
-    protected static final int DEFAULT_WEEK_START = Calendar.SUNDAY;
+    protected static final int DEFAULT_WEEK_START = Calendar.SUNDAY; // TODO
     protected static final int DEFAULT_NUM_DAYS = 7;
     protected static final int DEFAULT_NUM_ROWS = 6;
     protected static final int MAX_NUM_ROWS = 6;
@@ -51,7 +50,7 @@ public abstract class MonthView extends View {
     protected static int DAY_HIGHLIGHT_CIRCLE_SIZE;
     protected static int DAY_HIGHLIGHT_CIRCLE_MARGIN;
 
-    protected final DatePickerController mController;
+    protected final DatePickerController<CAL> mController;
 
     // affects the padding on the sides of this view
     protected final int mEdgePadding;
@@ -74,11 +73,11 @@ public abstract class MonthView extends View {
     protected final int mNumDays = DEFAULT_NUM_DAYS;
     protected int mNumCells = mNumDays;
 
-    private final Calendar mCalendar;
-    protected final Calendar mDayLabelCalendar;
+    private final CAL mCalendar;
+    protected final CAL mDayLabelCalendar;
     private final MonthViewTouchHelper mTouchHelper;
     protected int mNumRows = DEFAULT_NUM_ROWS;
-    protected OnDayClickListener mOnDayClickListener;
+    protected OnDayClickListener<CAL> mOnDayClickListener;
     private final boolean mLockAccessibilityDelegate;
 
     protected final int mDayTextColor;
@@ -89,19 +88,19 @@ public abstract class MonthView extends View {
     protected final int mDisabledDayTextColor;
     protected final int mMonthTitleColor;
 
-    private SimpleDateFormat weekDayLabelFormatter;
+    private LocalDateFormat weekDayLabelFormatter;
 
     public MonthView(Context context) {
         this(context, null, null);
     }
 
-    public MonthView(Context context, AttributeSet attr, DatePickerController controller) {
+    public MonthView(Context context, AttributeSet attr, DatePickerController<CAL> controller) {
         super(context, attr);
         mController = controller;
         Resources res = context.getResources();
 
-        mDayLabelCalendar = Calendar.getInstance(mController.getTimeZone(), mController.getLocale());
-        mCalendar = Calendar.getInstance(mController.getTimeZone(), mController.getLocale());
+        mDayLabelCalendar = Utils.createCalendar(mController.getCalendarType(), mController.getTimeZone());
+        mCalendar = Utils.createCalendar(mController.getCalendarType(), mController.getTimeZone());
 
         mDayTextColor = ContextCompat.getColor(context, R.color.mdtp_date_picker_text_normal);
         mMonthDayTextColor = ContextCompat.getColor(context, R.color.mdtp_date_picker_month_day);
@@ -161,7 +160,7 @@ public abstract class MonthView extends View {
         }
     }
 
-    public void setOnDayClickListener(OnDayClickListener listener) {
+    public void setOnDayClickListener(OnDayClickListener<CAL> listener) {
         mOnDayClickListener = listener;
     }
 
@@ -248,7 +247,7 @@ public abstract class MonthView extends View {
         // Figure out what day today is
         //final Time today = new Time(Time.getCurrentTimezone());
         //today.setToNow();
-        final Calendar today = Calendar.getInstance(mController.getTimeZone(), mController.getLocale());
+        final CAL today = Utils.createCalendar(mController.getCalendarType(), mController.getTimeZone());
         mHasToday = false;
         mToday = -1;
 
@@ -289,7 +288,7 @@ public abstract class MonthView extends View {
         return (dividend + (remainder > 0 ? 1 : 0));
     }
 
-    private boolean sameDay(int day, Calendar today) {
+    private boolean sameDay(int day, CAL today) {
         return mYear == today.get(Calendar.YEAR) &&
                 mMonth == today.get(Calendar.MONTH) &&
                 day == today.get(Calendar.DAY_OF_MONTH);
@@ -339,11 +338,12 @@ public abstract class MonthView extends View {
         Locale locale = mController.getLocale();
         String pattern = DateFormat.getBestDateTimePattern(locale, "MMMM yyyy");
 
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern, locale);
+        LocalDateFormat formatter = new LocalDateFormat(
+                getContext(), mController.getCalendarType(), pattern, locale);
         formatter.setTimeZone(mController.getTimeZone());
         formatter.applyLocalizedPattern(pattern);
         mStringBuilder.setLength(0);
-        return formatter.format(mCalendar.getTime());
+        return formatter.format(mCalendar);
     }
 
     protected void drawMonthTitle(Canvas canvas) {
@@ -420,7 +420,7 @@ public abstract class MonthView extends View {
         if (mController.isOutOfRange(mYear, mMonth, day)) return;
 
         if (mOnDayClickListener != null) mOnDayClickListener.onDayClick(this,
-                new CalendarDay(mYear, mMonth, day, mController.getTimeZone()));
+                new CalendarDay<>(mYear, mMonth, day, mController.getTimeZone()));
 
         // This is a no-op if accessibility is turned off.
         mTouchHelper.sendEventForVirtualView(day, AccessibilityEvent.TYPE_VIEW_CLICKED);
@@ -430,18 +430,18 @@ public abstract class MonthView extends View {
         return mController.isHighlighted(year, month, day);
     }
 
-    private String getWeekDayLabel(Calendar day) {
+    private String getWeekDayLabel(CAL day) {
         Locale locale = mController.getLocale();
         if (weekDayLabelFormatter == null)
-            weekDayLabelFormatter = new SimpleDateFormat("EEEEE", locale);
-        return weekDayLabelFormatter.format(day.getTime());
+            weekDayLabelFormatter = new LocalDateFormat(
+                    getContext(), mController.getCalendarType(), "EEEEE", locale);
+        return weekDayLabelFormatter.format(day);
     }
 
-    public CalendarDay getAccessibilityFocus() {
+    public CalendarDay<CAL> getAccessibilityFocus() {
         final int day = mTouchHelper.getAccessibilityFocusedVirtualViewId();
-        if (day >= 0) {
-            return new CalendarDay(mYear, mMonth, day, mController.getTimeZone());
-        }
+        if (day >= 0)
+            return new CalendarDay<>(mYear, mMonth, day, mController.getTimeZone());
         return null;
     }
 
@@ -449,7 +449,7 @@ public abstract class MonthView extends View {
         mTouchHelper.clearFocusedVirtualView();
     }
 
-    public boolean restoreAccessibilityFocus(CalendarDay day) {
+    public boolean restoreAccessibilityFocus(CalendarDay<CAL> day) {
         if ((day.year != mYear) || (day.month != mMonth) || (day.day > mNumCells)) {
             return false;
         }
@@ -461,7 +461,8 @@ public abstract class MonthView extends View {
         private static final String DATE_FORMAT = "dd MMMM yyyy";
 
         private final Rect mTempRect = new Rect();
-        private final Calendar mTempCalendar = Calendar.getInstance(mController.getTimeZone());
+        private final CAL mTempCalendar =
+                Utils.createCalendar(mController.getCalendarType(), mController.getTimeZone());
 
         MonthViewTouchHelper(View host) {
             super(host);
@@ -546,7 +547,7 @@ public abstract class MonthView extends View {
         }
     }
 
-    public interface OnDayClickListener {
-        void onDayClick(MonthView view, CalendarDay day);
+    public interface OnDayClickListener<CAL extends Calendar> {
+        void onDayClick(MonthView<CAL> view, CalendarDay<CAL> day);
     }
 }

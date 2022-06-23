@@ -23,7 +23,7 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import ir.mahdiparastesh.sexbook.*
-import ir.mahdiparastesh.sexbook.Fun.Companion.isReady
+import ir.mahdiparastesh.sexbook.Fun.isReady
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.stat.Summary

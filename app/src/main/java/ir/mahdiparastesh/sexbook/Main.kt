@@ -7,6 +7,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.os.*
 import android.view.*
 import android.widget.EditText
@@ -18,6 +19,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.text.layoutDirection
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -26,13 +28,14 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.material.navigation.NavigationView
-import ir.mahdiparastesh.sexbook.Fun.Companion.isReady
+import ir.mahdiparastesh.sexbook.Fun.isReady
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Delay
+import ir.mahdiparastesh.sexbook.more.PersianCalendar
 import ir.mahdiparastesh.sexbook.stat.*
 import java.util.*
 import kotlin.math.abs
@@ -131,6 +134,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (m.showingSummary) summary()
         if (m.showingRecency) recency()
         jdtpArabicNumbers = resources.getBoolean(R.bool.jdtpArabicNumbers)
+        // TODO Locale.forLanguageTag("fa-IR").layoutDirection
 
         intent.check()
         Work(c, Work.C_VIEW_ALL).start()

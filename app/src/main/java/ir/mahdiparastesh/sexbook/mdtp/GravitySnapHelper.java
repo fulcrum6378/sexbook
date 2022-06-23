@@ -69,9 +69,7 @@ public class GravitySnapHelper extends LinearSnapHelper {
             } else { // END
                 out[0] = distanceToEnd(targetView, getHorizontalHelper(layoutManager), false);
             }
-        } else {
-            out[0] = 0;
-        }
+        } else out[0] = 0;
 
         if (layoutManager.canScrollVertically()) {
             if (gravity == Gravity.TOP) {
@@ -79,9 +77,7 @@ public class GravitySnapHelper extends LinearSnapHelper {
             } else { // BOTTOM
                 out[1] = distanceToEnd(targetView, getVerticalHelper(layoutManager), false);
             }
-        } else {
-            out[1] = 0;
-        }
+        } else out[1] = 0;
 
         return out;
     }
@@ -109,18 +105,14 @@ public class GravitySnapHelper extends LinearSnapHelper {
     }
 
     private int distanceToStart(View targetView, OrientationHelper helper, boolean fromEnd) {
-        if (isRtlHorizontal && !fromEnd) {
+        if (isRtlHorizontal && !fromEnd)
             return distanceToEnd(targetView, helper, true);
-        }
-
         return helper.getDecoratedStart(targetView) - helper.getStartAfterPadding();
     }
 
     private int distanceToEnd(View targetView, OrientationHelper helper, boolean fromStart) {
-        if (isRtlHorizontal && !fromStart) {
+        if (isRtlHorizontal && !fromStart)
             return distanceToStart(targetView, helper, true);
-        }
-
         return helper.getDecoratedEnd(targetView) - helper.getEndAfterPadding();
     }
 
@@ -130,9 +122,7 @@ public class GravitySnapHelper extends LinearSnapHelper {
         if (layoutManager instanceof LinearLayoutManager) {
             int firstChild = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
 
-            if (firstChild == RecyclerView.NO_POSITION) {
-                return null;
-            }
+            if (firstChild == RecyclerView.NO_POSITION) return null;
 
             View child = layoutManager.findViewByPosition(firstChild);
 
@@ -141,13 +131,11 @@ public class GravitySnapHelper extends LinearSnapHelper {
             // We should return the child if it's visible width
             // is greater than 0.5 of it's total width.
             // In a RTL configuration, we need to check the start point and in LTR the end point
-            if (isRtlHorizontal) {
+            if (isRtlHorizontal)
                 visibleWidth = (float) (helper.getTotalSpace() - helper.getDecoratedStart(child))
                         / helper.getDecoratedMeasurement(child);
-            } else {
-                visibleWidth = (float) helper.getDecoratedEnd(child)
-                        / helper.getDecoratedMeasurement(child);
-            }
+            else visibleWidth = (float) helper.getDecoratedEnd(child)
+                    / helper.getDecoratedMeasurement(child);
 
             // If we're at the end of the list, we shouldn't snap
             // to avoid having the last item not completely visible.
@@ -175,35 +163,30 @@ public class GravitySnapHelper extends LinearSnapHelper {
         if (layoutManager instanceof LinearLayoutManager) {
             int lastChild = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
 
-            if (lastChild == RecyclerView.NO_POSITION) {
-                return null;
-            }
+            if (lastChild == RecyclerView.NO_POSITION) return null;
 
             View child = layoutManager.findViewByPosition(lastChild);
 
             float visibleWidth;
 
-            if (isRtlHorizontal) {
+            if (isRtlHorizontal)
                 visibleWidth = (float) helper.getDecoratedEnd(child)
                         / helper.getDecoratedMeasurement(child);
-            } else {
-                visibleWidth = (float) (helper.getTotalSpace() - helper.getDecoratedStart(child))
-                        / helper.getDecoratedMeasurement(child);
-            }
+            else visibleWidth = (float) (helper.getTotalSpace() - helper.getDecoratedStart(child))
+                    / helper.getDecoratedMeasurement(child);
 
             // If we're at the start of the list, we shouldn't snap
             // to avoid having the first item not completely visible.
             boolean startOfList = ((LinearLayoutManager) layoutManager)
                     .findFirstCompletelyVisibleItemPosition() == 0;
 
-            if (visibleWidth > 0.5f && !startOfList) {
+            if (visibleWidth > 0.5f && !startOfList)
                 return child;
-            } else if (startOfList) {
+            else if (startOfList)
                 return null;
-            } else {
+            else
                 // If the child wasn't returned, we need to return the previous view
                 return layoutManager.findViewByPosition(lastChild - 1);
-            }
         }
         return null;
     }
@@ -212,13 +195,11 @@ public class GravitySnapHelper extends LinearSnapHelper {
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
 
         if (layoutManager instanceof LinearLayoutManager) {
-            if (gravity == Gravity.START || gravity == Gravity.TOP) {
+            if (gravity == Gravity.START || gravity == Gravity.TOP)
                 return ((LinearLayoutManager) layoutManager).findFirstCompletelyVisibleItemPosition();
-            } else if (gravity == Gravity.END || gravity == Gravity.BOTTOM) {
+            else if (gravity == Gravity.END || gravity == Gravity.BOTTOM)
                 return ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
-            }
         }
-
         return RecyclerView.NO_POSITION;
     }
 
@@ -230,9 +211,8 @@ public class GravitySnapHelper extends LinearSnapHelper {
     }
 
     private OrientationHelper getHorizontalHelper(RecyclerView.LayoutManager layoutManager) {
-        if (horizontalHelper == null) {
+        if (horizontalHelper == null)
             horizontalHelper = OrientationHelper.createHorizontalHelper(layoutManager);
-        }
         return horizontalHelper;
     }
 

@@ -6,7 +6,9 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
 
-public class AccessibleTextView extends androidx.appcompat.widget.AppCompatTextView {
+import androidx.appcompat.widget.AppCompatTextView;
+
+public class AccessibleTextView extends AppCompatTextView {
 
     public AccessibleTextView(Context context, AttributeSet attrs) {
         super(context, attrs);

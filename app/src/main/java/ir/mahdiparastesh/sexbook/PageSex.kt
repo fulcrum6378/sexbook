@@ -14,9 +14,9 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
-import ir.mahdiparastesh.sexbook.Fun.Companion.explode
-import ir.mahdiparastesh.sexbook.Fun.Companion.shake
+import ir.mahdiparastesh.sexbook.Fun.calendar
+import ir.mahdiparastesh.sexbook.Fun.explode
+import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.data.Filter
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work

@@ -7,8 +7,8 @@ import android.os.Message
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
-import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
+import ir.mahdiparastesh.sexbook.Fun.calendar
+import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -110,7 +110,7 @@ class Singular : BaseActivity() {
                     if (y == 0) start = jBeg.M
                     if (y == yDist) end = jNow.M
                     for (m in start..end) list.add(
-                        "${c.resources.getStringArray(R.array.jMonths)[m]} ${jBeg.Y + y}"
+                        "${c.resources.getStringArray(R.array.persianMonths)[m]} ${jBeg.Y + y}"
                     )
                 }
             }
@@ -124,7 +124,7 @@ class Singular : BaseActivity() {
             var value = 0f
             val split = month.split(" ")
             val months = when (c.calType()) {
-                Fun.CalendarType.PERSIAN -> c.resources.getStringArray(R.array.jMonths)
+                Fun.CalendarType.PERSIAN -> c.resources.getStringArray(R.array.persianMonths)
                 else -> DateFormatSymbols().shortMonths
             }
             for (i in list) {

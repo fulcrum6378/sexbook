@@ -1,7 +1,7 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Bundle
-import ir.mahdiparastesh.sexbook.Fun.Companion.randomColor
+import ir.mahdiparastesh.sexbook.Fun.randomColor
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.AdorabilityBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity

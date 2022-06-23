@@ -6,7 +6,7 @@
     <string name="sOpen">بازکردن</string>
     <string name="close">بستن</string>
     <string name="toExit">برای خروج دوباره ضربه بزنید&#8230;</string>
-    <string-array name="jMonths">
+    <string-array name="persianMonths">
         <item>فرو</item>
         <item>ارد</item>
         <item>خرد</item>
@@ -20,7 +20,7 @@
         <item>بهم</item>
         <item>اسف</item>
     </string-array>
-    <string-array name="jMonthsFull">
+    <string-array name="shortPersianMonths">
         <item>فروردین</item>
         <item>اردیبهشت</item>
         <item>خرداد</item>

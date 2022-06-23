@@ -1,45 +1,50 @@
-package ir.mahdiparastesh.sexbook.mdtp.gdate;
+package ir.mahdiparastesh.sexbook.mdtp.date;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.icu.util.Calendar;
+import android.icu.util.TimeZone;
 import android.view.ViewGroup;
 import android.widget.AbsListView.LayoutParams;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Calendar;
-import java.util.TimeZone;
+import ir.mahdiparastesh.sexbook.mdtp.Utils;
+import ir.mahdiparastesh.sexbook.mdtp.date.MonthView.OnDayClickListener;
 
-import ir.mahdiparastesh.sexbook.mdtp.gdate.MonthAdapter.MonthViewHolder;
-import ir.mahdiparastesh.sexbook.mdtp.gdate.MonthView.OnDayClickListener;
+public abstract class MonthAdapter<CAL extends Calendar>
+        extends RecyclerView.Adapter<MonthAdapter.MonthViewHolder<CAL>> implements OnDayClickListener<CAL> {
 
-public abstract class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder> implements OnDayClickListener {
+    protected final DatePickerController<CAL> mController;
 
-    protected final DatePickerController mController;
-
-    private CalendarDay mSelectedDay;
+    private CalendarDay<CAL> mSelectedDay;
 
     protected static final int MONTHS_IN_YEAR = 12;
 
-    public static class CalendarDay {
-        private Calendar calendar;
+    public static class CalendarDay<CAL extends Calendar> {
+        private Class<CAL> mCalendarType;
+        private CAL calendar;
         int year;
         int month;
         int day;
         TimeZone mTimeZone;
 
-        public CalendarDay(TimeZone timeZone) {
+        public CalendarDay(TimeZone timeZone, Class<CAL> calendarType) {
             mTimeZone = timeZone;
+            mCalendarType = calendarType;
             setTime(System.currentTimeMillis());
         }
 
-        public CalendarDay(long timeInMillis, TimeZone timeZone) {
+        public CalendarDay(long timeInMillis, TimeZone timeZone, Class<CAL> calendarType) {
             mTimeZone = timeZone;
+            mCalendarType = calendarType;
             setTime(timeInMillis);
         }
 
-        public CalendarDay(Calendar calendar, TimeZone timeZone) {
+        public CalendarDay(CAL calendar, TimeZone timeZone, Class<CAL> calendarType) {
             mTimeZone = timeZone;
+            mCalendarType = calendarType;
             year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -55,7 +60,7 @@ public abstract class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder>
             setDay(year, month, day);
         }
 
-        public void set(CalendarDay date) {
+        public void set(CalendarDay<CAL> date) {
             year = date.year;
             month = date.month;
             day = date.day;
@@ -68,9 +73,7 @@ public abstract class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder>
         }
 
         private void setTime(long timeInMillis) {
-            if (calendar == null) {
-                calendar = Calendar.getInstance(mTimeZone);
-            }
+            if (calendar == null) calendar = Utils.createCalendar(mCalendarType, mTimeZone);
             calendar.setTimeInMillis(timeInMillis);
             month = calendar.get(Calendar.MONTH);
             year = calendar.get(Calendar.YEAR);
@@ -90,43 +93,45 @@ public abstract class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder>
         }
     }
 
-    public MonthAdapter(DatePickerController controller) {
+    public MonthAdapter(DatePickerController<CAL> controller) {
         mController = controller;
         init();
         setSelectedDay(mController.getSelectedDay());
         setHasStableIds(true);
     }
 
-    public void setSelectedDay(CalendarDay day) {
+    @SuppressLint("NotifyDataSetChanged")
+    public void setSelectedDay(CalendarDay<CAL> day) {
         mSelectedDay = day;
         notifyDataSetChanged();
     }
 
     @SuppressWarnings("unused")
-    public CalendarDay getSelectedDay() {
+    public CalendarDay<CAL> getSelectedDay() {
         return mSelectedDay;
     }
 
     protected void init() {
-        mSelectedDay = new CalendarDay(System.currentTimeMillis(), mController.getTimeZone());
+        mSelectedDay = new CalendarDay<>(
+                System.currentTimeMillis(), mController.getTimeZone(), mController.getCalendarType());
     }
 
     @Override
     @NonNull
-    public MonthViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MonthViewHolder<CAL> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        MonthView v = createMonthView(parent.getContext());
+        MonthView<CAL> v = createMonthView(parent.getContext());
         // Set up the new view
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         v.setLayoutParams(params);
         v.setClickable(true);
         v.setOnDayClickListener(this);
 
-        return new MonthViewHolder(v);
+        return new MonthViewHolder<>(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MonthViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MonthViewHolder<CAL> holder, int position) {
         holder.bind(position, mController, mSelectedDay);
     }
 
@@ -137,54 +142,50 @@ public abstract class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder>
 
     @Override
     public int getItemCount() {
-        Calendar endDate = mController.getEndDate();
-        Calendar startDate = mController.getStartDate();
+        CAL endDate = mController.getEndDate();
+        CAL startDate = mController.getStartDate();
         int endMonth = endDate.get(Calendar.YEAR) * MONTHS_IN_YEAR + endDate.get(Calendar.MONTH);
         int startMonth = startDate.get(Calendar.YEAR) * MONTHS_IN_YEAR + startDate.get(Calendar.MONTH);
         return endMonth - startMonth + 1;
     }
 
-    public abstract MonthView createMonthView(Context context);
+    public abstract MonthView<CAL> createMonthView(Context context);
 
     @Override
-    public void onDayClick(MonthView view, CalendarDay day) {
-        if (day != null) {
-            onDayTapped(day);
-        }
+    public void onDayClick(MonthView<CAL> view, CalendarDay<CAL> day) {
+        if (day != null) onDayTapped(day);
     }
 
     /**
      * Maintains the same hour/min/sec but moves the day to the tapped day.
-     *
-     * @param day The day that was tapped
      */
-    protected void onDayTapped(CalendarDay day) {
+    protected void onDayTapped(CalendarDay<CAL> day) {
         mController.tryVibrate();
         mController.onDayOfMonthSelected(day.year, day.month, day.day);
         setSelectedDay(day);
     }
 
-    static class MonthViewHolder extends RecyclerView.ViewHolder {
+    static class MonthViewHolder<CAL extends Calendar> extends RecyclerView.ViewHolder {
 
         public MonthViewHolder(MonthView itemView) {
             super(itemView);
 
         }
 
-        void bind(int position, DatePickerController mController, CalendarDay selectedCalendarDay) {
+        void bind(int position, DatePickerController<CAL> mController, CalendarDay<CAL> selectedCalendarDay) {
             final int month = (position + mController.getStartDate().get(Calendar.MONTH)) % MONTHS_IN_YEAR;
             final int year = (position + mController.getStartDate().get(Calendar.MONTH)) / MONTHS_IN_YEAR + mController.getMinYear();
 
             int selectedDay = -1;
-            if (isSelectedDayInMonth(selectedCalendarDay, year, month)) {
+            if (isSelectedDayInMonth(selectedCalendarDay, year, month))
                 selectedDay = selectedCalendarDay.day;
-            }
 
-            ((MonthView) itemView).setMonthParams(selectedDay, year, month, mController.getFirstDayOfWeek());
+            //noinspection unchecked
+            ((MonthView<CAL>) itemView).setMonthParams(selectedDay, year, month, mController.getFirstDayOfWeek());
             this.itemView.invalidate();
         }
 
-        private boolean isSelectedDayInMonth(CalendarDay selectedDay, int year, int month) {
+        private boolean isSelectedDayInMonth(CalendarDay<CAL> selectedDay, int year, int month) {
             return selectedDay.year == year && selectedDay.month == month;
         }
     }

@@ -1,16 +1,17 @@
-package ir.mahdiparastesh.sexbook.mdtp.gdate;
+package ir.mahdiparastesh.sexbook.mdtp.date;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.icu.util.Calendar;
 import android.util.AttributeSet;
 
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
 
 @SuppressLint("ViewConstructor")
-public class SimpleMonthView extends MonthView {
+public class SimpleMonthView<CAL extends Calendar> extends MonthView<CAL> {
 
-    public SimpleMonthView(Context context, AttributeSet attr, DatePickerController controller) {
+    public SimpleMonthView(Context context, AttributeSet attr, DatePickerController<CAL> controller) {
         super(context, attr, controller);
     }
 

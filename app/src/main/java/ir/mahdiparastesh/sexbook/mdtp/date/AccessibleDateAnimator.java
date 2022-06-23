@@ -1,10 +1,16 @@
-package ir.mahdiparastesh.sexbook.mdtp;
+package ir.mahdiparastesh.sexbook.mdtp.date;
 
 import android.content.Context;
+import android.icu.text.DateFormatSymbols;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.ViewAnimator;
+
+import java.util.Calendar;
+
+import ir.mahdiparastesh.sexbook.mdtp.Utils;
+import ir.mahdiparastesh.sexbook.more.PersianCalendar;
 
 public class AccessibleDateAnimator extends ViewAnimator {
     private long mDateMillis;
@@ -31,10 +37,8 @@ public class AccessibleDateAnimator extends ViewAnimator {
             } else {// Persian
                 PersianCalendar mPersianCalendar = new PersianCalendar();
                 mPersianCalendar.setTimeInMillis(mDateMillis);
-                dateString = Utils.getPersianNumbers(
-                        mPersianCalendar.getPersianMonthName(getContext()) + " " +
-                                mPersianCalendar.getPersianYear()
-                );
+                dateString = DateFormatSymbols.getInstance().getMonths()[mPersianCalendar.get(Calendar.MONTH)]
+                        + " " + mPersianCalendar.get(Calendar.YEAR);
             }
             event.getText().add(dateString);
             return true;

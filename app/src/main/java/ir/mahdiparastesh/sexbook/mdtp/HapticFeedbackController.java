@@ -47,7 +47,7 @@ public class HapticFeedbackController {
         if (!mIsGloballyEnabled) return;
         long now = SystemClock.uptimeMillis();
         if (now - mLastVibrate >= VIBRATE_DELAY_MS) {
-            Fun.Companion.shake(mContext, VIBRATE_LENGTH_MS);
+            Fun.shake(mContext, VIBRATE_LENGTH_MS);
             mLastVibrate = now;
         }
     }

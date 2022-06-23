@@ -1,6 +1,7 @@
-package ir.mahdiparastesh.sexbook.mdtp.gdate;
+package ir.mahdiparastesh.sexbook.mdtp.date;
 
 import android.content.Context;
+import android.icu.util.Calendar;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,25 +10,24 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
 
-public class DayPickerGroup extends ViewGroup
+public class DayPickerGroup<CAL extends Calendar> extends ViewGroup
         implements View.OnClickListener, DayPickerView.OnPageListener {
     private ImageButton prevButton;
     private ImageButton nextButton;
-    private DayPickerView dayPickerView;
-    private DatePickerController controller;
+    private DayPickerView<CAL> dayPickerView;
+    private DatePickerController<CAL> controller;
 
     public DayPickerGroup(Context context) {
         super(context);
         init();
     }
 
-    public DayPickerGroup(Context context, @NonNull DatePickerController controller) {
+    public DayPickerGroup(Context context, @NonNull DatePickerController<CAL> controller) {
         super(context);
         this.controller = controller;
         init();
@@ -44,7 +44,7 @@ public class DayPickerGroup extends ViewGroup
     }
 
     private void init() {
-        dayPickerView = new SimpleDayPickerView(getContext(), controller);
+        dayPickerView = new SimpleDayPickerView<>(getContext(), controller);
         addView(dayPickerView);
 
         final LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -133,7 +133,8 @@ public class DayPickerGroup extends ViewGroup
         final int height = bottom - top;
         dayPickerView.layout(0, topMargin, width, height);
 
-        final SimpleMonthView monthView = (SimpleMonthView) dayPickerView.getChildAt(0);
+        //noinspection unchecked
+        final SimpleMonthView<CAL> monthView = (SimpleMonthView<CAL>) dayPickerView.getChildAt(0);
         final int monthHeight = monthView.getMonthHeight();
         final int cellWidth = monthView.getCellWidth();
         final int edgePadding = monthView.getEdgePadding();

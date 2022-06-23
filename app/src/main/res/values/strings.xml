@@ -6,7 +6,7 @@
     <string name="sOpen">Open</string>
     <string name="close">Close</string>
     <string name="toExit">Double tap to exit&#8230;</string>
-    <string-array name="jMonths" translatable="false">
+    <string-array name="persianMonths" translatable="false">
         <item>Far</item>
         <item>Ord</item>
         <item>Kho</item>
@@ -20,7 +20,7 @@
         <item>Bah</item>
         <item>Esf</item>
     </string-array>
-    <string-array name="jMonthsFull" translatable="false">
+    <string-array name="shortPersianMonths" translatable="false">
         <item>Farvardin</item>
         <item>Ordibehesht</item>
         <item>Khordad</item>

@@ -10,15 +10,14 @@ import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.*
-import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
-import ir.mahdiparastesh.sexbook.Fun.Companion.vis
+import ir.mahdiparastesh.sexbook.Fun.calendar
+import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.mdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.more.*
-import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.text.DateFormatSymbols
 import java.util.*
 
@@ -303,7 +302,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             val lm = time.calendar()
             if (c.calType() == Fun.CalendarType.PERSIAN) {
                 val jal = Jalali(lm)
-                return "${c.resources.getStringArray(R.array.jMonths)[jal.M]} ${jal.D}"
+                return "${c.resources.getStringArray(R.array.persianMonths)[jal.M]} ${jal.D}"
             }
             return "${DateFormatSymbols().shortMonths[lm.get(Calendar.MONTH)]} " +
                     "${lm.get(Calendar.DAY_OF_MONTH)}"

@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
 import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
-import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
+import ir.mahdiparastesh.sexbook.Fun.calendar
+import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.RecencyBinding

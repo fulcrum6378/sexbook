@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import ir.mahdiparastesh.sexbook.Fun.Companion.explode
-import ir.mahdiparastesh.sexbook.Fun.Companion.shake
+import ir.mahdiparastesh.sexbook.Fun.explode
+import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PlacesBinding

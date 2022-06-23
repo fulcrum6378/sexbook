@@ -3,8 +3,8 @@ package ir.mahdiparastesh.sexbook
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.*
-import ir.mahdiparastesh.sexbook.Fun.Companion.explode
-import ir.mahdiparastesh.sexbook.Fun.Companion.shake
+import ir.mahdiparastesh.sexbook.Fun.explode
+import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.EstimationBinding

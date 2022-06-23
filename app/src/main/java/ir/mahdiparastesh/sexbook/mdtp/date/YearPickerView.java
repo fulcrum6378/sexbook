@@ -1,9 +1,10 @@
-package ir.mahdiparastesh.sexbook.mdtp.gdate;
+package ir.mahdiparastesh.sexbook.mdtp.date;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.StateListDrawable;
+import android.icu.util.Calendar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +17,18 @@ import android.widget.TextView;
 
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.mdtp.TextViewWithCircularIndicator;
-import ir.mahdiparastesh.sexbook.mdtp.gdate.DatePickerDialog.OnDateChangedListener;
+import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog.OnDateChangedListener;
 
 @SuppressLint("ViewConstructor")
-public class YearPickerView extends ListView implements OnItemClickListener, OnDateChangedListener {
-    private final DatePickerController mController;
+public class YearPickerView<CAL extends Calendar>
+        extends ListView implements OnItemClickListener, OnDateChangedListener {
+    private final DatePickerController<CAL> mController;
     private YearAdapter mAdapter;
     private final int mViewSize;
     private final int mChildSize;
     private TextViewWithCircularIndicator mSelectedView;
 
-    public YearPickerView(Context context, DatePickerController controller) {
+    public YearPickerView(Context context, DatePickerController<CAL> controller) {
         super(context);
         mController = controller;
         mController.registerOnDateChangedListener(this);

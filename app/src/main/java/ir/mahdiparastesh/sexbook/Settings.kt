@@ -6,9 +6,9 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
-import ir.mahdiparastesh.sexbook.Fun.Companion.calendar
-import ir.mahdiparastesh.sexbook.Fun.Companion.defCalendar
-import ir.mahdiparastesh.sexbook.Fun.Companion.fullDate
+import ir.mahdiparastesh.sexbook.Fun.calendar
+import ir.mahdiparastesh.sexbook.Fun.defCalendar
+import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
