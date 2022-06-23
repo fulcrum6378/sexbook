@@ -528,14 +528,14 @@ public abstract class MonthView<CAL extends Calendar> extends View {
         }
 
         void getItemBounds(int day, Rect rect) {
-            final int offsetX = mEdgePadding;
+            // offsetX => mEdgePadding
             final int offsetY = getMonthHeaderSize();
             final int cellHeight = mRowHeight;
             final int cellWidth = ((mWidth - (2 * mEdgePadding)) / mNumDays);
             final int index = ((day - 1) + findDayOffset());
             final int row = (index / mNumDays);
             final int column = (index % mNumDays);
-            final int x = (offsetX + (column * cellWidth));
+            final int x = (mEdgePadding + (column * cellWidth));
             final int y = (offsetY + (row * cellHeight));
 
             rect.set(x, y, (x + cellWidth), (y + cellHeight));

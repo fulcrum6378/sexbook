@@ -11,11 +11,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.*
 import ir.mahdiparastesh.sexbook.Fun.calendar
+import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
+import ir.mahdiparastesh.sexbook.mdtp.Utils
+import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.mdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.more.*
 import java.text.DateFormatSymbols
@@ -65,7 +68,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         val itm = c.m.visOnani.value!![i]
 
         // Date & Time
-        var cal = itm.time.calendar()
+        var cal = itm.time.calendar(c)
         h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
         h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
         h.b.date.text = compileDate(c, itm.time)
@@ -85,17 +88,17 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         } else h.b.clock.setOnClickListener(null)
         if (itm.isReal) h.b.date.setOnClickListener {
             if (c.m.onani.value == null) return@setOnClickListener
-            LocalDatePicker(
-                c, "$tagEdit${globalPos(c.m, h.layoutPosition)}", cal, { dialogDismissed() }
-            ) { view, time ->
+            DatePickerDialog.newInstance({ view, time ->
                 if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4)
-                    return@LocalDatePicker
+                    return@newInstance
                 val pos = view.tag!!.substring(4).toInt()
                 if (c.m.onani.value!!.size > pos && view.tag!!.substring(0, 4) == tagEdit) {
                     c.m.onani.value!![pos].time = time
                     Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
                 }
-            }
+            }, cal).defaultOptions(c)
+                .setOnDismissListener { dialogDismissed() }
+                .show(c.supportFragmentManager, "$tagEdit${globalPos(c.m, h.layoutPosition)}")
             mayShowAd()
         } else h.b.date.setOnClickListener(null)
         h.b.ampm.text =
@@ -244,7 +247,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         val pos = view.tag!!.substring(4).toInt()
         if (c.m.onani.value!!.size > pos) when (view.tag!!.substring(0, 4)) {
             tagEdit -> {
-                var calc = c.m.onani.value!![pos].time.calendar()
+                var calc = c.m.onani.value!![pos].time.calendar(c)
                 calc[Calendar.HOUR_OF_DAY] = hourOfDay
                 calc[Calendar.MINUTE] = minute
                 calc[Calendar.SECOND] = second
@@ -299,12 +302,9 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         const val estimatedAlpha = 0.6f
 
         fun compileDate(c: BaseActivity, time: Long): String {
-            val lm = time.calendar()
-            if (c.calType() == Fun.CalendarType.PERSIAN) {
-                val jal = Jalali(lm)
-                return "${c.resources.getStringArray(R.array.persianMonths)[jal.M]} ${jal.D}"
-            }
-            return "${DateFormatSymbols().shortMonths[lm.get(Calendar.MONTH)]} " +
+            val calType = c.calType()
+            val lm = calType.newInstance().apply { timeInMillis = time }
+            return "${Utils.localSymbols(c.c, calType).shortMonths[lm.get(Calendar.MONTH)]} " +
                     "${lm.get(Calendar.DAY_OF_MONTH)}"
         }
 

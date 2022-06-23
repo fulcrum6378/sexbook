@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
@@ -27,6 +28,7 @@ import ir.mahdiparastesh.sexbook.Fun.isReady
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.stat.Summary
+import java.util.*
 
 abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListener {
     val c: Context get() = applicationContext
@@ -102,7 +104,11 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
     fun pdcf(@ColorRes res: Int = R.color.CPDD) =
         PorterDuffColorFilter(ContextCompat.getColor(c, res), PorterDuff.Mode.SRC_IN)
 
-    fun calType() = Fun.CalendarType.values()[sp.getInt(Settings.spCalType, 0)]
+    @Suppress("UNCHECKED_CAST")
+    fun calType(): Class<out Calendar> = arrayOf(
+        GregorianCalendar::class.java as Class<out Calendar>,
+        PersianCalendar::class.java as Class<out Calendar>
+    )[sp.getInt(Settings.spCalType, 0)]
 
     private fun initAdmob() {
         retryForAd = 0

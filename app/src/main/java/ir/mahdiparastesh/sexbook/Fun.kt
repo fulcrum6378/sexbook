@@ -6,6 +6,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
+import android.icu.util.Calendar
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -19,10 +20,9 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.initialization.AdapterStatus
 import com.google.android.gms.ads.initialization.InitializationStatus
+import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
-import ir.mahdiparastesh.sexbook.more.Jalali
-import java.util.*
 
 object Fun {
     // Latin Font: Franklin Gothic
@@ -91,19 +91,13 @@ object Fun {
         else vib.vibrate(dur)
     }
 
-    fun Calendar.fullDate(c: BaseActivity) = when (c.calType()) {
-        CalendarType.PERSIAN -> {
-            val j = Jalali(this)
-            "${z(j.Y)}.${z(j.M + 1)}.${z(j.D)}"
-        }
-        else -> "${z(this[Calendar.YEAR])}.${z(this[Calendar.MONTH] + 1)}" +
-                ".${z(this[Calendar.DAY_OF_MONTH])}"
-    }
+    fun Calendar.fullDate() = "${z(this[Calendar.YEAR])}.${z(this[Calendar.MONTH] + 1)}" +
+            ".${z(this[Calendar.DAY_OF_MONTH])}"
 
-    fun Long.calendar(): Calendar =
-        Calendar.getInstance().apply { timeInMillis = this@calendar }
+    fun Long.calendar(c: BaseActivity): Calendar =
+        c.calType().newInstance().apply { timeInMillis = this@calendar }
 
-    fun Long.defCalendar(): Calendar = Calendar.getInstance().apply {
+    fun Long.defCalendar(c: BaseActivity): Calendar = c.calType().newInstance().apply {
         timeInMillis = this@defCalendar
         this[Calendar.HOUR] = 0
         this[Calendar.MINUTE] = 0
@@ -134,5 +128,11 @@ object Fun {
         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
     ).apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }
 
-    enum class CalendarType { GREGORIAN, PERSIAN }
+    fun DatePickerDialog<*>.defaultOptions(c: BaseActivity): DatePickerDialog<*> {
+        version = DatePickerDialog.Version.VERSION_1
+        accentColor = c.color(R.color.CP)
+        setOkColor(c.color(R.color.dialogText))
+        setCancelColor(c.color(R.color.dialogText))
+        return this
+    }
 }

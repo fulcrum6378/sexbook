@@ -24,7 +24,6 @@ import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.Delay
-import ir.mahdiparastesh.sexbook.more.Jalali
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 import java.util.*
 
@@ -159,10 +158,8 @@ class PageSex : Fragment() {
     private fun filter(reports: ArrayList<Report>): ArrayList<Filter> {
         val filters: ArrayList<Filter> = ArrayList()
         for (r in reports.indices) {
-            val lm = reports[r].time.calendar()
-            var ym = arrayOf(lm[Calendar.YEAR], lm[Calendar.MONTH])
-            if (c.calType() == Fun.CalendarType.PERSIAN)
-                Jalali(lm).apply { ym = arrayOf(Y, M) }
+            val lm = reports[r].time.calendar(c)
+            val ym = arrayOf(lm[Calendar.YEAR], lm[Calendar.MONTH])
             var filterExists = false
             for (f in filters.indices) if (filters[f].year == ym[0] && filters[f].month == ym[1]) {
                 filterExists = true

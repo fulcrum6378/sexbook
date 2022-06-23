@@ -1,13 +1,14 @@
 package ir.mahdiparastesh.sexbook.stat
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
-import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.calendar
+import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
@@ -17,14 +18,12 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
+import ir.mahdiparastesh.sexbook.mdtp.Utils
+import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.more.Jalali
-import ir.mahdiparastesh.sexbook.more.LocalDatePicker
 import lecho.lib.hellocharts.model.Column
 import lecho.lib.hellocharts.model.ColumnChartData
 import lecho.lib.hellocharts.model.SubcolumnValue
-import java.text.DateFormatSymbols
-import java.util.*
 
 class Singular : BaseActivity() {
     private lateinit var b: SingularBinding
@@ -81,38 +80,25 @@ class Singular : BaseActivity() {
         var handler: Handler? = null
 
         fun sinceTheBeginning(c: BaseActivity, mOnani: ArrayList<Report>): List<String> {
-            val now = Calendar.getInstance()
+            val now = c.calType().newInstance()
             var oldest = now.timeInMillis
             if (c.sp.getBoolean(Settings.spStatSinceCb, false)) {
                 val statSinc = c.sp.getLong(Settings.spStatSince, 0L)
                 for (h in mOnani) if (h.time in statSinc until oldest) oldest = h.time
             } else for (h in mOnani) if (h.time < oldest) oldest = h.time
-            val beg = oldest.calendar()
+            val symbols = Utils.localSymbols(c.c, c.calType())
+
+            val beg = oldest.calendar(c)
             val list = arrayListOf<String>()
-            if (c.calType() != Fun.CalendarType.PERSIAN) {
-                val yDist = now[Calendar.YEAR] - beg[Calendar.YEAR]
-                for (y in 0 until (yDist + 1)) {
-                    var start = 0
-                    var end = 11
-                    if (y == 0) start = beg[Calendar.MONTH]
-                    if (y == yDist) end = now[Calendar.MONTH]
-                    for (m in start..end) list.add(
-                        "${DateFormatSymbols().shortMonths[m]} ${beg[Calendar.YEAR] + y}"
-                    )
-                }
-            } else {
-                val jBeg = Jalali(beg)
-                val jNow = Jalali(now)
-                val yDist = jNow.Y - jBeg.Y
-                for (y in 0 until (yDist + 1)) {
-                    var start = 0
-                    var end = 11
-                    if (y == 0) start = jBeg.M
-                    if (y == yDist) end = jNow.M
-                    for (m in start..end) list.add(
-                        "${c.resources.getStringArray(R.array.persianMonths)[m]} ${jBeg.Y + y}"
-                    )
-                }
+            val yDist = now[Calendar.YEAR] - beg[Calendar.YEAR]
+            for (y in 0 until (yDist + 1)) {
+                var start = 0
+                var end = 11
+                if (y == 0) start = beg[Calendar.MONTH]
+                if (y == yDist) end = now[Calendar.MONTH]
+                for (m in start..end) list.add(
+                    "${symbols.shortMonths[m]} ${beg[Calendar.YEAR] + y}"
+                )
             }
             return list
         }
@@ -123,21 +109,11 @@ class Singular : BaseActivity() {
         ): Float {
             var value = 0f
             val split = month.split(" ")
-            val months = when (c.calType()) {
-                Fun.CalendarType.PERSIAN -> c.resources.getStringArray(R.array.persianMonths)
-                else -> DateFormatSymbols().shortMonths
-            }
+            val months = Utils.localSymbols(c, c.calType()).shortMonths
             for (i in list) {
-                var lm = i.time.calendar()
-                var yea: Int
-                var mon: Int
-                if (c.calType() == Fun.CalendarType.PERSIAN) Jalali(lm).apply {
-                    yea = Y
-                    mon = M
-                } else {
-                    yea = lm[Calendar.YEAR]
-                    mon = lm[Calendar.MONTH]
-                }
+                var lm = i.time.calendar(c)
+                var yea: Int = lm[Calendar.YEAR]
+                var mon: Int = lm[Calendar.MONTH]
                 if (months.indexOf(split[0]) == mon && split[1].toInt() == yea) value += i.value
                 if (growing && (split[1].toInt() > yea ||
                             (split[1].toInt() == yea && months.indexOf(split[0]) > mon))
@@ -167,7 +143,7 @@ class Singular : BaseActivity() {
                 crush.bMonth.toInt().let { if (it != -1) bir[Calendar.MONTH] = it }
                 crush.bDay.toInt().let { if (it != -1) bir[Calendar.DAY_OF_MONTH] = it }
                 if (crush.hasFullBirth()) {
-                    bi.birth.text = bir.fullDate(c)
+                    bi.birth.text = bir.fullDate()
                     isBirthSet = true
                 }
                 bi.location.setText(crush.locat)
@@ -184,11 +160,11 @@ class Singular : BaseActivity() {
 
             // Birth
             bi.birth.setOnClickListener {
-                LocalDatePicker(c, "birth", bir) { _, time ->
+                DatePickerDialog.newInstance({ _, time ->
                     isBirthSet = true
                     bir.timeInMillis = time
-                    bi.birth.text = bir.fullDate(c)
-                }
+                    bi.birth.text = bir.fullDate()
+                }, bir).defaultOptions(c).show(c.supportFragmentManager, "birth")
             }
 
             AlertDialog.Builder(c).apply {

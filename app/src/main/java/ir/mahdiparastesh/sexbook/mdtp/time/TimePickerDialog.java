@@ -168,11 +168,12 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         mDismissOnPause = false;
         mEnableSeconds = false;
         mEnableMinutes = true;
-        mVersion = Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? Version.VERSION_1 : Version.VERSION_2;
+        mVersion = Version.VERSION_2;
         // Throw away the current TimePicker, which might contain old state if the dialog instance is reused
         mTimePicker = null;
     }
 
+    @SuppressWarnings("unused")
     public void setTitle(String title) {
         mTitle = title;
     }
@@ -221,14 +222,17 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         return mAccentColor;
     }
 
-    public void vibrate(boolean vibrate) {
+    @SuppressWarnings("unused")
+    public void doVibrate(boolean vibrate) {
         mVibrate = vibrate;
     }
 
+    @SuppressWarnings("unused")
     public void dismissOnPause(boolean dismissOnPause) {
         mDismissOnPause = dismissOnPause;
     }
 
+    @SuppressWarnings("unused")
     public void enableSeconds(boolean enableSeconds) {
         if (enableSeconds) mEnableMinutes = true;
         mEnableSeconds = enableSeconds;
@@ -282,6 +286,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
      *
      * @param disabledTimes Array of Timepoints which are disabled in the resulting picker
      */
+    @SuppressWarnings("unused")
     public void setDisabledTimes(Timepoint[] disabledTimes) {
         mDefaultLimiter.setDisabledTimes(disabledTimes);
     }
@@ -339,10 +344,12 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         setTimeInterval(hourInterval, 60);
     }
 
+    @SuppressWarnings("unused")
     public void setOnTimeSetListener(OnTimeSetListener callback) {
         mCallback = callback;
     }
 
+    @SuppressWarnings("unused")
     public void setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
         mOnCancelListener = onCancelListener;
     }
@@ -906,6 +913,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         finishKbMode(true);
     }
 
+    @SuppressWarnings("unused")
     public boolean isOutOfRange(Timepoint current) {
         return isOutOfRange(current, SECOND_INDEX);
     }
@@ -1647,6 +1655,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         }
     }
 
+    @SuppressWarnings("unused")
     public Timepoint getSelectedTime() {
         return mTimePicker.getTime();
     }

@@ -53,8 +53,8 @@ class Recency(sum: Summary) {
         for (r in 0 until res.size) ll.addView(
             RecencyBinding.inflate(c.layoutInflater).apply {
                 name.text = "${r + 1}. ${res[r].name}"
-                val lm = res[r].time.calendar()
-                date.text = "${lm.fullDate(c)} - " +
+                val lm = res[r].time.calendar(c)
+                date.text = "${lm.fullDate()} - " +
                         "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
                 if (r == res.size - 1) root.removeViewAt(2)
                 root.setOnClickListener {

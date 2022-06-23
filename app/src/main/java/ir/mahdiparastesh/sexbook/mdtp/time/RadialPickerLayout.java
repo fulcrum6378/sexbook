@@ -528,18 +528,14 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
                 stepSize = SECOND_VALUE_TO_DEGREES_STEP_SIZE;
         }
 
-        // TODO: simplify this logic. Just appending a swap of the values at the end for the v2
-        // TODO: layout makes this code rather hard to read
         if (currentShowing == HOUR_INDEX) {
             if (mIs24HourMode) {
-                if (degrees == 0 && isInnerCircle) {
+                if (degrees == 0 && isInnerCircle)
                     degrees = 360;
-                } else if (degrees == 360 && !isInnerCircle) {
+                else if (degrees == 360 && !isInnerCircle)
                     degrees = 0;
-                }
-            } else if (degrees == 0) {
+            } else if (degrees == 0)
                 degrees = 360;
-            }
         } else if (degrees == 360 && (currentShowing == MINUTE_INDEX || currentShowing == SECOND_INDEX)) {
             degrees = 0;
         }

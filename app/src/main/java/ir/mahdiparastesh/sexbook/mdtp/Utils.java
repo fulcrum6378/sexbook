@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.icu.text.DateFormatSymbols;
 import android.icu.util.Calendar;
 import android.icu.util.GregorianCalendar;
 import android.icu.util.TimeZone;
@@ -18,7 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
-import ir.mahdiparastesh.sexbook.Fun;
+import java.util.Locale;
+
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.Settings;
 import ir.mahdiparastesh.sexbook.more.PersianCalendar;
@@ -111,9 +113,8 @@ public class Utils {
 
 
     public static boolean isGregorian(Context c) {
-        return Fun.CalendarType.values()[
-                c.getSharedPreferences(Settings.spName, Context.MODE_PRIVATE).getInt(Settings.spCalType, 0)
-                ] == Fun.CalendarType.GREGORIAN;
+        return c.getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
+                .getInt(Settings.spCalType, 0) == 0;
     }
 
     public static boolean night(Context c) {
@@ -157,5 +158,23 @@ public class Utils {
             default:
                 return GregorianCalendar.class;
         }
+    }
+
+    public static DateFormatSymbols localSymbols(
+            Context c, Class<? extends Calendar> calendarType, Locale locale) {
+        DateFormatSymbols symbols = DateFormatSymbols.getInstance(locale);
+        //noinspection SwitchStatementWithTooFewBranches
+        switch (calendarType.getSimpleName()) {
+            case "PersianCalendar":
+                symbols.setMonths(c.getResources().getStringArray(R.array.persianMonths));
+                symbols.setShortMonths(c.getResources().getStringArray(R.array.shortPersianMonths));
+                break;
+        }
+        return symbols;
+    }
+
+    public static DateFormatSymbols localSymbols(
+            Context c, Class<? extends Calendar> calendarType) {
+        return localSymbols(c, calendarType, Locale.getDefault());
     }
 }

@@ -7,7 +7,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.icu.text.SimpleDateFormat
 import android.os.*
 import android.view.*
 import android.widget.EditText
@@ -19,7 +18,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.text.layoutDirection
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -35,7 +33,6 @@ import ir.mahdiparastesh.sexbook.list.GuessAdap
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Delay
-import ir.mahdiparastesh.sexbook.more.PersianCalendar
 import ir.mahdiparastesh.sexbook.stat.*
 import java.util.*
 import kotlin.math.abs
@@ -281,7 +278,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     NotificationManager.IMPORTANCE_HIGH
                 )
             )
-        NotificationManagerCompat.from(this).notify(crush.key.length + crush.visName().length,
+        NotificationManagerCompat.from(this).notify(
+            crush.key.length + crush.visName().length,
             NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
                 setSmallIcon(R.drawable.notification)
                 setContentTitle(getString(R.string.bHappyTitle, crush.visName()))

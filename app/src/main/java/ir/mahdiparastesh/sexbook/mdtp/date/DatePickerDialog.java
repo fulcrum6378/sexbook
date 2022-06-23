@@ -130,7 +130,8 @@ public class DatePickerDialog<CAL extends Calendar> extends AppCompatDialogFragm
     private String mSelectYear;
 
     public interface OnDateSetListener {
-        void onDateSet(DatePickerDialog<?> view, int year, int monthOfYear, int dayOfMonth);
+        //void onDateSet(DatePickerDialog<?> view, int year, int monthOfYear, int dayOfMonth);
+        void onDateSet(DatePickerDialog<?> view, long time);
     }
 
     protected interface OnDateChangedListener {
@@ -155,14 +156,13 @@ public class DatePickerDialog<CAL extends Calendar> extends AppCompatDialogFragm
 
     @SuppressWarnings({"unused", "WeakerAccess"})
     public static <CAL extends Calendar> DatePickerDialog<CAL> newInstance(OnDateSetListener callback) {
-        return (DatePickerDialog<CAL>) DatePickerDialog.newInstance(
-                callback, new GregorianCalendar(), GregorianCalendar.class);
+        return (DatePickerDialog<CAL>) DatePickerDialog.newInstance(callback, new GregorianCalendar());
     }
 
     @SuppressWarnings({"unused", "WeakerAccess"})
     public static <CAL extends Calendar> DatePickerDialog<CAL> newInstance(
-            OnDateSetListener callback, CAL initialSelection, Class<CAL> calendarType) {
-        DatePickerDialog<CAL> ret = new DatePickerDialog<>(calendarType);
+            OnDateSetListener callback, CAL initialSelection) {
+        DatePickerDialog<CAL> ret = new DatePickerDialog<>((Class<CAL>) initialSelection.getClass());
         ret.initialize(callback, initialSelection);
         return ret;
     }
@@ -508,10 +508,12 @@ public class DatePickerDialog<CAL extends Calendar> extends AppCompatDialogFragm
         }
     }
 
-    public void vibrate(boolean vibrate) {
+    @SuppressWarnings("unused")
+    public void doVibrate(boolean vibrate) {
         mVibrate = vibrate;
     }
 
+    @SuppressWarnings("unused")
     public void dismissOnPause(boolean dismissOnPause) {
         mDismissOnPause = dismissOnPause;
     }
@@ -700,13 +702,15 @@ public class DatePickerDialog<CAL extends Calendar> extends AppCompatDialogFragm
     }
 
     @SuppressWarnings("unused")
-    public void setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
+    public DatePickerDialog<CAL> setOnCancelListener(DialogInterface.OnCancelListener onCancelListener) {
         mOnCancelListener = onCancelListener;
+        return this;
     }
 
     @SuppressWarnings("unused")
-    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+    public DatePickerDialog<CAL> setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
         mOnDismissListener = onDismissListener;
+        return this;
     }
 
     @SuppressWarnings("unused")
@@ -822,8 +826,7 @@ public class DatePickerDialog<CAL extends Calendar> extends AppCompatDialogFragm
 
     public void notifyOnDateListener() {
         if (mCallBack != null)
-            mCallBack.onDateSet(DatePickerDialog.this, mCalendar.get(Calendar.YEAR),
-                    mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
+            mCallBack.onDateSet(DatePickerDialog.this, mCalendar.getTimeInMillis());
     }
 
     @Override

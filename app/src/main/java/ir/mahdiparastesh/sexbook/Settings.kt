@@ -8,12 +8,13 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defCalendar
+import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
+import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.more.LocalDatePicker
 
 class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
@@ -63,16 +64,16 @@ class Settings : BaseActivity() {
         }
         b.stStatSinceDate.text =
             if (!sp.contains(spStatSince)) "..."
-            else sp.getLong(spStatSince, 0).calendar().fullDate(this)
+            else sp.getLong(spStatSince, 0).calendar(this).fullDate()
         b.stStatSince.setOnClickListener {
-            LocalDatePicker(
-                this, "stat", if (!sp.contains(spStatSince)) Fun.now().calendar()
-                else sp.getLong(spStatSince, 0).calendar()
-            ) { _, time ->
-                val cal = time.defCalendar()
-                b.stStatSinceDate.text = cal.fullDate(this)
+            val cal =
+                if (!sp.contains(spStatSince)) Fun.now().calendar(this)
+                else sp.getLong(spStatSince, 0).calendar(this)
+            DatePickerDialog.newInstance({ _, time ->
+                val newCal = time.defCalendar(this)
+                b.stStatSinceDate.text = newCal.fullDate()
                 sp.edit().putLong(spStatSince, time).apply()
-            }
+            }, cal).defaultOptions(this).show(supportFragmentManager, "stat")
         }
 
         // Removal

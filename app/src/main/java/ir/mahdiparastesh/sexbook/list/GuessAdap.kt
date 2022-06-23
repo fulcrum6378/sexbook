@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Estimation
 import ir.mahdiparastesh.sexbook.Fun.defCalendar
+import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.now
 import ir.mahdiparastesh.sexbook.R
@@ -18,7 +19,11 @@ import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
-import ir.mahdiparastesh.sexbook.more.*
+import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
+import ir.mahdiparastesh.sexbook.more.Act
+import ir.mahdiparastesh.sexbook.more.AnyViewHolder
+import ir.mahdiparastesh.sexbook.more.MaterialMenu
+import ir.mahdiparastesh.sexbook.more.TypeAdap
 import kotlin.collections.set
 
 class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGuessBinding>>() {
@@ -49,38 +54,38 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
 
         // Since
         if (c.m.guesses.value!![i].sinc > -1L)
-            h.b.sinc.text = c.m.guesses.value!![i].sinc.defCalendar().fullDate(c)
+            h.b.sinc.text = c.m.guesses.value!![i].sinc.defCalendar(c).fullDate()
         else h.b.sinc.setText(R.string.etDateHint)
         h.b.sinc.setOnClickListener {
             val oldTime = c.m.guesses.value!![h.layoutPosition].sinc
-            val oldSinc = (if (oldTime > -1L) oldTime else now()).defCalendar()
-            LocalDatePicker(c, "sinc", oldSinc) { _, time ->
-                h.b.sinc.text = time.defCalendar().fullDate(c)
+            val oldSinc = (if (oldTime > -1L) oldTime else now()).defCalendar(c)
+            DatePickerDialog.newInstance({ _, time ->
+                h.b.sinc.text = time.defCalendar(c).fullDate()
                 c.m.guesses.value!![h.layoutPosition].apply {
                     if (sinc != time) {
                         sinc = time
                         update(h.layoutPosition)
                     }
                 }
-            }
+            }, oldSinc).defaultOptions(c).show(c.supportFragmentManager, "sinc")
         }
 
         // Until
         if (c.m.guesses.value!![i].till > -1L)
-            h.b.till.text = c.m.guesses.value!![i].till.defCalendar().fullDate(c)
+            h.b.till.text = c.m.guesses.value!![i].till.defCalendar(c).fullDate()
         else h.b.till.setText(R.string.etDateHint)
         h.b.till.setOnClickListener {
             val oldTime = c.m.guesses.value!![h.layoutPosition].till
-            val oldTill = (if (oldTime > -1L) oldTime else now()).defCalendar()
-            LocalDatePicker(c, "till", oldTill) { _, time ->
-                h.b.till.text = time.defCalendar().fullDate(c)
+            val oldTill = (if (oldTime > -1L) oldTime else now()).defCalendar(c)
+            DatePickerDialog.newInstance({ _, time ->
+                h.b.till.text = time.defCalendar(c).fullDate()
                 c.m.guesses.value!![h.layoutPosition].apply {
                     if (till != time) {
                         till = time
                         update(h.layoutPosition)
                     }
                 }
-            }
+            }, oldTill).defaultOptions(c).show(c.supportFragmentManager, "till")
         }
 
         // Frequency
