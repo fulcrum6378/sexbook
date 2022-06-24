@@ -6,34 +6,6 @@
     <string name="sOpen">Open</string>
     <string name="close">Close</string>
     <string name="toExit">Double tap to exit&#8230;</string>
-    <string-array name="persianMonths" translatable="false">
-        <item>Far</item>
-        <item>Ord</item>
-        <item>Kho</item>
-        <item>Tir</item>
-        <item>Mor</item>
-        <item>Sha</item>
-        <item>Meh</item>
-        <item>Aba</item>
-        <item>Aza</item>
-        <item>Dey</item>
-        <item>Bah</item>
-        <item>Esf</item>
-    </string-array>
-    <string-array name="shortPersianMonths" translatable="false">
-        <item>Farvardin</item>
-        <item>Ordibehesht</item>
-        <item>Khordad</item>
-        <item>Tir</item>
-        <item>Mordad</item>
-        <item>Shahrivar</item>
-        <item>Mehr</item>
-        <item>Aban</item>
-        <item>Azar</item>
-        <item>Dey</item>
-        <item>Bahman</item>
-        <item>Esfand</item>
-    </string-array>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="save">Save</string>
@@ -52,6 +24,7 @@
     <string-array name="calendarTypes">
         <item>Gregorian</item>
         <item>Persian</item>
+        <item>Indian</item>
     </string-array>
     <string name="shrAdd">Add New Record</string>
     <string name="delete">Delete</string>
@@ -150,4 +123,62 @@
     <string name="mdtp_time_separator" translatable="false">:</string>
     <string name="mdtp_am" translatable="false">AM</string>
     <string name="mdtp_pm" translatable="false">PM</string>
+
+    <!-- Calendars -->
+    <string-array name="persianMonths" translatable="false">
+        <item>Farvardin</item>
+        <item>Ordibehesht</item>
+        <item>Khordad</item>
+        <item>Tir</item>
+        <item>Mordad</item>
+        <item>Shahrivar</item>
+        <item>Mehr</item>
+        <item>Aban</item>
+        <item>Azar</item>
+        <item>Dey</item>
+        <item>Bahman</item>
+        <item>Esfand</item>
+    </string-array>
+    <string-array name="shortPersianMonths" translatable="false">
+        <item>Far</item>
+        <item>Ord</item>
+        <item>Kho</item>
+        <item>Tir</item>
+        <item>Mor</item>
+        <item>Sha</item>
+        <item>Meh</item>
+        <item>Aba</item>
+        <item>Aza</item>
+        <item>Dey</item>
+        <item>Bah</item>
+        <item>Esf</item>
+    </string-array>
+    <string-array name="indianMonths" translatable="false">
+        <item>Chaitra</item>
+        <item>Vaisakha</item>
+        <item>Jyaistha</item>
+        <item>Asadha</item>
+        <item>Sravana</item>
+        <item>Bhadra</item>
+        <item>Asvina</item>
+        <item>Kartika</item>
+        <item>Agrahayana</item>
+        <item>Pausa</item>
+        <item>Magha</item>
+        <item>Phalguna</item>
+    </string-array>
+    <string-array name="shortIndianMonths" translatable="false">
+        <item>Cha</item>
+        <item>Vai</item>
+        <item>Jya</item>
+        <item>Asa</item>
+        <item>Sra</item>
+        <item>Bha</item>
+        <item>Asv</item>
+        <item>Kar</item>
+        <item>Agr</item>
+        <item>Pau</item>
+        <item>Mag</item>
+        <item>Pha</item>
+    </string-array>
 </resources>

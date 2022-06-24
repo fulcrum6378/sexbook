@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.icu.util.GregorianCalendar
+import android.icu.util.IndianCalendar
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
@@ -107,7 +108,8 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
 
     fun calType() = arrayOf(
         GregorianCalendar::class.java,
-        PersianCalendar::class.java
+        PersianCalendar::class.java,
+        IndianCalendar::class.java
     )[sp.getInt(Settings.spCalType, 0)]
 
     private fun initAdmob() {

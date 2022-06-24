@@ -6,34 +6,6 @@
     <string name="sOpen">بازکردن</string>
     <string name="close">بستن</string>
     <string name="toExit">برای خروج دوباره ضربه بزنید&#8230;</string>
-    <string-array name="persianMonths">
-        <item>فرو</item>
-        <item>ارد</item>
-        <item>خرد</item>
-        <item>تیر</item>
-        <item>مرد</item>
-        <item>شهر</item>
-        <item>مهر</item>
-        <item>آبا</item>
-        <item>آذر</item>
-        <item>دی</item>
-        <item>بهم</item>
-        <item>اسف</item>
-    </string-array>
-    <string-array name="shortPersianMonths">
-        <item>فروردین</item>
-        <item>اردیبهشت</item>
-        <item>خرداد</item>
-        <item>تیر</item>
-        <item>مرداد</item>
-        <item>شهریور</item>
-        <item>مهر</item>
-        <item>آبان</item>
-        <item>آذر</item>
-        <item>دی</item>
-        <item>بهمن</item>
-        <item>اسفند</item>
-    </string-array>
     <string name="yes">بله</string>
     <string name="no">خیر</string>
     <string name="save">ذخیره</string>
@@ -52,6 +24,7 @@
     <string-array name="calendarTypes">
         <item>میلادی</item>
         <item>شمسی</item>
+        <item>هندی</item>
     </string-array>
     <string name="shrAdd">ایجاد مورد جدید</string>
     <string name="delete">حذف</string>
@@ -146,4 +119,62 @@
     <string name="mdtp_previous_month_arrow_description">ماه قبل</string>
     <string name="mdtp_am">ق.ظ</string>
     <string name="mdtp_pm">ب.ظ</string>
+
+    <!-- Calendars -->
+    <string-array name="persianMonths">
+        <item>فروردین</item>
+        <item>اردیبهشت</item>
+        <item>خرداد</item>
+        <item>تیر</item>
+        <item>مرداد</item>
+        <item>شهریور</item>
+        <item>مهر</item>
+        <item>آبان</item>
+        <item>آذر</item>
+        <item>دی</item>
+        <item>بهمن</item>
+        <item>اسفند</item>
+    </string-array>
+    <string-array name="shortPersianMonths">
+        <item>فرو</item>
+        <item>ارد</item>
+        <item>خرد</item>
+        <item>تیر</item>
+        <item>مرد</item>
+        <item>شهر</item>
+        <item>مهر</item>
+        <item>آبا</item>
+        <item>آذر</item>
+        <item>دی</item>
+        <item>بهم</item>
+        <item>اسف</item>
+    </string-array>
+    <string-array name="indianMonths" translatable="false">
+        <item>چیت</item>
+        <item>ویساخا</item>
+        <item>جیشطا</item>
+        <item>آشاد</item>
+        <item>شراوان</item>
+        <item>بادراپاد</item>
+        <item>آشوین</item>
+        <item>کارتیک</item>
+        <item>مارگشیرش</item>
+        <item>پوش</item>
+        <item>ماگ</item>
+        <item>فالگون</item>
+    </string-array>
+    <string-array name="shortIndianMonths" translatable="false">
+        <item>چیت</item>
+        <item>ویس</item>
+        <item>جشط</item>
+        <item>آشا</item>
+        <item>شرا</item>
+        <item>باد</item>
+        <item>آشو</item>
+        <item>کار</item>
+        <item>مار</item>
+        <item>پوش</item>
+        <item>ماگ</item>
+        <item>فال</item>
+    </string-array>
 </resources>

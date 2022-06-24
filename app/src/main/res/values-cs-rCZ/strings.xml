@@ -23,6 +23,7 @@
     <string-array name="calendarTypes">
         <item>Gregoriánský</item>
         <item>Peršan</item>
+        <item>Indický</item>
     </string-array>
     <string name="shrAdd">Přidat Nový Záznam</string>
     <string name="delete">Vymazat</string>

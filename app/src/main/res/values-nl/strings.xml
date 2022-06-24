@@ -23,6 +23,7 @@
     <string-array name="calendarTypes">
         <item>Gregoriaans</item>
         <item>Perzisch</item>
+        <item>Indiase</item>
     </string-array>
     <string name="shrAdd">Nieuw Record Toevoegen</string>
     <string name="delete">Verwijderen</string>

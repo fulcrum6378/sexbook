@@ -131,7 +131,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (m.showingSummary) summary()
         if (m.showingRecency) recency()
         jdtpArabicNumbers = resources.getBoolean(R.bool.jdtpArabicNumbers)
-        // TODO Locale.forLanguageTag("fa-IR").layoutDirection
 
         intent.check()
         Work(c, Work.C_VIEW_ALL).start()

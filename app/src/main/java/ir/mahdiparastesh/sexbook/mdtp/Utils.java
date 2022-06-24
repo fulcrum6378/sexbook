@@ -144,11 +144,14 @@ public class Utils {
     public static DateFormatSymbols localSymbols( // TODO only this one needs globalisation.
             Context c, Class<? extends Calendar> calendarType, Locale locale) {
         DateFormatSymbols symbols = DateFormatSymbols.getInstance(locale);
-        //noinspection SwitchStatementWithTooFewBranches
         switch (calendarType.getSimpleName()) {
             case "PersianCalendar":
                 symbols.setMonths(c.getResources().getStringArray(R.array.persianMonths));
                 symbols.setShortMonths(c.getResources().getStringArray(R.array.shortPersianMonths));
+                break;
+            case "IndianCalendar":
+                symbols.setMonths(c.getResources().getStringArray(R.array.indianMonths));
+                symbols.setShortMonths(c.getResources().getStringArray(R.array.shortIndianMonths));
                 break;
         }
         return symbols;
