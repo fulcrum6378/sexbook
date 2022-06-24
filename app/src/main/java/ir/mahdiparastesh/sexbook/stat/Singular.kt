@@ -131,7 +131,7 @@ class Singular : BaseActivity() {
 
             // Default Values
             var isBirthSet = false
-            val bir = Calendar.getInstance()
+            var bir = Calendar.getInstance()
             if (crush != null) {
                 bi.fName.setText(crush.fName)
                 bi.mName.setText(crush.mName)
@@ -160,9 +160,12 @@ class Singular : BaseActivity() {
 
             // Birth
             bi.birth.setOnClickListener {
-                DatePickerDialog.newInstance({ _, time ->
+                DatePickerDialog.newInstance({ _, year, month, day ->
+                    bir.set(Calendar.YEAR, year)
+                    bir.set(Calendar.MONTH, month)
+                    bir.set(Calendar.DAY_OF_MONTH, day)
+                    bir = Utils.trimToMidnight(bir)
                     isBirthSet = true
-                    bir.timeInMillis = time
                     bi.birth.text = bir.fullDate()
                 }, bir).defaultOptions(c).show(c.supportFragmentManager, "birth")
             }

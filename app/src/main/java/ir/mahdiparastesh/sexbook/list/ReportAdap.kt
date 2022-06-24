@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.list
 
 import android.annotation.SuppressLint
+import android.icu.util.Calendar
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -22,7 +23,6 @@ import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.mdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.more.*
 import java.text.DateFormatSymbols
-import java.util.*
 
 class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
     RecyclerView.Adapter<AnyViewHolder<ItemReportBinding>>(),
@@ -88,12 +88,15 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         } else h.b.clock.setOnClickListener(null)
         if (itm.isReal) h.b.date.setOnClickListener {
             if (c.m.onani.value == null) return@setOnClickListener
-            DatePickerDialog.newInstance({ view, time ->
+            DatePickerDialog.newInstance({ view, year, month, day ->
                 if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4)
                     return@newInstance
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, month)
+                cal.set(Calendar.DAY_OF_MONTH, day)
                 val pos = view.tag!!.substring(4).toInt()
                 if (c.m.onani.value!!.size > pos && view.tag!!.substring(0, 4) == tagEdit) {
-                    c.m.onani.value!![pos].time = time
+                    c.m.onani.value!![pos].time = cal.timeInMillis
                     Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
                 }
             }, cal).defaultOptions(c)

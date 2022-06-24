@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.mdtp.date;
 
-import android.content.Context;
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
 import android.os.Parcel;
@@ -18,7 +17,7 @@ import ir.mahdiparastesh.sexbook.mdtp.Utils;
 class DefaultDateRangeLimiter<CAL extends Calendar> implements DateRangeLimiter<CAL> {
     private static final int YEAR_RANGE_RADIUS = 100;
 
-    private Context mContext;
+    private Class<CAL> mCalendarType;
     private transient DatePickerController<CAL> mController;
     private int mMinYear;
     private int mMaxYear;
@@ -27,10 +26,8 @@ class DefaultDateRangeLimiter<CAL extends Calendar> implements DateRangeLimiter<
     private TreeSet<CAL> selectableDays = new TreeSet<>();
     private HashSet<CAL> disabledDays = new HashSet<>();
 
-    DefaultDateRangeLimiter(Context context) {
-        mContext = context;
-        Class<? extends Calendar> calendarType =
-                mController == null ? Utils.defaultCalendarType(context) : mController.getCalendarType();
+    DefaultDateRangeLimiter(Class<CAL> calendarType) {
+        mCalendarType = calendarType;
         int year = Utils.createCalendar(calendarType).get(Calendar.YEAR);
         mMinYear = year - YEAR_RANGE_RADIUS;
         mMaxYear = year + YEAR_RANGE_RADIUS;
@@ -143,9 +140,7 @@ class DefaultDateRangeLimiter<CAL extends Calendar> implements DateRangeLimiter<
         if (!selectableDays.isEmpty()) return (CAL) selectableDays.first().clone();
         if (mMinDate != null) return (CAL) mMinDate.clone();
         TimeZone timeZone = mController == null ? TimeZone.getDefault() : mController.getTimeZone();
-        Class<? extends Calendar> calendarType =
-                mController == null ? Utils.defaultCalendarType(mContext) : mController.getCalendarType();
-        CAL output = (CAL) Utils.createCalendar(calendarType, timeZone);
+        CAL output = Utils.createCalendar(mCalendarType, timeZone);
         output.set(Calendar.YEAR, mMinYear);
         output.set(Calendar.DAY_OF_MONTH, 1);
         output.set(Calendar.MONTH, Calendar.JANUARY);
@@ -158,9 +153,7 @@ class DefaultDateRangeLimiter<CAL extends Calendar> implements DateRangeLimiter<
         if (!selectableDays.isEmpty()) return (CAL) selectableDays.last().clone();
         if (mMaxDate != null) return (CAL) mMaxDate.clone();
         TimeZone timeZone = mController == null ? TimeZone.getDefault() : mController.getTimeZone();
-        Class<? extends Calendar> calendarType =
-                mController == null ? Utils.defaultCalendarType(mContext) : mController.getCalendarType();
-        CAL output = (CAL) Utils.createCalendar(calendarType, timeZone);
+        CAL output = Utils.createCalendar(mCalendarType, timeZone);
         output.set(Calendar.YEAR, mMaxYear);
         output.set(Calendar.DAY_OF_MONTH, 31);
         output.set(Calendar.MONTH, Calendar.DECEMBER);
@@ -175,9 +168,7 @@ class DefaultDateRangeLimiter<CAL extends Calendar> implements DateRangeLimiter<
     @Override
     public boolean isOutOfRange(int year, int month, int day) {
         TimeZone timezone = mController == null ? TimeZone.getDefault() : mController.getTimeZone();
-        Class<? extends Calendar> calendarType =
-                mController == null ? Utils.defaultCalendarType(mContext) : mController.getCalendarType();
-        CAL date = (CAL) Utils.createCalendar(calendarType, timezone);
+        CAL date = Utils.createCalendar(mCalendarType, timezone);
         date.set(Calendar.YEAR, year);
         date.set(Calendar.MONTH, month);
         date.set(Calendar.DAY_OF_MONTH, day);
@@ -244,24 +235,20 @@ class DefaultDateRangeLimiter<CAL extends Calendar> implements DateRangeLimiter<
         TimeZone timezone = mController == null ? TimeZone.getDefault() : mController.getTimeZone();
         if (isBeforeMin(calendar)) {
             if (mMinDate != null) return (CAL) mMinDate.clone();
-            Class<? extends Calendar> calendarType =
-                    mController == null ? Utils.defaultCalendarType(mContext) : mController.getCalendarType();
-            CAL output = (CAL) Utils.createCalendar(calendarType, timezone);
+            CAL output = Utils.createCalendar(mCalendarType, timezone);
             output.set(Calendar.YEAR, mMinYear);
             output.set(Calendar.MONTH, Calendar.JANUARY);
             output.set(Calendar.DAY_OF_MONTH, 1);
-            return (CAL) Utils.trimToMidnight(output);
+            return Utils.trimToMidnight(output);
         }
 
         if (isAfterMax(calendar)) {
             if (mMaxDate != null) return (CAL) mMaxDate.clone();
-            Class<? extends Calendar> calendarType =
-                    mController == null ? Utils.defaultCalendarType(mContext) : mController.getCalendarType();
-            CAL output = (CAL) Utils.createCalendar(calendarType, timezone);
+            CAL output = Utils.createCalendar(mCalendarType, timezone);
             output.set(Calendar.YEAR, mMaxYear);
             output.set(Calendar.MONTH, Calendar.DECEMBER);
             output.set(Calendar.DAY_OF_MONTH, 31);
-            return (CAL) Utils.trimToMidnight(output);
+            return Utils.trimToMidnight(output);
         }
 
         return calendar;

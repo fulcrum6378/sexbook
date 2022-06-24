@@ -1,18 +1,19 @@
 package ir.mahdiparastesh.sexbook
 
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import ir.mahdiparastesh.sexbook.Fun.calendar
-import ir.mahdiparastesh.sexbook.Fun.defCalendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
+import ir.mahdiparastesh.sexbook.mdtp.Utils
 import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 
@@ -66,13 +67,16 @@ class Settings : BaseActivity() {
             if (!sp.contains(spStatSince)) "..."
             else sp.getLong(spStatSince, 0).calendar(this).fullDate()
         b.stStatSince.setOnClickListener {
-            val cal =
+            var cal =
                 if (!sp.contains(spStatSince)) Fun.now().calendar(this)
                 else sp.getLong(spStatSince, 0).calendar(this)
-            DatePickerDialog.newInstance({ _, time ->
-                val newCal = time.defCalendar(this)
-                b.stStatSinceDate.text = newCal.fullDate()
-                sp.edit().putLong(spStatSince, time).apply()
+            DatePickerDialog.newInstance({ _, year, month, day ->
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, month)
+                cal.set(Calendar.DAY_OF_MONTH, day)
+                cal = Utils.trimToMidnight(cal)
+                b.stStatSinceDate.text = cal.fullDate()
+                sp.edit().putLong(spStatSince, cal.timeInMillis).apply()
             }, cal).defaultOptions(this).show(supportFragmentManager, "stat")
         }
 

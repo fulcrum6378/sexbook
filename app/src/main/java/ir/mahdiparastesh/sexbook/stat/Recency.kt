@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.icu.util.Calendar
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.TextView
@@ -14,7 +15,6 @@ import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.RecencyBinding
 import ir.mahdiparastesh.sexbook.databinding.SumChipsBinding
-import java.util.*
 
 class Recency(sum: Summary) {
     var res: ArrayList<Item> = ArrayList()

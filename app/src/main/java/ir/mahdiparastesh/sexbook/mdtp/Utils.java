@@ -22,8 +22,6 @@ import androidx.core.content.res.ResourcesCompat;
 import java.util.Locale;
 
 import ir.mahdiparastesh.sexbook.R;
-import ir.mahdiparastesh.sexbook.Settings;
-import ir.mahdiparastesh.sexbook.more.PersianCalendar;
 
 @SuppressWarnings("WeakerAccess")
 public class Utils {
@@ -111,24 +109,17 @@ public class Utils {
         return Typeface.create(Typeface.DEFAULT, isHighlighted ? Typeface.BOLD : Typeface.NORMAL);
     }
 
-
-    public static boolean isGregorian(Context c) {
-        return c.getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
-                .getInt(Settings.spCalType, 0) == 0;
-    }
-
     public static boolean night(Context c) {
         return (c.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
                 == Configuration.UI_MODE_NIGHT_YES;
     }
 
-    @SuppressWarnings("SwitchStatementWithTooFewBranches")
-    public static Class<? extends Calendar> calendarTypeFromSimpleName(String simpleName) {
-        switch (simpleName) {
-            case "PersianCalendar":
-                return PersianCalendar.class;
-            default:
-                return GregorianCalendar.class;
+    @SuppressWarnings("unchecked")
+    public static Class<? extends Calendar> createCalendarType(String name) {
+        try {
+            return (Class<? extends Calendar>) Class.forName(name);
+        } catch (ClassNotFoundException e) {
+            return GregorianCalendar.class;
         }
     }
 
@@ -141,7 +132,7 @@ public class Utils {
             return ins;
         } catch (IllegalAccessException | InstantiationException e) {
             //noinspection unchecked
-            return (CAL) Calendar.getInstance();
+            return (CAL) new GregorianCalendar();
         }
     }
 
@@ -150,17 +141,7 @@ public class Utils {
         return createCalendar(type, null);
     }
 
-    @SuppressWarnings("SwitchStatementWithTooFewBranches")
-    public static Class<? extends Calendar> defaultCalendarType(Context c) {
-        switch (c.getSharedPreferences(Settings.spName, Context.MODE_PRIVATE).getInt(Settings.spCalType, 0)) {
-            case 1:
-                return PersianCalendar.class;
-            default:
-                return GregorianCalendar.class;
-        }
-    }
-
-    public static DateFormatSymbols localSymbols(
+    public static DateFormatSymbols localSymbols( // TODO only this one needs globalisation.
             Context c, Class<? extends Calendar> calendarType, Locale locale) {
         DateFormatSymbols symbols = DateFormatSymbols.getInstance(locale);
         //noinspection SwitchStatementWithTooFewBranches
@@ -176,5 +157,12 @@ public class Utils {
     public static DateFormatSymbols localSymbols(
             Context c, Class<? extends Calendar> calendarType) {
         return localSymbols(c, calendarType, Locale.getDefault());
+    }
+
+    public static <CAL extends Calendar> String accessibilityDate(Context c, CAL calendar) {
+        return calendar.get(Calendar.DAY_OF_MONTH) + " " +
+                Utils.localSymbols(c, calendar.getClass())
+                        .getMonths()[calendar.get(Calendar.MONTH)]
+                + " " + calendar.get(Calendar.YEAR);
     }
 }

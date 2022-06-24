@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.list
 
 import android.annotation.SuppressLint
+import android.icu.util.Calendar
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -19,6 +20,7 @@ import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
+import ir.mahdiparastesh.sexbook.mdtp.Utils
 import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
@@ -58,12 +60,16 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         else h.b.sinc.setText(R.string.etDateHint)
         h.b.sinc.setOnClickListener {
             val oldTime = c.m.guesses.value!![h.layoutPosition].sinc
-            val oldSinc = (if (oldTime > -1L) oldTime else now()).defCalendar(c)
-            DatePickerDialog.newInstance({ _, time ->
-                h.b.sinc.text = time.defCalendar(c).fullDate()
+            var oldSinc = (if (oldTime > -1L) oldTime else now()).defCalendar(c)
+            DatePickerDialog.newInstance({ _, year, month, day ->
+                oldSinc.set(Calendar.YEAR, year)
+                oldSinc.set(Calendar.MONTH, month)
+                oldSinc.set(Calendar.DAY_OF_MONTH, day)
+                oldSinc = Utils.trimToMidnight(oldSinc)
+                h.b.sinc.text = oldSinc.fullDate()
                 c.m.guesses.value!![h.layoutPosition].apply {
-                    if (sinc != time) {
-                        sinc = time
+                    if (sinc != oldSinc.timeInMillis) {
+                        sinc = oldSinc.timeInMillis
                         update(h.layoutPosition)
                     }
                 }
@@ -76,12 +82,16 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         else h.b.till.setText(R.string.etDateHint)
         h.b.till.setOnClickListener {
             val oldTime = c.m.guesses.value!![h.layoutPosition].till
-            val oldTill = (if (oldTime > -1L) oldTime else now()).defCalendar(c)
-            DatePickerDialog.newInstance({ _, time ->
-                h.b.till.text = time.defCalendar(c).fullDate()
+            var oldTill = (if (oldTime > -1L) oldTime else now()).defCalendar(c)
+            DatePickerDialog.newInstance({ _, year, month, day ->
+                oldTill.set(Calendar.YEAR, year)
+                oldTill.set(Calendar.MONTH, month)
+                oldTill.set(Calendar.DAY_OF_MONTH, day)
+                oldTill = Utils.trimToMidnight(oldTill)
+                h.b.till.text = oldTill.fullDate()
                 c.m.guesses.value!![h.layoutPosition].apply {
-                    if (till != time) {
-                        till = time
+                    if (till != oldTill.timeInMillis) {
+                        till = oldTill.timeInMillis
                         update(h.layoutPosition)
                     }
                 }
