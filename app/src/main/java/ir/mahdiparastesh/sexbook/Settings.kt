@@ -23,19 +23,20 @@ class Settings : BaseActivity() {
     private var changed = false
 
     companion object {
-        const val spCalType = "calendarType"
+        const val spCalType = "calendarType" // def 0
         const val spDefPlace = "defaultPlace"
         const val spStatSince = "statisticiseSince"
-        const val spStatSinceCb = "statisticiseSinceCb"
-        const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // TODO
+        const val spStatSinceCb = "statisticiseSinceCb" // def false
+        const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // def 3 TODO
         // Beware of the numerical fields; go to Exporter$Companion.replace() for modifications.
 
         // Hidden
         const val spPrefersMasculine = "prefersMasculine"
         const val spPrefersOrgType = "prefersOrgType"
-        const val spLastNotifiedBirthAt = "lastNotifiedBirthAt" // TODO
+        const val spLastNotifiedBirthAt = "lastNotifiedBirthAt"
 
         const val spName = "settings"
+        const val notifyBirthAfterLastTime = 3600000L * 6L
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

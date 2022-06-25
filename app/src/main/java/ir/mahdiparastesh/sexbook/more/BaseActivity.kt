@@ -110,7 +110,7 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
         GregorianCalendar::class.java,
         PersianCalendar::class.java,
         IndianCalendar::class.java
-    )[sp.getInt(Settings.spCalType, 0)]
+    )[sp.getInt(Settings.spCalType, 0)] // TODO defValue based on locale
 
     private fun initAdmob() {
         retryForAd = 0

@@ -67,8 +67,6 @@ class Singular : BaseActivity() {
         // Identification
         Work(c, Work.C_VIEW_ONE, listOf(m.crush!!), handler).start()
         b.identify.setOnClickListener { identify(this, crush, handler) }
-
-        // TODO: Implement Mass Rename
     }
 
     override fun onDestroy() {

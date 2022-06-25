@@ -35,6 +35,7 @@ import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.stat.*
+import java.util.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
@@ -49,9 +50,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         const val NOTIFY_MAX_DISTANCE = 3
         val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
         var handler: Handler? = null
-
-        @JvmStatic
-        var jdtpArabicNumbers = true
+        var showAdAfterRecreation = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +65,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 when (msg.what) {
                     Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
                     Work.C_VIEW_ALL -> m.liefde.value = (msg.obj as ArrayList<Crush>).apply {
+                        if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
+                                    ) < Settings.notifyBirthAfterLastTime
+                        ) return@apply
                         for (it in this) if (it.notifyBirth && it.hasFullBirth()) {
                             val now = Calendar.getInstance()
                             val bir = Calendar.getInstance()
@@ -90,6 +92,22 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         // Loading
         if (m.loaded) b.body.removeView(b.load)
         else if (night()) b.loadIV.colorFilter = pdcf()
+
+        // Indian Calendar Promotion
+        val spFirstShiftForIndians = "first_shift_for_indians"
+        if (!sp.getBoolean(spFirstShiftForIndians, false) &&
+            (TimeZone.getDefault().id in arrayOf("Asia/Calcutta", "Asia/Kolkata") ||
+                    Locale.getDefault().country == "IN")
+        ) {
+            sp.edit().putInt(Settings.spCalType, 2).apply()
+            AlertDialog.Builder(this).apply {
+                setTitle("Indian Calendar")
+                setMessage("A new INDIAN CALENDAR feature was added for you dear Indian users! Enjoy it ;)")
+                setPositiveButton(android.R.string.ok, null)
+                setCancelable(false)
+            }.show()
+            sp.edit().putBoolean(spFirstShiftForIndians, true).apply()
+        }
 
         // Navigation
         object : ActionBarDrawerToggle(
@@ -130,7 +148,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         m.onani.observe(this) { instilledGuesses = false }
         if (m.showingSummary) summary()
         if (m.showingRecency) recency()
-        jdtpArabicNumbers = resources.getBoolean(R.bool.jdtpArabicNumbers)
+        if (showAdAfterRecreation) {
+            loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
+            showAdAfterRecreation = false
+        }
 
         intent.check()
         Work(c, Work.C_VIEW_ALL).start()
@@ -212,6 +233,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             Action.ADD.s -> PageSex.messages.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> {
                 m.reset()
+                showAdAfterRecreation = true
                 recreate()
             }
         }
@@ -291,6 +313,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 priority = NotificationCompat.PRIORITY_HIGH
             }.build()
         )
+        sp.edit().putLong(Settings.spLastNotifiedBirthAt, Fun.now()).apply()
     }
 
     private var instilledGuesses = false

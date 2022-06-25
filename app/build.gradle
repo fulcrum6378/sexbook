@@ -10,8 +10,8 @@ android {
         applicationId 'ir.mahdiparastesh.sexbook'
         minSdkVersion 24
         targetSdkVersion 32
-        versionCode 14
-        versionName '12.4.0'
+        versionCode 15
+        versionName '12.5.25'
     }
 
     signingConfigs {
