@@ -12,6 +12,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.MainThread
 import androidx.annotation.StringRes
@@ -24,11 +25,9 @@ import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import ir.mahdiparastesh.sexbook.*
 import ir.mahdiparastesh.sexbook.Fun.isReady
-import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.stat.Summary
 
@@ -55,7 +54,7 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        m = ViewModelProvider(this, Model.Factory()).get("Model", Model::class.java)
+        m = ViewModelProvider(this, Model.Factory())["Model", Model::class.java]
         sp = getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
     }
 
@@ -131,6 +130,8 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
             c, adUnitId, AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     loadingAd = false
+                    if (BuildConfig.DEBUG)
+                        Toast.makeText(c, "onAdFailedToLoad $adError", Toast.LENGTH_LONG).show()
                 }
 
                 override fun onAdLoaded(ad: InterstitialAd) {
