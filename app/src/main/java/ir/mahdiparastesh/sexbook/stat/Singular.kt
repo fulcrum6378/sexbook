@@ -10,6 +10,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
+import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -130,6 +131,7 @@ class Singular : BaseActivity() {
             // Default Values
             var isBirthSet = false
             var bir = Calendar.getInstance()
+            // TODO NOT LOCALISED because it's not timestamp-based.
             if (crush != null) {
                 bi.fName.setText(crush.fName)
                 bi.mName.setText(crush.mName)
@@ -173,7 +175,7 @@ class Singular : BaseActivity() {
                 setView(bi.root)
                 setPositiveButton(R.string.save) { _, _ ->
                     val inserted = Crush(
-                        c.m.crush!!,
+                        crush?.key ?: c.m.crush!!,
                         bi.fName.text.toString().ifEmpty { null },
                         bi.mName.text.toString().ifEmpty { null },
                         bi.lName.text.toString().ifEmpty { null },
@@ -191,6 +193,7 @@ class Singular : BaseActivity() {
                         c, if (crush == null) Work.C_INSERT_ONE else Work.C_UPDATE_ONE,
                         listOf(inserted), handler
                     ).start()
+                    c.shake()
                 }
                 setNegativeButton(R.string.discard, null)
                 setNeutralButton(R.string.clear) { ad1, _ ->
@@ -200,10 +203,12 @@ class Singular : BaseActivity() {
                         setMessage(R.string.crushClearSure)
                         setPositiveButton(R.string.yes) { _, _ ->
                             Work(c, Work.C_DELETE_ONE, listOf(crush), handler).start()
+                            c.shake()
                             ad1.dismiss()
                         }
                         setNegativeButton(R.string.no, null)
                     }.show()
+                    c.shake()
                 }
                 setCancelable(true)
             }.show()

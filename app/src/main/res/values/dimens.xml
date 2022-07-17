@@ -32,8 +32,8 @@
 
     <!-- Estimation-->
     <dimen name="etPadH">20dp</dimen>
-    <dimen name="etPadV">9dp</dimen>
-    <dimen name="etDateLabel">15sp</dimen>
+    <dimen name="etPadV">12dp</dimen>
+    <dimen name="etLabel">15sp</dimen>
     <dimen name="etDateButton">18sp</dimen>
 
     <!-- Settings -->

@@ -50,6 +50,11 @@ class PageLove : Fragment() {
                         receivedData()
                     }
                     Work.REPLACE_ALL -> Work(c, Work.C_VIEW_ALL).start()
+                    Work.C_UPDATE_ONE -> if (b.rv.adapter != null)
+                        c.m.liefde.value?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
+                            c.m.liefde.value?.set(it, msg.obj as Crush)
+                            b.rv.adapter?.notifyItemChanged(it)
+                        }
                     Work.C_DELETE_ONE -> if (b.rv.adapter != null)
                         c.m.liefde.value?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
                             c.m.liefde.value?.removeAt(it)

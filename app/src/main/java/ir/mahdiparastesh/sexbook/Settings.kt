@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
+import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
@@ -54,8 +55,9 @@ class Settings : BaseActivity() {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
                 if (sp.getInt(spCalType, 0) == i) return
-                changed = true
                 sp.edit().putInt(spCalType, i).apply()
+                c.shake()
+                changed = true
             }
         }
 
@@ -63,6 +65,7 @@ class Settings : BaseActivity() {
         b.stStatSinceDateCb.isChecked = sp.getBoolean(spStatSinceCb, false)
         b.stStatSinceDateCb.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spStatSinceCb, isChecked).apply()
+            c.shake()
         }
         b.stStatSinceDate.text =
             if (!sp.contains(spStatSince)) "..."
@@ -91,12 +94,14 @@ class Settings : BaseActivity() {
                     // spinners and checkboxes saved their instance and after recreation and setting
                     // their values, they saved their values into SP. After assigning their
                     // "saveEnabled" to "false", it worked like a charm!
+                    c.shake()
                     recreate()
                     changed = true
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
             }.show()
+            c.shake()
         }
         b.stTruncate.setOnClickListener {
             AlertDialog.Builder(this).apply {
@@ -106,11 +111,13 @@ class Settings : BaseActivity() {
                     DbFile(DbFile.Triple.MAIN).delete()
                     DbFile(DbFile.Triple.SHARED_MEMORY).delete()
                     DbFile(DbFile.Triple.WRITE_AHEAD_LOG).delete()
+                    c.shake()
                     changed = true
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
             }.show()
+            c.shake()
         }
     }
 

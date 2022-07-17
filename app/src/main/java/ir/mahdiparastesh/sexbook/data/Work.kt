@@ -84,7 +84,24 @@ class Work(
                     )
                     db.execSQL("DROP TABLE Crush_old")
                 }
-            })
+            }, object : Migration(2, 3) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL("ALTER TABLE Guess RENAME TO Guess_old")
+                    db.execSQL(
+                        "CREATE TABLE IF NOT EXISTS `Guess` (" +
+                                "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `crsh` TEXT, " +
+                                "`sinc` INTEGER NOT NULL, `till` INTEGER NOT NULL, " +
+                                "`freq` REAL NOT NULL, `type` INTEGER NOT NULL, " +
+                                "`desc` TEXT, `plac` INTEGER NOT NULL)"
+                    )
+                    val columns = "id, sinc, till, freq, type, desc, plac"
+                    db.execSQL(
+                        "INSERT INTO Guess (" + columns + ") SELECT "
+                                + columns + " FROM Guess_old;"
+                    )
+                    db.execSQL("DROP TABLE Guess_old")
+                }
+            }) // Do not remove migrations so hurriedly! Wait at least for a few months...
             .build()
         val dao = db.dao()
         when (action) {
@@ -153,7 +170,7 @@ class Work(
                 dao.cUpdate(values[0] as Crush)
                 handler?.obtainMessage(
                     action, if (values.size > 1) values[1] as Int else 0,
-                    if (values.size > 2) values[2] as Int else 0, null
+                    if (values.size > 2) values[2] as Int else 0, values[0]
                 )?.sendToTarget()
             }
 

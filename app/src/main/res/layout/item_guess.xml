@@ -14,54 +14,65 @@
     tools:ignore="ContentDescription,LabelFor,MissingConstraints">
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/crshLabel"
+        style="@style/etLabel"
+        android:text="@string/etCrsh"
+        app:layout_constraintBottom_toBottomOf="@id/crsh"
+        app:layout_constraintTop_toTopOf="@id/crsh" />
+
+    <ir.mahdiparastesh.sexbook.more.SoftAutoCompleteTextView
+        android:id="@+id/crsh"
+        style="@style/etField"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/etPadH"
+        android:background="@null"
+        android:hint="@string/crushHint"
+        android:inputType="textMultiLine"
+        android:minLines="1"
+        android:textIsSelectable="true"
+        android:textSize="@dimen/nameFont"
+        app:layout_constraintStart_toEndOf="@id/crshLabel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/sincLabel"
         style="@style/etDateLabel"
-        android:layout_marginStart="@dimen/etPadH"
         android:text="@string/etSince"
-        app:fontFamily="@font/normal"
         app:layout_constraintBottom_toBottomOf="@id/sinc"
         app:layout_constraintTop_toTopOf="@id/sinc" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/sinc"
         style="@style/etDateButton"
-        android:layout_marginEnd="@dimen/etPadH"
         app:fontFamily="@font/normal"
         app:layout_constraintStart_toEndOf="@id/sincLabel"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/crsh" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tillLabel"
         style="@style/etDateLabel"
-        android:layout_marginStart="@dimen/etPadH"
         android:text="@string/etUntil"
-        app:fontFamily="@font/normal"
         app:layout_constraintBottom_toBottomOf="@id/till"
         app:layout_constraintTop_toTopOf="@id/till" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/till"
         style="@style/etDateButton"
-        android:layout_marginEnd="@dimen/etPadH"
         app:fontFamily="@font/normal"
         app:layout_constraintStart_toEndOf="@id/tillLabel"
         app:layout_constraintTop_toBottomOf="@id/sinc" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/freqLabel"
-        style="@style/etDateLabel"
-        android:layout_width="wrap_content"
-        android:layout_marginStart="@dimen/etPadH"
+        style="@style/etLabel"
         android:text="@string/etFreq"
-        app:fontFamily="@font/normal"
         app:layout_constraintBottom_toBottomOf="@id/freq"
         app:layout_constraintTop_toTopOf="@id/freq" />
 
     <ir.mahdiparastesh.sexbook.more.SoftEditText
         android:id="@+id/freq"
-        android:layout_width="0dp"
+        style="@style/etField"
         android:layout_height="30sp"
-        android:layout_marginStart="30sp"
         android:layout_marginTop="15sp"
         android:layout_marginEnd="30sp"
         android:layout_marginBottom="15sp"
@@ -72,6 +83,7 @@
         android:textIsSelectable="true"
         android:textSize="15sp"
         app:fontFamily="@font/bold"
+        app:layout_constraintEnd_toEndOf="@null"
         app:layout_constraintEnd_toStartOf="@id/type"
         app:layout_constraintStart_toEndOf="@id/freqLabel"
         app:layout_constraintTop_toBottomOf="@id/till" />
@@ -80,7 +92,7 @@
         android:id="@+id/type"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="@dimen/etPadH"
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="@id/freq"
         app:layout_constraintEnd_toEndOf="parent"

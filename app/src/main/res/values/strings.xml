@@ -3,6 +3,7 @@
     <string name="app_name">Sexbook</string>
 
     <!-- GLOBAL -->
+    <string name="crushHint" translatable="false">.....</string>
     <string name="sOpen">Open</string>
     <string name="close">Close</string>
     <string name="toExit">Double tap to exit&#8230;</string>
@@ -51,7 +52,6 @@
     <string name="findChip">Find a crush&#8230;</string>
 
     <!-- Page Sex -->
-    <string name="mrvNotesHint" translatable="false">.....</string>
     <string name="lcAccurate">Accurate?</string>
     <string name="desc">Write descriptions&#8230;</string>
     <string name="recEstimated">[ESTIMATED]</string>
@@ -89,6 +89,7 @@
 
     <!-- Estimation -->
     <string name="estimation">Estimation</string>
+    <string name="etCrsh">Crush (optional)</string>
     <string name="etDateHint" translatable="false" />
     <string name="etSince">Since</string>
     <string name="etUntil">Until</string>

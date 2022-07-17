@@ -2,7 +2,10 @@ package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.*
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import ir.mahdiparastesh.sexbook.Fun.explode
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.data.Guess
@@ -75,7 +78,7 @@ class Estimation : BaseActivity() {
         b.add.setOnClickListener {
             if (adding) return@setOnClickListener
             adding = true
-            Work(c, Work.G_INSERT_ONE, listOf(Guess(-1L, -1L, 0f, 1, "", -1L))).start()
+            Work(c, Work.G_INSERT_ONE, listOf(Guess(null, -1L, -1L, 0f, 1, "", -1L))).start()
             Delay { adding = false }
             c.shake()
         }

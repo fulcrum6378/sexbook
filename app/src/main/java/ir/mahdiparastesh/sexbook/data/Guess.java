@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 public class Guess {
     @PrimaryKey(autoGenerate = true)
     public long id;
+    public String crsh;
     public long sinc;
     public long till;
     public float freq;
@@ -14,7 +15,8 @@ public class Guess {
     public String desc;
     public long plac;
 
-    public Guess(long sinc, long till, float freq, byte type, String desc, long plac) {
+    public Guess(String crsh, long sinc, long till, float freq, byte type, String desc, long plac) {
+        this.crsh = crsh;
         this.sinc = sinc;
         this.till = till;
         this.freq = freq;
@@ -22,11 +24,6 @@ public class Guess {
         this.desc = desc;
         this.plac = plac;
     }
-
-    /*public Guess setId(long id) {
-        this.id = id;
-        return this;
-    }*/
 
     public boolean checkValid() {
         return sinc > -1L && till > -1L && freq > 0 &&

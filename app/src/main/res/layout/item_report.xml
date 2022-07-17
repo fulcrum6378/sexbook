@@ -84,7 +84,7 @@
         android:background="@null"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
-        android:hint="@string/mrvNotesHint"
+        android:hint="@string/crushHint"
         android:inputType="textMultiLine"
         android:minLines="1"
         android:paddingStart="6sp"

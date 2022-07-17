@@ -7,7 +7,7 @@
         <item name="layout_constraintBottom_toBottomOf">parent</item>
     </style>
 
-    <style name="shadow_1">
+    <style name="shadow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">5dp</item>
         <item name="android:background">@drawable/shadow</item>
@@ -28,7 +28,7 @@
         <item name="titleTextAppearance">@style/TextAppearance.Sexbook.Toolbar</item>
     </style>
 
-    <style name="tbShadow" parent="shadow_1">
+    <style name="tbShadow" parent="shadow">
         <item name="android:layout_height">6dp</item>
         <item name="android:alpha">0.4</item>
         <item name="layout_constraintTop_toBottomOf">@id/toolbar</item>
@@ -121,8 +121,29 @@
 
 
     <!-- Estimation -->
-    <style name="etDateButton">
+    <style name="etLabel">
         <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/etPadH</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textSize">@dimen/etLabel</item>
+        <item name="fontFamily">@font/normal</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintWidth_percent">0.4</item>
+    </style>
+
+    <style name="etDateLabel" parent="etLabel">
+        <item name="android:layout_width">50sp</item>
+        <item name="layout_constraintWidth_percent">1</item>
+    </style>
+
+    <style name="etField">
+        <item name="android:layout_width">0dp</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="android:layout_marginTop">7dp</item>
+    </style>
+
+    <style name="etDateButton" parent="etField">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/spn_filter</item>
         <item name="android:textAlignment">center</item>
@@ -131,18 +152,10 @@
         <item name="android:paddingBottom">7dp</item>
         <item name="android:text">@string/etDateHint</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="layout_constraintEnd_toEndOf">parent</item>
-    </style>
-
-    <style name="etDateLabel">
-        <item name="android:layout_width">40sp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textAlignment">viewStart</item>
-        <item name="android:textSize">@dimen/etDateLabel</item>
-        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">@dimen/etPadH</item>
     </style>
 
 

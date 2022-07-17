@@ -50,7 +50,7 @@
     <string name="findChip">Vind een crush&#8230;</string>
 
     <!-- Page Sex -->
-    <string name="mrvNotesHint">.....</string>
+    <string name="crushHint">.....</string>
     <string name="lcAccurate">Nauwkeurig?</string>
     <string name="desc">Schrijf beschrijvingen&#8230;</string>
     <string name="recEstimated">[GESCHATTE]</string>

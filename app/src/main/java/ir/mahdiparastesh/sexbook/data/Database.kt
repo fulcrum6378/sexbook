@@ -8,7 +8,7 @@ import java.io.File
 
 @Database(
     entities = [Report::class, Crush::class, Place::class, Guess::class],
-    version = 2, exportSchema = false
+    version = 3, exportSchema = false
 )
 abstract class Database : RoomDatabase() {
     abstract fun dao(): Dao
