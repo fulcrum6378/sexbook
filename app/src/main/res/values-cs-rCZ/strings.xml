@@ -12,7 +12,6 @@
     <string name="discard">Vyřadit</string>
     <string name="excStat">Plus %s vyloučeno ze statistiky.</string>
     <string name="unknown">Plus %s od neznámých lidí.</string>
-    <string name="estimated">Plus %s odhadované položky.</string>
     <string-array name="types">
         <item>Poluce</item>
         <item>Masturbace</item>

@@ -12,7 +12,6 @@
     <string name="discard">Weggooien</string>
     <string name="excStat">Plus %s uitgesloten van statistiek.</string>
     <string name="unknown">Plus %s van onbekende mensen.</string>
-    <string name="estimated">Plus %s geschatte items.</string>
     <string-array name="types">
         <item>Natte Droom</item>
         <item>Masturbatie</item>

@@ -13,7 +13,6 @@
     <string name="excStat">بعلاوه %s مورد مستثنی از آمارگیری.</string>
     <string name="unknown">بعلاوه %s مورد از افراد ناشناس.</string>
     <string name="instagram">اینستاگرام</string>
-    <string name="estimated">بعلاوه %s مورد حدسی.</string>
     <string-array name="types">
         <item>احتلام</item>
         <item>خودارضایی</item>

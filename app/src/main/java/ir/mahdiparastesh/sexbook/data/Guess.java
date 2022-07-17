@@ -3,10 +3,13 @@ package ir.mahdiparastesh.sexbook.data;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.Nullable;
+
 @Entity
 public class Guess {
     @PrimaryKey(autoGenerate = true)
     public long id;
+    @Nullable
     public String crsh;
     public long sinc;
     public long till;
@@ -15,7 +18,7 @@ public class Guess {
     public String desc;
     public long plac;
 
-    public Guess(String crsh, long sinc, long till, float freq, byte type, String desc, long plac) {
+    public Guess(@Nullable String crsh, long sinc, long till, float freq, byte type, String desc, long plac) {
         this.crsh = crsh;
         this.sinc = sinc;
         this.till = till;

@@ -5,7 +5,7 @@ import android.os.Parcelable
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 
-class Summary(list: List<Report>, val nEstimated: Int, val nExcluded: Int) {
+class Summary(list: List<Report>, val nExcluded: Int) {
     var scores: HashMap<String, ArrayList<Erection>>
     var unknown = 0f
     val actual = list.size

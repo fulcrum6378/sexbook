@@ -12,7 +12,6 @@
     <string name="discard">Verwerfen</string>
     <string name="excStat">Plus %s von der Statistik ausgeschlossen.</string>
     <string name="unknown">Plus %s von unbekannten Personen.</string>
-    <string name="estimated">Plus %s geschätzte Artikel.</string>
     <string-array name="types">
         <item>Pollution</item>
         <item>Masturbation</item>

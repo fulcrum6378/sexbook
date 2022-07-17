@@ -22,6 +22,7 @@ import ir.mahdiparastesh.sexbook.mdtp.Utils
 import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.mdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.more.*
+import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.text.DateFormatSymbols
 
 class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
@@ -68,11 +69,11 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         val r = c.m.visOnani.value?.getOrNull(i) ?: return
 
         // Date & Time
+        h.b.date.text = compileDate(c, r.time)
         if (r.isReal) {
             var cal = r.time.calendar(c)
             h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
             h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
-            h.b.date.text = compileDate(c, r.time)
             h.b.clock.setOnClickListener {
                 if (c.m.onani.value == null) return@setOnClickListener
                 TimePickerDialog.newInstance(
@@ -113,6 +114,8 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         }
         for (tim in arrayOf(h.b.clockHour, h.b.clockMin, h.b.point, h.b.ampm)) tim.vis(r.isReal)
         h.b.clock.setBackgroundResource(if (r.isReal) R.drawable.clock_bg else R.drawable.estimation)
+        if (!r.isReal && c.night()) h.b.clock.background = h.b.clock.background
+            .apply { colorFilter = c.pdcf(R.color.mrvClock) }
 
         // Name
         h.b.name.setText(r.name)

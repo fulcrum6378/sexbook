@@ -91,11 +91,6 @@ class SumChips : Fragment() {
                 plus(b.ll.context, getString(R.string.unknown, it.toString()))
             )
         }
-        c.m.summary.value?.nEstimated?.also {
-            if (it > 0f) b.ll.addView(
-                plus(b.ll.context, getString(R.string.estimated, it.toString()))
-            )
-        }
     }
 
     fun plus(c: Context, s: String) = AppCompatTextView(c).apply {

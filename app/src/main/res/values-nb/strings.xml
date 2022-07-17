@@ -12,7 +12,6 @@
     <string name="discard">Kast</string>
     <string name="excStat">Pluss %s ekskludert fra statistikk.</string>
     <string name="unknown">Pluss %s fra ukjente personer.</string>
-    <string name="estimated">Pluss %s estimerte varer.</string>
     <string-array name="types">
         <item>Nattlig utslipp</item>
         <item>Onani</item>
