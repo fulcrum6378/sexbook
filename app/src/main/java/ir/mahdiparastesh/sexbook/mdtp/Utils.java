@@ -141,7 +141,7 @@ public class Utils {
         return createCalendar(type, null);
     }
 
-    public static DateFormatSymbols localSymbols( // TODO only this one needs globalisation.
+    public static DateFormatSymbols localSymbols( // only this one needs globalisation.
             Context c, Class<? extends Calendar> calendarType, Locale locale) {
         DateFormatSymbols symbols = DateFormatSymbols.getInstance(locale);
         switch (calendarType.getSimpleName()) {

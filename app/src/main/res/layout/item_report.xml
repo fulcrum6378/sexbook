@@ -18,7 +18,6 @@
         android:layout_width="@dimen/clockSize"
         android:layout_height="@dimen/clockSize"
         android:layout_marginStart="@dimen/reportPadH"
-        android:background="@drawable/clock_bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

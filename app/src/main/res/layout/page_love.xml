@@ -16,7 +16,7 @@
         android:paddingTop="20dp"
         android:paddingEnd="10dp"
         android:paddingBottom="20dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layoutManager=".more.SafeLinearLayoutManager" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/empty"

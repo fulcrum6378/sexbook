@@ -35,6 +35,8 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         parent: ViewGroup, viewType: Int
     ): AnyViewHolder<ItemGuessBinding> {
         val b = ItemGuessBinding.inflate(c.layoutInflater, parent, false)
+        /* As soon as I applied this null safety feature, IndexOutOfBoundsException:
+        "Inconsistency detected" exception appeared for the first time in the history of Sexbook! */
 
         // Labels
         b.sincLabel.text = b.sincLabel.text.toString() + "*"
@@ -61,6 +63,17 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
 
         // Crush
         h.b.crsh.setText(g.crsh)
+        h.b.crsh.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
+            override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val gu = c.m.guesses.value?.getOrNull(h.layoutPosition) ?: return
+                if (gu.crsh != h.b.crsh.text.toString()) {
+                    gu.crsh = h.b.crsh.text.toString()
+                    update(h.layoutPosition)
+                }
+            }
+        })
 
         // Since
         if (g.sinc > -1L)

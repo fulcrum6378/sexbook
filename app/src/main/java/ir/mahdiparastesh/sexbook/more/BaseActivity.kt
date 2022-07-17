@@ -30,6 +30,7 @@ import ir.mahdiparastesh.sexbook.Fun.isReady
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.stat.Summary
+import java.util.*
 
 abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListener {
     val c: Context get() = applicationContext
@@ -109,7 +110,13 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
         GregorianCalendar::class.java,
         PersianCalendar::class.java,
         IndianCalendar::class.java
-    )[sp.getInt(Settings.spCalType, 0)] // TODO defValue based on locale
+    )[sp.getInt(
+        Settings.spCalType, when (Locale.getDefault().country) {
+            "IR" -> 1
+            "IN" -> 2
+            else -> 0
+        }
+    )]
 
     private fun initAdmob() {
         retryForAd = 0

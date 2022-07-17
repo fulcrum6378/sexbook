@@ -326,7 +326,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             val share = (86400000.0 / g.freq).toLong()
 
             while (time <= g.till) {
-                m.onani.value!!.add(Report(time, getString(R.string.recEstimated), g.type, g.plac))
+                m.onani.value!!.add(Report(time, g.crsh, g.type, g.plac))
                 time += share
             }
         }

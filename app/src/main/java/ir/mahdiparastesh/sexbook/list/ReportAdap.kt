@@ -65,51 +65,58 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
-        val itm = c.m.visOnani.value!![i]
+        val r = c.m.visOnani.value?.getOrNull(i) ?: return
 
         // Date & Time
-        var cal = itm.time.calendar(c)
-        h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
-        h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
-        h.b.date.text = compileDate(c, itm.time)
-        if (itm.isReal) h.b.clock.setOnClickListener {
-            if (c.m.onani.value == null) return@setOnClickListener
-            TimePickerDialog.newInstance(
-                this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], false
-            ).apply {
-                version = TimePickerDialog.Version.VERSION_2
-                accentColor = c.color(R.color.CP)
-                setOkColor(c.color(R.color.dialogText))
-                setCancelColor(c.color(R.color.dialogText))
-                setOnDismissListener { dialogDismissed() }
-                show(c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}")
-            }
-            mayShowAd()
-        } else h.b.clock.setOnClickListener(null)
-        if (itm.isReal) h.b.date.setOnClickListener {
-            if (c.m.onani.value == null) return@setOnClickListener
-            DatePickerDialog.newInstance({ view, year, month, day ->
-                if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4)
-                    return@newInstance
-                cal.set(Calendar.YEAR, year)
-                cal.set(Calendar.MONTH, month)
-                cal.set(Calendar.DAY_OF_MONTH, day)
-                val pos = view.tag!!.substring(4).toInt()
-                if (c.m.onani.value!!.size > pos && view.tag!!.substring(0, 4) == tagEdit) {
-                    c.m.onani.value!![pos].time = cal.timeInMillis
-                    Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
+        if (r.isReal) {
+            var cal = r.time.calendar(c)
+            h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
+            h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
+            h.b.date.text = compileDate(c, r.time)
+            h.b.clock.setOnClickListener {
+                if (c.m.onani.value == null) return@setOnClickListener
+                TimePickerDialog.newInstance(
+                    this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], false
+                ).apply {
+                    version = TimePickerDialog.Version.VERSION_2
+                    accentColor = c.color(R.color.CP)
+                    setOkColor(c.color(R.color.dialogText))
+                    setCancelColor(c.color(R.color.dialogText))
+                    setOnDismissListener { dialogDismissed() }
+                    show(c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}")
                 }
-            }, cal).defaultOptions(c)
-                .setOnDismissListener { dialogDismissed() }
-                .show(c.supportFragmentManager, "$tagEdit${globalPos(c.m, h.layoutPosition)}")
-            mayShowAd()
-        } else h.b.date.setOnClickListener(null)
-        h.b.ampm.text =
-            DateFormatSymbols().amPmStrings[if (cal[Calendar.HOUR_OF_DAY] < 12) 0 else 1]
+                mayShowAd()
+            }
+            h.b.date.setOnClickListener {
+                if (c.m.onani.value == null) return@setOnClickListener
+                DatePickerDialog.newInstance({ view, year, month, day ->
+                    if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4)
+                        return@newInstance
+                    cal.set(Calendar.YEAR, year)
+                    cal.set(Calendar.MONTH, month)
+                    cal.set(Calendar.DAY_OF_MONTH, day)
+                    val pos = view.tag!!.substring(4).toInt()
+                    if (c.m.onani.value!!.size > pos && view.tag!!.substring(0, 4) == tagEdit) {
+                        c.m.onani.value!![pos].time = cal.timeInMillis
+                        Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
+                    }
+                }, cal).defaultOptions(c)
+                    .setOnDismissListener { dialogDismissed() }
+                    .show(c.supportFragmentManager, "$tagEdit${globalPos(c.m, h.layoutPosition)}")
+                mayShowAd()
+            }
+            h.b.ampm.text =
+                DateFormatSymbols().amPmStrings[if (cal[Calendar.HOUR_OF_DAY] < 12) 0 else 1]
+        } else {
+            h.b.clock.setOnClickListener(null)
+            h.b.date.setOnClickListener(null)
+        }
+        for (tim in arrayOf(h.b.clockHour, h.b.clockMin, h.b.point, h.b.ampm)) tim.vis(r.isReal)
+        h.b.clock.setBackgroundResource(if (r.isReal) R.drawable.clock_bg else R.drawable.estimation)
 
         // Name
-        h.b.name.setText(itm.name)
-        if (itm.isReal) {
+        h.b.name.setText(r.name)
+        if (r.isReal) {
             var crushes = arrayListOf<String>()
             if (c.m.summary.value != null)
                 crushes = ArrayList(c.m.summary.value!!.scores.keys)
@@ -117,7 +124,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 ArrayAdapter(c, android.R.layout.simple_dropdown_item_1line, crushes)
             )
         }
-        h.b.name.isEnabled = itm.isReal
+        h.b.name.isEnabled = r.isReal
         val nameWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
@@ -130,13 +137,13 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 }
             }
         }
-        if (itm.isReal) h.b.name.addTextChangedListener(nameWatcher)
+        if (r.isReal) h.b.name.addTextChangedListener(nameWatcher)
         else h.b.name.removeTextChangedListener(nameWatcher)
 
         // Type
-        h.b.type.setSelection(itm.type.toInt(), true)
+        h.b.type.setSelection(r.type.toInt(), true)
         h.b.type.onItemSelectedListener =
-            if (itm.isReal) object : AdapterView.OnItemSelectedListener {
+            if (r.isReal) object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                 override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
                     c.m.visOnani.value!![h.layoutPosition].apply {
@@ -148,10 +155,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                     c.sp.edit().putInt(Settings.spPrefersOrgType, i).apply()
                 }
             } else null
-        h.b.type.isEnabled = itm.isReal
+        h.b.type.isEnabled = r.isReal
 
         // Overflow
-        if (itm.isReal) {
+        if (r.isReal) {
             h.b.root.setOnClickListener { turnOverflow(h.layoutPosition, h.b) }
             turnOverflow(i, h.b, expansion[i])
         } else {
@@ -160,7 +167,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         }
 
         // Descriptions
-        h.b.desc.setText(if (itm.isReal) itm.desc else "")
+        h.b.desc.setText(if (r.isReal) r.desc else "")
         val descWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
@@ -173,17 +180,17 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 }
             }
         }
-        if (itm.isReal) h.b.desc.addTextChangedListener(descWatcher)
+        if (r.isReal) h.b.desc.addTextChangedListener(descWatcher)
         else h.b.desc.removeTextChangedListener(descWatcher)
-        h.b.desc.isEnabled = itm.isReal
+        h.b.desc.isEnabled = r.isReal
 
         // Place
         var placeTouched = false
-        if (itm.isReal)
+        if (r.isReal)
             h.b.place.setOnTouchListener { _, _ -> placeTouched = true; false }
         else h.b.place.setOnTouchListener(null)
         h.b.place.onItemSelectedListener =
-            if (itm.isReal) object : AdapterView.OnItemSelectedListener {
+            if (r.isReal) object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(av: AdapterView<*>?) {}
                 override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
                     if (places == null || !placeTouched) return
@@ -197,17 +204,17 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 }
             } else null
         h.b.place.setSelection(
-            if (itm.plac == -1L || places == null) 0
-            else placePos(itm.plac, places) + 1, true
+            if (r.plac == -1L || places == null) 0
+            else placePos(r.plac, places) + 1, true
         )
-        if (!itm.isReal) {
+        if (!r.isReal) {
             h.b.place.vis()
             h.b.placeMark.vis()
         }
-        h.b.place.isEnabled = itm.isReal
+        h.b.place.isEnabled = r.isReal
 
         // Long Click
-        val longClick = if (itm.isReal) View.OnLongClickListener { v ->
+        val longClick = if (r.isReal) View.OnLongClickListener { v ->
             MaterialMenu(c, v, R.menu.report, Act().apply {
                 this[R.id.lcExpand] = {
                     turnOverflow(h.layoutPosition, h.b)
@@ -238,9 +245,9 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         h.b.clock.setOnLongClickListener(longClick)
         h.b.date.setOnLongClickListener(longClick)
         h.b.name.setOnLongClickListener(longClick)
-        h.b.root.isClickable = itm.isReal
-        h.b.root.isLongClickable = itm.isReal
-        h.b.root.alpha = if (itm.isReal) 1f else estimatedAlpha
+        h.b.root.isClickable = r.isReal
+        h.b.root.isLongClickable = r.isReal
+        h.b.root.alpha = if (r.isReal) 1f else estimatedAlpha
     }
 
     override fun getItemCount() = c.m.visOnani.value?.size ?: 0
@@ -302,7 +309,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
     companion object {
         const val tagEdit = "edit"
-        const val estimatedAlpha = 0.6f
+        const val estimatedAlpha = 0.75f
 
         fun compileDate(c: BaseActivity, time: Long): String {
             val calType = c.calType()
