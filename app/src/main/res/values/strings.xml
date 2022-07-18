@@ -48,7 +48,8 @@
     <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
     <string name="noRecords">You have no records yet!</string>
     <string name="askImport">Are you sure you want to replace all the app data?</string>
-    <string name="findChip">Find a crush&#8230;</string>
+    <string name="findCrush">Find a crush&#8230;</string>
+    <string name="chart">Chart</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">Accurate?</string>
@@ -60,9 +61,10 @@
 
     <!-- #Statistics -->
     <string name="summary">Summary</string>
+    <string name="recency">Recency</string>
     <string name="adorability">Adorability</string>
     <string name="growth">Growth</string>
-    <string name="recency">Recency</string>
+    <string name="mixture">Mixture</string>
     <string name="statistics">Statistics</string>
 
     <!-- Identification -->
@@ -82,7 +84,7 @@
     <!-- Places -->
     <string name="places">Places</string>
     <string name="plItemHint">Place name&#8230;</string>
-    <string name="plDeletePlaceSure">Are you sure you want to delete this place?</string>
+    <string name="plDeletePlaceSure">Are you sure you want to delete this place? If yes, please specify what action should be taken about the records which were related to this place:</string>
     <string name="plDefPlace">Default Place?</string>
 
     <!-- Estimation -->
@@ -98,6 +100,8 @@
     <string name="stTitle">Sexbook Settings</string>
     <string name="stCalendarType">Calendar Type</string>
     <string name="stStatSince">Statisticise Since</string>
+    <string name="stSexTypesTitle">Filter Statistics by Sex Type</string>
+    <string name="stSexTypeInclude">Include %s</string>
     <string name="stReset">Reset Settings</string>
     <string name="stResetSure">Are you sure you want to all the settings back to default?</string>
     <string name="stTruncate">Remove All Data</string>

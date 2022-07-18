@@ -47,7 +47,8 @@
     <string name="importReadError">متاسفانه هنگام خواندن فایل خطایی رخ داد!</string>
     <string name="noRecords">شما هیچ چیزی ثبت نکرده اید!</string>
     <string name="askImport">آیا از جایگزین کردن تمام اطلاعات اپلیکیشن اطمینان دارید؟</string>
-    <string name="findChip">یک کراش انتخاب کنید&#8230;</string>
+    <string name="findCrush">یک کراش انتخاب کنید&#8230;</string>
+    <string name="chart">نمودار</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">دقیق؟</string>
@@ -59,9 +60,10 @@
 
     <!-- #Statistics -->
     <string name="summary">خلاصه</string>
+    <string name="recency">تازگی</string>
     <string name="adorability">محبوبیت</string>
     <string name="growth">رشد</string>
-    <string name="recency">تازگی</string>
+    <string name="mixture">مختلط</string>
     <string name="statistics">آمار</string>
 
     <!-- Identification -->
@@ -81,11 +83,12 @@
     <!-- Places -->
     <string name="places">مکان ها</string>
     <string name="plItemHint">نام مکان&#8230;</string>
-    <string name="plDeletePlaceSure">آیا از حذف این مکان از لیست اطمینان دارید؟</string>
+    <string name="plDeletePlaceSure">آیا از حذف این مکان از لیست اطمینان دارید؟ در این صورت مشخص کنید مواردی که به این مکان ارتباط داده شده اند، مکان جدیدشان کدام یک از موارد زیر باشد:</string>
     <string name="plDefPlace">مکان پیشفرض</string>
 
     <!-- Estimation -->
     <string name="estimation">تخمین ها</string>
+    <string name="etCrsh">کراش (اختیاری)</string>
     <string name="etSince">از</string>
     <string name="etUntil">تا</string>
     <string name="etFreq">بار در هر روز</string>
@@ -95,6 +98,8 @@
     <string name="stTitle">تنظیمات سکسبوک</string>
     <string name="stCalendarType">نوع تقویم</string>
     <string name="stStatSince">آمارگیری از ابتدای</string>
+    <string name="stSexTypesTitle">فیلتر آمارها براساس نوع سکس</string>
+    <string name="stSexTypeInclude">الحاق %s</string>
     <string name="stReset">بازنشانی تنظیمات</string>
     <string name="stResetSure">آیا مطمئنید که می خواهید تمام تنظیمات را به پیشفرض بازگردانید؟</string>
     <string name="stTruncate">حذف تمام داده ها</string>

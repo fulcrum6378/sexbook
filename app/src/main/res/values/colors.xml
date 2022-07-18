@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources>
     <color name="CP">#FFD422</color>
     <color name="CPD">#D6AD00</color>
     <color name="CPDD">#9A7C00</color>
@@ -27,7 +27,6 @@
     <color name="mrvClock">@color/CP2</color>
     <color name="mrvClockPoint">@color/CPDD</color>
     <color name="mrvClockHand">@color/CP</color>
-    <color name="spnFilterMark">@color/CPDD</color>
     <color name="spnFilterDDBG">@color/CP2</color>
     <color name="recency">@android:color/black</color>
     <color name="recencySearch">@color/CPD</color>

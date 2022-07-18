@@ -47,8 +47,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         b.type.adapter = TypeAdap(c)
 
         // Place
-        b.placeMark.setColorFilter(c.color(R.color.spnFilterMark))
-        places?.let { l ->
+        places?.also { l ->
             b.place.adapter = ArrayAdapter(c, R.layout.spinner,
                 ArrayList(l.map { it.name }).apply { add(0, "") })
                 .apply { setDropDownViewResource(R.layout.spinner_dd) }

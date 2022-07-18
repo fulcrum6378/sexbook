@@ -22,7 +22,7 @@
             android:layout_marginBottom="5dp"
             android:autofillHints="personName"
             android:background="@null"
-            android:hint="@string/findChip"
+            android:hint="@string/findCrush"
             android:inputType="text"
             android:paddingStart="5dp"
             android:paddingTop="17dp"

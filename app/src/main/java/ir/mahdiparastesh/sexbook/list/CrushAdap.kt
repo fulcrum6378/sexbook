@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
@@ -42,7 +43,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                         c.startActivity(
                             Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse(INSTA + c.m.liefde.value!![h.layoutPosition].insta)
+                                Uri.parse(Fun.INSTA + c.m.liefde.value!![h.layoutPosition].insta)
                             ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         )
                     } catch (e: ActivityNotFoundException) {
@@ -65,8 +66,4 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
     }
 
     override fun getItemCount() = c.m.liefde.value?.size ?: 0
-
-    companion object {
-        const val INSTA = "https://www.instagram.com/"
-    }
 }

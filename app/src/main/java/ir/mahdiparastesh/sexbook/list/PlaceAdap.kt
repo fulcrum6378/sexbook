@@ -5,14 +5,17 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings.Companion.spDefPlace
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemPlaceBinding
+import ir.mahdiparastesh.sexbook.databinding.MigratePlaceBinding
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
@@ -60,18 +63,30 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
                 }
                 this[R.id.plDelete] = {
                     AlertDialog.Builder(c).apply {
+                        val bm = MigratePlaceBinding.inflate(c.layoutInflater)
+                        bm.places.adapter = ArrayAdapter(c, R.layout.spinner,
+                            ArrayList(c.m.places.value!!.map { it.name }).apply {
+                                add(0, "")
+                                remove(c.m.places.value!![h.layoutPosition].name)
+                            }).apply { setDropDownViewResource(R.layout.spinner_dd) }
                         setTitle(c.resources.getString(R.string.delete))
                         setMessage(c.resources.getString(R.string.plDeletePlaceSure))
+                        setView(bm.root)
                         setPositiveButton(R.string.yes) { _, _ ->
-                            // TODO: REPORTS WHICH WERE RELATED TO THIS PLACE?!?
                             Work(
-                                c, Work.P_DELETE_ONE,
-                                listOf(c.m.places.value!![h.layoutPosition], h.layoutPosition)
+                                c, Work.P_DELETE_ONE, listOf(
+                                    c.m.places.value!![h.layoutPosition],
+                                    c.m.places.value!!.find { it.name == (bm.places.selectedItem as String) }
+                                        ?.id ?: -1L,
+                                    h.layoutPosition
+                                )
                             ).start()
+                            c.shake()
                         }
                         setNegativeButton(R.string.no, null)
                         setCancelable(true)
                     }.show()
+                    c.shake()
                 }
             }).apply {
                 if (c.sp.contains(spDefPlace) && c.sp.getLong(spDefPlace, -1L)

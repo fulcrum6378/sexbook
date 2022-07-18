@@ -4,9 +4,16 @@ import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.annotation.Dimension
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.checkbox.MaterialCheckBox
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
@@ -28,6 +35,7 @@ class Settings : BaseActivity() {
         const val spDefPlace = "defaultPlace"
         const val spStatSince = "statisticiseSince"
         const val spStatSinceCb = "statisticiseSinceCb" // def false
+        const val spStatInclude = "statisticiseInclude" // + s; def true
         const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // def 3 TODO
         // Beware of the numerical fields; go to Exporter$Companion.replace() for modifications.
 
@@ -81,7 +89,49 @@ class Settings : BaseActivity() {
                 cal = Utils.trimToMidnight(cal)
                 b.stStatSinceDate.text = cal.fullDate()
                 sp.edit().putLong(spStatSince, cal.timeInMillis).apply()
-            }, cal).defaultOptions(this).show(supportFragmentManager, "stat")
+            }, cal).defaultOptions(this).show(supportFragmentManager, "stat_since")
+        }
+
+        // Sex Type Exclusion
+        var prevLlId: Int? = null
+        val sexTypes = Fun.sexTypes(c)
+        for (s in sexTypes.indices) {
+            val sex = sexTypes[s]
+            val cbId = View.generateViewId()
+            b.sexTypes.addView(ImageView(this@Settings).apply {
+                val size = dp(32)
+                layoutParams = ConstraintLayout.LayoutParams(size, size).apply {
+                    topToBottom = prevLlId ?: b.sexTypesTitle.id
+                    endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+                    val marV = dp(12)
+                    setMargins(0, marV, 0, marV)
+                    marginEnd = dp(10)
+                }
+                prevLlId = View.generateViewId()
+                id = prevLlId!!
+                setImageResource(sex.icon)
+                colorFilter = pdcf()
+                labelFor = cbId
+            })
+
+            b.sexTypes.addView(MaterialCheckBox(this@Settings).apply {
+                text = getString(R.string.stSexTypeInclude, sex.name)
+                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                typeface = ResourcesCompat.getFont(c, R.font.normal)
+                setTextSize(Dimension.SP, 16f)
+                id = cbId
+                isChecked = sp.getBoolean(spStatInclude + s, true)
+                setOnCheckedChangeListener { _, bb ->
+                    sp.edit().putBoolean(spStatInclude + s, bb).apply()
+                }
+            }, ConstraintLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topToTop = prevLlId!!
+                bottomToBottom = prevLlId!!
+                endToStart = prevLlId!!
+                startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+            })
         }
 
         // Removal

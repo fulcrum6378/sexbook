@@ -214,10 +214,13 @@ class Work(
             }
 
             P_DELETE_ONE -> if (!values.isNullOrEmpty()) {
-                dao.pDelete(values[0] as Place)
+                val old = values[0] as Place
+                dao.pDelete(old)
+                for (mig in dao.getByPlace(old.id))
+                    dao.update(mig.apply { plac = values[1] as Long })
                 handler?.obtainMessage(
-                    action, if (values.size > 1) values[1] as Int else 0,
-                    if (values.size > 2) values[2] as Int else 0, null
+                    action, if (values.size > 2) values[2] as Int else 0,
+                    if (values.size > 3) values[3] as Int else 0, null
                 )?.sendToTarget()
             }
 

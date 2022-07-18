@@ -27,19 +27,17 @@ import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 import java.util.*
-import kotlin.collections.ArrayList
 
 class PageSex : Fragment() {
     val c: Main by lazy { activity as Main }
     private lateinit var b: PageSexBinding
+    val messages = MessageInbox(handler)
+    private var filters: ArrayList<Filter>? = null
 
     companion object {
         const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
         const val DISMISSAL_REFRAIN_FROM_AD_TIMES = 3
         var handler = MutableLiveData<Handler?>(null)
-        var filters: ArrayList<Filter>? = null
-        var listFilter = 0
-        val messages = MessageInbox(handler)
     }
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
@@ -92,8 +90,8 @@ class PageSex : Fragment() {
                         c.m.visOnani.value!!.remove(c.m.onani.value!![msg.arg1])
                         c.m.onani.value!!.remove(c.m.onani.value!![msg.arg1])
                         filters?.let {
-                            if (it.size > listFilter) it[listFilter].items =
-                                it[listFilter].items.apply { remove(msg.arg1) }
+                            if (it.size > c.m.listFilter) it[c.m.listFilter].items =
+                                it[c.m.listFilter].items.apply { remove(msg.arg1) }
                         }
                         if (c.m.visOnani.value!!.size > 0) {
                             b.rv.adapter?.notifyItemRemoved(nominalPos)
@@ -111,7 +109,7 @@ class PageSex : Fragment() {
         messages.clear()
 
         // Filter
-        b.spnFilterMark.setColorFilter(c.color(R.color.spnFilterMark))
+        //b.spnFilterMark.setColorFilter(c.color(R.color.spnFilterMark))
         b.spnFilter.setOnTouchListener { _, _ -> spnFilterTouched = true; false }
         b.spnFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(av: AdapterView<*>?) {}
@@ -135,15 +133,15 @@ class PageSex : Fragment() {
     }
 
     var spnFilterTouched = false
-    private var filteredOnce = false
     fun resetAllMasturbations() {
         Collections.sort(c.m.onani.value!!, ReportAdap.Sort())
         filters = filter(c.m.onani.value!!)
+        if (c.m.listFilter == -1) c.m.listFilter++
+
         val maxPage = filters!!.size - 1
-        if (listFilter == -1) listFilter++
         filterList(
-            if (filters!!.size > 0 && (!filteredOnce || listFilter > maxPage))
-                maxPage else listFilter
+            if (filters!!.size > 0 && (!c.m.filteredOnce || c.m.listFilter > maxPage))
+                maxPage else c.m.listFilter
         )
         if (filters != null) {
             val titles = ArrayList<String>().apply {
@@ -152,9 +150,9 @@ class PageSex : Fragment() {
             b.spnFilter.adapter = ArrayAdapter(c, R.layout.spinner, titles)
                 .apply { setDropDownViewResource(R.layout.spinner_dd) }
             spnFilterTouched = false
-            b.spnFilter.setSelection(listFilter, true)
+            b.spnFilter.setSelection(c.m.listFilter, true)
         }
-        filteredOnce = true
+        c.m.filteredOnce = true
     }
 
     private fun filter(reports: ArrayList<Report>): ArrayList<Filter> {
@@ -174,14 +172,14 @@ class PageSex : Fragment() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun filterList(i: Int = listFilter) {
+    fun filterList(i: Int = c.m.listFilter) {
         if (c.m.onani.value == null) {
             c.m.visOnani.value!!.clear(); return; }
-        listFilter = i
+        c.m.listFilter = i
         c.m.visOnani.value!!.clear()
         if (filters == null) for (o in c.m.onani.value!!) c.m.visOnani.value!!.add(o)
         else if (!filters.isNullOrEmpty())
-            for (o in filters!![listFilter].items)
+            for (o in filters!![c.m.listFilter].items)
                 if (c.m.onani.value!!.size > o)
                     c.m.visOnani.value!!.add(c.m.onani.value!![o])
         if (b.rv.adapter == null) {

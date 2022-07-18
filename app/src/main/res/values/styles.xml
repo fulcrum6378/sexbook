@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <style name="parentConstraint">
@@ -64,6 +65,21 @@
         <item name="android:textIsSelectable">true</item>
         <item name="android:textSize">@dimen/descFont</item>
         <item name="fontFamily">@font/normal</item>
+    </style>
+
+    <style name="statTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/stat_title</item>
+        <item name="android:paddingStart">11sp</item>
+        <item name="android:paddingEnd">11sp</item>
+        <item name="android:paddingTop">6sp</item>
+        <item name="android:paddingBottom">6sp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/bold</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 
 
@@ -145,7 +161,7 @@
 
     <style name="etDateButton" parent="etField">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/spn_filter</item>
+        <item name="android:background">@drawable/button_rectangle</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">@dimen/etDateButton</item>
         <item name="android:paddingTop">7dp</item>
@@ -194,6 +210,7 @@
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
+
 
     <!-- MDTP -->
     <bool name="mdtp_title_all_caps">true</bool>

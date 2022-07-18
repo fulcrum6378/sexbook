@@ -46,7 +46,8 @@
     <string name="importReadError">Bohužel při čtení souboru došlo k chybě!</string>
     <string name="noRecords">Zatím nemáte žádné záznamy!</string>
     <string name="askImport">Opravdu chcete nahradit všechna data aplikace?</string>
-    <string name="findChip">Najít zamilovanost&#8230;</string>
+    <string name="findCrush">Najít zamilovanost&#8230;</string>
+    <string name="chart">Schéma</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">Přesný?</string>
@@ -58,9 +59,10 @@
 
     <!-- #Statistics -->
     <string name="summary">Souhrn</string>
+    <string name="recency">Aktuálnost</string>
     <string name="adorability">Rozkošnost</string>
     <string name="growth">Růst</string>
-    <string name="recency">Aktuálnost</string>
+    <string name="mixture">Směs</string>
     <string name="statistics">Statistika</string>
 
     <!-- Identification -->
@@ -80,11 +82,12 @@
     <!-- Places -->
     <string name="places">Místa</string>
     <string name="plItemHint">Název místa&#8230;</string>
-    <string name="plDeletePlaceSure">Opravdu chcete toto místo smazat?</string>
+    <string name="plDeletePlaceSure">Opravdu chcete toto místo smazat? Pokud ano, uveďte prosím, jaká opatření by měla být provedena se záznamy, které se týkaly tohoto místa:</string>
     <string name="plDefPlace">Výchozí místo?</string>
 
     <!-- Estimation -->
     <string name="estimation">Odhad</string>
+    <string name="etCrsh">Crush (volitelné)</string>
     <string name="etSince">Od té doby</string>
     <string name="etUntil">Až do</string>
     <string name="etFreq">krát za den</string>
@@ -94,6 +97,8 @@
     <string name="stTitle">Nastavení Sexbooku</string>
     <string name="stCalendarType">Typ kalendáře</string>
     <string name="stStatSince">Statistika od</string>
+    <string name="stSexTypesTitle">Filtrovat statistiky podle typu pohlaví</string>
+    <string name="stSexTypeInclude">Zahrnout %s</string>
     <string name="stReset">Resetovat nastavení</string>
     <string name="stResetSure">Opravdu chcete všechna nastavení vrátit na výchozí hodnoty?</string>
     <string name="stTruncate">Odebrat všechna data</string>

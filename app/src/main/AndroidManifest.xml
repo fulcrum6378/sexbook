@@ -79,6 +79,11 @@
             android:exported="false"
             android:launchMode="singleTop" />
 
+        <activity
+            android:name=".stat.Mixture"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
         <service
             android:name=".more.SexTileService"
             android:exported="true"

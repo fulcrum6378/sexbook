@@ -55,7 +55,6 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         b.type.adapter = TypeAdap(c)
 
         // Place
-        b.placeMark.setColorFilter(c.color(R.color.spnFilterMark))
         if (places != null)
             b.place.adapter = ArrayAdapter(c, R.layout.spinner,
                 ArrayList(places.map { it.name }).apply { add(0, "") })
@@ -210,10 +209,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             if (r.plac == -1L || places == null) 0
             else placePos(r.plac, places) + 1, true
         )
-        if (!r.isReal) {
-            h.b.place.vis()
-            h.b.placeMark.vis()
-        }
+        if (!r.isReal) h.b.place.vis()
         h.b.place.isEnabled = r.isReal
 
         // Long Click
@@ -274,7 +270,6 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         expansion[i] = expand
         b.desc.vis(expand)
         b.place.vis(expand)
-        b.placeMark.vis(expand)
     }
 
     fun update(updated: Report, nominalPos: Int) {

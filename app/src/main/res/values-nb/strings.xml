@@ -46,7 +46,8 @@
     <string name="importReadError">Dessverre oppstod det en feil under lesing av filen!</string>
     <string name="noRecords">Du har ingen poster ennå!</string>
     <string name="askImport">Er du sikker på at du vil erstatte alle appdataene?</string>
-    <string name="findChip">Finn en forelskelse&#8230;</string>
+    <string name="findCrush">Finn en forelskelse&#8230;</string>
+    <string name="chart">Diagram</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">Korrekt?</string>
@@ -58,9 +59,10 @@
 
     <!-- #Statistics -->
     <string name="summary">Sammendrag</string>
+    <string name="recency">Nylig</string>
     <string name="adorability">Yndig</string>
     <string name="growth">Vekst</string>
-    <string name="recency">Nylig</string>
+    <string name="mixture">Blanding</string>
     <string name="statistics">Statistikk</string>
 
     <!-- Identification -->
@@ -80,11 +82,12 @@
     <!-- Places -->
     <string name="places">Steder</string>
     <string name="plItemHint">Stedsnavn&#8230;</string>
-    <string name="plDeletePlaceSure">Er du sikker på at du vil slette dette stedet?</string>
+    <string name="plDeletePlaceSure">Er du sikker på at du vil slette dette stedet? Hvis ja, spesifiser hva som skal gjøres med postene som var relatert til dette stedet:</string>
     <string name="plDefPlace">Standardsted?</string>
 
     <!-- Estimation -->
     <string name="estimation">Anslag</string>
+    <string name="etCrsh">Forelskelse (valgfritt)</string>
     <string name="etSince">Siden</string>
     <string name="etUntil">Før</string>
     <string name="etFreq">ganger per dag</string>
@@ -94,6 +97,8 @@
     <string name="stTitle">Sexbok-innstillinger</string>
     <string name="stCalendarType">Kalendertype</string>
     <string name="stStatSince">Statistikk siden</string>
+    <string name="stSexTypesTitle">Filtrer statistikk etter kjønnstype</string>
+    <string name="stSexTypeInclude">Inkluder %s</string>
     <string name="stReset">Tilbakestill innstillinger</string>
     <string name="stResetSure">Er du sikker på at du vil tilbakestille alle innstillingene til standard?</string>
     <string name="stTruncate">Fjern alle data</string>

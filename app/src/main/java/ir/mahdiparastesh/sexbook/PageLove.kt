@@ -25,11 +25,11 @@ import ir.mahdiparastesh.sexbook.more.MessageInbox
 class PageLove : Fragment() {
     val c: Main by lazy { activity as Main } // don't define it as a getter.
     private lateinit var b: PageLoveBinding
+    private val messages = MessageInbox(PageSex.handler)
     private var adBanner: AdView? = null
 
     companion object {
         var handler = MutableLiveData<Handler?>(null)
-        val messages = MessageInbox(PageSex.handler)
         var changed = false
     }
 

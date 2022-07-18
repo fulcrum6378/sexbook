@@ -5,6 +5,10 @@
         android:icon="@drawable/summary"
         android:title="@string/summary" />
     <item
+        android:id="@+id/momRec"
+        android:icon="@drawable/recency"
+        android:title="@string/recency" />
+    <item
         android:id="@+id/momPop"
         android:icon="@drawable/adorability"
         android:title="@string/adorability" />
@@ -13,9 +17,9 @@
         android:icon="@drawable/growth"
         android:title="@string/growth" />
     <item
-        android:id="@+id/momRec"
-        android:icon="@drawable/recency"
-        android:title="@string/recency" />
+        android:id="@+id/momMix"
+        android:icon="@drawable/sum"
+        android:title="@string/mixture" />
     <item
         android:id="@+id/momPlc"
         android:icon="@drawable/places"

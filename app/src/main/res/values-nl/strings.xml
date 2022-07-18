@@ -46,7 +46,8 @@
     <string name="noRecords">U heeft nog geen gegevens!</string>
     <string name="askImport">Weet u zeker dat u alle app-gegevens wilt vervangen?</string>
     <string name="birthDateNtf">Verjaardagsmelding</string>
-    <string name="findChip">Vind een crush&#8230;</string>
+    <string name="findCrush">Vind een crush&#8230;</string>
+    <string name="chart">Grafiek</string>
 
     <!-- Page Sex -->
     <string name="crushHint">.....</string>
@@ -59,9 +60,10 @@
 
     <!-- #Statistics -->
     <string name="summary">Samenvatting</string>
+    <string name="recency">Recentheid</string>
     <string name="adorability">Schattigheid</string>
     <string name="growth">Groei</string>
-    <string name="recency">Recentheid</string>
+    <string name="mixture">Mengsel</string>
     <string name="statistics">Statistieken</string>
 
     <!-- Identification -->
@@ -81,11 +83,12 @@
     <!-- Places -->
     <string name="places">Plaatsen</string>
     <string name="plItemHint">Naam van de plaats&#8230;</string>
-    <string name="plDeletePlaceSure">Weet je zeker dat je deze plaats wilt verwijderen?</string>
+    <string name="plDeletePlaceSure">Weet je zeker dat je deze plaats wilt verwijderen? Zo ja, geef aan welke actie moet worden ondernomen met betrekking tot de records die betrekking hadden op deze plaats:</string>
     <string name="plDefPlace">Standaard plaats?</string>
 
     <!-- Estimation -->
     <string name="estimation">Schatting</string>
+    <string name="etCrsh">Crush (optioneel)</string>
     <string name="etSince">Sinds</string>
     <string name="etUntil">Totdat</string>
     <string name="etFreq">Keer Per Dag</string>
@@ -95,6 +98,8 @@
     <string name="stTitle">Seksboek Instellingen</string>
     <string name="stCalendarType">Kalendertype</string>
     <string name="stStatSince">Statistiek Sinds</string>
+    <string name="stSexTypesTitle">Statistieken filteren op geslachtstype</string>
+    <string name="stSexTypeInclude">Inclusief %s</string>
     <string name="stReset">Reset Instellingen</string>
     <string name="stResetSure">Weet je zeker dat je alle instellingen terug wilt zetten naar de standaardinstellingen?</string>
     <string name="stTruncate">Alle gegevens verwijderen</string>

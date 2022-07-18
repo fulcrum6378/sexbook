@@ -21,6 +21,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.ads.AdRequest
@@ -45,15 +46,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private val exporter = Exporter(this)
     private lateinit var adBanner: AdView
     private var adBannerLoaded = false
+    private var pageSex: PageSex? = null
+    private var pageLove: PageLove? = null
 
     companion object {
         const val NOTIFY_MAX_DISTANCE = 3
-        val CHANNEL_BIRTH = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
         var handler: Handler? = null
         var showAdAfterRecreation = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportFragmentManager.fragmentFactory = PageFactory()
         super.onCreate(savedInstanceState)
         b = MainBinding.inflate(layoutInflater)
         setContentView(b.root)
@@ -132,7 +135,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         b.pager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int = 2
             override fun createFragment(i: Int): Fragment =
-                if (i == 0) PageSex() else PageLove()
+                if (i == 0) PageSex().also { pageSex = it }
+                else PageLove().also { pageLove = it }
         }
         b.pager.setPageTransformer { _, pos ->
             b.transformer.layoutParams =
@@ -177,11 +181,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.momSum -> summary()
+            R.id.momRec -> recency()
             R.id.momPop -> if (summarize())
                 startActivity(Intent(this, Adorability::class.java))
             R.id.momGrw -> if (summarize())
                 startActivity(Intent(this, Growth::class.java))
-            R.id.momRec -> recency()
+            R.id.momMix -> startActivity(Intent(this, Mixture::class.java))
             R.id.momPlc -> startActivity(Intent(this, Places::class.java))
             R.id.momEst -> startActivity(Intent(this, Estimation::class.java))
             R.id.momImport -> exporter.launchImport()
@@ -230,7 +235,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private fun Intent.check() {
         when (action) {
             Intent.ACTION_VIEW -> data?.also { Exporter.import(this@Main, it) }
-            Action.ADD.s -> PageSex.messages.add(Work.SPECIAL_ADD)
+            Action.ADD.s -> pageSex?.messages?.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> {
                 m.reset()
                 showAdAfterRecreation = true
@@ -255,14 +260,32 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
     }
 
+    fun summarize(): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
+        var nExcluded = 0
+        var filtered: List<Report> = m.onani.value!!
+
+        // Filter by time
+        if (sp.getBoolean(Settings.spStatSinceCb, false))
+            filtered = filtered.filter { it.time > sp.getLong(Settings.spStatSince, 0) }
+                .also { nExcluded += filtered.size - it.size }
+
+        // Filter by type
+        val allowedTypes = Fun.allowedSexTypes(sp)
+        if (allowedTypes.size < Fun.sexTypesCount)
+            filtered = filtered.filter { it.type in allowedTypes }
+                .also { nExcluded += filtered.size - it.size }
+
+        m.summary.value = Summary(filtered, nExcluded); true; } else false
+
     private fun summary() {
+        val vp2 = ViewPager2(this@Main).apply {
+            layoutParams = ViewGroup.LayoutParams(-1, -1)
+            adapter = SumAdapter(this@Main)
+        }
         if (summarize()) AlertDialog.Builder(this).apply {
             setTitle("${getString(R.string.summary)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})")
             setView(ConstraintLayout(this@Main).apply {
-                addView(ViewPager2(this@Main).apply {
-                    layoutParams = ViewGroup.LayoutParams(-1, -1)
-                    adapter = SumAdapter(this@Main)
-                })
+                addView(vp2)
                 // The below EditText improves the EditText focus issue when you put
                 // a Fragment inside a Dialog with a ViewPager in the middle!
                 addView(EditText(this@Main).apply {
@@ -271,10 +294,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 })
             })
             setPositiveButton(android.R.string.ok, null)
+            setNeutralButton(R.string.chart, null)
             setCancelable(true)
             setOnDismissListener { m.showingSummary = false }
             m.showingSummary = true
-        }.show()
+        }.show().apply {
+            getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener { vp2.currentItem = 1 }
+        }
     }
 
     private fun recency() {
@@ -292,16 +318,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun notifyBirth(crush: Crush, dist: Long) {
+        val channelBirth = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
                 NotificationChannel(
-                    CHANNEL_BIRTH, getString(R.string.birthDateNtf),
+                    channelBirth, getString(R.string.birthDateNtf),
                     NotificationManager.IMPORTANCE_HIGH
                 )
             )
         NotificationManagerCompat.from(this).notify(
             crush.key.length + crush.visName().length,
-            NotificationCompat.Builder(this@Main, CHANNEL_BIRTH).apply {
+            NotificationCompat.Builder(this@Main, channelBirth).apply {
                 setSmallIcon(R.drawable.notification)
                 setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
                 setContentText(
@@ -334,6 +361,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         instilledGuesses = true
     }
 
+
+    private inner class PageFactory : FragmentFactory() {
+        override fun instantiate(loader: ClassLoader, name: String): Fragment = when (name) {
+            PageSex::class.java.name -> PageSex().also { pageSex = it }
+            PageLove::class.java.name -> PageLove().also { pageLove = it }
+            else -> super.instantiate(loader, name)
+        }
+    }
 
     private inner class SumAdapter(c: Main) : FragmentStateAdapter(c) {
         override fun getItemCount(): Int = 2

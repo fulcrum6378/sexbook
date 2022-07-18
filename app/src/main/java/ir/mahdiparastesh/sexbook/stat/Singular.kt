@@ -215,7 +215,7 @@ class Singular : BaseActivity() {
         }
     }
 
-    class ColumnFactory(c: Singular, list: ArrayList<Pair<String, Float>>) :
+    class ColumnFactory(c: BaseActivity, list: ArrayList<Pair<String, Float>>) :
         ArrayList<Column>(list.map {
             Column(
                 listOf(

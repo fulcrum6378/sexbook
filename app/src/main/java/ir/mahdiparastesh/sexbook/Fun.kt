@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Build
@@ -28,6 +29,7 @@ object Fun {
     // Latin Font: Franklin Gothic
     // Persian Font: Vazir
 
+    const val INSTA = "https://www.instagram.com/"
     private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
     fun now() = Calendar.getInstance().timeInMillis
@@ -135,4 +137,24 @@ object Fun {
         setCancelColor(c.color(R.color.dialogText))
         return this
     }
+
+    const val sexTypesCount = 5
+    fun sexTypes(c: Context): Array<SexType> {
+        val names = c.resources.getStringArray(R.array.types)
+        return arrayOf(
+            SexType(names[0], R.drawable.wet_dream),
+            SexType(names[1], R.drawable.masturbation),
+            SexType(names[2], R.drawable.oral_sex),
+            SexType(names[3], R.drawable.anal_sex),
+            SexType(names[4], R.drawable.vaginal_sex),
+        )
+    }
+
+    fun allowedSexTypes(sp: SharedPreferences) = arrayListOf<Byte>().apply {
+        for (s in 0 until sexTypesCount)
+            if (sp.getBoolean(Settings.spStatInclude + s, true))
+                add(s.toByte())
+    }
+
+    data class SexType(val name: String, @DrawableRes val icon: Int)
 }

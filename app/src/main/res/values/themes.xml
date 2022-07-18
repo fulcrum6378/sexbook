@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Sexbook.Base" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/CP</item>
         <item name="colorPrimaryDark">@color/CPD</item>
         <item name="colorAccent">@color/CP3</item>
-        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/CP</item>
+        <item name="android:navigationBarColor">@color/CP</item>
         <item name="android:statusBarColor">@color/CP</item>
         <item name="alertDialogTheme">@style/Theme.Sexbook.Dialogue</item>
         <item name="android:textColor">@color/CPDD</item>
@@ -13,11 +14,11 @@
         <item name="titleTextColor">@color/CPDD</item>
         <item name="checkboxStyle">@style/Theme.Sexbook.Checkbox</item>
         <!--<item name="colorSurface">popup menu color</item>-->
-        <!--<item name="colorControlNormal">@color/CPDD</item>-->
+        <item name="colorControlNormal">@color/CPDD</item>
     </style>
 
     <style name="Theme.Sexbook" parent="Theme.Sexbook.Base">
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
     </style>
 
@@ -35,6 +36,7 @@
         <item name="android:textColor">@color/dialogText</item>
         <item name="android:editTextColor">@color/dialogText</item>
         <item name="android:textColorHint">@color/dialogHint</item>
+        <item name="colorControlNormal">@color/dialogText</item>
     </style>
 
     <style name="Theme.Sexbook.Dialogue.Button" parent="Widget.Material3.Button.TextButton.Dialog">

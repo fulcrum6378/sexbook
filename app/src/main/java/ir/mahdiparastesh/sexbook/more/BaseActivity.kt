@@ -28,8 +28,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import ir.mahdiparastesh.sexbook.*
 import ir.mahdiparastesh.sexbook.Fun.isReady
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.data.Report
-import ir.mahdiparastesh.sexbook.stat.Summary
 import java.util.*
 
 abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListener {
@@ -153,14 +151,6 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
     fun showInterstitial() {
         if (!showingAd) interstitialAd?.show(this@BaseActivity)
     }
-
-    fun summarize(): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
-        var nExcluded = 0
-        var filtered: List<Report> = m.onani.value!!
-        if (sp.getBoolean(Settings.spStatSinceCb, false))
-            filtered = filtered.filter { it.time > sp.getLong(Settings.spStatSince, 0) }
-                .also { nExcluded = filtered.size - it.size }
-        m.summary.value = Summary(filtered, nExcluded); true; } else false
 
     inner class InterstitialCallback : FullScreenContentCallback() {
         override fun onAdShowedFullScreenContent() {

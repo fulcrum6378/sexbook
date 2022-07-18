@@ -46,7 +46,8 @@
     <string name="importReadError">Leider ist beim Lesen der Datei ein Fehler aufgetreten!</string>
     <string name="noRecords">Sie haben noch keine Aufzeichnungen!</string>
     <string name="askImport">Möchten Sie wirklich alle App-Daten ersetzen?</string>
-    <string name="findChip">Suche einen Schwarm&#8230;</string>
+    <string name="findCrush">Suche einen Crush&#8230;</string>
+    <string name="chart">Diagramm</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">Präzise?</string>
@@ -58,9 +59,10 @@
 
     <!-- #Statistics -->
     <string name="summary">Zusammenfassung</string>
+    <string name="recency">Neuheit</string>
     <string name="adorability">Bewunderung</string>
     <string name="growth">Wachstum</string>
-    <string name="recency">Neuheit</string>
+    <string name="mixture">Mischung</string>
     <string name="statistics">Statistiken</string>
 
     <!-- Identification -->
@@ -80,11 +82,12 @@
     <!-- Places -->
     <string name="places">Setzt</string>
     <string name="plItemHint">Name des Ortes&#8230;</string>
-    <string name="plDeletePlaceSure">Möchten Sie diesen Ort wirklich löschen?</string>
+    <string name="plDeletePlaceSure">Möchten Sie diesen Ort wirklich löschen? Wenn ja, geben Sie bitte an, welche Maßnahmen bezüglich der Aufzeichnungen ergriffen werden sollten, die sich auf diesen Ort beziehen:</string>
     <string name="plDefPlace">Standardort?</string>
 
     <!-- Estimation -->
     <string name="estimation">Einschätzung</string>
+    <string name="etCrsh">Crush (wahlweise)</string>
     <string name="etSince">Seit</string>
     <string name="etUntil">Bis</string>
     <string name="etFreq">Mal pro Tag</string>
@@ -94,6 +97,8 @@
     <string name="stTitle">Sexbuch-Einstellungen</string>
     <string name="stCalendarType">Kalendertyp</string>
     <string name="stStatSince">Statistik seit</string>
+    <string name="stSexTypesTitle">Statistiken nach Geschlechtstyp filtern</string>
+    <string name="stSexTypeInclude">%s einbeziehen</string>
     <string name="stReset">Einstellungen zurücksetzen</string>
     <string name="stResetSure">Sind Sie sicher, dass Sie alle Einstellungen auf die Standardeinstellungen zurücksetzen möchten?</string>
     <string name="stTruncate">Alle Daten entfernen</string>

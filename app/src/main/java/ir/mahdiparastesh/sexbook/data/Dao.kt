@@ -12,6 +12,9 @@ interface Dao {
     @Query("SELECT * FROM Report")
     fun getAll(): List<Report>
 
+    @Query("SELECT * FROM Report WHERE plac == :place")
+    fun getByPlace(place: Long): List<Report>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(item: Report): Long
 
