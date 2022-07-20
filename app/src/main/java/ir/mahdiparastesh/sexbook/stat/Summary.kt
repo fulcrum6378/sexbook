@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Parcel
 import android.os.Parcelable
+import ir.mahdiparastesh.sexbook.Fun.tripleRound
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 
@@ -171,7 +172,7 @@ class Summary(list: List<Report>, val nExcluded: Int) {
         var results = HashMap<Float, ArrayList<String>>()
         for (s in scores) {
             var key = s.key
-            val sumErect = s.value.sumOf { it.value.toDouble() }.toFloat()
+            val sumErect = s.value.sumOf { it.value.toDouble() }.toFloat().tripleRound()
             if (isUnknown(key)) {
                 unknown = sumErect
                 continue

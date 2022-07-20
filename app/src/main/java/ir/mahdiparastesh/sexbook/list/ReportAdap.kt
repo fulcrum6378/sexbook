@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.list
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.icu.util.Calendar
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.*
 import ir.mahdiparastesh.sexbook.Fun.calendar
@@ -32,6 +34,12 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
     private var clockHeight = c.resources.getDimension(R.dimen.clockSize)
     private var expansion = arExpansion()
     val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
+    private val clockBg: Drawable by lazy { ContextCompat.getDrawable(c, R.drawable.clock_bg)!! }
+    private val etIcon: Drawable by lazy {
+        ContextCompat.getDrawable(c, R.drawable.estimation)!!.mutate().apply {
+            if (c.night()) colorFilter = c.pdcf(R.color.mrvClock)
+        }
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
@@ -112,7 +120,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             h.b.date.setOnClickListener(null)
         }
         for (tim in arrayOf(h.b.clockHour, h.b.clockMin, h.b.point, h.b.ampm)) tim.vis(r.isReal)
-        h.b.clock.setBackgroundResource(if (r.isReal) R.drawable.clock_bg else R.drawable.estimation)
+        h.b.clock.background = if (r.isReal) clockBg else etIcon
         if (!r.isReal && c.night()) h.b.clock.background = h.b.clock.background
             .apply { colorFilter = c.pdcf(R.color.mrvClock) }
 

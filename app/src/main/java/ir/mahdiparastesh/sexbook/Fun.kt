@@ -156,5 +156,14 @@ object Fun {
                 add(s.toByte())
     }
 
+    fun Float.tripleRound(): Float {
+        val int = toInt()
+        return when {
+            (this - int) < 0.33334f -> int.toFloat()
+            (this - int) > 0.66666f -> int + 1f
+            else -> int.toFloat() + 0.5f
+        }
+    }
+
     data class SexType(val name: String, @DrawableRes val icon: Int)
 }

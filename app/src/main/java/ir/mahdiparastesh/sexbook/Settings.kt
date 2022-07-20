@@ -123,6 +123,7 @@ class Settings : BaseActivity() {
                 isChecked = sp.getBoolean(spStatInclude + s, true)
                 setOnCheckedChangeListener { _, bb ->
                     sp.edit().putBoolean(spStatInclude + s, bb).apply()
+                    c.shake()
                 }
             }, ConstraintLayout.LayoutParams(
                 0, ViewGroup.LayoutParams.WRAP_CONTENT
