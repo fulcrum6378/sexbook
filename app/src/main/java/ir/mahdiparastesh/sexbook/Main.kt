@@ -94,22 +94,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (m.loaded) b.body.removeView(b.load)
         else if (night()) b.loadIV.colorFilter = pdcf()
 
-        // Indian Calendar Promotion
-        val spFirstShiftForIndians = "first_shift_for_indians"
-        if (!sp.getBoolean(spFirstShiftForIndians, false) &&
-            (TimeZone.getDefault().id in arrayOf("Asia/Calcutta", "Asia/Kolkata") ||
-                    Locale.getDefault().country == "IN")
-        ) {
-            sp.edit().putInt(Settings.spCalType, 2).apply()
-            AlertDialog.Builder(this).apply {
-                setTitle("Indian Calendar")
-                setMessage("A new INDIAN CALENDAR feature was added for you dear Indian users! Enjoy it ;)")
-                setPositiveButton(android.R.string.ok, null)
-                setCancelable(false)
-            }.show()
-            sp.edit().putBoolean(spFirstShiftForIndians, true).apply()
-        }
-
         // Navigation
         /*object : */ActionBarDrawerToggle(
             this, b.root, b.toolbar, R.string.sOpen, R.string.close
@@ -154,6 +138,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
         }*/
+        if (sp.contains("first_shift_for_indians"))
+            sp.edit().remove("first_shift_for_indians").apply()
 
         intent.check()
         Work(c, Work.C_VIEW_ALL).start()
