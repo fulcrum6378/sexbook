@@ -35,8 +35,8 @@ class PageSex : Fragment() {
     private var filters: ArrayList<Filter>? = null
 
     companion object {
-        const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
-        const val DISMISSAL_REFRAIN_FROM_AD_TIMES = 3
+        // const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
+        // const val DISMISSAL_REFRAIN_FROM_AD_TIMES = 3
         var handler = MutableLiveData<Handler?>(null)
     }
 
@@ -192,8 +192,8 @@ class PageSex : Fragment() {
         b.rv.scrollToPosition(c.m.visOnani.value!!.size - 1)
     }
 
+    // private var addedToShowAd = 0
     private var adding = false
-    private var addedToShowAd = 0
     fun add() {
         if (adding) return
         if (filters != null) filterList(filters!!.size - 1)
@@ -205,11 +205,11 @@ class PageSex : Fragment() {
         Work(c.c, Work.INSERT_ONE, listOf(newOne)).start()
         Delay { adding = false }
         c.c.shake()
-        addedToShowAd++
+        /*addedToShowAd++
         if (addedToShowAd >= MAX_ADDED_REPORTS_TO_SHOW_AD)
             c.loadInterstitial("ca-app-pub-9457309151954418/9505004058") {
                 addedToShowAd = 0
                 true
-            }
+            }*/
     }
 }

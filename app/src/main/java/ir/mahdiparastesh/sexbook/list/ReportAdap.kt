@@ -12,10 +12,13 @@ import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import ir.mahdiparastesh.sexbook.*
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.vis
+import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.Model
+import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
@@ -90,10 +93,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                     accentColor = c.color(R.color.CP)
                     setOkColor(c.color(R.color.dialogText))
                     setCancelColor(c.color(R.color.dialogText))
-                    setOnDismissListener { dialogDismissed() }
+                    // setOnDismissListener { dialogDismissed() }
                     show(c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}")
                 }
-                mayShowAd()
+                // mayShowAd()
             }
             h.b.date.setOnClickListener {
                 if (c.m.onani.value == null) return@setOnClickListener
@@ -109,9 +112,9 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                         Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
                     }
                 }, cal).defaultOptions(c)
-                    .setOnDismissListener { dialogDismissed() }
+                    // .setOnDismissListener { dialogDismissed() }
                     .show(c.supportFragmentManager, "$tagEdit${globalPos(c.m, h.layoutPosition)}")
-                mayShowAd()
+                // mayShowAd()
             }
             h.b.ampm.text =
                 DateFormatSymbols().amPmStrings[if (cal[Calendar.HOUR_OF_DAY] < 12) 0 else 1]
@@ -298,7 +301,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         }
     }
 
-    private var refrainFromAd = 0
+    /*private var refrainFromAd = 0
     private var showingDialog = false
     private fun mayShowAd() {
         showingDialog = true
@@ -311,7 +314,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
     private fun dialogDismissed() {
         showingDialog = false
         c.showInterstitial()
-    }
+    }*/
 
     companion object {
         const val tagEdit = "edit"

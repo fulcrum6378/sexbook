@@ -8,25 +8,20 @@ import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import ir.mahdiparastesh.sexbook.Fun.isReady
 import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
-import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 
 class PageLove : Fragment() {
     val c: Main by lazy { activity as Main } // don't define it as a getter.
     private lateinit var b: PageLoveBinding
     private val messages = MessageInbox(PageSex.handler)
-    private var adBanner: AdView? = null
+    // private var adBanner: AdView? = null
 
     companion object {
         var handler = MutableLiveData<Handler?>(null)
@@ -38,7 +33,7 @@ class PageLove : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (BaseActivity.adsInitStatus?.isReady() == true) loadAd()
+        // if (BaseActivity.adsInitStatus?.isReady() == true) loadAd()
 
         // Handler
         handler.value = object : Handler(Looper.getMainLooper()) {
@@ -61,7 +56,7 @@ class PageLove : Fragment() {
                             b.rv.adapter?.notifyItemRemoved(it)
                             b.rv.adapter?.notifyItemRangeChanged(it, b.rv.adapter!!.itemCount - it)
                         }
-                    Work.ADMOB_LOADED -> loadAd()
+                    // Work.ADMOB_LOADED -> loadAd()
                 }
             }
         }
@@ -89,12 +84,12 @@ class PageLove : Fragment() {
         b.rv.adapter = CrushAdap(c)
     }
 
-    private fun loadAd() {
+    /*private fun loadAd() {
         if (adBanner != null) return
         adBanner = Fun.adaptiveBanner(c, "ca-app-pub-9457309151954418/4204909055")
         b.root.addView(adBanner, Fun.adaptiveBannerLp())
         adBanner?.loadAd(AdRequest.Builder().build())
         b.rv.layoutParams = (b.rv.layoutParams as ConstraintLayout.LayoutParams)
             .apply { bottomToTop = R.id.adBanner }
-    }
+    }*/
 }

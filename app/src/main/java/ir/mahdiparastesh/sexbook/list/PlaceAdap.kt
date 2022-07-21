@@ -32,7 +32,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
         if (c.m.places.value == null) return
 
         // Name
-        h.b.name.text = c.m.places.value!![i].name
+        h.b.name.setText(c.m.places.value!![i].name)
         h.b.name.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}

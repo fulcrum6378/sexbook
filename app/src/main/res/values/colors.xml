@@ -16,6 +16,7 @@
     <color name="yellowRipple">@color/CPD</color>
     <color name="dialogText">@color/CPDDD</color>
     <color name="hint">#AF9A7C00</color>
+    <color name="textHighlight">#70999999</color>
     <color name="dialogHint">#AF6F5900</color>
 
     <!-- Main -->

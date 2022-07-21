@@ -11,6 +11,7 @@
         <item name="android:textColor">@color/CPDD</item>
         <item name="android:editTextColor">@color/CPDD</item>
         <item name="android:textColorHint">@color/hint</item>
+        <item name="android:textColorHighlight">@color/textHighlight</item>
         <item name="titleTextColor">@color/CPDD</item>
         <item name="checkboxStyle">@style/Theme.Sexbook.Checkbox</item>
         <!--<item name="colorSurface">popup menu color</item>-->

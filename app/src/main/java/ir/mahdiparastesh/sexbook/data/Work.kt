@@ -59,7 +59,7 @@ class Work(
         // Other
         const val TIMEOUT = 5000L
         const val SPECIAL_ADD = 100
-        const val ADMOB_LOADED = 101
+        // const val ADMOB_LOADED = 101
     }
 
     @Suppress("UNCHECKED_CAST")

@@ -12,40 +12,34 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.ColorRes
-import androidx.annotation.MainThread
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.ads.*
-import com.google.android.gms.ads.initialization.InitializationStatus
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import ir.mahdiparastesh.sexbook.*
-import ir.mahdiparastesh.sexbook.Fun.isReady
+import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Settings
 import java.util.*
 
-abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListener {
+abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteListener*/ {
     val c: Context get() = applicationContext
     lateinit var m: Model
     lateinit var sp: SharedPreferences
     private var tbTitle: TextView? = null
     val dm: DisplayMetrics by lazy { resources.displayMetrics }
     private val dirRtl by lazy { c.resources.getBoolean(R.bool.dirRtl) }
-    var interstitialAd: InterstitialAd? = null
+    /*var interstitialAd: InterstitialAd? = null
     var loadingAd = false
     var showingAd = false
-    private var retryForAd = 0
+    private var retryForAd = 0*/
 
     companion object {
-        const val ADMOB_DELAY = 2000L
+        /*const val ADMOB_DELAY = 2000L
         const val MAX_AD_RETRY = 2
-        var adsInitStatus: InitializationStatus? = null
+        var adsInitStatus: InitializationStatus? = null*/
 
         fun Context.night(): Boolean = resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
@@ -63,14 +57,14 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
             if (!dirRtl) ViewGroup.LAYOUT_DIRECTION_LTR else ViewGroup.LAYOUT_DIRECTION_RTL
     }
 
-    override fun onStart() {
+    /*override fun onStart() {
         super.onStart()
         if (adsInitStatus?.isReady() != true)
             Delay(ADMOB_DELAY) { initAdmob() }
         else onInitializationComplete(adsInitStatus!!)
-    }
+    }*/
 
-    override fun onInitializationComplete(adsInitStatus: InitializationStatus) {
+    /*override fun onInitializationComplete(adsInitStatus: InitializationStatus) {
         Companion.adsInitStatus = adsInitStatus
         if (!adsInitStatus.isReady()) {
             if (retryForAd < MAX_AD_RETRY) Delay(ADMOB_DELAY) {
@@ -78,7 +72,7 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
                 retryForAd++
             } else retryForAd = 0
             return; }
-    }
+    }*/
 
     fun toolbar(tb: Toolbar, @StringRes title: Int) {
         setSupportActionBar(tb)
@@ -116,7 +110,7 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
         }
     )]
 
-    private fun initAdmob() {
+    /*private fun initAdmob() {
         retryForAd = 0
         MobileAds.initialize(c, this)
     }
@@ -166,5 +160,5 @@ abstract class BaseActivity : AppCompatActivity(), OnInitializationCompleteListe
             showingAd = false
             interstitialAd = null
         }
-    }
+    }*/
 }

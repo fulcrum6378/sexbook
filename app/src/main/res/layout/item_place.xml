@@ -13,7 +13,7 @@
     android:paddingEnd="@dimen/itemPadH"
     android:paddingBottom="@dimen/itemPadV">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <ir.mahdiparastesh.sexbook.more.SoftEditText
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         android:autofillHints="addressRegion"
         android:background="@null"
         android:hint="@string/plItemHint"
-        android:inputType="textMultiLine|textAutoComplete"
+        android:inputType="textMultiLine"
         android:lineSpacingMultiplier="1.3"
         android:maxLines="5"
         android:textIsSelectable="true"

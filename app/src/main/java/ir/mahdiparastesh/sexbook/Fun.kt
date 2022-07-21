@@ -13,14 +13,9 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.initialization.AdapterStatus
-import com.google.android.gms.ads.initialization.InitializationStatus
 import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
@@ -30,7 +25,7 @@ object Fun {
     // Persian Font: Vazir
 
     const val INSTA = "https://www.instagram.com/"
-    private const val ADMOB = "com.google.android.gms.ads.MobileAds"
+    // private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
     fun now() = Calendar.getInstance().timeInMillis
 
@@ -112,7 +107,7 @@ object Fun {
         if (night()) Color.WHITE else Color.BLACK
     ).random()
 
-    fun InitializationStatus.isReady(): Boolean = if (adapterStatusMap.containsKey(ADMOB))
+    /*fun InitializationStatus.isReady(): Boolean = if (adapterStatusMap.containsKey(ADMOB))
         adapterStatusMap[ADMOB]?.initializationState == AdapterStatus.State.READY
     else false
 
@@ -128,7 +123,7 @@ object Fun {
 
     fun adaptiveBannerLp() = ConstraintLayout.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-    ).apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }
+    ).apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }*/
 
     fun DatePickerDialog<*>.defaultOptions(c: BaseActivity): DatePickerDialog<*> {
         version = DatePickerDialog.Version.VERSION_1

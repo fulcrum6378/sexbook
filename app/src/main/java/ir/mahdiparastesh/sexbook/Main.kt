@@ -9,9 +9,11 @@ import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.*
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -24,11 +26,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.initialization.InitializationStatus
 import com.google.android.material.navigation.NavigationView
-import ir.mahdiparastesh.sexbook.Fun.isReady
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
@@ -44,15 +42,15 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener {
     private lateinit var b: MainBinding
     private val exporter = Exporter(this)
-    private lateinit var adBanner: AdView
-    private var adBannerLoaded = false
     private var pageSex: PageSex? = null
     private var pageLove: PageLove? = null
+    // private lateinit var adBanner: AdView
+    // private var adBannerLoaded = false
 
     companion object {
         const val NOTIFY_MAX_DISTANCE = 3
         var handler: Handler? = null
-        var showAdAfterRecreation = false
+        // var showAdAfterRecreation = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,9 +111,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
 
         // Navigation
-        object : ActionBarDrawerToggle(
+        /*object : */ActionBarDrawerToggle(
             this, b.root, b.toolbar, R.string.sOpen, R.string.close
-        ) {
+        )/* {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
                 if (::adBanner.isInitialized && !adBannerLoaded) {
@@ -123,7 +121,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     adBannerLoaded = true
                 }
             }
-        }.apply {
+        }*/.apply {
             b.root.addDrawerListener(this@apply)
             isDrawerIndicatorEnabled = true
             syncState()
@@ -152,10 +150,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         m.onani.observe(this) { instilledGuesses = false }
         if (m.showingSummary) summary()
         if (m.showingRecency) recency()
-        if (showAdAfterRecreation) {
+        /*if (showAdAfterRecreation) {
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
-        }
+        }*/
 
         intent.check()
         Work(c, Work.C_VIEW_ALL).start()
@@ -168,7 +166,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         intent.check()
     }
 
-    override fun onInitializationComplete(adsInitStatus: InitializationStatus) {
+    /*override fun onInitializationComplete(adsInitStatus: InitializationStatus) {
         super.onInitializationComplete(adsInitStatus)
         if (!adsInitStatus.isReady()) return
         adBanner = Fun.adaptiveBanner(this, "ca-app-pub-9457309151954418/9298848860")
@@ -176,7 +174,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ).apply { gravity = Gravity.BOTTOM })
         PageLove.handler.value?.obtainMessage(Work.ADMOB_LOADED)?.sendToTarget()
-    }
+    }*/
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -238,7 +236,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             Action.ADD.s -> pageSex?.messages?.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> {
                 m.reset()
-                showAdAfterRecreation = true
+                // showAdAfterRecreation = true
                 recreate()
             }
         }
