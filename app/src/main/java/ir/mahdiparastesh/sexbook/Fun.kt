@@ -35,7 +35,7 @@ object Fun {
     ) {
         if (parent !is ConstraintLayout) return
         val parent = parent as ConstraintLayout
-        var ex = View(c).apply {
+        val ex = View(c).apply {
             background = ContextCompat.getDrawable(c, src)
             translationX = translationX
             translationY = translationY
@@ -49,8 +49,8 @@ object Fun {
                 topToTop = id; leftToLeft = id; rightToRight = id; bottomToBottom = id
             })
 
-        var explode = AnimatorSet().setDuration(dur)
-        var hide = ObjectAnimator.ofFloat(ex, "alpha", 0f)
+        val explode = AnimatorSet().setDuration(dur)
+        val hide = ObjectAnimator.ofFloat(ex, "alpha", 0f)
         hide.startDelay = explode.duration / 4
         explode.apply {
             playTogether(

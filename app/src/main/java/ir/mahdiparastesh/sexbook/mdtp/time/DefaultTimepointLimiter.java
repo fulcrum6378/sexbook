@@ -80,18 +80,22 @@ class DefaultTimepointLimiter implements TimepointLimiter {
         exclusiveSelectableTimes = getExclusiveSelectableTimes(mSelectableTimes, mDisabledTimes);
     }
 
+    @SuppressWarnings("unused")
     @Nullable Timepoint getMinTime() {
         return mMinTime;
     }
 
+    @SuppressWarnings("unused")
     @Nullable Timepoint getMaxTime() {
         return mMaxTime;
     }
 
+    @SuppressWarnings("unused")
     @NonNull Timepoint[] getSelectableTimes() {
         return mSelectableTimes.toArray(new Timepoint[0]);
     }
 
+    @SuppressWarnings("unused")
     @NonNull Timepoint[] getDisabledTimes() {
         return mDisabledTimes.toArray(new Timepoint[0]);
     }

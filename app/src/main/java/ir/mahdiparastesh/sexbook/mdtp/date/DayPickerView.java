@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import ir.mahdiparastesh.sexbook.mdtp.GravitySnapHelper;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
@@ -28,11 +29,6 @@ public abstract class DayPickerView<CAL extends Calendar> extends RecyclerView i
     protected MonthAdapter<CAL> mAdapter;
 
     protected MonthAdapter.CalendarDay<CAL> mTempDay;
-
-    // which month should be displayed/highlighted [0-11]
-    protected int mCurrentMonthDisplayed;
-    // used for tracking what state listview is in
-    protected int mPreviousScrollState = RecyclerView.SCROLL_STATE_IDLE;
 
     private OnPageListener pageListener;
     private DatePickerController<CAL> mController;
@@ -133,8 +129,9 @@ public abstract class DayPickerView<CAL extends Calendar> extends RecyclerView i
      * the list will not be scrolled unless forceScroll is true. This time may
      * optionally be highlighted as selected as well.
      */
-    public boolean goTo(MonthAdapter.CalendarDay<CAL> day, boolean animate, boolean setSelected, boolean forceScroll) {
-
+    @SuppressWarnings("UnusedReturnValue")
+    public boolean goTo(MonthAdapter.CalendarDay<CAL> day, boolean animate, boolean setSelected,
+                        boolean forceScroll) {
         // Set the selected day
         if (setSelected) mSelectedDay.set(day);
 
@@ -160,32 +157,27 @@ public abstract class DayPickerView<CAL extends Calendar> extends RecyclerView i
         if (setSelected) mAdapter.setSelectedDay(mSelectedDay);
 
         if (position != selectedPosition || forceScroll) {
-            setMonthDisplayed((MonthAdapter.CalendarDay<CAL>) mTempDay);
-            mPreviousScrollState = RecyclerView.SCROLL_STATE_DRAGGING;
             if (animate) {
                 smoothScrollToPosition(position);
                 if (pageListener != null) pageListener.onPageChanged(position);
                 return true;
             } else postSetSelection(position);
-        } else if (setSelected) setMonthDisplayed((MonthAdapter.CalendarDay<CAL>) mSelectedDay);
+        }
         return false;
     }
 
     public void postSetSelection(final int position) {
         clearFocus();
         post(() -> {
-            ((LinearLayoutManager) getLayoutManager()).scrollToPositionWithOffset(position, 0);
+            ((LinearLayoutManager) Objects.requireNonNull(getLayoutManager()))
+                    .scrollToPositionWithOffset(position, 0);
             restoreAccessibilityFocus(mSelectedDay);
             if (pageListener != null) pageListener.onPageChanged(position);
         });
     }
 
-    protected void setMonthDisplayed(MonthAdapter.CalendarDay<CAL> date) {
-        mCurrentMonthDisplayed = date.month;
-    }
-
     public int getMostVisiblePosition() {
-        return getChildAdapterPosition(getMostVisibleMonth());
+        return getChildAdapterPosition(Objects.requireNonNull(getMostVisibleMonth()));
     }
 
     public @Nullable
@@ -246,6 +238,7 @@ public abstract class DayPickerView<CAL extends Calendar> extends RecyclerView i
      * Attempts to restore accessibility focus to a given date. No-op if
      * {@code day} is {@code null}.
      */
+    @SuppressWarnings("UnusedReturnValue")
     private boolean restoreAccessibilityFocus(MonthAdapter.CalendarDay<CAL> day) {
         if (day == null) return false;
 

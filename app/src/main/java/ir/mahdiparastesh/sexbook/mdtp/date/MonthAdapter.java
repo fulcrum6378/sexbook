@@ -80,14 +80,17 @@ public abstract class MonthAdapter<CAL extends Calendar>
             day = calendar.get(Calendar.DAY_OF_MONTH);
         }
 
+        @SuppressWarnings("unused")
         public int getYear() {
             return year;
         }
 
+        @SuppressWarnings("unused")
         public int getMonth() {
             return month;
         }
 
+        @SuppressWarnings("unused")
         public int getDay() {
             return day;
         }

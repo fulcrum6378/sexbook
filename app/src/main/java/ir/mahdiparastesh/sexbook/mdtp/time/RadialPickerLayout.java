@@ -3,8 +3,10 @@ package ir.mahdiparastesh.sexbook.mdtp.time;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -20,7 +22,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import android.icu.util.Calendar;
 import java.util.Locale;
 
 import ir.mahdiparastesh.sexbook.R;
@@ -140,17 +141,17 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
     /**
      * Initialize the Layout with starting values.
      *
-     * @param context      A context needed to inflate resources
-     * @param locale       A Locale to be used when generating strings
-     * @param initialTime  The initial selection of the Timepicker
-     * @param is24HourMode Indicates whether we should render in 24hour mode or with AM/PM selectors
+     * @param context     A context needed to inflate resources
+     * @param locale      A Locale to be used when generating strings
+     * @param initialTime The initial selection of the Timepicker
      */
     public void initialize(Context context, Locale locale, TimePickerController timePickerController,
-                           Timepoint initialTime, boolean is24HourMode) {
+                           Timepoint initialTime) {
         if (mTimeInitialized) return;
 
         mController = timePickerController;
-        mIs24HourMode = mAccessibilityManager.isTouchExplorationEnabled() || is24HourMode;
+        mIs24HourMode = mAccessibilityManager.isTouchExplorationEnabled()
+                || DateFormat.is24HourFormat(context);
 
         // Initialize the circle and AM/PM circles if applicable.
         mCircleView.initialize(context, mController);
@@ -186,8 +187,9 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
         String[] minutesTexts = new String[12];
         String[] secondsTexts = new String[12];
         for (int i = 0; i < 12; i++) {
-            hoursTexts[i] = is24HourMode ?
-                    String.format(locale, "%02d", hours_24[i]) : String.format(locale, "%d", hours[i]);
+            hoursTexts[i] = mIs24HourMode
+                    ? String.format(locale, "%02d", hours_24[i])
+                    : String.format(locale, "%d", hours[i]);
             innerHoursTexts[i] = String.format(locale, "%d", hours[i]);
             minutesTexts[i] = String.format(locale, "%02d", minutes[i]);
             secondsTexts[i] = String.format(locale, "%02d", seconds[i]);
@@ -200,21 +202,25 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
             innerHoursTexts = temp;
         }
 
-        mHourRadialTextsView.initialize(context,
-                hoursTexts, (is24HourMode ? innerHoursTexts : null), mController, hourValidator, true);
-        mHourRadialTextsView.setSelection(is24HourMode ? initialTime.getHour() : hours[initialTime.getHour() % 12]);
+        mHourRadialTextsView.initialize(context, hoursTexts,
+                mIs24HourMode ? innerHoursTexts : null,
+                mController, hourValidator, true);
+        mHourRadialTextsView.setSelection(
+                mIs24HourMode ? initialTime.getHour() : hours[initialTime.getHour() % 12]);
         mHourRadialTextsView.invalidate();
-        mMinuteRadialTextsView.initialize(context, minutesTexts, null, mController, minuteValidator, false);
+        mMinuteRadialTextsView.initialize(
+                context, minutesTexts, null, mController, minuteValidator, false);
         mMinuteRadialTextsView.setSelection(initialTime.getMinute());
         mMinuteRadialTextsView.invalidate();
-        mSecondRadialTextsView.initialize(context, secondsTexts, null, mController, secondValidator, false);
+        mSecondRadialTextsView.initialize(
+                context, secondsTexts, null, mController, secondValidator, false);
         mSecondRadialTextsView.setSelection(initialTime.getSecond());
         mSecondRadialTextsView.invalidate();
 
         // Initialize the currently-selected hour and minute.
         mCurrentTime = initialTime;
         int hourDegrees = (initialTime.getHour() % 12) * HOUR_VALUE_TO_DEGREES_STEP_SIZE;
-        mHourRadialSelectorView.initialize(context, mController, is24HourMode, true,
+        mHourRadialSelectorView.initialize(context, mController, mIs24HourMode, true,
                 hourDegrees, isHourInnerCircle(initialTime.getHour()));
         int minuteDegrees = initialTime.getMinute() * MINUTE_VALUE_TO_DEGREES_STEP_SIZE;
         mMinuteRadialSelectorView.initialize(context, mController, false, false,
@@ -333,7 +339,7 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
         // can be touching 36 degrees but have the selection snapped to 30 degrees; however, this
         // inconsistency isn't noticeable at such fine-grained degrees, and it affords us the
         // ability to aggressively prefer the visible values by a factor of more than 3:1, which
-        // greatly contributes to the selectability of these values.
+        // greatly contributes to the selectivity of these values.
 
         // Our input will be 0 through 360.
         mSnapPrefer30sMap = new int[361];
@@ -436,7 +442,7 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
      * for the selector, and redraw it at that position. The text representing the currently
      * selected value will be redrawn if required.
      *
-     * @param newSelection Timpoint - Time which should be selected.
+     * @param newSelection Timepoint - Time which should be selected.
      * @param forceDrawDot The dot in the circle will generally only be shown when the selection
      * @param index        The picker to use as a reference. Will be getCurrentItemShow() except when AM/PM is changed
      *                     is on non-visible values, but use this to force the dot to be shown.
@@ -889,11 +895,8 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
             time.set(Calendar.MINUTE, getMinutes());
             time.set(Calendar.SECOND, getSeconds());
             long millis = time.getTimeInMillis();
-            int flags = DateUtils.FORMAT_SHOW_TIME;
-            if (mIs24HourMode) {
-                flags |= DateUtils.FORMAT_24HOUR;
-            }
-            String timeString = DateUtils.formatDateTime(getContext(), millis, flags);
+            String timeString = DateUtils.formatDateTime(
+                    getContext(), millis, DateUtils.FORMAT_SHOW_TIME);
             event.getText().add(timeString);
             return true;
         }

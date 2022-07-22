@@ -81,7 +81,7 @@ public class Crush {
     }
 
     public boolean hasFullBirth() {
-        return bYear != 1 && bMonth != 1 && bDay != -1;
+        return bYear != -1 && bMonth != -1 && bDay != -1;
     }
 
     public static class Sort implements Comparator<Crush> {

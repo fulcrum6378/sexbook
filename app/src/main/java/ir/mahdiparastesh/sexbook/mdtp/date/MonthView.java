@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
-import android.graphics.Rect;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -25,6 +24,7 @@ import androidx.customview.widget.ExploreByTouchHelper;
 import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
@@ -86,7 +86,6 @@ public abstract class MonthView<CAL extends Calendar> extends View {
     protected final int mTodayNumberColor;
     protected final int mHighlightedDayTextColor;
     protected final int mDisabledDayTextColor;
-    protected final int mMonthTitleColor;
 
     private LocalDateFormat weekDayLabelFormatter;
 
@@ -108,7 +107,6 @@ public abstract class MonthView<CAL extends Calendar> extends View {
         mHighlightedDayTextColor = ContextCompat.getColor(context, R.color.mdtp_date_picker_text_highlighted);
         mSelectedDayTextColor = ContextCompat.getColor(context, R.color.mdtp_calendar_selected_day_text);
         mTodayNumberColor = ContextCompat.getColor(context, R.color.mdtp_calendar_today_number);
-        mMonthTitleColor = ContextCompat.getColor(context, R.color.mdtp_white);
 
         mStringBuilder = new StringBuilder(50);
 
@@ -306,10 +304,12 @@ public abstract class MonthView<CAL extends Calendar> extends View {
         mTouchHelper.invalidateRoot();
     }
 
+    @SuppressWarnings("unused")
     public int getMonth() {
         return mMonth;
     }
 
+    @SuppressWarnings("unused")
     public int getYear() {
         return mYear;
     }
@@ -445,6 +445,7 @@ public abstract class MonthView<CAL extends Calendar> extends View {
         return null;
     }
 
+    @SuppressWarnings("unused")
     public void clearAccessibilityFocus() {
         mTouchHelper.clearFocusedVirtualView();
     }
@@ -460,7 +461,6 @@ public abstract class MonthView<CAL extends Calendar> extends View {
     protected class MonthViewTouchHelper extends ExploreByTouchHelper {
         private static final String DATE_FORMAT = "dd MMMM yyyy";
 
-        private final Rect mTempRect = new Rect();
         private final CAL mTempCalendar =
                 Utils.createCalendar(mController.getCalendarType(), mController.getTimeZone());
 
@@ -469,18 +469,17 @@ public abstract class MonthView<CAL extends Calendar> extends View {
         }
 
         void setFocusedVirtualView(int virtualViewId) {
-            getAccessibilityNodeProvider(MonthView.this).performAction(
+            Objects.requireNonNull(getAccessibilityNodeProvider(MonthView.this)).performAction(
                     virtualViewId, AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS, null);
         }
 
         void clearFocusedVirtualView() {
             final int focusedVirtualView = getAccessibilityFocusedVirtualViewId();
-            if (focusedVirtualView != ExploreByTouchHelper.INVALID_ID) {
-                getAccessibilityNodeProvider(MonthView.this).performAction(
+            if (focusedVirtualView != ExploreByTouchHelper.INVALID_ID)
+                Objects.requireNonNull(getAccessibilityNodeProvider(MonthView.this)).performAction(
                         focusedVirtualView,
                         AccessibilityNodeInfoCompat.ACTION_CLEAR_ACCESSIBILITY_FOCUS,
                         null);
-            }
         }
 
         @Override
@@ -503,19 +502,14 @@ public abstract class MonthView<CAL extends Calendar> extends View {
         @Override
         protected void onPopulateNodeForVirtualView(int virtualViewId,
                                                     @NonNull AccessibilityNodeInfoCompat node) {
-            getItemBounds(virtualViewId, mTempRect);
 
             node.setContentDescription(getItemDescription(virtualViewId));
-            node.setBoundsInParent(mTempRect);
             node.addAction(AccessibilityNodeInfo.ACTION_CLICK);
 
             // Flag non-selectable dates as disabled
             node.setEnabled(!mController.isOutOfRange(mYear, mMonth, virtualViewId));
 
-            if (virtualViewId == mSelectedDay) {
-                node.setSelected(true);
-            }
-
+            if (virtualViewId == mSelectedDay) node.setSelected(true);
         }
 
         @Override
@@ -527,20 +521,6 @@ public abstract class MonthView<CAL extends Calendar> extends View {
             return false;
         }
 
-        void getItemBounds(int day, Rect rect) {
-            // offsetX => mEdgePadding
-            final int offsetY = getMonthHeaderSize();
-            final int cellHeight = mRowHeight;
-            final int cellWidth = ((mWidth - (2 * mEdgePadding)) / mNumDays);
-            final int index = ((day - 1) + findDayOffset());
-            final int row = (index / mNumDays);
-            final int column = (index % mNumDays);
-            final int x = (mEdgePadding + (column * cellWidth));
-            final int y = (offsetY + (row * cellHeight));
-
-            rect.set(x, y, (x + cellWidth), (y + cellHeight));
-        }
-
         CharSequence getItemDescription(int day) {
             mTempCalendar.set(mYear, mMonth, day);
             return DateFormat.format(DATE_FORMAT, mTempCalendar.getTimeInMillis());
@@ -548,6 +528,6 @@ public abstract class MonthView<CAL extends Calendar> extends View {
     }
 
     public interface OnDayClickListener<CAL extends Calendar> {
-        void onDayClick(MonthView<CAL> view, CalendarDay<CAL> day);
+        void onDayClick(@SuppressWarnings("unused") MonthView<CAL> view, CalendarDay<CAL> day);
     }
 }

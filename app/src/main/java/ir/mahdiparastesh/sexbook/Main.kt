@@ -34,7 +34,6 @@ import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.stat.*
-import java.util.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
@@ -196,7 +195,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     private var exiting = false
-    override fun onBackPressed() { // Don't use super's already overriden function
+    override fun onBackPressed() { // Don't use super's already overridden function
         if (b.root.isDrawerOpen(GravityCompat.START)) {
             b.root.closeDrawer(GravityCompat.START); return; }
         if (!exiting) {

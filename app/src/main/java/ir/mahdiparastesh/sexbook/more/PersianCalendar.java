@@ -54,7 +54,7 @@ import java.util.Locale;
  *
  * @author Roozbeh Pournader
  */
-@SuppressWarnings({"unused", "SpellCheckingInspection"})
+@SuppressWarnings("unused")
 public class PersianCalendar extends Calendar {
     private static final long serialVersionUID = -6727306982975111643L;
     //-------------------------------------------------------------------------

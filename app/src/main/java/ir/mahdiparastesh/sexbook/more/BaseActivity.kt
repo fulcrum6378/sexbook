@@ -72,6 +72,7 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
                 retryForAd++
             } else retryForAd = 0
             return; }
+        // AdMob SDK made the Main load later and later on each recreation!
     }*/
 
     fun toolbar(tb: Toolbar, @StringRes title: Int) {

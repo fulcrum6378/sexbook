@@ -81,13 +81,13 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         // Date & Time
         h.b.date.text = compileDate(c, r.time)
         if (r.isReal) {
-            var cal = r.time.calendar(c)
+            val cal = r.time.calendar(c)
             h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
             h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
             h.b.clock.setOnClickListener {
                 if (c.m.onani.value == null) return@setOnClickListener
                 TimePickerDialog.newInstance(
-                    this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], false
+                    this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE]
                 ).apply {
                     version = TimePickerDialog.Version.VERSION_2
                     accentColor = c.color(R.color.CP)
@@ -267,7 +267,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         val pos = view.tag!!.substring(4).toInt()
         if (c.m.onani.value!!.size > pos) when (view.tag!!.substring(0, 4)) {
             tagEdit -> {
-                var calc = c.m.onani.value!![pos].time.calendar(c)
+                val calc = c.m.onani.value!![pos].time.calendar(c)
                 calc[Calendar.HOUR_OF_DAY] = hourOfDay
                 calc[Calendar.MINUTE] = minute
                 calc[Calendar.SECOND] = second

@@ -64,20 +64,18 @@ public class GravitySnapHelper extends LinearSnapHelper {
         int[] out = new int[2];
 
         if (layoutManager.canScrollHorizontally()) {
-            if (gravity == Gravity.START) {
+            if (gravity == Gravity.START)
                 out[0] = distanceToStart(targetView, getHorizontalHelper(layoutManager), false);
-            } else { // END
+            else // END
                 out[0] = distanceToEnd(targetView, getHorizontalHelper(layoutManager), false);
-            }
-        } else out[0] = 0;
+        }
 
         if (layoutManager.canScrollVertically()) {
-            if (gravity == Gravity.TOP) {
+            if (gravity == Gravity.TOP)
                 out[1] = distanceToStart(targetView, getVerticalHelper(layoutManager), false);
-            } else { // BOTTOM
+            else // BOTTOM
                 out[1] = distanceToEnd(targetView, getVerticalHelper(layoutManager), false);
-            }
-        } else out[1] = 0;
+        }
 
         return out;
     }

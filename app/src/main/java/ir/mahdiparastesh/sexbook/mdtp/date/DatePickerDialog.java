@@ -643,6 +643,7 @@ public class DatePickerDialog<CAL extends Calendar> extends AppCompatDialogFragm
         mDateRangeLimiter = dateRangeLimiter;
     }
 
+    @SuppressWarnings("unused")
     public void setTitle(String title) {
         mTitle = title;
     }
@@ -797,6 +798,7 @@ public class DatePickerDialog<CAL extends Calendar> extends AppCompatDialogFragm
         mListeners.add(listener);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void unregisterOnDateChangedListener(OnDateChangedListener listener) {
         mListeners.remove(listener);

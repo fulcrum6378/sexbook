@@ -8,8 +8,9 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
+import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -30,7 +31,6 @@ import androidx.core.content.ContextCompat;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
-import android.icu.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,7 +48,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     }
 
     private static final String KEY_INITIAL_TIME = "initial_time";
-    private static final String KEY_IS_24_HOUR_VIEW = "is_24_hour_view";
     private static final String KEY_TITLE = "dialog_title";
     private static final String KEY_CURRENT_ITEM_SHOWING = "current_item_showing";
     private static final String KEY_IN_KB_MODE = "in_kb_mode";
@@ -61,7 +60,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     private static final String KEY_OK_COLOR = "ok_color";
     private static final String KEY_CANCEL_COLOR = "cancel_color";
     private static final String KEY_VERSION = "version";
-    private static final String KEY_TIMEPOINTLIMITER = "timepoint_limiter";
+    private static final String KEY_TIMEPOINT_LIMITER = "timepoint_limiter";
     private static final String KEY_LOCALE = "locale";
 
     public static final int HOUR_INDEX = 0;
@@ -139,29 +138,27 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
 
     @SuppressWarnings({"SameParameterValue", "WeakerAccess"})
     public static TimePickerDialog newInstance(OnTimeSetListener callback,
-                                               int hourOfDay, int minute, int second, boolean is24HourMode) {
+                                               int hourOfDay, int minute, int second) {
         TimePickerDialog ret = new TimePickerDialog();
-        ret.initialize(callback, hourOfDay, minute, second, is24HourMode);
+        ret.initialize(callback, hourOfDay, minute, second);
         return ret;
     }
 
-    public static TimePickerDialog newInstance(OnTimeSetListener callback,
-                                               int hourOfDay, int minute, boolean is24HourMode) {
-        return TimePickerDialog.newInstance(callback, hourOfDay, minute, 0, is24HourMode);
+    public static TimePickerDialog newInstance(OnTimeSetListener callback, int hourOfDay, int minute) {
+        return TimePickerDialog.newInstance(callback, hourOfDay, minute, 0);
     }
 
     @SuppressWarnings({"unused", "SameParameterValue", "WeakerAccess"})
-    public static TimePickerDialog newInstance(OnTimeSetListener callback, boolean is24HourMode) {
+    public static TimePickerDialog newInstance(OnTimeSetListener callback) {
         Calendar now = Calendar.getInstance();
-        return TimePickerDialog.newInstance(callback, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), is24HourMode);
+        return TimePickerDialog.newInstance(
+                callback, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
     }
 
-    public void initialize(OnTimeSetListener callback,
-                           int hourOfDay, int minute, int second, boolean is24HourMode) {
+    public void initialize(OnTimeSetListener callback, int hourOfDay, int minute, int second) {
         mCallback = callback;
 
         mInitialTime = new Timepoint(hourOfDay, minute, second);
-        mIs24HourMode = is24HourMode;
         mInKbMode = false;
         mTitle = "";
         mVibrate = true;
@@ -359,14 +356,12 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         mOnDismissListener = onDismissListener;
     }
 
-    @Deprecated
     public void setStartTime(int hourOfDay, int minute, int second) {
         mInitialTime = roundToNearest(new Timepoint(hourOfDay, minute, second));
         mInKbMode = false;
     }
 
-    @SuppressWarnings({"unused", "deprecation"})
-    @Deprecated
+    @SuppressWarnings("unused")
     public void setStartTime(int hourOfDay, int minute) {
         setStartTime(hourOfDay, minute, 0);
     }
@@ -422,10 +417,9 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(AppCompatDialogFragment.STYLE_NO_TITLE, 0);
-        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_INITIAL_TIME)
-                && savedInstanceState.containsKey(KEY_IS_24_HOUR_VIEW)) {
+        mIs24HourMode = DateFormat.is24HourFormat(getContext());
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_INITIAL_TIME)) {
             mInitialTime = savedInstanceState.getParcelable(KEY_INITIAL_TIME);
-            mIs24HourMode = savedInstanceState.getBoolean(KEY_IS_24_HOUR_VIEW);
             mInKbMode = savedInstanceState.getBoolean(KEY_IN_KB_MODE);
             mTitle = savedInstanceState.getString(KEY_TITLE);
             if (savedInstanceState.containsKey(KEY_ACCENT))
@@ -440,7 +434,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             if (savedInstanceState.containsKey(KEY_CANCEL_COLOR))
                 mCancelColor = savedInstanceState.getInt(KEY_CANCEL_COLOR);
             mVersion = (Version) savedInstanceState.getSerializable(KEY_VERSION);
-            mLimiter = savedInstanceState.getParcelable(KEY_TIMEPOINTLIMITER);
+            mLimiter = savedInstanceState.getParcelable(KEY_TIMEPOINT_LIMITER);
             mLocale = (Locale) savedInstanceState.getSerializable(KEY_LOCALE);
 
             /*
@@ -468,7 +462,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
 
         // If an accent color has not been set manually, get it from the context
         if (mAccentColor == null)
-            mAccentColor = Utils.getAccentColorFromThemeIfAvailable(getActivity());
+            mAccentColor = Utils.getAccentColorFromThemeIfAvailable(requireActivity());
 
         Resources res = getResources();
         Context context = requireActivity();
@@ -510,7 +504,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         mTimePicker = view.findViewById(R.id.mdtp_time_picker);
         mTimePicker.setOnValueSelectedListener(this);
         mTimePicker.setOnKeyListener(keyboardListener);
-        mTimePicker.initialize(getActivity(), mLocale, this, mInitialTime, mIs24HourMode);
+        mTimePicker.initialize(getActivity(), mLocale, this, mInitialTime);
 
         int currentItemShowing = HOUR_INDEX;
         if (savedInstanceState != null &&
@@ -857,7 +851,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     public void onSaveInstanceState(@NonNull Bundle outState) {
         if (mTimePicker != null) {
             outState.putParcelable(KEY_INITIAL_TIME, mTimePicker.getTime());
-            outState.putBoolean(KEY_IS_24_HOUR_VIEW, mIs24HourMode);
             outState.putInt(KEY_CURRENT_ITEM_SHOWING, mTimePicker.getCurrentItemShowing());
             outState.putBoolean(KEY_IN_KB_MODE, mInKbMode);
             if (mInKbMode) {
@@ -872,7 +865,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             if (mOkColor != null) outState.putInt(KEY_OK_COLOR, mOkColor);
             if (mCancelColor != null) outState.putInt(KEY_CANCEL_COLOR, mCancelColor);
             outState.putSerializable(KEY_VERSION, mVersion);
-            outState.putParcelable(KEY_TIMEPOINTLIMITER, mLimiter);
+            outState.putParcelable(KEY_TIMEPOINT_LIMITER, mLimiter);
             outState.putSerializable(KEY_LOCALE, mLocale);
         }
     }
@@ -957,9 +950,8 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
 
     private void setHour(int value, boolean announce) {
         String format;
-        if (mIs24HourMode) {
-            format = "%02d";
-        } else {
+        if (mIs24HourMode) format = "%02d";
+        else {
             format = "%d";
             value = value % 12;
             if (value == 0) {
@@ -1002,9 +994,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         switch (index) {
             case HOUR_INDEX:
                 int hours = mTimePicker.getHours();
-                if (!mIs24HourMode) {
-                    hours = hours % 12;
-                }
+                if (!mIs24HourMode) hours = hours % 12;
                 mTimePicker.setContentDescription(mHourPickerDescription + ": " + hours);
                 if (announce) {
                     Utils.tryAccessibilityAnnounce(mTimePicker, mSelectHours);
@@ -1022,9 +1012,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             default:
                 int seconds = mTimePicker.getSeconds();
                 mTimePicker.setContentDescription(mSecondPickerDescription + ": " + seconds);
-                if (announce) {
-                    Utils.tryAccessibilityAnnounce(mTimePicker, mSelectSeconds);
-                }
+                if (announce) Utils.tryAccessibilityAnnounce(mTimePicker, mSelectSeconds);
                 labelToAnimate = mSecondView;
         }
 
@@ -1060,10 +1048,8 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
                 }
                 finishKbMode(false);
             }
-            if (mCallback != null) {
-                mCallback.onTimeSet(this,
-                        mTimePicker.getHours(), mTimePicker.getMinutes(), mTimePicker.getSeconds());
-            }
+            if (mCallback != null) mCallback.onTimeSet(this,
+                    mTimePicker.getHours(), mTimePicker.getMinutes(), mTimePicker.getSeconds());
             dismiss();
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_DEL) {
@@ -1128,9 +1114,8 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         if (mEnableMinutes && !mEnableSeconds) textSize = 4;
         if (!mEnableMinutes && !mEnableSeconds) textSize = 2;
         if ((mIs24HourMode && mTypedTimes.size() == textSize) ||
-                (!mIs24HourMode && isTypedTimeFullyLegal())) {
+                (!mIs24HourMode && isTypedTimeFullyLegal()))
             return false;
-        }
 
         mTypedTimes.add(keyCode);
         if (!isTypedTimeLegalSoFar()) {
@@ -1202,9 +1187,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             Boolean[] enteredZeros = {false, false, false};
             int[] values = getEnteredTime(enteredZeros);
             mTimePicker.setTime(new Timepoint(values[0], values[1], values[2]));
-            if (!mIs24HourMode) {
-                mTimePicker.setAmOrPm(values[3]);
-            }
+            if (!mIs24HourMode) mTimePicker.setAmOrPm(values[3]);
             mTypedTimes.clear();
         }
         if (updateDisplays) {
@@ -1229,9 +1212,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             setHour(hour, true);
             setMinute(minute);
             setSecond(second);
-            if (!mIs24HourMode) {
-                updateAmPmDisplay(hour < 12 ? AM : PM);
-            }
+            if (!mIs24HourMode) updateAmPmDisplay(hour < 12 ? AM : PM);
             setCurrentItemShowing(mTimePicker.getCurrentItemShowing(), true, true, true);
             mOkButton.setEnabled(true);
         } else {
@@ -1255,9 +1236,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             mSecondView.setText(secondStr);
             mSecondSpaceView.setText(secondStr);
             mSecondView.setTextColor(mUnselectedColor);
-            if (!mIs24HourMode) {
-                updateAmPmDisplay(values[3]);
-            }
+            if (!mIs24HourMode) updateAmPmDisplay(values[3]);
         }
     }
 
@@ -1303,11 +1282,10 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         int startIndex = 1;
         if (!mIs24HourMode && isTypedTimeFullyLegal()) {
             int keyCode = mTypedTimes.get(mTypedTimes.size() - 1);
-            if (keyCode == getAmOrPmKeyCode(AM)) {
+            if (keyCode == getAmOrPmKeyCode(AM))
                 amOrPm = AM;
-            } else if (keyCode == getAmOrPmKeyCode(PM)) {
+            else if (keyCode == getAmOrPmKeyCode(PM))
                 amOrPm = PM;
-            }
             startIndex = 2;
         }
         int minute = -1;
@@ -1317,9 +1295,9 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         for (int i = startIndex; i <= mTypedTimes.size(); i++) {
             int val = getValFromKeyCode(mTypedTimes.get(mTypedTimes.size() - i));
             if (mEnableSeconds) {
-                if (i == startIndex) {
+                if (i == startIndex)
                     second = val;
-                } else if (i == startIndex + 1) {
+                else if (i == startIndex + 1) {
                     second += 10 * val;
                     if (val == 0) enteredZeros[2] = true;
                 }
@@ -1337,9 +1315,9 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
                     if (val == 0) enteredZeros[0] = true;
                 }
             } else {
-                if (i == startIndex + shift) {
+                if (i == startIndex + shift)
                     hour = val;
-                } else if (i == startIndex + shift + 1) {
+                else if (i == startIndex + shift + 1) {
                     hour += 10 * val;
                     if (val == 0) enteredZeros[0] = true;
                 }
@@ -1495,7 +1473,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
             // When the first digit is 2, the second digit may be 4-5.
             secondDigit = new Node(k4, k5);
             firstDigit.addChild(secondDigit);
-            // We must now be followd by the last minute digit. E.g. 2:40, 2:53.
+            // We must now be followed by the last minute digit. E.g. 2:40, 2:53.
             secondDigit.addChild(minuteSecondDigit);
 
             // The first digit may be 3-9.
@@ -1620,21 +1598,15 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         }
 
         public boolean containsKey(int key) {
-            for (int legalKey : mLegalKeys) {
+            for (int legalKey : mLegalKeys)
                 if (legalKey == key) return true;
-            }
             return false;
         }
 
         public Node canReach(int key) {
-            if (mChildren == null) {
-                return null;
-            }
-            for (Node child : mChildren) {
-                if (child.containsKey(key)) {
+            for (Node child : mChildren)
+                if (child.containsKey(key))
                     return child;
-                }
-            }
             return null;
         }
     }
@@ -1642,17 +1614,15 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     private class KeyboardListener implements OnKeyListener {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
-            if (event.getAction() == KeyEvent.ACTION_UP) {
+            if (event.getAction() == KeyEvent.ACTION_UP)
                 return processKeyUp(keyCode);
-            }
             return false;
         }
     }
 
     public void notifyOnDateListener() {
-        if (mCallback != null) {
+        if (mCallback != null)
             mCallback.onTimeSet(this, mTimePicker.getHours(), mTimePicker.getMinutes(), mTimePicker.getSeconds());
-        }
     }
 
     @SuppressWarnings("unused")
