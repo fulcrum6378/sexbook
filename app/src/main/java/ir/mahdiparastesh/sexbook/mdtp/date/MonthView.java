@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.Rect;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -461,6 +462,7 @@ public abstract class MonthView<CAL extends Calendar> extends View {
     protected class MonthViewTouchHelper extends ExploreByTouchHelper {
         private static final String DATE_FORMAT = "dd MMMM yyyy";
 
+        private final Rect mTempRect = new Rect();
         private final CAL mTempCalendar =
                 Utils.createCalendar(mController.getCalendarType(), mController.getTimeZone());
 
@@ -502,8 +504,13 @@ public abstract class MonthView<CAL extends Calendar> extends View {
         @Override
         protected void onPopulateNodeForVirtualView(int virtualViewId,
                                                     @NonNull AccessibilityNodeInfoCompat node) {
+            getItemBounds(virtualViewId, mTempRect);
 
             node.setContentDescription(getItemDescription(virtualViewId));
+            //noinspection deprecation
+            node.setBoundsInParent(mTempRect);
+            // Removing this will cause RuntimeException:
+            // Callbacks must set parent bounds in populateNodeForVirtualViewId()
             node.addAction(AccessibilityNodeInfo.ACTION_CLICK);
 
             // Flag non-selectable dates as disabled
@@ -519,6 +526,20 @@ public abstract class MonthView<CAL extends Calendar> extends View {
                 return true;
             }
             return false;
+        }
+
+        void getItemBounds(int day, Rect rect) {
+            // offsetX => mEdgePadding
+            final int offsetY = getMonthHeaderSize();
+            final int cellHeight = mRowHeight;
+            final int cellWidth = ((mWidth - (2 * mEdgePadding)) / mNumDays);
+            final int index = ((day - 1) + findDayOffset());
+            final int row = (index / mNumDays);
+            final int column = (index % mNumDays);
+            final int x = (mEdgePadding + (column * cellWidth));
+            final int y = (offsetY + (row * cellHeight));
+
+            rect.set(x, y, (x + cellWidth), (y + cellHeight));
         }
 
         CharSequence getItemDescription(int day) {
