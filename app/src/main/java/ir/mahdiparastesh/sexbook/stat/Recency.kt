@@ -29,7 +29,7 @@ class Recency(sum: Summary) {
         res.sortByDescending { it.time }
     }
 
-    @SuppressLint("InflateParams", "SetTextI18n")
+    @SuppressLint("InflateParams")
     fun draw(c: Main) = SumChipsBinding.inflate(c.layoutInflater, null, false).apply {
         find.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}

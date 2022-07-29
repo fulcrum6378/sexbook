@@ -12,12 +12,12 @@ class Summary(list: List<Report>, val nExcluded: Int) {
     val actual = list.size
 
     init {
-        var all = arrayListOf<List<List<String>>?>()
-        var meanings = arrayListOf<List<Meaning>?>()
+        val all = arrayListOf<List<List<String>>?>()
+        val meanings = arrayListOf<List<Meaning>?>()
 
-        // An intial partial analysis
+        // An initial partial analysis
         for (m in list) {
-            var key = m.name.fixKey()
+            val key = m.name.fixKey()
 
             // ONLY 2+ characters allowed
             if (key.length < 2) {
@@ -34,14 +34,14 @@ class Summary(list: List<Report>, val nExcluded: Int) {
             // Analyze the notes' shape
             val shape = arrayListOf<ArrayList<Boolean>>()
             split.forEach { s1 ->
-                var thisShape = arrayListOf<Boolean>()
+                val thisShape = arrayListOf<Boolean>()
                 // Check if it is a person's name
                 s1.forEach { s2 ->
                     if (s2.isNotEmpty()) thisShape.add(s2[0].isUpperCase() || s2[0] == '#')
                 }
                 shape.add(thisShape)
             } // shape.size is certainly 1+ now...
-            var meanArray = arrayListOf<Meaning>()
+            val meanArray = arrayListOf<Meaning>()
             for (sh in shape) meanArray.add(when {
                 sh.all { !it } -> Meaning.MERE_DESCRIPTION
                 sh.all { it } -> when {
@@ -138,7 +138,7 @@ class Summary(list: List<Report>, val nExcluded: Int) {
         theKey: String, time: Long, value: Float = 1f
     ) {
         var key = theKey
-        var ckic = containsKeyIgnoreCase(key)
+        val ckic = containsKeyIgnoreCase(key)
         if (ckic != null) key = ckic
         if (!containsKey(key) && ckic == null) this[key] = arrayListOf(Erection(time, value))
         else this[key]?.add(Erection(time, value))
@@ -171,7 +171,7 @@ class Summary(list: List<Report>, val nExcluded: Int) {
     fun results(): Result {
         var results = HashMap<Float, ArrayList<String>>()
         for (s in scores) {
-            var key = s.key
+            val key = s.key
             val sumErect = s.value.sumOf { it.value.toDouble() }.toFloat().tripleRound()
             if (isUnknown(key)) {
                 unknown = sumErect
@@ -198,18 +198,12 @@ class Summary(list: List<Report>, val nExcluded: Int) {
     class Erection(val time: Long, val value: Float) : Serializable
 
     @Suppress("UNCHECKED_CAST")
-    class Result(
-        var calculations: HashMap<Float, ArrayList<String>>,
-        //var scores: HashMap<String, ArrayList<Erection>>
-    ) : Parcelable {
-        private constructor(parcel: Parcel) : this(
-            calculations = parcel.readSerializable() as HashMap<Float, ArrayList<String>>,
-            //scores = parcel.readSerializable() as HashMap<String, ArrayList<Erection>>
-        )
+    class Result(var calculations: HashMap<Float, ArrayList<String>>) : Parcelable {
+        private constructor(parcel: Parcel) :
+                this(parcel.readSerializable() as HashMap<Float, ArrayList<String>>)
 
         override fun writeToParcel(out: Parcel?, flags: Int) {
             out?.writeSerializable(calculations)
-            //out?.writeSerializable(scores)
         }
 
         override fun describeContents() = 0

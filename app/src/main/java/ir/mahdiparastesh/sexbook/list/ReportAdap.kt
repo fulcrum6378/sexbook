@@ -262,6 +262,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
     override fun getItemCount() = c.m.visOnani.value?.size ?: 0
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onTimeSet(view: TimePickerDialog, hourOfDay: Int, minute: Int, second: Int) {
         if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4) return
         val pos = view.tag!!.substring(4).toInt()

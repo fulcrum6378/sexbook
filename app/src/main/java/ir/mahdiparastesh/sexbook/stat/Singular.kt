@@ -110,9 +110,9 @@ class Singular : BaseActivity() {
             val split = month.split(" ")
             val months = Utils.localSymbols(c, c.calType()).shortMonths
             for (i in list) {
-                var lm = i.time.calendar(c)
-                var yea: Int = lm[Calendar.YEAR]
-                var mon: Int = lm[Calendar.MONTH]
+                val lm = i.time.calendar(c)
+                val yea = lm[Calendar.YEAR]
+                val mon = lm[Calendar.MONTH]
                 if (months.indexOf(split[0]) == mon && split[1].toInt() == yea) value += i.value
                 if (growing && (split[1].toInt() > yea ||
                             (split[1].toInt() == yea && months.indexOf(split[0]) > mon))

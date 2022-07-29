@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.list
 
-import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -27,7 +26,6 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
     ): AnyViewHolder<ItemPlaceBinding> =
         AnyViewHolder(ItemPlaceBinding.inflate(c.layoutInflater, parent, false))
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<ItemPlaceBinding>, i: Int) {
         if (c.m.places.value == null) return
 

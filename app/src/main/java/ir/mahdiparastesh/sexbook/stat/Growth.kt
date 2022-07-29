@@ -19,7 +19,7 @@ class Growth : BaseActivity() {
         if (m.onani.value == null || m.summary.value == null) {
             onBackPressed(); return; }
         val stb = Singular.sinceTheBeginning(this, m.onani.value!!)
-        var stars = ArrayList<Star>()
+        val stars = ArrayList<Star>()
         for (x in m.summary.value!!.scores) {
             if (Summary.isUnknown(x.key)) continue
             val frames = ArrayList<Star.Frame>()

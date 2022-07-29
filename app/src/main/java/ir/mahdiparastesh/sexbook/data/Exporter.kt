@@ -73,7 +73,7 @@ class Exporter(val c: BaseActivity) {
                 Toast.makeText(c, R.string.importOpenError, Toast.LENGTH_LONG).show()
                 return
             }
-            var imported: Exported
+            val imported: Exported
             try {
                 imported = Gson().fromJson(data, Exported::class.java)
             } catch (e: Exception) {
