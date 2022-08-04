@@ -22,6 +22,12 @@ public class Place {
         this.longitude = longitude;
     }
 
+    public Place() {
+        this.name = "";
+        this.latitude = -1.0;
+        this.longitude = -1.0;
+    }
+
     public static class Sort implements Comparator<Place> {
         public static final byte SUM = 0, NAME = 1;
         public byte by;

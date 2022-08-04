@@ -78,7 +78,7 @@ class Estimation : BaseActivity() {
         b.add.setOnClickListener {
             if (adding) return@setOnClickListener
             adding = true
-            Work(c, Work.G_INSERT_ONE, listOf(Guess(null, -1L, -1L, 0f, 1, "", -1L))).start()
+            Work(c, Work.G_INSERT_ONE, listOf(Guess())).start()
             Delay { adding = false }
             c.shake()
         }

@@ -35,6 +35,7 @@
     <string name="bHappyAft" tools:ignore="PluralsCandidate">%d hour(s) past since their birthday!</string>
     <string name="birthDateNtf">Birthday Notification</string>
     <string name="clear">Clear</string>
+    <string name="suspend">Suspend</string>
 
     <!-- Main -->
     <string name="momImport">Import from Json</string>

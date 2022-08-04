@@ -33,6 +33,7 @@
     <string name="bHappyAft">%d hodin uplynulo od jejich narozenin!</string>
     <string name="birthDateNtf">Oznámení o narozeninách</string>
     <string name="clear">Vyčistěte</string>
+    <string name="suspend">Pozastavit</string>
 
     <!-- Main -->
     <string name="momImport">Import z Json</string>

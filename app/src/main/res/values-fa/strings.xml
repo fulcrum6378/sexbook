@@ -34,6 +34,7 @@
     <string name="bHappyAft">%d ساعت گذشته از تولدش!</string>
     <string name="birthDateNtf">اطلاع رسانی روز تولد</string>
     <string name="clear">پاکسازی</string>
+    <string name="suspend">غیرفعال کردن</string>
 
     <!-- Main -->
     <string name="momImport">وارد کردن از جیسون</string>

@@ -32,6 +32,7 @@
     <string name="bHappyBef">Nog %d uur tot hun verjaardag!</string>
     <string name="bHappyAft">%d uur voorbij sinds hun verjaardag!</string>
     <string name="clear">Duidelijk</string>
+    <string name="suspend">Opschorten</string>
 
     <!-- Main -->
     <string name="momImport">Importeren uit Json</string>

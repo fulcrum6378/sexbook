@@ -22,10 +22,7 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
 import ir.mahdiparastesh.sexbook.mdtp.Utils
 import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
-import ir.mahdiparastesh.sexbook.more.Act
-import ir.mahdiparastesh.sexbook.more.AnyViewHolder
-import ir.mahdiparastesh.sexbook.more.MaterialMenu
-import ir.mahdiparastesh.sexbook.more.TypeAdap
+import ir.mahdiparastesh.sexbook.more.*
 import kotlin.collections.set
 
 class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGuessBinding>>() {
@@ -59,6 +56,8 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemGuessBinding>, i: Int) {
         val g = c.m.guesses.value?.getOrNull(i) ?: return
+        if (g.able) h.b.root.alpha = 1f
+        else Delay(350) { h.b.root.alpha = .7f }
 
         // Crush
         h.b.crsh.setText(g.crsh)
@@ -183,14 +182,20 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
 
         // Long Click
         val longClick = View.OnLongClickListener { v ->
+            val gu = c.m.guesses.value?.getOrNull(h.layoutPosition)
+                ?: return@OnLongClickListener false
             MaterialMenu(c, v, R.menu.guess, Act().apply {
+                this[R.id.glSuspend] = {
+                    c.m.guesses.value?.getOrNull(h.layoutPosition)?.apply {
+                        able = !able
+                        Work(c, Work.G_UPDATE_ONE, listOf(this, h.layoutPosition, 1)).start()
+                    }
+                }
                 this[R.id.glDelete] = {
                     AlertDialog.Builder(c).apply {
                         setTitle(c.resources.getString(R.string.delete))
                         setMessage(c.resources.getString(R.string.etDeleteGuessSure))
                         setPositiveButton(R.string.yes) { _, _ ->
-                            val gu = c.m.guesses.value?.getOrNull(h.layoutPosition)
-                                ?: return@setPositiveButton
                             Work(
                                 c, Work.G_DELETE_ONE,
                                 listOf(gu, h.layoutPosition)
@@ -200,7 +205,9 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                         setCancelable(true)
                     }.show()
                 }
-            }).show()
+            }).apply {
+                if (!gu.able) menu.findItem(R.id.glSuspend)?.isChecked = true
+            }.show()
             true
         }
         h.b.root.setOnLongClickListener(longClick)

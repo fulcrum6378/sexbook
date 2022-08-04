@@ -33,6 +33,7 @@
     <string name="bHappyAft">%d time(r) har gått siden bursdagen deres!</string>
     <string name="birthDateNtf">Bursdagsvarsel</string>
     <string name="clear">Klar</string>
+    <string name="suspend">Utsette</string>
 
     <!-- Main -->
     <string name="momImport">Importer fra Json</string>

@@ -330,7 +330,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     fun instillGuesses() {
         if (m.onani.value == null || m.guesses.value == null || instilledGuesses) return
         m.onani.value = m.onani.value?.filter { it.isReal }?.let { ArrayList(it) }
-        for (g in m.guesses.value!!) {
+        for (g in m.guesses.value!!.filter { it.able }) {
             if (!g.checkValid()) continue
             var time = g.sinc
             val share = (86400000.0 / g.freq).toLong()

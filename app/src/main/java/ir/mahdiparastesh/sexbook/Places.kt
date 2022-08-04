@@ -85,7 +85,7 @@ class Places : BaseActivity() {
         b.add.setOnClickListener {
             if (adding) return@setOnClickListener
             adding = true
-            Work(c, Work.P_INSERT_ONE, listOf(Place("", -1.0, -1.0))).start()
+            Work(c, Work.P_INSERT_ONE, listOf(Place())).start()
             Delay { adding = false }
             c.shake()
         }

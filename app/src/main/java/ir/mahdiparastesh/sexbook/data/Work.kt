@@ -101,6 +101,10 @@ class Work(
                     )
                     db.execSQL("DROP TABLE Guess_old")
                 }
+            }, object : Migration(3, 4) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL("ALTER TABLE Guess ADD COLUMN able INTEGER NOT NULL DEFAULT 1")
+                }
             }) // Do not remove migrations so hurriedly! Wait at least for a few months...
             .build()
         val dao = db.dao()

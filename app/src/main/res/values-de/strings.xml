@@ -33,6 +33,7 @@
     <string name="bHappyAft">%d Stunde(n) sind seit ihrem Geburtstag vergangen!</string>
     <string name="birthDateNtf">Geburtstagsbenachrichtigung</string>
     <string name="clear">Klar</string>
+    <string name="suspend">Aussetzen</string>
 
     <!-- Main -->
     <string name="momImport">Import aus Json</string>
