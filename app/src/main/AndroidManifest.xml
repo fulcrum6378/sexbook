@@ -6,6 +6,17 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!--<uses-permission android:name="com.google.android.gms.permission.AD_ID" />-->
 
+    <permission
+        android:name="${packageName}.READ_DATABASE"
+        android:description="@string/permReadDb"
+        android:label="view Sexbook data"
+        android:protectionLevel="dangerous" />
+    <permission
+        android:name="${packageName}.WRITE_DATABASE"
+        android:description="@string/permWriteDb"
+        android:label="edit Sexbook data"
+        android:protectionLevel="dangerous" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/new_backup"
@@ -98,7 +109,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="ir.mahdiparastesh.sexbook"
+            android:authorities="${packageName}.send"
             android:exported="false"
             android:grantUriPermissions="true">
 
@@ -106,6 +117,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <provider
+            android:name=".data.Provider"
+            android:authorities="${packageName}"
+            android:exported="true"
+            android:readPermission="ir.mahdiparastesh.sexbook.READ_DATABASE"
+            android:writePermission="ir.mahdiparastesh.sexbook.WRITE_DATABASE" />
 
         <!--<meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
