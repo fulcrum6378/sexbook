@@ -169,7 +169,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 startActivity(Intent(this, Adorability::class.java))
             R.id.momGrw -> if (summarize())
                 startActivity(Intent(this, Growth::class.java))
-            R.id.momMix -> startActivity(Intent(this, Mixture::class.java))
+            R.id.momMix -> if (!m.onani.value.isNullOrEmpty())
+                startActivity(Intent(this, Mixture::class.java))
             R.id.momPlc -> startActivity(Intent(this, Places::class.java))
             R.id.momEst -> startActivity(Intent(this, Estimation::class.java))
             R.id.momImport -> exporter.launchImport()
@@ -255,7 +256,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
     }
 
-    fun summarize(): Boolean = if (m.onani.value != null && m.onani.value!!.size > 0) {
+    fun summarize(): Boolean = if (m.onani.value != null && m.onani.value!!.isNotEmpty()) {
         var nExcluded = 0
         var filtered: List<Report> = m.onani.value!!
 

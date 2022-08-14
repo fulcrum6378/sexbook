@@ -21,7 +21,7 @@ class Model : ViewModel() {
     val visOnani = arrayListOf<Report>()
     var summary: Summary? = null
     var recency: Recency? = null
-    var listFilter = 0
+    var listFilter = -1
     var showingSummary = false
     var showingRecency = false
 

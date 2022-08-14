@@ -141,7 +141,7 @@ class Exporter(val c: BaseActivity) {
                         type = mime
                         putExtra(
                             Intent.EXTRA_STREAM,
-                            FileProvider.getUriForFile(c, c.packageName, cache)
+                            FileProvider.getUriForFile(c, "${c.packageName}.send", cache)
                         )
                     }.also { c.startActivity(it) }
                 }

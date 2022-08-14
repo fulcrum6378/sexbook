@@ -57,19 +57,22 @@ class PageSex : Fragment() {
                     }
                     Work.VIEW_ONE -> if (msg.obj != null) when (msg.arg1) {
                         Work.ADD_NEW_ITEM -> (msg.obj as Report).also { report ->
-                            if (c.m.onani.value == null) c.m.onani.value = ArrayList()
+                            val firstRecordEver = c.m.onani.value == null
+                            if (firstRecordEver) c.m.onani.value = ArrayList()
                             c.m.onani.value!!.add(report)
 
                             val ym = report.time.calendar(c).createFilterYm()
                             if (filters.indexOfFirst { it.year == ym.first && it.month == ym.second }
-                                == c.m.listFilter) { // add at the bottom of the same month
+                                == c.m.listFilter && c.m.listFilter >= 0 && !firstRecordEver) {
+                                // add to the bottom of the recycler view
                                 c.m.visOnani.add(report)
                                 Collections.sort(c.m.visOnani, ReportAdap.Sort())
-                                (b.rv.adapter!! as ReportAdap).notifyAnyChange(false)
+                                (b.rv.adapter as ReportAdap?)?.notifyAnyChange(false)
                                 val thePos = c.m.visOnani.indexOf(report)
+                                b.rv.adapter?.notifyItemInserted(thePos)
                                 filters.getOrNull(c.m.listFilter)?.map
                                     ?.add(thePos, c.m.onani.value!!.size - 1)
-                                b.rv.adapter?.notifyItemInserted(thePos)
+                                updateFilterSpinner()
                             } else // go to/create a new month
                                 resetAllReports(c.m.onani.value!!.size - 1)
 
@@ -93,8 +96,9 @@ class PageSex : Fragment() {
                         // In addition, if date or time have been changed...
                         if (msg.arg2 == 0) {
                             val ym = c.m.onani.value!![msg.arg1].time.calendar(c).createFilterYm()
-                            if (filters[c.m.listFilter].let { ym.first == it.year && ym.second == it.month }
-                                && nominalPos != -1) { // report is still in this month
+                            if (nominalPos != -1 && filters.getOrNull(c.m.listFilter)
+                                    ?.let { ym.first == it.year && ym.second == it.month } == true
+                            ) { // report is still in this month
                                 b.rv.adapter?.notifyItemChanged(nominalPos)
                                 Collections.sort(c.m.visOnani, ReportAdap.Sort())
                                 val newPos = c.m.visOnani.indexOf(c.m.onani.value!![msg.arg1])
@@ -126,7 +130,10 @@ class PageSex : Fragment() {
                         } else resetAllReports()
 
                         c.m.onani.value!!.remove(c.m.onani.value!![msg.arg1])
-                        filters.getOrNull(c.m.listFilter)?.map?.remove(msg.arg1)
+                        if (c.m.onani.value!!.isNotEmpty())
+                            filters.getOrNull(c.m.listFilter)?.map?.remove(msg.arg1)
+                        else filters = createFilters(c.m.onani.value!!)
+                        updateFilterSpinner()
                         (b.rv.adapter!! as ReportAdap).notifyAnyChange(false)
                     } else resetAllReports()
 
@@ -137,8 +144,7 @@ class PageSex : Fragment() {
         }
         messages.clear()
 
-        // Spinner Filter
-        //b.spnFilterMark.setColorFilter(c.color(R.color.spnFilterMark))
+        // Spinner of filters
         b.spnFilter.setOnTouchListener { _, _ -> spnFilterTouched = true; false }
         b.spnFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(av: AdapterView<*>?) {}
@@ -168,22 +174,16 @@ class PageSex : Fragment() {
 
         // Which month to show?
         var newFilter = filters.size - 1
-        if (newFilter == -1) newFilter = 0
         toGlobalIndexOfItem?.also { gIndex ->
             val toFilter = c.m.onani.value!![gIndex].time.calendar(c).createFilterYm()
             val fIndex =
                 filters.indexOfFirst { it.year == toFilter.first && it.month == toFilter.second }
             if (fIndex != -1) newFilter = fIndex
         }
-        applyFilter(newFilter, toGlobalIndexOfItem == null)
 
-        // Prepare the bottom spinner...
-        b.spnFilter.adapter = ArrayAdapter(
-            c, R.layout.spinner,
-            filters.mapIndexed { f, _ -> "${f + 1}. ${filters[f].title(c)}" }
-        ).apply { setDropDownViewResource(R.layout.spinner_dd) }
-        spnFilterTouched = false
-        b.spnFilter.setSelection(c.m.listFilter, true)
+        // Application...
+        applyFilter(newFilter, toGlobalIndexOfItem == null)
+        updateFilterSpinner()
 
         // Scroll to the edited item position...
         toGlobalIndexOfItem?.also { gIndex ->
@@ -192,31 +192,39 @@ class PageSex : Fragment() {
         }
     }
 
-    private fun createFilters(reports: ArrayList<Report>): List<Filter> {
+    private fun updateFilterSpinner() {
+        b.spnFilter.adapter = ArrayAdapter(
+            c, R.layout.spinner,
+            filters.mapIndexed { f, _ -> "${f + 1}. ${filters[f].title(c)}" }
+        ).apply { setDropDownViewResource(R.layout.spinner_dd) }
+        spnFilterTouched = false
+        b.spnFilter.setSelection(c.m.listFilter, true)
+    }
+
+    private fun createFilters(reports: List<Report>): List<Filter> {
         val filters = arrayListOf<Filter>()
         for (r in reports.indices) {
-            val name = reports[r].time.calendar(c).createFilterYm()
+            val ym = reports[r].time.calendar(c).createFilterYm()
             var filterExists = false
             for (f in filters.indices)
-                if (filters[f].year == name.first && filters[f].month == name.second) {
+                if (filters[f].year == ym.first && filters[f].month == ym.second) {
                     filterExists = true
                     filters[f] = filters[f].apply { put(r) }
                 }
             if (!filterExists)
-                filters.add(Filter(name.first, name.second, ArrayList<Int>().apply { add(r) }))
+                filters.add(Filter(ym.first, ym.second, ArrayList<Int>().apply { add(r) }))
         }
         return filters.toList()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun applyFilter(i: Int, scrollDown: Boolean = true) {
-        if (c.m.onani.value == null) {
-            c.m.visOnani.clear(); return; }
-        if (c.m.listFilter == i) return
-        c.m.listFilter = i
+        if (c.m.listFilter == i && c.m.listFilter > -1) return
         c.m.visOnani.clear()
+        if (c.m.onani.value == null) return // if onani is null, empty visOnani.
+        c.m.listFilter = i
 
-        // Fill visOnani
+        // Fill visOnani...
         if (filters.isEmpty()) for (o in c.m.onani.value!!) c.m.visOnani.add(o)
         else {
             for (o in filters[c.m.listFilter].map)
@@ -225,10 +233,8 @@ class PageSex : Fragment() {
             Collections.sort(c.m.visOnani, ReportAdap.Sort())
         }
 
-        if (b.rv.adapter == null) {
-            c.summarize()
-            b.rv.adapter = ReportAdap(c)
-        } else {
+        // Update the adapter and scroll to position...
+        if (b.rv.adapter == null) b.rv.adapter = ReportAdap(c) else {
             (b.rv.adapter!! as ReportAdap).notifyAnyChange(true)
             b.rv.adapter!!.notifyDataSetChanged()
         }
@@ -239,7 +245,6 @@ class PageSex : Fragment() {
     private var adding = false
     fun add() {
         if (adding) return
-        if (filters.isNotEmpty()) applyFilter(filters.size - 1) // go to the new page
         adding = true
         val newOne = Report(
             Fun.now(), "", c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),

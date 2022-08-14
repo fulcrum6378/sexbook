@@ -122,10 +122,11 @@
             android:id="@+id/instagram"
             style="@style/identifyET"
             android:autofillHints="username"
+            android:fontFamily="serif-monospace"
             android:hint="@string/instagram"
             android:inputType="textUri"
             android:maxLength="100"
-            android:maxLines="1" />
+            android:maxLines="1" /><!--TODO make underline characters distinguishable.-->
 
         <View style="@style/identifySep" />
 
