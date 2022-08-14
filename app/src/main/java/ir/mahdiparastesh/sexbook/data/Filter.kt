@@ -3,11 +3,17 @@ package ir.mahdiparastesh.sexbook.data
 import ir.mahdiparastesh.sexbook.mdtp.Utils
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 
-class Filter(var year: Int, var month: Int, var items: ArrayList<Int>) {
+@Suppress("EqualsOrHashCode")
+class Filter(val year: Int, val month: Int, var map: ArrayList<Int>) {
     fun put(item: Int) {
-        items.add(item)
+        map.add(item)
     }
 
     fun title(c: BaseActivity) =
-        "${Utils.localSymbols(c, c.calType()).months[month]} $year : {${items.size}}"
+        "${Utils.localSymbols(c, c.calType()).months[month]} $year : {${map.size}}"
+
+    override operator fun equals(other: Any?): Boolean {
+        if (other == null || other !is Filter) return false
+        return year == other.year && month == other.month
+    }
 }

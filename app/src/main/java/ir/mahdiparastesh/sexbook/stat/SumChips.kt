@@ -49,8 +49,8 @@ class SumChips : Fragment() {
                 }
             }
         })
-        if (c.m.summary.value == null) return
-        for (r in c.m.summary.value!!.results().calculations) b.ll.addView(
+        if (c.m.summary == null) return
+        for (r in c.m.summary!!.results().calculations) b.ll.addView(
             ChipGroup(b.ll.context).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
@@ -81,12 +81,12 @@ class SumChips : Fragment() {
                         typeface = ResourcesCompat.getFont(c, R.font.normal)!!
                     })
             })
-        c.m.summary.value?.nExcluded?.also {
+        c.m.summary?.nExcluded?.also {
             if (it > 0f) b.ll.addView(
                 plus(b.ll.context, getString(R.string.excStat, it.toString()))
             )
         }
-        c.m.summary.value?.unknown?.also {
+        c.m.summary?.unknown?.also {
             if (it > 0f) b.ll.addView(
                 plus(b.ll.context, getString(R.string.unknown, it.toString()))
             )

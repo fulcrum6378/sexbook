@@ -43,8 +43,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private val exporter = Exporter(this)
     private var pageSex: PageSex? = null
     private var pageLove: PageLove? = null
-    // private lateinit var adBanner: AdView
-    // private var adBannerLoaded = false
+    /*private lateinit var adBanner: AdView
+    private var adBannerLoaded = false*/
 
     companion object {
         const val NOTIFY_MAX_DISTANCE = 3
@@ -224,6 +224,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 // showAdAfterRecreation = true
                 recreate()
             }
+            Action.VIEW.s -> (try {
+                intent.dataString?.toLong()
+            } catch (e: NumberFormatException) {
+                null
+            })?.also { id ->
+                val gIndex = m.onani.value?.indexOfFirst { it.id == id }
+                if (gIndex != -1) pageSex?.resetAllReports(gIndex)
+            }
         }
     }
 
@@ -258,7 +266,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             filtered = filtered.filter { it.type in allowedTypes }
                 .also { nExcluded += filtered.size - it.size }
 
-        m.summary.value = Summary(filtered, nExcluded); true; } else false
+        m.summary = Summary(filtered, nExcluded); true; } else false
 
     private fun summary() {
         val vp2 = ViewPager2(this@Main).apply {
@@ -266,7 +274,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             adapter = SumAdapter(this@Main)
         }
         if (summarize()) AlertDialog.Builder(this).apply {
-            setTitle("${getString(R.string.summary)} (${m.summary.value!!.actual} / ${m.onani.value!!.size})")
+            setTitle("${getString(R.string.summary)} (${m.summary!!.actual} / ${m.onani.value!!.size})")
             setView(ConstraintLayout(this@Main).apply {
                 addView(vp2)
                 // The below EditText improves the EditText focus issue when you put
@@ -288,10 +296,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     private fun recency() {
         if (summarize()) {
-            m.recency.value = Recency(m.summary.value!!)
+            m.recency = Recency(m.summary!!)
             AlertDialog.Builder(this).apply {
                 setTitle(resources.getString(R.string.recency))
-                setView(m.recency.value!!.draw(this@Main))
+                setView(m.recency!!.draw(this@Main))
                 setPositiveButton(android.R.string.ok, null)
                 setCancelable(true)
                 setOnDismissListener { m.showingRecency = false }
@@ -362,7 +370,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     enum class Action(val s: String) {
-        RELOAD("ir.mahdiparastesh.sexbook.ACTION.RELOAD"),
-        ADD("ir.mahdiparastesh.sexbook.ACTION.ADD")
+        RELOAD("${Main::class.java.`package`!!.name}.ACTION_RELOAD"),
+        ADD("${Main::class.java.`package`!!.name}.ACTION_ADD"),
+        VIEW("${Main::class.java.`package`!!.name}.ACTION_VIEW"),
     }
 }

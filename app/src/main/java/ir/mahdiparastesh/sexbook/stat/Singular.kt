@@ -35,10 +35,10 @@ class Singular : BaseActivity() {
         b = SingularBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        if (m.onani.value == null || m.summary.value == null || m.crush == null) {
+        if (m.onani.value == null || m.summary == null || m.crush == null) {
             onBackPressed(); return; }
         val data = ArrayList<Pair<String, Float>>()
-        val history = m.summary.value!!.scores[m.crush]
+        val history = m.summary!!.scores[m.crush]
         if (history == null) {
             onBackPressed(); return; }
         sinceTheBeginning(this, m.onani.value!!)

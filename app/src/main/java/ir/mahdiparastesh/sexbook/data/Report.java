@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.data;
 
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -37,5 +38,11 @@ public class Report {
 
     public boolean isReal() {
         return !estimated;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (!(obj instanceof Report)) return false;
+        return id == ((Report) obj).id;
     }
 }

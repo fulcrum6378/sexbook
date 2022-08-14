@@ -18,11 +18,11 @@ class Adorability : BaseActivity() {
         setContentView(b.root)
         if (night()) window.decorView.setBackgroundColor(color(R.color.CP))
 
-        if (m.onani.value == null || m.summary.value == null) {
+        if (m.onani.value == null || m.summary == null) {
             onBackPressed(); return; }
         val stb = Singular.sinceTheBeginning(this, m.onani.value!!)
         val stars = ArrayList<Star>()
-        for (x in m.summary.value!!.scores) {
+        for (x in m.summary!!.scores) {
             if (Summary.isUnknown(x.key)) continue
             val scores = ArrayList<Star.Frame>()
             for (month in stb)

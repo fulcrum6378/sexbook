@@ -11,24 +11,23 @@ import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Summary
 
 class Model : ViewModel() {
-    val onani = MutableLiveData<ArrayList<Report>?>(null)
+    val onani = MutableLiveData<ArrayList<Report>?>(null) // static unsorted indices
     val liefde = MutableLiveData<ArrayList<Crush>?>(null)
     val places = MutableLiveData<ArrayList<Place>?>(null)
     val guesses = MutableLiveData<ArrayList<Guess>?>(null)
 
     var loaded = false
     var crush: String? = null
-    val visOnani = MutableLiveData<ArrayList<Report>>(arrayListOf())
-    val summary = MutableLiveData<Summary?>()
-    val recency = MutableLiveData<Recency?>()
+    val visOnani = arrayListOf<Report>()
+    var summary: Summary? = null
+    var recency: Recency? = null
     var listFilter = 0
-    var filteredOnce = false
     var showingSummary = false
     var showingRecency = false
 
     fun reset() {
         onani.value = null
-        visOnani.value?.clear()
+        visOnani.clear()
         liefde.value = null
         places.value = null
         guesses.value = null

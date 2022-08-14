@@ -35,7 +35,6 @@ class PageLove : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // if (BaseActivity.adsInitStatus?.isReady() == true) loadAd()
 
-        // Handler
         handler.value = object : Handler(Looper.getMainLooper()) {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {

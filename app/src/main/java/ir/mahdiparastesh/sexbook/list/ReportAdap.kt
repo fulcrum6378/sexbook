@@ -76,7 +76,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
-        val r = c.m.visOnani.value?.getOrNull(i) ?: return
+        val r = c.m.visOnani.getOrNull(i) ?: return
 
         // Date & Time
         h.b.date.text = compileDate(c, r.time)
@@ -131,8 +131,8 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         h.b.name.setText(r.name)
         if (r.isReal) {
             var crushes = arrayListOf<String>()
-            if (c.m.summary.value != null)
-                crushes = ArrayList(c.m.summary.value!!.scores.keys)
+            if (c.m.summary != null)
+                crushes = ArrayList(c.m.summary!!.scores.keys)
             h.b.name.setAdapter(
                 ArrayAdapter(c, android.R.layout.simple_dropdown_item_1line, crushes)
             )
@@ -142,10 +142,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                c.m.visOnani.value!![h.layoutPosition].apply {
+                c.m.visOnani[h.layoutPosition].apply {
                     if (name != h.b.name.text.toString()) {
                         name = h.b.name.text.toString()
-                        update(this, h.layoutPosition)
+                        updateStatic(this, h.layoutPosition)
                     }
                 }
             }
@@ -159,10 +159,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             if (r.isReal) object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                 override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                    c.m.visOnani.value!![h.layoutPosition].apply {
+                    c.m.visOnani[h.layoutPosition].apply {
                         if (type != i.toByte()) {
                             type = i.toByte()
-                            update(this, h.layoutPosition)
+                            updateStatic(this, h.layoutPosition)
                         }
                     }
                     c.sp.edit().putInt(Settings.spPrefersOrgType, i).apply()
@@ -185,10 +185,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                c.m.visOnani.value!![h.layoutPosition].apply {
+                c.m.visOnani[h.layoutPosition].apply {
                     if (desc != h.b.desc.text.toString()) {
                         desc = h.b.desc.text.toString()
-                        update(this, h.layoutPosition)
+                        updateStatic(this, h.layoutPosition)
                     }
                 }
             }
@@ -208,10 +208,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
                     if (places == null || !placeTouched) return
                     val id = if (i == 0) -1L else places[i - 1].id
-                    c.m.visOnani.value!![h.layoutPosition].apply {
+                    c.m.visOnani[h.layoutPosition].apply {
                         if (plac != id) {
                             plac = id
-                            update(this, h.layoutPosition)
+                            updateStatic(this, h.layoutPosition)
                         }
                     }
                 }
@@ -230,10 +230,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                     turnOverflow(h.layoutPosition, h.b)
                 }
                 this[R.id.lcAccurate] = {
-                    c.m.visOnani.value!![h.layoutPosition].apply {
+                    c.m.visOnani[h.layoutPosition].apply {
                         if (accu != !it.isChecked) {
                             accu = !it.isChecked
-                            update(this, h.layoutPosition)
+                            updateStatic(this, h.layoutPosition)
                         }
                     }
                 }
@@ -245,7 +245,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 }
             }).apply {
                 menu.findItem(R.id.lcAccurate).isChecked =
-                    c.m.visOnani.value!![h.layoutPosition].accu
+                    c.m.visOnani[h.layoutPosition].accu
                 if (expansion[h.layoutPosition]) menu.findItem(R.id.lcExpand).title =
                     c.resources.getString(R.string.collapse)
             }.show()
@@ -260,7 +260,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         h.b.root.alpha = if (r.isReal) 1f else estimatedAlpha
     }
 
-    override fun getItemCount() = c.m.visOnani.value?.size ?: 0
+    override fun getItemCount() = c.m.visOnani.size
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onTimeSet(view: TimePickerDialog, hourOfDay: Int, minute: Int, second: Int) {
@@ -284,7 +284,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         b.place.vis(expand)
     }
 
-    fun update(updated: Report, nominalPos: Int) {
+    fun updateStatic(updated: Report, nominalPos: Int) {
         if (c.m.onani.value == null) return
         val pos = globalPos(c.m, nominalPos)
         if (c.m.onani.value!!.size <= pos || pos < 0) return
@@ -294,12 +294,15 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
     private fun arExpansion() = BooleanArray(itemCount) { autoExpand }
 
-    fun notifyAnyChange() {
+    fun notifyAnyChange(reset: Boolean) {
+        if (reset) {
+            expansion = arExpansion()
+            return; }
         val oldExp = expansion
         expansion = arExpansion()
-        for (i in oldExp.indices) {
-            if (expansion.size > i) expansion[i] = oldExp[i]
-        }
+        for (i in oldExp.indices)
+            if (expansion.size > i)
+                expansion[i] = oldExp[i]
     }
 
     /*private var refrainFromAd = 0
@@ -341,7 +344,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         fun globalPos(m: Model, pos: Int): Int {
             var index = -1
             for (o in m.onani.value!!.indices)
-                if (m.onani.value!![o].id == m.visOnani.value!![pos].id)
+                if (m.onani.value!![o].id == m.visOnani[pos].id)
                     index = o
             return index
         }

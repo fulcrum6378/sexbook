@@ -37,10 +37,6 @@ object Fun {
         val parent = parent as ConstraintLayout
         val ex = View(c).apply {
             background = ContextCompat.getDrawable(c, src)
-            translationX = translationX
-            translationY = translationY
-            scaleX = scaleX
-            scaleY = scaleY
             this.alpha = alpha
         }
         parent.addView(
@@ -50,12 +46,12 @@ object Fun {
             })
 
         val explode = AnimatorSet().setDuration(dur)
-        val hide = ObjectAnimator.ofFloat(ex, "alpha", 0f)
+        val hide = ObjectAnimator.ofFloat(ex, View.ALPHA, 0f)
         hide.startDelay = explode.duration / 4
         explode.apply {
             playTogether(
-                ObjectAnimator.ofFloat(ex, "scaleX", ex.scaleX * max),
-                ObjectAnimator.ofFloat(ex, "scaleY", ex.scaleY * max),
+                ObjectAnimator.ofFloat(ex, View.SCALE_X, ex.scaleX * max),
+                ObjectAnimator.ofFloat(ex, View.SCALE_Y, ex.scaleY * max),
                 hide
             )
             addListener(object : AnimatorListenerAdapter() {
@@ -93,6 +89,8 @@ object Fun {
 
     fun Long.calendar(c: BaseActivity): Calendar =
         c.calType().newInstance().apply { timeInMillis = this@calendar }
+
+    fun Calendar.createFilterYm() = Pair(this[Calendar.YEAR], this[Calendar.MONTH])
 
     fun Long.defCalendar(c: BaseActivity): Calendar = c.calType().newInstance().apply {
         timeInMillis = this@defCalendar

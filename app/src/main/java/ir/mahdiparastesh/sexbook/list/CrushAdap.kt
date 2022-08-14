@@ -30,7 +30,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
         h.b.name.text = c.m.liefde.value!![i].visName()
 
         // Sum
-        h.b.sum.text = c.m.summary.value?.scores?.get(c.m.liefde.value!![i].key)
+        h.b.sum.text = c.m.summary?.scores?.get(c.m.liefde.value!![i].key)
             ?.sumOf { it.value.toDouble() }?.toFloat()?.tripleRound()?.let { "{$it}" } ?: ""
 
         // Click
@@ -59,7 +59,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                 }
             }).apply {
                 menu.findItem(R.id.lcInstagram).isEnabled = ins != null && ins != ""
-                val sum = c.m.summary.value?.scores?.get(c.m.liefde.value!![i].key)
+                val sum = c.m.summary?.scores?.get(c.m.liefde.value!![i].key)
                     ?.sumOf { it.value.toDouble() }
                 menu.findItem(R.id.lcStatistics).isEnabled = sum != null && sum > 0.0
             }.show()

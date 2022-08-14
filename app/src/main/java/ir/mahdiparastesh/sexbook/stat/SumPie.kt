@@ -22,7 +22,7 @@ class SumPie : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val data = arrayListOf<SliceValue>()
-        c.m.summary.value?.scores?.entries?.sortedBy {
+        c.m.summary?.scores?.entries?.sortedBy {
             it.value.sumOf { s -> s.value.toDouble() }.toFloat()
         }?.forEach {
             data.add(SliceValue(
