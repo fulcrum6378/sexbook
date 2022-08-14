@@ -19,18 +19,19 @@ class Model : ViewModel() {
     var loaded = false
     var crush: String? = null
     val visOnani = arrayListOf<Report>()
+    var listFilter = -1
     var summary: Summary? = null
     var recency: Recency? = null
-    var listFilter = -1
     var showingSummary = false
     var showingRecency = false
 
     fun reset() {
         onani.value = null
-        visOnani.clear()
         liefde.value = null
         places.value = null
         guesses.value = null
+        visOnani.clear()
+        listFilter = -1
     }
 
 

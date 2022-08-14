@@ -112,9 +112,9 @@
             style="@style/identifyET"
             android:autofillHints="addressLocality"
             android:hint="@string/location"
-            android:inputType="text"
-            android:maxLength="100"
-            android:maxLines="4" />
+            android:inputType="textMultiLine"
+            android:maxLength="200"
+            android:maxLines="5" />
 
         <View style="@style/identifySep" />
 
@@ -122,11 +122,13 @@
             android:id="@+id/instagram"
             style="@style/identifyET"
             android:autofillHints="username"
-            android:fontFamily="serif-monospace"
             android:hint="@string/instagram"
-            android:inputType="textUri"
-            android:maxLength="100"
-            android:maxLines="1" /><!--TODO make underline characters distinguishable.-->
+            android:inputType="textUri|textMultiLine"
+            android:maxLength="30"
+            android:maxLines="2"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:fontFamily="serif-monospace" />
 
         <View style="@style/identifySep" />
 

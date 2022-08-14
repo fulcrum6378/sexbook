@@ -32,6 +32,7 @@
         <item name="colorPrimary">@color/dialogText</item>
         <item name="buttonBarButtonStyle">@style/Theme.Sexbook.Dialogue.Button</item>
     </style>
+    <!-- MaterialAlertDialogBuilder better not to be used in this app!! -->
 
     <style name="Theme.Sexbook.Dialogue.Layout" parent="Theme.Sexbook">
         <item name="android:textColor">@color/dialogText</item>
