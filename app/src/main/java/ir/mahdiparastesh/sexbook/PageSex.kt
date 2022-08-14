@@ -157,7 +157,8 @@ class PageSex : Fragment() {
 
     fun receivedData() {
         c.instillGuesses()
-        resetAllReports()
+        resetAllReports(c.intentToGlobalIndexOfItem)
+        c.intentToGlobalIndexOfItem = null
         c.load()
     }
 

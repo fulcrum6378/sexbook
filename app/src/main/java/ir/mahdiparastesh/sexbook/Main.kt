@@ -140,7 +140,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (sp.contains("first_shift_for_indians"))
             sp.edit().remove("first_shift_for_indians").apply()
 
-        intent.check()
+        intent.check(true)
         Work(c, Work.C_VIEW_ALL).start()
         Work(c, Work.P_VIEW_ALL).start()
         Work(c, Work.G_VIEW_ALL).start()
@@ -215,7 +215,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
 
-    private fun Intent.check() {
+    var intentToGlobalIndexOfItem: Int? = null
+    private fun Intent.check(isOnCreate: Boolean = false) {
         when (action) {
             Intent.ACTION_VIEW -> data?.also { Exporter.import(this@Main, it) }
             Action.ADD.s -> pageSex?.messages?.add(Work.SPECIAL_ADD)
@@ -225,12 +226,15 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 recreate()
             }
             Action.VIEW.s -> (try {
-                intent.dataString?.toLong()
+                intent.data?.toString()?.toLong()
             } catch (e: NumberFormatException) {
                 null
             })?.also { id ->
                 val gIndex = m.onani.value?.indexOfFirst { it.id == id }
-                if (gIndex != -1) pageSex?.resetAllReports(gIndex)
+                if (gIndex != -1) {
+                    if (!isOnCreate) pageSex?.resetAllReports(gIndex)
+                    else intentToGlobalIndexOfItem = gIndex
+                }
             }
         }
     }
