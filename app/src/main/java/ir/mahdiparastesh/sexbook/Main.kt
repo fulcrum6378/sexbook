@@ -240,7 +240,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
     }
 
-    fun load(sd: Long = 1500, dur: Long = 1000) {
+    fun load(sd: Long = 1500, dur: Long = 500) {
         if (m.loaded) return
         val value = -dm.widthPixels.toFloat() * 1.2f
         ObjectAnimator.ofFloat(b.load, View.TRANSLATION_X, value).apply {
