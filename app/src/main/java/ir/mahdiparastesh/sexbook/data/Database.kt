@@ -60,6 +60,8 @@ abstract class Database : RoomDatabase() {
                 override fun migrate(db: SupportSQLiteDatabase) {
                     db.execSQL("ALTER TABLE Guess ADD COLUMN able INTEGER NOT NULL DEFAULT 1")
                 }
+                // ir.mahdiparastesh.sexbook.data.Database$Companion$build$3
+                // Threw error in Android 10, 12 and 13!!
             }) // Do not remove migrations so hurriedly! Wait at least for a few months...
             .build()
     }

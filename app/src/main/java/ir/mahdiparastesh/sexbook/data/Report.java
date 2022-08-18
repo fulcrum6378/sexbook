@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
 public class Report {
     @PrimaryKey(autoGenerate = true)
     public long id;
+    // made primary key not timestamp in order to easily adapt to the end of the epoch!
     public long time;
     public String name;
     public byte type;
