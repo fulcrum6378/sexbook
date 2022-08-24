@@ -61,12 +61,7 @@ class Exporter(val c: BaseActivity) {
             var data: String? = null
             try {
                 c.contentResolver.openFileDescriptor(uri, "r")?.use { des ->
-                    val sb = StringBuffer()
-                    FileInputStream(des.fileDescriptor).use { fis ->
-                        var i: Int
-                        while (fis.read().also { r -> i = r } != -1) sb.append(i.toChar())
-                    }
-                    data = sb.toString()
+                    data = FileInputStream(des.fileDescriptor).readBytes().toString(Charsets.UTF_8)
                 }
                 data!!
             } catch (e: Exception) {
