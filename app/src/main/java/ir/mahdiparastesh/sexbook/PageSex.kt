@@ -150,7 +150,7 @@ class PageSex : Fragment() {
         b.spnFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(av: AdapterView<*>?) {}
             override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                if (spnFilterTouched) applyFilter(i)
+                if (spnFilterTouched) applyFilter(i, false)
             }
         }
 
@@ -185,7 +185,7 @@ class PageSex : Fragment() {
         }
 
         // Application...
-        applyFilter(newFilter, toGlobalIndexOfItem == null)
+        applyFilter(newFilter, true, toGlobalIndexOfItem == null)
         updateFilterSpinner()
 
         // Scroll to the edited item position...
@@ -222,9 +222,9 @@ class PageSex : Fragment() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun applyFilter(i: Int, scrollDown: Boolean = true) {
+    fun applyFilter(i: Int, causedByResetAllReports: Boolean, scrollDown: Boolean = true) {
         //Log.println(Log.ASSERT, "TRIJNTJE", "applyFilter $i")
-        if (c.m.listFilter == i && c.m.listFilter > -1) return
+        if (c.m.listFilter == i && c.m.listFilter > -1 && !causedByResetAllReports) return
         c.m.visOnani.clear()
         //Log.println(Log.ASSERT, "TRIJNTJE", "visOnani cleared")
         if (c.m.onani.value == null) return // if onani is null, empty visOnani.
