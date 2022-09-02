@@ -380,3 +380,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         VIEW("${Main::class.java.`package`!!.name}.ACTION_VIEW"),
     }
 }
+
+/* TODO:
+* Extension:
+* Putting the events { crush birthdays, etc } customisably into the calendar (through system accounts).
+* Multiple accounts for Sexbook, registered as Android accounts
+*/
