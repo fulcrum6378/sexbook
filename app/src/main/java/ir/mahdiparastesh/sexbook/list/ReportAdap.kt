@@ -225,6 +225,8 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
         // Long Click
         val longClick = if (r.isReal) View.OnLongClickListener { v ->
+            if (c.m.onani.value == null || c.m.visOnani.size <= h.layoutPosition)
+                return@OnLongClickListener true
             MaterialMenu(c, v, R.menu.report, Act().apply {
                 this[R.id.lcExpand] = {
                     turnOverflow(h.layoutPosition, h.b)

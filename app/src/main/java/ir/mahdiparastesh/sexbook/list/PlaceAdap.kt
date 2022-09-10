@@ -52,6 +52,8 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
 
         // Click
         val longClick = View.OnLongClickListener { v ->
+            if (c.m.places.value == null || c.m.places.value!!.size <= h.layoutPosition)
+                return@OnLongClickListener true
             MaterialMenu(c, v, R.menu.place, Act().apply {
                 this[R.id.plDefPlace] = {
                     c.sp.edit().apply {
