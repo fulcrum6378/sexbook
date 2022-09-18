@@ -6,7 +6,6 @@ import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import ir.mahdiparastesh.sexbook.Main
 
-@RequiresApi(Build.VERSION_CODES.N)
 class SexTileService : TileService() { // qsTile
     override fun onClick() {
         startActivity(

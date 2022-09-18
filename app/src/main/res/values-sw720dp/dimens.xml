@@ -8,7 +8,6 @@
     <dimen name="menuFont">16sp</dimen>
     <dimen name="adButtonFont">17sp</dimen>
     <dimen name="spnFont">18sp</dimen>
-    <dimen name="markSize">14dp</dimen>
     <dimen name="itemMarH">13dp</dimen>
     <dimen name="itemMarV">10dp</dimen>
     <dimen name="itemPadH">23dp</dimen>
@@ -23,7 +22,6 @@
     <dimen name="dateFont">24dp</dimen>
     <dimen name="typeSize">33dp</dimen>
     <dimen name="typeMarEnd">25dp</dimen>
-    <dimen name="placeMarkMarEnd">24dp</dimen>
     <dimen name="spnFilterPadV">19dp</dimen>
     <dimen name="crushNameFont">19.5sp</dimen>
 

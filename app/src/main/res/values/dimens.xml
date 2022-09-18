@@ -8,8 +8,6 @@
     <dimen name="menuFont">14sp</dimen>
     <dimen name="adButtonFont">15sp</dimen>
     <dimen name="spnFont">16sp</dimen>
-    <dimen name="markSize">12dp</dimen>
-    <dimen name="placeMarkMarEnd">20dp</dimen>
     <dimen name="itemMarH">10dp</dimen>
     <dimen name="itemMarV">7dp</dimen>
     <dimen name="itemPadH">20dp</dimen>
@@ -61,13 +59,9 @@
     <dimen name="mdtp_time_label_shift">-12dp</dimen>
     <dimen name="mdtp_extra_time_label_margin">-30dp</dimen>
     <dimen name="mdtp_ampm_label_size">16dp</dimen>
-    <dimen name="mdtp_done_label_size">14sp</dimen>
     <dimen name="mdtp_ampm_left_padding">6dip</dimen>
     <dimen name="mdtp_separator_padding">4dip</dimen>
     <dimen name="mdtp_header_height">96dip</dimen>
-    <dimen name="mdtp_footer_height">48dip</dimen>
-    <dimen name="mdtp_minimum_margin_sides">48dip</dimen>
-    <dimen name="mdtp_minimum_margin_top_bottom">24dip</dimen>
     <dimen name="mdtp_picker_dimen">270dip</dimen>
     <dimen name="mdtp_time_picker_height">300dip</dimen>
     <dimen name="mdtp_left_side_width">270dip</dimen>
@@ -84,9 +78,6 @@
     <dimen name="mdtp_date_picker_view_animator_height_v2">320dp</dimen>
     <dimen name="mdtp_date_picker_view_animator_padding">8dp</dimen>
     <dimen name="mdtp_date_picker_view_animator_padding_v2">16dp</dimen>
-    <dimen name="mdtp_date_picker_view_animator_padding_bottom_v2">6dp</dimen>
-    <dimen name="mdtp_date_picker_view_animator_month_header_margin_v2">8dp</dimen>
-    <dimen name="mdtp_done_button_height">42dp</dimen>
 
     <dimen name="mdtp_month_list_item_header_height">56dp</dimen>
     <dimen name="mdtp_month_list_item_header_height_v2">64dp</dimen>
@@ -95,7 +86,6 @@
     <dimen name="mdtp_day_number_select_circle_radius_v2">20dp</dimen>
     <dimen name="mdtp_day_highlight_circle_radius">2dp</dimen>
     <dimen name="mdtp_day_highlight_circle_margin">5dp</dimen>
-    <dimen name="mdtp_month_select_circle_radius">45dp</dimen>
     <dimen name="mdtp_selected_date_year_size">25dp</dimen>
     <dimen name="mdtp_selected_date_day_size">70dp</dimen>
     <dimen name="mdtp_selected_date_month_size">25dp</dimen>

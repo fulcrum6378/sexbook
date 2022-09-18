@@ -43,6 +43,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private val exporter = Exporter(this)
     private var pageSex: PageSex? = null
     private var pageLove: PageLove? = null
+    private var exiting = false
     /*private lateinit var adBanner: AdView
     private var adBannerLoaded = false*/
 
@@ -195,7 +196,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         return true
     }
 
-    private var exiting = false
+    @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
     override fun onBackPressed() { // Don't use super's already overridden function
         if (b.root.isDrawerOpen(GravityCompat.START)) {
             b.root.closeDrawer(GravityCompat.START); return; }

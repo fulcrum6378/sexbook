@@ -46,6 +46,7 @@
             android:includeFontPadding="false"
             android:textColor="@color/mdtp_date_picker_selector"
             android:textSize="@dimen/mdtp_datepicker_selection_text_size"
-            tools:text="Fri, May 15" />
+            tools:text="Fri, May 15"
+            tools:ignore="RtlHardcoded" />
     </ir.mahdiparastesh.sexbook.mdtp.AccessibleLinearLayout>
 </LinearLayout>

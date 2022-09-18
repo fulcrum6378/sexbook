@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/mdtp_red_focused" android:state_focused="true" android:state_pressed="false" />
-
-    <item android:drawable="@color/mdtp_red" android:state_pressed="true" />
-
-    <item android:drawable="@color/mdtp_light_gray" />
-</selector>

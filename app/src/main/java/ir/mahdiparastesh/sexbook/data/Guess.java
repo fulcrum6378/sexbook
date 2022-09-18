@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.data;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +20,7 @@ public class Guess {
     public long plac;
     public boolean able;
 
+    @Ignore
     public Guess(@Nullable String crsh, long sinc, long till, float freq, byte type, String desc,
                  long plac, boolean able) {
         this.crsh = crsh;

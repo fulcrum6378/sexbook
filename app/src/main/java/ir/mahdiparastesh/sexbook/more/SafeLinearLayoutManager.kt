@@ -23,7 +23,7 @@ open class SafeLinearLayoutManager : LinearLayoutManager {
     override fun onLayoutChildren(rv: RecyclerView.Recycler?, state: RecyclerView.State?) {
         try {
             super.onLayoutChildren(rv, state)
-        } catch (e: IndexOutOfBoundsException) {
+        } catch (_: IndexOutOfBoundsException) {
         }
     }
 

@@ -47,7 +47,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                                 Uri.parse(Fun.INSTA + c.m.liefde.value!![h.layoutPosition].insta)
                             ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         )
-                    } catch (e: ActivityNotFoundException) {
+                    } catch (_: ActivityNotFoundException) {
                     }
                 }
                 this[R.id.lcIdentify] = {

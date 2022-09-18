@@ -198,7 +198,7 @@ class PageSex : Fragment() {
     private fun updateFilterSpinner() {
         b.spnFilter.adapter = ArrayAdapter(
             c, R.layout.spinner,
-            filters.mapIndexed { f, _ -> "${f + 1}. ${filters[f].title(c)}" }
+            List(filters.size) { f -> "${f + 1}. ${filters[f].title(c)}" }
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         spnFilterTouched = false
         b.spnFilter.setSelection(c.m.listFilter, true)

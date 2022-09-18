@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.stat
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import ir.mahdiparastesh.sexbook.Fun.tripleRound
@@ -197,24 +198,23 @@ class Summary(list: List<Report>, val nExcluded: Int) {
 
     class Erection(val time: Long, val value: Float) : Serializable
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress("UNCHECKED_CAST", "DEPRECATION")
     class Result(var calculations: HashMap<Float, ArrayList<String>>) : Parcelable {
-        private constructor(parcel: Parcel) :
-                this(parcel.readSerializable() as HashMap<Float, ArrayList<String>>)
+        constructor(parcel: Parcel) : this(
+            (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                parcel.readSerializable<HashMap<*, *>>(null, HashMap::class.java)
+            else parcel.readSerializable()) as HashMap<Float, ArrayList<String>>
+        )
 
-        override fun writeToParcel(out: Parcel?, flags: Int) {
-            out?.writeSerializable(calculations)
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeSerializable(calculations)
         }
 
-        override fun describeContents() = 0
+        override fun describeContents(): Int = 0
 
-        companion object {
-            @Suppress("unused")
-            @JvmField
-            val CREATOR = object : Parcelable.Creator<Result> {
-                override fun createFromParcel(parcel: Parcel) = Result(parcel)
-                override fun newArray(size: Int) = arrayOfNulls<Result>(size)
-            }
+        companion object CREATOR : Parcelable.Creator<Result> {
+            override fun createFromParcel(parcel: Parcel): Result = Result(parcel)
+            override fun newArray(size: Int): Array<Result?> = arrayOfNulls(size)
         }
     }
 }

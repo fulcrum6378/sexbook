@@ -13,7 +13,7 @@
     <string name="discard">Discard</string>
     <string name="excStat">Plus %s excluded from statisticisation.</string>
     <string name="unknown">Plus %s from unknown people.</string>
-    <string name="instagram" translatable="false">Instagram</string>
+    <string name="instagram" tools:ignore="MissingTranslation">Instagram</string>
     <string-array name="types">
         <item>Wet Dream</item>
         <item>Masturbation</item>
@@ -58,7 +58,11 @@
 
     <!-- Page Love -->
     <string name="crushes">List of Crushes</string>
-    <string name="emptyLove">After adding some sex records, go to Navigation Menu -> Summary -> Select a crush -> Hit the top right button with a \"Person\" (Identification) icon.</string>
+    <string name="emptyLove">
+        After adding some sex records,
+        go to Navigation Menu -> Summary -> Select a crush ->
+        Hit the top right button with a \"Person\" (Identification) icon.
+    </string>
 
     <!-- #Statistics -->
     <string name="summary">Summary</string>
@@ -80,12 +84,17 @@
     <string name="location">Location</string>
     <string name="notifyBirth">Notify me in their birthday</string>
     <string name="crushClear">Clear Information: %s</string>
-    <string name="crushClearSure">Are you sure you want to clear this person\'s information? (THIS DOES NOT INCLUDE THE SEX RECORDS!)</string>
+    <string name="crushClearSure">
+        Are you sure you want to clear this person\'s information? (THIS DOES NOT INCLUDE THE SEX RECORDS!)
+    </string>
 
     <!-- Places -->
     <string name="places">Places</string>
     <string name="plItemHint">Place name&#8230;</string>
-    <string name="plDeletePlaceSure">Are you sure you want to delete this place? If yes, please specify what action should be taken about the records which were related to this place:</string>
+    <string name="plDeletePlaceSure">
+        Are you sure you want to delete this place?
+        If yes, please specify what action should be taken about the records which were related to this place:
+    </string>
     <string name="plDefPlace">Default Place?</string>
 
     <!-- Estimation -->
@@ -125,8 +134,8 @@
     <string name="mdtp_previous_month_arrow_description">Previous Month</string>
     <string name="mdtp_time_placeholder" translatable="false">00</string>
     <string name="mdtp_time_separator" translatable="false">:</string>
-    <string name="mdtp_am" translatable="false">AM</string>
-    <string name="mdtp_pm" translatable="false">PM</string>
+    <string name="mdtp_am" tools:ignore="MissingTranslation">AM</string>
+    <string name="mdtp_pm" tools:ignore="MissingTranslation">PM</string>
 
     <!-- Calendars -->
     <string-array name="persianMonths" translatable="false">
@@ -186,6 +195,10 @@
         <item>Pha</item>
     </string-array>
 
-    <string name="permReadDb" translatable="false">Allows the app to view data from the Sexbook database.</string>
-    <string name="permWriteDb" translatable="false">Allows the app to add, change or remove data from the Sexbook database.</string>
+    <string name="permReadDb" translatable="false">
+        Allows the app to view data from the Sexbook database.
+    </string>
+    <string name="permWriteDb" translatable="false">
+        Allows the app to add, change or remove data from the Sexbook database.
+    </string>
 </resources>

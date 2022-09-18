@@ -16,6 +16,7 @@ public class Place {
     @Ignore
     public transient long sum = -1L;
 
+    @Ignore
     public Place(String name, double latitude, double longitude) {
         this.name = name;
         this.latitude = latitude;

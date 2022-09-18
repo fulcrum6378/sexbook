@@ -55,7 +55,7 @@ object Fun {
                 hide
             )
             addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     parent.removeView(ex)
                 }
             })
