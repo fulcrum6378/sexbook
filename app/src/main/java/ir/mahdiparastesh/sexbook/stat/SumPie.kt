@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import ir.mahdiparastesh.sexbook.Fun.tripleRound
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SumPieBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
@@ -25,13 +26,12 @@ class SumPie : Fragment() {
         c.m.summary?.scores?.entries?.sortedBy {
             it.value.sumOf { s -> s.value.toDouble() }.toFloat()
         }?.forEach {
-            data.add(SliceValue(
-                it.value.sumOf { s -> s.value.toDouble() }.toFloat(),
-                c.color(R.color.CPD)
-            ).apply { setLabel(it.key) })
+            val score = it.value.sumOf { s -> s.value.toDouble() }.toFloat()
+            data.add(SliceValue(score, c.color(R.color.CPD))
+                .apply { setLabel("${it.key} {${score.tripleRound()}}") })
         }
         b.root.pieChartData = PieChartData(data).apply {
-            setHasLabelsOnlyForSelected(true) //setHasLabels(true)
+            setHasLabelsOnlyForSelected(true) // setHasLabels(true)
         }
     }
 }
