@@ -15,7 +15,6 @@ import ir.mahdiparastesh.sexbook.list.GuessAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Delay
 
-@SuppressLint("NotifyDataSetChanged")
 class Estimation : BaseActivity() {
     private lateinit var b: EstimationBinding
     private var changed = false
@@ -25,6 +24,7 @@ class Estimation : BaseActivity() {
         var handler: Handler? = null
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = EstimationBinding.inflate(layoutInflater)
@@ -94,6 +94,7 @@ class Estimation : BaseActivity() {
         super.onDestroy()
     }
 
+    @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         if (changed) {
             finish()

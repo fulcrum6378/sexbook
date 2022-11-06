@@ -384,6 +384,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
 * Extension:
+* Design some widgets
 * Putting the events { crush birthdays, etc } customisably into the calendar (through system accounts).
 * Multiple accounts for Sexbook, registered as Android accounts
 */

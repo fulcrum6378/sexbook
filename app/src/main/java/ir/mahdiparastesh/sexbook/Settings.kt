@@ -172,6 +172,7 @@ class Settings : BaseActivity() {
         }
     }
 
+    @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         if (changed) {
             finish()

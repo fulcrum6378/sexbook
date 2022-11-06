@@ -15,7 +15,6 @@ import ir.mahdiparastesh.sexbook.list.PlaceAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Delay
 
-@SuppressLint("NotifyDataSetChanged")
 class Places : BaseActivity() {
     private lateinit var b: PlacesBinding
     private var changed = false
@@ -25,6 +24,7 @@ class Places : BaseActivity() {
         var handler: Handler? = null
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = PlacesBinding.inflate(layoutInflater)
@@ -101,6 +101,7 @@ class Places : BaseActivity() {
         super.onDestroy()
     }
 
+    @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         if (changed) {
             finish()
