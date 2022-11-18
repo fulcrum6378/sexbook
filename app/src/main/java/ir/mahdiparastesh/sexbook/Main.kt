@@ -293,7 +293,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             setPositiveButton(android.R.string.ok, null)
             setNeutralButton(R.string.chart, null)
             setCancelable(true)
-            setOnDismissListener { m.showingSummary = false }
+            setOnDismissListener {
+                m.showingSummary = false
+                m.lookingFor = null
+            }
             m.showingSummary = true
         }.show().apply {
             getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener { vp2.currentItem = 1 }
@@ -308,7 +311,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 setView(m.recency!!.draw(this@Main))
                 setPositiveButton(android.R.string.ok, null)
                 setCancelable(true)
-                setOnDismissListener { m.showingRecency = false }
+                setOnDismissListener {
+                    m.showingRecency = false
+                    m.lookingFor = null
+                }
                 m.showingRecency = true
             }.show()
         }

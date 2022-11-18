@@ -24,6 +24,7 @@ class Model : ViewModel() {
     var recency: Recency? = null
     var showingSummary = false
     var showingRecency = false
+    var lookingFor: String? = null
 
     fun reset() {
         onani.value = null

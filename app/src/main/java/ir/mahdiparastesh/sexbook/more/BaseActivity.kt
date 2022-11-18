@@ -12,6 +12,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -87,6 +88,7 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
                 setDisplayHomeAsUpEnabled(true)
                 setDisplayShowHomeEnabled(true)
             }
+            @Suppress("DEPRECATION")
             tb.setNavigationOnClickListener { onBackPressed() }
         }
         tb.navigationIcon?.colorFilter = pdcf()
@@ -94,6 +96,7 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
 
     fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
 
+    @ColorInt
     fun color(@ColorRes res: Int) = ContextCompat.getColor(c, res)
 
     fun pdcf(@ColorRes res: Int = R.color.CPDD) =

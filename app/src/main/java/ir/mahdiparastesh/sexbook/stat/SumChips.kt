@@ -36,19 +36,16 @@ class SumChips : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val ss = s.toString()
-                for (i in 0 until b.ll.childCount) {
-                    if (b.ll[i] !is ChipGroup) continue
+                for (i in 0 until b.ll.childCount) if (b.ll[i] is ChipGroup) {
                     val cg = b.ll[i] as ChipGroup
-                    for (y in 1 until cg.childCount) (cg[y] as Chip).apply {
-                        val bb = ss != "" && text.toString().contains(ss, true)
-                        chipBackgroundColor = AppCompatResources.getColorStateList(
-                            c, if (bb) R.color.chip_search else R.color.chip_normal
-                        )
-                        setTextColor(c.color(if (bb) android.R.color.white else R.color.chipText))
-                    }
+                    for (y in 1 until cg.childCount) (cg[y] as Chip).updateSearch(ss)
                 }
+                c.m.lookingFor = ss
             }
         })
+        val lookingFor = c.m.lookingFor
+        lookingFor?.also { b.find.setText(it) }
+
         if (c.m.summary == null) return
         for (r in c.m.summary!!.results().calculations) b.ll.addView(
             ChipGroup(b.ll.context).apply {
@@ -71,13 +68,11 @@ class SumChips : Fragment() {
                             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                         )
                         text = crush
-                        chipBackgroundColor =
-                            AppCompatResources.getColorStateList(c, R.color.chip_normal)
+                        updateSearch(lookingFor)
                         setOnClickListener {
                             c.m.crush = crush
                             startActivity(Intent(c, Singular::class.java))
                         }
-                        setTextColor(c.color(R.color.chipText))
                         typeface = ResourcesCompat.getFont(c, R.font.normal)!!
                     })
             })
@@ -101,5 +96,13 @@ class SumChips : Fragment() {
         text = s
         alpha = .8f
         typeface = ResourcesCompat.getFont(c, R.font.normal)!!
+    }
+
+    private fun Chip.updateSearch(ss: String?) {
+        val bb = ss != null && ss != "" && text.toString().contains(ss, true)
+        chipBackgroundColor = AppCompatResources.getColorStateList(
+            c, if (bb) R.color.chip_search else R.color.chip_normal
+        )
+        setTextColor(c.color(if (bb) android.R.color.white else R.color.chipText))
     }
 }

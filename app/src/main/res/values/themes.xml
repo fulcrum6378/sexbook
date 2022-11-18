@@ -13,7 +13,7 @@
         <item name="android:textColorHint">@color/hint</item>
         <item name="android:textColorHighlight">@color/textHighlight</item>
         <item name="titleTextColor">@color/CPDD</item>
-        <item name="checkboxStyle">@style/Theme.Sexbook.Checkbox</item>
+        <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox</item>
         <!--<item name="colorSurface">popup menu color</item>-->
         <item name="colorControlNormal">@color/CPDD</item>
     </style>
@@ -45,9 +45,14 @@
         <item name="android:textSize">@dimen/adButtonFont</item>
     </style>
 
-    <style name="Theme.Sexbook.Checkbox" parent="Widget.Material3.CompoundButton.CheckBox">
-        <item name="android:textColor">?android:attr/textColor</item>
-        <item name="buttonTint">?android:attr/textColor</item>
+    <style name="Theme.Sexbook.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="android:textColor">@color/CPDD</item><!--avoid ?android:attr/textColor-->
+        <item name="buttonTint">@color/CPDD</item><!--avoid ?android:attr/textColor-->
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Sexbook.CheckBox</item>
+    </style>
+
+    <style name="ThemeOverlay.Sexbook.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="colorOnPrimary">@color/CP</item><!--avoid transparent-->
     </style>
 
     <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">

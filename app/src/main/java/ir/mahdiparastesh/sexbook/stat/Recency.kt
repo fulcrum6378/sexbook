@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
 import android.text.Editable
 import android.text.TextWatcher
@@ -36,19 +37,13 @@ class Recency(sum: Summary) {
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val ss = s.toString()
-                for (i in 1 until ll.childCount) (ll[i] as ConstraintLayout).apply {
-                    val tv = this[0] as TextView
-                    val look = tv.text.toString()
-                        .substring(tv.text.toString().indexOf(".") + 2)
-                    val col = c.color(
-                        if (ss != "" && look.contains(ss, true))
-                            R.color.recencySearch else R.color.recency
-                    )
-                    tv.setTextColor(col)
-                    (this[1] as TextView).setTextColor(col)
-                }
+                for (i in 1 until ll.childCount) (ll[i] as ConstraintLayout)
+                    .apply { updateSearch(c, (this[0] as TextView).text.toString(), ss) }
+                c.m.lookingFor = ss
             }
         })
+        val lookingFor = c.m.lookingFor
+        lookingFor?.also { find.setText(it) }
 
         for (r in 0 until res.size) ll.addView(
             RecencyBinding.inflate(c.layoutInflater).apply {
@@ -62,9 +57,17 @@ class Recency(sum: Summary) {
                     c.m.crush = res[r].name
                     c.startActivity(Intent(c, Singular::class.java))
                 }
+                lookingFor?.also { root.updateSearch(c, name.text.toString(), it) }
             }.root
         )
     }.root
+
+    private fun ConstraintLayout.updateSearch(c: Main, tvData: String, ss: String) {
+        foreground = if (ss != "" && tvData
+                .substring(tvData.indexOf(".") + 2)
+                .contains(ss, true)
+        ) ColorDrawable(c.color(R.color.recencyHighlight)) else null
+    }
 
     data class Item(val name: String, val time: Long)
 }

@@ -17,6 +17,7 @@ import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 
+@SuppressLint("NotifyDataSetChanged")
 class PageLove : Fragment() {
     val c: Main by lazy { activity as Main } // don't define it as a getter.
     private lateinit var b: PageLoveBinding
@@ -65,7 +66,6 @@ class PageLove : Fragment() {
         else receivedData()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
         c.summarize()
@@ -80,7 +80,8 @@ class PageLove : Fragment() {
 
     private fun arrangeList() {
         if (b.empty.vis(c.m.liefde.value.isNullOrEmpty())) return
-        b.rv.adapter = CrushAdap(c)
+        if (b.rv.adapter == null) b.rv.adapter = CrushAdap(c)
+        else b.rv.adapter?.notifyDataSetChanged()
     }
 
     /*private fun loadAd() {

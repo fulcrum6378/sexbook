@@ -30,7 +30,7 @@
     <color name="mrvClockHand">@color/CP</color>
     <color name="spnFilterDDBG">@color/CP2</color>
     <color name="recency">@android:color/black</color>
-    <color name="recencySearch">@color/CPD</color>
+    <color name="recencyHighlight">#33D6AD00</color>
     <color name="chipNormalNormal">#DDD</color>
     <color name="chipNormalFocus">@color/chipNormalHover</color>
     <color name="chipNormalHover">#AFAFAF</color>
