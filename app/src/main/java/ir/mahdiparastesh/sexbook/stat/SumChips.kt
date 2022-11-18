@@ -101,8 +101,8 @@ class SumChips : Fragment() {
     private fun Chip.updateSearch(ss: String?) {
         val bb = ss != null && ss != "" && text.toString().contains(ss, true)
         chipBackgroundColor = AppCompatResources.getColorStateList(
-            c, if (bb) R.color.chip_search else R.color.chip_normal
+            c, if (!bb) R.color.chip_normal else R.color.chip_search
         )
-        setTextColor(c.color(if (bb) android.R.color.white else R.color.chipText))
+        setTextColor(c.color(if (!bb) R.color.chipText else R.color.chipTextSearch))
     }
 }

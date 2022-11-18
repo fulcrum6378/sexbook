@@ -38,6 +38,7 @@
     <color name="chipSearchFocus">@color/CPD</color>
     <color name="chipSearchHover">@color/CPD</color>
     <color name="chipText">@color/CPDDD</color>
+    <color name="chipTextSearch">@color/chipText</color>
     <color name="searchHint">@color/CP3</color>
     <color name="empty">@color/shadow</color>
 
