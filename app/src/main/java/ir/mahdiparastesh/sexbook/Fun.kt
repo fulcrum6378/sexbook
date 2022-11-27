@@ -8,10 +8,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.icu.util.Calendar
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
+import android.os.*
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +24,7 @@ object Fun {
     const val INSTA = "https://www.instagram.com/"
     // private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
-    fun now() = Calendar.getInstance().timeInMillis
+    fun now() = System.currentTimeMillis()
 
     fun View.explode(
         c: BaseActivity, dur: Long = 522, @DrawableRes src: Int = R.drawable.button,
