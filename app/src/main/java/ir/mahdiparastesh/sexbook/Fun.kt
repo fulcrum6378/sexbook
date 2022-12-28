@@ -144,6 +144,7 @@ object Fun {
         for (s in 0 until sexTypesCount)
             if (sp.getBoolean(Settings.spStatInclude + s, true))
                 add(s.toByte())
+        if (isEmpty()) addAll((0 until sexTypesCount).map { it.toByte() })
     }
 
     fun Float.tripleRound(): Float {

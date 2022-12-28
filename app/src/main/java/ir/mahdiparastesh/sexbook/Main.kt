@@ -389,8 +389,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 }
 
 /* TODO:
-* Extension:
-* Design some widgets
-* Putting the events { crush birthdays, etc } customisably into the calendar (through system accounts).
-* Multiple accounts for Sexbook, registered as Android accounts
-*/
+  * Extension:
+  * Multi-optional sorting feature for Crushes
+  * "First met" for Crush
+  * Design some widgets
+  * Putting the events { crush birthdays, etc } customisably into the calendar (through system accounts).
+  * Multiple accounts for Sexbook, registered as Android accounts
+  *
+  * Notes:
+  * summarize() doesn't take so much time, generating the views for statistics takes that long.
+  */
