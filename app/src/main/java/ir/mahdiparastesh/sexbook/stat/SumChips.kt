@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import ir.mahdiparastesh.sexbook.R
@@ -40,23 +41,36 @@ class SumChips : Fragment() {
 
         if (c.m.summary == null) return
         b.list.adapter = StatSumAdap(c, c.m.summary!!.results().calculations.entries.toList())
-        /*FIXME c.m.summary?.nExcluded?.also {
-            if (it > 0f) b.ll.addView(
-                plus(b.ll.context, getString(R.string.excStat, it.toString()))
+
+        val pluses = LinearLayout(c).apply {
+            id = R.id.pluses
+            layoutParams = ConstraintLayout.LayoutParams(-1, -2)
+                .apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }
+            orientation = LinearLayout.VERTICAL
+            setPadding(c.dp(20), 0, c.dp(20), 0)
+        }
+        (b.list.layoutParams as ConstraintLayout.LayoutParams).apply {
+            bottomToBottom = ConstraintLayout.LayoutParams.UNSET
+            bottomToTop = R.id.pluses
+        }
+        c.m.summary?.nExcluded?.also {
+            if (it > 0f) pluses.addView(
+                plus(b.root.context, getString(R.string.excStat, it.toString()))
             )
         }
-        FIXME c.m.summary?.unknown?.also {
-            if (it > 0f) b.ll.addView(
-                plus(b.ll.context, getString(R.string.unknown, it.toString()))
+        c.m.summary?.unknown?.also {
+            if (it > 0f) pluses.addView(
+                plus(b.root.context, getString(R.string.unknown, it.toString()))
             )
-        }*/
+        }
+        b.root.addView(pluses)
     }
 
     fun plus(c: Context, s: String) = AppCompatTextView(c).apply {
         layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        setPadding(0, this@SumChips.c.dp(7), 0, 0)
+        setPadding(0, this@SumChips.c.dp(5), 0, this@SumChips.c.dp(2))
         text = s
         alpha = .8f
         typeface = ResourcesCompat.getFont(c, R.font.normal)!!

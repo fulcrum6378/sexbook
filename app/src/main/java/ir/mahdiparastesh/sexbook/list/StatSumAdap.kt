@@ -8,6 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SumChipGroupBinding
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
@@ -29,25 +30,30 @@ class StatSumAdap(
             (if (arr[i].key % 1 > 0) arr[i].key.toString()
             else arr[i].key.toInt().toString()).plus(": ")
 
-        while (h.b.root.childCount != 1) h.b.root.removeViewAt(h.b.root.childCount - 1)
-        for (crush in arr[i].value) h.b.root.addView(
-            Chip(ContextThemeWrapper(c.c, R.style.Theme_MaterialComponents)).apply {
-                layoutParams = ChipGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-                text = crush
-                val bb = c.m.lookingFor
-                    ?.let { it != "" && text.toString().contains(it, true) } ?: false
-                chipBackgroundColor = AppCompatResources.getColorStateList(
-                    c, if (!bb) R.color.chip_normal else R.color.chip_search
-                )
-                setTextColor(c.color(if (!bb) R.color.chipText else R.color.chipTextSearch))
-                setOnClickListener {
-                    c.m.crush = crush
-                    c.startActivity(Intent(c, Singular::class.java))
-                }
-                typeface = ResourcesCompat.getFont(c, R.font.normal)!!
-            })
+        for (crush in arr[i].value.indices) (if (h.b.root.childCount < crush + 2) Chip(
+            ContextThemeWrapper(c.c, R.style.Theme_MaterialComponents)
+        ).apply {
+            layoutParams = ChipGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            typeface = ResourcesCompat.getFont(c, R.font.normal)!!
+            h.b.root.addView(this)
+        } else h.b.root.getChildAt(crush + 1) as Chip).apply {
+            text = arr[i].value[crush]
+            val bb = c.m.lookingFor
+                ?.let { it != "" && text.toString().contains(it, true) } ?: false
+            chipBackgroundColor = AppCompatResources.getColorStateList(
+                c, if (!bb) R.color.chip_normal else R.color.chip_search
+            )
+            setTextColor(c.color(if (!bb) R.color.chipText else R.color.chipTextSearch))
+            setOnClickListener {
+                c.m.crush = arr[i].value[crush]
+                c.startActivity(Intent(c, Singular::class.java))
+            }
+            vis(true)
+        }
+        for (hide in arr[i].value.size + 1 until h.b.root.childCount)
+            h.b.root.getChildAt(hide).vis(false)
     }
 
     override fun getItemCount() = arr.size
