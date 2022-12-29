@@ -122,7 +122,7 @@ class Singular : BaseActivity() {
         }
 
         fun identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
-            val bi = IdentifyBinding.inflate(c.layoutInflater, null, false)
+            val bi = IdentifyBinding.inflate(c.layoutInflater)
             AppCompatResources.getColorStateList(c, R.color.chip_normal).also {
                 bi.masc.trackTintList = it
                 bi.notifyBirth.trackTintList = it

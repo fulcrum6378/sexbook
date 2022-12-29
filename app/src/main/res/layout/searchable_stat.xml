@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="15dp"
+    android:paddingBottom="5dp"
+    android:theme="@style/Theme.Sexbook.Dialogue.Layout">
+
+    <ir.mahdiparastesh.sexbook.more.SoftEditText
+        android:id="@+id/find"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:autofillHints="personName"
+        android:background="@null"
+        android:hint="@string/findCrush"
+        android:inputType="text"
+        android:paddingStart="5dp"
+        android:paddingTop="17dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="17dp"
+        android:textColorHint="@color/searchHint"
+        android:textIsSelectable="true"
+        android:textSize="14sp"
+        app:fontFamily="@font/normal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingStart="21dp"
+        android:paddingEnd="21dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/find" />
+</androidx.constraintlayout.widget.ConstraintLayout>

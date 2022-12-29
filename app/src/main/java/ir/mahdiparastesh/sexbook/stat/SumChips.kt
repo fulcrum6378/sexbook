@@ -18,15 +18,15 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.databinding.SumChipsBinding
+import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 
 class SumChips : Fragment() {
     val c: BaseActivity by lazy { activity as BaseActivity }
-    private lateinit var b: SumChipsBinding
+    private lateinit var b: SearchableStatBinding
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
-        SumChipsBinding.inflate(inf, parent, false).apply { b = this }.root
+        SearchableStatBinding.inflate(inf, parent, false).apply { b = this }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

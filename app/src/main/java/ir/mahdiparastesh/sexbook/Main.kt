@@ -304,20 +304,19 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun recency() {
-        if (summarize()) {
-            m.recency = Recency(m.summary!!)
-            AlertDialog.Builder(this).apply {
-                setTitle(resources.getString(R.string.recency))
-                setView(m.recency!!.draw(this@Main))
-                setPositiveButton(android.R.string.ok, null)
-                setCancelable(true)
-                setOnDismissListener {
-                    m.showingRecency = false
-                    m.lookingFor = null
-                }
-                m.showingRecency = true
-            }.show()
-        }
+        if (!summarize()) return
+        m.recency = Recency(m.summary!!)
+        AlertDialog.Builder(this).apply {
+            setTitle(resources.getString(R.string.recency))
+            setView(m.recency!!.draw(this@Main))
+            setPositiveButton(android.R.string.ok, null)
+            setCancelable(true)
+            setOnDismissListener {
+                m.showingRecency = false
+                m.lookingFor = null
+            }
+            m.showingRecency = true
+        }.show()
     }
 
     private fun notifyBirth(crush: Crush, dist: Long) {
@@ -389,6 +388,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 }
 
 /* TODO:
+  * Sexbook RecyclerView for Summary and Recency
   * Extension:
   * Multi-optional sorting feature for Crushes
   * "First met" for Crush
