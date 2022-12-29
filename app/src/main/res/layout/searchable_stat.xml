@@ -16,9 +16,9 @@
         android:background="@null"
         android:hint="@string/findCrush"
         android:inputType="text"
-        android:paddingStart="5dp"
+        android:paddingStart="26dp"
         android:paddingTop="17dp"
-        android:paddingEnd="5dp"
+        android:paddingEnd="26dp"
         android:paddingBottom="17dp"
         android:textColorHint="@color/searchHint"
         android:textIsSelectable="true"
@@ -34,6 +34,7 @@
         android:paddingStart="21dp"
         android:paddingEnd="21dp"
         android:paddingBottom="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/find" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -59,7 +59,7 @@
         <item name="android:hint">@string/desc</item>
         <item name="android:inputType">textMultiLine</item>
         <item name="android:minLines">2</item>
-        <item name="android:maxLines">10</item>
+        <!--<item name="android:maxLines">10</item>-->
         <item name="android:paddingTop">@dimen/descPadV</item>
         <item name="android:paddingBottom">@dimen/descPadV</item>
         <item name="android:textIsSelectable">true</item>
