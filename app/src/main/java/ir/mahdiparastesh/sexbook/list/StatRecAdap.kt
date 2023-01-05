@@ -36,9 +36,7 @@ class StatRecAdap(private val c: Main, private val rec: Recency) :
             c.startActivity(Intent(c, Singular::class.java))
         }
         h.b.root.foreground = c.m.lookingFor?.let { lookingFor ->
-            if (lookingFor != "" && rec.arr[i].name
-                    .substring(rec.arr[i].name.indexOf(".") + 2)
-                    .contains(lookingFor, true)
+            if (lookingFor != "" && rec.arr[i].name.contains(lookingFor, true)
             ) ColorDrawable(c.color(R.color.recencyHighlight)) else null
         }
     }

@@ -388,7 +388,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 }
 
 /* TODO:
-  * Sexbook RecyclerView for Summary and Recency
   * Extension:
   * Multi-optional sorting feature for Crushes
   * "First met" for Crush
