@@ -21,7 +21,7 @@
     </string-array>
     <string-array name="calendarTypes">
         <item>Gregorianske</item>
-        <item>Persisk</item>
+        <item>Iransk</item>
         <item>Indisk</item>
     </string-array>
     <string name="shrAdd">Legg til ny post</string>

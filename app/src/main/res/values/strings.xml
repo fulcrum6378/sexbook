@@ -23,7 +23,7 @@
     </string-array>
     <string-array name="calendarTypes">
         <item>Gregorian</item>
-        <item>Persian</item>
+        <item>Iranian</item>
         <item>Indian</item>
     </string-array>
     <string name="shrAdd">Add New Record</string>

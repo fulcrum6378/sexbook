@@ -21,7 +21,7 @@
     </string-array>
     <string-array name="calendarTypes">
         <item>Gregorianischer</item>
-        <item>Persisch</item>
+        <item>Iranisch</item>
         <item>Indischer</item>
     </string-array>
     <string name="shrAdd">Neuen Datensatz hinzufügen</string>

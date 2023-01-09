@@ -22,7 +22,7 @@
     </string-array>
     <string-array name="calendarTypes">
         <item>میلادی</item>
-        <item>شمسی</item>
+        <item>ایرانی</item>
         <item>هندی</item>
     </string-array>
     <string name="shrAdd">ایجاد مورد جدید</string>

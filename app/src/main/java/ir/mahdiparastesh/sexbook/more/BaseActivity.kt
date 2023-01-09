@@ -104,7 +104,7 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
 
     fun calType() = arrayOf(
         GregorianCalendar::class.java,
-        PersianCalendar::class.java,
+        HumanistIranianCalendar::class.java,
         IndianCalendar::class.java
     )[sp.getInt(
         Settings.spCalType, when (Locale.getDefault().country) {
