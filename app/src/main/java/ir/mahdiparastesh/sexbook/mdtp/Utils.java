@@ -145,7 +145,7 @@ public class Utils {
             Context c, Class<? extends Calendar> calendarType, Locale locale) {
         DateFormatSymbols symbols = DateFormatSymbols.getInstance(locale);
         switch (calendarType.getSimpleName()) {
-            case "PersianCalendar":
+            case "HumanistIranianCalendar":
                 symbols.setMonths(c.getResources().getStringArray(R.array.persianMonths));
                 symbols.setShortMonths(c.getResources().getStringArray(R.array.shortPersianMonths));
                 break;
