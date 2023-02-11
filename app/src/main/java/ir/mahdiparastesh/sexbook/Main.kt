@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
@@ -7,6 +8,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.os.*
 import android.view.Menu
@@ -19,6 +21,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
@@ -130,6 +133,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 }
         }
 
+        // Permissions
+        if (Fun.reqPermissions.isNotEmpty())
+            ActivityCompat.requestPermissions(this, Fun.reqPermissions, 0)
+
         // Miscellaneous
         m.onani.observe(this) { instilledGuesses = false }
         if (m.showingSummary) summary()
@@ -195,6 +202,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
         return true
     }
+
+    /*override fun onRequestPermissionsResult(code: Int, arr: Array<out String>, res: IntArray) {
+        super.onRequestPermissionsResult(code, arr, res)
+        if (res.isNotEmpty() && res[0] == PackageManager.PERMISSION_GRANTED) DO SOMETHING
+    }*/
 
     @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
     override fun onBackPressed() { // Don't use super's already overridden function
@@ -328,14 +340,18 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     NotificationManager.IMPORTANCE_HIGH
                 )
             )
-        NotificationManagerCompat.from(this).notify(
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+            == PackageManager.PERMISSION_GRANTED
+        ) NotificationManagerCompat.from(this).notify(
             crush.key.length + crush.visName().length,
             NotificationCompat.Builder(this@Main, channelBirth).apply {
                 setSmallIcon(R.drawable.notification)
                 setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
                 setContentText(
                     getString(
-                        if (dist < 0L) R.string.bHappyBef else R.string.bHappyAft,
+                        if (dist < 0L) R.string.bHappyBef
+                        else R.string.bHappyAft,
                         abs(dist / 3600000L)
                     )
                 )

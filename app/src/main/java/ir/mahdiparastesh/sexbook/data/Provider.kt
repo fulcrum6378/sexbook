@@ -37,7 +37,9 @@ class Provider : ContentProvider() {
     override fun getType(uri: Uri): String? = table(uri)
 
     override fun insert(uri: Uri, values: ContentValues?): Uri {
-        db.openHelper.writableDatabase.insert(table(uri), SQLiteDatabase.CONFLICT_ABORT, values)
+        db.openHelper.writableDatabase.insert(
+            table(uri), SQLiteDatabase.CONFLICT_ABORT, values ?: ContentValues()
+        )
         return uri
     }
 
@@ -52,7 +54,7 @@ class Provider : ContentProvider() {
     ): Int = db.openHelper.writableDatabase.update(
         table(uri),
         SQLiteDatabase.CONFLICT_ABORT,
-        values,
+        values ?: ContentValues(),
         selection,
         selectionArgs
     )

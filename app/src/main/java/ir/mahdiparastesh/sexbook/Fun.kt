@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
@@ -21,6 +22,10 @@ object Fun {
     // Latin Font: Franklin Gothic
     // Persian Font: Vazir
 
+    val reqPermissions =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS)
+        else arrayOf()
     const val INSTA = "https://www.instagram.com/"
     // private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
