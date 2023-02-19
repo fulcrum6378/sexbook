@@ -1,9 +1,7 @@
 package ir.mahdiparastesh.sexbook.more
 
 import android.content.Intent
-import android.os.Build
 import android.service.quicksettings.TileService
-import androidx.annotation.RequiresApi
 import ir.mahdiparastesh.sexbook.Main
 
 class SexTileService : TileService() { // qsTile

@@ -18,7 +18,6 @@
     <color name="mrvClockPoint">@color/CPD</color>
     <color name="mrvClockHand">@color/CPDD</color>
     <color name="spnFilterDDBG">@color/CP</color>
-    <color name="recency">@color/CPD</color>
     <color name="recencyHighlight">#44FFFFFF</color>
     <color name="chipNormalNormal">@color/CP</color>
     <color name="chipNormalFocus">@color/CP3</color>

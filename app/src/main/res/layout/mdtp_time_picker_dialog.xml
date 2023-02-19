@@ -4,7 +4,6 @@
     android:id="@+id/mdtp_time_picker_dialog"
     android:layout_width="@dimen/mdtp_picker_dimen"
     android:layout_height="wrap_content"
-    android:background="@color/mdtp_background_color"
     android:focusable="true"
     android:gravity="center"
     android:orientation="vertical"
