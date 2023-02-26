@@ -36,11 +36,11 @@ class Singular : BaseActivity() {
         setContentView(b.root)
 
         if (m.onani.value == null || m.summary == null || m.crush == null) {
-            onBackPressed(); return; }
+            @Suppress("DEPRECATION") onBackPressed(); return; }
         val data = ArrayList<Pair<String, Float>>()
         val history = m.summary!!.scores[m.crush]
         if (history == null) {
-            onBackPressed(); return; }
+            @Suppress("DEPRECATION") onBackPressed(); return; }
         sinceTheBeginning(this, m.onani.value!!)
             .forEach { data.add(Pair(it, calcHistory(this, history, it))) }
 

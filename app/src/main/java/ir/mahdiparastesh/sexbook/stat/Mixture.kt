@@ -15,7 +15,7 @@ class Mixture : BaseActivity() {
         setContentView(b.root)
 
         if (m.onani.value == null) {
-            onBackPressed(); return; }
+            @Suppress("DEPRECATION") onBackPressed(); return; }
         val data = ArrayList<Pair<String, Float>>()
         val history = arrayListOf<Summary.Erection>()
         val allowedTypes = Fun.allowedSexTypes(sp)

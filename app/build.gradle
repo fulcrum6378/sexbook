@@ -11,8 +11,8 @@ android {
         applicationId 'ir.mahdiparastesh.sexbook'
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 20
-        versionName '14.9.8'
+        versionCode 21
+        versionName '15.0.0'
     }
 
     signingConfigs {
@@ -23,6 +23,15 @@ android {
             keyPassword "${System.getenv("JERK")}"
         }
     }
+
+    flavorDimensions('nudity')
+    productFlavors {
+        nude { dimension 'nudity' }
+        censored { dimension 'nudity' }
+    }
+    sourceSets.nude { res.srcDirs = ['src/main/res', 'src/main/res_nude'] }
+    sourceSets.censored { res.srcDirs = ['src/main/res', 'src/main/res_censored'] }
+
     buildTypes {
         demo {
             debuggable true

@@ -17,7 +17,7 @@ class Growth : BaseActivity() {
         if (night()) window.decorView.setBackgroundColor(color(R.color.CP))
 
         if (m.onani.value == null || m.summary == null) {
-            onBackPressed(); return; }
+            @Suppress("DEPRECATION") onBackPressed(); return; }
         val stb = Singular.sinceTheBeginning(this, m.onani.value!!)
         val stars = ArrayList<Star>()
         for (x in m.summary!!.scores) {
