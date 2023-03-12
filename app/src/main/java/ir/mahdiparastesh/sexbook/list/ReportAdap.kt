@@ -256,7 +256,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         h.b.root.setOnLongClickListener(longClick)
         h.b.clock.setOnLongClickListener(longClick)
         h.b.date.setOnLongClickListener(longClick)
-        h.b.name.setOnLongClickListener(longClick)
+        //h.b.name.setOnLongClickListener(longClick)
         h.b.root.isClickable = r.isReal
         h.b.root.isLongClickable = r.isReal
         h.b.root.alpha = if (r.isReal) 1f else estimatedAlpha
