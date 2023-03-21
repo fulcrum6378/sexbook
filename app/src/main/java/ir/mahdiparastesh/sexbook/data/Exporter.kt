@@ -95,7 +95,8 @@ class Exporter(val c: BaseActivity) {
                         is Boolean -> putBoolean(k, v)
                         is Double -> // all numbers become Double in SP.
                             when (k) {
-                                Settings.spDefPlace, Settings.spStatSince -> putLong(k, v.toLong())
+                                Settings.spDefPlace, Settings.spStatSince,
+                                Settings.spStatUntil -> putLong(k, v.toLong())
                                 Settings.spCalType, Settings.spPrefersOrgType,
                                 Settings.spNotifyBirthDaysBefore -> putInt(k, v.toInt())
                             }

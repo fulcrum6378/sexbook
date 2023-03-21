@@ -35,6 +35,7 @@
     <string name="birthDateNtf">اطلاع رسانی روز تولد</string>
     <string name="clear">پاکسازی</string>
     <string name="suspend">غیرفعال کردن</string>
+    <string name="clearDate">حذف تاریخ</string>
 
     <!-- Main -->
     <string name="momImport">وارد کردن از جیسون</string>
@@ -98,7 +99,10 @@
     <!-- Settings -->
     <string name="stTitle">تنظیمات سکسبوک</string>
     <string name="stCalendarType">نوع تقویم</string>
-    <string name="stStatSince">آمارگیری از ابتدای</string>
+    <string name="stStatSince">آمارگیری از تاریخ</string>
+    <string name="stStatUntil">آمارگیری تا تاریخ</string>
+    <string name="statSinceIllogical">تاریخ حداکثر باید بعد از تاریخ حداقل باشد!</string>
+    <string name="statUntilIllogical">تاریخ حداقل باید قبل از تاریخ حداکثر باشد!</string>
     <string name="stSexTypesTitle">فیلتر آمارها براساس نوع سکس</string>
     <string name="stSexTypeInclude">الحاق %s</string>
     <string name="stReset">بازنشانی تنظیمات</string>

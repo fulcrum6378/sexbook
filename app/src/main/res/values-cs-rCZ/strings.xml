@@ -34,6 +34,7 @@
     <string name="birthDateNtf">Oznámení o narozeninách</string>
     <string name="clear">Vyčistěte</string>
     <string name="suspend">Pozastavit</string>
+    <string name="clearDate">Vymažte datum</string>
 
     <!-- Main -->
     <string name="momImport">Import z Json</string>
@@ -98,6 +99,9 @@
     <string name="stTitle">Nastavení Sexbooku</string>
     <string name="stCalendarType">Typ kalendáře</string>
     <string name="stStatSince">Statistika od</string>
+    <string name="stStatUntil">Statistika do</string>
+    <string name="statSinceIllogical">Maximální datum musí být po minimálním datu!</string>
+    <string name="statUntilIllogical">Minimální datum musí být před maximálním datem!</string>
     <string name="stSexTypesTitle">Filtrovat statistiky podle typu pohlaví</string>
     <string name="stSexTypeInclude">Zahrnout %s</string>
     <string name="stReset">Resetovat nastavení</string>

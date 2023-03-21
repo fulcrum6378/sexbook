@@ -5,10 +5,7 @@ import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.Dimension
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,18 +20,23 @@ import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.mdtp.Utils
 import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
+import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.MaterialMenu
 
 class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
     private val calendarTypes: Array<String> by lazy { resources.getStringArray(R.array.calendarTypes) }
+    private val emptyDate: String by lazy { getString(R.string.emptyDate) }
     private var changed = false
 
     companion object {
         const val spCalType = "calendarType" // def 0
         const val spDefPlace = "defaultPlace"
         const val spStatSince = "statisticiseSince"
+        const val spStatUntil = "statisticiseUntil"
         const val spStatSinceCb = "statisticiseSinceCb" // def false
+        const val spStatUntilCb = "statisticiseUntilCb" // def false
         const val spStatInclude = "statisticiseInclude" // + s; def true
         const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // def 3 TODO
         // Beware of the numerical fields; go to Exporter$Companion.replace() for modifications.
@@ -70,26 +72,93 @@ class Settings : BaseActivity() {
         }
 
         // Statisticise Since
-        b.stStatSinceDateCb.isChecked = sp.getBoolean(spStatSinceCb, false)
+        if (sp.contains(spStatSince)) {
+            b.stStatSinceDateCb.isEnabled = true
+            b.stStatSinceDateCb.isChecked = sp.getBoolean(spStatSinceCb, false)
+        }
         b.stStatSinceDateCb.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spStatSinceCb, isChecked).apply()
             c.shake()
         }
         b.stStatSinceDate.text =
-            if (!sp.contains(spStatSince)) "..."
+            if (!sp.contains(spStatSince)) emptyDate
             else sp.getLong(spStatSince, 0).calendar(this).fullDate()
         b.stStatSince.setOnClickListener {
-            var cal =
-                if (!sp.contains(spStatSince)) Fun.now().calendar(this)
-                else sp.getLong(spStatSince, 0).calendar(this)
+            var cal = sp.getLong(spStatSince, Fun.now()).calendar(this)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
                 cal.set(Calendar.DAY_OF_MONTH, day)
                 cal = Utils.trimToMidnight(cal)
+                if (sp.contains(spStatUntil) && cal.timeInMillis >
+                    sp.getLong(spStatUntil, 0/*IMPOSSIBLE*/)
+                ) {
+                    Toast.makeText(c, R.string.statSinceIllogical, Toast.LENGTH_LONG).show()
+                    return@newInstance; }
                 b.stStatSinceDate.text = cal.fullDate()
-                sp.edit().putLong(spStatSince, cal.timeInMillis).apply()
+                sp.edit()
+                    .putLong(spStatSince, cal.timeInMillis)
+                    .putBoolean(spStatSinceCb, true)
+                    .apply()
+                b.stStatSinceDateCb.isEnabled = true
+                b.stStatSinceDateCb.isChecked = true
             }, cal).defaultOptions(this).show(supportFragmentManager, "stat_since")
+        }
+
+        // Statisticise Until
+        if (sp.contains(spStatUntil)) {
+            b.stStatUntilDateCb.isEnabled = true
+            b.stStatUntilDateCb.isChecked = sp.getBoolean(spStatUntilCb, false)
+        }
+        b.stStatUntilDateCb.setOnCheckedChangeListener { _, isChecked ->
+            sp.edit().putBoolean(spStatUntilCb, isChecked).apply()
+            c.shake()
+        }
+        b.stStatUntilDate.text =
+            if (!sp.contains(spStatUntil)) emptyDate
+            else sp.getLong(spStatUntil, 0).calendar(this).fullDate()
+        b.stStatUntil.setOnClickListener {
+            var cal = sp.getLong(spStatUntil, Fun.now()).calendar(this)
+            DatePickerDialog.newInstance({ _, year, month, day ->
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, month)
+                cal.set(Calendar.DAY_OF_MONTH, day)
+                cal = Utils.trimToMidnight(cal)
+                if (sp.contains(spStatSince) && cal.timeInMillis <
+                    sp.getLong(spStatSince, 0/*IMPOSSIBLE*/)
+                ) {
+                    Toast.makeText(c, R.string.statUntilIllogical, Toast.LENGTH_LONG).show()
+                    return@newInstance; }
+                b.stStatUntilDate.text = cal.fullDate()
+                sp.edit()
+                    .putLong(spStatUntil, cal.timeInMillis)
+                    .putBoolean(spStatUntilCb, true)
+                    .apply()
+                b.stStatUntilDateCb.isEnabled = true
+                b.stStatUntilDateCb.isChecked = true
+            }, cal).defaultOptions(this).show(supportFragmentManager, "stat_until")
+        }
+
+        // Statisticise Range: Long Click
+        View.OnLongClickListener { v ->
+            MaterialMenu(this, v, R.menu.settings_stat_range, Act().apply {
+                this[R.id.ssrClearDate] = {
+                    if (v == b.stStatSince) {
+                        sp.edit().remove(spStatSince).putBoolean(spStatSinceCb, false).apply()
+                        b.stStatSinceDateCb.isChecked = false
+                        b.stStatSinceDateCb.isEnabled = false
+                        b.stStatSinceDate.text = emptyDate
+                    } else {
+                        sp.edit().remove(spStatUntil).putBoolean(spStatUntilCb, false).apply()
+                        b.stStatUntilDateCb.isChecked = false
+                        b.stStatUntilDateCb.isEnabled = false
+                        b.stStatUntilDate.text = emptyDate
+                    }
+                }
+            }).show(); true
+        }.apply {
+            b.stStatSince.setOnLongClickListener(this)
+            b.stStatUntil.setOnLongClickListener(this)
         }
 
         // Sex Type Exclusion

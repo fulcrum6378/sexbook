@@ -34,6 +34,7 @@
     <string name="birthDateNtf">Geburtstagsbenachrichtigung</string>
     <string name="clear">Klar</string>
     <string name="suspend">Aussetzen</string>
+    <string name="clearDate">Löschen Sie das Datum</string>
 
     <!-- Main -->
     <string name="momImport">Import aus Json</string>
@@ -98,6 +99,9 @@
     <string name="stTitle">Sexbuch-Einstellungen</string>
     <string name="stCalendarType">Kalendertyp</string>
     <string name="stStatSince">Statistik seit</string>
+    <string name="stStatUntil">Statistik bis</string>
+    <string name="statSinceIllogical">Das Maximaldatum muss nach dem Mindestdatum liegen!</string>
+    <string name="statUntilIllogical">Das Mindestdatum muss vor dem Höchstdatum liegen!</string>
     <string name="stSexTypesTitle">Statistiken nach Geschlechtstyp filtern</string>
     <string name="stSexTypeInclude">%s einbeziehen</string>
     <string name="stReset">Einstellungen zurücksetzen</string>

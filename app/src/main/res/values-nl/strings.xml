@@ -33,6 +33,7 @@
     <string name="bHappyAft">%d uur voorbij sinds hun verjaardag!</string>
     <string name="clear">Duidelijk</string>
     <string name="suspend">Opschorten</string>
+    <string name="clearDate">Wis de datum</string>
 
     <!-- Main -->
     <string name="momImport">Importeren uit Json</string>
@@ -97,7 +98,10 @@
     <!-- Settings -->
     <string name="stTitle">Seksboek Instellingen</string>
     <string name="stCalendarType">Kalendertype</string>
-    <string name="stStatSince">Statistiek Sinds</string>
+    <string name="stStatSince">Statistiek sinds</string>
+    <string name="stStatUntil">Statistiek tot</string>
+    <string name="statSinceIllogical">De maximale datum moet na de minimale datum liggen!</string>
+    <string name="statUntilIllogical">De minimale datum moet voor de maximale datum liggen!</string>
     <string name="stSexTypesTitle">Statistieken filteren op geslachtstype</string>
     <string name="stSexTypeInclude">Inclusief %s</string>
     <string name="stReset">Reset Instellingen</string>

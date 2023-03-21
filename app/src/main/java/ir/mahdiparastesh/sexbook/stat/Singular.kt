@@ -79,24 +79,33 @@ class Singular : BaseActivity() {
         var handler: Handler? = null
 
         fun sinceTheBeginning(c: BaseActivity, mOnani: ArrayList<Report>): List<String> {
-            val now = c.calType().newInstance()
-            var oldest = now.timeInMillis
+            // Find the ending
+            var end = c.calType().newInstance()
+            var oldest = end.timeInMillis
+            if (c.sp.getBoolean(Settings.spStatUntilCb, false)) {
+                val statTill = c.sp.getLong(Settings.spStatUntil, 0L)
+                var newest = 0L
+                for (h in mOnani) if (h.time in (newest + 1)..statTill) newest = h.time
+                if (newest != 0L) end = newest.calendar(c)
+            }
+
+            // Find the beginning
             if (c.sp.getBoolean(Settings.spStatSinceCb, false)) {
                 val statSinc = c.sp.getLong(Settings.spStatSince, 0L)
                 for (h in mOnani) if (h.time in statSinc until oldest) oldest = h.time
             } else for (h in mOnani) if (h.time < oldest) oldest = h.time
-            val symbols = Utils.localSymbols(c.c, c.calType())
 
             val beg = oldest.calendar(c)
             val list = arrayListOf<String>()
-            val yDist = now[Calendar.YEAR] - beg[Calendar.YEAR]
+            val yDist = end[Calendar.YEAR] - beg[Calendar.YEAR]
             for (y in 0 until (yDist + 1)) {
                 var start = 0
-                var end = 11
+                var finish = 11
                 if (y == 0) start = beg[Calendar.MONTH]
-                if (y == yDist) end = now[Calendar.MONTH]
-                for (m in start..end) list.add(
-                    "${symbols.shortMonths[m]} ${beg[Calendar.YEAR] + y}"
+                if (y == yDist) finish = end[Calendar.MONTH]
+                for (m in start..finish) list.add(
+                    "${Utils.localSymbols(c.c, c.calType()).shortMonths[m]} " +
+                            "${beg[Calendar.YEAR] + y}"
                 )
             }
             return list

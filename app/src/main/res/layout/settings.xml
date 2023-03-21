@@ -48,11 +48,33 @@
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stStatSinceDateCb"
                     style="@style/stItemTV"
+                    android:enabled="false"
                     android:saveEnabled="false"
                     android:text="@string/stStatSince" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/stStatSinceDate"
+                    style="@style/stItemTV"
+                    android:layout_marginEnd="5sp"
+                    android:enabled="false"
+                    app:fontFamily="@font/normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@null" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/stStatUntil"
+                style="@style/stItem">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stStatUntilDateCb"
+                    style="@style/stItemTV"
+                    android:enabled="false"
+                    android:saveEnabled="false"
+                    android:text="@string/stStatUntil" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/stStatUntilDate"
                     style="@style/stItemTV"
                     android:layout_marginEnd="5sp"
                     app:fontFamily="@font/normal"

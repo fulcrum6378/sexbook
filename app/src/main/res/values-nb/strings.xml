@@ -34,6 +34,7 @@
     <string name="birthDateNtf">Bursdagsvarsel</string>
     <string name="clear">Klar</string>
     <string name="suspend">Utsette</string>
+    <string name="clearDate">Fjern datoen</string>
 
     <!-- Main -->
     <string name="momImport">Importer fra Json</string>
@@ -98,6 +99,9 @@
     <string name="stTitle">Sexbok-innstillinger</string>
     <string name="stCalendarType">Kalendertype</string>
     <string name="stStatSince">Statistikk siden</string>
+    <string name="stStatUntil">Statistikk til</string>
+    <string name="statSinceIllogical">Maksimumsdatoen må være etter minimumsdatoen!</string>
+    <string name="statUntilIllogical">Minimumsdatoen må være før maksimumsdatoen!</string>
     <string name="stSexTypesTitle">Filtrer statistikk etter kjønnstype</string>
     <string name="stSexTypeInclude">Inkluder %s</string>
     <string name="stReset">Tilbakestill innstillinger</string>

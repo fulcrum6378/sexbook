@@ -275,7 +275,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // Filter by time
         if (sp.getBoolean(Settings.spStatSinceCb, false))
-            filtered = filtered.filter { it.time > sp.getLong(Settings.spStatSince, 0) }
+            filtered = filtered.filter { it.time >= sp.getLong(Settings.spStatSince, 0) }
+                .also { nExcluded += filtered.size - it.size }
+        if (sp.getBoolean(Settings.spStatUntilCb, false))
+            filtered = filtered.filter { it.time < sp.getLong(Settings.spStatUntil, 0) }
                 .also { nExcluded += filtered.size - it.size }
 
         // Filter by type

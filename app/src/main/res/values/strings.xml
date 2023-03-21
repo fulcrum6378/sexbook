@@ -4,6 +4,7 @@
 
     <!-- GLOBAL -->
     <string name="crushHint" translatable="false">.....</string>
+    <string name="emptyDate" translatable="false">...</string>
     <string name="sOpen">Open</string>
     <string name="close">Close</string>
     <string name="toExit">Double tap to exit&#8230;</string>
@@ -36,6 +37,7 @@
     <string name="birthDateNtf">Birthday Notification</string>
     <string name="clear">Clear</string>
     <string name="suspend">Suspend</string>
+    <string name="clearDate">Clear the date</string>
 
     <!-- Main -->
     <string name="momImport">Import from Json</string>
@@ -110,6 +112,9 @@
     <string name="stTitle">Sexbook Settings</string>
     <string name="stCalendarType">Calendar Type</string>
     <string name="stStatSince">Statisticise Since</string>
+    <string name="stStatUntil">Statisticise Until</string>
+    <string name="statSinceIllogical">The maximum date must be after the minimum date!</string>
+    <string name="statUntilIllogical">The minimum date must be before the maximum date!</string>
     <string name="stSexTypesTitle">Filter Statistics by Sex Type</string>
     <string name="stSexTypeInclude">Include %s</string>
     <string name="stReset">Reset Settings</string>
