@@ -9,11 +9,11 @@
     <permission
         android:name="${packageName}.READ_DATABASE"
         android:description="@string/permReadDb"
-        android:label="view Sexbook data" />
+        android:label="read the Sexbook database" />
     <permission
         android:name="${packageName}.WRITE_DATABASE"
         android:description="@string/permWriteDb"
-        android:label="alter Sexbook data" />
+        android:label="modify the Sexbook database" />
     <!--android:protectionLevel="dangerous"-->
 
     <application
