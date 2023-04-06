@@ -61,8 +61,8 @@ class SumChips : Fragment() {
         }
         b.root.addView(pluses)
         b.list.setPaddingRelative(
-            b.list.paddingStart, b.list.paddingTop, b.list.paddingEnd,
-            b.list.paddingBottom + pluses.measuredHeight
+            b.list.paddingStart, b.list.paddingTop, b.list.paddingEnd, b.list.paddingBottom +
+                    (pluses.childCount.toFloat() * c.resources.getDimension(R.dimen.plusesFont) * 3.8f).toInt()
         )
     }
 
@@ -70,6 +70,7 @@ class SumChips : Fragment() {
         layoutParams = LinearLayout.LayoutParams(-2, -2)
         setPadding(0, this@SumChips.c.dp(5), 0, this@SumChips.c.dp(2))
         text = s
+        textSize = c.resources.getDimension(R.dimen.plusesFont) / this@SumChips.c.dm.density
         alpha = .8f
         typeface = ResourcesCompat.getFont(c, R.font.normal)!!
     }
