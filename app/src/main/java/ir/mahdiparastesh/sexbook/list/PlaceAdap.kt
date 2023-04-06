@@ -5,8 +5,8 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.Places
@@ -62,7 +62,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
                     }
                 }
                 this[R.id.plDelete] = {
-                    AlertDialog.Builder(c).apply {
+                    MaterialAlertDialogBuilder(c).apply {
                         val bm = MigratePlaceBinding.inflate(c.layoutInflater)
                         bm.places.adapter = ArrayAdapter(c, R.layout.spinner,
                             ArrayList(c.m.places.value!!.map { it.name }).apply {

@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.Dimension
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.checkbox.MaterialCheckBox
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
@@ -206,7 +206,7 @@ class Settings : BaseActivity() {
 
         // Removal
         b.stReset.setOnClickListener {
-            AlertDialog.Builder(this).apply {
+            MaterialAlertDialogBuilder(this).apply {
                 setTitle(R.string.stReset)
                 setMessage(R.string.stResetSure)
                 setPositiveButton(R.string.yes) { _, _ ->
@@ -224,7 +224,7 @@ class Settings : BaseActivity() {
             c.shake()
         }
         b.stTruncate.setOnClickListener {
-            AlertDialog.Builder(this).apply {
+            MaterialAlertDialogBuilder(this).apply {
                 setTitle(R.string.stTruncate)
                 setMessage(R.string.stTruncateSure)
                 setPositiveButton(R.string.yes) { _, _ ->

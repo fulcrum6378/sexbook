@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <dimen name="statusBarSize">24dp</dimen>
     <dimen name="tbTitle">22sp</dimen>
     <dimen name="nameFont">14sp</dimen>
@@ -12,6 +13,9 @@
     <dimen name="itemMarV">7dp</dimen>
     <dimen name="itemPadH">20dp</dimen>
     <dimen name="itemPadV">17dp</dimen>
+    <dimen name="smallCornerSize">8dp</dimen>
+    <dimen name="mediumCornerSize">12dp</dimen>
+    <dimen name="largeCornerSize">16dp</dimen>
 
     <!-- Main-->
     <dimen name="navFont">16sp</dimen>

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
@@ -179,7 +179,7 @@ class Singular : BaseActivity() {
                 }, bir).defaultOptions(c).show(c.supportFragmentManager, "birth")
             }
 
-            AlertDialog.Builder(c).apply {
+            MaterialAlertDialogBuilder(c).apply {
                 setTitle("${c.getString(R.string.identify)}: ${crush?.key ?: c.m.crush}")
                 setView(bi.root)
                 setPositiveButton(R.string.save) { _, _ ->
@@ -207,7 +207,7 @@ class Singular : BaseActivity() {
                 setNegativeButton(R.string.discard, null)
                 setNeutralButton(R.string.clear) { ad1, _ ->
                     if (crush == null) return@setNeutralButton
-                    AlertDialog.Builder(c).apply {
+                    MaterialAlertDialogBuilder(c).apply {
                         setTitle(c.getString(R.string.crushClear, crush.key))
                         setMessage(R.string.crushClearSure)
                         setPositiveButton(R.string.yes) { _, _ ->

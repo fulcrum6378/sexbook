@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
@@ -294,11 +295,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             layoutParams = ViewGroup.LayoutParams(-1, -1)
             adapter = SumAdapter(this@Main)
         }
-        if (summarize()) AlertDialog.Builder(this).apply {
+        if (summarize()) MaterialAlertDialogBuilder(this).apply {
             setTitle("${getString(R.string.summary)} (${m.summary!!.actual} / ${m.onani.value!!.size})")
             setView(ConstraintLayout(this@Main).apply {
+                layoutParams = ViewGroup.LayoutParams(-1, -1)
                 addView(vp2)
-                // The below EditText improves the EditText focus issue when you put
+                // The EditText below improves the EditText focus issue when you put
                 // a Fragment inside a Dialog with a ViewPager in the middle!
                 addView(EditText(this@Main).apply {
                     layoutParams = ViewGroup.LayoutParams(-1, -2)
@@ -321,7 +323,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private fun recency() {
         if (!summarize()) return
         m.recency = Recency(m.summary!!)
-        AlertDialog.Builder(this).apply {
+        MaterialAlertDialogBuilder(this).apply {
             setTitle(resources.getString(R.string.recency))
             setView(m.recency!!.draw(this@Main))
             setPositiveButton(android.R.string.ok, null)

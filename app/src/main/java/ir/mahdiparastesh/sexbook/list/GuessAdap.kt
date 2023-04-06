@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.Estimation
 import ir.mahdiparastesh.sexbook.Fun.defCalendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
@@ -192,7 +192,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                     }
                 }
                 this[R.id.glDelete] = {
-                    AlertDialog.Builder(c).apply {
+                    MaterialAlertDialogBuilder(c).apply {
                         setTitle(c.resources.getString(R.string.delete))
                         setMessage(c.resources.getString(R.string.etDeleteGuessSure))
                         setPositiveButton(R.string.yes) { _, _ ->

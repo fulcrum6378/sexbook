@@ -5,17 +5,17 @@
         <item name="colorPrimary">@color/CP</item>
         <item name="colorPrimaryDark">@color/CPD</item>
         <item name="colorAccent">@color/CP3</item>
+        <item name="android:editTextColor">@color/CPDD</item>
         <item name="android:navigationBarColor">@color/CP</item>
         <item name="android:statusBarColor">@color/CP</item>
-        <item name="alertDialogTheme">@style/Theme.Sexbook.Dialogue</item>
         <item name="android:textColor">@color/CPDD</item>
-        <item name="android:editTextColor">@color/CPDD</item>
-        <item name="android:textColorHint">@color/hint</item>
         <item name="android:textColorHighlight">@color/textHighlight</item>
-        <item name="titleTextColor">@color/CPDD</item>
+        <item name="android:textColorHint">@color/hint</item>
         <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox</item>
-        <!--<item name="colorSurface">popup menu color</item>-->
         <item name="colorControlNormal">@color/CPDD</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.Sexbook.Dialogue</item>
+        <item name="navigationViewStyle">@style/Widget.Sexbook.NavigationView</item>
+        <item name="titleTextColor">@color/CPDD</item>
     </style>
 
     <style name="Theme.Sexbook" parent="Theme.Sexbook.Base">
@@ -23,16 +23,13 @@
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
     </style>
 
-    <style name="Theme.Sexbook.Dialogue" parent="Theme.Material3.DayNight.Dialog.Alert">
-        <item name="fontFamily">@font/normal</item>
-        <!-- applying these colours to those elements vary by parent Theme type. -->
-        <item name="android:textColor">@color/dialogText</item><!-- title -->
-        <item name="android:textColorPrimary">@color/dialogText</item><!-- message -->
-        <!-- buttons' text colour and their ripple effects -->
-        <item name="colorPrimary">@color/dialogText</item>
-        <item name="buttonBarButtonStyle">@style/Theme.Sexbook.Dialogue.Button</item>
+    <style name="Widget.Sexbook.NavigationView" parent="Widget.Material3.NavigationView">
+        <item name="itemIconTint">?attr/colorOnPrimary</item>
+        <item name="shapeAppearance">@style/ShapeAppearance_Sexbook_Nav</item>
+        <item name="itemRippleColor">@color/CPDD</item>
+        <item name="itemTextAppearance">@style/TextAppearance.Fortuna.Navigation</item>
+        <item name="itemTextColor">?attr/colorOnPrimary</item>
     </style>
-    <!-- MaterialAlertDialogBuilder better not to be used in this app!! -->
 
     <style name="Theme.Sexbook.Dialogue.Layout" parent="Theme.Sexbook">
         <item name="android:textColor">@color/dialogText</item>
@@ -41,8 +38,33 @@
         <item name="colorControlNormal">@color/dialogText</item>
     </style>
 
-    <style name="Theme.Sexbook.Dialogue.Button" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textSize">@dimen/adButtonFont</item>
+    <style name="ThemeOverlay.Sexbook.Dialogue" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/Theme.Sexbook.Dialogue</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/Theme.Sexbook.Dialogue.Title</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/Theme.Sexbook.Dialogue.Body</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Sexbook.Dialogue.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Sexbook.Dialogue.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.Sexbook.Dialogue.Button</item>
+    </style>
+
+    <style name="Theme.Sexbook.Dialogue" parent="MaterialAlertDialog.Material3">
+        <item name="shapeAppearance">@style/ShapeAppearance.Sexbook.Medium</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+
+    <style name="Theme.Sexbook.Dialogue.Title" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:textColor">@color/CPDD</item>
+    </style>
+
+    <style name="Theme.Sexbook.Dialogue.Body" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:textColor">@color/CPDD</item>
+        <item name="android:textSize">15.5sp</item>
+        <item name="lineHeight">25sp</item><!--android:lineSpacingExtra doesn't work here.-->
+    </style>
+
+    <style name="Widget.Sexbook.Dialogue.Button" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/CPDD</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Sexbook.Small</item>
     </style>
 
     <style name="Theme.Sexbook.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
@@ -65,5 +87,24 @@
     <style name="Theme.Sexbook.Popup" parent="Widget.Material3.PopupMenu">
         <item name="fontFamily">@font/normal</item>
         <item name="android:textColor">@color/dialogText</item>
+    </style>
+
+
+    <!-- ShapeAppearance -->
+    <style name="ShapeAppearance_Sexbook_Nav">
+        <item name="cornerFamilyBottomRight">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeBottomRight">@dimen/largeCornerSize</item>
+        <item name="cornerSizeTopRight">@dimen/largeCornerSize</item>
+    </style>
+
+    <style name="ShapeAppearance.Sexbook.Medium" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/mediumCornerSize</item>
+    </style>
+
+    <style name="ShapeAppearance.Sexbook.Small" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/smallCornerSize</item>
     </style>
 </resources>

@@ -7,8 +7,8 @@ import android.os.Build
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -75,7 +75,7 @@ class Exporter(val c: BaseActivity) {
                 Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
                 return
             }
-            AlertDialog.Builder(c).apply {
+            MaterialAlertDialogBuilder(c).apply {
                 setTitle(c.resources.getString(R.string.momImport))
                 setMessage(c.resources.getString(R.string.askImport))
                 setPositiveButton(R.string.yes) { _, _ -> replace(c, imported) }
