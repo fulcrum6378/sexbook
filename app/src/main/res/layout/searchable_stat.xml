@@ -35,6 +35,5 @@
         android:paddingEnd="21dp"
         android:paddingBottom="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/find" />
 </androidx.constraintlayout.widget.ConstraintLayout>

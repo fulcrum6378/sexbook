@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook.list
 
 import android.content.Intent
-import android.view.ContextThemeWrapper
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
@@ -30,12 +29,8 @@ class StatSumAdap(
             (if (arr[i].key % 1 > 0) arr[i].key.toString()
             else arr[i].key.toInt().toString()).plus(": ")
 
-        for (crush in arr[i].value.indices) (if (h.b.root.childCount < crush + 2) Chip(
-            ContextThemeWrapper(c.c, R.style.Theme_MaterialComponents)
-        ).apply {
-            layoutParams = ChipGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-            )
+        for (crush in arr[i].value.indices) (if (h.b.root.childCount < crush + 2) Chip(c).apply {
+            layoutParams = ChipGroup.LayoutParams(-2, -2)
             typeface = ResourcesCompat.getFont(c, R.font.normal)!!
             h.b.root.addView(this)
         } else h.b.root.getChildAt(crush + 1) as Chip).apply {

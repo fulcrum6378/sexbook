@@ -49,10 +49,6 @@ class SumChips : Fragment() {
             orientation = LinearLayout.VERTICAL
             setPadding(c.dp(20), 0, c.dp(20), 0)
         }
-        (b.list.layoutParams as ConstraintLayout.LayoutParams).apply {
-            bottomToBottom = ConstraintLayout.LayoutParams.UNSET
-            bottomToTop = R.id.pluses
-        }
         c.m.summary?.nExcluded?.also {
             if (it > 0f) pluses.addView(
                 plus(b.root.context, getString(R.string.excStat, it.toString()))
@@ -64,12 +60,14 @@ class SumChips : Fragment() {
             )
         }
         b.root.addView(pluses)
+        b.list.setPaddingRelative(
+            b.list.paddingStart, b.list.paddingTop, b.list.paddingEnd,
+            b.list.paddingBottom + pluses.measuredHeight
+        )
     }
 
     fun plus(c: Context, s: String) = AppCompatTextView(c).apply {
-        layoutParams = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        )
+        layoutParams = LinearLayout.LayoutParams(-2, -2)
         setPadding(0, this@SumChips.c.dp(5), 0, this@SumChips.c.dp(2))
         text = s
         alpha = .8f
