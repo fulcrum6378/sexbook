@@ -43,6 +43,9 @@
     <dimen name="stItemPadH">11dp</dimen>
     <dimen name="stItemPadV">15dp</dimen>
 
+    <!-- #Statistics -->
+    <dimen name="ssPadH">24dp</dimen>
+
 
     <!-- MDTP -->
     <item name="mdtp_circle_radius_multiplier" format="float" translatable="false" type="string">

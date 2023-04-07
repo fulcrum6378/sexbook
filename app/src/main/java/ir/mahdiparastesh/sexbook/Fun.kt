@@ -161,5 +161,16 @@ object Fun {
         }
     }
 
+    fun View.onLoad(func: () -> Unit) {
+        object : CountDownTimer(5000, 50) {
+            override fun onFinish() {}
+            override fun onTick(millisUntilFinished: Long) {
+                if (height == 0) return
+                cancel()
+                func()
+            }
+        }.start()
+    }
+
     data class SexType(val name: String, @DrawableRes val icon: Int)
 }

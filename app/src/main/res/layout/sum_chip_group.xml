@@ -3,14 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="3.5dp"
-    android:paddingBottom="3.5dp">
+    android:paddingStart="@dimen/ssPadH"
+    android:paddingTop="2.5dp"
+    android:paddingEnd="@dimen/ssPadH"
+    android:paddingBottom="2.5dp"
+    app:chipSpacingVertical="0dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"
+        android:paddingTop="14sp"
         android:textSize="13sp"
         app:fontFamily="@font/normal" />
 </com.google.android.material.chip.ChipGroup>

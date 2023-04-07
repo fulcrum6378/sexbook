@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/button_mask"
-    android:paddingStart="8dp"
-    android:paddingEnd="8dp"
+    android:paddingStart="@dimen/ssPadH"
+    android:paddingEnd="@dimen/ssPadH"
     android:theme="@style/Theme.Sexbook.Dialogue.Layout">
 
     <androidx.appcompat.widget.AppCompatTextView

@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import ir.mahdiparastesh.sexbook.Fun.onLoad
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.list.StatSumAdap
@@ -47,7 +48,7 @@ class SumChips : Fragment() {
             layoutParams = ConstraintLayout.LayoutParams(-1, -2)
                 .apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }
             orientation = LinearLayout.VERTICAL
-            setPadding(c.dp(20), 0, c.dp(20), 0)
+            resources.getDimension(R.dimen.ssPadH).toInt().also { setPadding(it, 0, it, 0) }
         }
         c.m.summary?.nExcluded?.also {
             if (it > 0f) pluses.addView(
@@ -60,10 +61,12 @@ class SumChips : Fragment() {
             )
         }
         b.root.addView(pluses)
-        b.list.setPaddingRelative(
-            b.list.paddingStart, b.list.paddingTop, b.list.paddingEnd, b.list.paddingBottom +
-                    (pluses.childCount.toFloat() * c.resources.getDimension(R.dimen.plusesFont) * 3.8f).toInt()
-        )
+        pluses.onLoad {
+            b.list.setPaddingRelative(
+                b.list.paddingStart, b.list.paddingTop, b.list.paddingEnd,
+                c.dp(57) + pluses.height
+            )
+        }
     }
 
     fun plus(c: Context, s: String) = AppCompatTextView(c).apply {
