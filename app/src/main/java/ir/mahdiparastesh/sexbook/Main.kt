@@ -270,6 +270,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
     }
 
+    /** This operation doesn't take so much time, generating the views for statistics takes that long! */
     fun summarize(): Boolean = if (m.onani.value != null && m.onani.value!!.isNotEmpty()) {
         var nExcluded = 0
         var filtered: List<Report> = m.onani.value!!
@@ -412,10 +413,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Extension:
   * Multi-optional sorting feature for Crushes
   * "First met" for Crush
-  * Design some widgets
-  * Putting the events { crush birthdays, etc } customisably into the calendar (through system accounts).
-  * Multiple accounts for Sexbook, registered as Android accounts
-  *
-  * Notes:
-  * summarize() doesn't take so much time, generating the views for statistics takes that long.
+  * Putting the events { crush birthdays, etc } customisably into the calendar.
+  * Put birthdays in Fortuna!?! And bring events from calendars to Fortuna?!?!
+  * Multiple accounts for Sexbook, (cannot register as Android accounts 'cus those must be online)
   */
