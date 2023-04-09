@@ -26,7 +26,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.database.getStringOrNull
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
@@ -39,11 +38,11 @@ import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.stat.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
-import android.provider.CalendarContract.Calendars as CCC
 
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener {
@@ -51,6 +50,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private val exporter = Exporter(this)
     private var pageSex: PageSex? = null
     private var pageLove: PageLove? = null
+    private val calManager: CalendarManager by lazy { CalendarManager(this) }
     private var exiting = false
     /*private lateinit var adBanner: AdView
     private var adBannerLoaded = false*/
@@ -150,72 +150,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
         }*/
+        calManager.init()
 
-
-        val accName = "My calendar"
-        val accType = "ir.mahdiparastesh"
-
-        val uValues = ContentValues()
-        uValues.put(CCC.ACCOUNT_NAME, accName)
-        uValues.put(CCC.ACCOUNT_TYPE, accType)
-        contentResolver.update(
-            CCC.CONTENT_URI.buildUpon()
-                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
-                .appendQueryParameter(CCC.ACCOUNT_NAME, accName)
-                .appendQueryParameter(CCC.ACCOUNT_TYPE, accType).build(),
-            uValues, "_id = :id", arrayOf("17")
-        )
-
-        /*ContentValues().apply { // API 30
-            put(CCC._ID, 17)
-            contentResolver.delete(CCC.CONTENT_URI, this)
-        }*/
-        contentResolver.delete(CCC.CONTENT_URI, "_id = :id", arrayOf("17"))
-
-        val values = ContentValues()
-        values.put(CCC.ACCOUNT_NAME, CalendarContract.ACCOUNT_TYPE_LOCAL)
-        // *values.put(CCC.ACCOUNT_TYPE, accType)
-        values.put(CCC.NAME, "Sexbook")
-        values.put(CCC.CALENDAR_DISPLAY_NAME, "Sexbook")
-        // ***values.put(CCC.CALENDAR_COLOR, color(R.color.CP))
-        // *values.put(CCC.CALENDAR_ACCESS_LEVEL, CCC.CAL_ACCESS_READ)
-        // *values.put(CCC.OWNER_ACCOUNT, accName)
-
-        values.put(CCC.SYNC_EVENTS, 1)
-        // *values.put(CCC.CALENDAR_TIME_ZONE, "Asia/Tehran") // Europe/Paris
-        //values.put(CCC.ALLOWED_REMINDERS, "") // 0,1,2
-        //values.put(CCC.ALLOWED_AVAILABILITY, "") // 0,1,2
-        //values.put(CCC.ALLOWED_ATTENDEE_TYPES, "") // 0,1
-        contentResolver.insert(
-            CCC.CONTENT_URI, values
-        )
-        /*To perform as sync adapter: CCC.CONTENT_URI.buildUpon()
-                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
-                .appendQueryParameter(CCC.ACCOUNT_NAME, accName)
-                .appendQueryParameter(CCC.ACCOUNT_TYPE, accType).build()*/
-
-        contentResolver.query(
-            CCC.CONTENT_URI, arrayOf(CCC.NAME, CCC._ID),
-            null, null,
-            /*"calendar_color = :col", arrayOf(color(R.color.CP).toString()),*/
-            CCC._ID
-        )?.use {
-            val sb = StringBuilder()
-            if (it.moveToFirst()) for (i in 0 until it.count) {
-                sb.append("${i + 1}. ")
-                    .append(it.getStringOrNull(it.getColumnIndex(CCC.NAME)))
-                    .append(" : ")
-                    .append(it.getStringOrNull(it.getColumnIndex(CCC._ID)))
-                    .append("\n")
-                it.moveToNext()
-            }
-            MaterialAlertDialogBuilder(this)
-                .setTitle("Test")
-                .setMessage(sb.toString())
-                .show()
-        }
-
-        // CCC.CALENDAR_LOCATION
+        /*TODO MaterialAlertDialogBuilder(this)
+            .setTitle("Test")
+            .setMessage(bb.toString())
+            .show()*/
 
         intent.check(true)
         Work(c, Work.C_VIEW_ALL).start()
@@ -483,5 +423,4 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * "First met" for Crush
   * Putting the events { crush birthdays, etc } customisably into the calendar.
   * Put birthdays in Fortuna!?! And bring events from calendars to Fortuna?!?!
-  * Multiple accounts for Sexbook, (cannot register as Android accounts 'cus those must be online)
   */
