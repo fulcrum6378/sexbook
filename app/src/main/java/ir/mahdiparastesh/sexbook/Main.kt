@@ -6,13 +6,11 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.os.*
-import android.provider.CalendarContract
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -89,6 +87,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                                 notifyBirth(it, dist)
                         }
                     }
+                    Work.C_REPLACE_ALL -> {
+                        calManager.deleteEvents()
+                        calManager.insertEvents()
+                    }
                     Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>)
                     Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>).apply {
                         sortWith(GuessAdap.Sort())
@@ -150,8 +152,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
         }*/
-        calManager.init()
+        calManager.init() // TODO RUNTIME PERMISSION
 
+        calManager.deleteEvents()
+        calManager.insertEvents()
         /*TODO MaterialAlertDialogBuilder(this)
             .setTitle("Test")
             .setMessage(bb.toString())
@@ -422,5 +426,4 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Multi-optional sorting feature for Crushes
   * "First met" for Crush
   * Putting the events { crush birthdays, etc } customisably into the calendar.
-  * Put birthdays in Fortuna!?! And bring events from calendars to Fortuna?!?!
   */
