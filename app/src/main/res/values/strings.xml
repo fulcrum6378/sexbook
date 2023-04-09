@@ -206,4 +206,5 @@
     <string name="permWriteDb" translatable="false">
         Allows the app to add, change or remove data from the Sexbook database.
     </string>
+    <string name="sBirthday">%s\'s Birthday</string>
 </resources>

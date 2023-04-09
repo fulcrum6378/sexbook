@@ -122,7 +122,7 @@ class Work(
             C_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
                 dao.cDeleteAll(dao.cGetAll())
                 dao.cReplaceAll(values as List<Crush>)
-                handler?.obtainMessage(action)?.sendToTarget()
+                handler?.obtainMessage(action, values)?.sendToTarget()
             }
 
             C_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
