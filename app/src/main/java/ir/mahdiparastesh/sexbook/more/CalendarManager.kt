@@ -6,25 +6,44 @@ import android.icu.util.TimeZone
 import android.net.Uri
 import android.provider.CalendarContract
 import androidx.core.database.getLongOrNull
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import android.provider.CalendarContract.Calendars as CCC
 import android.provider.CalendarContract.Events as CCE
 
-class CalendarManager(private val c: BaseActivity) {
+@Suppress("BlockingMethodInNonBlockingContext", "RedundantSuspendModifier")
+class CalendarManager(private val c: BaseActivity, private var crushes: Iterable<Crush>?) {
+    var id = -1L
     private val accName = "sexbook"
     private val accType = CalendarContract.ACCOUNT_TYPE_LOCAL
     private val tz = "GMT"
-    var id = -1L
+    private var index: HashMap<String/*CRUSH_KEY*/, Long/*EVENT_ID*/>? = null
+    private val DEBUG = false
 
     init {
-        //c.contentResolver.delete(CCC.CONTENT_URI, "account_name = ?", arrayOf(accName))
+        CoroutineScope(Dispatchers.IO).launch { initialise() }
+    }
+
+    private suspend fun initialise() {
         c.contentResolver.query(
             CCC.CONTENT_URI, arrayOf(CCC.NAME, CCC._ID),
             "account_name = ?", arrayOf(accName), CCC._ID
         )?.use {
             if (!it.moveToFirst()) return@use
             it.getLongOrNull(it.getColumnIndex(CCC._ID))?.also { l -> id = l }
+        }
+        if (DEBUG) {
+            deleteEvents()
+            c.contentResolver.delete(CCC.CONTENT_URI, "account_name = ?", arrayOf(accName))
+            id = -1L
         }
         if (id == -1L) ContentValues().apply {
             put(CCC.ACCOUNT_NAME, accName)
@@ -41,16 +60,31 @@ class CalendarManager(private val c: BaseActivity) {
                     .appendQueryParameter(CCC.ACCOUNT_NAME, accName)
                     .appendQueryParameter(CCC.ACCOUNT_TYPE, accType).build(), this
             )?.also { id = it.getId() }
-            // FIXME insertEvents()
-        }/* else if () ContentValues().apply {
+            insertEvents(crushes!!)
+        } else {
+            val fIndex = Index()
+            if (fIndex.exists()) {
+                index = Gson().fromJson(
+                    FileInputStream(fIndex).use { it.readBytes() }.toString(),
+                    object : TypeToken<HashMap<String, Long>>() {}.type
+                )
+                // TODO CHECK FOR INTEGRITY using crushes
+            } else {
+                deleteEvents()
+                insertEvents(crushes!!)
+            }
+            /*if () ContentValues().apply {
             //put(CCC.ALLOWED_REMINDERS, "") // 0,1,2
             //put(CCC.ALLOWED_AVAILABILITY, "") // 0,1,2
             //put(CCC.ALLOWED_ATTENDEE_TYPES, "") // 0,1
             c.contentResolver.update(CCC.CONTENT_URI, this, "account_name = ?", arrayOf(accName))
         }*/
+        }
+        crushes = null
     }
 
-    fun insertEvents(crushes: Iterable<Crush>) {
+    private suspend fun insertEvents(crushes: Iterable<Crush>) {
+        index = hashMapOf()
         for (cr in crushes) if (cr.hasFullBirth()) ContentValues().apply {
             put(CCE.CALENDAR_ID, id)
             put(CCE.TITLE, c.getString(R.string.sBirthday, cr.visName()))
@@ -62,13 +96,27 @@ class CalendarManager(private val c: BaseActivity) {
             put(CCE.ALL_DAY, 1)
             put(CCE.EVENT_TIMEZONE, tz)
             c.contentResolver.insert(CCE.CONTENT_URI, this)
+                ?.also { index!![cr.key] = it.getId() }
         }
+        FileOutputStream(Index()).use { it.write(Gson().toJson(index).encodeToByteArray()) }
     }
 
-    fun deleteEvents() {
+    private suspend fun deleteEvents() {
         c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
+    }
+
+    fun replaceEvents(crushes: Iterable<Crush>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            deleteEvents()
+            insertEvents(crushes)
+        }
     }
 
     private fun Uri.getId() =
         toString().substringAfterLast("/").substringBefore("?").toLong()
+
+    fun updateEvent(crush: Crush) {
+    }
+
+    inner class Index : File(c.cacheDir, "calendar_index.json")
 }

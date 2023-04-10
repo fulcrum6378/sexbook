@@ -50,7 +50,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private val exporter = Exporter(this)
     private var pageSex: PageSex? = null
     private var pageLove: PageLove? = null
-    private val calManager: CalendarManager by lazy { CalendarManager(this) }
+    private lateinit var calManager: CalendarManager
     private var exiting = false
     /*private lateinit var adBanner: AdView
     private var adBannerLoaded = false*/
@@ -74,8 +74,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 when (msg.what) {
                     Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
                     Work.C_VIEW_ALL -> m.liefde.value = (msg.obj as ArrayList<Crush>).apply {
-                        /*calManager.deleteEvents()
-                        calManager.insertEvents(msg.obj as List<Crush>)*/
+                        if (isNotEmpty() && ActivityCompat.checkSelfPermission(
+                                this@Main, Manifest.permission.WRITE_CALENDAR
+                            )
+                            == PackageManager.PERMISSION_GRANTED
+                        ) calManager = CalendarManager(this@Main, this) // TODO RUNTIME PERMISSION
 
                         if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                                     ) < Settings.notifyBirthAfterLastTime
@@ -92,10 +95,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                                 notifyBirth(it, dist)
                         }
                     }
-                    Work.C_REPLACE_ALL -> {
-                        calManager.deleteEvents()
-                        calManager.insertEvents(msg.obj as List<Crush>)
-                    }
+                    Work.C_REPLACE_ALL -> calManager.replaceEvents(msg.obj as List<Crush>)
                     Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>)
                     Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>).apply {
                         sortWith(GuessAdap.Sort())
@@ -157,13 +157,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
         }*/
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR)
-            == PackageManager.PERMISSION_GRANTED) calManager // TODO RUNTIME PERMISSION
 
-        val sb = StringBuilder()
+        /*val sb = StringBuilder()
         c.contentResolver.query(
             CCE.CONTENT_URI, arrayOf(CCE.TITLE, CCE._ID),
-            /*null, null,*/"calendar_id = ?", arrayOf("17"), CCE._ID
+            "calendar_id = ?", arrayOf("17"), CCE._ID
         )?.use {
             if (!it.moveToFirst()) return@use
             for (i in 0 until it.count) {
@@ -175,7 +173,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         MaterialAlertDialogBuilder(this)
             .setTitle("Test")
             .setMessage(sb.toString())
-            .show()
+            .show()*/
 
         intent.check(true)
         Work(c, Work.C_VIEW_ALL).start()
