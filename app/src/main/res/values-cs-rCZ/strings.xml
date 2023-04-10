@@ -128,5 +128,7 @@
     <string name="mdtp_pm">ODP</string>
 
     <!-- #External -->
-    <string name="sBirthday">Narozeniny %s</string>
+    <string name="sBirthday">narozeniny %s</string>
+    <string name="lastOrgasm">hodin od posledního.</string>
+    <string name="lastOrgasmDesc">Ukazuje hodiny uplynulé od vašeho posledního orgasmu!</string>
 </resources>

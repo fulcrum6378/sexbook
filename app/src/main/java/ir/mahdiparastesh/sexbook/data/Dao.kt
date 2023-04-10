@@ -5,6 +5,7 @@ import androidx.room.Dao
 
 @Dao
 interface Dao {
+
     // Report
     @Query("SELECT * FROM Report WHERE id LIKE :id LIMIT 1")
     fun get(id: Long): Report
@@ -14,6 +15,9 @@ interface Dao {
 
     @Query("SELECT * FROM Report WHERE plac == :place")
     fun getByPlace(place: Long): List<Report>
+
+    @Query("SELECT MAX(time) FROM Report")
+    fun whenWasTheLastTime(): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(item: Report): Long

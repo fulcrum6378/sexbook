@@ -21,7 +21,6 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import android.provider.CalendarContract.Calendars as CCC
 import android.provider.CalendarContract.Events as CCE
-import android.provider.CalendarContract.Reminders as CCR
 
 @Suppress("BlockingMethodInNonBlockingContext", "RedundantSuspendModifier")
 class CalendarManager(private val c: BaseActivity, private var crushes: Iterable<Crush>?) {
@@ -30,7 +29,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     private val accType = CalendarContract.ACCOUNT_TYPE_LOCAL
     private val tz = "GMT"
     private lateinit var index: HashMap<String/*CRUSH_KEY*/, Long/*EVENT_ID*/>
-    private val DEBUG = false
+    private val DEBUG = true
 
     init {
         CoroutineScope(Dispatchers.IO).launch { initialise() }
@@ -84,13 +83,13 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         index = hashMapOf()
         for (cr in crushes) if (cr.hasFullBirth()) {
             cr.insertEvent()
-            if (cr.notifyBirth) cr.insertReminder()
+            //if (cr.notifyBirth) cr.insertReminder()
         }
         Index().write()
     }
 
     private suspend fun deleteEvents() {
-        val existingIds = arrayListOf<Long>()
+        /*val existingIds = arrayListOf<Long>()
         c.contentResolver.query(
             CCE.CONTENT_URI, arrayOf(CCE._ID), "calendar_id = ?", arrayOf("$id"), CCE._ID
         )?.use {
@@ -101,7 +100,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         }
         if (existingIds.isEmpty()) return
         for (ev in existingIds)
-            c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", arrayOf(ev.toString()))
+            c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", arrayOf(ev.toString()))*/
         // CCR inherits "calendar_id" but the Reminders table actually has no such column!
         c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
     }
@@ -133,21 +132,22 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         }
     }
 
-    private fun Crush.insertReminder() {
+    // import android.provider.CalendarContract.Reminders as CCR
+    /*private fun Crush.insertReminder() {
         ContentValues().apply {
             put(CCR.EVENT_ID, index[key])
             put(CCR.MINUTES, 1440 * 1)
             put(CCR.METHOD, CCR.METHOD_DEFAULT)
             c.contentResolver.insert(CCR.CONTENT_URI, this)
         }
-    }
+    }*/
 
     fun updateEvent(oldCrush: Crush?, newCrush: Crush?) {
         when {
             oldCrush == null && newCrush != null -> {
                 newCrush.insertEvent()
                 Index().write()
-                newCrush.insertReminder()
+                //newCrush.insertReminder()
             }
             oldCrush != null && newCrush != null -> {
                 val ev = arrayOf(index[oldCrush.key].toString())
@@ -167,15 +167,15 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
                     if (size() > 0)
                         c.contentResolver.update(CCE.CONTENT_URI, this, "_id = ?", ev)
                 }
-                when {
+                /*when {
                     !oldCrush.notifyBirth && newCrush.notifyBirth -> newCrush.insertReminder()
                     oldCrush.notifyBirth && !newCrush.notifyBirth ->
                         c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", ev)
-                }
+                }*/
             }
             oldCrush != null && newCrush == null -> {
                 val ev = arrayOf(index[oldCrush.key].toString())
-                c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", ev)
+                //c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", ev)
                 c.contentResolver.delete(CCE.CONTENT_URI, "_id = ?", ev)
                 index.remove(oldCrush.key)
                 Index().write()

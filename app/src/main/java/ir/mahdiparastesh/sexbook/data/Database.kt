@@ -59,8 +59,7 @@ abstract class Database : RoomDatabase() {
             }, object : Migration(3, 4) {
                 override fun migrate(db: SupportSQLiteDatabase) {
                     db.execSQL("ALTER TABLE Guess ADD COLUMN able INTEGER NOT NULL DEFAULT 1")
-                    /* TODO It throws a one-time and it's okay in the next launch:
-                     * SQLiteException: duplicate column name: able (code 1 SQLITE_ERROR[1]): ,
+                    /* SQLiteException: duplicate column name: able (code 1 SQLITE_ERROR[1]): ,
                      * while compiling: ALTER TABLE Guess ADD COLUMN able INTEGER NOT NULL DEFAULT 1
                      * Apparently a new error because of the recent updates in Room.
                      * Someone said it's an error in androidx.work! Our Work class is not associated

@@ -18,6 +18,7 @@
     <color name="hint">#AF9A7C00</color>
     <color name="textHighlight">#70999999</color>
     <color name="dialogHint">#AF6F5900</color>
+    <color name="weakWhite">#44FFFFFF</color>
 
     <!-- Main -->
     <color name="toolbar">@color/CP</color>
@@ -63,4 +64,7 @@
     <color name="mdtp_calendar_selected_day_text">@color/mdtp_white</color>
     <color name="mdtp_button_color">@color/CPDD</color>
     <color name="mdtp_light_gray">#424242</color>
+
+    <!-- #External -->
+    <color name="lastOrgasm">#AAFFD422</color>
 </resources>

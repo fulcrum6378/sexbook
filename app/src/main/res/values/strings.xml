@@ -201,7 +201,9 @@
     </string-array>
 
     <!-- #External -->
-    <string name="sBirthday">%s\'s Birthday</string>
+    <string name="sBirthday">%s\'s birthday</string>
+    <string name="lastOrgasm">hours since the last one.</string>
+    <string name="lastOrgasmDesc">Shows hours elapsed since your last orgasm!</string>
     <string name="permReadDb" translatable="false">
         Allows the app to view data from the Sexbook database.
     </string>

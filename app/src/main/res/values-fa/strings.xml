@@ -188,4 +188,6 @@
 
     <!-- #External -->
     <string name="sBirthday">تولد %s</string>
+    <string name="lastOrgasm">ساعت از آخرین بار گذشته.</string>
+    <string name="lastOrgasmDesc">ساعت های گذشته از آخرین ارگاسم را نشان میدهد!</string>
 </resources>

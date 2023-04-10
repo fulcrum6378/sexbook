@@ -127,4 +127,6 @@
 
     <!-- #External -->
     <string name="sBirthday">%ss Geburtstag</string>
+    <string name="lastOrgasm">Stunden seitdem letzten.</string>
+    <string name="lastOrgasmDesc">Zeigt die seit Ihrem letzten Orgasmus verstrichenen Stunden an!</string>
 </resources>
