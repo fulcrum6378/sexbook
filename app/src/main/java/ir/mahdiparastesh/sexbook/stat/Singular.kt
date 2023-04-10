@@ -131,6 +131,7 @@ class Singular : BaseActivity() {
         }
 
         fun identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
+            val oldCrush = crush?.copy()
             val bi = IdentifyBinding.inflate(c.layoutInflater)
             AppCompatResources.getColorStateList(c, R.color.chip_normal).also {
                 bi.masc.trackTintList = it
@@ -200,7 +201,7 @@ class Singular : BaseActivity() {
                     )
                     Work(
                         c, if (crush == null) Work.C_INSERT_ONE else Work.C_UPDATE_ONE,
-                        listOf(inserted), handler
+                        listOf<Any?>(inserted, oldCrush), handler
                     ).start()
                     c.shake()
                 }
@@ -211,7 +212,7 @@ class Singular : BaseActivity() {
                         setTitle(c.getString(R.string.crushClear, crush.key))
                         setMessage(R.string.crushClearSure)
                         setPositiveButton(R.string.yes) { _, _ ->
-                            Work(c, Work.C_DELETE_ONE, listOf(crush), handler).start()
+                            Work(c, Work.C_DELETE_ONE, listOf(crush, null), handler).start()
                             c.shake()
                             ad1.dismiss()
                         }

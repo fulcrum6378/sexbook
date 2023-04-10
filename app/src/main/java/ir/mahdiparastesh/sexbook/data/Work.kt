@@ -7,7 +7,7 @@ import ir.mahdiparastesh.sexbook.*
 class Work(
     val c: Context,
     val action: Int,
-    private val values: List<Any>? = null,
+    private val values: List<Any?>? = null,
     val handler: Handler? = when {
         action < 10 -> if (PageSex.handler.value != null) PageSex.handler.value!! else Main.handler
         action < 20 -> if (PageLove.handler.value != null) PageLove.handler.value!! else Main.handler
@@ -56,7 +56,9 @@ class Work(
         // Other
         const val TIMEOUT = 5000L
         const val SPECIAL_ADD = 100
+
         // const val ADMOB_LOADED = 101
+        const val CRUSH_ALTERED = 102
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -117,6 +119,7 @@ class Work(
                 var result: Long = -1
                 if (!values.isNullOrEmpty()) result = dao.cInsert(values[0] as Crush)
                 handler?.obtainMessage(action, result)?.sendToTarget()
+                Main.handler!!.obtainMessage(CRUSH_ALTERED, values!!.reversed()).sendToTarget()
             }
 
             C_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
@@ -131,6 +134,7 @@ class Work(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, values[0]
                 )?.sendToTarget()
+                Main.handler!!.obtainMessage(CRUSH_ALTERED, values.reversed()).sendToTarget()
             }
 
             C_DELETE_ONE -> if (!values.isNullOrEmpty()) {
@@ -139,6 +143,7 @@ class Work(
                     action, if (values.size > 1) values[1] as Int else 0,
                     if (values.size > 2) values[2] as Int else 0, values[0]
                 )?.sendToTarget()
+                Main.handler!!.obtainMessage(CRUSH_ALTERED, values.reversed()).sendToTarget()
             }
 
 

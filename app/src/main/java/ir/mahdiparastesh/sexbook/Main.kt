@@ -24,7 +24,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.database.getStringOrNull
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
@@ -42,7 +41,6 @@ import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.stat.*
 import kotlin.math.abs
 import kotlin.system.exitProcess
-import android.provider.CalendarContract.Events as CCE
 
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener {
@@ -50,7 +48,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private val exporter = Exporter(this)
     private var pageSex: PageSex? = null
     private var pageLove: PageLove? = null
-    private lateinit var calManager: CalendarManager
+    private var calManager: CalendarManager? = null
     private var exiting = false
     /*private lateinit var adBanner: AdView
     private var adBannerLoaded = false*/
@@ -95,12 +93,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                                 notifyBirth(it, dist)
                         }
                     }
-                    Work.C_REPLACE_ALL -> calManager.replaceEvents(msg.obj as List<Crush>)
+                    Work.C_REPLACE_ALL -> calManager?.replaceEvents(msg.obj as List<Crush>)
                     Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>)
                     Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>).apply {
                         sortWith(GuessAdap.Sort())
                         instillGuesses()
                     }
+                    Work.CRUSH_ALTERED -> (msg.obj as List<Crush?>)
+                        .also { calManager?.updateEvent(it[0], it[1]) }
                 }
             }
         }
@@ -157,23 +157,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
         }*/
-
-        /*val sb = StringBuilder()
-        c.contentResolver.query(
-            CCE.CONTENT_URI, arrayOf(CCE.TITLE, CCE._ID),
-            "calendar_id = ?", arrayOf("17"), CCE._ID
-        )?.use {
-            if (!it.moveToFirst()) return@use
-            for (i in 0 until it.count) {
-                sb.append(it.getStringOrNull(it.getColumnIndex(CCE._ID))).append(". ")
-                    .append(it.getStringOrNull(it.getColumnIndex(CCE.TITLE))).append("\n")
-                it.moveToNext()
-            }
-        }
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Test")
-            .setMessage(sb.toString())
-            .show()*/
 
         intent.check(true)
         Work(c, Work.C_VIEW_ALL).start()

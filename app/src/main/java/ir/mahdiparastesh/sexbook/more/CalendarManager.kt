@@ -18,6 +18,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import android.provider.CalendarContract.Calendars as CCC
 import android.provider.CalendarContract.Events as CCE
+import android.provider.CalendarContract.Reminders as CCR
 
 @Suppress("BlockingMethodInNonBlockingContext", "RedundantSuspendModifier")
 class CalendarManager(private val c: BaseActivity, private var crushes: Iterable<Crush>?) {
@@ -26,7 +27,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     private val accType = CalendarContract.ACCOUNT_TYPE_LOCAL
     private val tz = "GMT"
     private var index: HashMap<String/*CRUSH_KEY*/, Long/*EVENT_ID*/>? = null
-    private val DEBUG = false
+    private val DEBUG = true
 
     init {
         CoroutineScope(Dispatchers.IO).launch { initialise() }
@@ -65,7 +66,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
             val fIndex = Index()
             if (fIndex.exists()) {
                 index = Gson().fromJson(
-                    FileInputStream(fIndex).use { it.readBytes() }.toString(),
+                    FileInputStream(fIndex).use { it.readBytes() }.toString(Charsets.UTF_8),
                     object : TypeToken<HashMap<String, Long>>() {}.type
                 )
                 // TODO CHECK FOR INTEGRITY using crushes
@@ -85,23 +86,27 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
 
     private suspend fun insertEvents(crushes: Iterable<Crush>) {
         index = hashMapOf()
-        for (cr in crushes) if (cr.hasFullBirth()) ContentValues().apply {
-            put(CCE.CALENDAR_ID, id)
-            put(CCE.TITLE, c.getString(R.string.sBirthday, cr.visName()))
-            put(CCE.DTSTART, GregorianCalendar(TimeZone.getTimeZone(tz)).let {
-                it.set(cr.bYear.toInt(), cr.bMonth.toInt(), cr.bDay.toInt()); it.timeInMillis
-            })
-            put(CCE.RRULE, "FREQ=YEARLY")
-            put(CCE.DURATION, "P1D")
-            put(CCE.ALL_DAY, 1)
-            put(CCE.EVENT_TIMEZONE, tz)
-            c.contentResolver.insert(CCE.CONTENT_URI, this)
-                ?.also { index!![cr.key] = it.getId() }
+        for (cr in crushes) if (cr.hasFullBirth()) {
+            cr.insertEvent()
+            if (cr.notifyBirth) cr.insertReminder()
         }
         FileOutputStream(Index()).use { it.write(Gson().toJson(index).encodeToByteArray()) }
     }
 
     private suspend fun deleteEvents() {
+        val existingIds = arrayListOf<Long>()
+        c.contentResolver.query(
+            CCE.CONTENT_URI, arrayOf(CCE._ID), "calendar_id = ?", arrayOf("$id"), CCE._ID
+        )?.use {
+            if (it.moveToFirst()) for (i in 0 until it.count) {
+                it.getLongOrNull(it.getColumnIndex(CCE._ID))?.also { l -> existingIds.add(l) }
+                it.moveToNext()
+            }
+        }
+        if (existingIds.isEmpty()) return
+        for (ev in existingIds)
+            c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", arrayOf(ev.toString()))
+        // CCR inherits "calendar_id" but the Reminders table actually has no such column!
         c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
     }
 
@@ -115,7 +120,68 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     private fun Uri.getId() =
         toString().substringAfterLast("/").substringBefore("?").toLong()
 
-    fun updateEvent(crush: Crush) {
+    private fun Crush.insertEvent() {
+        ContentValues().apply {
+            put(CCE.CALENDAR_ID, id)
+            put(CCE.TITLE, c.getString(R.string.sBirthday, visName()))
+            put(CCE.DTSTART, GregorianCalendar(TimeZone.getTimeZone(tz)).let {
+                it.set(bYear.toInt(), bMonth.toInt(), bDay.toInt()); it.timeInMillis
+            })
+            put(CCE.RRULE, "FREQ=YEARLY")
+            put(CCE.DURATION, "P1D")
+            put(CCE.ALL_DAY, 1)
+            put(CCE.EVENT_TIMEZONE, tz)
+            c.contentResolver.insert(CCE.CONTENT_URI, this)
+                ?.also { index!![key] = it.getId() }
+        }
+    }
+
+    private fun Crush.insertReminder() {
+        ContentValues().apply {
+            put(CCR.EVENT_ID, index!![key])
+            put(CCR.MINUTES, 1440 * 1)
+            put(CCR.METHOD, CCR.METHOD_DEFAULT)
+            c.contentResolver.insert(CCR.CONTENT_URI, this)
+        }
+    }
+
+    fun updateEvent(oldCrush: Crush?, newCrush: Crush?) {
+        when {
+            oldCrush == null && newCrush != null -> {
+                newCrush.insertEvent()
+                newCrush.insertReminder()
+            }
+            oldCrush != null && newCrush != null -> {
+                val ev = arrayOf(index!![oldCrush.key].toString())
+                ContentValues().apply {
+                    if (oldCrush.visName() != newCrush.visName())
+                        put(CCE.TITLE, c.getString(R.string.sBirthday, newCrush.visName()))
+                    if (oldCrush.bYear != newCrush.bYear ||
+                        oldCrush.bMonth != newCrush.bMonth ||
+                        oldCrush.bDay != newCrush.bDay
+                    ) put(CCE.DTSTART, GregorianCalendar(TimeZone.getTimeZone(tz)).let {
+                        it.set(
+                            newCrush.bYear.toInt(),
+                            newCrush.bMonth.toInt(),
+                            newCrush.bDay.toInt()
+                        ); it.timeInMillis
+                    })
+                    if (size() > 0)
+                        c.contentResolver.update(CCE.CONTENT_URI, this, "_id = ?", ev)
+                }
+                when {
+                    !oldCrush.notifyBirth && newCrush.notifyBirth -> newCrush.insertReminder()
+                    oldCrush.notifyBirth && !newCrush.notifyBirth ->
+                        c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", ev)
+                }
+            }
+            oldCrush != null && newCrush == null -> {
+                val ev = arrayOf(index!![oldCrush.key].toString())
+                c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", ev)
+                c.contentResolver.delete(CCE.CONTENT_URI, "_id = ?", ev)
+            }
+            else -> throw IllegalArgumentException("At least one of the arguments must not be null.")
+        }
     }
 
     inner class Index : File(c.cacheDir, "calendar_index.json")

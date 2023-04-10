@@ -84,6 +84,10 @@ public class Crush {
         return bYear != -1 && bMonth != -1 && bDay != -1;
     }
 
+    public Crush copy() {
+        return new Crush(key, fName, mName, lName, masc, height, bYear, bMonth, bDay, locat, insta, notifyBirth);
+    }
+
     public static class Sort implements Comparator<Crush> {
         @Override
         public int compare(Crush a, Crush b) {
