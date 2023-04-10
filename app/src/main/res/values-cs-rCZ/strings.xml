@@ -126,4 +126,7 @@
     <string name="mdtp_previous_month_arrow_description">Předchozí měsíc</string>
     <string name="mdtp_am">DOP</string>
     <string name="mdtp_pm">ODP</string>
+
+    <!-- #External -->
+    <string name="sBirthday">Narozeniny %s</string>
 </resources>

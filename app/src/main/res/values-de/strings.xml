@@ -124,4 +124,7 @@
     <string name="mdtp_deleted_key">%s gelöscht</string>
     <string name="mdtp_next_month_arrow_description">Nächsten Monat</string>
     <string name="mdtp_previous_month_arrow_description">Vorheriger Monat</string>
+
+    <!-- #External -->
+    <string name="sBirthday">%ss Geburtstag</string>
 </resources>

@@ -1,10 +1,13 @@
 package ir.mahdiparastesh.sexbook.more
 
+import android.Manifest
 import android.content.ContentValues
+import android.content.pm.PackageManager
 import android.icu.util.GregorianCalendar
 import android.icu.util.TimeZone
 import android.net.Uri
 import android.provider.CalendarContract
+import androidx.core.app.ActivityCompat
 import androidx.core.database.getLongOrNull
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -26,8 +29,8 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     private val accName = "sexbook"
     private val accType = CalendarContract.ACCOUNT_TYPE_LOCAL
     private val tz = "GMT"
-    private var index: HashMap<String/*CRUSH_KEY*/, Long/*EVENT_ID*/>? = null
-    private val DEBUG = true
+    private lateinit var index: HashMap<String/*CRUSH_KEY*/, Long/*EVENT_ID*/>
+    private val DEBUG = false
 
     init {
         CoroutineScope(Dispatchers.IO).launch { initialise() }
@@ -63,14 +66,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
             )?.also { id = it.getId() }
             insertEvents(crushes!!)
         } else {
-            val fIndex = Index()
-            if (fIndex.exists()) {
-                index = Gson().fromJson(
-                    FileInputStream(fIndex).use { it.readBytes() }.toString(Charsets.UTF_8),
-                    object : TypeToken<HashMap<String, Long>>() {}.type
-                )
-                // TODO CHECK FOR INTEGRITY using crushes
-            } else {
+            if (!Index().read()) {
                 deleteEvents()
                 insertEvents(crushes!!)
             }
@@ -90,7 +86,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
             cr.insertEvent()
             if (cr.notifyBirth) cr.insertReminder()
         }
-        FileOutputStream(Index()).use { it.write(Gson().toJson(index).encodeToByteArray()) }
+        Index().write()
     }
 
     private suspend fun deleteEvents() {
@@ -120,6 +116,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     private fun Uri.getId() =
         toString().substringAfterLast("/").substringBefore("?").toLong()
 
+    /** Write the index after executing this function. */
     private fun Crush.insertEvent() {
         ContentValues().apply {
             put(CCE.CALENDAR_ID, id)
@@ -132,13 +129,13 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
             put(CCE.ALL_DAY, 1)
             put(CCE.EVENT_TIMEZONE, tz)
             c.contentResolver.insert(CCE.CONTENT_URI, this)
-                ?.also { index!![key] = it.getId() }
+                ?.also { index[key] = it.getId() }
         }
     }
 
     private fun Crush.insertReminder() {
         ContentValues().apply {
-            put(CCR.EVENT_ID, index!![key])
+            put(CCR.EVENT_ID, index[key])
             put(CCR.MINUTES, 1440 * 1)
             put(CCR.METHOD, CCR.METHOD_DEFAULT)
             c.contentResolver.insert(CCR.CONTENT_URI, this)
@@ -149,10 +146,11 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         when {
             oldCrush == null && newCrush != null -> {
                 newCrush.insertEvent()
+                Index().write()
                 newCrush.insertReminder()
             }
             oldCrush != null && newCrush != null -> {
-                val ev = arrayOf(index!![oldCrush.key].toString())
+                val ev = arrayOf(index[oldCrush.key].toString())
                 ContentValues().apply {
                     if (oldCrush.visName() != newCrush.visName())
                         put(CCE.TITLE, c.getString(R.string.sBirthday, newCrush.visName()))
@@ -176,13 +174,42 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
                 }
             }
             oldCrush != null && newCrush == null -> {
-                val ev = arrayOf(index!![oldCrush.key].toString())
+                val ev = arrayOf(index[oldCrush.key].toString())
                 c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", ev)
                 c.contentResolver.delete(CCE.CONTENT_URI, "_id = ?", ev)
+                index.remove(oldCrush.key)
+                Index().write()
             }
             else -> throw IllegalArgumentException("At least one of the arguments must not be null.")
         }
     }
 
-    inner class Index : File(c.cacheDir, "calendar_index.json")
+    inner class Index : File(c.cacheDir, "calendar_index.json") {
+        fun read(): Boolean {
+            if (!exists()) return false
+            index = Gson().fromJson(
+                FileInputStream(this).use { it.readBytes() }.toString(Charsets.UTF_8),
+                object : TypeToken<HashMap<String, Long>>() {}.type
+            )
+            return true
+        }
+
+        fun write() {
+            FileOutputStream(Index()).use { it.write(Gson().toJson(index).encodeToByteArray()) }
+        }
+    }
+
+    companion object {
+        const val reqCode = 1
+
+        fun checkPerm(c: BaseActivity) = ActivityCompat.checkSelfPermission(
+            c, Manifest.permission.WRITE_CALENDAR
+        ) == PackageManager.PERMISSION_GRANTED
+
+        fun askPerm(c: BaseActivity) {
+            ActivityCompat.requestPermissions(
+                c, arrayOf(Manifest.permission.WRITE_CALENDAR), reqCode
+            )
+        }
+    }
 }

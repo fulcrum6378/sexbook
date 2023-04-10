@@ -72,11 +72,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 when (msg.what) {
                     Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
                     Work.C_VIEW_ALL -> m.liefde.value = (msg.obj as ArrayList<Crush>).apply {
-                        if (isNotEmpty() && ActivityCompat.checkSelfPermission(
-                                this@Main, Manifest.permission.WRITE_CALENDAR
-                            )
-                            == PackageManager.PERMISSION_GRANTED
-                        ) calManager = CalendarManager(this@Main, this) // TODO RUNTIME PERMISSION
+                        if (isEmpty()) return@apply
+                        if (CalendarManager.checkPerm(this@Main))
+                            calManager = CalendarManager(this@Main, this)
+                        else CalendarManager.askPerm(this@Main)
 
                         if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                                     ) < Settings.notifyBirthAfterLastTime
@@ -213,10 +212,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         return true
     }
 
-    /*override fun onRequestPermissionsResult(code: Int, arr: Array<out String>, res: IntArray) {
+    override fun onRequestPermissionsResult(code: Int, arr: Array<out String>, res: IntArray) {
         super.onRequestPermissionsResult(code, arr, res)
-        if (res.isNotEmpty() && res[0] == PackageManager.PERMISSION_GRANTED) DO SOMETHING
-    }*/
+        if (res.isNotEmpty() && res[0] == PackageManager.PERMISSION_GRANTED)
+            if (code == CalendarManager.reqCode)
+                calManager = CalendarManager(this, m.liefde.value)
+    }
 
     @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
     override fun onBackPressed() { // Don't use super's already overridden function
@@ -422,5 +423,4 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Extension:
   * Multi-optional sorting feature for Crushes
   * "First met" for Crush
-  * Putting the events { crush birthdays, etc } customisably into the calendar.
   */

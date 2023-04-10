@@ -185,4 +185,7 @@
         <item>ماگ</item>
         <item>فال</item>
     </string-array>
+
+    <!-- #External -->
+    <string name="sBirthday">تولد %s</string>
 </resources>

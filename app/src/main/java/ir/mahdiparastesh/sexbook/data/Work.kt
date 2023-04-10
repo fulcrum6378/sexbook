@@ -131,7 +131,7 @@ class Work(
             C_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.cUpdate(values[0] as Crush)
                 handler?.obtainMessage(
-                    action, if (values.size > 1) values[1] as Int else 0,
+                    action, /*if (values.size > 1) values[1] as Int else*/ 0,
                     if (values.size > 2) values[2] as Int else 0, values[0]
                 )?.sendToTarget()
                 Main.handler!!.obtainMessage(CRUSH_ALTERED, values.reversed()).sendToTarget()
@@ -140,7 +140,7 @@ class Work(
             C_DELETE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.cDelete(values[0] as Crush)
                 handler?.obtainMessage(
-                    action, if (values.size > 1) values[1] as Int else 0,
+                    action, /*if (values.size > 1) values[1] as Int else*/ 0,
                     if (values.size > 2) values[2] as Int else 0, values[0]
                 )?.sendToTarget()
                 Main.handler!!.obtainMessage(CRUSH_ALTERED, values.reversed()).sendToTarget()
