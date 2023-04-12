@@ -25,6 +25,7 @@ import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.Delay
+import ir.mahdiparastesh.sexbook.more.LastOrgasm
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 import java.util.*
 
@@ -141,6 +142,10 @@ class PageSex : Fragment() {
                     Work.SCROLL -> b.rv.smoothScrollBy(0, msg.obj as Int)
                     Work.SPECIAL_ADD -> add()
                 }
+
+                if (msg.what in
+                    arrayOf(Work.INSERT_ONE, Work.REPLACE_ALL, Work.UPDATE_ONE, Work.DELETE_ONE)
+                ) LastOrgasm.externalUpdate(c)
             }
         }
         messages.clear()

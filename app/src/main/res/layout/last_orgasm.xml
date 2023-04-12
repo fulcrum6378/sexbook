@@ -1,41 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/last_orgasm"
+    android:orientation="vertical"
     android:theme="@style/Theme.Sexbook"
     tools:viewBindingIgnore="true">
 
     <TextView
         android:id="@+id/number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:paddingBottom="28dp"
-        android:textAlignment="center"
-        android:textColor="?attr/colorOnPrimary"
-        android:textSize="21sp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="bottom|center_horizontal"
+        android:layout_weight="0.5"
+        android:textColor="@color/CPDDD"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="top|center_horizontal"
+        android:layout_weight="0.5"
         android:lineSpacingExtra="3sp"
         android:paddingStart="10dp"
+        android:paddingTop="0dp"
         android:paddingEnd="10dp"
-        android:paddingBottom="18dp"
         android:text="@string/lastOrgasm"
-        android:textAlignment="center"
-        android:textColor="?attr/colorOnPrimary"
+        android:textColor="@color/CPDDD"
         android:textSize="10sp"
         tools:ignore="SmallSp" />
-</RelativeLayout>
+</LinearLayout>

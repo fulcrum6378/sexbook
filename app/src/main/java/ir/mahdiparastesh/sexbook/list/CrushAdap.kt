@@ -64,6 +64,10 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                 menu.findItem(R.id.lcStatistics).isEnabled = sum != null && sum > 0.0
             }.show()
         }
+        h.b.root.setOnLongClickListener {
+            c.m.liefde.value?.get(h.layoutPosition)
+                ?.also { Singular.identify(c, it, PageLove.handler.value) }; true
+        }
     }
 
     override fun getItemCount() = c.m.liefde.value?.size ?: 0
