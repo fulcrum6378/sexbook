@@ -64,7 +64,7 @@ class SumChips : Fragment() {
         pluses.onLoad {
             b.list.setPaddingRelative(
                 b.list.paddingStart, b.list.paddingTop, b.list.paddingEnd,
-                c.dp(60) + pluses.height
+                b.list.paddingBottom + pluses.height
             )
         }
     }

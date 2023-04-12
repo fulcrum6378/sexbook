@@ -1,35 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/last_orgasm"
-    android:orientation="vertical"
     android:theme="@style/Theme.Sexbook"
+    app:layout_anchorGravity="center"
     tools:viewBindingIgnore="true">
 
-    <TextView
-        android:id="@+id/number"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="bottom|center_horizontal"
-        android:layout_weight="0.5"
-        android:textColor="@color/CPDDD"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="top|center_horizontal"
-        android:layout_weight="0.5"
-        android:lineSpacingExtra="3sp"
-        android:paddingStart="10dp"
-        android:paddingTop="0dp"
-        android:paddingEnd="10dp"
-        android:text="@string/lastOrgasm"
-        android:textColor="@color/CPDDD"
-        android:textSize="10sp"
-        tools:ignore="SmallSp" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="@dimen/lastOrgasmNumPadTop"
+            android:textAlignment="center"
+            android:textColor="@color/CPDDD"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="3sp"
+            android:paddingStart="10dp"
+            android:paddingTop="@dimen/lastOrgasmExpPadTop"
+            android:paddingEnd="10dp"
+            android:text="@string/lastOrgasm"
+            android:textAlignment="center"
+            android:textColor="@color/CPDDD"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+    </LinearLayout>
+</FrameLayout>

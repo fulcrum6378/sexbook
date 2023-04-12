@@ -32,7 +32,7 @@ class Recency(sum: Summary) {
         })
         c.m.lookingFor?.also { find.setText(it) }
         list.adapter = StatRecAdap(c, this@Recency)
-        list.layoutParams.height = (c.dm.heightPixels * .7f).toInt()
+        list.clipToPadding = false
     }.root
 
     data class Item(val name: String, val time: Long)

@@ -50,6 +50,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private var pageLove: PageLove? = null
     private var calManager: CalendarManager? = null
     private var exiting = false
+    private val drawerGravity = GravityCompat.START
     /*private lateinit var adBanner: AdView
     private var adBannerLoaded = false*/
 
@@ -109,17 +110,23 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         else if (night()) b.loadIV.colorFilter = pdcf()
 
         // Navigation
-        /*object : */ActionBarDrawerToggle(
+        object : ActionBarDrawerToggle(
             this, b.root, b.toolbar, R.string.sOpen, R.string.close
-        )/* {
+        ) {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
-                if (::adBanner.isInitialized && !adBannerLoaded) {
+                m.navOpen = true
+                /*if (::adBanner.isInitialized && !adBannerLoaded) {
                     adBanner.loadAd(AdRequest.Builder().build())
                     adBannerLoaded = true
-                }
+                }*/
             }
-        }*/.apply {
+
+            override fun onDrawerClosed(drawerView: View) {
+                super.onDrawerClosed(drawerView)
+                m.navOpen = false
+            }
+        }.apply {
             b.root.addDrawerListener(this@apply)
             isDrawerIndicatorEnabled = true
             syncState()
@@ -150,6 +157,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // Miscellaneous
         m.onani.observe(this) { instilledGuesses = false }
+        if (m.navOpen) b.root.openDrawer(drawerGravity)
         if (m.showingSummary) summary()
         if (m.showingRecency) recency()
         /*if (showAdAfterRecreation) {
@@ -221,8 +229,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
     override fun onBackPressed() { // Don't use super's already overridden function
-        if (b.root.isDrawerOpen(GravityCompat.START)) {
-            b.root.closeDrawer(GravityCompat.START); return; }
+        if (b.root.isDrawerOpen(drawerGravity)) {
+            b.root.closeDrawer(drawerGravity); return; }
         if (!exiting) {
             exiting = true
             Delay(4000) { exiting = false }
@@ -246,7 +254,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             Intent.ACTION_VIEW -> data?.also { Exporter.import(this@Main, it) }
             Action.ADD.s -> pageSex?.messages?.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> {
-                m.reset()
+                m.resetData()
                 // showAdAfterRecreation = true
                 recreate()
             }
@@ -420,7 +428,15 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 }
 
 /* TODO:
+  * Problems:
+  * Chart statistics show nothhing when provided by only a single time frame
+  * Scroll to the "found" item during a search
+  * Tweak days before a borthday reminder
+  * Tweak global vibration
+  * Statisticise delays in hours between orgasms
+  * -
   * Extension:
+  * Add Russian support
   * Multi-optional sorting feature for Crushes
   * "First met" for Crush
   */

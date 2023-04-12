@@ -43,22 +43,7 @@ class LastOrgasm : AppWidgetProvider() {
         }
 
         fun externalUpdate(c: Context) {
-            /*c.sendBroadcast(
-                Intent(c, LastOrgasm::class.java)
-                    .setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
-                    .putExtra(
-                        AppWidgetManager.EXTRA_APPWIDGET_IDS, AppWidgetManager.getInstance(c)
-                            .getAppWidgetIds(ComponentName(c, LastOrgasm::class.java))
-                    )
-            )*/
             checkDb(c) { n ->
-                /*AppWidgetManager.getInstance(c).apply {
-                    partiallyUpdateAppWidget(
-                        getAppWidgetIds(ComponentName(c, LastOrgasm::class.java)),
-                        RemoteViews(c.packageName, R.layout.last_orgasm)
-                            .apply { setTextViewText(R.id.number, n.toString()) }
-                    )
-                }*/
                 AppWidgetManager.getInstance(c).updateAppWidget(
                     ComponentName(c, LastOrgasm::class.java.name), update(c, n)
                 )

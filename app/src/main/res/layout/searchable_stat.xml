@@ -26,13 +26,12 @@
         app:fontFamily="@font/normal"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- set paddingBottom in SumChips#onViewCreated
-         marginBottom won't work! -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:paddingBottom="60dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/find" />
 </androidx.constraintlayout.widget.ConstraintLayout>

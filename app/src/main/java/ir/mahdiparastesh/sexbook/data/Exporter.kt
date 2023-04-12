@@ -105,7 +105,7 @@ class Exporter(val c: BaseActivity) {
                     }
                 }
             }.apply()
-            c.m.reset()
+            c.m.resetData()
         }
     }
 

@@ -55,12 +55,13 @@
 
     <style name="Theme.Sexbook.Dialogue.Title" parent="MaterialAlertDialog.Material3.Title.Text">
         <item name="android:textColor">@color/CPDD</item>
-        <item name="fontFamily">@font/normal</item>
+        <item name="fontFamily">@font/bold</item>
     </style>
 
     <style name="Theme.Sexbook.Dialogue.Body" parent="MaterialAlertDialog.Material3.Body.Text">
         <item name="android:textColor">@color/CPDD</item>
         <item name="android:textSize">15.5sp</item>
+        <item name="fontFamily">@font/normal</item>
         <item name="lineHeight">25sp</item><!--android:lineSpacingExtra doesn't work here.-->
     </style>
 

@@ -22,11 +22,12 @@ class Model : ViewModel() {
     var listFilter = -1
     var summary: Summary? = null
     var recency: Recency? = null
+    var navOpen = false
     var showingSummary = false
     var showingRecency = false
     var lookingFor: String? = null
 
-    fun reset() {
+    fun resetData() {
         onani.value = null
         liefde.value = null
         places.value = null
