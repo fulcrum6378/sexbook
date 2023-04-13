@@ -67,6 +67,7 @@ abstract class Database : RoomDatabase() {
                      * androidx.work or a new error in Room! */
                 }
             }) // Do not remove migrations so hurriedly! Wait at least for a few months...
+            .allowMainThreadQueries()
             .build()
     }
 

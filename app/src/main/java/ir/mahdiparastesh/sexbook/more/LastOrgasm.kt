@@ -11,25 +11,19 @@ import ir.mahdiparastesh.sexbook.Fun.now
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Database
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class LastOrgasm : AppWidgetProvider() {
     override fun onUpdate(c: Context, manager: AppWidgetManager, ids: IntArray) {
-        checkDb(c) { n -> ids.forEach { id -> manager.updateAppWidget(id, update(c, n)) } }
+        ids.forEach { id -> manager.updateAppWidget(id, update(c, latest(c))) }
     }
 
     /** partiallyUpdateAppWidget sucks and sending broadcast is not recommended by the guide! */
     companion object {
-        private fun checkDb(c: Context, func: suspend (number: Int) -> Unit) {
-            CoroutineScope(Dispatchers.IO).launch {
-                val db = Database.build(c)
-                val number = ((now() - db.dao().whenWasTheLastTime()) / 3600000L).toInt()
-                db.close()
-                withContext(Dispatchers.Main) { func(number) }
-            }
+        private fun latest(c: Context): Int {
+            val db = Database.build(c)
+            val number = ((now() - db.dao().whenWasTheLastTime()) / 3600000L).toInt()
+            db.close()
+            return number
         }
 
         private fun update(
@@ -43,11 +37,9 @@ class LastOrgasm : AppWidgetProvider() {
         }
 
         fun externalUpdate(c: Context) {
-            checkDb(c) { n ->
-                AppWidgetManager.getInstance(c).updateAppWidget(
-                    ComponentName(c, LastOrgasm::class.java.name), update(c, n)
-                )
-            }
+            AppWidgetManager.getInstance(c).updateAppWidget(
+                ComponentName(c, LastOrgasm::class.java.name), update(c, latest(c))
+            )
         }
     }
 }
