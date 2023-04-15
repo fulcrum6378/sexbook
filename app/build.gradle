@@ -5,14 +5,14 @@ apply plugin: 'kotlin-kapt'
 android {
     namespace 'ir.mahdiparastesh.sexbook'
     compileSdkVersion 33
-    buildToolsVersion '34.0.0-rc2'
+    buildToolsVersion '34.0.0 rc3'
 
     defaultConfig {
         applicationId 'ir.mahdiparastesh.sexbook'
         minSdkVersion 24
         targetSdkVersion 33
         versionCode 23
-        versionName '16.1.5'
+        versionName '16.1.7'
     }
 
     signingConfigs {
@@ -33,10 +33,10 @@ android {
     sourceSets.censored { res.srcDirs = ['src/main/res', 'src/main/res_censored'] }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions { jvmTarget = '1.8' }
+    kotlinOptions { jvmTarget = '17' }
 
     buildTypes {
         release {

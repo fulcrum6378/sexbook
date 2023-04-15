@@ -227,7 +227,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 calManager = CalendarManager(this, m.liefde.value)
     }
 
-    @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() { // Don't use super's already overridden function
         if (b.root.isDrawerOpen(drawerGravity)) {
             b.root.closeDrawer(drawerGravity); return; }
