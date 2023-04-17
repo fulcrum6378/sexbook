@@ -18,12 +18,25 @@
         android:inputType="text"
         android:paddingStart="@dimen/ssPadH"
         android:paddingTop="17dp"
-        android:paddingEnd="@dimen/ssPadH"
+        android:paddingEnd="45dp"
         android:paddingBottom="17dp"
         android:textColorHint="@color/searchHint"
         android:textIsSelectable="true"
         android:textSize="14sp"
         app:fontFamily="@font/normal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/notFound"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="@dimen/ssPadH"
+        android:alpha="0.9"
+        android:importantForAccessibility="no"
+        android:src="@drawable/error"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/find"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView

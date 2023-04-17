@@ -429,8 +429,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * Chart statistics show nothhing when provided by only a single time frame
-  * Scroll to the "found" item during a search
+  * Chart statistics show nothing when provided by only a single time frame
   * Tweak days before a borthday reminder
   * Tweak global vibration
   * Statisticise delays in hours between orgasms

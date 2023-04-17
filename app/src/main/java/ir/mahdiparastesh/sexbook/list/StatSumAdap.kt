@@ -16,7 +16,7 @@ import ir.mahdiparastesh.sexbook.stat.Singular
 
 class StatSumAdap(
     private val c: BaseActivity,
-    private val arr: List<MutableMap.MutableEntry<Float, ArrayList<String>>>
+    val arr: List<MutableMap.MutableEntry<Float, ArrayList<String>>>
 ) : RecyclerView.Adapter<AnyViewHolder<SumChipGroupBinding>>() {
 
     override fun onCreateViewHolder(
@@ -35,8 +35,7 @@ class StatSumAdap(
             h.b.root.addView(this)
         } else h.b.root.getChildAt(crush + 1) as Chip).apply {
             text = arr[i].value[crush]
-            val bb = c.m.lookingFor
-                ?.let { it != "" && text.toString().contains(it, true) } ?: false
+            val bb = c.m.lookForIt(text.toString())
             chipBackgroundColor = AppCompatResources.getColorStateList(
                 c, if (!bb) R.color.chip_normal else R.color.chip_search
             )

@@ -22,7 +22,7 @@ import java.io.FileOutputStream
 import android.provider.CalendarContract.Calendars as CCC
 import android.provider.CalendarContract.Events as CCE
 
-@Suppress("BlockingMethodInNonBlockingContext", "RedundantSuspendModifier")
+@Suppress("RedundantSuspendModifier")
 class CalendarManager(private val c: BaseActivity, private var crushes: Iterable<Crush>?) {
     var id = -1L
     private val accName = "sexbook"

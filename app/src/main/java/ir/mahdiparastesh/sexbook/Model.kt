@@ -27,6 +27,9 @@ class Model : ViewModel() {
     var showingRecency = false
     var lookingFor: String? = null
 
+    fun lookForIt(text: String) =
+        lookingFor?.let { it != "" && text.contains(it, true) } ?: false
+
     fun resetData() {
         onani.value = null
         liefde.value = null

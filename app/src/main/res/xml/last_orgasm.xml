@@ -14,3 +14,4 @@
     android:updatePeriodMillis="3600000"
     android:widgetCategory="home_screen"
     tools:ignore="UnusedAttribute" /><!--A grid cell is 30dp wide and 50dp tall.-->
+    <!-- Updates requested with updatePeriodMillis will not be delivered more than once every 30 minutes. -->

@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import ir.mahdiparastesh.sexbook.Fun.onLoad
 import ir.mahdiparastesh.sexbook.R
@@ -35,7 +36,21 @@ class SumChips : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 c.m.lookingFor = s.toString()
-                b.list.adapter?.notifyDataSetChanged()
+                b.notFound.isInvisible = true
+                (b.list.adapter as? StatSumAdap)?.also {
+                    it.notifyDataSetChanged()
+
+                    var firstGroup: Int? = null
+                    if (!c.m.lookingFor.isNullOrEmpty()) for (group in it.arr.indices) {
+                        for (chip in it.arr[group].value)
+                            if (c.m.lookForIt(chip)) {
+                                firstGroup = group
+                                break; }
+                        if (firstGroup != null) break
+                    }
+                    if (firstGroup != null) b.list.smoothScrollToPosition(firstGroup)
+                    b.notFound.isInvisible = firstGroup != null || c.m.lookingFor.isNullOrEmpty()
+                }
             }
         })
         c.m.lookingFor?.also { b.find.setText(it) }

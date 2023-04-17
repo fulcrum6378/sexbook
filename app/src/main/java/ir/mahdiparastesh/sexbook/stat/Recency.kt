@@ -3,6 +3,7 @@ package ir.mahdiparastesh.sexbook.stat
 import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.core.view.isInvisible
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.list.StatRecAdap
@@ -27,7 +28,15 @@ class Recency(sum: Summary) {
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 c.m.lookingFor = s.toString()
+
+                notFound.isInvisible = true
+                if (list.adapter == null) return
                 list.adapter?.notifyDataSetChanged()
+                val firstOccur = if (!c.m.lookingFor.isNullOrEmpty())
+                    arr.indexOfFirst { c.m.lookForIt(it.name) }.let { if (it != -1) it else null }
+                else null
+                if (firstOccur != null) list.smoothScrollToPosition(firstOccur)
+                notFound.isInvisible = firstOccur != null || c.m.lookingFor.isNullOrEmpty()
             }
         })
         c.m.lookingFor?.also { find.setText(it) }

@@ -35,10 +35,8 @@ class StatRecAdap(private val c: Main, private val rec: Recency) :
             c.m.crush = rec.arr[i].name
             c.startActivity(Intent(c, Singular::class.java))
         }
-        h.b.root.foreground = c.m.lookingFor?.let { lookingFor ->
-            if (lookingFor != "" && rec.arr[i].name.contains(lookingFor, true)
-            ) ColorDrawable(c.color(R.color.recencyHighlight)) else null
-        }
+        h.b.root.foreground = if (c.m.lookForIt(rec.arr[i].name))
+            ColorDrawable(c.color(R.color.recencyHighlight)) else null
     }
 
     override fun getItemCount() = rec.arr.size
