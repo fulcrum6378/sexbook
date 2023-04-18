@@ -5,7 +5,7 @@
     tools:context=".stat.Mixture"
     tools:ignore="MissingConstraints">
 
-    <lecho.lib.hellocharts.view.ColumnChartView
+    <ir.mahdiparastesh.hellocharts.view.ColumnChartView
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

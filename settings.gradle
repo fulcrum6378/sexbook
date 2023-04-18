@@ -3,7 +3,13 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://maven.pkg.github.com/fulcrum6378/hellocharts'
+            credentials {
+                username 'fulcrum6378'
+                password System.getenv("GHP_TOKEN")
+            }
+        }
     }
 }
 rootProject.name='Sexbook'

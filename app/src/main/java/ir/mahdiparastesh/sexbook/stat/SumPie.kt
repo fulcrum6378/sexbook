@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import ir.mahdiparastesh.hellocharts.model.PieChartData
+import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.sexbook.Fun.tripleRound
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SumPieBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import lecho.lib.hellocharts.model.PieChartData
-import lecho.lib.hellocharts.model.SliceValue
 
 class SumPie : Fragment() {
     val c: BaseActivity by lazy { activity as BaseActivity }

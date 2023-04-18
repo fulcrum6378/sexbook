@@ -7,6 +7,9 @@ import android.os.Looper
 import android.os.Message
 import androidx.appcompat.content.res.AppCompatResources
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import ir.mahdiparastesh.hellocharts.model.Column
+import ir.mahdiparastesh.hellocharts.model.ColumnChartData
+import ir.mahdiparastesh.hellocharts.model.SubColumnValue
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
@@ -22,9 +25,6 @@ import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 import ir.mahdiparastesh.sexbook.mdtp.Utils
 import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import lecho.lib.hellocharts.model.Column
-import lecho.lib.hellocharts.model.ColumnChartData
-import lecho.lib.hellocharts.model.SubcolumnValue
 
 class Singular : BaseActivity() {
     private lateinit var b: SingularBinding
@@ -229,7 +229,7 @@ class Singular : BaseActivity() {
         ArrayList<Column>(list.map {
             Column(
                 listOf(
-                    SubcolumnValue(it.second)
+                    SubColumnValue(it.second)
                         .setLabel("${it.first} (${it.second})")
                         .setColor(c.color(if (!c.night()) R.color.CP else R.color.CPD))
                 )

@@ -5,7 +5,7 @@
     tools:context=".stat.Growth"
     tools:ignore="MissingConstraints">
 
-    <lecho.lib.hellocharts.view.LineChartView
+    <ir.mahdiparastesh.hellocharts.view.LineChartView
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

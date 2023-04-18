@@ -1,11 +1,11 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Bundle
+import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.GrowthBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.stat.Adorability.Star
-import lecho.lib.hellocharts.model.LineChartData
 
 class Growth : BaseActivity() {
     private lateinit var b: GrowthBinding

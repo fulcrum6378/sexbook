@@ -1,10 +1,10 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Bundle
+import ir.mahdiparastesh.hellocharts.model.ColumnChartData
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.databinding.MixtureBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import lecho.lib.hellocharts.model.ColumnChartData
 
 class Mixture : BaseActivity() {
     private lateinit var b: MixtureBinding
