@@ -228,7 +228,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     @Suppress("OVERRIDE_DEPRECATION")
-    override fun onBackPressed() { // Don't use super's already overridden function
+    override fun onBackPressed() {
         if (b.root.isDrawerOpen(drawerGravity)) {
             b.root.closeDrawer(drawerGravity); return; }
         if (!exiting) {

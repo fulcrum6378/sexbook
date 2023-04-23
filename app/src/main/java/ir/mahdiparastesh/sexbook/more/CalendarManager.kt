@@ -29,7 +29,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     private val accType = CalendarContract.ACCOUNT_TYPE_LOCAL
     private val tz = "GMT"
     private lateinit var index: HashMap<String/*CRUSH_KEY*/, Long/*EVENT_ID*/>
-    private val DEBUG = true
+    private val DEBUG = false
 
     init {
         CoroutineScope(Dispatchers.IO).launch { initialise() }
@@ -149,6 +149,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
                 Index().write()
                 //newCrush.insertReminder()
             }
+
             oldCrush != null && newCrush != null -> {
                 val ev = arrayOf(index[oldCrush.key].toString())
                 ContentValues().apply {
@@ -173,6 +174,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
                         c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", ev)
                 }*/
             }
+
             oldCrush != null && newCrush == null -> {
                 val ev = arrayOf(index[oldCrush.key].toString())
                 //c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", ev)
@@ -180,6 +182,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
                 index.remove(oldCrush.key)
                 Index().write()
             }
+
             else -> throw IllegalArgumentException("At least one of the arguments must not be null.")
         }
     }
@@ -203,12 +206,15 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         const val reqCode = 1
 
         fun checkPerm(c: BaseActivity) = ActivityCompat.checkSelfPermission(
+            c, Manifest.permission.READ_CALENDAR
+        ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
             c, Manifest.permission.WRITE_CALENDAR
         ) == PackageManager.PERMISSION_GRANTED
 
         fun askPerm(c: BaseActivity) {
             ActivityCompat.requestPermissions(
-                c, arrayOf(Manifest.permission.WRITE_CALENDAR), reqCode
+                c, arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR),
+                reqCode
             )
         }
     }
