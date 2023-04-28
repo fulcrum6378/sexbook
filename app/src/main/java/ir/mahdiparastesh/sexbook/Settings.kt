@@ -34,6 +34,7 @@ class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
     private val calendarTypes: Array<String> by lazy { resources.getStringArray(R.array.calendarTypes) }
     private val emptyDate: String by lazy { getString(R.string.emptyDate) }
+    private var calManager: CalendarManager? = null
     private var changed = false
 
     companion object {
@@ -46,6 +47,7 @@ class Settings : BaseActivity() {
         const val spStatInclude = "statisticiseInclude" // + s; def true
         const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // def 3 TODO
         const val spVibration = "vibration" // def true
+        const val spCalOutput = "calendarOutput" // def true
         // Beware of the numerical fields; go to Exporter$Companion.replace() for modifications.
 
         // Hidden
@@ -220,11 +222,11 @@ class Settings : BaseActivity() {
         }
 
         // Calendar output
-        b.stCalOutput.isChecked = sp.getBoolean(spVibration, true)
+        b.stCalOutput.isChecked = sp.getBoolean(spCalOutput, true)
         b.stCalOutput.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked && !CalendarManager.checkPerm(this))
                 CalendarManager.askPerm(this)
-            else sp.edit().putBoolean(spVibration, isChecked).apply()
+            else turnCalendar(isChecked)
             c.shake()
         }
 
@@ -267,16 +269,26 @@ class Settings : BaseActivity() {
 
     override fun onRequestPermissionsResult(code: Int, arr: Array<out String>, res: IntArray) {
         super.onRequestPermissionsResult(code, arr, res)
-        if (res.isNotEmpty() && res[0] == PackageManager.PERMISSION_GRANTED)
-            if (code == CalendarManager.reqCode)
-                sp.edit().putBoolean(spVibration, true).apply()
+        if (code == CalendarManager.reqCode) {
+            if (res.isNotEmpty() && res[0] == PackageManager.PERMISSION_GRANTED)
+                turnCalendar(true)
+            else b.stCalOutput.isChecked = false
+        }
     }
 
-    @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
+    @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun onBackPressed() {
         if (changed) {
             finish()
             startActivity(Intent(this, Main::class.java).setAction(RELOAD.s))
         } else super.onBackPressed()
+    }
+
+
+    private fun turnCalendar(on: Boolean) {
+        sp.edit().putBoolean(spCalOutput, on).apply()
+        calManager = CalendarManager(this, m.liefde.value)
+        if (!on) calManager?.terminate()
     }
 }

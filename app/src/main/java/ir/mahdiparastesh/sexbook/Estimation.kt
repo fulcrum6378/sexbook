@@ -94,7 +94,8 @@ class Estimation : BaseActivity() {
         super.onDestroy()
     }
 
-    @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
+    @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun onBackPressed() {
         if (changed) {
             finish()

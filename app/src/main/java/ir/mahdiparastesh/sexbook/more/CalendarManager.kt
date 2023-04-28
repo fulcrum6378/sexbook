@@ -29,7 +29,6 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     private val accType = CalendarContract.ACCOUNT_TYPE_LOCAL
     private val tz = "GMT"
     private lateinit var index: HashMap<String/*CRUSH_KEY*/, Long/*EVENT_ID*/>
-    private val DEBUG = false
 
     init {
         CoroutineScope(Dispatchers.IO).launch { initialise() }
@@ -42,11 +41,6 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         )?.use {
             if (!it.moveToFirst()) return@use
             it.getLongOrNull(it.getColumnIndex(CCC._ID))?.also { l -> id = l }
-        }
-        if (DEBUG) {
-            deleteEvents()
-            c.contentResolver.delete(CCC.CONTENT_URI, "account_name = ?", arrayOf(accName))
-            id = -1L
         }
         if (id == -1L) ContentValues().apply {
             put(CCC.ACCOUNT_NAME, accName)
@@ -103,6 +97,10 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
             c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", arrayOf(ev.toString()))*/
         // CCR inherits "calendar_id" but the Reminders table actually has no such column!
         c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
+    }
+
+    private suspend fun deleteCalendar() {
+        c.contentResolver.delete(CCC.CONTENT_URI, "account_name = ?", arrayOf(accName))
     }
 
     fun replaceEvents(crushes: Iterable<Crush>) {
@@ -184,6 +182,13 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
             }
 
             else -> throw IllegalArgumentException("At least one of the arguments must not be null.")
+        }
+    }
+
+    fun terminate() {
+        CoroutineScope(Dispatchers.IO).launch {
+            deleteEvents()
+            deleteCalendar()
         }
     }
 

@@ -1,11 +1,16 @@
 package ir.mahdiparastesh.sexbook.stat
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.icu.util.Calendar
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.app.ActivityCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.hellocharts.model.Column
 import ir.mahdiparastesh.hellocharts.model.ColumnChartData
@@ -179,6 +184,16 @@ class Singular : BaseActivity() {
                     bi.birth.text = bir.fullDate()
                 }, bir).defaultOptions(c).show(c.supportFragmentManager, "birth")
             }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ActivityCompat.checkSelfPermission(
+                    c, Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                if (crush?.notifyBirth == true) reqNotificationPerm(c)
+                else bi.notifyBirth.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) reqNotificationPerm(c)
+                }
+            }
 
             MaterialAlertDialogBuilder(c).apply {
                 setTitle("${c.getString(R.string.identify)}: ${crush?.key ?: c.m.crush}")
@@ -222,6 +237,11 @@ class Singular : BaseActivity() {
                 }
                 setCancelable(true)
             }.show()
+        }
+
+        @RequiresApi(33)
+        private fun reqNotificationPerm(c: BaseActivity) {
+            ActivityCompat.requestPermissions(c, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0)
         }
     }
 

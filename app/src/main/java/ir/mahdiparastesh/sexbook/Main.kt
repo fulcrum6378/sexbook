@@ -74,8 +74,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
                     Work.C_VIEW_ALL -> m.liefde.value = (msg.obj as ArrayList<Crush>).apply {
                         if (isEmpty()) return@apply
-                        if (sp.getBoolean(Settings.spVibration, true))
-                            calManager = CalendarManager(this@Main, this)
+                        if (sp.getBoolean(Settings.spCalOutput, true) &&
+                            CalendarManager.checkPerm(this@Main)
+                        ) calManager = CalendarManager(this@Main, this)
 
                         if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                                     ) < Settings.notifyBirthAfterLastTime
@@ -150,10 +151,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 }
         }
 
-        // Permissions
-        if (Fun.reqPermissions.isNotEmpty())
-            ActivityCompat.requestPermissions(this, Fun.reqPermissions, 0)
-
         // Miscellaneous
         m.onani.observe(this) { instilledGuesses = false }
         if (m.navOpen) b.root.openDrawer(drawerGravity)
@@ -215,7 +212,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         return true
     }
 
-    @Suppress("OVERRIDE_DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (b.root.isDrawerOpen(drawerGravity)) {
             b.root.closeDrawer(drawerGravity); return; }
@@ -343,6 +340,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun notifyBirth(crush: Crush, dist: Long) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED
+        ) return
+
         val channelBirth = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
@@ -351,10 +353,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     NotificationManager.IMPORTANCE_HIGH
                 )
             )
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-            == PackageManager.PERMISSION_GRANTED
-        ) NotificationManagerCompat.from(this).notify(
+        NotificationManagerCompat.from(this).notify(
             crush.key.length + crush.visName().length,
             NotificationCompat.Builder(this@Main, channelBirth).apply {
                 setSmallIcon(R.drawable.notification)
@@ -422,6 +421,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * -
   * Extension:
   * Add Russian support
+  * Separate MDTP into a dependency
   * Multi-optional sorting feature for Crushes
   * "First met" for Crush
   */
