@@ -53,7 +53,7 @@ class PageSex : Fragment() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.VIEW_ALL -> {
-                        //Log.println(Log.ASSERT, "TRIJNTJE", "Work.VIEW_ALL")
+                        //Log.println(Log.ASSERT, "AIMI", "Work.VIEW_ALL")
                         c.m.onani.value = msg.obj as ArrayList<Report>?
                         receivedData()
                     }
@@ -168,17 +168,21 @@ class PageSex : Fragment() {
     }
 
     fun receivedData() {
-        //Log.println(Log.ASSERT, "TRIJNTJE", "receivedData")
         c.instillGuesses()
-        resetAllReports(c.intentToGlobalIndexOfItem)
-        c.intentToGlobalIndexOfItem = null
+        resetAllReports(
+            c.intentViewId?.let { id ->
+                c.m.findGlobalIndexOfReport(id).let { if (it != -1) it else null }
+            })
+        c.intentViewId = null
         c.load()
     }
 
     var spnFilterTouched = false
     fun resetAllReports(toGlobalIndexOfItem: Int? = null) {
+        if (c.m.onani.value == null) return
+        //Log.println(Log.ASSERT, "AIMI", "resetAllReports to index $toGlobalIndexOfItem")
         filters = createFilters(c.m.onani.value!!)
-        //Log.println(Log.ASSERT, "TRIJNTJE", "resetAllReports ${filters.size} filters")
+        //Log.println(Log.ASSERT, "AIMI", "resetAllReports ${filters.size} filters")
 
         // Which month to show?
         var newFilter = filters.size - 1
@@ -210,7 +214,7 @@ class PageSex : Fragment() {
     }
 
     private fun createFilters(reports: List<Report>): List<Filter> {
-        //Log.println(Log.ASSERT, "TRIJNTJE", "createFilters ${reports.size} reports")
+        //Log.println(Log.ASSERT, "AIMI", "createFilters ${reports.size} reports")
         val filters = arrayListOf<Filter>()
         for (r in reports.indices) {
             val ym = reports[r].time.calendar(c).createFilterYm()
@@ -228,10 +232,10 @@ class PageSex : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun applyFilter(i: Int, causedByResetAllReports: Boolean, scrollDown: Boolean = true) {
-        //Log.println(Log.ASSERT, "TRIJNTJE", "applyFilter $i")
+        //Log.println(Log.ASSERT, "AIMI", "applyFilter $i")
         if (c.m.listFilter == i && c.m.listFilter > -1 && !causedByResetAllReports) return
         c.m.visOnani.clear()
-        //Log.println(Log.ASSERT, "TRIJNTJE", "visOnani cleared")
+        //Log.println(Log.ASSERT, "AIMI", "visOnani cleared")
         if (c.m.onani.value == null) return // if onani is null, empty visOnani.
         c.m.listFilter = i
 
@@ -243,7 +247,7 @@ class PageSex : Fragment() {
                     c.m.visOnani.add(c.m.onani.value!![o])
             Collections.sort(c.m.visOnani, ReportAdap.Sort())
         }
-        //Log.println(Log.ASSERT, "TRIJNTJE", "visOnani filled ${c.m.visOnani.size}")
+        //Log.println(Log.ASSERT, "AIMI", "visOnani filled ${c.m.visOnani.size}")
 
         // Update the adapter and scroll to position...
         if (b.rv.adapter == null) b.rv.adapter = ReportAdap(c) else {

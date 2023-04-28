@@ -30,6 +30,9 @@ class Model : ViewModel() {
     fun lookForIt(text: String) =
         lookingFor?.let { it != "" && text.contains(it, true) } ?: false
 
+    fun findGlobalIndexOfReport(id: Long) =
+        onani.value!!.indexOfFirst { it.id == id }
+
     fun resetData() {
         onani.value = null
         liefde.value = null

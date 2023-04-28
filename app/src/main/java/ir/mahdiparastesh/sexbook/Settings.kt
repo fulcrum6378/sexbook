@@ -1,11 +1,16 @@
 package ir.mahdiparastesh.sexbook
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.Dimension
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
@@ -22,6 +27,7 @@ import ir.mahdiparastesh.sexbook.mdtp.Utils
 import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
 
 class Settings : BaseActivity() {
@@ -39,6 +45,7 @@ class Settings : BaseActivity() {
         const val spStatUntilCb = "statisticiseUntilCb" // def false
         const val spStatInclude = "statisticiseInclude" // + s; def true
         const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // def 3 TODO
+        const val spVibration = "vibration" // def true
         // Beware of the numerical fields; go to Exporter$Companion.replace() for modifications.
 
         // Hidden
@@ -183,7 +190,9 @@ class Settings : BaseActivity() {
                 labelFor = cbId
             })
 
-            b.sexTypes.addView(MaterialCheckBox(this@Settings).apply {
+            b.sexTypes.addView(MaterialCheckBox(
+                ContextThemeWrapper(this@Settings, R.style.Theme_Sexbook_CheckBox_Yellow)
+            ).apply {
                 text = getString(R.string.stSexTypeInclude, sex.name)
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 typeface = ResourcesCompat.getFont(c, R.font.normal)
@@ -194,14 +203,29 @@ class Settings : BaseActivity() {
                     sp.edit().putBoolean(spStatInclude + s, bb).apply()
                     c.shake()
                 }
-            }, ConstraintLayout.LayoutParams(
-                0, ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply {
+            }, ConstraintLayout.LayoutParams(0, -2).apply {
                 topToTop = prevLlId!!
                 bottomToBottom = prevLlId!!
                 endToStart = prevLlId!!
                 startToStart = ConstraintLayout.LayoutParams.PARENT_ID
             })
+        }
+
+        // Vibration
+        b.stVibration.isChecked = sp.getBoolean(spVibration, true)
+        b.stVibration.setOnCheckedChangeListener { _, isChecked ->
+            Fun.vib = isChecked
+            sp.edit().putBoolean(spVibration, isChecked).apply()
+            c.shake()
+        }
+
+        // Calendar output
+        b.stCalOutput.isChecked = sp.getBoolean(spVibration, true)
+        b.stCalOutput.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked && !CalendarManager.checkPerm(this))
+                CalendarManager.askPerm(this)
+            else sp.edit().putBoolean(spVibration, isChecked).apply()
+            c.shake()
         }
 
         // Removal
@@ -239,6 +263,13 @@ class Settings : BaseActivity() {
             }.show()
             c.shake()
         }
+    }
+
+    override fun onRequestPermissionsResult(code: Int, arr: Array<out String>, res: IntArray) {
+        super.onRequestPermissionsResult(code, arr, res)
+        if (res.isNotEmpty() && res[0] == PackageManager.PERMISSION_GRANTED)
+            if (code == CalendarManager.reqCode)
+                sp.edit().putBoolean(spVibration, true).apply()
     }
 
     @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")

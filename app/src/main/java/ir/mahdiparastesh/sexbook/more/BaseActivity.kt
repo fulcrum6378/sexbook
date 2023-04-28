@@ -108,9 +108,7 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
         IndianCalendar::class.java
     )[sp.getInt(
         Settings.spCalType, when (Locale.getDefault().country) {
-            "IR" -> 1
-            "IN" -> 2
-            else -> 0
+            "IR" -> 1; "IN" -> 2; else -> 0
         }
     )]
 

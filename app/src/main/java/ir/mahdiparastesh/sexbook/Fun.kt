@@ -27,6 +27,7 @@ object Fun {
             arrayOf(Manifest.permission.POST_NOTIFICATIONS)
         else arrayOf()
     const val INSTA = "https://www.instagram.com/"
+    var vib: Boolean? = null
     // private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
     fun now() = System.currentTimeMillis()
@@ -78,6 +79,9 @@ object Fun {
     @Suppress("DEPRECATION")
     @JvmStatic
     fun Context.shake(dur: Long = 48L) {
+        if (vib == null) vib = getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
+            .getBoolean(Settings.spVibration, true)
+        if (!vib!!) return
         val vib = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
             (getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
         else getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)

@@ -74,9 +74,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
                     Work.C_VIEW_ALL -> m.liefde.value = (msg.obj as ArrayList<Crush>).apply {
                         if (isEmpty()) return@apply
-                        if (CalendarManager.checkPerm(this@Main))
+                        if (sp.getBoolean(Settings.spVibration, true))
                             calManager = CalendarManager(this@Main, this)
-                        else CalendarManager.askPerm(this@Main)
 
                         if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                                     ) < Settings.notifyBirthAfterLastTime
@@ -166,14 +165,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }*/
 
         intent.check(true)
+        addOnNewIntentListener { it.check() }
         Work(c, Work.C_VIEW_ALL).start()
         Work(c, Work.P_VIEW_ALL).start()
         Work(c, Work.G_VIEW_ALL).start()
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        intent.check()
     }
 
     /*override fun onInitializationComplete(adsInitStatus: InitializationStatus) {
@@ -220,13 +215,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         return true
     }
 
-    override fun onRequestPermissionsResult(code: Int, arr: Array<out String>, res: IntArray) {
-        super.onRequestPermissionsResult(code, arr, res)
-        if (res.isNotEmpty() && res[0] == PackageManager.PERMISSION_GRANTED)
-            if (code == CalendarManager.reqCode)
-                calManager = CalendarManager(this, m.liefde.value)
-    }
-
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         if (b.root.isDrawerOpen(drawerGravity)) {
@@ -248,7 +236,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
 
-    var intentToGlobalIndexOfItem: Int? = null
+    var intentViewId: Long? = null
     private fun Intent.check(isOnCreate: Boolean = false) {
         when (action) {
             Intent.ACTION_VIEW -> data?.also { Exporter.import(this@Main, it) }
@@ -259,15 +247,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 recreate()
             }
             Action.VIEW.s -> (try {
-                intent.data?.toString()?.toLong()
+                dataString?.toLong()
             } catch (e: NumberFormatException) {
                 null
             })?.also { id ->
-                val gIndex = m.onani.value?.indexOfFirst { it.id == id }
-                if (gIndex != -1) {
-                    if (!isOnCreate) pageSex?.resetAllReports(gIndex)
-                    else intentToGlobalIndexOfItem = gIndex
-                }
+                if (!isOnCreate && m.onani.value != null)
+                    m.findGlobalIndexOfReport(id)
+                        .also { if (it != -1) pageSex?.resetAllReports(it) }
+                else intentViewId = id
             }
         }
     }
@@ -430,8 +417,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 /* TODO:
   * Problems:
   * Chart statistics show nothing when provided by only a single time frame
-  * Tweak days before a borthday reminder
-  * Tweak global vibration
+  * Tweak days before a birthday reminder
   * Statisticise delays in hours between orgasms
   * -
   * Extension:

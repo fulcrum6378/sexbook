@@ -6,6 +6,12 @@
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
     </style>
 
+    <style name="Theme.Sexbook.CheckBox.White" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="android:textColor">@color/dialogText</item>
+        <item name="buttonTint">@color/dialogText</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Sexbook.CheckBox.White</item>
+    </style>
+
     <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">
         <item name="android:textColor">@color/CP_LIGHT</item>
         <item name="colorPrimary">@color/CP_LIGHT</item>

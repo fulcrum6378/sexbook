@@ -117,6 +117,8 @@
     <string name="statUntilIllogical">The minimum date must be before the maximum date!</string>
     <string name="stSexTypesTitle">Filter Statistics by Sex Type</string>
     <string name="stSexTypeInclude">Include %s</string>
+    <string name="stVibration">Vibration for important buttons</string>
+    <string name="stCalOutput">List birthdays in the system calendar</string>
     <string name="stReset">Reset Settings</string>
     <string name="stResetSure">Are you sure you want to all the settings back to default?</string>
     <string name="stTruncate">Remove All Data</string>

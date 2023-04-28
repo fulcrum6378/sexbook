@@ -6,12 +6,12 @@
         <item name="colorPrimaryDark">@color/CPD</item>
         <item name="colorAccent">@color/CP3</item>
         <item name="android:editTextColor">@color/CPDD</item>
-        <item name="android:navigationBarColor">@color/CP</item>
-        <item name="android:statusBarColor">@color/CP</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:textColor">@color/CPDD</item>
         <item name="android:textColorHighlight">@color/textHighlight</item>
         <item name="android:textColorHint">@color/hint</item>
-        <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox</item>
+        <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox.Yellow</item>
         <item name="chipStyle">@style/Theme.Sexbook.Chip</item>
         <item name="colorControlNormal">@color/CPDD</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Sexbook.Dialogue</item>
@@ -71,14 +71,24 @@
         <item name="fontFamily">@font/normal</item>
     </style>
 
-    <style name="Theme.Sexbook.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+    <style name="Theme.Sexbook.CheckBox.Yellow" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="android:textColor">@color/CPDD</item><!--avoid ?android:attr/textColor-->
         <item name="buttonTint">@color/CPDD</item><!--avoid ?android:attr/textColor-->
-        <item name="materialThemeOverlay">@style/ThemeOverlay.Sexbook.CheckBox</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Sexbook.CheckBox.Yellow</item>
     </style>
 
-    <style name="ThemeOverlay.Sexbook.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+    <style name="ThemeOverlay.Sexbook.CheckBox.Yellow" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="colorOnPrimary">@color/CP</item><!--avoid transparent-->
+    </style>
+
+    <style name="Theme.Sexbook.CheckBox.White" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="android:textColor">@color/CPDD</item><!--avoid ?android:attr/textColor-->
+        <item name="buttonTint">@color/CPDD</item><!--avoid ?android:attr/textColor-->
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Sexbook.CheckBox.White</item>
+    </style>
+
+    <style name="ThemeOverlay.Sexbook.CheckBox.White" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="colorOnPrimary">?attr/colorSurface</item><!--avoid transparent-->
     </style>
 
     <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">
@@ -91,6 +101,7 @@
     <style name="Theme.Sexbook.Popup" parent="Widget.Material3.PopupMenu">
         <item name="fontFamily">@font/normal</item>
         <item name="android:textColor">@color/dialogText</item>
+        <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox.White</item>
     </style>
 
     <style name="Theme.Sexbook.Chip" parent="Widget.Material3.Chip.Suggestion">

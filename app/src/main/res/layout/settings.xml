@@ -50,7 +50,8 @@
                     style="@style/stItemTV"
                     android:enabled="false"
                     android:saveEnabled="false"
-                    android:text="@string/stStatSince" />
+                    android:text="@string/stStatSince"
+                    android:theme="@style/Theme.Sexbook.CheckBox.Yellow" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/stStatSinceDate"
@@ -71,7 +72,8 @@
                     style="@style/stItemTV"
                     android:enabled="false"
                     android:saveEnabled="false"
-                    android:text="@string/stStatUntil" />
+                    android:text="@string/stStatUntil"
+                    android:theme="@style/Theme.Sexbook.CheckBox.Yellow" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/stStatUntilDate"
@@ -96,6 +98,26 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemSingleCheckBox">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stVibration"
+                    style="@style/stItemTV"
+                    android:saveEnabled="false"
+                    android:text="@string/stVibration"
+                    android:theme="@style/Theme.Sexbook.CheckBox.Yellow" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemSingleCheckBox">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stCalOutput"
+                    style="@style/stItemTV"
+                    android:saveEnabled="false"
+                    android:text="@string/stCalOutput"
+                    android:theme="@style/Theme.Sexbook.CheckBox.Yellow" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
