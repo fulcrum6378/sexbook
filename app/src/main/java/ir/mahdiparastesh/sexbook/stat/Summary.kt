@@ -198,8 +198,8 @@ class Summary(list: List<Report>, val nExcluded: Int) {
 
     class Erection(val time: Long, val value: Float) : Serializable
 
-    @Suppress("UNCHECKED_CAST", "DEPRECATION")
     class Result(var calculations: HashMap<Float, ArrayList<String>>) : Parcelable {
+        @Suppress("DEPRECATION", "UNCHECKED_CAST")
         constructor(parcel: Parcel) : this(
             (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                 parcel.readSerializable<HashMap<*, *>>(null, HashMap::class.java)

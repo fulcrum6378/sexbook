@@ -276,6 +276,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         var nExcluded = 0
         var filtered: List<Report> = m.onani.value!!
 
+        // Filter if only crushes wanted
+        if (sp.getBoolean(Settings.spStatOnlyCrushes, false)) {
+            val liefde = m.liefde.value?.map { it.key }
+            if (!liefde.isNullOrEmpty()) filtered = filtered.filter { it.name in liefde }
+                .also { nExcluded += filtered.size - it.size }
+        }
+
         // Filter by time
         if (sp.getBoolean(Settings.spStatSinceCb, false))
             filtered = filtered.filter { it.time >= sp.getLong(Settings.spStatSince, 0) }
