@@ -105,6 +105,7 @@
     <string name="statUntilIllogical">تاریخ حداقل باید قبل از تاریخ حداکثر باشد!</string>
     <string name="stSexTypesTitle">فیلتر آمارها براساس نوع سکس</string>
     <string name="stSexTypeInclude">الحاق %s</string>
+    <string name="stStatOnlyCrushes">فقط از کراش ها آمارگیری کن</string>
     <string name="stVibration">ویبره برای دکمه های مهم</string>
     <string name="stCalOutput">نمایش تاریخ تولد ها در تقویم سیستم</string>
     <string name="stReset">بازنشانی تنظیمات</string>

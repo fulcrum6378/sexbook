@@ -104,6 +104,7 @@
     <string name="statUntilIllogical">De minimale datum moet voor de maximale datum liggen!</string>
     <string name="stSexTypesTitle">Statistieken filteren op geslachtstype</string>
     <string name="stSexTypeInclude">Inclusief %s</string>
+    <string name="stStatOnlyCrushes">Statisticeer alleen mijn verliefdheden</string>
     <string name="stVibration">Trillingen voor belangrijke knoppen</string>
     <string name="stCalOutput">Maak een lijst van verjaardagen in de systeemkalender</string>
     <string name="stReset">Reset Instellingen</string>

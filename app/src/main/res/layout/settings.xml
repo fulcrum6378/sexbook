@@ -103,6 +103,16 @@
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemSingleCheckBox">
 
                 <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stStatOnlyCrushes"
+                    style="@style/stItemTV"
+                    android:saveEnabled="false"
+                    android:text="@string/stStatOnlyCrushes"
+                    android:theme="@style/Theme.Sexbook.CheckBox.Yellow" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemSingleCheckBox">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stVibration"
                     style="@style/stItemTV"
                     android:saveEnabled="false"

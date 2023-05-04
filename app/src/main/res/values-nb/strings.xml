@@ -104,6 +104,7 @@
     <string name="statUntilIllogical">Minimumsdatoen må være før maksimumsdatoen!</string>
     <string name="stSexTypesTitle">Filtrer statistikk etter kjønnstype</string>
     <string name="stSexTypeInclude">Inkluder %s</string>
+    <string name="stStatOnlyCrushes">Statistikk bare mine forelskelser</string>
     <string name="stVibration">Vibrasjon for viktige knapper</string>
     <string name="stCalOutput">List opp fødselsdager i systemkalenderen</string>
     <string name="stReset">Tilbakestill innstillinger</string>

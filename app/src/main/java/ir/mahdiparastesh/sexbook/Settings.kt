@@ -46,8 +46,9 @@ class Settings : BaseActivity() {
         const val spStatUntilCb = "statisticiseUntilCb" // def false
         const val spStatInclude = "statisticiseInclude" // + s; def true
         const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // def 3 TODO
+        const val spStatOnlyCrushes = "statisticiseOnlyCrushes" // def false
         const val spVibration = "vibration" // def true
-        const val spCalOutput = "calendarOutput" // def true
+        const val spCalOutput = "calendarOutput" // def false
         // Beware of the numerical fields; go to Exporter$Companion.replace() for modifications.
 
         // Hidden
@@ -213,6 +214,13 @@ class Settings : BaseActivity() {
             })
         }
 
+        // Statisticise only crushes
+        b.stStatOnlyCrushes.isChecked = sp.getBoolean(spStatOnlyCrushes, false)
+        b.stStatOnlyCrushes.setOnCheckedChangeListener { _, isChecked ->
+            sp.edit().putBoolean(spStatOnlyCrushes, isChecked).apply()
+            c.shake()
+        }
+
         // Vibration
         b.stVibration.isChecked = sp.getBoolean(spVibration, true)
         b.stVibration.setOnCheckedChangeListener { _, isChecked ->
@@ -222,7 +230,7 @@ class Settings : BaseActivity() {
         }
 
         // Calendar output
-        b.stCalOutput.isChecked = sp.getBoolean(spCalOutput, true)
+        b.stCalOutput.isChecked = sp.getBoolean(spCalOutput, false)
         b.stCalOutput.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked && !CalendarManager.checkPerm(this))
                 CalendarManager.askPerm(this)

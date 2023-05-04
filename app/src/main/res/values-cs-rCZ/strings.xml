@@ -104,6 +104,7 @@
     <string name="statUntilIllogical">Minimální datum musí být před maximálním datem!</string>
     <string name="stSexTypesTitle">Filtrovat statistiky podle typu pohlaví</string>
     <string name="stSexTypeInclude">Zahrnout %s</string>
+    <string name="stStatOnlyCrushes">Jen statistiku mých zamilovaných</string>
     <string name="stVibration">Vibrace pro důležitá tlačítka</string>
     <string name="stCalOutput">Seznam narozenin v systémovém kalendáři</string>
     <string name="stReset">Resetovat nastavení</string>

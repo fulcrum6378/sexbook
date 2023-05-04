@@ -23,6 +23,10 @@ import java.io.FileOutputStream
 
 class Exporter(val c: BaseActivity) {
     private var exported: Exported? = null
+    private val EXPORT_NAME = "sexbook.json"
+    private val mime =
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
+        else "application/json"
 
     private var exportLauncher: ActivityResultLauncher<Intent> =
         c.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -50,64 +54,6 @@ class Exporter(val c: BaseActivity) {
             if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
             import(c, it.data!!.data!!)
         }
-
-    companion object {
-        const val EXPORT_NAME = "sexbook.json"
-        val mime =
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
-            else "application/json"
-
-        fun import(c: BaseActivity, uri: Uri) {
-            var data: String? = null
-            try {
-                c.contentResolver.openFileDescriptor(uri, "r")?.use { des ->
-                    data = FileInputStream(des.fileDescriptor).use { it.readBytes() }
-                        .toString(Charsets.UTF_8)
-                }
-                data!!
-            } catch (e: Exception) {
-                Toast.makeText(c, R.string.importOpenError, Toast.LENGTH_LONG).show()
-                return
-            }
-            val imported: Exported
-            try {
-                imported = Gson().fromJson(data, Exported::class.java)
-            } catch (e: Exception) {
-                Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
-                return
-            }
-            MaterialAlertDialogBuilder(c).apply {
-                setTitle(c.resources.getString(R.string.momImport))
-                setMessage(c.resources.getString(R.string.askImport))
-                setPositiveButton(R.string.yes) { _, _ -> replace(c, imported) }
-                setNegativeButton(R.string.no, null)
-                setCancelable(true)
-            }.show()
-        }
-
-        private fun replace(c: BaseActivity, imported: Exported) {
-            Work(c, Work.REPLACE_ALL, imported.reports?.toList()).start()
-            Work(c, Work.C_REPLACE_ALL, imported.crushes?.toList()).start()
-            Work(c, Work.P_REPLACE_ALL, imported.places?.toList()).start()
-            Work(c, Work.G_REPLACE_ALL, imported.guesses?.toList()).start()
-            if (imported.settings != null) c.sp.edit().apply {
-                imported.settings.forEach { (k, v) ->
-                    when (v) {
-                        is Boolean -> putBoolean(k, v)
-                        is Double -> // all numbers become Double in SP.
-                            when (k) {
-                                Settings.spDefPlace, Settings.spStatSince,
-                                Settings.spStatUntil -> putLong(k, v.toLong())
-                                Settings.spCalType, Settings.spPrefersOrgType,
-                                Settings.spNotifyBirthDaysBefore -> putInt(k, v.toInt())
-                            }
-                        is String -> putString(k, v)
-                    }
-                }
-            }.apply()
-            c.m.resetData()
-        }
-    }
 
     fun launchExport() {
         if (!export()) return
@@ -157,6 +103,57 @@ class Exporter(val c: BaseActivity) {
         val emp = exported!!.isEmpty()
         if (emp) Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show()
         return !emp
+    }
+
+    fun import(c: BaseActivity, uri: Uri) {
+        var data: String? = null
+        try {
+            c.contentResolver.openFileDescriptor(uri, "r")?.use { des ->
+                data = FileInputStream(des.fileDescriptor).use { it.readBytes() }
+                    .toString(Charsets.UTF_8)
+            }
+            data!!
+        } catch (e: Exception) {
+            Toast.makeText(c, R.string.importOpenError, Toast.LENGTH_LONG).show()
+            return
+        }
+        val imported: Exported
+        try {
+            imported = Gson().fromJson(data, Exported::class.java)
+        } catch (e: Exception) {
+            Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
+            return
+        }
+        MaterialAlertDialogBuilder(c).apply {
+            setTitle(c.resources.getString(R.string.momImport))
+            setMessage(c.resources.getString(R.string.askImport))
+            setPositiveButton(R.string.yes) { _, _ -> replace(c, imported) }
+            setNegativeButton(R.string.no, null)
+            setCancelable(true)
+        }.show()
+    }
+
+    private fun replace(c: BaseActivity, imported: Exported) {
+        Work(c, Work.REPLACE_ALL, imported.reports?.toList()).start()
+        Work(c, Work.C_REPLACE_ALL, imported.crushes?.toList()).start()
+        Work(c, Work.P_REPLACE_ALL, imported.places?.toList()).start()
+        Work(c, Work.G_REPLACE_ALL, imported.guesses?.toList()).start()
+        if (imported.settings != null) c.sp.edit().apply {
+            imported.settings.forEach { (k, v) ->
+                when (v) {
+                    is Boolean -> putBoolean(k, v)
+                    is Double -> // all numbers become Double in SP.
+                        when (k) {
+                            Settings.spDefPlace, Settings.spStatSince,
+                            Settings.spStatUntil -> putLong(k, v.toLong())
+                            Settings.spCalType, Settings.spPrefersOrgType,
+                            Settings.spNotifyBirthDaysBefore -> putInt(k, v.toInt())
+                        }
+                    is String -> putString(k, v)
+                }
+            }
+        }.apply()
+        c.m.resetData()
     }
 
     class Exported(

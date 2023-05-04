@@ -74,7 +74,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
                     Work.C_VIEW_ALL -> m.liefde.value = (msg.obj as ArrayList<Crush>).apply {
                         if (isEmpty()) return@apply
-                        if (sp.getBoolean(Settings.spCalOutput, true) &&
+                        if (sp.getBoolean(Settings.spCalOutput, false) &&
                             CalendarManager.checkPerm(this@Main)
                         ) calManager = CalendarManager(this@Main, this)
 
@@ -236,7 +236,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     var intentViewId: Long? = null
     private fun Intent.check(isOnCreate: Boolean = false) {
         when (action) {
-            Intent.ACTION_VIEW -> data?.also { Exporter.import(this@Main, it) }
             Action.ADD.s -> pageSex?.messages?.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> {
                 m.resetData()

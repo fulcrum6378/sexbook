@@ -104,6 +104,7 @@
     <string name="statUntilIllogical">Das Mindestdatum muss vor dem Höchstdatum liegen!</string>
     <string name="stSexTypesTitle">Statistiken nach Geschlechtstyp filtern</string>
     <string name="stSexTypeInclude">%s einbeziehen</string>
+    <string name="stStatOnlyCrushes">Statistik nur meine Schwärmereien</string>
     <string name="stVibration">Vibration für wichtige Tasten</string>
     <string name="stCalOutput">Geburtstage im Systemkalender auflisten</string>
     <string name="stReset">Einstellungen zurücksetzen</string>
