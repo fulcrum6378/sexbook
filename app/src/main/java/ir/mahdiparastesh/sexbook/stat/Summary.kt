@@ -7,7 +7,7 @@ import ir.mahdiparastesh.sexbook.Fun.tripleRound
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 
-class Summary(list: List<Report>, val nExcluded: Int) {
+class Summary(list: List<Report>, var nExcluded: Int) {
     var scores: HashMap<String, ArrayList<Erection>>
     var unknown = 0f
     val actual = list.size

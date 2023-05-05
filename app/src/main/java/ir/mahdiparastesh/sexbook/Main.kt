@@ -276,13 +276,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         var nExcluded = 0
         var filtered: List<Report> = m.onani.value!!
 
-        // Filter if only crushes wanted
-        if (sp.getBoolean(Settings.spStatOnlyCrushes, false)) {
-            val liefde = m.liefde.value?.map { it.key }
-            if (!liefde.isNullOrEmpty()) filtered = filtered.filter { it.name in liefde }
-                .also { nExcluded += filtered.size - it.size }
-        }
-
         // Filter by time
         if (sp.getBoolean(Settings.spStatSinceCb, false))
             filtered = filtered.filter { it.time >= sp.getLong(Settings.spStatSince, 0) }
@@ -297,7 +290,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             filtered = filtered.filter { it.type in allowedTypes }
                 .also { nExcluded += filtered.size - it.size }
 
-        m.summary = Summary(filtered, nExcluded); true; } else false
+        m.summary = Summary(filtered, nExcluded).apply {
+            // Filter if only crushes wanted
+            if (sp.getBoolean(Settings.spStatOnlyCrushes, false)) {
+                val liefde = m.liefde.value?.map { it.key }
+                if (!liefde.isNullOrEmpty()) scores = HashMap(scores.filter { it.key in liefde })
+                    .also { this.nExcluded += scores.size - it.size }
+            }
+        }; true; } else false
 
     private fun summary() {
         val vp2 = ViewPager2(this@Main).apply {
