@@ -14,7 +14,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 33
         versionCode 25
-        versionName '16.8.2'
+        versionName '16.8.3'
     }
 
     signingConfigs {
@@ -64,7 +64,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation 'androidx.sqlite:sqlite-ktx:2.3.1'
     // implementation 'com.google.android.gms:play-services-ads:21.1.0'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'ir.mahdiparastesh:hellocharts:2.6.5'
 }
