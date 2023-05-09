@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ShapeAppearance_Sexbook_Nav">
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerSizeBottomLeft">@dimen/largeCornerSize</item>
+        <item name="cornerSizeTopLeft">@dimen/largeCornerSize</item>
+    </style>
+</resources>
