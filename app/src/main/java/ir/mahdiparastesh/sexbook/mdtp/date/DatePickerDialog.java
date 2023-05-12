@@ -408,10 +408,10 @@ public class DatePickerDialog<CAL extends Calendar> extends AppCompatDialogFragm
 
     private void setCurrentView(final int viewIndex) {
         switch (viewIndex) {
-            case MONTH_AND_DAY_VIEW:
+            case MONTH_AND_DAY_VIEW -> {
                 if (mVersion == Version.VERSION_1) {
-                    ObjectAnimator pulseAnimator = Utils.getPulseAnimator(mMonthAndDayView, 0.9f,
-                            1.05f);
+                    ObjectAnimator pulseAnimator =
+                            Utils.getPulseAnimator(mMonthAndDayView, 0.9f, 1.05f);
                     if (mDelayAnimation) {
                         pulseAnimator.setStartDelay(ANIMATION_DELAY);
                         mDelayAnimation = false;
@@ -433,14 +433,13 @@ public class DatePickerDialog<CAL extends Calendar> extends AppCompatDialogFragm
                     }
                     mDayPickerView.onDateChanged();
                 }
-
                 int flags = DateUtils.FORMAT_SHOW_DATE;
                 String dayString = DateUtils.formatDateTime(
                         getActivity(), mCalendar.getTimeInMillis(), flags);
                 mAnimator.setContentDescription(mDayPickerDescription + ": " + dayString);
                 Utils.tryAccessibilityAnnounce(mAnimator, mSelectDay);
-                break;
-            case YEAR_VIEW:
+            }
+            case YEAR_VIEW -> {
                 if (mVersion == Version.VERSION_1) {
                     ObjectAnimator pulseAnimator = Utils.getPulseAnimator(mYearView, 0.85f, 1.1f);
                     if (mDelayAnimation) {
@@ -464,11 +463,10 @@ public class DatePickerDialog<CAL extends Calendar> extends AppCompatDialogFragm
                         mCurrentView = viewIndex;
                     }
                 }
-
                 CharSequence yearString = YEAR_FORMAT.format(mCalendar);
                 mAnimator.setContentDescription(mYearPickerDescription + ": " + yearString);
                 Utils.tryAccessibilityAnnounce(mAnimator, mSelectYear);
-                break;
+            }
         }
     }
 

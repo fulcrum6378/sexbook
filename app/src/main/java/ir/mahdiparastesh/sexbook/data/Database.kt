@@ -68,6 +68,7 @@ abstract class Database : RoomDatabase() {
                 }
             }) // Do not remove migrations so hurriedly! Wait at least for a few months...
             .allowMainThreadQueries()
+            .enableMultiInstanceInvalidation()
             .build()
     }
 

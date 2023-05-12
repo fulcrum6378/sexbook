@@ -40,12 +40,10 @@ public class Place {
         @SuppressWarnings("SwitchStatementWithTooFewBranches")
         @Override
         public int compare(Place a, Place b) {
-            switch (by) {
-                case NAME:
-                    return a.name.compareTo(b.name);
-                default:
-                    return (int) (b.sum - a.sum);
-            }
+            return switch (by) {
+                case NAME -> a.name.compareTo(b.name);
+                default -> (int) (b.sum - a.sum);
+            };
         }
     }
 }

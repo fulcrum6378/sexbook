@@ -42,10 +42,7 @@ import ir.mahdiparastesh.sexbook.mdtp.time.RadialPickerLayout.OnValueSelectedLis
 public class TimePickerDialog extends AppCompatDialogFragment implements
         OnValueSelectedListener, TimePickerController {
 
-    public enum Version {
-        VERSION_1,
-        VERSION_2
-    }
+    public enum Version {VERSION_1, VERSION_2}
 
     private static final String KEY_INITIAL_TIME = "initial_time";
     private static final String KEY_TITLE = "dialog_title";
@@ -992,28 +989,27 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
 
         TextView labelToAnimate;
         switch (index) {
-            case HOUR_INDEX:
+            case HOUR_INDEX -> {
                 int hours = mTimePicker.getHours();
                 if (!mIs24HourMode) hours = hours % 12;
                 mTimePicker.setContentDescription(mHourPickerDescription + ": " + hours);
-                if (announce) {
-                    Utils.tryAccessibilityAnnounce(mTimePicker, mSelectHours);
-                }
+                if (announce) Utils.tryAccessibilityAnnounce(mTimePicker, mSelectHours);
                 labelToAnimate = mHourView;
-                break;
-            case MINUTE_INDEX:
+            }
+            case MINUTE_INDEX -> {
                 int minutes = mTimePicker.getMinutes();
                 mTimePicker.setContentDescription(mMinutePickerDescription + ": " + minutes);
                 if (announce) {
                     Utils.tryAccessibilityAnnounce(mTimePicker, mSelectMinutes);
                 }
                 labelToAnimate = mMinuteView;
-                break;
-            default:
+            }
+            default -> {
                 int seconds = mTimePicker.getSeconds();
                 mTimePicker.setContentDescription(mSecondPickerDescription + ": " + seconds);
                 if (announce) Utils.tryAccessibilityAnnounce(mTimePicker, mSelectSeconds);
                 labelToAnimate = mSecondView;
+            }
         }
 
         int hourColor = (index == HOUR_INDEX) ? mSelectedColor : mUnselectedColor;
@@ -1023,10 +1019,9 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
         mMinuteView.setTextColor(minuteColor);
         mSecondView.setTextColor(secondColor);
 
-        ObjectAnimator pulseAnimator = Utils.getPulseAnimator(labelToAnimate, 0.85f, 1.1f);
-        if (delayLabelAnimate) {
-            pulseAnimator.setStartDelay(PULSE_ANIMATOR_DELAY);
-        }
+        ObjectAnimator pulseAnimator =
+                Utils.getPulseAnimator(labelToAnimate, 0.85f, 1.1f);
+        if (delayLabelAnimate) pulseAnimator.setStartDelay(PULSE_ANIMATOR_DELAY);
         pulseAnimator.start();
     }
 
@@ -1036,16 +1031,12 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     private boolean processKeyUp(int keyCode) {
         if (keyCode == KeyEvent.KEYCODE_TAB) {
             if (mInKbMode) {
-                if (isTypedTimeFullyLegal()) {
-                    finishKbMode(true);
-                }
+                if (isTypedTimeFullyLegal()) finishKbMode(true);
                 return true;
             }
         } else if (keyCode == KeyEvent.KEYCODE_ENTER) {
             if (mInKbMode) {
-                if (!isTypedTimeFullyLegal()) {
-                    return true;
-                }
+                if (!isTypedTimeFullyLegal()) return true;
                 finishKbMode(false);
             }
             if (mCallback != null) mCallback.onTimeSet(this,
@@ -1241,30 +1232,19 @@ public class TimePickerDialog extends AppCompatDialogFragment implements
     }
 
     private static int getValFromKeyCode(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_0:
-                return 0;
-            case KeyEvent.KEYCODE_1:
-                return 1;
-            case KeyEvent.KEYCODE_2:
-                return 2;
-            case KeyEvent.KEYCODE_3:
-                return 3;
-            case KeyEvent.KEYCODE_4:
-                return 4;
-            case KeyEvent.KEYCODE_5:
-                return 5;
-            case KeyEvent.KEYCODE_6:
-                return 6;
-            case KeyEvent.KEYCODE_7:
-                return 7;
-            case KeyEvent.KEYCODE_8:
-                return 8;
-            case KeyEvent.KEYCODE_9:
-                return 9;
-            default:
-                return -1;
-        }
+        return switch (keyCode) {
+            case KeyEvent.KEYCODE_0 -> 0;
+            case KeyEvent.KEYCODE_1 -> 1;
+            case KeyEvent.KEYCODE_2 -> 2;
+            case KeyEvent.KEYCODE_3 -> 3;
+            case KeyEvent.KEYCODE_4 -> 4;
+            case KeyEvent.KEYCODE_5 -> 5;
+            case KeyEvent.KEYCODE_6 -> 6;
+            case KeyEvent.KEYCODE_7 -> 7;
+            case KeyEvent.KEYCODE_8 -> 8;
+            case KeyEvent.KEYCODE_9 -> 9;
+            default -> -1;
+        };
     }
 
     /**

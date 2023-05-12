@@ -141,18 +141,19 @@ public class Utils {
         return createCalendar(type, null);
     }
 
-    public static DateFormatSymbols localSymbols( // only this one needs globalisation.
+    // only this one needs globalisation.
+    public static DateFormatSymbols localSymbols(
             Context c, Class<? extends Calendar> calendarType, Locale locale) {
         DateFormatSymbols symbols = DateFormatSymbols.getInstance(locale);
         switch (calendarType.getSimpleName()) {
-            case "HumanistIranianCalendar":
+            case "HumanistIranianCalendar" -> {
                 symbols.setMonths(c.getResources().getStringArray(R.array.persianMonths));
                 symbols.setShortMonths(c.getResources().getStringArray(R.array.shortPersianMonths));
-                break;
-            case "IndianCalendar":
+            }
+            case "IndianCalendar" -> {
                 symbols.setMonths(c.getResources().getStringArray(R.array.indianMonths));
                 symbols.setShortMonths(c.getResources().getStringArray(R.array.shortIndianMonths));
-                break;
+            }
         }
         return symbols;
     }

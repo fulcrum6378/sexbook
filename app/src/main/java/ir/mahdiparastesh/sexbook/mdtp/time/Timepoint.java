@@ -97,9 +97,7 @@ public class Timepoint implements Parcelable, Comparable<Timepoint> {
                 if (secondVal < 0) {
                     second = 60 + secondVal;
                     add(MINUTE, -1);
-                } else {
-                    second = secondVal;
-                }
+                } else second = secondVal;
             case MINUTE:
                 int minuteVal = (value % 3600) / 60;
                 if (minuteVal < 0) {
@@ -119,6 +117,7 @@ public class Timepoint implements Parcelable, Comparable<Timepoint> {
     }
 
     public int get(@NonNull TYPE type) {
+        //noinspection EnhancedSwitchMigration
         switch (type) {
             case SECOND:
                 return getSecond();

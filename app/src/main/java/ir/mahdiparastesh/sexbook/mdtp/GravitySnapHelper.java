@@ -83,21 +83,15 @@ public class GravitySnapHelper extends LinearSnapHelper {
     @Override
     public View findSnapView(RecyclerView.LayoutManager layoutManager) {
         View snapView = null;
-        if (layoutManager instanceof LinearLayoutManager) {
-            switch (gravity) {
-                case Gravity.START:
+        if (layoutManager instanceof LinearLayoutManager) switch (gravity) {
+            case Gravity.START ->
                     snapView = findStartView(layoutManager, getHorizontalHelper(layoutManager));
-                    break;
-                case Gravity.END:
+            case Gravity.END ->
                     snapView = findEndView(layoutManager, getHorizontalHelper(layoutManager));
-                    break;
-                case Gravity.TOP:
+            case Gravity.TOP ->
                     snapView = findStartView(layoutManager, getVerticalHelper(layoutManager));
-                    break;
-                case Gravity.BOTTOM:
+            case Gravity.BOTTOM ->
                     snapView = findEndView(layoutManager, getVerticalHelper(layoutManager));
-                    break;
-            }
         }
         return snapView;
     }

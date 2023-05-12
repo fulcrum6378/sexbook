@@ -11,10 +11,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
 
+import java.lang.ref.WeakReference;
+
 import ir.mahdiparastesh.sexbook.R;
 import ir.mahdiparastesh.sexbook.mdtp.Utils;
-
-import java.lang.ref.WeakReference;
 
 /**
  * View to show what number is selected. This will draw a blue circle over the number, with a blue
