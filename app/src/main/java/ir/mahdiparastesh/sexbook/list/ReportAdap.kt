@@ -23,9 +23,9 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
-import ir.mahdiparastesh.sexbook.mdtp.Utils
-import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
-import ir.mahdiparastesh.sexbook.mdtp.time.TimePickerDialog
+import ir.mahdiparastesh.mcdtp.McdtpUtils
+import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
+import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.more.*
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.text.DateFormatSymbols
@@ -329,7 +329,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         fun compileDate(c: BaseActivity, time: Long): String {
             val calType = c.calType()
             val lm = calType.newInstance().apply { timeInMillis = time }
-            return "${Utils.localSymbols(c.c, calType).shortMonths[lm.get(Calendar.MONTH)]} " +
+            return "${McdtpUtils.localSymbols(c.c, calType).shortMonths[lm.get(Calendar.MONTH)]} " +
                     "${lm.get(Calendar.DAY_OF_MONTH)}"
         }
 

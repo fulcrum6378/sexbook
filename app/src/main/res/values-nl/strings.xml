@@ -112,22 +112,6 @@
     <string name="stTruncate">Alle gegevens verwijderen</string>
     <string name="stTruncateSure">Weet u zeker dat u al uw persoonlijke gegevens wilt verwijderen?</string>
 
-    <!-- MDTP -->
-    <string name="mdtp_hour_picker_description">Ronde schuifregelaar voor uren</string>
-    <string name="mdtp_minute_picker_description">Ronde schuifregelaar voor minuten</string>
-    <string name="mdtp_second_picker_description">Ronde schuifregelaar voor seconden</string>
-    <string name="mdtp_select_hours">Uren selecteren</string>
-    <string name="mdtp_select_minutes">Minuten selecteren</string>
-    <string name="mdtp_select_seconds">Seconden selecteren</string>
-    <string name="mdtp_day_picker_description">Maandraster van dagen</string>
-    <string name="mdtp_year_picker_description">Jaarlijst</string>
-    <string name="mdtp_select_day">Maand en dag selecteren</string>
-    <string name="mdtp_select_year">Jaar selecteren</string>
-    <string name="mdtp_item_is_selected">%s geselecteerd</string>
-    <string name="mdtp_deleted_key">%s verwijderd</string>
-    <string name="mdtp_next_month_arrow_description">Volgende Maand</string>
-    <string name="mdtp_previous_month_arrow_description">Vorige Maand</string>
-
     <!-- #External -->
     <string name="sBirthday">%s\'s verjaardag</string>
     <string name="lastOrgasm">uur sinds de laatste.</string>

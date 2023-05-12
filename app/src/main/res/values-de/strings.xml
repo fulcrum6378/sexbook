@@ -112,22 +112,6 @@
     <string name="stTruncate">Alle Daten entfernen</string>
     <string name="stTruncateSure">Sind Sie sicher, dass Sie alle Ihre persönlichen Daten löschen möchten?</string>
 
-    <!-- MDTP -->
-    <string name="mdtp_hour_picker_description">Kreisförmiger Schieberegler für Stunden</string>
-    <string name="mdtp_minute_picker_description">Kreisförmiger Schieberegler für Minuten</string>
-    <string name="mdtp_second_picker_description">Kreisförmiger Sekundenschieber</string>
-    <string name="mdtp_select_hours">Stunden auswählen</string>
-    <string name="mdtp_select_minutes">Minuten auswählen</string>
-    <string name="mdtp_select_seconds">Sekunden auswählen</string>
-    <string name="mdtp_day_picker_description">Monatsraster mit einzelnen Tagen</string>
-    <string name="mdtp_year_picker_description">Jahresliste</string>
-    <string name="mdtp_select_day">Monat und Tag auswählen</string>
-    <string name="mdtp_select_year">Jahr auswählen</string>
-    <string name="mdtp_item_is_selected">%s ausgewählt</string>
-    <string name="mdtp_deleted_key">%s gelöscht</string>
-    <string name="mdtp_next_month_arrow_description">Nächsten Monat</string>
-    <string name="mdtp_previous_month_arrow_description">Vorheriger Monat</string>
-
     <!-- #External -->
     <string name="sBirthday">%ss Geburtstag</string>
     <string name="lastOrgasm">Stunden seitdem letzten.</string>

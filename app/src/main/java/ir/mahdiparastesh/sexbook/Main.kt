@@ -427,7 +427,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * -
   * Extension:
   * Add Russian support
-  * Separate MDTP into a dependency
   * Multi-optional sorting feature for Crushes
   * "First met" for Crush
   */

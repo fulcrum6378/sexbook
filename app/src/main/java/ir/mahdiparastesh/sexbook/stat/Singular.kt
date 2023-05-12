@@ -27,8 +27,8 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
-import ir.mahdiparastesh.sexbook.mdtp.Utils
-import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
+import ir.mahdiparastesh.mcdtp.McdtpUtils
+import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 
 class Singular : BaseActivity() {
@@ -109,7 +109,7 @@ class Singular : BaseActivity() {
                 if (y == 0) start = beg[Calendar.MONTH]
                 if (y == yDist) finish = end[Calendar.MONTH]
                 for (m in start..finish) list.add(
-                    "${Utils.localSymbols(c.c, c.calType()).shortMonths[m]} " +
+                    "${McdtpUtils.localSymbols(c.c, c.calType()).shortMonths[m]} " +
                             "${beg[Calendar.YEAR] + y}"
                 )
             }
@@ -122,7 +122,7 @@ class Singular : BaseActivity() {
         ): Float {
             var value = 0f
             val split = month.split(" ")
-            val months = Utils.localSymbols(c, c.calType()).shortMonths
+            val months = McdtpUtils.localSymbols(c, c.calType()).shortMonths
             for (i in list) {
                 val lm = i.time.calendar(c)
                 val yea = lm[Calendar.YEAR]
@@ -179,7 +179,7 @@ class Singular : BaseActivity() {
                     bir.set(Calendar.YEAR, year)
                     bir.set(Calendar.MONTH, month)
                     bir.set(Calendar.DAY_OF_MONTH, day)
-                    bir = Utils.trimToMidnight(bir)
+                    bir = McdtpUtils.trimToMidnight(bir)
                     isBirthSet = true
                     bi.birth.text = bir.fullDate()
                 }, bir).defaultOptions(c).show(c.supportFragmentManager, "birth")

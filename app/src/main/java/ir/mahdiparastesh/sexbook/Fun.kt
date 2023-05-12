@@ -13,9 +13,10 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
+import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
+import ir.mahdiparastesh.sexbook.more.HumanistIranianCalendar
 
 object Fun {
     // Latin Font: Franklin Gothic
@@ -127,6 +128,9 @@ object Fun {
     fun DatePickerDialog<*>.defaultOptions(c: BaseActivity): DatePickerDialog<*> {
         version = DatePickerDialog.Version.VERSION_1
         accentColor = c.color(R.color.CP)
+        firstDayOfWeek = if (calendarType == HumanistIranianCalendar::class.java)
+            Calendar.THURSDAY else Calendar.SUNDAY
+        doVibrate(vib == true)
         setOkColor(c.color(R.color.dialogText))
         setCancelColor(c.color(R.color.dialogText))
         return this

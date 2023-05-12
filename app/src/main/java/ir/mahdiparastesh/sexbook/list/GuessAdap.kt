@@ -20,8 +20,8 @@ import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
-import ir.mahdiparastesh.sexbook.mdtp.Utils
-import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
+import ir.mahdiparastesh.mcdtp.McdtpUtils
+import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.*
 import kotlin.collections.set
 
@@ -85,7 +85,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                 oldSinc.set(Calendar.YEAR, year)
                 oldSinc.set(Calendar.MONTH, month)
                 oldSinc.set(Calendar.DAY_OF_MONTH, day)
-                oldSinc = Utils.trimToMidnight(oldSinc)
+                oldSinc = McdtpUtils.trimToMidnight(oldSinc)
                 h.b.sinc.text = oldSinc.fullDate()
                 if (gu.sinc != oldSinc.timeInMillis) {
                     gu.sinc = oldSinc.timeInMillis
@@ -106,7 +106,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                 oldTill.set(Calendar.YEAR, year)
                 oldTill.set(Calendar.MONTH, month)
                 oldTill.set(Calendar.DAY_OF_MONTH, day)
-                oldTill = Utils.trimToMidnight(oldTill)
+                oldTill = McdtpUtils.trimToMidnight(oldTill)
                 h.b.till.text = oldTill.fullDate()
                 if (gu.till != oldTill.timeInMillis) {
                     gu.till = oldTill.timeInMillis

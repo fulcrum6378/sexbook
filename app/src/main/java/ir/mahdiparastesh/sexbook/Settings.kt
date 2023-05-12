@@ -23,8 +23,8 @@ import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
-import ir.mahdiparastesh.sexbook.mdtp.Utils
-import ir.mahdiparastesh.sexbook.mdtp.date.DatePickerDialog
+import ir.mahdiparastesh.mcdtp.McdtpUtils
+import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CalendarManager
@@ -99,7 +99,7 @@ class Settings : BaseActivity() {
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
                 cal.set(Calendar.DAY_OF_MONTH, day)
-                cal = Utils.trimToMidnight(cal)
+                cal = McdtpUtils.trimToMidnight(cal)
                 if (sp.contains(spStatUntil) && cal.timeInMillis >
                     sp.getLong(spStatUntil, 0/*IMPOSSIBLE*/)
                 ) {
@@ -133,7 +133,7 @@ class Settings : BaseActivity() {
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
                 cal.set(Calendar.DAY_OF_MONTH, day)
-                cal = Utils.trimToMidnight(cal)
+                cal = McdtpUtils.trimToMidnight(cal)
                 if (sp.contains(spStatSince) && cal.timeInMillis <
                     sp.getLong(spStatSince, 0/*IMPOSSIBLE*/)
                 ) {
