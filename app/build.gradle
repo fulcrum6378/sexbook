@@ -17,15 +17,6 @@ android {
         versionName '17.0.0'
     }
 
-    signingConfigs {
-        release {
-            storeFile file('D:\\Experimental\\mahdiparastesh.jks')
-            keyAlias 'sexbook'
-            storePassword "${System.getenv("JERK")}"
-            keyPassword "${System.getenv("JERK")}"
-        }
-    }
-
     flavorDimensions('nudity')
     productFlavors {
         nude { dimension 'nudity' }
@@ -39,7 +30,16 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = '17' }
+    buildFeatures { viewBinding true }
 
+    signingConfigs {
+        release {
+            storeFile file('D:\\Experimental\\mahdiparastesh.jks')
+            storePassword "${System.getenv("JERK")}"
+            keyAlias 'sexbook'
+            keyPassword "${System.getenv("JERK")}"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true
@@ -48,7 +48,6 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    buildFeatures { viewBinding true }
 }
 
 dependencies {
@@ -67,5 +66,5 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'ir.mahdiparastesh:hellocharts:2.6.5'
-    implementation 'ir.mahdiparastesh:mcdtp:1.0'
+    implementation 'ir.mahdiparastesh:mcdtp:1.5'
 }
