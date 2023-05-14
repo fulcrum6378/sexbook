@@ -11,12 +11,10 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder
 class Provider : ContentProvider() {
     private lateinit var c: Context
     private lateinit var db: Database
-    private lateinit var dao: Dao
 
     override fun onCreate(): Boolean {
         c = context ?: return false
         db = Database.Builder(c).build()
-        dao = db.dao()
         return true
     }
 

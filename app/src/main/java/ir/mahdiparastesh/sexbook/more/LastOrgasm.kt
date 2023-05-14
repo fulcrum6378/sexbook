@@ -24,12 +24,10 @@ class LastOrgasm : AppWidgetProvider() {
     private class Widget(private val c: Context) {
         fun render(then: (rv: RemoteViews) -> Unit) {
             CoroutineScope(Dispatchers.IO).launch {
-                val db = Database.Builder(c).build {
-                    /*allowMainThreadQueries()
-                    enableMultiInstanceInvalidation()*/
+                val number: Int
+                Database.Builder(c).build().use {
+                    number = ((now() - it.dao().whenWasTheLastTime()) / 3600000L).toInt()
                 }
-                val number = ((now() - db.dao().whenWasTheLastTime()) / 3600000L).toInt()
-                db.close()
 
                 withContext(Dispatchers.Main) {
                     then(RemoteViews(c.packageName, R.layout.last_orgasm).apply {
@@ -47,7 +45,7 @@ class LastOrgasm : AppWidgetProvider() {
     }
 
     companion object {
-        fun updateSelf(c: Context) {
+        fun updateAll(c: Context) {
             Widget(c).render { rv ->
                 AppWidgetManager.getInstance(c).updateAppWidget(
                     ComponentName(c, LastOrgasm::class.java.name), rv

@@ -8,13 +8,14 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Main
+import java.io.Closeable
 import java.io.File
 
 @androidx.room.Database(
     entities = [Report::class, Crush::class, Place::class, Guess::class],
     version = 4, exportSchema = false
 )
-abstract class Database : RoomDatabase() {
+abstract class Database : RoomDatabase(), Closeable {
     abstract fun dao(): Dao
 
     class Builder(c: Context) {

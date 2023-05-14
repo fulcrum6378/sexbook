@@ -13,8 +13,8 @@ android {
         applicationId 'ir.mahdiparastesh.sexbook'
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 26
-        versionName '17.0.0'
+        versionCode 27
+        versionName '17.0.8'
     }
 
     flavorDimensions('nudity')
