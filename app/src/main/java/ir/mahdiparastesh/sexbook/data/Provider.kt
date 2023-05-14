@@ -15,7 +15,7 @@ class Provider : ContentProvider() {
 
     override fun onCreate(): Boolean {
         c = context ?: return false
-        db = Database.build(c)
+        db = Database.Builder(c).build()
         dao = db.dao()
         return true
     }

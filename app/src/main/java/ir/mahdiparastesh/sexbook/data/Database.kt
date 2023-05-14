@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Main
 import java.io.File
 
@@ -16,10 +17,8 @@ import java.io.File
 abstract class Database : RoomDatabase() {
     abstract fun dao(): Dao
 
-    companion object {
-        const val DATABASE = "sexbook.db"
-
-        fun build(c: Context) = Room.databaseBuilder(c, Database::class.java, DATABASE)
+    class Builder(c: Context) {
+        private val room = Room.databaseBuilder(c, Database::class.java, Fun.DATABASE)
             .addMigrations(object : Migration(1, 2) {
                 override fun migrate(db: SupportSQLiteDatabase) {
                     db.execSQL("ALTER TABLE Crush RENAME TO Crush_old")
@@ -67,14 +66,16 @@ abstract class Database : RoomDatabase() {
                      * androidx.work or a new error in Room! */
                 }
             }) // Do not remove migrations so hurriedly! Wait at least for a few months...
-            .allowMainThreadQueries()
-            .enableMultiInstanceInvalidation()
-            .build()
+
+        fun build(apply: (RoomDatabase.Builder<Database>.() -> Unit)? = null): Database {
+            apply?.also { room.apply() }
+            return room.build()
+        }
     }
 
     @SuppressLint("SdCardPath")
     class DbFile(which: Triple = Triple.MAIN) : File(
-        "/data/data/" + Main::class.java.`package`!!.name + "/databases/" + DATABASE + which.s
+        "/data/data/" + Main::class.java.`package`!!.name + "/databases/" + Fun.DATABASE + which.s
     ) {
         enum class Triple(val s: String) {
             MAIN(""), SHARED_MEMORY("-shm"), WRITE_AHEAD_LOG("-wal")

@@ -145,7 +145,7 @@ class PageSex : Fragment() {
 
                 if (msg.what in
                     arrayOf(Work.INSERT_ONE, Work.REPLACE_ALL, Work.UPDATE_ONE, Work.DELETE_ONE)
-                ) LastOrgasm.externalUpdate(c)
+                ) LastOrgasm.updateSelf(c)
             }
         }
         messages.clear()

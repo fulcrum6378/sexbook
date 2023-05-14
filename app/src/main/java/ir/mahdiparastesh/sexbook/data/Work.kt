@@ -6,7 +6,7 @@ import ir.mahdiparastesh.sexbook.*
 
 class Work(
     val c: Context,
-    val action: Int,
+    private val action: Int,
     private val values: List<Any?>? = null,
     val handler: Handler? = when {
         action < 10 -> if (PageSex.handler.value != null) PageSex.handler.value!! else Main.handler
@@ -63,7 +63,7 @@ class Work(
 
     @Suppress("UNCHECKED_CAST")
     override fun run() {
-        val db = Database.build(c)
+        val db = Database.Builder(c).build()
         val dao = db.dao()
         when (action) {
             // Report

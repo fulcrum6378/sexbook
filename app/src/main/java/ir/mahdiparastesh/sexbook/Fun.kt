@@ -22,6 +22,7 @@ object Fun {
     // Latin Font: Franklin Gothic
     // Persian Font: Vazir
 
+    const val DATABASE = "sexbook.db"
     const val INSTA = "https://www.instagram.com/"
     var vib: Boolean? = null
     // private const val ADMOB = "com.google.android.gms.ads.MobileAds"
