@@ -8,8 +8,8 @@
     <string name="toExit">Dubbeltik om af te sluiten&#8230;</string>
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
-    <string name="save">Opslaan</string>
-    <string name="discard">Weggooien</string>
+    <string name="save">Bewaar</string>
+    <string name="discard">Annuleer</string>
     <string name="excStat">Plus %s uitgesloten van statistiek.</string>
     <string name="unknown">Plus %s van onbekende mensen.</string>
     <string-array name="types">
@@ -31,7 +31,7 @@
     <string name="bHappyTitle">Gefeliciteerd met de verjaardag van %s!</string>
     <string name="bHappyBef">Nog %d uur tot hun verjaardag!</string>
     <string name="bHappyAft">%d uur voorbij sinds hun verjaardag!</string>
-    <string name="clear">Duidelijk</string>
+    <string name="clear">Wis</string>
     <string name="suspend">Opschorten</string>
     <string name="clearDate">Wis de datum</string>
 
