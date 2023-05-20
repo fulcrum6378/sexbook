@@ -90,16 +90,18 @@ The navigation menu in *Main* has these 3 options:
 
 ### Localisation
 
-This app currently supports only these languages:
+This app currently supports only these languages: (as of 2023.05.20)
 
-- English (en-GB)
-- Czech (cz)
-- German (de)
-- Persian (fa)
-- Norwegian (nb)
-- Dutch (nl)
+| Language        | Active Users         |
+|:----------------|----------------------|
+| English (en-GB) | ~99(US) & ~22+21(GB) |
+| Czech (cz)      | ~9                   |
+| German (de)     | ~31+1                |
+| Persian (fa)    | never(ex1)           |
+| Norwegian (nb)  | none                 |
+| Dutch (nl)      | ~4+2                 |
 
-I'm planning to translate it to Russian since many of its users are Russian.
+I'm planning to translate for Russian(22+2), Spanish(1+14) and French(11+3).
 
 ### Publishing
 
@@ -114,3 +116,9 @@ it is now available for free and without ads in:
 - [Google Play](https://play.google.com/store/apps/details?id=ir.mahdiparastesh.sexbook)
 - [Galaxy Store](https://galaxystore.samsung.com/detail/ir.mahdiparastesh.sexbook)
 - [ApkPure](https://apkpure.com/p/ir.mahdiparastesh.sexbook)
+
+### License
+
+```
+Copyright © Mahdi Parastesh - All Rights Reserved.
+```
