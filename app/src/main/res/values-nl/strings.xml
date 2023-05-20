@@ -105,7 +105,7 @@
     <string name="stSexTypesTitle">Statistieken filteren op geslachtstype</string>
     <string name="stSexTypeInclude">Inclusief %s</string>
     <string name="stStatOnlyCrushes">Statisticeer alleen mijn verliefdheden</string>
-    <string name="stVibration">Trillingen voor belangrijke knoppen</string>
+    <string name="stVibration">Trillen voor belangrijke knoppen</string>
     <string name="stCalOutput">Maak een lijst van verjaardagen in de systeemkalender</string>
     <string name="stReset">Reset Instellingen</string>
     <string name="stResetSure">Weet je zeker dat je alle instellingen terug wilt zetten naar de standaardinstellingen?</string>

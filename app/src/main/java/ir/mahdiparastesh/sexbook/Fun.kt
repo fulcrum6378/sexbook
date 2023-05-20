@@ -19,8 +19,7 @@ import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.HumanistIranianCalendar
 
 object Fun {
-    // Latin Font: Franklin Gothic
-    // Persian Font: Vazir
+    // Latin + Cyrillic Font: Balsamiq Sans
 
     const val DATABASE = "sexbook.db"
     const val INSTA = "https://www.instagram.com/"

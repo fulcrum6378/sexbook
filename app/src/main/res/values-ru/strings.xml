@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Сексбук</string>
+
+    <!-- GLOBAL -->
+    <string name="sOpen">Открой</string>
+    <string name="close">Закрой</string>
+    <string name="toExit">Нажмите дважды, чтобы выйти&#8230;</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="save">Сохранять</string>
+    <string name="discard">Отмена</string>
+    <string name="excStat">Плюс %s исключено из статистики.</string>
+    <string name="unknown">Плюс %s от неизвестных людей.</string>
+    <string name="instagram">Инстаграм</string>
+    <string-array name="types">
+        <item>Поллюция</item>
+        <item>Мастурбация</item>
+        <item>Оральный Секс</item>
+        <item>Анальный Секс</item>
+        <item>Вагинальный Секс</item>
+    </string-array>
+    <string-array name="calendarTypes">
+        <item>Григорианский</item>
+        <item>Иранский</item>
+        <item>Индийский</item>
+    </string-array>
+    <string name="shrAdd">Добавить новую запись</string>
+    <string name="delete">Удалить</string>
+    <string name="expand">Расширять</string>
+    <string name="collapse">Крах</string>
+    <string name="bHappyTitle">С Днем Рождения %s!</string>
+    <string name="bHappyBef">До дня рождения осталось %d часов!</string>
+    <string name="bHappyAft">Прошло %d часов с момента их дня рождения!</string>
+    <string name="birthDateNtf">Уведомление о дне рождения</string>
+    <string name="clear">Стереть</string>
+    <string name="suspend">Приостановить</string>
+    <string name="clearDate">Очистить дату</string>
+
+    <!-- Main -->
+    <string name="momImport">Импорт из Json</string>
+    <string name="momExport">Экспорт в Json</string>
+    <string name="momSend">Отправить Json в</string>
+    <string name="momSettings">Настройки</string>
+    <string name="exportDone">Сделанный!</string>
+    <string name="exportUndone">Неуспешный!</string>
+    <string name="importDone">Сделанный!</string>
+    <string name="importOpenError">К сожалению, при открытии файла произошла ошибка!</string>
+    <string name="importReadError">К сожалению, при чтении файла произошла ошибка!</string>
+    <string name="noRecords">У вас еще нет записей!</string>
+    <string name="askImport">Вы уверены, что хотите заменить все данные приложения?</string>
+    <string name="findCrush">Найди любовь&#8230;</string>
+    <string name="chart">Диаграмма</string>
+
+    <!-- Page Sex -->
+    <string name="lcAccurate">Точный?</string>
+    <string name="desc">Пишите описания&#8230;</string>
+
+    <!-- Page Love -->
+    <string name="crushes">Список любви</string>
+    <string name="emptyLove">
+        После добавления некоторых записей о сексе,
+        перейдите в Меню навигации -> Сводка -> Выберите любовь ->
+        Нажмите правую верхнюю кнопку со значком «Человек» (Идентификация).
+    </string>
+
+    <!-- #Statistics -->
+    <string name="summary">Краткое Содержание</string>
+    <string name="recency">Новизна</string>
+    <string name="adorability">Прелесть</string>
+    <string name="growth">Рост</string>
+    <string name="mixture">Смесь</string>
+    <string name="statistics">Статистика</string>
+
+    <!-- Identification -->
+    <string name="identify">Идентификация</string>
+    <string name="firstName">Имя</string>
+    <string name="middleName">Второе имя</string>
+    <string name="lastName">Фамилия</string>
+    <string name="masculine">Мужской</string>
+    <string name="feminine">Женский</string>
+    <string name="height">Рост (см)</string>
+    <string name="birth">Дата рождения</string>
+    <string name="location">Расположение</string>
+    <string name="notifyBirth">Сообщите мне об их дне рождения</string>
+    <string name="crushClear">Очистить информацию: %s</string>
+    <string name="crushClearSure">
+        Вы уверены, что хотите удалить информацию об этом человеке? (ЭТО НЕ ВКЛЮЧАЕТ СЕКС-ЗАПИСЬ!)
+    </string>
+
+    <!-- Places -->
+    <string name="places">Места</string>
+    <string name="plItemHint">Укажите имя&#8230;</string>
+    <string name="plDeletePlaceSure">
+        Вы уверены, что хотите удалить это место?
+        Если да, укажите, какие действия следует предпринять в отношении записей, связанных с этим местом:
+    </string>
+    <string name="plDefPlace">Место по умолчанию?</string>
+
+    <!-- Estimation -->
+    <string name="estimation">Оценка</string>
+    <string name="etCrsh">Любовь (необязательно)</string>
+    <string name="etSince">С</string>
+    <string name="etUntil">До</string>
+    <string name="etFreq">Раз в день</string>
+    <string name="etDeleteGuessSure">Вы уверены, что хотите удалить эту оценку?</string>
+
+    <!-- Settings -->
+    <string name="stTitle">Настройки Сексбука</string>
+    <string name="stCalendarType">Тип календаря</string>
+    <string name="stStatSince">Статистика с</string>
+    <string name="stStatUntil">Статистика до</string>
+    <string name="statSinceIllogical">Максимальная дата должна быть после минимальной даты!</string>
+    <string name="statUntilIllogical">Минимальная дата должна предшествовать максимальной дате!</string>
+    <string name="stSexTypesTitle">Фильтровать статистику по типу пола</string>
+    <string name="stSexTypeInclude">Включите %s</string>
+    <string name="stStatOnlyCrushes">Только статистика моей любви</string>
+    <string name="stVibration">Вибрация для важных кнопок</string>
+    <string name="stCalOutput">Список дней рождения в системном календаре</string>
+    <string name="stReset">Сбросить настройки</string>
+    <string name="stResetSure">Вы уверены, что хотите вернуть все настройки к значениям по умолчанию?</string>
+    <string name="stTruncate">Удалить все данные</string>
+    <string name="stTruncateSure">Вы уверены, что хотите удалить все свои личные данные?</string>
+
+    <!-- #External -->
+    <string name="sBirthday">День рождения %s</string>
+    <string name="lastOrgasm">Часов с момента последнего.</string>
+    <string name="lastOrgasmDesc">Показывает часы, прошедшие с момента вашего последнего оргазма!</string>
+</resources>

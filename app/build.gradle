@@ -6,15 +6,15 @@ plugins {
 
 android {
     namespace 'ir.mahdiparastesh.sexbook'
-    compileSdkVersion 33
+    compileSdk 33
     buildToolsVersion '34.0.0 rc4'
 
     defaultConfig {
         applicationId 'ir.mahdiparastesh.sexbook'
-        minSdkVersion 24
-        targetSdkVersion 33
+        minSdk 24
+        targetSdk 33
         versionCode 27
-        versionName '17.0.8'
+        versionName '17.2.6'
     }
 
     flavorDimensions('nudity')

@@ -93,15 +93,14 @@ The navigation menu in *Main* has these 3 options:
 This app currently supports only these languages: (as of 2023.05.20)
 
 | Language        | Active Users         |
-|:----------------|----------------------|
+|:----------------|:---------------------|
 | English (en-GB) | ~99(US) & ~22+21(GB) |
 | Czech (cz)      | ~9                   |
 | German (de)     | ~31+1                |
-| Persian (fa)    | never(ex1)           |
-| Norwegian (nb)  | none                 |
 | Dutch (nl)      | ~4+2                 |
+| Russian (ru)    | ~22+2                |
 
-I'm planning to translate for Russian(22+2), Spanish(1+14) and French(11+3).
+I may add translations for Spanish(~1+14) and French(~11+3).
 
 ### Publishing
 

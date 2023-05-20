@@ -16,7 +16,6 @@
         android:name="${packageName}.WRITE_DATABASE"
         android:description="@string/permWriteDb"
         android:label="modify the Sexbook database" />
-    <!--android:protectionLevel="dangerous"-->
 
     <application
         android:allowBackup="true"
@@ -75,7 +74,7 @@
         <activity
             android:name=".stat.Adorability"
             android:exported="false"
-            android:launchMode="singleTop" /><!-- android:screenOrientation="landscape" -->
+            android:launchMode="singleTop" />
 
         <activity
             android:name=".stat.Growth"

@@ -79,8 +79,8 @@
     <string name="firstName">First Name</string>
     <string name="middleName">Middle Name</string>
     <string name="lastName">Last Name</string>
-    <string name="masculine">Man</string>
-    <string name="feminine">Woman</string>
+    <string name="masculine">Male</string>
+    <string name="feminine">Female</string>
     <string name="height">Height (cm)</string>
     <string name="birth">Birth Date</string>
     <string name="location">Location</string>
@@ -118,70 +118,12 @@
     <string name="stSexTypesTitle">Filter Statistics by Sex Type</string>
     <string name="stSexTypeInclude">Include %s</string>
     <string name="stStatOnlyCrushes">Only statisticise my crushes</string>
-    <string name="stVibration">Vibration for important buttons</string>
+    <string name="stVibration">Bei wichtigen Tasten vibrieren</string>
     <string name="stCalOutput">List birthdays in the system calendar</string>
     <string name="stReset">Reset Settings</string>
     <string name="stResetSure">Are you sure you want to all the settings back to default?</string>
     <string name="stTruncate">Remove All Data</string>
     <string name="stTruncateSure">Are you sure you want to remove all your personal data?</string>
-
-    <!-- Calendars TODO -->
-    <string-array name="persianMonths" translatable="false">
-        <item>Farvardin</item>
-        <item>Ordibehesht</item>
-        <item>Khordad</item>
-        <item>Tir</item>
-        <item>Mordad</item>
-        <item>Shahrivar</item>
-        <item>Mehr</item>
-        <item>Aban</item>
-        <item>Azar</item>
-        <item>Dey</item>
-        <item>Bahman</item>
-        <item>Esfand</item>
-    </string-array>
-    <string-array name="shortPersianMonths" translatable="false">
-        <item>Far</item>
-        <item>Ord</item>
-        <item>Kho</item>
-        <item>Tir</item>
-        <item>Mor</item>
-        <item>Sha</item>
-        <item>Meh</item>
-        <item>Aba</item>
-        <item>Aza</item>
-        <item>Dey</item>
-        <item>Bah</item>
-        <item>Esf</item>
-    </string-array>
-    <string-array name="indianMonths" translatable="false">
-        <item>Chaitra</item>
-        <item>Vaisakha</item>
-        <item>Jyaistha</item>
-        <item>Asadha</item>
-        <item>Sravana</item>
-        <item>Bhadra</item>
-        <item>Asvina</item>
-        <item>Kartika</item>
-        <item>Agrahayana</item>
-        <item>Pausa</item>
-        <item>Magha</item>
-        <item>Phalguna</item>
-    </string-array>
-    <string-array name="shortIndianMonths" translatable="false">
-        <item>Cha</item>
-        <item>Vai</item>
-        <item>Jya</item>
-        <item>Asa</item>
-        <item>Sra</item>
-        <item>Bha</item>
-        <item>Asv</item>
-        <item>Kar</item>
-        <item>Agr</item>
-        <item>Pau</item>
-        <item>Mag</item>
-        <item>Pha</item>
-    </string-array>
 
     <!-- #External -->
     <string name="sBirthday">%s\'s birthday</string>

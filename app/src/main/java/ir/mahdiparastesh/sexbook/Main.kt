@@ -44,7 +44,7 @@ import kotlin.system.exitProcess
 
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener {
-    private lateinit var b: MainBinding
+    private val b: MainBinding by lazy { MainBinding.inflate(layoutInflater) }
     private val exporter = Exporter(this)
     private var pageSex: PageSex? = null
     private var pageLove: PageLove? = null
@@ -63,7 +63,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         supportFragmentManager.fragmentFactory = PageFactory()
         super.onCreate(savedInstanceState)
-        b = MainBinding.inflate(layoutInflater)
         setContentView(b.root)
         toolbar(b.toolbar, R.string.app_name)
 
@@ -426,7 +425,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Statisticise delays in hours between orgasms
   * -
   * Extension:
-  * Add Russian support
   * Multi-optional sorting feature for Crushes
   * "First met" for Crush
   */
