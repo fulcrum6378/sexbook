@@ -133,6 +133,7 @@ object Fun {
         doVibrate(vib == true)
         setOkColor(c.color(R.color.dialogText))
         setCancelColor(c.color(R.color.dialogText))
+        fontRes = R.font.normal
         return this
     }
 

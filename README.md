@@ -70,7 +70,7 @@ excluding Settings and statistical activities.
 - [**more**](app/src/main/java/ir/mahdiparastesh/sexbook/more) : miscellaneous utilities.
 - [**stat**](app/src/main/java/ir/mahdiparastesh/sexbook/stat) : everything related to statistics (as mentioned above).
 
-### JSON Data Export
+### JSON Data Export/Import
 
 Databases can be exported a **sexbook.json** file, and be sent everywhere by the user.
 Therefore, the four database model classes should be exempted from [obfuscation](app/proguard-rules.pro).
@@ -80,7 +80,7 @@ The navigation menu in *Main* has these 3 options:
 - Import from Json
 - Send Json to
 
-### Miscellaneous capabilities
+### Other Features
 
 - [*Last Orgasm*](app/src/main/java/ir/mahdiparastesh/sexbook/more/LastOrgasm.kt) is an app widget which shows
   the number of hours past since one's last orgasm!
