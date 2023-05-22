@@ -36,6 +36,7 @@
     <string name="clear">Стереть</string>
     <string name="suspend">Приостановить</string>
     <string name="clearDate">Очистить дату</string>
+    <string name="none">Никто</string>
 
     <!-- Main -->
     <string name="momImport">Импорт из Json</string>

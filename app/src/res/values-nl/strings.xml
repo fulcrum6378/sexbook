@@ -34,6 +34,7 @@
     <string name="clear">Wis</string>
     <string name="suspend">Opschorten</string>
     <string name="clearDate">Wis de datum</string>
+    <string name="none">Geen</string>
 
     <!-- Main -->
     <string name="momImport">Importeren uit Json</string>

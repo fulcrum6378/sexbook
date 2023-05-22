@@ -38,6 +38,7 @@
     <string name="clear">Clear</string>
     <string name="suspend">Suspend</string>
     <string name="clearDate">Clear the date</string>
+    <string name="none">None</string>
 
     <!-- Main -->
     <string name="momImport">Import from Json</string>

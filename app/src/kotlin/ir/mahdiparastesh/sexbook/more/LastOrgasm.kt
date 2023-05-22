@@ -24,9 +24,8 @@ class LastOrgasm : AppWidgetProvider() {
     private class Widget(private val c: Context) {
         fun render(then: (rv: RemoteViews) -> Unit) {
             CoroutineScope(Dispatchers.IO).launch {
-                val number: Int
-                Database.Builder(c).build().use {
-                    number = ((now() - it.dao().whenWasTheLastTime()) / 3600000L).toInt()
+                val number: Int? = Database.Builder(c).build().use { db ->
+                    db.dao().whenWasTheLastTime()?.let { ((now() - it) / 3600000L).toInt() }
                 }
 
                 withContext(Dispatchers.Main) {
@@ -37,7 +36,9 @@ class LastOrgasm : AppWidgetProvider() {
                                 PendingIntent.FLAG_IMMUTABLE
                             )
                         )
-                        setTextViewText(R.id.number, number.toString())
+                        setTextViewText(
+                            R.id.number, number?.toString() ?: c.getString(R.string.none)
+                        )
                     })
                 }
             }

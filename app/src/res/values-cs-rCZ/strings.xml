@@ -35,6 +35,7 @@
     <string name="clear">Vyčistěte</string>
     <string name="suspend">Pozastavit</string>
     <string name="clearDate">Vymažte datum</string>
+    <string name="none">Žádný</string>
 
     <!-- Main -->
     <string name="momImport">Import z Json</string>

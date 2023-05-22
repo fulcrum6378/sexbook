@@ -9,12 +9,22 @@ android {
     compileSdk 33
     buildToolsVersion '34.0.0 rc4'
 
+    signingConfigs {
+        release {
+            storeFile file('D:\\Experimental\\mahdiparastesh.jks')
+            storePassword "${System.getenv("JERK")}"
+            keyAlias 'sexbook'
+            keyPassword "${System.getenv("JERK")}"
+        }
+    }
+
     defaultConfig {
         applicationId 'ir.mahdiparastesh.sexbook'
         minSdk 24
         targetSdk 33
-        versionCode 27
-        versionName '17.5.5'
+        versionCode 28
+        versionName '17.6.5'
+        signingConfig signingConfigs.release
     }
 
     sourceSets {
@@ -38,22 +48,18 @@ android {
     kotlinOptions { jvmTarget = '17' }
     buildFeatures { viewBinding true }
 
-    signingConfigs {
-        release {
-            storeFile file('D:\\Experimental\\mahdiparastesh.jks')
-            storePassword "${System.getenv("JERK")}"
-            keyAlias 'sexbook'
-            keyPassword "${System.getenv("JERK")}"
-        }
-    }
     buildTypes {
+        debuggee {
+            debuggable true
+            minifyEnabled false
+        }
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
+    android.variantFilter { if (it.buildType.name in ['debug', 'androidTest']) it.setIgnore(true) }
 }
 
 dependencies {
