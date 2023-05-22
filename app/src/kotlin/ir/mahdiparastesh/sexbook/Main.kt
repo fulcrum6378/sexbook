@@ -379,7 +379,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private var instilledGuesses = false
     fun instillGuesses() {
         if (m.onani.value == null || m.guesses.value == null || instilledGuesses) return
-        m.onani.value = m.onani.value?.filter { it.isReal }?.let { ArrayList(it) }
+        m.onani.value = m.onani.value?.filter { !it.guess }?.let { ArrayList(it) }
         for (g in m.guesses.value!!.filter { it.able }) {
             if (!g.checkValid()) continue
             var time = g.sinc

@@ -39,9 +39,8 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
     val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
     private val clockBg: Drawable by lazy { ContextCompat.getDrawable(c, R.drawable.clock_bg)!! }
     private val etIcon: Drawable by lazy {
-        ContextCompat.getDrawable(c, R.drawable.estimation)!!.mutate().apply {
-            if (c.night()) colorFilter = c.pdcf(R.color.mrvClock)
-        }
+        ContextCompat.getDrawable(c, R.drawable.estimation)!!.mutate()
+            .apply { if (c.night()) colorFilter = c.pdcf(R.color.mrvClock) }
     }
 
     override fun onCreateViewHolder(
@@ -80,14 +79,14 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
         // Date & Time
         h.b.date.text = compileDate(c, r.time)
-        if (r.isReal) {
+        if (!r.guess) {
             val cal = r.time.calendar(c)
             h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
             h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
             h.b.clock.setOnClickListener {
                 if (c.m.onani.value == null) return@setOnClickListener
                 TimePickerDialog.newInstance(
-                    this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE]
+                    this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], cal[Calendar.SECOND]
                 ).defaultOptions(c)
                     //.setOnDismissListener { dialogDismissed() }
                     .show(c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}")
@@ -117,14 +116,14 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             h.b.clock.setOnClickListener(null)
             h.b.date.setOnClickListener(null)
         }
-        for (tim in arrayOf(h.b.clockHour, h.b.clockMin, h.b.point, h.b.ampm)) tim.vis(r.isReal)
-        h.b.clock.background = if (r.isReal) clockBg else etIcon
-        if (!r.isReal && c.night()) h.b.clock.background = h.b.clock.background
+        for (tim in arrayOf(h.b.clockHour, h.b.clockMin, h.b.point, h.b.ampm)) tim.vis(!r.guess)
+        h.b.clock.background = if (!r.guess) clockBg else etIcon
+        if (r.guess && c.night()) h.b.clock.background = h.b.clock.background
             .apply { colorFilter = c.pdcf(R.color.mrvClock) }
 
         // Name
         h.b.name.setText(r.name)
-        if (r.isReal) {
+        if (!r.guess) {
             var crushes = arrayListOf<String>()
             if (c.m.summary != null)
                 crushes = ArrayList(c.m.summary!!.scores.keys)
@@ -132,7 +131,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 ArrayAdapter(c, android.R.layout.simple_dropdown_item_1line, crushes)
             )
         }
-        h.b.name.isEnabled = r.isReal
+        h.b.name.isEnabled = !r.guess
         val nameWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
@@ -145,13 +144,13 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 }
             }
         }
-        if (r.isReal) h.b.name.addTextChangedListener(nameWatcher)
+        if (!r.guess) h.b.name.addTextChangedListener(nameWatcher)
         else h.b.name.removeTextChangedListener(nameWatcher)
 
         // Type
         h.b.type.setSelection(r.type.toInt(), true)
         h.b.type.onItemSelectedListener =
-            if (r.isReal) object : AdapterView.OnItemSelectedListener {
+            if (!r.guess) object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                 override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
                     c.m.visOnani[h.layoutPosition].apply {
@@ -163,10 +162,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                     c.sp.edit().putInt(Settings.spPrefersOrgType, i).apply()
                 }
             } else null
-        h.b.type.isEnabled = r.isReal
+        h.b.type.isEnabled = !r.guess
 
         // Overflow
-        if (r.isReal) {
+        if (!r.guess) {
             h.b.root.setOnClickListener { turnOverflow(h.layoutPosition, h.b) }
             turnOverflow(i, h.b, expansion[i])
         } else {
@@ -175,7 +174,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         }
 
         // Descriptions
-        h.b.desc.setText(if (r.isReal) r.desc else "")
+        h.b.desc.setText(if (!r.guess) r.desc else "")
         val descWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
@@ -188,17 +187,17 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 }
             }
         }
-        if (r.isReal) h.b.desc.addTextChangedListener(descWatcher)
+        if (!r.guess) h.b.desc.addTextChangedListener(descWatcher)
         else h.b.desc.removeTextChangedListener(descWatcher)
-        h.b.desc.isEnabled = r.isReal
+        h.b.desc.isEnabled = !r.guess
 
         // Place
         var placeTouched = false
-        if (r.isReal)
+        if (!r.guess)
             h.b.place.setOnTouchListener { _, _ -> placeTouched = true; false }
         else h.b.place.setOnTouchListener(null)
         h.b.place.onItemSelectedListener =
-            if (r.isReal) object : AdapterView.OnItemSelectedListener {
+            if (!r.guess) object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(av: AdapterView<*>?) {}
                 override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
                     if (places == null || !placeTouched) return
@@ -215,11 +214,11 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             if (r.plac == -1L || places == null) 0
             else placePos(r.plac, places) + 1, true
         )
-        if (!r.isReal) h.b.place.vis()
-        h.b.place.isEnabled = r.isReal
+        if (r.guess) h.b.place.vis()
+        h.b.place.isEnabled = !r.guess
 
         // Long Click
-        val longClick = if (r.isReal) View.OnLongClickListener { v ->
+        val longClick = if (!r.guess) View.OnLongClickListener { v ->
             if (c.m.onani.value == null || c.m.visOnani.size <= h.layoutPosition)
                 return@OnLongClickListener true
             MaterialMenu(c, v, R.menu.report, Act().apply {
@@ -252,9 +251,9 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         h.b.clock.setOnLongClickListener(longClick)
         h.b.date.setOnLongClickListener(longClick)
         //h.b.name.setOnLongClickListener(longClick)
-        h.b.root.isClickable = r.isReal
-        h.b.root.isLongClickable = r.isReal
-        h.b.root.alpha = if (r.isReal) 1f else estimatedAlpha
+        h.b.root.isClickable = !r.guess
+        h.b.root.isLongClickable = !r.guess
+        h.b.root.alpha = if (!r.guess) 1f else estimatedAlpha
     }
 
     override fun getItemCount() = c.m.visOnani.size

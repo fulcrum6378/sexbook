@@ -26,7 +26,7 @@
             style="@style/parentConstraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/default_user_person_1"
+            android:src="@drawable/default_user_person"
             app:layout_constraintHeight_percent="0.6"
             app:layout_constraintWidth_percent="0.6" />
     </androidx.constraintlayout.widget.ConstraintLayout>

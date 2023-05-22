@@ -131,9 +131,10 @@ class Summary(list: List<Report>, var nExcluded: Int) {
         }
     }
 
-    private fun String.fixKey() = trim()
-        .replace(" and ", " + ")
-        .replace(" & ", " + ")
+    private fun String?.fixKey() = this?.trim()
+        ?.replace(" and ", " + ")
+        ?.replace(" & ", " + ")
+        ?: ""
 
     private fun HashMap<String, ArrayList<Erection>>.insert(
         theKey: String, time: Long, value: Float = 1f

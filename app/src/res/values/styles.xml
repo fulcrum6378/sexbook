@@ -99,7 +99,7 @@
     <style name="loadIV" parent="parentConstraint">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
-        <item name="android:src">@drawable/logo_1</item>
+        <item name="android:src">@drawable/logo</item>
         <item name="layout_constraintWidth_percent">0.7</item>
         <item name="layout_constraintHeight_percent">0.7</item>
     </style>

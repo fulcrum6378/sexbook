@@ -96,6 +96,7 @@
         android:scrollHorizontally="false"
         android:textIsSelectable="true"
         android:textSize="@dimen/nameFont"
+        app:fontFamily="@font/normal"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toStartOf="@id/type"
