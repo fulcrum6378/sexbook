@@ -16,13 +16,13 @@ android {
         versionCode 27
         versionName '17.5.5'
     }
+
     sourceSets {
         main {
             manifest.srcFile 'src/AndroidManifest.xml'
             kotlin.srcDirs = ['src/kotlin']
         }
     }
-
     flavorDimensions('nudity')
     productFlavors {
         nude { dimension 'nudity' }
