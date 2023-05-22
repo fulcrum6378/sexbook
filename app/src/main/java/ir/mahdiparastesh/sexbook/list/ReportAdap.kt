@@ -12,6 +12,9 @@ import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import ir.mahdiparastesh.mcdtp.McdtpUtils
+import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
+import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.vis
@@ -23,9 +26,6 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
-import ir.mahdiparastesh.mcdtp.McdtpUtils
-import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
-import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.more.*
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import java.text.DateFormatSymbols
@@ -88,14 +88,9 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 if (c.m.onani.value == null) return@setOnClickListener
                 TimePickerDialog.newInstance(
                     this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE]
-                ).apply {
-                    version = TimePickerDialog.Version.VERSION_2
-                    accentColor = c.color(R.color.CP)
-                    setOkColor(c.color(R.color.dialogText))
-                    setCancelColor(c.color(R.color.dialogText))
-                    // setOnDismissListener { dialogDismissed() }
-                    show(c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}")
-                }
+                ).defaultOptions(c)
+                    //.setOnDismissListener { dialogDismissed() }
+                    .show(c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}")
                 // mayShowAd()
             }
             h.b.date.setOnClickListener {

@@ -14,6 +14,7 @@ import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
+import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.HumanistIranianCalendar
@@ -133,7 +134,20 @@ object Fun {
         doVibrate(vib == true)
         setOkColor(c.color(R.color.dialogText))
         setCancelColor(c.color(R.color.dialogText))
-        fontRes = R.font.normal
+        boldFont = R.font.bold
+        normalFont = R.font.normal
+        return this
+    }
+
+    fun TimePickerDialog.defaultOptions(c: BaseActivity): TimePickerDialog {
+        version = TimePickerDialog.Version.VERSION_2
+        accentColor = c.color(R.color.CP)
+        enableSeconds(true)
+        doVibrate(vib == true)
+        setOkColor(c.color(R.color.dialogText))
+        setCancelColor(c.color(R.color.dialogText))
+        boldFont = R.font.bold
+        normalFont = R.font.normal
         return this
     }
 
