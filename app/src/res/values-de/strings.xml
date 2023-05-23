@@ -58,7 +58,11 @@
 
     <!-- Page Love -->
     <string name="crushes">Liste der Crushes</string>
-    <string name="emptyLove">Nachdem Sie einige Sexaufzeichnungen hinzugefügt haben, gehen Sie zu Navigationsmenü -> Zusammenfassung -> Schwarm auswählen -> Klicken Sie auf die Schaltfläche oben rechts mit einem Symbol \"Person\" (Identifikation).</string>
+    <string name="emptyLove">
+        Nachdem Sie einige Sexaufzeichnungen hinzugefügt haben,
+        gehen Sie zu Navigationsmenü -> Zusammenfassung -> Schwarm auswählen ->
+        Klicken Sie auf die Schaltfläche oben rechts mit einem Symbol \"Person\" (Identifikation).
+    </string>
 
     <!-- #Statistics -->
     <string name="summary">Zusammenfassung</string>
@@ -80,12 +84,18 @@
     <string name="location">Standort</string>
     <string name="notifyBirth">Benachrichtigen Sie mich an ihrem Geburtstag</string>
     <string name="crushClear">Klar Informationen: %s</string>
-    <string name="crushClearSure">Möchten Sie die Informationen dieser Person wirklich löschen? (DAS SCHLIESST DIE SEXAUFZEICHNUNGEN NICHT EIN!)</string>
+    <string name="crushClearSure">
+        Möchten Sie die Informationen dieser Person wirklich löschen?
+        (DAS SCHLIESST DIE SEXAUFZEICHNUNGEN NICHT EIN!)
+    </string>
 
     <!-- Places -->
     <string name="places">Setzt</string>
     <string name="plItemHint">Name des Ortes&#8230;</string>
-    <string name="plDeletePlaceSure">Möchten Sie diesen Ort wirklich löschen? Wenn ja, geben Sie bitte an, welche Maßnahmen bezüglich der Aufzeichnungen ergriffen werden sollten, die sich auf diesen Ort beziehen:</string>
+    <string name="plDeletePlaceSure">
+        Möchten Sie diesen Ort wirklich löschen? Wenn ja, geben Sie bitte an,
+        welche Maßnahmen bezüglich der Aufzeichnungen ergriffen werden sollten, die sich auf diesen Ort beziehen:
+    </string>
     <string name="plDefPlace">Standardort?</string>
 
     <!-- Estimation -->
@@ -106,10 +116,12 @@
     <string name="stSexTypesTitle">Statistiken nach Geschlechtstyp filtern</string>
     <string name="stSexTypeInclude">%s einbeziehen</string>
     <string name="stStatOnlyCrushes">Statistik nur meine Schwärmereien</string>
-    <string name="stVibration">Vibration für wichtige Tasten</string>
+    <string name="stVibration">Bei wichtigen Tasten vibrieren</string>
     <string name="stCalOutput">Geburtstage im Systemkalender auflisten</string>
     <string name="stReset">Einstellungen zurücksetzen</string>
-    <string name="stResetSure">Sind Sie sicher, dass Sie alle Einstellungen auf die Standardeinstellungen zurücksetzen möchten?</string>
+    <string name="stResetSure">
+        Sind Sie sicher, dass Sie alle Einstellungen auf die Standardeinstellungen zurücksetzen möchten?
+    </string>
     <string name="stTruncate">Alle Daten entfernen</string>
     <string name="stTruncateSure">Sind Sie sicher, dass Sie alle Ihre persönlichen Daten löschen möchten?</string>
 

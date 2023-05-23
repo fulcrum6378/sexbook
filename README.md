@@ -9,23 +9,23 @@ calendars. The default calendar can be easily changed in *Settings*.
 
 ### Main Activity
 
-The [Main.kt](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity contains 2 fragments:
+The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity contains 2 fragments:
 
-1. [PageSex.kt](app/src/kotlin/ir/mahdiparastesh/sexbook/PageSex.kt) :
+1. [**PageSex.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/PageSex.kt) :
    which list sex records and their data, including date, time, name of the sexual partner, the place where the sexual
    intercourse happened and description.
 
-   It uses the [Report.kt](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Report.kt) database model.
+   It uses the [**Report.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Report.kt) database model.
    Keywords like *"and"*, *"&"* and *"+"* can be used for multiple sexual partners in masturbations or triple sexual
    intercourses.
    Sexual intercourses have types with specific icons, ranging from a simple Wet Dream to Vaginal Sex,
    including Masturbation, Oral Sex and Anal Sex.
-2. [PageLove.kt](app/src/kotlin/ir/mahdiparastesh/sexbook/PageLove.kt) :
+2. [**PageLove.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/PageLove.kt) :
    which lists sexual partners, there is an *Identification* section for each, and all fields are quite optional.
    The fields are first, middle and last names, male/female, height, birth date, location, Instagram address and a
    switch button for notifying the user of their birthdate (requires notification permission in Android 13+).
 
-   It uses the [Crush.kt](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Crush.kt) database model.
+   It uses the [**Crush.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Crush.kt) database model.
 
 ### Statistics
 
@@ -55,11 +55,11 @@ excluding Settings and statistical activities.
 - [**Estimation.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Estimation.kt) :
   this activity lets you estimate your sexual history with specific sexual partners, date ranges and places.
 
-  It uses the [Guess.kt](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Guess.kt) database model.
+  It uses the [**Guess.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Guess.kt) database model.
 - [**Places.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Places.kt) :
   this activity records places in which sexual intercourses happened.
 
-  It uses the [Place.kt](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Place.kt) database model.
+  It uses the [**Place.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Place.kt) database model.
   It can be linked to several rows in Report table. (It was designed to take latitude and longitude columns too,
   but since it didn't seem to be a good idea, I didn't implement anything for them.)
 

@@ -119,7 +119,7 @@
     <string name="stSexTypesTitle">Filter Statistics by Sex Type</string>
     <string name="stSexTypeInclude">Include %s</string>
     <string name="stStatOnlyCrushes">Only statisticise my crushes</string>
-    <string name="stVibration">Bei wichtigen Tasten vibrieren</string>
+    <string name="stVibration">Vibration for important buttons</string>
     <string name="stCalOutput">List birthdays in the system calendar</string>
     <string name="stReset">Reset Settings</string>
     <string name="stResetSure">Are you sure you want to all the settings back to default?</string>
