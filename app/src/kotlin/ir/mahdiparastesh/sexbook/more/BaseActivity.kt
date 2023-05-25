@@ -25,6 +25,7 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import java.util.*
 
+/** Abstract class for all Activity instances in this app and it extends AppCompatActivity. */
 abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteListener*/ {
     val c: Context get() = applicationContext
     lateinit var m: Model
@@ -42,6 +43,7 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
         const val MAX_AD_RETRY = 2
         var adsInitStatus: InitializationStatus? = null*/
 
+        /** @return true if the night mode is on */
         fun Context.night(): Boolean = resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
@@ -76,6 +78,7 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
         // AdMob SDK made the Main load later and later on each recreation!
     }*/
 
+    /** Applies custom styles and actions on the Toolbar. */
     fun toolbar(tb: Toolbar, @StringRes title: Int) {
         setSupportActionBar(tb)
         for (g in 0 until tb.childCount) {
@@ -94,14 +97,20 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
         tb.navigationIcon?.colorFilter = pdcf()
     }
 
+    /** Converts "px" to "dp". */
     fun dp(px: Int) = (dm.density * px.toFloat()).toInt()
 
+    /** Helper function for getting a colour from resources. */
     @ColorInt
     fun color(@ColorRes res: Int) = ContextCompat.getColor(c, res)
 
+    /** Helper function for making a colour filter for the color resource. */
     fun pdcf(@ColorRes res: Int = R.color.CPDD) =
         PorterDuffColorFilter(ContextCompat.getColor(c, res), PorterDuff.Mode.SRC_IN)
 
+    /**
+     * @return the chosen calendar type, if no choice made, chooses it using their default Locale
+     */
     fun calType() = arrayOf(
         GregorianCalendar::class.java,
         HumanistIranianCalendar::class.java,

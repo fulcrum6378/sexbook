@@ -11,6 +11,10 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.TypeSelectorBinding
 import ir.mahdiparastesh.sexbook.databinding.TypeSelectorDdBinding
 
+/**
+ * An ArrayAdapter that wraps arround an Array of SexType instances.
+ * @see Fun.SexType
+ */
 class TypeAdap(
     private val c: BaseActivity,
     private val types: Array<SexType> = Fun.sexTypes(c.c),

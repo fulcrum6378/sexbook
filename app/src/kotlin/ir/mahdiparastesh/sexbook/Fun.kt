@@ -19,16 +19,24 @@ import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.HumanistIranianCalendar
 
+/** Static functions and utilities used everywhere. */
 object Fun {
     // Latin + Cyrillic Font: Balsamiq Sans
 
     const val DATABASE = "sexbook.db"
     const val INSTA = "https://www.instagram.com/"
-    var vib: Boolean? = null
     // private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
+    /** Specifies if vibration is enabled. */
+    var vib: Boolean? = null
+
+    /** The number of all the available sex types. */
+    const val sexTypesCount = 5
+
+    /** @return the current timestamp */
     fun now() = System.currentTimeMillis()
 
+    /** Creates and executes an explosion effect on this View. */
     fun View.explode(
         c: BaseActivity, dur: Long = 522, @DrawableRes src: Int = R.drawable.button,
         alpha: Float = 1f, max: Float = 4f
@@ -63,16 +71,28 @@ object Fun {
         }
     }
 
+    /**
+     * Fills a String with a number and zeroes before it.
+     * E.g. 2 -> "02"
+     *
+     * @param n number
+     */
     fun z(n: Int): String {
         val s = n.toString()
         return if (s.length == 1) "0$s" else s
     }
 
+    /**
+     * Switches visibility of a View between VISIBLE and GONE
+     * @param b false for GONE, defaults to true: VISIBLE
+     * @return b
+     */
     fun View.vis(b: Boolean = true): Boolean {
         visibility = if (b) View.VISIBLE else View.GONE
         return b
     }
 
+    /** Proper implementation of Vibration in across different supported APIs. */
     @Suppress("DEPRECATION")
     @JvmStatic
     fun Context.shake(dur: Long = 48L) {
@@ -87,12 +107,15 @@ object Fun {
         else vib.vibrate(dur)
     }
 
+    /** @return human-readable date from this Calendar */
     fun Calendar.fullDate() = "${z(this[Calendar.YEAR])}.${z(this[Calendar.MONTH] + 1)}" +
             ".${z(this[Calendar.DAY_OF_MONTH])}"
 
+    /** @return a Calendar set on this timestamp */
     fun Long.calendar(c: BaseActivity): Calendar =
         c.calType().newInstance().apply { timeInMillis = this@calendar }
 
+    /**  */
     fun Calendar.createFilterYm() = Pair(this[Calendar.YEAR], this[Calendar.MONTH])
 
     fun Long.defCalendar(c: BaseActivity): Calendar = c.calType().newInstance().apply {
@@ -103,6 +126,7 @@ object Fun {
         this[Calendar.MILLISECOND] = 0
     }
 
+    /** @return a random colour for a chart item */
     fun BaseActivity.randomColor() = arrayListOf(
         Color.BLUE, Color.RED, Color.CYAN, Color.GREEN, Color.MAGENTA,
         if (night()) Color.WHITE else Color.BLACK
@@ -126,6 +150,7 @@ object Fun {
         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
     ).apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }*/
 
+    /** Sets the options specific to Sexbook on this DatePickerDialog. */
     fun DatePickerDialog<*>.defaultOptions(c: BaseActivity): DatePickerDialog<*> {
         version = DatePickerDialog.Version.VERSION_1
         accentColor = c.color(R.color.CP)
@@ -139,6 +164,7 @@ object Fun {
         return this
     }
 
+    /** Sets the options specific to Sexbook on this TimePickerDialog. */
     fun TimePickerDialog.defaultOptions(c: BaseActivity): TimePickerDialog {
         version = TimePickerDialog.Version.VERSION_2
         accentColor = c.color(R.color.CP)
@@ -151,7 +177,7 @@ object Fun {
         return this
     }
 
-    const val sexTypesCount = 5
+    /** @return an Array of all the available sex types */
     fun sexTypes(c: Context): Array<SexType> {
         val names = c.resources.getStringArray(R.array.types)
         return arrayOf(
@@ -163,6 +189,7 @@ object Fun {
         )
     }
 
+    /** @return a ArrayList of the IDs of the allowed sex types based on shared preferences */
     fun allowedSexTypes(sp: SharedPreferences) = arrayListOf<Byte>().apply {
         for (s in 0 until sexTypesCount)
             if (sp.getBoolean(Settings.spStatInclude + s, true))
@@ -179,6 +206,7 @@ object Fun {
         }
     }
 
+    /** Listens for the time when a View is completely loaded and then executes "func". */
     fun View.onLoad(func: () -> Unit) {
         object : CountDownTimer(5000, 50) {
             override fun onFinish() {}
@@ -190,5 +218,10 @@ object Fun {
         }.start()
     }
 
+    /**
+     * Data class that indicates a sex type.
+     * @param name visible name
+     * @param icon visible icon from drawable resources
+     */
     data class SexType(val name: String, @DrawableRes val icon: Int)
 }

@@ -22,6 +22,7 @@ import java.io.FileOutputStream
 import android.provider.CalendarContract.Calendars as CCC
 import android.provider.CalendarContract.Events as CCE
 
+/** API for maintaining Sexbook data in the system calendar. */
 @Suppress("RedundantSuspendModifier")
 class CalendarManager(private val c: BaseActivity, private var crushes: Iterable<Crush>?) {
     var id = -1L

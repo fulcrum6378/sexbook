@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/** An app widget that counts hours since the user's latest orgasm! */
 class LastOrgasm : AppWidgetProvider() {
     override fun onUpdate(c: Context, manager: AppWidgetManager, ids: IntArray) {
         Widget(c).render { rv -> ids.forEach { id -> manager.updateAppWidget(id, rv) } }

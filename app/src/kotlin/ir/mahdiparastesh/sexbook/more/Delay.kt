@@ -6,6 +6,7 @@ import android.os.Message
 import android.os.SystemClock
 import ir.mahdiparastesh.sexbook.data.Work
 
+/** Executes codes with a specified amount of delay. */
 open class Delay(
     private val timeout: Long = Work.TIMEOUT,
     private val looper: Looper = Looper.myLooper()!!,

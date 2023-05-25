@@ -63,7 +63,7 @@ excluding Settings and statistical activities.
   It can be linked to several rows in Report table. (It was designed to take latitude and longitude columns too,
   but since it didn't seem to be a good idea, I didn't implement anything for them.)
 
-### Subpackages
+### Other subpackages
 
 - [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : everything related to database.
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters.

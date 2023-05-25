@@ -8,10 +8,10 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+/** Subclass of LinearLayoutManager that avoids some kinds of app crashes. */
 open class SafeLinearLayoutManager : LinearLayoutManager {
     constructor(
-        context: Context, @RecyclerView.Orientation orientation: Int,
-        reverseLayout: Boolean
+        context: Context, @RecyclerView.Orientation orientation: Int, reverseLayout: Boolean
     ) : super(context, orientation, reverseLayout)
 
     constructor(
@@ -28,15 +28,11 @@ open class SafeLinearLayoutManager : LinearLayoutManager {
     }
 
     override fun onFocusSearchFailed(
-        focused: View,
-        focusDirection: Int,
-        recycler: RecyclerView.Recycler,
-        state: RecyclerView.State
-    ): View? {
-        return try {
-            super.onFocusSearchFailed(focused, focusDirection, recycler, state)
-        } catch (e: IndexOutOfBoundsException) {
-            null
-        }
+        focused: View, focusDirection: Int,
+        recycler: RecyclerView.Recycler, state: RecyclerView.State
+    ): View? = try {
+        super.onFocusSearchFailed(focused, focusDirection, recycler, state)
+    } catch (e: IndexOutOfBoundsException) {
+        null
     }
 }

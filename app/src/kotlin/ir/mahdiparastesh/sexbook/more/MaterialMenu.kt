@@ -6,8 +6,10 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import ir.mahdiparastesh.sexbook.R
 
+/** Represents a PopupMenu action. */
 typealias Act = HashMap<Int, (item: MenuItem) -> Unit>
 
+/** Helper class for making PopupMenus more quickly. */
 class MaterialMenu(c: BaseActivity, v: View, res: Int, actions: Act) :
     PopupMenu(ContextThemeWrapper(c, R.style.Theme_Sexbook_Popup), v) {
     init {

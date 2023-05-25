@@ -3,6 +3,7 @@ package ir.mahdiparastesh.sexbook.data
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 
+/** Helper class for filtering sex records by month. */
 class Filter(val year: Int, val month: Int, var map: ArrayList<Int>) {
     fun put(item: Int) {
         map.add(item)

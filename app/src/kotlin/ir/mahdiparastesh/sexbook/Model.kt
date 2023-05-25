@@ -10,10 +10,18 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Summary
 
+/** Static ViewModel available for all BaseActivity instances. */
 class Model : ViewModel() {
-    val onani = MutableLiveData<ArrayList<Report>?>(null) // static unsorted indices
+    /** Holds all sex records with static unsorted indices. */
+    val onani = MutableLiveData<ArrayList<Report>?>(null)
+
+    /** Holds all crushes. */
     val liefde = MutableLiveData<ArrayList<Crush>?>(null)
+
+    /** Holds all places. */
     val places = MutableLiveData<ArrayList<Place>?>(null)
+
+    /** Holds all estimations. */
     val guesses = MutableLiveData<ArrayList<Guess>?>(null)
 
     var loaded = false

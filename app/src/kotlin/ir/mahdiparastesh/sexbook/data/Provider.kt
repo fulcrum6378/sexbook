@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 
+/** API (ContentProvider) for other apps to read and/or write data in Sexbook. */
 class Provider : ContentProvider() {
     private lateinit var c: Context
     private lateinit var db: Database

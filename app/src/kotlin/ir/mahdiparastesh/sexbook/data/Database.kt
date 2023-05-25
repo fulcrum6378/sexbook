@@ -74,10 +74,12 @@ abstract class Database : RoomDatabase(), Closeable {
         }
     }
 
+    /** Resolves the path to databases. */
     @SuppressLint("SdCardPath")
     class DbFile(which: Triple = Triple.MAIN) : File(
         "/data/data/" + Main::class.java.`package`!!.name + "/databases/" + Fun.DATABASE + which.s
     ) {
+        /** Helps resolve the file names of the triple SQLite database files. */
         enum class Triple(val s: String) {
             MAIN(""), SHARED_MEMORY("-shm"), WRITE_AHEAD_LOG("-wal")
         }
