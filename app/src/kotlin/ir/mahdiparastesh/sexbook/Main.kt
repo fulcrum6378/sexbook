@@ -420,11 +420,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
+  * Non-binary recognition (** database migration)
   * Chart statistics show nothing when provided by only a single time frame
   * Tweak days before a birthday reminder
   * Statisticise delays in hours between orgasms
   * -
   * Extension:
   * Multi-optional sorting feature for Crushes
-  * "First met" for Crush
+  * "First met" for Crush (** database migration)
   */

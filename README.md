@@ -90,17 +90,17 @@ The navigation menu in *Main* has these 3 options:
 
 ### Localisation
 
-This app currently supports only these languages: (as of 2023.05.20)
+This app currently supports only these languages: (as of 2023.05.25)
 
 | Language        | Active Users         |
 |:----------------|:---------------------|
-| English (en-GB) | ~99(US) & ~22+21(GB) |
-| Czech (cz)      | ~9                   |
-| German (de)     | ~31+1                |
-| Dutch (nl)      | ~4+2                 |
-| Russian (ru)    | ~22+2                |
+| English (en-GB) | ~95(US) & ~28+19(GB) |
+| Czech (cz)      | ~8                   |
+| German (de)     | ~35+1                |
+| Dutch (nl)      | ~5+3                 |
+| Russian (ru)    | ~17+2                |
 
-I may add translations for Spanish(~1+14) and French(~11+3).
+I may add translations for Spanish(~3+13) and French(~8+2).
 
 ### Publishing
 

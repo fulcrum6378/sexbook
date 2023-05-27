@@ -16,6 +16,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import ir.mahdiparastesh.mcdtp.McdtpUtils
+import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
@@ -23,8 +25,6 @@ import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
-import ir.mahdiparastesh.mcdtp.McdtpUtils
-import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CalendarManager
@@ -232,7 +232,7 @@ class Settings : BaseActivity() {
         // Calendar output
         b.stCalOutput.isChecked = sp.getBoolean(spCalOutput, false)
         b.stCalOutput.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked && !CalendarManager.checkPerm(this))
+            if (!CalendarManager.checkPerm(this))
                 CalendarManager.askPerm(this)
             else turnCalendar(isChecked)
             c.shake()
@@ -294,6 +294,7 @@ class Settings : BaseActivity() {
     }
 
 
+    /** In the both cases, requires WRITE_CALENDAR permission. */
     private fun turnCalendar(on: Boolean) {
         sp.edit().putBoolean(spCalOutput, on).apply()
         calManager = CalendarManager(this, m.liefde.value)
