@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/CP</item>
         <item name="colorPrimaryDark">@color/CPD</item>
         <item name="colorAccent">@color/CP3</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.Sexbook.OverflowButton</item>
         <item name="android:editTextColor">@color/CPDD</item>
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
@@ -111,6 +112,11 @@
         <!--<item name="chipStrokeColor">@color/stroke_tint</item>-->
         <item name="checkedIconVisible">false</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Sexbook.Small</item>
+    </style>
+
+    <style name="Widget.Sexbook.OverflowButton" parent="@android:style/Widget.Material.ActionButton.Overflow">
+        <item name="android:src">@drawable/sort</item>
+        <item name="android:tint">?android:attr/textColor</item>
     </style>
 
 

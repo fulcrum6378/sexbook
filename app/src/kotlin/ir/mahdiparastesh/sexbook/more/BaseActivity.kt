@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.more
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.PorterDuff
@@ -24,6 +25,7 @@ import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import java.util.*
+import kotlin.reflect.KClass
 
 /** Abstract class for all Activity instances in this app and it extends AppCompatActivity. */
 abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteListener*/ {
@@ -120,6 +122,18 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
             "IR" -> 1; "IN" -> 2; else -> 0
         }
     )]
+
+    /** Helper function for starting an Activity. */
+    fun goTo(
+        activity: KClass<*>, finish: Boolean = false, onIntent: (Intent.() -> Unit)? = null
+    ): Boolean {
+        val intent = Intent(this, activity.java)
+        onIntent?.also { intent.it() }
+        startActivity(intent)
+        if (finish) finish() // Delay(1000) { finish() }
+        // The phone's home screen may appear if there are no active activities at the moment.
+        return true
+    }
 
     /*private fun initAdmob() {
         retryForAd = 0

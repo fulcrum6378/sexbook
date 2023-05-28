@@ -29,8 +29,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
+import ir.mahdiparastesh.sexbook.Fun.calendar
+import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
@@ -149,6 +152,15 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     matchConstraintPercentWidth = 0.25f + ((0.5f - abs(0.5f - pos)) / 2f)
                 }
         }
+        b.pager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            private var firstTime = true
+            override fun onPageSelected(i: Int) {
+                if (firstTime) {
+                    firstTime = false; return; }
+                b.toolbar.menu.clear()
+                b.toolbar.inflateMenu(arrayOf(R.menu.page_sex_tlb, R.menu.page_love_tlb)[i])
+            }
+        })
 
         // Miscellaneous
         m.onani.observe(this) { instilledGuesses = false }
@@ -181,25 +193,22 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         when (item.itemId) {
             R.id.momSum -> summary()
             R.id.momRec -> recency()
-            R.id.momPop -> if (summarize())
-                startActivity(Intent(this, Adorability::class.java))
-            R.id.momGrw -> if (summarize())
-                startActivity(Intent(this, Growth::class.java))
-            R.id.momMix -> if (!m.onani.value.isNullOrEmpty())
-                startActivity(Intent(this, Mixture::class.java))
-            R.id.momPlc -> startActivity(Intent(this, Places::class.java))
-            R.id.momEst -> startActivity(Intent(this, Estimation::class.java))
+            R.id.momPop -> if (summarize()) goTo(Adorability::class)
+            R.id.momGrw -> if (summarize()) goTo(Growth::class)
+            R.id.momMix -> if (!m.onani.value.isNullOrEmpty()) goTo(Mixture::class)
+            R.id.momPlc -> goTo(Places::class)
+            R.id.momEst -> goTo(Estimation::class)
             R.id.momImport -> exporter.launchImport()
             R.id.momExport -> exporter.launchExport()
             R.id.momSend -> exporter.send()
-            R.id.momSettings -> startActivity(Intent(this, Settings::class.java))
+            R.id.momSettings -> goTo(Settings::class)
         }
         return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        b.toolbar.inflateMenu(R.menu.main_tlb)
+        b.toolbar.inflateMenu(R.menu.page_sex_tlb)
         b.toolbar.setOnMenuItemClickListener(this)
         return true
     }
@@ -270,8 +279,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
     }
 
-    /** This operation doesn't take so much time, generating the views for statistics takes that long! */
-    fun summarize(): Boolean = if (m.onani.value != null && m.onani.value!!.isNotEmpty()) {
+    /**
+     * Summarises the sex records for statistics.
+     *
+     * This operation doesn't take so much time, generating the views for statistics takes that long!
+     *
+     * @param ignoreChartingDisability ignores returning false if the range of the sex records
+     *                                 doesn't extend one month
+     * @return true if statisticisation was possible
+     */
+    fun summarize(ignoreChartingDisability: Boolean = false): Boolean {
+        if (m.onani.value.isNullOrEmpty()) return false
         var nExcluded = 0
         var filtered: List<Report> = m.onani.value!!
 
@@ -282,6 +300,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (sp.getBoolean(Settings.spStatUntilCb, false))
             filtered = filtered.filter { it.time < sp.getLong(Settings.spStatUntil, 0) }
                 .also { nExcluded += filtered.size - it.size }
+
+        // Check if it can draw any visual charts;
+        // this is possible only if the range of the sex records extends one month.
+        if (filtered.minOf { it.time }.calendar(this).createFilterYm().toString() ==
+            filtered.maxOf { it.time }.calendar(this).createFilterYm().toString() &&
+            !ignoreChartingDisability
+        ) return false
 
         // Filter by type
         val allowedTypes = Fun.allowedSexTypes(sp)
@@ -296,14 +321,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 if (!liefde.isNullOrEmpty()) scores = HashMap(scores.filter { it.key in liefde })
                     .also { this.nExcluded += scores.size - it.size }
             }
-        }; true; } else false
+        }
+        return true
+    }
 
     private fun summary() {
+        if (!summarize(true)) return
         val vp2 = ViewPager2(this@Main).apply {
             layoutParams = ViewGroup.LayoutParams(-1, -1)
             adapter = SumAdapter(this@Main)
         }
-        if (summarize()) MaterialAlertDialogBuilder(this).apply {
+        MaterialAlertDialogBuilder(this).apply {
             setTitle("${getString(R.string.summary)} (${m.summary!!.actual} / ${m.onani.value!!.size})")
             setView(ConstraintLayout(this@Main).apply {
                 layoutParams = ViewGroup.LayoutParams(-1, -1)
@@ -329,7 +357,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun recency() {
-        if (!summarize()) return
+        if (!summarize(true)) return
         m.recency = Recency(m.summary!!)
         MaterialAlertDialogBuilder(this).apply {
             setTitle(resources.getString(R.string.recency))
@@ -420,12 +448,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
+  * Add Russian language to Google Play
   * Non-binary recognition (** database migration)
-  * Chart statistics show nothing when provided by only a single time frame
   * Tweak days before a birthday reminder
   * Statisticise delays in hours between orgasms
   * -
   * Extension:
-  * Multi-optional sorting feature for Crushes
   * "First met" for Crush (** database migration)
   */

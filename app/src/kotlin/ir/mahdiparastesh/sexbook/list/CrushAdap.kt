@@ -35,7 +35,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
 
         // Click
         h.b.root.setOnClickListener { v ->
-            if (!c.summarize()) return@setOnClickListener
+            if (!c.summarize(true)) return@setOnClickListener
             val cr = c.m.liefde.value?.get(h.layoutPosition)
             val ins = cr?.insta
             MaterialMenu(c, v, R.menu.crush, Act().apply {
@@ -55,7 +55,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                 }
                 this[R.id.lcStatistics] = {
                     c.m.crush = c.m.liefde.value!![i].key
-                    c.startActivity(Intent(c, Singular::class.java))
+                    c.goTo(Singular::class)
                 }
             }).apply {
                 menu.findItem(R.id.lcInstagram).isEnabled = ins != null && ins != ""

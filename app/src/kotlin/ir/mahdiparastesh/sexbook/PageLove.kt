@@ -68,7 +68,7 @@ class PageLove : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        c.summarize()
+        c.summarize(true)
         if (changed) Work(c, Work.C_VIEW_ALL).start()
         else b.rv.adapter?.notifyDataSetChanged()
     }

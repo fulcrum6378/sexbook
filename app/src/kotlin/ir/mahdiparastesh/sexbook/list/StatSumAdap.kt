@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.list
 
-import android.content.Intent
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
@@ -42,7 +41,7 @@ class StatSumAdap(
             setTextColor(c.color(if (!bb) R.color.chipText else R.color.chipTextSearch))
             setOnClickListener {
                 c.m.crush = arr[i].value[crush]
-                c.startActivity(Intent(c, Singular::class.java))
+                c.goTo(Singular::class)
             }
             vis(true)
         }

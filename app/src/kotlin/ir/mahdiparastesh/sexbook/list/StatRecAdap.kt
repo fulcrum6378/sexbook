@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.list
 
-import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
 import android.view.ViewGroup
@@ -31,9 +30,9 @@ class StatRecAdap(private val c: Main, private val rec: Recency) :
                 "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
         h.b.sep.vis(i != rec.arr.size - 1)
         h.b.root.setOnClickListener {
-            if (!c.summarize()) return@setOnClickListener
+            if (!c.summarize(true)) return@setOnClickListener
             c.m.crush = rec.arr[i].name
-            c.startActivity(Intent(c, Singular::class.java))
+            c.goTo(Singular::class)
         }
         h.b.root.foreground = if (c.m.lookForIt(rec.arr[i].name))
             ColorDrawable(c.color(R.color.recencyHighlight)) else null

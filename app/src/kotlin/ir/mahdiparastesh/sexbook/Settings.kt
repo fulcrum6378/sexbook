@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -287,10 +286,8 @@ class Settings : BaseActivity() {
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
     override fun onBackPressed() {
-        if (changed) {
-            finish()
-            startActivity(Intent(this, Main::class.java).setAction(RELOAD.s))
-        } else super.onBackPressed()
+        if (changed) goTo(Main::class, true) { action = RELOAD.s }
+        else super.onBackPressed()
     }
 
 

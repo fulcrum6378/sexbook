@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -104,9 +103,7 @@ class Places : BaseActivity() {
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
     override fun onBackPressed() {
-        if (changed) {
-            finish()
-            startActivity(Intent(this, Main::class.java).setAction(Main.Action.RELOAD.s))
-        } else super.onBackPressed()
+        if (changed) goTo(Main::class, true) { action = Main.Action.RELOAD.s }
+        else super.onBackPressed()
     }
 }

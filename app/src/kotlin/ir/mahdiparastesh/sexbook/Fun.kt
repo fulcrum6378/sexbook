@@ -115,7 +115,6 @@ object Fun {
     fun Long.calendar(c: BaseActivity): Calendar =
         c.calType().newInstance().apply { timeInMillis = this@calendar }
 
-    /**  */
     fun Calendar.createFilterYm() = Pair(this[Calendar.YEAR], this[Calendar.MONTH])
 
     fun Long.defCalendar(c: BaseActivity): Calendar = c.calType().newInstance().apply {
@@ -155,7 +154,7 @@ object Fun {
         version = DatePickerDialog.Version.VERSION_1
         accentColor = c.color(R.color.CP)
         firstDayOfWeek = if (calendarType == HumanistIranianCalendar::class.java)
-            Calendar.THURSDAY else Calendar.SUNDAY
+            Calendar.SATURDAY else Calendar.MONDAY
         doVibrate(vib == true)
         setOkColor(c.color(R.color.dialogText))
         setCancelColor(c.color(R.color.dialogText))

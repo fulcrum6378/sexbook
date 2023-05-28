@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -86,8 +85,7 @@ class PageSex : Fragment() {
                         Work(c, Work.VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()
                     Work.REPLACE_ALL -> {
                         Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
-                        c.finish()
-                        c.startActivity(Intent(c, Main::class.java))
+                        c.goTo(Main::class, true)
                     }
 
                     Work.UPDATE_ONE -> if (c.m.onani.value != null) {
