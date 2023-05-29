@@ -16,21 +16,14 @@
         <item name="chipStyle">@style/Theme.Sexbook.Chip</item>
         <item name="colorControlNormal">@color/CPDD</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Sexbook.Dialogue</item>
-        <item name="navigationViewStyle">@style/Widget.Sexbook.NavigationView</item>
+        <item name="popupTheme">@style/Theme.Sexbook.Popup</item>
+        <item name="radioButtonStyle">@style/Theme.Sexbook.RadioButton</item>
         <item name="titleTextColor">@color/CPDD</item>
     </style>
 
     <style name="Theme.Sexbook" parent="Theme.Sexbook.Base">
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
-    </style>
-
-    <style name="Widget.Sexbook.NavigationView" parent="Widget.Material3.NavigationView">
-        <item name="itemIconTint">?attr/colorOnPrimary</item>
-        <item name="shapeAppearance">@style/ShapeAppearance_Sexbook_Nav</item>
-        <item name="itemRippleColor">@color/CPDD</item>
-        <item name="itemTextAppearance">@style/TextAppearance.Fortuna.Navigation</item>
-        <item name="itemTextColor">?attr/colorOnPrimary</item>
     </style>
 
     <style name="Theme.Sexbook.Dialogue.Layout" parent="Theme.Sexbook">
@@ -90,6 +83,11 @@
 
     <style name="ThemeOverlay.Sexbook.CheckBox.White" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="colorOnPrimary">?attr/colorSurface</item><!--avoid transparent-->
+    </style>
+
+    <style name="Theme.Sexbook.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="android:textColor">?android:attr/textColor</item>
+        <item name="buttonTint">?android:attr/textColor</item>
     </style>
 
     <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">

@@ -3,6 +3,7 @@ package ir.mahdiparastesh.sexbook.stat
 import android.Manifest
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
+import android.icu.util.GregorianCalendar
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -145,8 +146,7 @@ class Singular : BaseActivity() {
 
             // Default Values
             var isBirthSet = false
-            var bir = Calendar.getInstance()
-            // TODO NOT LOCALISED because it's not timestamp-based.
+            var bir = crush?.calendar()
             if (crush != null) {
                 bi.fName.setText(crush.fName)
                 bi.mName.setText(crush.mName)
@@ -154,10 +154,7 @@ class Singular : BaseActivity() {
                 bi.masc.isChecked = crush.masc
                 if (crush.height != -1f)
                     bi.height.setText(crush.height.toString())
-                crush.bYear.toInt().let { if (it != -1) bir[Calendar.YEAR] = it }
-                crush.bMonth.toInt().let { if (it != -1) bir[Calendar.MONTH] = it }
-                crush.bDay.toInt().let { if (it != -1) bir[Calendar.DAY_OF_MONTH] = it }
-                if (crush.hasFullBirth()) {
+                if (bir != null) {
                     bi.birth.text = bir.fullDate()
                     isBirthSet = true
                 }
@@ -167,6 +164,7 @@ class Singular : BaseActivity() {
             } else {
                 bi.masc.isChecked = c.sp.getBoolean(Settings.spPrefersMasculine, false)
             }
+            if (bir == null) bir = GregorianCalendar()
 
             // Masculine
             bi.masc.setOnCheckedChangeListener { _, isChecked ->
@@ -176,12 +174,12 @@ class Singular : BaseActivity() {
             // Birth
             bi.birth.setOnClickListener {
                 DatePickerDialog.newInstance({ _, year, month, day ->
-                    bir.set(Calendar.YEAR, year)
-                    bir.set(Calendar.MONTH, month)
-                    bir.set(Calendar.DAY_OF_MONTH, day)
+                    bir!!.set(Calendar.YEAR, year)
+                    bir!!.set(Calendar.MONTH, month)
+                    bir!!.set(Calendar.DAY_OF_MONTH, day)
                     bir = McdtpUtils.trimToMidnight(bir)
                     isBirthSet = true
-                    bi.birth.text = bir.fullDate()
+                    bi.birth.text = bir!!.fullDate()
                 }, bir).defaultOptions(c).show(c.supportFragmentManager, "birth")
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
@@ -207,9 +205,9 @@ class Singular : BaseActivity() {
                         bi.masc.isChecked,
                         if (bi.height.text.toString() != "")
                             bi.height.text.toString().toFloat() else -1f,
-                        if (isBirthSet) bir[Calendar.YEAR].toShort() else -1,
-                        if (isBirthSet) bir[Calendar.MONTH].toByte() else -1,
-                        if (isBirthSet) bir[Calendar.DAY_OF_MONTH].toByte() else -1,
+                        if (isBirthSet) bir!![Calendar.YEAR].toShort() else -1,
+                        if (isBirthSet) bir!![Calendar.MONTH].toByte() else -1,
+                        if (isBirthSet) bir!![Calendar.DAY_OF_MONTH].toByte() else -1,
                         bi.location.text.toString().ifEmpty { null },
                         bi.instagram.text.toString().ifEmpty { null },
                         bi.notifyBirth.isChecked

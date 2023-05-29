@@ -26,6 +26,11 @@ object Fun {
 
     const val DATABASE = "sexbook.db"
     const val INSTA = "https://www.instagram.com/"
+    const val SORT_BY_NAME = 0
+    const val SORT_BY_SUM = 1
+    const val SORT_BY_AGE = 2
+    const val SORT_BY_HEIGHT = 3
+    const val SORT_BY_LAST = 4
     // private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
     /** Specifies if vibration is enabled. */
@@ -219,13 +224,23 @@ object Fun {
     }
 
     fun sort(@IdRes menuItemId: Int): Any = when (menuItemId) {
-        R.id.sortByName -> 0
-        R.id.sortByScore -> 1
-        R.id.sortByAge -> 2
-        R.id.sortByHeight -> 3
+        R.id.sortByName -> SORT_BY_NAME
+        R.id.sortBySum -> SORT_BY_SUM
+        R.id.sortByAge -> SORT_BY_AGE
+        R.id.sortByHeight -> SORT_BY_HEIGHT
+        R.id.sortByLast -> SORT_BY_LAST
         R.id.sortAsc -> true
         R.id.sortDsc -> false
         else -> throw IllegalArgumentException("Unsupported menu item id!")
+    }
+
+    fun findSortMenuItemId(sortBy: Int) = when (sortBy) {
+        SORT_BY_NAME -> R.id.sortByName
+        SORT_BY_SUM -> R.id.sortBySum
+        SORT_BY_AGE -> R.id.sortByAge
+        SORT_BY_HEIGHT -> R.id.sortByHeight
+        SORT_BY_LAST -> R.id.sortByLast
+        else -> throw IllegalArgumentException("Invalid sorting method!")
     }
 
     /**

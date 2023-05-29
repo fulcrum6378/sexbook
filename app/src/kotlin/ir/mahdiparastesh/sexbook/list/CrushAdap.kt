@@ -6,7 +6,6 @@ import android.net.Uri
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.tripleRound
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
@@ -26,12 +25,9 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
     override fun onBindViewHolder(h: AnyViewHolder<ItemCrushBinding>, i: Int) {
         if (c.m.liefde.value == null) return
 
-        // Name
+        // Texts
         h.b.name.text = c.m.liefde.value!![i].visName()
-
-        // Sum
-        h.b.sum.text = c.m.summary?.scores?.get(c.m.liefde.value!![i].key)
-            ?.sumOf { it.value.toDouble() }?.toFloat()?.tripleRound()?.let { "{$it}" } ?: ""
+        h.b.sum.text = c.m.liefde.value!![i].sum(c.m)?.let { "{$it}" } ?: ""
 
         // Click
         h.b.root.setOnClickListener { v ->

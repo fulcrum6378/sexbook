@@ -36,6 +36,13 @@
     <string name="suspend">Pozastavit</string>
     <string name="clearDate">Vymažte datum</string>
     <string name="none">Žádný</string>
+    <string name="name">Název</string>
+    <string name="sum">Součet</string>
+    <string name="age">Stáří</string>
+    <string name="height">Výška</string>
+    <string name="asc">Vzestupně</string>
+    <string name="dsc">Klesající</string>
+    <string name="lastOrgasm">Poslední orgasmus</string>
 
     <!-- Main -->
     <string name="momImport">Import z Json</string>
@@ -58,7 +65,11 @@
 
     <!-- Page Love -->
     <string name="crushes">Seznam Crushes</string>
-    <string name="emptyLove">Po přidání některých záznamů o sexu přejděte do Navigační nabídky -> Souhrn -> Vybrat zamilovanost -> Stiskněte pravé horní tlačítko s ikonou "Osoba" (Identifikace).</string>
+    <string name="emptyLove">
+        Po přidání některých záznamů o sexu
+        přejděte do Navigační nabídky -> Souhrn -> Vybrat zamilovanost ->
+        Stiskněte pravé horní tlačítko s ikonou "Osoba" (Identifikace).
+    </string>
 
     <!-- #Statistics -->
     <string name="summary">Souhrn</string>
@@ -85,7 +96,9 @@
     <!-- Places -->
     <string name="places">Místa</string>
     <string name="plItemHint">Název místa&#8230;</string>
-    <string name="plDeletePlaceSure">Opravdu chcete toto místo smazat? Pokud ano, uveďte prosím, jaká opatření by měla být provedena se záznamy, které se týkaly tohoto místa:</string>
+    <string name="plDeletePlaceSure">
+        Opravdu chcete toto místo smazat? Pokud ano, uveďte prosím,
+        jaká opatření by měla být provedena se záznamy, které se týkaly tohoto místa:</string>
     <string name="plDefPlace">Výchozí místo?</string>
 
     <!-- Estimation -->
@@ -115,6 +128,6 @@
 
     <!-- #External -->
     <string name="sBirthday">narozeniny %s</string>
-    <string name="lastOrgasm">hodin od posledního.</string>
+    <string name="lastOrgasmHours">hodin od posledního.</string>
     <string name="lastOrgasmDesc">Ukazuje hodiny uplynulé od vašeho posledního orgasmu!</string>
 </resources>

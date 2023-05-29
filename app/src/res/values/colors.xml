@@ -19,6 +19,14 @@
     <color name="textHighlight">#70999999</color>
     <color name="dialogHint">#AF6F5900</color>
     <color name="weakWhite">#44FFFFFF</color>
+    <color name="chipNormalNormal">#DDD</color>
+    <color name="chipNormalFocus">@color/chipNormalHover</color>
+    <color name="chipNormalHover">#AFAFAF</color>
+    <color name="chipSearchNormal">@color/CP</color>
+    <color name="chipSearchFocus">@color/CPD</color>
+    <color name="chipSearchHover">@color/CPD</color>
+    <color name="chipText">@color/CPDDD</color>
+    <color name="chipTextSearch">@color/chipText</color>
 
     <!-- Main -->
     <color name="toolbar">@color/CP</color>
@@ -31,14 +39,6 @@
     <color name="mrvClockHand">@color/CP</color>
     <color name="spnFilterDDBG">@color/CP2</color>
     <color name="recencyHighlight">#33D6AD00</color>
-    <color name="chipNormalNormal">#DDD</color>
-    <color name="chipNormalFocus">@color/chipNormalHover</color>
-    <color name="chipNormalHover">#AFAFAF</color>
-    <color name="chipSearchNormal">@color/CP</color>
-    <color name="chipSearchFocus">@color/CPD</color>
-    <color name="chipSearchHover">@color/CPD</color>
-    <color name="chipText">@color/CPDDD</color>
-    <color name="chipTextSearch">@color/chipText</color>
     <color name="searchHint">@color/CP3</color>
     <color name="empty">@color/shadow</color>
 

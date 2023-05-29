@@ -50,7 +50,7 @@ class Settings : BaseActivity() {
         const val spCalOutput = "calendarOutput" // def false
         const val spPageLoveSortBy = "page_love_sort_by" // def 0
         const val spPageLoveSortAsc = "page_love_sort_ascending" // def true
-        // Beware of the numerical fields; go to Exporter$Companion.replace() for modifications.
+        // Beware of the numerical fields; go to Exporter.replace() for modifications.
 
         // Hidden
         const val spPrefersMasculine = "prefersMasculine"

@@ -36,6 +36,13 @@
     <string name="suspend">Aussetzen</string>
     <string name="clearDate">Löschen Sie das Datum</string>
     <string name="none">Keiner</string>
+    <string name="name">Name</string>
+    <string name="sum">Summe</string>
+    <string name="age">Alter</string>
+    <string name="height">Höhe</string>
+    <string name="asc">Aufsteigend</string>
+    <string name="dsc">Absteigend</string>
+    <string name="lastOrgasm">Letzter Orgasmus</string>
 
     <!-- Main -->
     <string name="momImport">Import aus Json</string>
@@ -127,6 +134,6 @@
 
     <!-- #External -->
     <string name="sBirthday">%ss Geburtstag</string>
-    <string name="lastOrgasm">Stunden seitdem letzten.</string>
+    <string name="lastOrgasmHours">Stunden seitdem letzten.</string>
     <string name="lastOrgasmDesc">Zeigt die seit Ihrem letzten Orgasmus verstrichenen Stunden an!</string>
 </resources>

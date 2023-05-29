@@ -42,14 +42,14 @@ class PageLove : Fragment() {
                 when (msg.what) {
                     Work.C_VIEW_ALL -> {
                         c.m.liefde.value = msg.obj as ArrayList<Crush>
-                        receivedData()
+                        prepareList()
                     }
                     Work.REPLACE_ALL -> Work(c, Work.C_VIEW_ALL).start()
-                    Work.C_UPDATE_ONE -> if (b.rv.adapter != null)
+                    Work.C_UPDATE_ONE -> /*if (b.rv.adapter != null)
                         c.m.liefde.value?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
                             c.m.liefde.value?.set(it, msg.obj as Crush)
                             b.rv.adapter?.notifyItemChanged(it)
-                        }
+                        }*/ prepareList()
                     Work.C_DELETE_ONE -> if (b.rv.adapter != null)
                         c.m.liefde.value?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
                             c.m.liefde.value?.removeAt(it)
@@ -63,7 +63,7 @@ class PageLove : Fragment() {
         messages.clear()
 
         if (c.m.liefde.value == null) Work(c, Work.C_VIEW_ALL).start()
-        else receivedData()
+        else prepareList()
     }
 
     override fun onResume() {
@@ -73,11 +73,17 @@ class PageLove : Fragment() {
         else b.rv.adapter?.notifyDataSetChanged()
     }
 
-    fun receivedData() {
-        c.m.liefde.value?.sortWith(Crush.Sort())
+    /**
+     * Called whenever data is loaded, it sorts the data and then calls arrangeList().
+     * The data doesn't need to be sorted again sometimes; that's why it was separated from arrangeList().
+     */
+    fun prepareList() {
+        c.m.liefde.value?.sortWith(Crush.Sort(c.sp.getInt(Settings.spPageLoveSortBy, 0), c.m))
+        if (!c.sp.getBoolean(Settings.spPageLoveSortAsc, true)) c.m.liefde.value?.reverse()
         arrangeList()
     }
 
+    /** Arranges the list in the adapter, and creates the adapter if it doesn't exist. */
     private fun arrangeList() {
         if (b.empty.vis(c.m.liefde.value.isNullOrEmpty())) return
         if (b.rv.adapter == null) b.rv.adapter = CrushAdap(c)

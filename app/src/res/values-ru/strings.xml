@@ -37,6 +37,13 @@
     <string name="suspend">Приостановить</string>
     <string name="clearDate">Очистить дату</string>
     <string name="none">Никто</string>
+    <string name="name">Имя</string>
+    <string name="sum">Сумма</string>
+    <string name="age">Возраст</string>
+    <string name="height">Высота</string>
+    <string name="asc">Восходящий</string>
+    <string name="dsc">По убыванию</string>
+    <string name="lastOrgasm">Последний оргазм</string>
 
     <!-- Main -->
     <string name="momImport">Импорт из Json</string>
@@ -125,6 +132,6 @@
 
     <!-- #External -->
     <string name="sBirthday">День рождения %s</string>
-    <string name="lastOrgasm">Часов с момента последнего.</string>
+    <string name="lastOrgasmHours">Часов с момента последнего.</string>
     <string name="lastOrgasmDesc">Показывает часы, прошедшие с момента вашего последнего оргазма!</string>
 </resources>

@@ -3,7 +3,6 @@ package ir.mahdiparastesh.sexbook.more
 import android.Manifest
 import android.content.ContentValues
 import android.content.pm.PackageManager
-import android.icu.util.GregorianCalendar
 import android.icu.util.TimeZone
 import android.net.Uri
 import android.provider.CalendarContract
@@ -59,44 +58,20 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
                     .appendQueryParameter(CCC.ACCOUNT_TYPE, accType).build(), this
             )?.also { id = it.getId() }
             insertEvents(crushes!!)
-        } else {
-            if (!Index().read()) {
-                deleteEvents()
-                insertEvents(crushes!!)
-            }
-            /*if () ContentValues().apply {
-            //put(CCC.ALLOWED_REMINDERS, "") // 0,1,2
-            //put(CCC.ALLOWED_AVAILABILITY, "") // 0,1,2
-            //put(CCC.ALLOWED_ATTENDEE_TYPES, "") // 0,1
-            c.contentResolver.update(CCC.CONTENT_URI, this, "account_name = ?", arrayOf(accName))
-        }*/
+        } else if (!Index().read()) {
+            deleteEvents()
+            insertEvents(crushes!!)
         }
         crushes = null
     }
 
     private suspend fun insertEvents(crushes: Iterable<Crush>) {
         index = hashMapOf()
-        for (cr in crushes) if (cr.hasFullBirth()) {
-            cr.insertEvent()
-            //if (cr.notifyBirth) cr.insertReminder()
-        }
+        for (cr in crushes) cr.insertEvent()
         Index().write()
     }
 
     private suspend fun deleteEvents() {
-        /*val existingIds = arrayListOf<Long>()
-        c.contentResolver.query(
-            CCE.CONTENT_URI, arrayOf(CCE._ID), "calendar_id = ?", arrayOf("$id"), CCE._ID
-        )?.use {
-            if (it.moveToFirst()) for (i in 0 until it.count) {
-                it.getLongOrNull(it.getColumnIndex(CCE._ID))?.also { l -> existingIds.add(l) }
-                it.moveToNext()
-            }
-        }
-        if (existingIds.isEmpty()) return
-        for (ev in existingIds)
-            c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", arrayOf(ev.toString()))*/
-        // CCR inherits "calendar_id" but the Reminders table actually has no such column!
         c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
     }
 
@@ -114,14 +89,15 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     private fun Uri.getId() =
         toString().substringAfterLast("/").substringBefore("?").toLong()
 
+    private fun Crush?.containsBirth() = this != null && hasFullBirth()
+
     /** Write the index after executing this function. */
     private fun Crush.insertEvent() {
+        val cal = calendar(TimeZone.getTimeZone(tz)) ?: return
         ContentValues().apply {
             put(CCE.CALENDAR_ID, id)
             put(CCE.TITLE, c.getString(R.string.sBirthday, visName()))
-            put(CCE.DTSTART, GregorianCalendar(TimeZone.getTimeZone(tz)).let {
-                it.set(bYear.toInt(), bMonth.toInt(), bDay.toInt()); it.timeInMillis
-            })
+            put(CCE.DTSTART, cal.timeInMillis)
             put(CCE.RRULE, "FREQ=YEARLY")
             put(CCE.DURATION, "P1D")
             put(CCE.ALL_DAY, 1)
@@ -131,58 +107,33 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         }
     }
 
-    // import android.provider.CalendarContract.Reminders as CCR
-    /*private fun Crush.insertReminder() {
-        ContentValues().apply {
-            put(CCR.EVENT_ID, index[key])
-            put(CCR.MINUTES, 1440 * 1)
-            put(CCR.METHOD, CCR.METHOD_DEFAULT)
-            c.contentResolver.insert(CCR.CONTENT_URI, this)
-        }
-    }*/
-
     fun updateEvent(oldCrush: Crush?, newCrush: Crush?) {
         when {
-            oldCrush == null && newCrush != null -> {
-                newCrush.insertEvent()
+            !oldCrush.containsBirth() && newCrush.containsBirth() -> {
+                newCrush!!.insertEvent()
                 Index().write()
-                //newCrush.insertReminder()
             }
-
-            oldCrush != null && newCrush != null -> {
-                val ev = arrayOf(index[oldCrush.key].toString())
+            oldCrush.containsBirth() && newCrush.containsBirth() -> {
+                val ev = arrayOf(index[oldCrush!!.key].toString())
                 ContentValues().apply {
-                    if (oldCrush.visName() != newCrush.visName())
+                    if (oldCrush.visName() != newCrush!!.visName())
                         put(CCE.TITLE, c.getString(R.string.sBirthday, newCrush.visName()))
                     if (oldCrush.bYear != newCrush.bYear ||
                         oldCrush.bMonth != newCrush.bMonth ||
                         oldCrush.bDay != newCrush.bDay
-                    ) put(CCE.DTSTART, GregorianCalendar(TimeZone.getTimeZone(tz)).let {
-                        it.set(
-                            newCrush.bYear.toInt(),
-                            newCrush.bMonth.toInt(),
-                            newCrush.bDay.toInt()
-                        ); it.timeInMillis
-                    })
+                    ) put(CCE.DTSTART, newCrush.calendar(TimeZone.getTimeZone(tz))!!.timeInMillis)
+
                     if (size() > 0)
                         c.contentResolver.update(CCE.CONTENT_URI, this, "_id = ?", ev)
                 }
-                /*when {
-                    !oldCrush.notifyBirth && newCrush.notifyBirth -> newCrush.insertReminder()
-                    oldCrush.notifyBirth && !newCrush.notifyBirth ->
-                        c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", ev)
-                }*/
             }
-
-            oldCrush != null && newCrush == null -> {
-                val ev = arrayOf(index[oldCrush.key].toString())
-                //c.contentResolver.delete(CCR.CONTENT_URI, "event_id = ?", ev)
+            oldCrush.containsBirth() && !newCrush.containsBirth() -> {
+                val ev = arrayOf(index[oldCrush!!.key].toString())
                 c.contentResolver.delete(CCE.CONTENT_URI, "_id = ?", ev)
                 index.remove(oldCrush.key)
                 Index().write()
             }
-
-            else -> throw IllegalArgumentException("At least one of the arguments must not be null.")
+            else -> {}
         }
     }
 

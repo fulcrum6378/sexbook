@@ -11,20 +11,20 @@
     <color name="textHighlight">#AAFFFFFF</color>
     <color name="dialogText">@color/CP_LIGHT</color>
     <color name="dialogHint">#AFFFD422</color>
-
-    <!-- Main -->
-    <color name="navItems">@color/CP_LIGHT</color>
-    <color name="navRipple">#44FFFFFF</color>
-    <color name="mrvClockPoint">@color/CPD</color>
-    <color name="mrvClockHand">@color/CPDD</color>
-    <color name="spnFilterDDBG">@color/CP</color>
-    <color name="recencyHighlight">#44FFFFFF</color>
     <color name="chipNormalNormal">@color/CP</color>
     <color name="chipNormalFocus">@color/CP3</color>
     <color name="chipNormalHover">@color/CP3</color>
     <color name="chipSearchNormal">@color/CPDD</color>
     <color name="chipText">@color/CPD</color>
     <color name="chipTextSearch">@android:color/white</color>
+
+    <!-- Main -->
+    <color name="navItems">@color/CPD</color>
+    <color name="navRipple">#44FFFFFF</color>
+    <color name="mrvClockPoint">@color/CPD</color>
+    <color name="mrvClockHand">@color/CPDD</color>
+    <color name="spnFilterDDBG">@color/CP</color>
+    <color name="recencyHighlight">#44FFFFFF</color>
     <color name="searchHint">#AAFFFFFF</color>
     <color name="empty">@color/searchHint</color>
 </resources>

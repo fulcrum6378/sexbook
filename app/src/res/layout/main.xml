@@ -50,6 +50,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- we could move some styles to navigationViewStyle in the theme. -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav"
         android:layout_width="280dp"
@@ -62,5 +63,6 @@
         app:itemRippleColor="@color/navRipple"
         app:itemTextAppearance="@style/TextAppearance.Fortuna.Navigation"
         app:itemTextColor="@color/navItems"
-        app:menu="@menu/nav" />
+        app:menu="@menu/nav"
+        app:shapeAppearance="@style/ShapeAppearance_Sexbook_Nav" />
 </androidx.drawerlayout.widget.DrawerLayout>

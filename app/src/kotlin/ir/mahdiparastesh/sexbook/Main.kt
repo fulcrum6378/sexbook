@@ -55,6 +55,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private var calManager: CalendarManager? = null
     private var exiting = false
     private val drawerGravity = GravityCompat.START
+    private val menus = arrayOf(R.menu.page_sex_tlb, R.menu.sort)
     /*private lateinit var adBanner: AdView
     private var adBannerLoaded = false*/
 
@@ -159,7 +160,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 if (firstTime) {
                     firstTime = false; return; }
                 b.toolbar.menu.clear()
-                b.toolbar.inflateMenu(arrayOf(R.menu.page_sex_tlb, R.menu.sort)[i])
+                b.toolbar.inflateMenu(menus[i])
+                m.currentPage = i
             }
         })
 
@@ -209,15 +211,18 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        b.toolbar.inflateMenu(R.menu.page_sex_tlb)
+        b.toolbar.inflateMenu(menus[m.currentPage])
         b.toolbar.setOnMenuItemClickListener(this)
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu
-        sp.getInt(Settings.spPageLoveSortBy, 0)
-        sp.getBoolean(Settings.spPageLoveSortAsc, true)
+        menu?.findItem(Fun.findSortMenuItemId(sp.getInt(Settings.spPageLoveSortBy, 0)))
+            ?.isChecked = true
+        menu?.findItem(
+            if (sp.getBoolean(Settings.spPageLoveSortAsc, true))
+                R.id.sortAsc else R.id.sortDsc
+        )?.isChecked = true
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -227,10 +232,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
 
             // PageLove (R.menu.sort):
-            else -> sp.edit {
-                val value = Fun.sort(item.itemId)
-                if (value is Int) putInt(Settings.spPageLoveSortBy, value)
-                else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)
+            else -> {
+                sp.edit {
+                    val value = Fun.sort(item.itemId)
+                    if (value is Int) putInt(Settings.spPageLoveSortBy, value)
+                    else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)
+                }
+                pageLove?.prepareList()
             }
         }
         return true
@@ -464,11 +472,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * Add Russian language to Google Play
   * Non-binary recognition (** database migration)
   * Tweak days before a birthday reminder
   * Statisticise delays in hours between orgasms
   * -
   * Extension:
   * "First met" for Crush (** database migration)
+  * Export data to other files types (only export) e.g. TXT, PDF and/or HTML...
   */

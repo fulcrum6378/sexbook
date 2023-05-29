@@ -25,6 +25,7 @@ class Model : ViewModel() {
     val guesses = MutableLiveData<ArrayList<Guess>?>(null)
 
     var loaded = false
+    var currentPage = 0
     var crush: String? = null
     val visOnani = arrayListOf<Report>()
     var listFilter = -1

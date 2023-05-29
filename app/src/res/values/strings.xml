@@ -40,11 +40,12 @@
     <string name="clearDate">Clear the date</string>
     <string name="none">None</string>
     <string name="name">Name</string>
-    <string name="score">Score</string>
+    <string name="sum">Sum</string>
     <string name="age">Age</string>
     <string name="height">Height</string>
     <string name="asc">Ascending</string>
     <string name="dsc">Descending</string>
+    <string name="lastOrgasm">Last Orgasm</string>
 
     <!-- Main -->
     <string name="momImport">Import from Json</string>
@@ -134,7 +135,7 @@
 
     <!-- #External -->
     <string name="sBirthday">%s\'s birthday</string>
-    <string name="lastOrgasm">hours since the last one.</string>
+    <string name="lastOrgasmHours">hours since the last one.</string>
     <string name="lastOrgasmDesc">Shows hours elapsed since your last orgasm!</string>
     <string name="permReadDb" translatable="false">
         Allows the app to view data from the Sexbook database.

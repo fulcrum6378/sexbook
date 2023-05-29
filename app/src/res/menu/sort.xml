@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- do not remove group ids. -->
     <group
         android:id="@+id/sortBy"
         android:checkableBehavior="single">
@@ -7,14 +9,17 @@
             android:id="@+id/sortByName"
             android:title="@string/name" />
         <item
-            android:id="@+id/sortByScore"
-            android:title="@string/score" />
+            android:id="@+id/sortBySum"
+            android:title="@string/sum" />
         <item
             android:id="@+id/sortByAge"
             android:title="@string/age" />
         <item
             android:id="@+id/sortByHeight"
             android:title="@string/height" />
+        <item
+            android:id="@+id/sortByLast"
+            android:title="@string/lastOrgasm" />
     </group>
 
     <group
