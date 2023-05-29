@@ -48,6 +48,8 @@ class Settings : BaseActivity() {
         const val spStatOnlyCrushes = "statisticiseOnlyCrushes" // def false
         const val spVibration = "vibration" // def true
         const val spCalOutput = "calendarOutput" // def false
+        const val spPageLoveSortBy = "page_love_sort_by" // def 0
+        const val spPageLoveSortAsc = "page_love_sort_ascending" // def true
         // Beware of the numerical fields; go to Exporter$Companion.replace() for modifications.
 
         // Hidden

@@ -11,6 +11,7 @@ import android.icu.util.Calendar
 import android.os.*
 import android.view.View
 import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
@@ -215,6 +216,16 @@ object Fun {
                 func()
             }
         }.start()
+    }
+
+    fun sort(@IdRes menuItemId: Int): Any = when (menuItemId) {
+        R.id.sortByName -> 0
+        R.id.sortByScore -> 1
+        R.id.sortByAge -> 2
+        R.id.sortByHeight -> 3
+        R.id.sortAsc -> true
+        R.id.sortDsc -> false
+        else -> throw IllegalArgumentException("Unsupported menu item id!")
     }
 
     /**

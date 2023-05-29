@@ -24,6 +24,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
@@ -158,7 +159,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 if (firstTime) {
                     firstTime = false; return; }
                 b.toolbar.menu.clear()
-                b.toolbar.inflateMenu(arrayOf(R.menu.page_sex_tlb, R.menu.page_love_tlb)[i])
+                b.toolbar.inflateMenu(arrayOf(R.menu.page_sex_tlb, R.menu.sort)[i])
             }
         })
 
@@ -213,9 +214,24 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu
+        sp.getInt(Settings.spPageLoveSortBy, 0)
+        sp.getBoolean(Settings.spPageLoveSortAsc, true)
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
+            // PageSex (R.menu.page_sex_tlb):
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
+
+            // PageLove (R.menu.sort):
+            else -> sp.edit {
+                val value = Fun.sort(item.itemId)
+                if (value is Int) putInt(Settings.spPageLoveSortBy, value)
+                else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)
+            }
         }
         return true
     }

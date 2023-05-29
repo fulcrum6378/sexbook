@@ -80,7 +80,7 @@
     <string name="lastName">Фамилия</string>
     <string name="masculine">Мужской</string>
     <string name="feminine">Женский</string>
-    <string name="height">Рост (см)</string>
+    <string name="heightInCM">Рост (см)</string>
     <string name="birth">Дата рождения</string>
     <string name="location">Расположение</string>
     <string name="notifyBirth">Сообщите мне об их дне рождения</string>

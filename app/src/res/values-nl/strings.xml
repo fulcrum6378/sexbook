@@ -75,7 +75,7 @@
     <string name="lastName">Achternaam</string>
     <string name="masculine">Man</string>
     <string name="feminine">Vrouw</string>
-    <string name="height">Hoogte (cm)</string>
+    <string name="heightInCM">Hoogte (cm)</string>
     <string name="birth">Geboortedatum</string>
     <string name="location">Plaats</string>
     <string name="notifyBirth">Breng me op zijn/haar verjaardag op de hoogte</string>

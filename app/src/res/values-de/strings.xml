@@ -79,7 +79,7 @@
     <string name="lastName">Familienname</string>
     <string name="masculine">Mann</string>
     <string name="feminine">Frau</string>
-    <string name="height">Höhe (cm)</string>
+    <string name="heightInCM">Höhe (cm)</string>
     <string name="birth">Geburtsdatum</string>
     <string name="location">Standort</string>
     <string name="notifyBirth">Benachrichtigen Sie mich an ihrem Geburtstag</string>

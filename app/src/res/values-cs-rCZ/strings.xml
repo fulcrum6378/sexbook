@@ -75,7 +75,7 @@
     <string name="lastName">Příjmení</string>
     <string name="masculine">Muž</string>
     <string name="feminine">Žena</string>
-    <string name="height">Výška (cm)</string>
+    <string name="heightInCM">Výška (cm)</string>
     <string name="birth">Datum narození</string>
     <string name="location">Umístění</string>
     <string name="notifyBirth">Upozornit mě na jejich narozeniny</string>

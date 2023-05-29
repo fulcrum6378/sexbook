@@ -92,7 +92,7 @@
         <ir.mahdiparastesh.sexbook.more.SoftEditText
             android:id="@+id/height"
             style="@style/identifyET"
-            android:hint="@string/height"
+            android:hint="@string/heightInCM"
             android:importantForAutofill="no"
             android:inputType="number"
             android:maxLength="7"
