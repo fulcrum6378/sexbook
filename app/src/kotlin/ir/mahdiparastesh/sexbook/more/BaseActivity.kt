@@ -11,8 +11,6 @@ import android.icu.util.IndianCalendar
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.TypedValue
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
@@ -24,7 +22,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
-import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import java.util.*
 import kotlin.reflect.KClass
@@ -36,7 +33,6 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
     lateinit var sp: SharedPreferences
     private var tbTitle: TextView? = null
     val dm: DisplayMetrics by lazy { resources.displayMetrics }
-    private val dirRtl by lazy { c.resources.getBoolean(R.bool.dirRtl) }
     /*var interstitialAd: InterstitialAd? = null
     var loadingAd = false
     var showingAd = false
@@ -56,12 +52,6 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
         super.onCreate(savedInstanceState)
         m = ViewModelProvider(this, Model.Factory())["Model", Model::class.java]
         sp = getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
-    }
-
-    override fun setContentView(root: View?) {
-        super.setContentView(root)
-        root?.layoutDirection =
-            if (!dirRtl) ViewGroup.LAYOUT_DIRECTION_LTR else ViewGroup.LAYOUT_DIRECTION_RTL
     }
 
     /*override fun onStart() {

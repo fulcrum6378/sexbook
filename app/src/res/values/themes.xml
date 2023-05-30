@@ -3,35 +3,54 @@
 
     <style name="Theme.Sexbook.Base" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorOnPrimary">#9A7C00</item>
-        <item name="colorPrimaryDark">@color/CPD</item>
+        <item name="colorPrimaryVariant">#D6AD00</item>
         <item name="colorAccent">@color/CP3</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.Sexbook.OverflowButton</item>
         <item name="android:editTextColor">?colorOnPrimary</item>
-        <item name="android:navigationBarColor">?attr/colorPrimary</item>
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?colorPrimary</item>
+        <item name="android:statusBarColor">?colorPrimary</item>
         <item name="android:textColor">?colorOnPrimary</item>
         <item name="android:textColorHighlight">@color/textHighlight</item>
         <item name="android:textColorHint">@color/hint</item>
-        <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox.Yellow</item>
+        <item name="android:windowBackground">?colorSecondary</item>
+        <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox</item>
         <item name="chipStyle">@style/Theme.Sexbook.Chip</item>
         <item name="colorControlNormal">?colorOnPrimary</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Sexbook.Dialogue</item>
+        <item name="navigationViewStyle">@style/Widget.Sexbook.Nav</item>
         <item name="popupTheme">@style/Theme.Sexbook.Popup</item>
         <item name="radioButtonStyle">@style/Theme.Sexbook.RadioButton</item>
+        <item name="rippleColor">?colorPrimaryVariant</item>
         <item name="titleTextColor">?colorOnPrimary</item>
     </style>
 
     <style name="Theme.Sexbook" parent="Theme.Sexbook.Base">
         <item name="colorPrimary">#FFD422</item>
+        <item name="colorSecondary">@android:color/white</item>
+        <item name="colorOnSecondary">#6F5900</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
     </style>
 
+
+    <!-- we better put these values here so they can be changes in different situations. -->
+    <style name="Widget.Sexbook.Nav.Base" parent="Widget.Material3.NavigationView">
+        <item name="itemIconPadding">@dimen/navFont</item>
+        <item name="itemIconTint">?itemTextColor</item>
+        <item name="itemTextAppearance">@style/TextAppearance.Sexbook.Nav</item>
+        <item name="shapeAppearance">@style/ShapeAppearance_Sexbook_Nav</item>
+    </style>
+
+    <style name="Widget.Sexbook.Nav" parent="Widget.Sexbook.Nav.Base">
+        <item name="itemRippleColor">#669A7C00</item>
+        <item name="itemTextColor">#574600</item>
+    </style>
+
     <style name="Theme.Sexbook.Dialogue.Layout" parent="Theme.Sexbook">
-        <item name="android:textColor">@color/dialogText</item>
-        <item name="android:editTextColor">@color/dialogText</item>
+        <item name="android:textColor">?colorOnSecondary</item>
+        <item name="android:editTextColor">?colorOnSecondary</item>
         <item name="android:textColorHint">@color/dialogHint</item>
-        <item name="colorControlNormal">@color/dialogText</item>
+        <item name="colorControlNormal">?colorOnSecondary</item>
     </style>
 
     <style name="ThemeOverlay.Sexbook.Dialogue" parent="ThemeOverlay.Material3.MaterialAlertDialog">
@@ -66,24 +85,14 @@
         <item name="fontFamily">@font/normal</item>
     </style>
 
-    <style name="Theme.Sexbook.CheckBox.Yellow" parent="Widget.Material3.CompoundButton.CheckBox">
+    <style name="Theme.Sexbook.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="android:textColor">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
         <item name="buttonTint">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
-        <item name="materialThemeOverlay">@style/ThemeOverlay.Sexbook.CheckBox.Yellow</item>
+        <item name="buttonIconTint">?colorPrimary</item><!--avoid transparent-->
     </style>
 
-    <style name="ThemeOverlay.Sexbook.CheckBox.Yellow" parent="Widget.Material3.CompoundButton.CheckBox">
-        <item name="colorOnPrimary">?colorPrimary</item><!--avoid transparent-->
-    </style>
-
-    <style name="Theme.Sexbook.CheckBox.White" parent="Widget.Material3.CompoundButton.CheckBox">
-        <item name="android:textColor">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
-        <item name="buttonTint">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
-        <item name="materialThemeOverlay">@style/ThemeOverlay.Sexbook.CheckBox.White</item>
-    </style>
-
-    <style name="ThemeOverlay.Sexbook.CheckBox.White" parent="Widget.Material3.CompoundButton.CheckBox">
-        <item name="colorOnPrimary">?attr/colorSurface</item><!--avoid transparent-->
+    <style name="ThemeOverlay.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox">
+        <item name="buttonIconTint">?colorSurface</item>
     </style>
 
     <style name="Theme.Sexbook.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
@@ -93,15 +102,15 @@
 
     <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">
         <item name="android:textColor">@color/CPDDD</item>
-        <item name="colorPrimary">@color/CPD</item>
+        <item name="colorPrimary">?colorPrimaryVariant</item>
         <item name="colorOnSurface">?colorOnPrimary</item>
         <item name="switchStyle">@style/Theme.Sexbook.Switch.Dialogue</item>
     </style>
 
     <style name="Theme.Sexbook.Popup" parent="Widget.Material3.PopupMenu">
         <item name="fontFamily">@font/normal</item>
-        <item name="android:textColor">@color/dialogText</item>
-        <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox.White</item>
+        <item name="android:textColor">?colorOnSecondary</item>
+        <item name="checkboxStyle">@style/ThemeOverlay.Sexbook.CheckBox.White</item>
     </style>
 
     <style name="Theme.Sexbook.Chip" parent="Widget.Material3.Chip.Suggestion">

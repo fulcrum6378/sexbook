@@ -251,8 +251,10 @@ class Singular : BaseActivity() {
                     SubColumnValue(it.second)
                         .setLabel("${it.first} (${it.second})")
                         .setColor(
-                            if (!c.night()) c.themeColor(com.google.android.material.R.attr.colorPrimary)
-                            else c.color(R.color.CPD)
+                            c.themeColor(
+                                if (!c.night()) com.google.android.material.R.attr.colorPrimary
+                                else com.google.android.material.R.attr.colorPrimaryVariant
+                            )
                         )
                 )
             ).setHasLabels(true)

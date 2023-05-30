@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="CPD">#D6AD00</color>
     <color name="CPDDD">#6F5900</color>
-    <color name="CP2">@android:color/white</color>
     <color name="CP3">#656D78</color>
     <color name="CP_LIGHT">#FFD422</color>
 
     <!-- GLOBAL -->
-    <color name="shadow">#55000000</color>
-    <color name="transformer">@color/CPD</color>
+    <color name="transformer">?colorPrimaryVariant</color>
     <color name="divider">#E7E8EB</color>
-    <color name="ripple">?attr/colorPrimary</color>
-    <color name="yellowRipple">@color/CPD</color>
-    <color name="dialogText">@color/CPDDD</color>
+    <color name="ripple">?colorPrimary</color>
+    <color name="yellowRipple">?colorPrimaryVariant</color>
     <color name="hint">#AF9A7C00</color>
     <color name="textHighlight">#70999999</color>
     <color name="dialogHint">#AF6F5900</color>
@@ -20,24 +16,23 @@
     <color name="chipNormalNormal">#DDD</color>
     <color name="chipNormalFocus">@color/chipNormalHover</color>
     <color name="chipNormalHover">#AFAFAF</color>
-    <color name="chipSearchNormal">?attr/colorPrimary</color>
-    <color name="chipSearchFocus">@color/CPD</color>
-    <color name="chipSearchHover">@color/CPD</color>
+    <color name="chipSearchNormal">?colorPrimary</color>
+    <color name="chipSearchFocus">?colorPrimaryVariant</color>
+    <color name="chipSearchHover">?colorPrimaryVariant</color>
     <color name="chipText">@color/CPDDD</color>
     <color name="chipTextSearch">@color/chipText</color>
 
     <!-- Main -->
-    <color name="navItems">#574600</color>
-    <color name="navRipple">#669A7C00</color>
-    <color name="mrvBG">?attr/colorPrimary</color>
-    <color name="mrvClock">@color/CP2</color>
+    <color name="mrvClock">?colorSecondary</color>
     <color name="mrvClockPoint">?colorOnPrimary</color>
-    <color name="mrvClockHand">?attr/colorPrimary</color>
-    <color name="spnFilterDDBG">@color/CP2</color>
+    <color name="mrvClockHand">?colorPrimary</color>
+    <color name="spnFilterDDBG">?colorSecondary</color>
     <color name="recencyHighlight">#33D6AD00</color>
     <color name="searchHint">@color/CP3</color>
-    <color name="empty">@color/shadow</color>
+    <color name="empty">#55000000</color>
 
     <!-- #External -->
     <color name="lastOrgasm">#AAFFD422</color>
+
+    <!-- Putting an attribute reference in these fields could cause weird errors. -->
 </resources>

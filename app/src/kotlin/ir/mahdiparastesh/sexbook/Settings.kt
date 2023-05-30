@@ -3,7 +3,6 @@ package ir.mahdiparastesh.sexbook
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -194,9 +193,7 @@ class Settings : BaseActivity() {
                 labelFor = cbId
             })
 
-            b.sexTypes.addView(MaterialCheckBox(
-                ContextThemeWrapper(this@Settings, R.style.Theme_Sexbook_CheckBox_Yellow)
-            ).apply {
+            b.sexTypes.addView(MaterialCheckBox(this@Settings).apply {
                 text = getString(R.string.stSexTypeInclude, sex.name)
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 typeface = ResourcesCompat.getFont(c, R.font.normal)

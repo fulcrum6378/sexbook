@@ -3,20 +3,28 @@
 
     <style name="Theme.Sexbook" parent="Theme.Sexbook.Base">
         <item name="colorPrimary">#3A3A3A</item>
+        <item name="colorSecondary">@android:color/black</item>
+        <item name="colorOnSecondary">@color/CP_LIGHT</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
     </style>
 
-    <style name="Theme.Sexbook.CheckBox.White" parent="Widget.Material3.CompoundButton.CheckBox">
-        <item name="android:textColor">@color/dialogText</item>
-        <item name="buttonTint">@color/dialogText</item>
-        <item name="materialThemeOverlay">@style/ThemeOverlay.Sexbook.CheckBox.White</item>
+
+    <style name="Widget.Sexbook.Nav" parent="Widget.Sexbook.Nav.Base">
+        <item name="itemRippleColor">#44FFFFFF</item>
+        <item name="itemTextColor">?colorPrimaryVariant</item><!--ERRORS-->
+    </style>
+
+    <style name="ThemeOverlay.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox">
+        <item name="android:textColor">?colorOnSecondary</item>
+        <item name="buttonTint">?colorOnSecondary</item>
+        <item name="buttonIconTint">?colorSurface</item>
     </style>
 
     <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">
         <item name="android:textColor">@color/CP_LIGHT</item>
         <item name="colorPrimary">@color/CP_LIGHT</item>
-        <item name="colorOnSurface">@color/CPD</item>
+        <item name="colorOnSurface">?colorPrimaryVariant</item>
         <item name="switchStyle">@style/Theme.Sexbook.Switch.Dialogue</item>
     </style>
 </resources>

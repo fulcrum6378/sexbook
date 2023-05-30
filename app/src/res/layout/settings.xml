@@ -50,8 +50,7 @@
                     style="@style/stItemTV"
                     android:enabled="false"
                     android:saveEnabled="false"
-                    android:text="@string/stStatSince"
-                    android:theme="@style/Theme.Sexbook.CheckBox.Yellow" />
+                    android:text="@string/stStatSince" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/stStatSinceDate"
@@ -72,8 +71,7 @@
                     style="@style/stItemTV"
                     android:enabled="false"
                     android:saveEnabled="false"
-                    android:text="@string/stStatUntil"
-                    android:theme="@style/Theme.Sexbook.CheckBox.Yellow" />
+                    android:text="@string/stStatUntil" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/stStatUntilDate"
@@ -106,8 +104,7 @@
                     android:id="@+id/stStatOnlyCrushes"
                     style="@style/stItemTV"
                     android:saveEnabled="false"
-                    android:text="@string/stStatOnlyCrushes"
-                    android:theme="@style/Theme.Sexbook.CheckBox.Yellow" />
+                    android:text="@string/stStatOnlyCrushes" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemSingleCheckBox">
@@ -116,8 +113,7 @@
                     android:id="@+id/stVibration"
                     style="@style/stItemTV"
                     android:saveEnabled="false"
-                    android:text="@string/stVibration"
-                    android:theme="@style/Theme.Sexbook.CheckBox.Yellow" />
+                    android:text="@string/stVibration" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemSingleCheckBox">
@@ -126,8 +122,7 @@
                     android:id="@+id/stCalOutput"
                     style="@style/stItemTV"
                     android:saveEnabled="false"
-                    android:text="@string/stCalOutput"
-                    android:theme="@style/Theme.Sexbook.CheckBox.Yellow" />
+                    android:text="@string/stCalOutput" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

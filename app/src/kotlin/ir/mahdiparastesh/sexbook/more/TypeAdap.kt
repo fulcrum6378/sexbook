@@ -30,7 +30,7 @@ class TypeAdap(
     override fun getDropDownView(i: Int, convertView: View?, parent: ViewGroup): View =
         TypeSelectorDdBinding.inflate(LayoutInflater.from(parent.context), parent, false).apply {
             icon.setImageResource(types[i].icon)
-            icon.colorFilter = c.pdcf(R.color.dialogText)
+            icon.colorFilter = c.themePdcf(com.google.android.material.R.attr.colorOnSecondary)
             name.text = types[i].name
         }.root
 }
