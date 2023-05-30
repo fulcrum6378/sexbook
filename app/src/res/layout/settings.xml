@@ -37,7 +37,7 @@
                 <Spinner
                     android:id="@+id/stCalendarType"
                     style="@style/stItemTweak"
-                    android:backgroundTint="@color/CPDD"
+                    android:backgroundTint="?colorOnPrimary"
                     android:saveEnabled="false" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

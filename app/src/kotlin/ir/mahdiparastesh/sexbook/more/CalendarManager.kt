@@ -47,7 +47,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
             put(CCC.ACCOUNT_TYPE, accType)
             put(CCC.NAME, "Sexbook")
             put(CCC.CALENDAR_DISPLAY_NAME, c.getString(R.string.app_name))
-            put(CCC.CALENDAR_COLOR, c.color(R.color.CP))
+            put(CCC.CALENDAR_COLOR, c.color(R.color.CP_LIGHT))
             put(CCC.CALENDAR_ACCESS_LEVEL, CCC.CAL_ACCESS_READ)
             put(CCC.SYNC_EVENTS, 0)
             put(CCC.CALENDAR_TIME_ZONE, tz)

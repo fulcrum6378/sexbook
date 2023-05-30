@@ -9,7 +9,7 @@
         <ripple android:color="@color/yellowRipple">
             <item>
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/CP" />
+                    <solid android:color="?colorPrimary" />
                 </shape>
             </item>
         </ripple>

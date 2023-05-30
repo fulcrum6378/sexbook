@@ -2,26 +2,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Sexbook.Base" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/CP</item>
+        <item name="colorOnPrimary">#9A7C00</item>
         <item name="colorPrimaryDark">@color/CPD</item>
         <item name="colorAccent">@color/CP3</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.Sexbook.OverflowButton</item>
-        <item name="android:editTextColor">@color/CPDD</item>
+        <item name="android:editTextColor">?colorOnPrimary</item>
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
-        <item name="android:textColor">@color/CPDD</item>
+        <item name="android:textColor">?colorOnPrimary</item>
         <item name="android:textColorHighlight">@color/textHighlight</item>
         <item name="android:textColorHint">@color/hint</item>
         <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox.Yellow</item>
         <item name="chipStyle">@style/Theme.Sexbook.Chip</item>
-        <item name="colorControlNormal">@color/CPDD</item>
+        <item name="colorControlNormal">?colorOnPrimary</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Sexbook.Dialogue</item>
         <item name="popupTheme">@style/Theme.Sexbook.Popup</item>
         <item name="radioButtonStyle">@style/Theme.Sexbook.RadioButton</item>
-        <item name="titleTextColor">@color/CPDD</item>
+        <item name="titleTextColor">?colorOnPrimary</item>
     </style>
 
     <style name="Theme.Sexbook" parent="Theme.Sexbook.Base">
+        <item name="colorPrimary">#FFD422</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
     </style>
@@ -48,36 +49,36 @@
     </style>
 
     <style name="Theme.Sexbook.Dialogue.Title" parent="MaterialAlertDialog.Material3.Title.Text">
-        <item name="android:textColor">@color/CPDD</item>
+        <item name="android:textColor">?colorOnPrimary</item>
         <item name="fontFamily">@font/bold</item>
     </style>
 
     <style name="Theme.Sexbook.Dialogue.Body" parent="MaterialAlertDialog.Material3.Body.Text">
-        <item name="android:textColor">@color/CPDD</item>
+        <item name="android:textColor">?colorOnPrimary</item>
         <item name="android:textSize">15.5sp</item>
         <item name="fontFamily">@font/normal</item>
         <item name="lineHeight">25sp</item><!--android:lineSpacingExtra doesn't work here.-->
     </style>
 
     <style name="Widget.Sexbook.Dialogue.Button" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/CPDD</item>
+        <item name="android:textColor">?colorOnPrimary</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Sexbook.Small</item>
         <item name="fontFamily">@font/normal</item>
     </style>
 
     <style name="Theme.Sexbook.CheckBox.Yellow" parent="Widget.Material3.CompoundButton.CheckBox">
-        <item name="android:textColor">@color/CPDD</item><!--avoid ?android:attr/textColor-->
-        <item name="buttonTint">@color/CPDD</item><!--avoid ?android:attr/textColor-->
+        <item name="android:textColor">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
+        <item name="buttonTint">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
         <item name="materialThemeOverlay">@style/ThemeOverlay.Sexbook.CheckBox.Yellow</item>
     </style>
 
     <style name="ThemeOverlay.Sexbook.CheckBox.Yellow" parent="Widget.Material3.CompoundButton.CheckBox">
-        <item name="colorOnPrimary">@color/CP</item><!--avoid transparent-->
+        <item name="colorOnPrimary">?colorPrimary</item><!--avoid transparent-->
     </style>
 
     <style name="Theme.Sexbook.CheckBox.White" parent="Widget.Material3.CompoundButton.CheckBox">
-        <item name="android:textColor">@color/CPDD</item><!--avoid ?android:attr/textColor-->
-        <item name="buttonTint">@color/CPDD</item><!--avoid ?android:attr/textColor-->
+        <item name="android:textColor">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
+        <item name="buttonTint">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
         <item name="materialThemeOverlay">@style/ThemeOverlay.Sexbook.CheckBox.White</item>
     </style>
 
@@ -93,7 +94,7 @@
     <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">
         <item name="android:textColor">@color/CPDDD</item>
         <item name="colorPrimary">@color/CPD</item>
-        <item name="colorOnSurface">@color/CPDD</item>
+        <item name="colorOnSurface">?colorOnPrimary</item>
         <item name="switchStyle">@style/Theme.Sexbook.Switch.Dialogue</item>
     </style>
 

@@ -3,7 +3,7 @@
     android:color="@color/CPD">
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/CP" />
+            <solid android:color="?colorPrimary" />
         </shape>
     </item>
 </ripple>

@@ -111,7 +111,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // Loading
         if (m.loaded) b.body.removeView(b.load)
-        else if (night()) b.loadIV.colorFilter = pdcf()
+        else if (night()) b.loadIV.colorFilter = themePdcf()
 
         // Navigation
         object : ActionBarDrawerToggle(
@@ -136,7 +136,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             syncState()
         }
         b.nav.setNavigationItemSelectedListener(this)
-        b.toolbar.navigationIcon?.colorFilter = pdcf()
+        b.toolbar.navigationIcon?.colorFilter = themePdcf()
 
         // Pager
         b.pager.adapter = object : FragmentStateAdapter(this) {

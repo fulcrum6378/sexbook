@@ -41,7 +41,7 @@
             android:id="@+id/load"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/load"
+            android:background="?attr/colorPrimary"
             android:elevation="5dp">
 
             <ImageView
@@ -50,13 +50,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- we could move some styles to navigationViewStyle in the theme. -->
+    <!-- we could move some styles to navigationViewStyle in the theme. ?attr/colorPrimary -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav"
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/CP"
+        android:background="?attr/colorPrimary"
         android:paddingTop="@dimen/statusBarSize"
         app:itemIconPadding="@dimen/navFont"
         app:itemIconTint="@color/navItems"

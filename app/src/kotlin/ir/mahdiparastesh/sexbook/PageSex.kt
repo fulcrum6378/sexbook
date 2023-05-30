@@ -158,7 +158,7 @@ class PageSex : Fragment() {
         }
 
         // Add
-        if (c.night()) b.addIV.colorFilter = c.pdcf()
+        if (c.night()) b.addIV.colorFilter = c.themePdcf()
         b.add.setOnClickListener { add() }
 
         if (c.m.onani.value == null) Work(c, Work.VIEW_ALL).start()

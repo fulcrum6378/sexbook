@@ -90,7 +90,7 @@ class Places : BaseActivity() {
         }
 
         // Miscellaneous
-        if (night()) b.addIV.colorFilter = pdcf()
+        if (night()) b.addIV.colorFilter = themePdcf()
 
         Work(c, Work.P_VIEW_ALL).start()
     }

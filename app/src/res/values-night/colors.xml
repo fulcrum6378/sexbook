@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="CP">#3A3A3A</color>
     <color name="CP2">@android:color/black</color>
 
     <!-- GLOBAL -->
-    <color name="transformer">@color/CPDD</color>
+    <color name="transformer">?colorOnPrimary</color>
     <color name="divider">#444</color>
     <color name="ripple">#20FFFFFF</color>
     <color name="yellowRipple">@color/ripple</color>
     <color name="textHighlight">#AAFFFFFF</color>
     <color name="dialogText">@color/CP_LIGHT</color>
     <color name="dialogHint">#AFFFD422</color>
-    <color name="chipNormalNormal">@color/CP</color>
+    <color name="chipNormalNormal">?attr/colorPrimary</color>
     <color name="chipNormalFocus">@color/CP3</color>
     <color name="chipNormalHover">@color/CP3</color>
-    <color name="chipSearchNormal">@color/CPDD</color>
+    <color name="chipSearchNormal">?colorOnPrimary</color>
     <color name="chipText">@color/CPD</color>
     <color name="chipTextSearch">@android:color/white</color>
 
@@ -22,8 +21,8 @@
     <color name="navItems">@color/CPD</color>
     <color name="navRipple">#44FFFFFF</color>
     <color name="mrvClockPoint">@color/CPD</color>
-    <color name="mrvClockHand">@color/CPDD</color>
-    <color name="spnFilterDDBG">@color/CP</color>
+    <color name="mrvClockHand">?colorOnPrimary</color>
+    <color name="spnFilterDDBG">?attr/colorPrimary</color>
     <color name="recencyHighlight">#44FFFFFF</color>
     <color name="searchHint">#AAFFFFFF</color>
     <color name="empty">@color/searchHint</color>

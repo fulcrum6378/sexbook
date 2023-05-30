@@ -190,7 +190,7 @@ class Settings : BaseActivity() {
                 prevLlId = View.generateViewId()
                 id = prevLlId!!
                 setImageResource(sex.icon)
-                colorFilter = pdcf()
+                colorFilter = themePdcf()
                 labelFor = cbId
             })
 

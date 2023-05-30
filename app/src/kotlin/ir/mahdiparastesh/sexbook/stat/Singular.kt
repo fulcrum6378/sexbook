@@ -16,6 +16,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.hellocharts.model.Column
 import ir.mahdiparastesh.hellocharts.model.ColumnChartData
 import ir.mahdiparastesh.hellocharts.model.SubColumnValue
+import ir.mahdiparastesh.mcdtp.McdtpUtils
+import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
@@ -28,25 +30,24 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
-import ir.mahdiparastesh.mcdtp.McdtpUtils
-import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 
 class Singular : BaseActivity() {
     private lateinit var b: SingularBinding
     private var crush: Crush? = null
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = SingularBinding.inflate(layoutInflater)
         setContentView(b.root)
 
         if (m.onani.value == null || m.summary == null || m.crush == null) {
-            @Suppress("DEPRECATION") onBackPressed(); return; }
+            onBackPressed(); return; }
         val data = ArrayList<Pair<String, Float>>()
         val history = m.summary!!.scores[m.crush]
         if (history == null) {
-            @Suppress("DEPRECATION") onBackPressed(); return; }
+            onBackPressed(); return; }
         sinceTheBeginning(this, m.onani.value!!)
             .forEach { data.add(Pair(it, calcHistory(this, history, it))) }
 
@@ -67,8 +68,8 @@ class Singular : BaseActivity() {
 
         // Night Mode
         if (night()) {
-            window.decorView.setBackgroundColor(color(R.color.CP))
-            b.identifyIV.colorFilter = pdcf(R.color.CP)
+            window.decorView.setBackgroundColor(themeColor(com.google.android.material.R.attr.colorPrimary))
+            b.identifyIV.colorFilter = themePdcf()
         }
 
         // Identification
@@ -249,7 +250,10 @@ class Singular : BaseActivity() {
                 listOf(
                     SubColumnValue(it.second)
                         .setLabel("${it.first} (${it.second})")
-                        .setColor(c.color(if (!c.night()) R.color.CP else R.color.CPD))
+                        .setColor(
+                            if (!c.night()) c.themeColor(com.google.android.material.R.attr.colorPrimary)
+                            else c.color(R.color.CPD)
+                        )
                 )
             ).setHasLabels(true)
         })

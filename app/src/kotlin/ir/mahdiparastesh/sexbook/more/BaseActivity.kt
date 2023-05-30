@@ -10,9 +10,11 @@ import android.icu.util.GregorianCalendar
 import android.icu.util.IndianCalendar
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
@@ -96,7 +98,7 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
             @Suppress("DEPRECATION")
             tb.setNavigationOnClickListener { onBackPressed() }
         }
-        tb.navigationIcon?.colorFilter = pdcf()
+        tb.navigationIcon?.colorFilter = themePdcf()
     }
 
     /** Converts "px" to "dp". */
@@ -106,9 +108,19 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
     @ColorInt
     fun color(@ColorRes res: Int) = ContextCompat.getColor(c, res)
 
+    /** @return the colour value of this attribute resource from the theme. */
+    @ColorInt
+    fun themeColor(@AttrRes attr: Int) = TypedValue().apply {
+        theme.resolveAttribute(attr, this, true)
+    }.data
+
     /** Helper function for making a colour filter for the color resource. */
-    fun pdcf(@ColorRes res: Int = R.color.CPDD) =
+    fun pdcf(@ColorRes res: Int) =
         PorterDuffColorFilter(ContextCompat.getColor(c, res), PorterDuff.Mode.SRC_IN)
+
+    /** Helper function for making a colour filter for the color resource. */
+    fun themePdcf(@AttrRes res: Int = com.google.android.material.R.attr.colorOnPrimary) =
+        PorterDuffColorFilter(themeColor(res), PorterDuff.Mode.SRC_IN)
 
     /**
      * @return the chosen calendar type, if no choice made, chooses it using their default Locale

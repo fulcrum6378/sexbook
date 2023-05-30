@@ -23,7 +23,7 @@
     <style name="toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?actionBarSize</item>
-        <item name="android:background">@color/toolbar</item>
+        <item name="android:background">?colorPrimary</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="titleMarginStart">0dp</item>
         <item name="titleTextAppearance">@style/TextAppearance.Sexbook.Toolbar</item>

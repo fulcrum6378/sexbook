@@ -5,7 +5,6 @@ import ir.mahdiparastesh.hellocharts.model.Line
 import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.model.PointValue
 import ir.mahdiparastesh.sexbook.Fun.randomColor
-import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.AdorabilityBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 
@@ -16,7 +15,7 @@ class Adorability : BaseActivity() {
         super.onCreate(savedInstanceState)
         b = AdorabilityBinding.inflate(layoutInflater)
         setContentView(b.root)
-        if (night()) window.decorView.setBackgroundColor(color(R.color.CP))
+        if (night()) window.decorView.setBackgroundColor(themeColor(com.google.android.material.R.attr.colorPrimary))
 
         if (m.onani.value == null || m.summary == null) {
             @Suppress("DEPRECATION") onBackPressed(); return; }

@@ -24,7 +24,7 @@ class TypeAdap(
     override fun getView(i: Int, convertView: View?, parent: ViewGroup): View =
         TypeSelectorBinding.inflate(LayoutInflater.from(parent.context), parent, false).apply {
             root.setImageResource(types[i].icon)
-            root.colorFilter = c.pdcf(R.color.CPDD)
+            root.colorFilter = c.themePdcf()
         }.root
 
     override fun getDropDownView(i: Int, convertView: View?, parent: ViewGroup): View =

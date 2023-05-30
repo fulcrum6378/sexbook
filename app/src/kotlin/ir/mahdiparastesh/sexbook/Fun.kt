@@ -9,7 +9,11 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.*
+import android.util.TypedValue
+import android.view.ContextThemeWrapper
 import android.view.View
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -158,7 +162,7 @@ object Fun {
     /** Sets the options specific to Sexbook on this DatePickerDialog. */
     fun DatePickerDialog<*>.defaultOptions(c: BaseActivity): DatePickerDialog<*> {
         version = DatePickerDialog.Version.VERSION_1
-        accentColor = c.color(R.color.CP)
+        accentColor = c.themeColor(com.google.android.material.R.attr.colorPrimary)
         firstDayOfWeek = if (calendarType == HumanistIranianCalendar::class.java)
             Calendar.SATURDAY else Calendar.MONDAY
         doVibrate(vib == true)
@@ -172,7 +176,7 @@ object Fun {
     /** Sets the options specific to Sexbook on this TimePickerDialog. */
     fun TimePickerDialog.defaultOptions(c: BaseActivity): TimePickerDialog {
         version = TimePickerDialog.Version.VERSION_2
-        accentColor = c.color(R.color.CP)
+        accentColor = c.themeColor(com.google.android.material.R.attr.colorPrimary)
         enableSeconds(true)
         doVibrate(vib == true)
         setOkColor(c.color(R.color.dialogText))

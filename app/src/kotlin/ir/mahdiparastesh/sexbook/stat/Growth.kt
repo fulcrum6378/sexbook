@@ -2,7 +2,6 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Bundle
 import ir.mahdiparastesh.hellocharts.model.LineChartData
-import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.GrowthBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.stat.Adorability.Star
@@ -14,7 +13,7 @@ class Growth : BaseActivity() {
         super.onCreate(savedInstanceState)
         b = GrowthBinding.inflate(layoutInflater)
         setContentView(b.root)
-        if (night()) window.decorView.setBackgroundColor(color(R.color.CP))
+        if (night()) window.decorView.setBackgroundColor(themeColor(com.google.android.material.R.attr.colorPrimary))
 
         if (m.onani.value == null || m.summary == null) {
             @Suppress("DEPRECATION") onBackPressed(); return; }
