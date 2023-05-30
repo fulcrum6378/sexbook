@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook.list
 
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -35,14 +34,11 @@ class StatSumAdap(
         } else h.b.root.getChildAt(crush + 1) as Chip).apply {
             text = arr[i].value[crush]
             val bb = c.m.lookForIt(text.toString())
-            chipBackgroundColor = AppCompatResources.getColorStateList(
-                c, if (!bb) R.color.chip_normal else R.color.chip_search
-            )
-            setTextColor(c.color(if (!bb) R.color.chipText else R.color.chipTextSearch))
             setOnClickListener {
                 c.m.crush = arr[i].value[crush]
                 c.goTo(Singular::class)
             }
+            isActivated = bb
             vis(true)
         }
         for (hide in arr[i].value.size + 1 until h.b.root.childCount)

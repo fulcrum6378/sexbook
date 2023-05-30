@@ -25,7 +25,7 @@
             android:gravity="center"
             android:paddingTop="@dimen/lastOrgasmNumPadTop"
             android:textAlignment="center"
-            android:textColor="@color/CPDDD"
+            android:textColor="@color/COS_LIGHT"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -38,7 +38,7 @@
             android:paddingEnd="10dp"
             android:text="@string/lastOrgasmHours"
             android:textAlignment="center"
-            android:textColor="@color/CPDDD"
+            android:textColor="@color/COS_LIGHT"
             android:textSize="10sp"
             tools:ignore="SmallSp" />
     </LinearLayout>

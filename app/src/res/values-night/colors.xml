@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- GLOBAL -->
     <color name="transformer">?colorOnPrimary</color>
     <color name="divider">#444</color>
     <color name="ripple">#20FFFFFF</color>
     <color name="yellowRipple">@color/ripple</color>
     <color name="textHighlight">#AAFFFFFF</color>
     <color name="dialogHint">#AFFFD422</color>
-    <color name="chipNormalNormal">?colorPrimary</color>
-    <color name="chipNormalFocus">@color/CP3</color>
-    <color name="chipNormalHover">@color/CP3</color>
-    <color name="chipSearchNormal">?colorOnPrimary</color>
-    <color name="chipText">?colorPrimaryVariant</color>
-    <color name="chipTextSearch">@android:color/white</color>
 
     <!-- Main -->
     <color name="mrvClockPoint">?colorPrimaryVariant</color>
     <color name="mrvClockHand">?colorOnPrimary</color>
-    <color name="spnFilterDDBG">?colorPrimary</color>
-    <color name="recencyHighlight">#44FFFFFF</color>
+    <color name="recencyHighlight">#2AFFFFFF</color>
     <color name="searchHint">#AAFFFFFF</color>
     <color name="empty">@color/searchHint</color>
 </resources>

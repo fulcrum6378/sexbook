@@ -34,7 +34,7 @@
         android:id="@+id/spnFilter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/spn_filter"
+        android:background="@drawable/spinner"
         android:paddingStart="26dp"
         android:paddingTop="@dimen/spnFilterPadV"
         android:paddingEnd="42dp"

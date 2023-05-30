@@ -198,6 +198,9 @@ class Settings : BaseActivity() {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 typeface = ResourcesCompat.getFont(c, R.font.normal)
                 setTextSize(Dimension.SP, 16f)
+                setPaddingRelative(
+                    resources.getDimension(R.dimen.stItemPadH).toInt(), 0, 0, 0
+                )
                 id = cbId
                 isChecked = sp.getBoolean(spStatInclude + s, true)
                 setOnCheckedChangeListener { _, bb ->

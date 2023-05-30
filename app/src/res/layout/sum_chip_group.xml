@@ -14,6 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="14sp"
+        android:textColor="?colorOnSecondary"
         android:textSize="13sp"
         app:fontFamily="@font/normal" />
 </com.google.android.material.chip.ChipGroup>

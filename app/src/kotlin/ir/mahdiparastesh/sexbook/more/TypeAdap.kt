@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.SexType
-import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.TypeSelectorBinding
 import ir.mahdiparastesh.sexbook.databinding.TypeSelectorDdBinding
 

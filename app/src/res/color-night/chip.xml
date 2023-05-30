@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- normal state -->
+    <item android:color="?colorPrimary" android:state_activated="false" />
+    <item android:color="?colorAccent" android:state_activated="false" android:state_pressed="true" />
+    <item android:color="?colorAccent" android:state_activated="false" android:state_focused="true" />
+
+    <!-- found in search -->
+    <item android:color="?colorPrimaryVariant" android:state_activated="true" />
+    <item android:color="?colorPrimaryVariant" android:state_activated="true" android:state_pressed="true" />
+    <item android:color="?colorPrimaryVariant" android:state_activated="true" android:state_focused="true" />
+</selector>
