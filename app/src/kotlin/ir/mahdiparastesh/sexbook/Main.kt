@@ -475,9 +475,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Non-binary recognition (** database migration)
   * Tweak days before a birthday reminder
   * Statisticise delays in hours between orgasms
+  * Persistence for identification
   * -
   * Extension:
   * "First met" for Crush (** database migration)
   * Export data to other files types (only export) e.g. TXT, PDF and/or HTML...
-  * Fasten loading
   */

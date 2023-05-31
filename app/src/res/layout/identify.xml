@@ -94,7 +94,7 @@
             style="@style/identifyET"
             android:hint="@string/heightInCM"
             android:importantForAutofill="no"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLength="7"
             android:maxLines="1" />
 

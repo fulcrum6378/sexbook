@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.sexbook.Fun.tripleRound
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SumPieBinding
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 
@@ -26,9 +27,8 @@ class SumPie : Fragment() {
             it.value.sumOf { s -> s.value.toDouble() }.toFloat()
         }?.forEach {
             val score = it.value.sumOf { s -> s.value.toDouble() }.toFloat()
-            data.add(SliceValue(
-                score, c.themeColor(com.google.android.material.R.attr.colorPrimaryVariant)
-            ).apply { setLabel("${it.key} {${score.tripleRound()}}") })
+            data.add(SliceValue(score, c.color(R.color.CPV_LIGHT))
+                .apply { setLabel("${it.key} {${score.tripleRound()}}") })
         }
         b.root.pieChartData = PieChartData(data).apply {
             setHasLabelsOnlyForSelected(true) // setHasLabels(true)

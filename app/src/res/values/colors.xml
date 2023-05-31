@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="CP_LIGHT">#FFD422</color>
+    <color name="CPV_LIGHT">#D6AD00</color>
     <color name="COS_LIGHT">#6F5900</color>
     <color name="CP_DARKEST">#574600</color>
     <color name="transformer">?colorPrimaryVariant</color>

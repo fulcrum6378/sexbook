@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
@@ -23,13 +22,13 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
+import ir.mahdiparastesh.sexbook.more.BasePage
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.LastOrgasm
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 import java.util.*
 
-class PageSex : Fragment() {
-    val c: Main by lazy { activity as Main }
+class PageSex : BasePage() {
     private lateinit var b: PageSexBinding
     val messages = MessageInbox(handler)
     private var filters: List<Filter> = listOf()
@@ -54,7 +53,7 @@ class PageSex : Fragment() {
                     Work.VIEW_ALL -> {
                         //Log.println(Log.ASSERT, "AIMI", "Work.VIEW_ALL")
                         c.m.onani.value = msg.obj as ArrayList<Report>?
-                        receivedData()
+                        prepareList()
                     }
                     Work.VIEW_ONE -> if (msg.obj != null) when (msg.arg1) {
                         Work.ADD_NEW_ITEM -> (msg.obj as Report).also { report ->
@@ -162,10 +161,10 @@ class PageSex : Fragment() {
         b.add.setOnClickListener { add() }
 
         if (c.m.onani.value == null) Work(c, Work.VIEW_ALL).start()
-        else receivedData()
+        else prepareList()
     }
 
-    fun receivedData() {
+    override fun prepareList() {
         c.instillGuesses()
         resetAllReports(
             c.intentViewId?.let { id ->

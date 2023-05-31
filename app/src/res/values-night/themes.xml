@@ -3,8 +3,10 @@
 
     <style name="Theme.Sexbook" parent="Theme.Sexbook.Base">
         <item name="colorPrimary">#3A3A3A</item>
+        <item name="colorPrimaryVariant">#454545</item>
         <item name="colorSecondary">#1C1B20</item>
         <item name="colorOnSecondary">@color/CP_LIGHT</item>
+        <item name="colorPrimaryContainer">?colorSecondaryVariant</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
     </style>
@@ -19,9 +21,9 @@
 
     <!-- Nav -->
     <style name="Widget.Sexbook.Nav" parent="Widget.Sexbook.Nav.Base">
-        <item name="itemIconTint">?colorPrimaryVariant</item>
+        <item name="itemIconTint">@color/CPV_LIGHT</item>
         <item name="itemRippleColor">#38FFFFFF</item>
-        <item name="itemTextColor">?colorPrimaryVariant</item>
+        <item name="itemTextColor">@color/CPV_LIGHT</item>
     </style>
 
 
@@ -29,7 +31,7 @@
     <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">
         <item name="android:textColor">?colorOnSecondary</item>
         <item name="colorPrimary">@color/CP_LIGHT</item>
-        <item name="colorOnSurface">?colorPrimaryVariant</item>
+        <item name="colorOnSurface">@color/CPV_LIGHT</item>
         <item name="switchStyle">@style/Theme.Sexbook.Switch.Dialogue</item>
     </style>
 </resources>

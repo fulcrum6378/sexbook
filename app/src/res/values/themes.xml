@@ -3,7 +3,8 @@
 
     <style name="Theme.Sexbook.Base" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorOnPrimary">#9A7C00</item>
-        <item name="colorPrimaryVariant">#D6AD00</item>
+        <item name="colorOnPrimaryContainer">#FFF</item>
+        <item name="colorSecondaryVariant">@color/CPV_LIGHT</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.Sexbook.OverflowButton</item>
         <item name="android:editTextColor">?colorOnPrimary</item>
         <item name="android:navigationBarColor">?colorPrimary</item>
@@ -21,12 +22,14 @@
         <item name="navigationViewStyle">@style/Widget.Sexbook.Nav</item>
         <item name="popupTheme">@style/Theme.Sexbook.Popup</item>
         <item name="radioButtonStyle">@style/Theme.Sexbook.RadioButton</item>
-        <item name="rippleColor">?colorPrimaryVariant</item>
+        <item name="rippleColor">@color/CPV_LIGHT</item>
         <item name="titleTextColor">?colorOnPrimary</item>
     </style>
 
     <style name="Theme.Sexbook" parent="Theme.Sexbook.Base">
-        <item name="colorPrimary">#FFD422</item>
+        <item name="colorPrimary">@color/CP_LIGHT</item>
+        <item name="colorPrimaryVariant">@color/CPV_LIGHT</item>
+        <item name="colorPrimaryContainer">?colorPrimary</item>
         <item name="colorSecondary">#FFFBFF</item>
         <item name="colorOnSecondary">#6F5900</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -41,6 +44,7 @@
     </style>
 
     <style name="ThemeOverlay.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox">
+        <item name="buttonTint">?colorOnSecondary</item>
         <item name="buttonIconTint">?colorSurface</item>
     </style>
 
@@ -127,7 +131,7 @@
 
     <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">
         <item name="android:textColor">?colorOnSecondary</item>
-        <item name="colorPrimary">?colorPrimaryVariant</item>
+        <item name="colorPrimary">@color/CPV_LIGHT</item>
         <item name="colorOnSurface">?colorOnPrimary</item>
         <item name="switchStyle">@style/Theme.Sexbook.Switch.Dialogue</item>
     </style>

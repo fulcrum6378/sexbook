@@ -8,20 +8,18 @@ import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
-import ir.mahdiparastesh.sexbook.more.MessageInbox
+import ir.mahdiparastesh.sexbook.more.BasePage
 
 @SuppressLint("NotifyDataSetChanged")
-class PageLove : Fragment() {
-    val c: Main by lazy { activity as Main } // don't define it as a getter.
+class PageLove : BasePage() {
     private lateinit var b: PageLoveBinding
-    private val messages = MessageInbox(PageSex.handler)
+    private var wasListEverPrepared = false
     // private var adBanner: AdView? = null
 
     companion object {
@@ -61,15 +59,15 @@ class PageLove : Fragment() {
                 }
             }
         }
-        messages.clear()
 
         if (c.m.liefde.value == null) Work(c, Work.C_VIEW_ALL).start()
-        else prepareList()
+        else if (!loadingNeedsSummary()) prepareList()
     }
 
     override fun onResume() {
         super.onResume()
         c.summarize(true)
+        if (!wasListEverPrepared) prepareList()
         if (changed) Work(c, Work.C_VIEW_ALL).start()
         else b.rv.adapter?.notifyDataSetChanged()
     }
@@ -78,7 +76,8 @@ class PageLove : Fragment() {
      * Called whenever data is loaded, it sorts the data and then calls arrangeList().
      * The data doesn't need to be sorted again sometimes; that's why it was separated from arrangeList().
      */
-    fun prepareList() {
+    override fun prepareList() {
+        wasListEverPrepared = true
         c.m.liefde.value?.sortWith(Crush.Sort(c.sp.getInt(Settings.spPageLoveSortBy, 0), c.m))
         if (!c.sp.getBoolean(Settings.spPageLoveSortAsc, true)) c.m.liefde.value?.reverse()
         arrangeList()
@@ -90,6 +89,9 @@ class PageLove : Fragment() {
         if (b.rv.adapter == null) b.rv.adapter = CrushAdap(c)
         else b.rv.adapter?.notifyDataSetChanged()
     }
+
+    private fun loadingNeedsSummary() =
+        c.sp.getInt(Settings.spPageLoveSortBy, 0) in arrayOf(Fun.SORT_BY_SUM, Fun.SORT_BY_LAST)
 
     /*private fun loadAd() {
         if (adBanner != null) return
