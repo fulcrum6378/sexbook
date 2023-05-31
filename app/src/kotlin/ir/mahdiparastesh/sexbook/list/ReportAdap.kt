@@ -87,7 +87,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 if (c.m.onani.value == null) return@setOnClickListener
                 TimePickerDialog.newInstance(
                     this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], cal[Calendar.SECOND]
-                ).defaultOptions(c)
+                ).defaultOptions()
                     //.setOnDismissListener { dialogDismissed() }
                     .show(c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}")
                 // mayShowAd()
@@ -105,7 +105,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                         c.m.onani.value!![pos].time = cal.timeInMillis
                         Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
                     }
-                }, cal).defaultOptions(c)
+                }, cal).defaultOptions()
                     // .setOnDismissListener { dialogDismissed() }
                     .show(c.supportFragmentManager, "$tagEdit${globalPos(c.m, h.layoutPosition)}")
                 // mayShowAd()

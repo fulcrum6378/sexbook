@@ -181,7 +181,7 @@ class Singular : BaseActivity() {
                     bir = McdtpUtils.trimToMidnight(bir)
                     isBirthSet = true
                     bi.birth.text = bir!!.fullDate()
-                }, bir).defaultOptions(c).show(c.supportFragmentManager, "birth")
+                }, bir).defaultOptions().show(c.supportFragmentManager, "birth")
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                 ActivityCompat.checkSelfPermission(

@@ -156,27 +156,21 @@ object Fun {
     ).apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }*/
 
     /** Sets the options specific to Sexbook on this DatePickerDialog. */
-    fun DatePickerDialog<*>.defaultOptions(c: BaseActivity): DatePickerDialog<*> {
+    fun DatePickerDialog<*>.defaultOptions(): DatePickerDialog<*> {
         version = DatePickerDialog.Version.VERSION_1
-        accentColor = c.themeColor(com.google.android.material.R.attr.colorPrimary)
         firstDayOfWeek = if (calendarType == HumanistIranianCalendar::class.java)
             Calendar.SATURDAY else Calendar.MONDAY
         doVibrate(vib == true)
-        setOkColor(c.themeColor(com.google.android.material.R.attr.colorOnSecondary))
-        setCancelColor(c.themeColor(com.google.android.material.R.attr.colorOnSecondary))
         boldFont = R.font.bold
         normalFont = R.font.normal
         return this
     }
 
     /** Sets the options specific to Sexbook on this TimePickerDialog. */
-    fun TimePickerDialog.defaultOptions(c: BaseActivity): TimePickerDialog {
+    fun TimePickerDialog.defaultOptions(): TimePickerDialog {
         version = TimePickerDialog.Version.VERSION_2
-        accentColor = c.themeColor(com.google.android.material.R.attr.colorPrimary)
         enableSeconds(true)
         doVibrate(vib == true)
-        setOkColor(c.themeColor(com.google.android.material.R.attr.colorOnSecondary))
-        setCancelColor(c.themeColor(com.google.android.material.R.attr.colorOnSecondary))
         boldFont = R.font.bold
         normalFont = R.font.normal
         return this

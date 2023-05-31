@@ -23,7 +23,7 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 29
-        versionName '18.3.2'
+        versionName '18.3.5'
         signingConfig signingConfigs.release
     }
 
@@ -79,5 +79,5 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'ir.mahdiparastesh:hellocharts:2.6.5'
-    implementation 'ir.mahdiparastesh:mcdtp:2.5'
+    implementation 'ir.mahdiparastesh:mcdtp:2.7'
 }

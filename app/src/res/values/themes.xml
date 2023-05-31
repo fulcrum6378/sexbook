@@ -12,6 +12,7 @@
         <item name="android:textColorHighlight">@color/textHighlight</item>
         <item name="android:textColorHint">#AF9A7C00</item>
         <item name="android:windowBackground">?colorSecondary</item>
+        <item name="buttonTint">@android:color/transparent</item><!--for mcdtp-->
         <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox</item>
         <item name="chipStyle">@style/Theme.Sexbook.Chip</item>
         <item name="colorAccent">?android:textColor</item><!--#656D78-->

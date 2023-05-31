@@ -91,7 +91,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                     gu.sinc = oldSinc.timeInMillis
                     update(h.layoutPosition)
                 }
-            }, oldSinc).defaultOptions(c).show(c.supportFragmentManager, "sinc")
+            }, oldSinc).defaultOptions().show(c.supportFragmentManager, "sinc")
         }
 
         // Until
@@ -112,7 +112,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                     gu.till = oldTill.timeInMillis
                     update(h.layoutPosition)
                 }
-            }, oldTill).defaultOptions(c).show(c.supportFragmentManager, "till")
+            }, oldTill).defaultOptions().show(c.supportFragmentManager, "till")
         }
 
         // Frequency

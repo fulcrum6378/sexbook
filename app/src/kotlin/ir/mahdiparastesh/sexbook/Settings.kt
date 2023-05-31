@@ -112,7 +112,7 @@ class Settings : BaseActivity() {
                     .apply()
                 b.stStatSinceDateCb.isEnabled = true
                 b.stStatSinceDateCb.isChecked = true
-            }, cal).defaultOptions(this).show(supportFragmentManager, "stat_since")
+            }, cal).defaultOptions().show(supportFragmentManager, "stat_since")
         }
 
         // Statisticise Until
@@ -146,7 +146,7 @@ class Settings : BaseActivity() {
                     .apply()
                 b.stStatUntilDateCb.isEnabled = true
                 b.stStatUntilDateCb.isChecked = true
-            }, cal).defaultOptions(this).show(supportFragmentManager, "stat_until")
+            }, cal).defaultOptions().show(supportFragmentManager, "stat_until")
         }
 
         // Statisticise Range: Long Click
