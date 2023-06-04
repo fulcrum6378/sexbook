@@ -9,9 +9,11 @@ import android.graphics.PorterDuffColorFilter
 import android.icu.util.GregorianCalendar
 import android.icu.util.IndianCalendar
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -33,6 +35,7 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
     lateinit var sp: SharedPreferences
     private var tbTitle: TextView? = null
     val dm: DisplayMetrics by lazy { resources.displayMetrics }
+    private var lastToast = -1L
     /*var interstitialAd: InterstitialAd? = null
     var loadingAd = false
     var showingAd = false
@@ -135,6 +138,13 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
         if (finish) finish() // Delay(1000) { finish() }
         // The phone's home screen may appear if there are no active activities at the moment.
         return true
+    }
+
+    /** Controls a kind of Toast that can be repeated so much by the user. */
+    fun uiToast(@StringRes res: Int) {
+        if ((SystemClock.elapsedRealtime() - lastToast) < 2000L) return
+        Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
+        lastToast = SystemClock.elapsedRealtime()
     }
 
     /*private fun initAdmob() {

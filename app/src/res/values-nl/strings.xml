@@ -78,6 +78,7 @@
     <string name="growth">Groei</string>
     <string name="mixture">Mengsel</string>
     <string name="statistics">Statistieken</string>
+    <string name="noStat">Het bereik van uw platen moet langer zijn dan een maand!</string>
 
     <!-- Identification -->
     <string name="identify">Identificatie</string>

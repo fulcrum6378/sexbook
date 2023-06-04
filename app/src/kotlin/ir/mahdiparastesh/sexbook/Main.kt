@@ -196,9 +196,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         when (item.itemId) {
             R.id.momSum -> summary()
             R.id.momRec -> recency()
-            R.id.momPop -> if (summarize()) goTo(Adorability::class)
-            R.id.momGrw -> if (summarize()) goTo(Growth::class)
-            R.id.momMix -> if (!m.onani.value.isNullOrEmpty()) goTo(Mixture::class)
+            R.id.momPop -> if (summarize()) goTo(Adorability::class) else uiToast(R.string.noStat)
+            R.id.momGrw -> if (summarize()) goTo(Growth::class) else uiToast(R.string.noStat)
+            R.id.momMix -> goTo(Mixture::class)
             R.id.momPlc -> goTo(Places::class)
             R.id.momEst -> goTo(Estimation::class)
             R.id.momImport -> exporter.launchImport()
@@ -272,7 +272,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             Action.RELOAD.s -> {
                 m.resetData()
                 // showAdAfterRecreation = true
-                recreate()
+                if (!isOnCreate) recreate()
             }
             Action.VIEW.s -> (try {
                 dataString?.toLong()
@@ -475,7 +475,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Non-binary recognition (** database migration)
   * Tweak days before a birthday reminder
   * Statisticise delays in hours between orgasms
-  * Persistence for identification
+  * Persistence for identification dialogue
   * -
   * Extension:
   * "First met" for Crush (** database migration)

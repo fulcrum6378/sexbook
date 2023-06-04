@@ -78,6 +78,7 @@
     <string name="growth">Růst</string>
     <string name="mixture">Směs</string>
     <string name="statistics">Statistika</string>
+    <string name="noStat">Rozsah vašich záznamů musí přesáhnout jeden měsíc!</string>
 
     <!-- Identification -->
     <string name="identify">Identifikace</string>

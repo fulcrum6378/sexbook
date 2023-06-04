@@ -79,6 +79,7 @@
     <string name="growth">Рост</string>
     <string name="mixture">Смесь</string>
     <string name="statistics">Статистика</string>
+    <string name="noStat">Диапазон ваших записей должен превышать один месяц!</string>
 
     <!-- Identification -->
     <string name="identify">Идентификация</string>

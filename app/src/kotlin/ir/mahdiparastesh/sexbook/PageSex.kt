@@ -84,9 +84,8 @@ class PageSex : BasePage() {
                         Work(c, Work.VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()
                     Work.REPLACE_ALL -> {
                         Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
-                        c.goTo(Main::class, true)
+                        c.goTo(Main::class) { action = Main.Action.RELOAD.s }
                     }
-
                     Work.UPDATE_ONE -> if (c.m.onani.value != null) {
                         val nominalPos = c.m.visOnani.indexOf(c.m.onani.value!![msg.arg1])
                         if (nominalPos != -1)

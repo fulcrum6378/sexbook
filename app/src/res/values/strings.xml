@@ -81,6 +81,7 @@
     <string name="growth">Growth</string>
     <string name="mixture">Mixture</string>
     <string name="statistics">Statistics</string>
+    <string name="noStat">The range of your records must exceed one month!</string>
 
     <!-- Identification -->
     <string name="identify">Identification</string>

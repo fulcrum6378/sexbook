@@ -26,6 +26,7 @@ import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CalendarManager
+import ir.mahdiparastesh.sexbook.more.LastOrgasm
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
 
 class Settings : BaseActivity() {
@@ -266,6 +267,7 @@ class Settings : BaseActivity() {
                     DbFile(DbFile.Triple.MAIN).delete()
                     DbFile(DbFile.Triple.SHARED_MEMORY).delete()
                     DbFile(DbFile.Triple.WRITE_AHEAD_LOG).delete()
+                    LastOrgasm.updateAll(c)
                     c.shake()
                     changed = true
                 }

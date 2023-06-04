@@ -78,6 +78,7 @@
     <string name="growth">Wachstum</string>
     <string name="mixture">Mischung</string>
     <string name="statistics">Statistiken</string>
+    <string name="noStat">Der Umfang Ihrer Datensätze muss einen Monat überschreiten!</string>
 
     <!-- Identification -->
     <string name="identify">Identifikation</string>
