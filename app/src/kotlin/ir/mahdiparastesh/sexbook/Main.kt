@@ -326,11 +326,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 .also { nExcluded += filtered.size - it.size }
 
         // Check if it can draw any visual charts;
-        // this is possible only if the range of the sex records extends one month.
-        if (filtered.minOf { it.time }.calendar(this).createFilterYm().toString() ==
+        // this is possible only if the range of the sex records exceeds one month.
+        if (filtered.isNotEmpty() && // if it's empty, minOf will throw NoSuchElementException!
+            filtered.minOf { it.time }.calendar(this).createFilterYm().toString() ==
             filtered.maxOf { it.time }.calendar(this).createFilterYm().toString() &&
             !ignoreChartingDisability
         ) return false
+        if (filtered.isEmpty() && !ignoreChartingDisability) return false
 
         // Filter by type
         val allowedTypes = Fun.allowedSexTypes(sp)
