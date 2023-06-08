@@ -37,8 +37,6 @@ import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
-import ir.mahdiparastesh.sexbook.list.GuessAdap
-import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.Delay
@@ -100,7 +98,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     Work.C_REPLACE_ALL -> calManager?.replaceEvents(msg.obj as List<Crush>)
                     Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>)
                     Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>).apply {
-                        sortWith(GuessAdap.Sort())
+                        sortWith(Guess.Sort())
                         instillGuesses()
                     }
                     Work.CRUSH_ALTERED -> (msg.obj as List<Crush?>)
@@ -196,8 +194,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         when (item.itemId) {
             R.id.momSum -> summary()
             R.id.momRec -> recency()
-            R.id.momPop -> if (summarize()) goTo(Adorability::class) else uiToast(R.string.noStat)
-            R.id.momGrw -> if (summarize()) goTo(Growth::class) else uiToast(R.string.noStat)
+            R.id.momPop ->
+                if (summarize()) goTo(Adorability::class)
+                else uiToast(R.string.noStat)
+            R.id.momGrw ->
+                if (summarize()) goTo(Growth::class)
+                else uiToast(R.string.noStat)
             R.id.momMix -> goTo(Mixture::class)
             R.id.momPlc -> goTo(Places::class)
             R.id.momEst -> goTo(Estimation::class)
@@ -444,7 +446,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 time += share
             }
         }
-        m.onani.value!!.sortWith(ReportAdap.Sort())
+        m.onani.value!!.sortWith(Report.Sort())
         instilledGuesses = true
     }
 

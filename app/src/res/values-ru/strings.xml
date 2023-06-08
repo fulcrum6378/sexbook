@@ -63,6 +63,7 @@
     <!-- Page Sex -->
     <string name="lcAccurate">Точный?</string>
     <string name="desc">Пишите описания&#8230;</string>
+    <string name="placeHint">Добавить новое место&#8230;</string>
 
     <!-- Page Love -->
     <string name="crushes">Список любви</string>

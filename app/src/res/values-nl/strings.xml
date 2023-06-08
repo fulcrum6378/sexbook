@@ -62,6 +62,7 @@
     <!-- Page Sex -->
     <string name="lcAccurate">Nauwkeurig?</string>
     <string name="desc">Schrijf beschrijvingen&#8230;</string>
+    <string name="placeHint">Een nieuwe plaats toevoegen&#8230;</string>
 
     <!-- Page Love -->
     <string name="crushes">Lijst met verpletteringen</string>

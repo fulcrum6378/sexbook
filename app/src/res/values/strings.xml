@@ -65,6 +65,7 @@
     <!-- Page Sex -->
     <string name="lcAccurate">Accurate?</string>
     <string name="desc">Write descriptions&#8230;</string>
+    <string name="placeHint">Add a new place&#8230;</string>
 
     <!-- Page Love -->
     <string name="crushes">List of Crushes</string>

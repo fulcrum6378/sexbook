@@ -62,6 +62,7 @@
     <!-- Page Sex -->
     <string name="lcAccurate">Přesný?</string>
     <string name="desc">Pište popisy&#8230;</string>
+    <string name="placeHint">Přidat nové místo&#8230;</string>
 
     <!-- Page Love -->
     <string name="crushes">Seznam Crushes</string>
@@ -92,7 +93,9 @@
     <string name="location">Umístění</string>
     <string name="notifyBirth">Upozornit mě na jejich narozeniny</string>
     <string name="crushClear">Vymažte informace: %s</string>
-    <string name="crushClearSure">Opravdu chcete vymazat informace o této osobě? (NEZAHRNUJÍ ZÁZNAMY SEXU!)</string>
+    <string name="crushClearSure">
+        Opravdu chcete vymazat informace o této osobě? (NEZAHRNUJÍ ZÁZNAMY SEXU!)
+    </string>
 
     <!-- Places -->
     <string name="places">Místa</string>

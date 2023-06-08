@@ -20,6 +20,7 @@ import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
+import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.data.Place
@@ -36,7 +37,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
     private var clockHeight = c.resources.getDimension(R.dimen.clockSize)
     private var expansion = arExpansion()
-    val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
+    val places = c.m.places.value
+        ?.sortedWith(Place.Sort(Place.Sort.NAME))
+        ?.filter { it.name?.isNotBlank() == true } // throws NullPointerException when empty!
+        ?: arrayListOf()
     private val clockBg: Drawable by lazy { ContextCompat.getDrawable(c, R.drawable.clock_bg)!! }
     private val etIcon: Drawable by lazy {
         ContextCompat.getDrawable(c, R.drawable.estimation)!!.mutate()
@@ -65,10 +69,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         b.type.adapter = TypeAdap(c)
 
         // Place
-        if (places != null)
-            b.place.adapter = ArrayAdapter(c, R.layout.spinner,
-                ArrayList(places.map { it.name }).apply { add(0, "") })
-                .apply { setDropDownViewResource(R.layout.spinner_dd) }
+        b.place.adapter = ArrayAdapter(c, R.layout.spinner, ArrayList(places.map { it.name })
+            .apply { add(0, if (places.isEmpty()) c.getString(R.string.placeHint) else "") }
+        ).apply { setDropDownViewResource(R.layout.spinner_dd) }
+        b.place.onItemSelectedListener = OnPlaceSelectedListener()
 
         return AnyViewHolder(b)
     }
@@ -192,26 +196,13 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         h.b.desc.isEnabled = !r.guess
 
         // Place
-        var placeTouched = false
-        if (!r.guess)
-            h.b.place.setOnTouchListener { _, _ -> placeTouched = true; false }
+        (h.b.place.onItemSelectedListener as? OnPlaceSelectedListener)?.i =
+            if (!r.guess) i else null
+        if (!r.guess && places.isEmpty())
+            h.b.place.setOnTouchListener { _, _ -> c.goTo(Places::class); false }
         else h.b.place.setOnTouchListener(null)
-        h.b.place.onItemSelectedListener =
-            if (!r.guess) object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(av: AdapterView<*>?) {}
-                override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                    if (places == null || !placeTouched) return
-                    val id = if (i == 0) -1L else places[i - 1].id
-                    c.m.visOnani[h.layoutPosition].apply {
-                        if (plac != id) {
-                            plac = id
-                            updateStatic(this, h.layoutPosition)
-                        }
-                    }
-                }
-            } else null
         h.b.place.setSelection(
-            if (r.plac == -1L || places == null) 0
+            if (r.plac == -1L || places.isEmpty()) 0
             else placePos(r.plac, places) + 1, true
         )
         if (r.guess) h.b.place.vis()
@@ -280,6 +271,27 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         b.place.vis(expand)
     }
 
+    inner class OnPlaceSelectedListener : AdapterView.OnItemSelectedListener,
+        RecyclerViewItemEvent {
+        private var firstSelect = true
+        override var i: Int? = null
+        override fun onNothingSelected(av: AdapterView<*>?) {}
+        override fun onItemSelected(av: AdapterView<*>?, v: View?, pos: Int, l: Long) {
+            if (i == null) return
+            if (firstSelect) {
+                firstSelect = false; return; }
+            // if "places" is empty, nothing ever can be selected, also onNothingSelected doesn't work!
+
+            val id = if (pos == 0) -1L else places[pos - 1].id
+            c.m.visOnani[i!!].apply {
+                if (plac != id) {
+                    plac = id
+                    updateStatic(this, i!!)
+                }
+            }
+        }
+    }
+
     fun updateStatic(updated: Report, nominalPos: Int) {
         if (c.m.onani.value == null) return
         val pos = globalPos(c.m, nominalPos)
@@ -322,7 +334,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
         fun compileDate(c: BaseActivity, time: Long): String {
             val calType = c.calType()
-            val lm = calType.newInstance().apply { timeInMillis = time }
+            val lm = calType.getDeclaredConstructor().newInstance().apply { timeInMillis = time }
             return "${McdtpUtils.localSymbols(c.c, calType).shortMonths[lm.get(Calendar.MONTH)]} " +
                     "${lm.get(Calendar.DAY_OF_MONTH)}"
         }
@@ -352,10 +364,5 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                     index = i
             return index
         }
-    }
-
-    // Don't migrate to Java!
-    class Sort : Comparator<Report> {
-        override fun compare(a: Report, b: Report) = a.time.compareTo(b.time)
     }
 }

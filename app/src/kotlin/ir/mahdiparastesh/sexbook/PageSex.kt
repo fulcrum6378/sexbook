@@ -66,7 +66,7 @@ class PageSex : BasePage() {
                                 == c.m.listFilter && c.m.listFilter >= 0 && !firstRecordEver) {
                                 // add to the bottom of the recycler view
                                 c.m.visOnani.add(report)
-                                Collections.sort(c.m.visOnani, ReportAdap.Sort())
+                                Collections.sort(c.m.visOnani, Report.Sort())
                                 (b.rv.adapter as ReportAdap?)?.notifyAnyChange(false)
                                 val thePos = c.m.visOnani.indexOf(report)
                                 b.rv.adapter?.notifyItemInserted(thePos)
@@ -98,7 +98,7 @@ class PageSex : BasePage() {
                                     ?.let { ym.first == it.year && ym.second == it.month } == true
                             ) { // report is still in this month
                                 b.rv.adapter?.notifyItemChanged(nominalPos)
-                                Collections.sort(c.m.visOnani, ReportAdap.Sort())
+                                Collections.sort(c.m.visOnani, Report.Sort())
                                 val newPos = c.m.visOnani.indexOf(c.m.onani.value!![msg.arg1])
                                 b.rv.adapter?.notifyItemMoved(nominalPos, newPos)
                                 b.rv.smoothScrollToPosition(newPos)
@@ -241,7 +241,7 @@ class PageSex : BasePage() {
             for (o in filters[c.m.listFilter].map)
                 if (c.m.onani.value!!.size > o)
                     c.m.visOnani.add(c.m.onani.value!![o])
-            Collections.sort(c.m.visOnani, ReportAdap.Sort())
+            Collections.sort(c.m.visOnani, Report.Sort())
         }
         //Log.println(Log.ASSERT, "AIMI", "visOnani filled ${c.m.visOnani.size}")
 

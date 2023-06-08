@@ -6,7 +6,6 @@
     <dimen name="descFont">14.5sp</dimen>
     <dimen name="descPadV">10sp</dimen>
     <dimen name="menuFont">14sp</dimen>
-    <dimen name="adButtonFont">15sp</dimen>
     <dimen name="spnFont">16sp</dimen>
     <dimen name="itemMarH">10dp</dimen>
     <dimen name="itemMarV">7dp</dimen>

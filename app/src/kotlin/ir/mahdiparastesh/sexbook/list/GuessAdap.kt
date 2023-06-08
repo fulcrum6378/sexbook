@@ -18,7 +18,6 @@ import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.now
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
@@ -226,10 +225,5 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             if (list.size <= i || i < 0) return
             Work(c, Work.G_UPDATE_ONE, listOf(list[i], i, refresh)).start()
         }
-    }
-
-    // Don't migrate to Java!
-    class Sort : Comparator<Guess> {
-        override fun compare(a: Guess, b: Guess) = a.sinc.compareTo(b.sinc)
     }
 }

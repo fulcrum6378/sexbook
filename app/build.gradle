@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace 'ir.mahdiparastesh.sexbook'
-    compileSdk 33
-    buildToolsVersion '34.0.0 rc4'
+    compileSdk 34
+    buildToolsVersion '34.0.0'
 
     signingConfigs {
-        release {
+        main {
             storeFile file("${System.getenv("JKS_PATH")}")
             storePassword "${System.getenv("JKS_PASS")}"
             keyAlias 'sexbook'
@@ -21,10 +21,10 @@ android {
     defaultConfig {
         applicationId 'ir.mahdiparastesh.sexbook'
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 31
-        versionName '18.5.0'
-        signingConfig signingConfigs.release
+        versionName '18.6.5'
+        signingConfig signingConfigs.main
     }
 
     sourceSets {

@@ -87,7 +87,7 @@ class Singular : BaseActivity() {
 
         fun sinceTheBeginning(c: BaseActivity, mOnani: ArrayList<Report>): List<String> {
             // Find the ending
-            var end = c.calType().newInstance()
+            var end = c.calType().getDeclaredConstructor().newInstance()
             var oldest = end.timeInMillis
             if (c.sp.getBoolean(Settings.spStatUntilCb, false)) {
                 val statTill = c.sp.getLong(Settings.spStatUntil, 0L)

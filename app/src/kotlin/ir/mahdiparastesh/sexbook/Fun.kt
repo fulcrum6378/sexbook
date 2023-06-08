@@ -119,17 +119,18 @@ object Fun {
 
     /** @return a Calendar set on this timestamp */
     fun Long.calendar(c: BaseActivity): Calendar =
-        c.calType().newInstance().apply { timeInMillis = this@calendar }
+        c.calType().getDeclaredConstructor().newInstance().apply { timeInMillis = this@calendar }
 
     fun Calendar.createFilterYm() = Pair(this[Calendar.YEAR], this[Calendar.MONTH])
 
-    fun Long.defCalendar(c: BaseActivity): Calendar = c.calType().newInstance().apply {
-        timeInMillis = this@defCalendar
-        this[Calendar.HOUR] = 0
-        this[Calendar.MINUTE] = 0
-        this[Calendar.SECOND] = 0
-        this[Calendar.MILLISECOND] = 0
-    }
+    fun Long.defCalendar(c: BaseActivity): Calendar =
+        c.calType().getDeclaredConstructor().newInstance().apply {
+            timeInMillis = this@defCalendar
+            this[Calendar.HOUR] = 0
+            this[Calendar.MINUTE] = 0
+            this[Calendar.SECOND] = 0
+            this[Calendar.MILLISECOND] = 0
+        }
 
     /** @return a random colour for a chart item */
     fun BaseActivity.randomColor() = arrayListOf(

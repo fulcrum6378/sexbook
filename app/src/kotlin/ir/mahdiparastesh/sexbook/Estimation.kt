@@ -49,7 +49,7 @@ class Estimation : BaseActivity() {
                         }
                     }
                     Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>)
-                        .apply { sortWith(GuessAdap.Sort()) }
+                        .apply { sortWith(Guess.Sort()) }
                     Work.G_INSERT_ONE -> if (msg.obj != null)
                         Work(c, Work.G_VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()
                     Work.G_UPDATE_ONE ->

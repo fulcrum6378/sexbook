@@ -20,4 +20,8 @@ class Guess(
     constructor() : this(null, -1L, -1L, 0f, 1, null, -1L, true)
 
     fun checkValid() = sinc > -1L && till > -1L && freq > 0 && till > sinc
+
+    class Sort : Comparator<Guess> {
+        override fun compare(a: Guess, b: Guess) = a.sinc.compareTo(b.sinc)
+    }
 }
