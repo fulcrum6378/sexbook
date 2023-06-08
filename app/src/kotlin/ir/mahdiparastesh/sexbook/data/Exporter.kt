@@ -145,9 +145,12 @@ class Exporter(val c: BaseActivity) {
                     is Double -> // all numbers become Double in SP.
                         when (k) {
                             Settings.spDefPlace, Settings.spStatSince,
-                            Settings.spStatUntil -> putLong(k, v.toLong())
-                            Settings.spCalType, Settings.spPrefersOrgType,
-                            Settings.spNotifyBirthDaysBefore -> putInt(k, v.toInt())
+                            Settings.spStatUntil, Settings.spPageLoveSortBy,
+                            Settings.spLastNotifiedBirthAt ->
+                                putLong(k, v.toLong())
+                            Settings.spCalType, Settings.spNotifyBirthDaysBefore,
+                            Settings.spPrefersOrgType ->
+                                putInt(k, v.toInt())
                         }
                     is String -> putString(k, v)
                 }
