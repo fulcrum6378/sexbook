@@ -106,17 +106,14 @@ I may add translations for Spanish(~3+16) and French(~9+3) later.
 
 ### Publishing
 
-It contains 2 build flavours: **Nude** and **Censored**!
-At first, I had published the nude one in Google Play with no problem, but later on they started bothering, so I
-censored the vagina icon!
-The app contains AdMob codes for displaying ads all over it, but they're all commented for the time being!
-
 Using this [privacy policy](https://mahdiparastesh.ir/welcome/privacy/sexbook.html),
 it is now available for free and without ads in:
 
 - [Google Play](https://play.google.com/store/apps/details?id=ir.mahdiparastesh.sexbook)
 - [Galaxy Store](https://galaxystore.samsung.com/detail/ir.mahdiparastesh.sexbook)
 - [ApkPure](https://apkpure.com/p/ir.mahdiparastesh.sexbook)
+
+The app contains AdMob codes for displaying ads all over it, but they're all commented for the time being!
 
 ### License
 

@@ -23,23 +23,16 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 31
-        versionName '18.6.5'
+        versionName '18.6.8'
         signingConfig signingConfigs.main
     }
-
     sourceSets {
         main {
             manifest.srcFile 'src/AndroidManifest.xml'
             kotlin.srcDirs = ['src/kotlin']
+            res.srcDirs = ['src/res']
         }
     }
-    flavorDimensions('nudity')
-    productFlavors {
-        nude { dimension 'nudity' }
-        censored { dimension 'nudity' }
-    }
-    sourceSets.nude { res.srcDirs = ['src/res', 'src/res_nude'] }
-    sourceSets.censored { res.srcDirs = ['src/res', 'src/res_censored'] }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
