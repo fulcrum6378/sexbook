@@ -2,28 +2,12 @@ package ir.mahdiparastesh.sexbook.more
 
 import android.os.Handler
 import android.os.Looper
-import android.os.Message
-import android.os.SystemClock
 import ir.mahdiparastesh.sexbook.data.Work
 
 /** Executes codes with a specified amount of delay. */
-open class Delay(
-    private val timeout: Long = Work.TIMEOUT,
-    private val looper: Looper = Looper.myLooper()!!,
-    private val listener: () -> Unit,
-) {
-    private var mStopTimeInFuture = SystemClock.elapsedRealtime() + timeout
-    private val mHandler = object : Handler(looper) {
-        override fun handleMessage(msg: Message) {
-            synchronized(this@Delay) {
-                if (mStopTimeInFuture - SystemClock.elapsedRealtime() <= 0)
-                    listener()
-                else sendMessageDelayed(obtainMessage(1), timeout)
-            }
-        }
-    }
-
+open class Delay(timeout: Long = Work.TIMEOUT, listener: Runnable) :
+    Handler(Looper.myLooper()!!) {
     init {
-        mHandler.sendMessage(mHandler.obtainMessage(1))
+        postDelayed(listener, timeout)
     }
 }
