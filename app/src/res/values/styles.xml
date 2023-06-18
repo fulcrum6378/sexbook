@@ -67,6 +67,12 @@
         <item name="fontFamily">@font/normal</item>
     </style>
 
+    <style name="statChart">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
     <style name="statTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

@@ -7,8 +7,7 @@
 
     <ir.mahdiparastesh.hellocharts.view.ColumnChartView
         android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/statChart"
         android:padding="10dp" />
 
     <androidx.appcompat.widget.AppCompatTextView

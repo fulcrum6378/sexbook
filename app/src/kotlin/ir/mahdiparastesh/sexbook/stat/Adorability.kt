@@ -1,24 +1,15 @@
 package ir.mahdiparastesh.sexbook.stat
 
-import android.os.Bundle
-import ir.mahdiparastesh.hellocharts.model.Line
+import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.LineChartData
-import ir.mahdiparastesh.hellocharts.model.PointValue
-import ir.mahdiparastesh.sexbook.Fun.randomColor
+import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.sexbook.databinding.AdorabilityBinding
-import ir.mahdiparastesh.sexbook.more.BaseActivity
 
-class Adorability : BaseActivity() {
-    private lateinit var b: AdorabilityBinding
+class Adorability : ChartActivity<AdorabilityBinding>() {
+    override val b by lazy { AdorabilityBinding.inflate(layoutInflater) }
+    override val chartView: AbstractChartView get() = b.main
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        b = AdorabilityBinding.inflate(layoutInflater)
-        setContentView(b.root)
-        if (night()) window.decorView.setBackgroundColor(themeColor(com.google.android.material.R.attr.colorPrimary))
-
-        if (m.onani.value == null || m.summary == null) {
-            @Suppress("DEPRECATION") onBackPressed(); return; }
+    override suspend fun draw(): AbstractChartData {
         val stb = Singular.sinceTheBeginning(this, m.onani.value!!)
         val stars = ArrayList<Star>()
         for (x in m.summary!!.scores) {
@@ -30,31 +21,12 @@ class Adorability : BaseActivity() {
         }
         stars.sortWith(Star.Sort(1))
         stars.sortWith(Star.Sort())
+        return LineChartData().setLines(LineFactory(this@Adorability, stars))
+    }
 
-        b.main.lineChartData = LineChartData().setLines(LineFactory(this, stars))
+    override suspend fun render(data: AbstractChartData) {
+        b.main.lineChartData = data as LineChartData
         b.main.isViewportCalculationEnabled = false // never do it before setLineChatData
         // it cannot be zoomed out.
     }
-
-    class Star(val name: String, val frames: Array<Frame>) {
-        class Sort(private val by: Int = 0) : Comparator<Star> {
-            override fun compare(a: Star, b: Star) = when (by) {
-                1 -> a.name.compareTo(b.name)
-                else -> b.frames.sumOf { (it.score * 100f).toInt() } -
-                        a.frames.sumOf { (it.score * 100f).toInt() }
-            }
-        }
-
-        data class Frame(val score: Float, val month: String)
-    }
-
-    class LineFactory(c: BaseActivity, stars: List<Star>) : ArrayList<Line>(stars.map {
-        Line(it.frames.mapIndexed { i, frame ->
-            PointValue(i.toFloat(), frame.score)
-                .setLabel("${it.name} : ${frame.month} (${frame.score})")
-        })
-            .setColor(c.randomColor())
-            .setCubic(true)
-            .setHasLabelsOnlyForSelected(true)
-    })
 }

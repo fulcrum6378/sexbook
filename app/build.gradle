@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
@@ -23,7 +24,7 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 31
-        versionName '18.7.2'
+        versionName '18.8.0'
         signingConfig signingConfigs.main
     }
     sourceSets {

@@ -1,21 +1,18 @@
 package ir.mahdiparastesh.sexbook.stat
 
-import android.os.Bundle
+import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.ColumnChartData
+import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.databinding.MixtureBinding
-import ir.mahdiparastesh.sexbook.more.BaseActivity
 
-class Mixture : BaseActivity() {
-    private lateinit var b: MixtureBinding
+class Mixture : ChartActivity<MixtureBinding>() {
+    override val b by lazy { MixtureBinding.inflate(layoutInflater) }
+    override val chartView: AbstractChartView get() = b.main
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        b = MixtureBinding.inflate(layoutInflater)
-        setContentView(b.root)
+    override fun requirements() = m.onani.value != null
 
-        if (m.onani.value == null) {
-            @Suppress("DEPRECATION") onBackPressed(); return; }
+    override suspend fun draw(): AbstractChartData {
         val data = ArrayList<Pair<String, Float>>()
         val history = arrayListOf<Summary.Erection>()
         val allowedTypes = Fun.allowedSexTypes(sp)
@@ -24,6 +21,10 @@ class Mixture : BaseActivity() {
         }) history.add(Summary.Erection(o.time, 1f))
         Singular.sinceTheBeginning(this, m.onani.value!!)
             .forEach { data.add(Pair(it, Singular.calcHistory(this, history, it))) }
-        b.main.columnChartData = ColumnChartData().setColumns(Singular.ColumnFactory(this, data))
+        return ColumnChartData().setColumns(Singular.ColumnFactory(this, data))
+    }
+
+    override suspend fun render(data: AbstractChartData) {
+        b.main.columnChartData = data as ColumnChartData
     }
 }

@@ -1,22 +1,15 @@
 package ir.mahdiparastesh.sexbook.stat
 
-import android.os.Bundle
+import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.LineChartData
+import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.sexbook.databinding.GrowthBinding
-import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.stat.Adorability.Star
 
-class Growth : BaseActivity() {
-    private lateinit var b: GrowthBinding
+class Growth : ChartActivity<GrowthBinding>() {
+    override val b by lazy { GrowthBinding.inflate(layoutInflater) }
+    override val chartView: AbstractChartView get() = b.main
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        b = GrowthBinding.inflate(layoutInflater)
-        setContentView(b.root)
-        if (night()) window.decorView.setBackgroundColor(themeColor(com.google.android.material.R.attr.colorPrimary))
-
-        if (m.onani.value == null || m.summary == null) {
-            @Suppress("DEPRECATION") onBackPressed(); return; }
+    override suspend fun draw(): AbstractChartData {
         val stb = Singular.sinceTheBeginning(this, m.onani.value!!)
         val stars = ArrayList<Star>()
         for (x in m.summary!!.scores) {
@@ -28,7 +21,10 @@ class Growth : BaseActivity() {
         }
         stars.sortWith(Star.Sort(1))
         stars.sortWith(Star.Sort())
+        return LineChartData().setLines(LineFactory(this, stars))
+    }
 
-        b.main.lineChartData = LineChartData().setLines(Adorability.LineFactory(this, stars))
+    override suspend fun render(data: AbstractChartData) {
+        b.main.lineChartData = data as LineChartData
     }
 }
