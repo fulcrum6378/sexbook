@@ -24,15 +24,13 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 31
-        versionName '18.8.0'
+        versionName '18.8.1'
         signingConfig signingConfigs.main
     }
-    sourceSets {
-        main {
-            manifest.srcFile 'src/AndroidManifest.xml'
-            kotlin.srcDirs = ['src/kotlin']
-            res.srcDirs = ['src/res']
-        }
+    sourceSets.main {
+        manifest.srcFile 'src/AndroidManifest.xml'
+        kotlin.srcDirs = ['src/kotlin']
+        res.srcDirs = ['src/res']
     }
 
     compileOptions {
