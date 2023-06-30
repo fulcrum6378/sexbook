@@ -37,6 +37,7 @@ import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
+import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.Delay
@@ -350,6 +351,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     .also { this.nExcluded += scores.size - it.size }
             }
         }
+        (pageSex?.b?.rv?.adapter as? ReportAdap)?.crushSuggester?.update()
         return true
     }
 

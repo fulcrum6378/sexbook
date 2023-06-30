@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -46,6 +47,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         ContextCompat.getDrawable(c, R.drawable.estimation)!!.mutate()
             .apply { if (c.night()) colorFilter = c.pdcf(R.color.mrvClock) }
     }
+    var crushSuggester = CrushSuggester()
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
@@ -63,6 +65,14 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         b.clockMin.apply {
             pivotX = (clockHeight * perw(b.clockMin)) / 2f
             pivotY = minuteHeight - (pointHeight / 2f)
+        }
+
+        // Name
+        b.name.setAdapter(crushSuggester)
+        if (c.m.summary == null) b.name.setOnFocusChangeListener { view, bb ->
+            if (c.m.summary != null)
+                (view as TextView).onFocusChangeListener = null
+            else if (bb) c.summarize()
         }
 
         // Type
@@ -127,14 +137,6 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
 
         // Name
         h.b.name.setText(r.name)
-        if (!r.guess) {
-            var crushes = arrayListOf<String>()
-            if (c.m.summary != null)
-                crushes = ArrayList(c.m.summary!!.scores.keys)
-            h.b.name.setAdapter(
-                ArrayAdapter(c, android.R.layout.simple_dropdown_item_1line, crushes)
-            )
-        }
         h.b.name.isEnabled = !r.guess
         val nameWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
@@ -262,6 +264,14 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 c.m.onani.value!![pos].time = calc.timeInMillis
                 Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
             }
+        }
+    }
+
+    inner class CrushSuggester :
+        ArrayAdapter<String>(c, android.R.layout.simple_dropdown_item_1line, c.m.summaryCrushes()) {
+        fun update() {
+            clear()
+            addAll(c.m.summaryCrushes())
         }
     }
 

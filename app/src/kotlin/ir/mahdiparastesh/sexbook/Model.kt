@@ -42,6 +42,8 @@ class Model : ViewModel() {
     fun findGlobalIndexOfReport(id: Long) =
         onani.value!!.indexOfFirst { it.id == id }
 
+    fun summaryCrushes() = summary?.let { ArrayList(it.scores.keys) } ?: arrayListOf<String>()
+
     fun resetData() {
         onani.value = null
         liefde.value = null

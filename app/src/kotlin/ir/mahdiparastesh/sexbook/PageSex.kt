@@ -29,7 +29,7 @@ import ir.mahdiparastesh.sexbook.more.MessageInbox
 import java.util.*
 
 class PageSex : BasePage() {
-    private lateinit var b: PageSexBinding
+    lateinit var b: PageSexBinding
     val messages = MessageInbox(handler)
     private var filters: List<Filter> = listOf()
 
