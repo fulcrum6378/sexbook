@@ -24,7 +24,7 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 31
-        versionName '18.8.9'
+        versionName '18.9.0'
         signingConfig signingConfigs.main
     }
     sourceSets.main {
@@ -33,11 +33,8 @@ android {
         res.srcDirs = ['src/res']
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions { jvmTarget = '17' }
+    compileOptions { def jv = JavaVersion.VERSION_19; sourceCompatibility jv; targetCompatibility jv }
+    kotlinOptions { jvmTarget = '19' }
     buildFeatures { viewBinding true }
 
     buildTypes {
