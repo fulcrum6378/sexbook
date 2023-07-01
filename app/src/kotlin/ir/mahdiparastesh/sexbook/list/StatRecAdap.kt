@@ -18,9 +18,8 @@ import ir.mahdiparastesh.sexbook.stat.Singular
 class StatRecAdap(private val c: Main, private val rec: Recency) :
     RecyclerView.Adapter<AnyViewHolder<RecencyBinding>>() {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup, viewType: Int
-    ): AnyViewHolder<RecencyBinding> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            AnyViewHolder<RecencyBinding> =
         AnyViewHolder(RecencyBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<RecencyBinding>, i: Int) {

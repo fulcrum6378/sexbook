@@ -24,7 +24,7 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 31
-        versionName '18.8.8'
+        versionName '18.8.9'
         signingConfig signingConfigs.main
     }
     sourceSets.main {
@@ -55,7 +55,7 @@ android {
 }
 
 dependencies {
-    def room_version = '2.5.1'
+    def room_version = '2.5.2'
 
     implementation 'androidx.activity:activity-ktx:1.7.2'
     implementation 'androidx.appcompat:appcompat:1.6.1'

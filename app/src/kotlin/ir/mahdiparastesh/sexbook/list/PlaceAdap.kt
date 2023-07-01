@@ -21,9 +21,8 @@ import ir.mahdiparastesh.sexbook.more.MaterialMenu
 
 class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBinding>>() {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup, viewType: Int
-    ): AnyViewHolder<ItemPlaceBinding> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            AnyViewHolder<ItemPlaceBinding> =
         AnyViewHolder(ItemPlaceBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<ItemPlaceBinding>, i: Int) {

@@ -27,9 +27,8 @@ import kotlin.collections.set
 class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGuessBinding>>() {
     val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup, viewType: Int
-    ): AnyViewHolder<ItemGuessBinding> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            AnyViewHolder<ItemGuessBinding> {
         val b = ItemGuessBinding.inflate(c.layoutInflater, parent, false)
         /* As soon as I applied this null safety feature, IndexOutOfBoundsException:
         "Inconsistency detected" exception appeared for the first time in the history of Sexbook! */

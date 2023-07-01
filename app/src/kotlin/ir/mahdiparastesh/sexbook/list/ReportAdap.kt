@@ -49,9 +49,8 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
     }
     var crushSuggester = CrushSuggester()
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup, viewType: Int
-    ): AnyViewHolder<ItemReportBinding> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            AnyViewHolder<ItemReportBinding> {
         val b = ItemReportBinding.inflate(c.layoutInflater, parent, false)
 
         // Date & Time

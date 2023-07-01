@@ -17,9 +17,8 @@ class StatSumAdap(
     val arr: List<MutableMap.MutableEntry<Float, ArrayList<String>>>
 ) : RecyclerView.Adapter<AnyViewHolder<SumChipGroupBinding>>() {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup, viewType: Int
-    ): AnyViewHolder<SumChipGroupBinding> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            AnyViewHolder<SumChipGroupBinding> =
         AnyViewHolder(SumChipGroupBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<SumChipGroupBinding>, i: Int) {

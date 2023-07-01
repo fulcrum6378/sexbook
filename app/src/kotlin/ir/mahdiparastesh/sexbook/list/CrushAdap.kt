@@ -17,9 +17,8 @@ import ir.mahdiparastesh.sexbook.stat.Singular
 
 class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBinding>>() {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup, viewType: Int
-    ): AnyViewHolder<ItemCrushBinding> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            AnyViewHolder<ItemCrushBinding> =
         AnyViewHolder(ItemCrushBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<ItemCrushBinding>, i: Int) {
