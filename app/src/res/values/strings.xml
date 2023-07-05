@@ -91,9 +91,11 @@
     <string name="lastName">Last Name</string>
     <string name="masculine">Male</string>
     <string name="feminine">Female</string>
+    <string name="nonBinary">Non-Binary</string>
+    <string name="birth">Birthday</string><!--TODO translate again-->
     <string name="heightInCM">Height (cm)</string>
-    <string name="birth">Birth Date</string>
-    <string name="location">Location</string>
+    <string name="address">Address</string>
+    <string name="firstMet">First Met</string>
     <string name="notifyBirth">Notify me in their birthday</string>
     <string name="crushClear">Clear Information: %s</string>
     <string name="crushClearSure">

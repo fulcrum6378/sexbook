@@ -152,14 +152,14 @@ class Singular : BaseActivity() {
                 bi.fName.setText(crush.fName)
                 bi.mName.setText(crush.mName)
                 bi.lName.setText(crush.lName)
-                bi.masc.isChecked = crush.masc
+                bi.masc.isChecked = crush.gender == 1.toByte() // TODO
                 if (crush.height != -1f)
                     bi.height.setText(crush.height.toString())
                 if (bir != null) {
                     bi.birth.text = bir.fullDate()
                     isBirthSet = true
                 }
-                bi.location.setText(crush.locat)
+                bi.address.setText(crush.address)
                 bi.instagram.setText(crush.insta)
                 bi.notifyBirth.isChecked = crush.notifyBirth
             } else {
@@ -200,17 +200,17 @@ class Singular : BaseActivity() {
                 setPositiveButton(R.string.save) { _, _ ->
                     val inserted = Crush(
                         crush?.key ?: c.m.crush!!,
-                        bi.fName.text.toString().ifEmpty { null },
-                        bi.mName.text.toString().ifEmpty { null },
-                        bi.lName.text.toString().ifEmpty { null },
-                        bi.masc.isChecked,
+                        bi.fName.text.toString().ifBlank { null },
+                        bi.mName.text.toString().ifBlank { null },
+                        bi.lName.text.toString().ifBlank { null },
+                        0, // TODO
+                        if (isBirthSet) "${bir!![Calendar.YEAR]}.${bir!![Calendar.MONTH] + 1}." +
+                                "${bir!![Calendar.DAY_OF_MONTH]}" else null,
                         if (bi.height.text.toString() != "")
                             bi.height.text.toString().toFloat() else -1f,
-                        if (isBirthSet) bir!![Calendar.YEAR].toShort() else -1,
-                        if (isBirthSet) bir!![Calendar.MONTH].toByte() else -1,
-                        if (isBirthSet) bir!![Calendar.DAY_OF_MONTH].toByte() else -1,
-                        bi.location.text.toString().ifEmpty { null },
-                        bi.instagram.text.toString().ifEmpty { null },
+                        bi.address.text.toString().ifBlank { null },
+                        bi.instagram.text.toString().ifBlank { null },
+                        null, // TODO
                         bi.notifyBirth.isChecked
                     )
                     Work(

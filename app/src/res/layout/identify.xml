@@ -89,6 +89,13 @@
 
         <View style="@style/identifySep" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/birth"
+            style="@style/identifyButton"
+            android:text="@string/birth" />
+
+        <View style="@style/identifySep" />
+
         <ir.mahdiparastesh.sexbook.more.SoftEditText
             android:id="@+id/height"
             style="@style/identifyET"
@@ -100,18 +107,11 @@
 
         <View style="@style/identifySep" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/birth"
-            style="@style/identifyButton"
-            android:text="@string/birth" />
-
-        <View style="@style/identifySep" />
-
         <ir.mahdiparastesh.sexbook.more.SoftEditText
-            android:id="@+id/location"
+            android:id="@+id/address"
             style="@style/identifyET"
             android:autofillHints="addressLocality"
-            android:hint="@string/location"
+            android:hint="@string/address"
             android:inputType="textMultiLine"
             android:maxLength="200"
             android:maxLines="5" />
@@ -129,6 +129,13 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:fontFamily="serif-monospace" />
+
+        <View style="@style/identifySep" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/firstMet"
+            style="@style/identifyButton"
+            android:text="@string/firstMet" />
 
         <View style="@style/identifySep" />
 

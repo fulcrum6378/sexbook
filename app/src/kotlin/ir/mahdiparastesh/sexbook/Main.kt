@@ -9,7 +9,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.icu.util.Calendar
 import android.os.*
 import android.view.Menu
 import android.view.MenuItem
@@ -84,14 +83,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                                     ) < Settings.notifyBirthAfterLastTime
                         ) return@apply
-                        for (it in this) if (it.notifyBirth && it.hasFullBirth()) {
-                            val now = Calendar.getInstance()
-                            val bir = Calendar.getInstance()
-                            bir.set(
-                                now[Calendar.YEAR], it.bMonth.toInt(), it.bDay.toInt(),
-                                0, 0, 0
-                            )
-                            val dist = now.timeInMillis - bir.timeInMillis
+                        for (it in this) if (it.notifyBirth) it.calendar()?.also { birth ->
+                            val dist = Fun.now() - birth.timeInMillis
                             if (abs(dist) <= NOTIFY_MAX_DISTANCE * 86400000L)
                                 notifyBirth(it, dist)
                         }
@@ -403,7 +396,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun notifyBirth(crush: Crush, dist: Long) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
             ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
             != PackageManager.PERMISSION_GRANTED
         ) return
@@ -478,12 +471,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * Non-binary recognition (** database migration)
-  * Tweak days before a birthday reminder
+  * Tweak days before a birthday reminder (and hours before repetition?)
   * Statisticise delays in hours between orgasms
   * Persistence for identification dialogue
   * -
   * Extension:
-  * "First met" for Crush (** database migration)
   * Export data to other files types (only export) e.g. TXT, PDF and/or HTML...
   */

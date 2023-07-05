@@ -13,33 +13,14 @@ import java.io.File
 
 @androidx.room.Database(
     entities = [Report::class, Crush::class, Place::class, Guess::class],
-    version = 4, exportSchema = false
+    version = 5, exportSchema = false
 )
 abstract class Database : RoomDatabase(), Closeable {
     abstract fun dao(): Dao
 
     class Builder(c: Context) {
         private val room = Room.databaseBuilder(c, Database::class.java, Fun.DATABASE)
-            .addMigrations(object : Migration(1, 2) {
-                override fun migrate(db: SupportSQLiteDatabase) {
-                    db.execSQL("ALTER TABLE Crush RENAME TO Crush_old")
-                    db.execSQL(
-                        "CREATE TABLE IF NOT EXISTS `Crush` (`key` TEXT NOT NULL, " +
-                                "`first_name` TEXT, `middle_name` TEXT, `last_name` TEXT, " +
-                                "`masculine` INTEGER NOT NULL, `height` REAL NOT NULL, " +
-                                "`birth_year` INTEGER NOT NULL, `birth_month` INTEGER NOT NULL, " +
-                                "`birth_day` INTEGER NOT NULL, `location` TEXT, `instagram` TEXT, " +
-                                "`notify_birth` INTEGER NOT NULL, PRIMARY KEY(`key`))"
-                    )
-                    val columns = "key, first_name, last_name, masculine, height, " +
-                            "birth_year, birth_month, birth_day, location, instagram, notify_birth"
-                    db.execSQL(
-                        "INSERT INTO Crush (" + columns + ") SELECT "
-                                + columns + " FROM Crush_old;"
-                    )
-                    db.execSQL("DROP TABLE Crush_old")
-                }
-            }, object : Migration(2, 3) {
+            .addMigrations(object : Migration(2, 3) {
                 override fun migrate(db: SupportSQLiteDatabase) {
                     db.execSQL("ALTER TABLE Guess RENAME TO Guess_old")
                     db.execSQL(
@@ -59,12 +40,41 @@ abstract class Database : RoomDatabase(), Closeable {
             }, object : Migration(3, 4) {
                 override fun migrate(db: SupportSQLiteDatabase) {
                     db.execSQL("ALTER TABLE Guess ADD COLUMN able INTEGER NOT NULL DEFAULT 1")
-                    /* SQLiteException: duplicate column name: able (code 1 SQLITE_ERROR[1]): ,
-                     * while compiling: ALTER TABLE Guess ADD COLUMN able INTEGER NOT NULL DEFAULT 1
-                     * Apparently a new error because of the recent updates in Room.
-                     * Someone said it's an error in androidx.work! Our Work class is not associated
-                     * with coroutines. Presumably it's a coincident error both in Sexbook and
-                     * androidx.work or a new error in Room! */
+                }
+            }, object : Migration(4, 5) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL("ALTER TABLE Crush RENAME TO Crush_old")
+                    db.execSQL(
+                        "CREATE TABLE IF NOT EXISTS `Crush` (`key` TEXT NOT NULL, " +
+                                "`first_name` TEXT, `middle_name` TEXT, `last_name` TEXT, " +
+                                "`gender` INTEGER NOT NULL, `birth` TEXT, `height` REAL NOT NULL, " +
+                                "`address` TEXT, `instagram` TEXT, `first_met` TEXT, " +
+                                "`notify_birth` INTEGER NOT NULL, PRIMARY KEY(`key`))"
+                    )
+                    val noEdit =
+                        "key, first_name, middle_name, last_name, height, location, instagram, notify_birth"
+                    db.execSQL(
+                        "INSERT INTO Crush (${
+                            noEdit.replace("location", "address")
+                        }) SELECT $noEdit FROM Crush_old"
+                    )
+                    val cur =
+                        db.query("SELECT key, masculine, birth_year, birth_month, birth_day FROM Crush_old")
+                    while (cur.moveToNext()) {
+                        val bYear = cur.getInt(2)
+                        val bMonth = cur.getInt(3)
+                        val bDay = cur.getInt(4)
+                        db.execSQL(
+                            "UPDATE Crush SET gender = ?, birth = ? WHERE key = ?", arrayOf(
+                                cur.getInt(1),
+                                if (bYear != -1 && bMonth != -1 && bDay != -1)
+                                    "$bYear.${bMonth + 1}.$bDay" else null,
+                                cur.getString(0)
+                            )
+                        )
+                    }
+                    cur.close()
+                    db.execSQL("DROP TABLE Crush_old")
                 }
             }) // Do not remove migrations so hurriedly! Wait at least for a few months...
 

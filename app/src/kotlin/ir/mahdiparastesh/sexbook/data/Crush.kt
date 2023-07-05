@@ -16,13 +16,12 @@ class Crush(
     @ColumnInfo(name = "first_name") var fName: String?,
     @ColumnInfo(name = "middle_name") var mName: String?,
     @ColumnInfo(name = "last_name") var lName: String?,
-    @ColumnInfo(name = "masculine") var masc: Boolean,
+    @ColumnInfo(name = "gender") var gender: Byte,
+    @ColumnInfo(name = "birth") var birth: String?,
     @ColumnInfo(name = "height") var height: Float,
-    @ColumnInfo(name = "birth_year") var bYear: Short,
-    @ColumnInfo(name = "birth_month") var bMonth: Byte,
-    @ColumnInfo(name = "birth_day") var bDay: Byte,
-    @ColumnInfo(name = "location") var locat: String?,
+    @ColumnInfo(name = "address") var address: String?,
     @ColumnInfo(name = "instagram") var insta: String?,
+    @ColumnInfo(name = "first_met") var first: String?,
     @ColumnInfo(name = "notify_birth") var notifyBirth: Boolean,
 ) {
 
@@ -35,11 +34,10 @@ class Crush(
         } else "$fName $lName"
 
 
-    fun hasFullBirth() = bYear.toInt() != -1 && bMonth.toInt() != -1 && bDay.toInt() != -1
-
     fun calendar(tz: TimeZone = TimeZone.getDefault()): GregorianCalendar? {
-        if (!hasFullBirth()) return null
-        return GregorianCalendar(tz).apply { set(bYear.toInt(), bMonth.toInt(), bDay.toInt()) }
+        val spl = birth?.split(".") ?: return null
+        return GregorianCalendar(tz)
+            .apply { set(spl[0].toInt(), spl[1].toInt() - 1, spl[2].toInt()) }
     }
 
     fun sum(m: Model): Float? = m.summary?.scores?.get(key)
@@ -48,7 +46,7 @@ class Crush(
     fun last(m: Model): Long? = m.summary?.scores?.get(key)?.maxOf { it.time }
 
     fun copy() = Crush(
-        key, fName, mName, lName, masc, height, bYear, bMonth, bDay, locat, insta, notifyBirth
+        key, fName, mName, lName, gender, birth, height, address, insta, first, notifyBirth
     )
 
     class Sort(private val by: Int, private val m: Model) : Comparator<Crush> {
