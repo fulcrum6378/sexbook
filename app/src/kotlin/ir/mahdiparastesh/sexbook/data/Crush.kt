@@ -33,9 +33,14 @@ class Crush(
             else -> key
         } else "$fName $lName"
 
-
-    fun calendar(tz: TimeZone = TimeZone.getDefault()): GregorianCalendar? {
+    fun bCalendar(tz: TimeZone = TimeZone.getDefault()): GregorianCalendar? {
         val spl = birth?.split(".") ?: return null
+        return GregorianCalendar(tz)
+            .apply { set(spl[0].toInt(), spl[1].toInt() - 1, spl[2].toInt()) }
+    }
+
+    fun fCalendar(tz: TimeZone = TimeZone.getDefault()): GregorianCalendar? {
+        val spl = first?.split(".") ?: return null
         return GregorianCalendar(tz)
             .apply { set(spl[0].toInt(), spl[1].toInt() - 1, spl[2].toInt()) }
     }
@@ -54,8 +59,8 @@ class Crush(
             Fun.SORT_BY_NAME -> a.visName().lowercase(Locale.getDefault())
                 .compareTo(b.visName().lowercase(Locale.getDefault()))
             Fun.SORT_BY_SUM -> (a.sum(m) ?: 0f).compareTo(b.sum(m) ?: 0f)
-            Fun.SORT_BY_AGE -> (b.calendar()?.timeInMillis ?: 0L)
-                .compareTo(a.calendar()?.timeInMillis ?: 0L)
+            Fun.SORT_BY_AGE -> (b.bCalendar()?.timeInMillis ?: 0L)
+                .compareTo(a.bCalendar()?.timeInMillis ?: 0L)
             Fun.SORT_BY_HEIGHT -> a.height.compareTo(b.height)
             Fun.SORT_BY_LAST -> (a.last(m) ?: 0L).compareTo(b.last(m) ?: 0L)
             else -> throw IllegalArgumentException("Invalid sorting method!")

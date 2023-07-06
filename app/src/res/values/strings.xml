@@ -14,7 +14,7 @@
     <string name="discard">Discard</string>
     <string name="excStat">Plus %s excluded from statisticisation.</string>
     <string name="unknown">Plus %s from unknown people.</string>
-    <string name="instagram" tools:ignore="MissingTranslation">Instagram</string>
+    <string name="instagram" translatable="false">Instagram</string>
     <string-array name="types">
         <item>Wet Dream</item>
         <item>Masturbation</item>
@@ -89,9 +89,12 @@
     <string name="firstName">First Name</string>
     <string name="middleName">Middle Name</string>
     <string name="lastName">Last Name</string>
-    <string name="masculine">Male</string>
-    <string name="feminine">Female</string>
-    <string name="nonBinary">Non-Binary</string>
+    <string-array name="genders">
+        <item>Specify their gender&#8230;</item>
+        <item>Female</item>
+        <item>Male</item>
+        <item>Non-Binary</item>
+    </string-array>
     <string name="birth">Birthday</string><!--TODO translate again-->
     <string name="heightInCM">Height (cm)</string>
     <string name="address">Address</string>

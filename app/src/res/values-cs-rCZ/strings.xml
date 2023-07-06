@@ -86,11 +86,16 @@
     <string name="firstName">Jméno</string>
     <string name="middleName">Prostřední jméno</string>
     <string name="lastName">Příjmení</string>
-    <string name="masculine">Muž</string>
-    <string name="feminine">Žena</string>
+    <string-array name="genders">
+        <item>Uveďte jejich pohlaví&#8230;</item>
+        <item>Žena</item>
+        <item>Muž</item>
+        <item>Nebinární</item>
+    </string-array>
     <string name="heightInCM">Výška (cm)</string>
     <string name="birth">Datum narození</string>
-    <string name="location">Umístění</string>
+    <string name="address">Adresa</string>
+    <string name="firstMet">Se poprvé setkali</string>
     <string name="notifyBirth">Upozornit mě na jejich narozeniny</string>
     <string name="crushClear">Vymažte informace: %s</string>
     <string name="crushClearSure">

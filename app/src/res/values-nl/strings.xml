@@ -86,11 +86,16 @@
     <string name="firstName">Voornaam</string>
     <string name="middleName">Midden-naam</string>
     <string name="lastName">Achternaam</string>
-    <string name="masculine">Man</string>
-    <string name="feminine">Vrouw</string>
+    <string-array name="genders">
+        <item>Specificeer hun geslacht&#8230;</item>
+        <item>Vrouw</item>
+        <item>Man</item>
+        <item>Niet-binair</item>
+    </string-array>
     <string name="heightInCM">Hoogte (cm)</string>
     <string name="birth">Geboortedatum</string>
-    <string name="location">Plaats</string>
+    <string name="address">Adres</string>
+    <string name="firstMet">Voor het eerst ontmoet</string>
     <string name="notifyBirth">Breng me op zijn/haar verjaardag op de hoogte</string>
     <string name="crushClear">Wis de informatie: %s</string>
     <string name="crushClearSure">

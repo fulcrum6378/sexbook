@@ -58,7 +58,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private var adBannerLoaded = false*/
 
     companion object {
-        const val NOTIFY_MAX_DISTANCE = 3
         var handler: Handler? = null
         // var showAdAfterRecreation = false
     }
@@ -83,10 +82,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                                     ) < Settings.notifyBirthAfterLastTime
                         ) return@apply
-                        for (it in this) if (it.notifyBirth) it.calendar()?.also { birth ->
+                        for (it in this) if (it.notifyBirth) it.bCalendar()?.also { birth ->
                             val dist = Fun.now() - birth.timeInMillis
-                            if (abs(dist) <= NOTIFY_MAX_DISTANCE * 86400000L)
-                                notifyBirth(it, dist)
+                            if (abs(dist) <=
+                                sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * 86400000L
+                            ) notifyBirth(it, dist)
                         }
                     }
                     Work.C_REPLACE_ALL -> calManager?.replaceEvents(msg.obj as List<Crush>)
@@ -166,6 +166,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
         }*/
+        sp.edit { remove("prefersMasculine") }
 
         intent.check(true)
         addOnNewIntentListener { it.check() }

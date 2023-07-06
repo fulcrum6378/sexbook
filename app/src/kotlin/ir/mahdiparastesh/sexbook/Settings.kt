@@ -53,7 +53,6 @@ class Settings : BaseActivity() {
         // Beware of the numerical fields; go to Exporter.replace() for modifications.
 
         // Hidden
-        const val spPrefersMasculine = "prefersMasculine"
         const val spPrefersOrgType = "prefersOrgType"
         const val spLastNotifiedBirthAt = "lastNotifiedBirthAt"
 
@@ -152,8 +151,8 @@ class Settings : BaseActivity() {
 
         // Statisticise Range: Long Click
         View.OnLongClickListener { v ->
-            MaterialMenu(this, v, R.menu.settings_stat_range, Act().apply {
-                this[R.id.ssrClearDate] = {
+            MaterialMenu(this, v, R.menu.clear_date, Act().apply {
+                this[R.id.clearDate] = {
                     if (v == b.stStatSince) {
                         sp.edit().remove(spStatSince).putBoolean(spStatSinceCb, false).apply()
                         b.stStatSinceDateCb.isChecked = false
@@ -167,9 +166,9 @@ class Settings : BaseActivity() {
                     }
                 }
             }).show(); true
-        }.apply {
-            b.stStatSince.setOnLongClickListener(this)
-            b.stStatUntil.setOnLongClickListener(this)
+        }.also {
+            b.stStatSince.setOnLongClickListener(it)
+            b.stStatUntil.setOnLongClickListener(it)
         }
 
         // Sex Type Exclusion

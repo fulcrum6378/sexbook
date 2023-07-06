@@ -87,11 +87,16 @@
     <string name="firstName">Имя</string>
     <string name="middleName">Второе имя</string>
     <string name="lastName">Фамилия</string>
-    <string name="masculine">Мужской</string>
-    <string name="feminine">Женский</string>
+    <string-array name="genders">
+        <item>Укажите их пол&#8230;</item>
+        <item>Женский</item>
+        <item>Мужской</item>
+        <item>Небинарный</item>
+    </string-array>
     <string name="heightInCM">Рост (см)</string>
     <string name="birth">Дата рождения</string>
-    <string name="location">Расположение</string>
+    <string name="address">Адрес</string>
+    <string name="firstMet">Первая встреча</string>
     <string name="notifyBirth">Сообщите мне об их дне рождения</string>
     <string name="crushClear">Очистить информацию: %s</string>
     <string name="crushClearSure">

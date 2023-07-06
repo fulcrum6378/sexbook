@@ -51,25 +51,22 @@ abstract class Database : RoomDatabase(), Closeable {
                                 "`address` TEXT, `instagram` TEXT, `first_met` TEXT, " +
                                 "`notify_birth` INTEGER NOT NULL, PRIMARY KEY(`key`))"
                     )
-                    val noEdit =
-                        "key, first_name, middle_name, last_name, height, location, instagram, notify_birth"
-                    db.execSQL(
-                        "INSERT INTO Crush (${
-                            noEdit.replace("location", "address")
-                        }) SELECT $noEdit FROM Crush_old"
-                    )
-                    val cur =
-                        db.query("SELECT key, masculine, birth_year, birth_month, birth_day FROM Crush_old")
+                    val cur = db.query("SELECT * FROM Crush_old")
                     while (cur.moveToNext()) {
-                        val bYear = cur.getInt(2)
-                        val bMonth = cur.getInt(3)
-                        val bDay = cur.getInt(4)
+                        val bYear = cur.getInt(6)
+                        val bMonth = cur.getInt(7)
+                        val bDay = cur.getInt(8)
                         db.execSQL(
-                            "UPDATE Crush SET gender = ?, birth = ? WHERE key = ?", arrayOf(
-                                cur.getInt(1),
+                            "INSERT INTO `Crush` (key, first_name, middle_name, last_name, gender, " +
+                                    "birth, height, address, instagram, first_met, notify_birth) " +
+                                    "VALUES (?,?,?,?,?,?,?,?,?,?,?)", arrayOf(
+                                cur.getString(0),
+                                cur.getString(1), cur.getString(2), cur.getString(3),
+                                cur.getInt(4),
                                 if (bYear != -1 && bMonth != -1 && bDay != -1)
                                     "$bYear.${bMonth + 1}.$bDay" else null,
-                                cur.getString(0)
+                                cur.getFloat(5), cur.getString(9), cur.getString(10), null,
+                                cur.getInt(11)
                             )
                         )
                     }

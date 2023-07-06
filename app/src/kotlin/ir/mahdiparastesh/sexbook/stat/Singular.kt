@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
@@ -9,6 +10,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.view.View
+import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
@@ -30,7 +33,9 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
+import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.MaterialMenu
 
 class Singular : BaseActivity() {
     private lateinit var b: SingularBinding
@@ -83,6 +88,7 @@ class Singular : BaseActivity() {
     }
 
     companion object {
+        private const val IDENTIFY_DISABLED_ALPHA = 0.7f
         var handler: Handler? = null
 
         fun sinceTheBeginning(c: BaseActivity, mOnani: ArrayList<Report>): List<String> {
@@ -137,42 +143,54 @@ class Singular : BaseActivity() {
             return value
         }
 
+        @SuppressLint("NewApi")
         fun identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
             val oldCrush = crush?.copy()
             val bi = IdentifyBinding.inflate(c.layoutInflater)
-            AppCompatResources.getColorStateList(c, R.color.chip).also {
-                bi.masc.trackTintList = it
-                bi.notifyBirth.trackTintList = it
-            }
+            AppCompatResources.getColorStateList(c, R.color.chip)
+                .also { bi.notifyBirth.trackTintList = it }
+
+            // Gender
+            bi.gender.adapter = ArrayAdapter(
+                c, R.layout.spinner, c.resources.getStringArray(R.array.genders)
+            ).apply { setDropDownViewResource(R.layout.spinner_dd) }
 
             // Default Values
             var isBirthSet = false
-            var bir = crush?.calendar()
+            var bir = crush?.bCalendar()
+            var isFirstSet = false
+            var fir = crush?.fCalendar()
             if (crush != null) {
                 bi.fName.setText(crush.fName)
                 bi.mName.setText(crush.mName)
                 bi.lName.setText(crush.lName)
-                bi.masc.isChecked = crush.gender == 1.toByte() // TODO
-                if (crush.height != -1f)
-                    bi.height.setText(crush.height.toString())
+                bi.gender.setSelection(crush.gender.toInt() + 1)
                 if (bir != null) {
                     bi.birth.text = bir.fullDate()
                     isBirthSet = true
                 }
+                if (crush.height != -1f)
+                    bi.height.setText(crush.height.toString())
                 bi.address.setText(crush.address)
                 bi.instagram.setText(crush.insta)
+                if (fir != null) {
+                    bi.firstMet.text = fir.fullDate()
+                    isFirstSet = true
+                }
                 bi.notifyBirth.isChecked = crush.notifyBirth
-            } else {
-                bi.masc.isChecked = c.sp.getBoolean(Settings.spPrefersMasculine, false)
             }
-            if (bir == null) bir = GregorianCalendar()
-
-            // Masculine
-            bi.masc.setOnCheckedChangeListener { _, isChecked ->
-                c.sp.edit().putBoolean(Settings.spPrefersMasculine, isChecked).apply()
+            if (bir == null) {
+                bir = GregorianCalendar()
+                bi.birth.alpha = IDENTIFY_DISABLED_ALPHA
+                bi.birth.isLongClickable = false
+            }
+            if (fir == null) {
+                fir = GregorianCalendar()
+                bi.firstMet.alpha = IDENTIFY_DISABLED_ALPHA
+                bi.firstMet.isLongClickable = false
             }
 
-            // Birth
+            // Birthday
             bi.birth.setOnClickListener {
                 DatePickerDialog.newInstance({ _, year, month, day ->
                     bir!!.set(Calendar.YEAR, year)
@@ -181,17 +199,57 @@ class Singular : BaseActivity() {
                     bir = McdtpUtils.trimToMidnight(bir)
                     isBirthSet = true
                     bi.birth.text = bir!!.fullDate()
+                    bi.birth.alpha = 1f
+                    bi.birth.isLongClickable = false
                 }, bir).defaultOptions().show(c.supportFragmentManager, "birth")
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-                ActivityCompat.checkSelfPermission(
-                    c, Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                if (crush?.notifyBirth == true) reqNotificationPerm(c)
-                else bi.notifyBirth.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) reqNotificationPerm(c)
-                }
+
+            // First Met
+            bi.firstMet.setOnClickListener {
+                DatePickerDialog.newInstance({ _, year, month, day ->
+                    fir!!.set(Calendar.YEAR, year)
+                    fir!!.set(Calendar.MONTH, month)
+                    fir!!.set(Calendar.DAY_OF_MONTH, day)
+                    fir = McdtpUtils.trimToMidnight(fir)
+                    isFirstSet = true
+                    bi.firstMet.text = fir!!.fullDate()
+                    bi.firstMet.alpha = 1f
+                    bi.firstMet.isLongClickable = true
+                }, fir).defaultOptions().show(c.supportFragmentManager, "first_met")
+            }
+
+            // Notify Birth
+            val needsNtfPerm = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                    ActivityCompat.checkSelfPermission(
+                        c, Manifest.permission.POST_NOTIFICATIONS
+                    ) != PackageManager.PERMISSION_GRANTED
+            if (needsNtfPerm && crush?.notifyBirth == true) reqNotificationPerm(c)
+            bi.notifyBirth.setOnCheckedChangeListener { _, isChecked ->
+                if (!needsNtfPerm && isChecked) reqNotificationPerm(c)
+                bi.notifyBirth.alpha = if (isChecked) 1f else IDENTIFY_DISABLED_ALPHA
+            } // changing isChecked programmatically won't invoke the listener!
+            bi.notifyBirth.alpha = if (bi.notifyBirth.isChecked) 1f else IDENTIFY_DISABLED_ALPHA
+
+            // Date Pickers: Long Click
+            View.OnLongClickListener { v ->
+                MaterialMenu(c, v, R.menu.clear_date, Act().apply {
+                    this[R.id.clearDate] = {
+                        if (v == bi.birth) {
+                            isBirthSet = false
+                            bi.birth.setText(R.string.birth)
+                            bi.birth.alpha = IDENTIFY_DISABLED_ALPHA
+                            bi.birth.isLongClickable = false
+                        } else {
+                            isFirstSet = false
+                            bi.firstMet.setText(R.string.firstMet)
+                            bi.firstMet.alpha = IDENTIFY_DISABLED_ALPHA
+                            bi.firstMet.isLongClickable = false
+                        }
+                    }
+                }).show(); true
+            }.also {
+                bi.birth.setOnLongClickListener(it)
+                bi.firstMet.setOnLongClickListener(it)
             }
 
             MaterialAlertDialogBuilder(c).apply {
@@ -203,14 +261,15 @@ class Singular : BaseActivity() {
                         bi.fName.text.toString().ifBlank { null },
                         bi.mName.text.toString().ifBlank { null },
                         bi.lName.text.toString().ifBlank { null },
-                        0, // TODO
+                        (bi.gender.selectedItemPosition - 1).toByte(),
                         if (isBirthSet) "${bir!![Calendar.YEAR]}.${bir!![Calendar.MONTH] + 1}." +
                                 "${bir!![Calendar.DAY_OF_MONTH]}" else null,
                         if (bi.height.text.toString() != "")
                             bi.height.text.toString().toFloat() else -1f,
                         bi.address.text.toString().ifBlank { null },
                         bi.instagram.text.toString().ifBlank { null },
-                        null, // TODO
+                        if (isFirstSet) "${fir!![Calendar.YEAR]}.${fir!![Calendar.MONTH] + 1}." +
+                                "${fir!![Calendar.DAY_OF_MONTH]}" else null,
                         bi.notifyBirth.isChecked
                     )
                     Work(

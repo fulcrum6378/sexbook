@@ -93,7 +93,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
 
     /** Write the index after executing this function. */
     private fun Crush.insertEvent() {
-        val cal = calendar(TimeZone.getTimeZone(tz)) ?: return
+        val cal = bCalendar(TimeZone.getTimeZone(tz)) ?: return
         ContentValues().apply {
             put(CCE.CALENDAR_ID, id)
             put(CCE.TITLE, c.getString(R.string.sBirthday, visName()))
@@ -119,7 +119,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
                     if (oldCrush.visName() != newCrush!!.visName())
                         put(CCE.TITLE, c.getString(R.string.sBirthday, newCrush.visName()))
                     if (oldCrush.birth != newCrush.birth)
-                        put(CCE.DTSTART, newCrush.calendar(TimeZone.getTimeZone(tz))!!.timeInMillis)
+                        put(CCE.DTSTART, newCrush.bCalendar(TimeZone.getTimeZone(tz))!!.timeInMillis)
 
                     if (size() > 0)
                         c.contentResolver.update(CCE.CONTENT_URI, this, "_id = ?", ev)

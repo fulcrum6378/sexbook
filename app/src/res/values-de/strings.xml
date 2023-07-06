@@ -86,11 +86,16 @@
     <string name="firstName">Vorname</string>
     <string name="middleName">Zweiter Vorname</string>
     <string name="lastName">Familienname</string>
-    <string name="masculine">Mann</string>
-    <string name="feminine">Frau</string>
+    <string-array name="genders">
+        <item>Geben Sie ihr Geschlecht an&#8230;</item>
+        <item>Frau</item>
+        <item>Mann</item>
+        <item>Nicht-binär</item>
+    </string-array>
     <string name="heightInCM">Höhe (cm)</string>
     <string name="birth">Geburtsdatum</string>
-    <string name="location">Standort</string>
+    <string name="address">Adresse</string>
+    <string name="firstMet">Erstes Treffen</string>
     <string name="notifyBirth">Benachrichtigen Sie mich an ihrem Geburtstag</string>
     <string name="crushClear">Klar Informationen: %s</string>
     <string name="crushClearSure">
