@@ -18,6 +18,9 @@
             android:id="@+id/sortByHeight"
             android:title="@string/height" />
         <item
+            android:id="@+id/sortByBeginning"
+            android:title="@string/firstMet" />
+        <item
             android:id="@+id/sortByLast"
             android:title="@string/lastOrgasm" />
     </group>

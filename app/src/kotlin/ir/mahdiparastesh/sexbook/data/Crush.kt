@@ -62,6 +62,8 @@ class Crush(
             Fun.SORT_BY_AGE -> (b.bCalendar()?.timeInMillis ?: 0L)
                 .compareTo(a.bCalendar()?.timeInMillis ?: 0L)
             Fun.SORT_BY_HEIGHT -> a.height.compareTo(b.height)
+            Fun.SORT_BY_BEGINNING -> (a.fCalendar()?.timeInMillis ?: 0L)
+                .compareTo(b.fCalendar()?.timeInMillis ?: 0L)
             Fun.SORT_BY_LAST -> (a.last(m) ?: 0L).compareTo(b.last(m) ?: 0L)
             else -> throw IllegalArgumentException("Invalid sorting method!")
         }

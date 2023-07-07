@@ -166,7 +166,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
         }*/
-        sp.edit { remove("prefersMasculine") }
+        if (sp.contains("prefersMasculine")) sp.edit {
+            remove("prefersMasculine")
+            if (sp.getInt(Settings.spPageLoveSortBy, 0) == 4) putInt(Settings.spPageLoveSortBy, 5)
+        }
 
         intent.check(true)
         addOnNewIntentListener { it.check() }

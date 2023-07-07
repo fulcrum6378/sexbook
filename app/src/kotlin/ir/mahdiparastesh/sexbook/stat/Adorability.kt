@@ -10,13 +10,13 @@ class Adorability : ChartActivity<AdorabilityBinding>() {
     override val chartView: AbstractChartView get() = b.main
 
     override suspend fun draw(): AbstractChartData {
-        val stb = Singular.sinceTheBeginning(this, m.onani.value!!)
+        val stb = sinceTheBeginning(this, m.onani.value!!)
         val stars = ArrayList<Star>()
         for (x in m.summary!!.scores) {
             if (Summary.isUnknown(x.key)) continue
             val scores = ArrayList<Star.Frame>()
             for (month in stb)
-                scores.add(Star.Frame(Singular.calcHistory(this, x.value, month), month))
+                scores.add(Star.Frame(calcHistory(this, x.value, month), month))
             stars.add(Star(x.key, scores.toTypedArray()))
         }
         stars.sortWith(Star.Sort(1))

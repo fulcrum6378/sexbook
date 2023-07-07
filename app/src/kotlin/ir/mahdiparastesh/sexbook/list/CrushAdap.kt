@@ -9,6 +9,7 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.data.Identify
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
@@ -46,7 +47,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                     }
                 }
                 this[R.id.lcIdentify] = {
-                    if (cr != null) Singular.identify(c, cr, PageLove.handler.value)
+                    if (cr != null) Identify(c, cr, PageLove.handler.value)
                 }
                 this[R.id.lcStatistics] = {
                     c.m.crush = c.m.liefde.value!![i].key
@@ -61,7 +62,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
         }
         h.b.root.setOnLongClickListener {
             c.m.liefde.value?.get(h.layoutPosition)
-                ?.also { Singular.identify(c, it, PageLove.handler.value) }; true
+                ?.also { Identify(c, it, PageLove.handler.value) }; true
         }
     }
 

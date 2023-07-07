@@ -30,7 +30,8 @@ object Fun {
     const val SORT_BY_SUM = 1
     const val SORT_BY_AGE = 2
     const val SORT_BY_HEIGHT = 3
-    const val SORT_BY_LAST = 4
+    const val SORT_BY_BEGINNING = 4
+    const val SORT_BY_LAST = 5
     // private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
     /** Specifies if vibration is enabled. */
@@ -223,6 +224,7 @@ object Fun {
         R.id.sortBySum -> SORT_BY_SUM
         R.id.sortByAge -> SORT_BY_AGE
         R.id.sortByHeight -> SORT_BY_HEIGHT
+        R.id.sortByBeginning -> SORT_BY_BEGINNING
         R.id.sortByLast -> SORT_BY_LAST
         R.id.sortAsc -> true
         R.id.sortDsc -> false
@@ -234,6 +236,7 @@ object Fun {
         SORT_BY_SUM -> R.id.sortBySum
         SORT_BY_AGE -> R.id.sortByAge
         SORT_BY_HEIGHT -> R.id.sortByHeight
+        SORT_BY_BEGINNING -> R.id.sortByBeginning
         SORT_BY_LAST -> R.id.sortByLast
         else -> throw IllegalArgumentException("Invalid sorting method!")
     }

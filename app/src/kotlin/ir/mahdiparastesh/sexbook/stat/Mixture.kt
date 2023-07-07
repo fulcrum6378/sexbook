@@ -19,9 +19,9 @@ class Mixture : ChartActivity<MixtureBinding>() {
         for (o in m.onani.value!!.let {
             if (allowedTypes.size < Fun.sexTypesCount) it.filter { r -> r.type in allowedTypes } else it
         }) history.add(Summary.Erection(o.time, 1f))
-        Singular.sinceTheBeginning(this, m.onani.value!!)
-            .forEach { data.add(Pair(it, Singular.calcHistory(this, history, it))) }
-        return ColumnChartData().setColumns(Singular.ColumnFactory(this, data))
+        sinceTheBeginning(this, m.onani.value!!)
+            .forEach { data.add(Pair(it, calcHistory(this, history, it))) }
+        return ColumnChartData().setColumns(ColumnFactory(this, data))
     }
 
     override suspend fun render(data: AbstractChartData) {

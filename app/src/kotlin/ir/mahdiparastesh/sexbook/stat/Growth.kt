@@ -10,13 +10,13 @@ class Growth : ChartActivity<GrowthBinding>() {
     override val chartView: AbstractChartView get() = b.main
 
     override suspend fun draw(): AbstractChartData {
-        val stb = Singular.sinceTheBeginning(this, m.onani.value!!)
+        val stb = sinceTheBeginning(this, m.onani.value!!)
         val stars = ArrayList<Star>()
         for (x in m.summary!!.scores) {
             if (Summary.isUnknown(x.key)) continue
             val frames = ArrayList<Star.Frame>()
             for (month in stb)
-                frames.add(Star.Frame(Singular.calcHistory(this, x.value, month, true), month))
+                frames.add(Star.Frame(calcHistory(this, x.value, month, true), month))
             stars.add(Star(x.key, frames.toTypedArray()))
         }
         stars.sortWith(Star.Sort(1))
