@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.icu.util.Calendar
+import android.icu.util.GregorianCalendar
 import android.os.*
 import android.view.View
 import androidx.annotation.DrawableRes
@@ -239,6 +240,17 @@ object Fun {
         SORT_BY_BEGINNING -> R.id.sortByBeginning
         SORT_BY_LAST -> R.id.sortByLast
         else -> throw IllegalArgumentException("Invalid sorting method!")
+    }
+
+    fun GregorianCalendar.toDefaultType(c: BaseActivity): Calendar {
+        return c.calType().getDeclaredConstructor().newInstance()
+            .apply { this@apply.timeInMillis = this@toDefaultType.timeInMillis }
+    }
+
+    fun Calendar.toGregorian(): GregorianCalendar {
+        if (this is GregorianCalendar) return this
+        return GregorianCalendar()
+            .apply { this@apply.timeInMillis = this@toGregorian.timeInMillis }
     }
 
     /**

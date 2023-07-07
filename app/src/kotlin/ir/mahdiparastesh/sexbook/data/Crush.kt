@@ -1,13 +1,19 @@
 package ir.mahdiparastesh.sexbook.data
 
+import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.icu.util.TimeZone
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Fun.toDefaultType
 import ir.mahdiparastesh.sexbook.Fun.tripleRound
 import ir.mahdiparastesh.sexbook.Model
+import ir.mahdiparastesh.sexbook.Settings
+import ir.mahdiparastesh.sexbook.more.BaseActivity
 import java.util.Locale
 
 @Entity
@@ -24,6 +30,13 @@ class Crush(
     @ColumnInfo(name = "first_met") var first: String?,
     @ColumnInfo(name = "notify_birth") var notifyBirth: Boolean,
 ) {
+    @Ignore
+    @Transient
+    private var bCalendar_: Calendar? = null
+
+    @Ignore
+    @Transient
+    private var fCalendar_: Calendar? = null
 
     fun visName(): String =
         if (fName.isNullOrEmpty() || lName.isNullOrEmpty()) when {
@@ -33,16 +46,30 @@ class Crush(
             else -> key
         } else "$fName $lName"
 
-    fun bCalendar(tz: TimeZone = TimeZone.getDefault()): GregorianCalendar? {
+    /** @param c if given null, only a GregorianCalendar is returned. */
+    fun bCalendar(c: BaseActivity? = null, tz: TimeZone = TimeZone.getDefault()): Calendar? {
+        if (bCalendar_ != null) return bCalendar_
         val spl = birth?.split(".") ?: return null
-        return GregorianCalendar(tz)
-            .apply { set(spl[0].toInt(), spl[1].toInt() - 1, spl[2].toInt()) }
+        fCalendar_ = GregorianCalendar(tz).apply {
+            set(spl[0].toInt(), spl[1].toInt() - 1, spl[2].toInt())
+        }.let {
+            if (c?.sp?.getBoolean(
+                    Settings.spUseGregorianForBirthdays, Settings.spUseGregorianForBirthdaysDef
+                ) != false
+            ) it
+            else it.toDefaultType(c)
+        }.let { McdtpUtils.trimToMidnight(it) }
+        return fCalendar_
     }
 
-    fun fCalendar(tz: TimeZone = TimeZone.getDefault()): GregorianCalendar? {
+    fun fCalendar(c: BaseActivity, tz: TimeZone = TimeZone.getDefault()): Calendar? {
+        if (fCalendar_ != null) return fCalendar_
         val spl = first?.split(".") ?: return null
-        return GregorianCalendar(tz)
+        fCalendar_ = GregorianCalendar(tz)
             .apply { set(spl[0].toInt(), spl[1].toInt() - 1, spl[2].toInt()) }
+            .toDefaultType(c)
+            .let { McdtpUtils.trimToMidnight(it) }
+        return fCalendar_
     }
 
     fun sum(m: Model): Float? = m.summary?.scores?.get(key)
@@ -54,17 +81,19 @@ class Crush(
         key, fName, mName, lName, gender, birth, height, address, insta, first, notifyBirth
     )
 
-    class Sort(private val by: Int, private val m: Model) : Comparator<Crush> {
+    class Sort(private val c: BaseActivity) : Comparator<Crush> {
+        private val by = c.sp.getInt(Settings.spPageLoveSortBy, 0)
+
         override fun compare(a: Crush, b: Crush): Int = when (by) {
             Fun.SORT_BY_NAME -> a.visName().lowercase(Locale.getDefault())
                 .compareTo(b.visName().lowercase(Locale.getDefault()))
-            Fun.SORT_BY_SUM -> (a.sum(m) ?: 0f).compareTo(b.sum(m) ?: 0f)
-            Fun.SORT_BY_AGE -> (b.bCalendar()?.timeInMillis ?: 0L)
-                .compareTo(a.bCalendar()?.timeInMillis ?: 0L)
+            Fun.SORT_BY_SUM -> (a.sum(c.m) ?: 0f).compareTo(b.sum(c.m) ?: 0f)
+            Fun.SORT_BY_AGE -> (b.bCalendar(c)?.timeInMillis ?: 0L)
+                .compareTo(a.bCalendar(c)?.timeInMillis ?: 0L)
             Fun.SORT_BY_HEIGHT -> a.height.compareTo(b.height)
-            Fun.SORT_BY_BEGINNING -> (a.fCalendar()?.timeInMillis ?: 0L)
-                .compareTo(b.fCalendar()?.timeInMillis ?: 0L)
-            Fun.SORT_BY_LAST -> (a.last(m) ?: 0L).compareTo(b.last(m) ?: 0L)
+            Fun.SORT_BY_BEGINNING -> (a.fCalendar(c)?.timeInMillis ?: 0L)
+                .compareTo(b.fCalendar(c)?.timeInMillis ?: 0L)
+            Fun.SORT_BY_LAST -> (a.last(c.m) ?: 0L).compareTo(b.last(c.m) ?: 0L)
             else -> throw IllegalArgumentException("Invalid sorting method!")
         }
     }

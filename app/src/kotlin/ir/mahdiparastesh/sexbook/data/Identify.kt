@@ -18,7 +18,9 @@ import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.shake
+import ir.mahdiparastesh.sexbook.Fun.toGregorian
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
@@ -41,9 +43,12 @@ class Identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
 
         // Default Values
         var isBirthSet = false
-        var bir = crush?.bCalendar()
+        var bir = crush?.bCalendar(c)
+        val birIsGrg = c.sp.getBoolean(
+            Settings.spUseGregorianForBirthdays, Settings.spUseGregorianForBirthdaysDef
+        )
         var isFirstSet = false
-        var fir = crush?.fCalendar()
+        var fir = crush?.fCalendar(c)
         if (crush != null) {
             bi.fName.setText(crush.fName)
             bi.mName.setText(crush.mName)
@@ -64,12 +69,14 @@ class Identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
             bi.notifyBirth.isChecked = crush.notifyBirth
         }
         if (bir == null) {
-            bir = GregorianCalendar()
+            bir =
+                if (birIsGrg) GregorianCalendar()
+                else c.calType().getDeclaredConstructor().newInstance()
             bi.birth.alpha = DISABLED_ALPHA
             bi.birth.isLongClickable = false
         }
         if (fir == null) {
-            fir = GregorianCalendar()
+            fir = c.calType().getDeclaredConstructor().newInstance()
             bi.firstMet.alpha = DISABLED_ALPHA
             bi.firstMet.isLongClickable = false
         }
@@ -84,7 +91,7 @@ class Identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
                 isBirthSet = true
                 bi.birth.text = bir!!.fullDate()
                 bi.birth.alpha = 1f
-                bi.birth.isLongClickable = false
+                bi.birth.isLongClickable = true
             }, bir).defaultOptions().show(c.supportFragmentManager, "birth")
         }
 
@@ -140,20 +147,22 @@ class Identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
             setTitle("${c.getString(R.string.identify)}: ${crush?.key ?: c.m.crush}")
             setView(bi.root)
             setPositiveButton(R.string.save) { _, _ ->
+                val endBir = bir!!.toGregorian() // "this" is returned when it is already Gregorian
+                val endFir = fir!!.toGregorian()
                 val inserted = Crush(
                     crush?.key ?: c.m.crush!!,
                     bi.fName.text.toString().ifBlank { null },
                     bi.mName.text.toString().ifBlank { null },
                     bi.lName.text.toString().ifBlank { null },
                     (bi.gender.selectedItemPosition - 1).toByte(),
-                    if (isBirthSet) "${bir!![Calendar.YEAR]}.${bir!![Calendar.MONTH] + 1}." +
-                            "${bir!![Calendar.DAY_OF_MONTH]}" else null,
+                    if (isBirthSet) "${endBir[Calendar.YEAR]}.${endBir[Calendar.MONTH] + 1}." +
+                            "${endBir[Calendar.DAY_OF_MONTH]}" else null,
                     if (bi.height.text.toString() != "")
                         bi.height.text.toString().toFloat() else -1f,
                     bi.address.text.toString().ifBlank { null },
                     bi.instagram.text.toString().ifBlank { null },
-                    if (isFirstSet) "${fir!![Calendar.YEAR]}.${fir!![Calendar.MONTH] + 1}." +
-                            "${fir!![Calendar.DAY_OF_MONTH]}" else null,
+                    if (isFirstSet) "${endFir[Calendar.YEAR]}.${endFir[Calendar.MONTH] + 1}." +
+                            "${endFir[Calendar.DAY_OF_MONTH]}" else null,
                     bi.notifyBirth.isChecked
                 )
                 Work(

@@ -25,12 +25,15 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (night()) b.identifyIV.colorFilter = themePdcf()
 
-        // Handler
         handler = object : Handler(Looper.getMainLooper()) {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.C_VIEW_ONE -> crush = msg.obj as Crush?
+                    Work.C_VIEW_ONE -> {
+                        crush = msg.obj as Crush?
+                        b.identify.setOnClickListener { Identify(this@Singular, crush!!, handler) }
+                    }
                     Work.C_INSERT_ONE, Work.C_UPDATE_ONE, Work.C_DELETE_ONE -> {
                         PageLove.changed = true
                         Work(c, Work.C_VIEW_ONE, listOf(m.crush!!), handler).start()
@@ -38,13 +41,7 @@ class Singular : ChartActivity<SingularBinding>() {
                 }
             }
         }
-
-        // Styles
-        if (night()) b.identifyIV.colorFilter = themePdcf()
-
-        // Identification
         Work(c, Work.C_VIEW_ONE, listOf(m.crush!!), handler).start()
-        b.identify.setOnClickListener { Identify(this, crush, handler) }
     }
 
     override fun requirements(): Boolean {

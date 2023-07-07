@@ -36,28 +36,33 @@ class Settings : BaseActivity() {
     private var calManager: CalendarManager? = null
     private var changed = false
 
+    /** Beware of the numerical fields; go to Exporter.replace() for modifications. */
     companion object {
+        const val spName = "settings"
+        const val notifyBirthAfterLastTime = 3600000L * 6L
+
+        // Via Settings
         const val spCalType = "calendarType" // def 0
-        const val spDefPlace = "defaultPlace"
-        const val spStatSince = "statisticiseSince"
-        const val spStatUntil = "statisticiseUntil"
         const val spStatSinceCb = "statisticiseSinceCb" // def false
+        const val spStatSince = "statisticiseSince"
         const val spStatUntilCb = "statisticiseUntilCb" // def false
+        const val spStatUntil = "statisticiseUntil"
         const val spStatInclude = "statisticiseInclude" // + s; def true
-        const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // def 3 TODO
         const val spStatOnlyCrushes = "statisticiseOnlyCrushes" // def false
         const val spVibration = "vibration" // def true
         const val spCalOutput = "calendarOutput" // def false
+        const val spUseGregorianForBirthdays = "useGregorianForBirthdays" // TODO
+        const val spUseGregorianForBirthdaysDef = true
+        const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // def 3 TODO
+
+        // Via other places
+        const val spDefPlace = "defaultPlace"
         const val spPageLoveSortBy = "page_love_sort_by" // def 0
         const val spPageLoveSortAsc = "page_love_sort_ascending" // def true
-        // Beware of the numerical fields; go to Exporter.replace() for modifications.
 
-        // Hidden
+        // Automatic and hidden
         const val spPrefersOrgType = "prefersOrgType"
         const val spLastNotifiedBirthAt = "lastNotifiedBirthAt"
-
-        const val spName = "settings"
-        const val notifyBirthAfterLastTime = 3600000L * 6L
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

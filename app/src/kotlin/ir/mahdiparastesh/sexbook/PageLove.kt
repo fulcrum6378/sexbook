@@ -78,7 +78,7 @@ class PageLove : BasePage() {
      */
     override fun prepareList() {
         wasListEverPrepared = true
-        c.m.liefde.value?.sortWith(Crush.Sort(c.sp.getInt(Settings.spPageLoveSortBy, 0), c.m))
+        c.m.liefde.value?.sortWith(Crush.Sort(c))
         if (!c.sp.getBoolean(Settings.spPageLoveSortAsc, true)) c.m.liefde.value?.reverse()
         arrangeList()
     }

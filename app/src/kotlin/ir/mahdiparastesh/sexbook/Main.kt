@@ -9,6 +9,8 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.icu.util.Calendar
+import android.icu.util.GregorianCalendar
 import android.os.*
 import android.view.Menu
 import android.view.MenuItem
@@ -83,7 +85,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                                     ) < Settings.notifyBirthAfterLastTime
                         ) return@apply
                         for (it in this) if (it.notifyBirth) it.bCalendar()?.also { birth ->
-                            val dist = Fun.now() - birth.timeInMillis
+                            val now = GregorianCalendar()
+                            val dist = now.timeInMillis - birth
+                                .apply { this[Calendar.YEAR] = now[Calendar.YEAR] }.timeInMillis
                             if (abs(dist) <=
                                 sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * 86400000L
                             ) notifyBirth(it, dist)
@@ -476,6 +480,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 /* TODO:
   * Problems:
   * Tweak days before a birthday reminder (and hours before repetition?)
+  * Tweak if it should use GregorianCalendar for birthdays
+  * Tweak turning off all the birthday notifications
   * Statisticise delays in hours between orgasms
   * Persistence for identification dialogue
   * -
