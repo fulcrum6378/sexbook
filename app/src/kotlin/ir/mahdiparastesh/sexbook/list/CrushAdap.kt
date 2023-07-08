@@ -3,6 +3,7 @@ package ir.mahdiparastesh.sexbook.list
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
@@ -70,7 +71,9 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
     override fun getItemCount() = c.m.liefde.value?.size ?: 0
 
     private fun identify(crush: Crush) {
-        c.m.identifying = crush.key
-        Identify(c, crush, PageLove.handler.value)
+        Identify(crush, PageLove.handler.value).apply {
+            arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crush.key) }
+            show(c.supportFragmentManager, Identify.TAG)
+        }
     }
 }

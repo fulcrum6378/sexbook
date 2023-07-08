@@ -2,16 +2,19 @@ package ir.mahdiparastesh.sexbook.data
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
@@ -26,11 +29,24 @@ import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
 
-@SuppressLint("NewApi")
-class Identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
-    private val DISABLED_ALPHA = 0.7f
+class Identify() : DialogFragment() {
+    private val c: BaseActivity by lazy { activity as BaseActivity }
 
-    init {
+    constructor(crush: Crush?, handler: Handler? = null) : this() {
+        Companion.crush = crush
+        Companion.handler = handler
+    }
+
+    companion object {
+        const val TAG = "identify"
+        const val BUNDLE_CRUSH_KEY = "crush_key"
+        const val DISABLED_ALPHA = 0.7f
+        var crush: Crush? = null
+        var handler: Handler? = null
+    }
+
+    @SuppressLint("NewApi")
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val oldCrush = crush?.copy()
         val bi = IdentifyBinding.inflate(c.layoutInflater)
         AppCompatResources.getColorStateList(c, R.color.chip)
@@ -50,23 +66,23 @@ class Identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
         var isFirstSet = false
         var fir = crush?.fCalendar(c)
         if (crush != null) {
-            bi.fName.setText(crush.fName)
-            bi.mName.setText(crush.mName)
-            bi.lName.setText(crush.lName)
-            bi.gender.setSelection(crush.gender.toInt() + 1)
+            bi.fName.setText(crush!!.fName)
+            bi.mName.setText(crush!!.mName)
+            bi.lName.setText(crush!!.lName)
+            bi.gender.setSelection(crush!!.gender.toInt() + 1)
             if (bir != null) {
                 bi.birth.text = bir.fullDate()
                 isBirthSet = true
             }
-            if (crush.height != -1f)
-                bi.height.setText(crush.height.toString())
-            bi.address.setText(crush.address)
-            bi.instagram.setText(crush.insta)
+            if (crush!!.height != -1f)
+                bi.height.setText(crush!!.height.toString())
+            bi.address.setText(crush!!.address)
+            bi.instagram.setText(crush!!.insta)
             if (fir != null) {
                 bi.firstMet.text = fir.fullDate()
                 isFirstSet = true
             }
-            bi.notifyBirth.isChecked = crush.notifyBirth
+            bi.notifyBirth.isChecked = crush!!.notifyBirth
         }
         if (bir == null) {
             bir =
@@ -143,14 +159,15 @@ class Identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
             bi.firstMet.setOnLongClickListener(it)
         }
 
-        MaterialAlertDialogBuilder(c).apply {
-            setTitle("${c.getString(R.string.identify)}: ${crush?.key ?: c.m.identifying!!}")
+        val crushKey = requireArguments().getString(BUNDLE_CRUSH_KEY)!!
+        return MaterialAlertDialogBuilder(c).apply {
+            setTitle("${c.getString(R.string.identify)}: ${crush?.key ?: crushKey}")
             setView(bi.root)
             setPositiveButton(R.string.save) { _, _ ->
                 val endBir = bir!!.toGregorian() // "this" is returned when it is already Gregorian
                 val endFir = fir!!.toGregorian()
                 val inserted = Crush(
-                    crush?.key ?: c.m.identifying!!,
+                    crush?.key ?: crushKey,
                     bi.fName.text.toString().ifBlank { null },
                     bi.mName.text.toString().ifBlank { null },
                     bi.lName.text.toString().ifBlank { null },
@@ -175,7 +192,7 @@ class Identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
             setNeutralButton(R.string.clear) { ad1, _ ->
                 if (crush == null) return@setNeutralButton
                 MaterialAlertDialogBuilder(c).apply {
-                    setTitle(c.getString(R.string.crushClear, crush.key))
+                    setTitle(c.getString(R.string.crushClear, crush!!.key))
                     setMessage(R.string.crushClearSure)
                     setPositiveButton(R.string.yes) { _, _ ->
                         Work(c, Work.C_DELETE_ONE, listOf(crush, null), handler).start()
@@ -187,7 +204,6 @@ class Identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
                 c.shake()
             }
             setCancelable(true)
-            setOnDismissListener { c.m.identifying = null }
         }.show()
     }
 

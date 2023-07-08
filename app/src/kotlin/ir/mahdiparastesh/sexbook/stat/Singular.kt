@@ -63,8 +63,10 @@ class Singular : ChartActivity<SingularBinding>() {
     }
 
     private fun identify() {
-        if (m.identifying == null) m.identifying = crushKey
-        Identify(this@Singular, crush, handler)
+        Identify(crush, handler).apply {
+            arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crushKey) }
+            show(supportFragmentManager, Identify.TAG)
+        }
     }
 
     override fun onDestroy() {
