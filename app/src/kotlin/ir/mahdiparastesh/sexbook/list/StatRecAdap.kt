@@ -30,8 +30,7 @@ class StatRecAdap(private val c: Main, private val rec: Recency) :
         h.b.sep.vis(i != rec.arr.size - 1)
         h.b.root.setOnClickListener {
             if (!c.summarize(true)) return@setOnClickListener
-            c.m.crush = rec.arr[i].name
-            c.goTo(Singular::class)
+            c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, rec.arr[i].name) }
         }
         h.b.root.foreground = if (c.m.lookForIt(rec.arr[i].name))
             ColorDrawable(c.color(R.color.recencyHighlight)) else null

@@ -144,13 +144,13 @@ class Identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
         }
 
         MaterialAlertDialogBuilder(c).apply {
-            setTitle("${c.getString(R.string.identify)}: ${crush?.key ?: c.m.crush}")
+            setTitle("${c.getString(R.string.identify)}: ${crush?.key ?: c.m.identifying!!}")
             setView(bi.root)
             setPositiveButton(R.string.save) { _, _ ->
                 val endBir = bir!!.toGregorian() // "this" is returned when it is already Gregorian
                 val endFir = fir!!.toGregorian()
                 val inserted = Crush(
-                    crush?.key ?: c.m.crush!!,
+                    crush?.key ?: c.m.identifying!!,
                     bi.fName.text.toString().ifBlank { null },
                     bi.mName.text.toString().ifBlank { null },
                     bi.lName.text.toString().ifBlank { null },
@@ -187,6 +187,7 @@ class Identify(c: BaseActivity, crush: Crush?, handler: Handler? = null) {
                 c.shake()
             }
             setCancelable(true)
+            setOnDismissListener { c.m.identifying = null }
         }.show()
     }
 

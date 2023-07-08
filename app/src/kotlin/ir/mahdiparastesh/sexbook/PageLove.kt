@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.data.Crush
+import ir.mahdiparastesh.sexbook.data.Identify
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
@@ -61,7 +62,11 @@ class PageLove : BasePage() {
         }
 
         if (c.m.liefde.value == null) Work(c, Work.C_VIEW_ALL).start()
-        else if (!loadingNeedsSummary()) prepareList()
+        else {
+            if (!loadingNeedsSummary() && !wasListEverPrepared) prepareList()
+            if (c.m.identifying != null)
+                Identify(c, c.m.liefde.value?.find { it.key == c.m.identifying }, handler.value)
+        }
     }
 
     override fun onResume() {

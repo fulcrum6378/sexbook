@@ -177,9 +177,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         intent.check(true)
         addOnNewIntentListener { it.check() }
-        Work(c, Work.C_VIEW_ALL).start()
-        Work(c, Work.P_VIEW_ALL).start()
-        Work(c, Work.G_VIEW_ALL).start()
+        if (m.liefde.value == null) Work(c, Work.C_VIEW_ALL).start()
+        if (m.places.value == null) Work(c, Work.P_VIEW_ALL).start()
+        if (m.guesses.value == null) Work(c, Work.G_VIEW_ALL).start()
     }
 
     /*override fun onInitializationComplete(adsInitStatus: InitializationStatus) {

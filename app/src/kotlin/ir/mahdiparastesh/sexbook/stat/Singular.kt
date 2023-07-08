@@ -16,10 +16,12 @@ import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 class Singular : ChartActivity<SingularBinding>() {
     override val b by lazy { SingularBinding.inflate(layoutInflater) }
     override val chartView: AbstractChartView get() = b.main
+    private var crushKey: String? = null
     private var crush: Crush? = null
     private var history: ArrayList<Summary.Erection>? = null
 
     companion object {
+        const val EXTRA_CRUSH_KEY = "crush_key"
         var handler: Handler? = null
     }
 
@@ -30,23 +32,23 @@ class Singular : ChartActivity<SingularBinding>() {
         handler = object : Handler(Looper.getMainLooper()) {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.C_VIEW_ONE -> {
-                        crush = msg.obj as Crush?
-                        b.identify.setOnClickListener { Identify(this@Singular, crush!!, handler) }
-                    }
+                    Work.C_VIEW_ONE -> crush = msg.obj as Crush?
                     Work.C_INSERT_ONE, Work.C_UPDATE_ONE, Work.C_DELETE_ONE -> {
                         PageLove.changed = true
-                        Work(c, Work.C_VIEW_ONE, listOf(m.crush!!), handler).start()
+                        Work(c, Work.C_VIEW_ONE, listOf(crushKey!!), handler).start()
                     }
                 }
             }
         }
-        Work(c, Work.C_VIEW_ONE, listOf(m.crush!!), handler).start()
+        crush = m.liefde.value?.find { it.key == crushKey }
+        b.identify.setOnClickListener { identify() }
+        if (m.identifying != null) identify()
     }
 
     override fun requirements(): Boolean {
-        history = m.summary!!.scores[m.crush]
-        return super.requirements() && m.crush != null && history != null
+        crushKey = intent.getStringExtra(EXTRA_CRUSH_KEY)
+        history = m.summary!!.scores[crushKey]
+        return super.requirements() && crushKey != null && history != null
     }
 
     override suspend fun draw(): AbstractChartData {
@@ -58,6 +60,11 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override suspend fun render(data: AbstractChartData) {
         b.main.columnChartData = data as ColumnChartData
+    }
+
+    private fun identify() {
+        if (m.identifying == null) m.identifying = crushKey
+        Identify(this@Singular, crush, handler)
     }
 
     override fun onDestroy() {

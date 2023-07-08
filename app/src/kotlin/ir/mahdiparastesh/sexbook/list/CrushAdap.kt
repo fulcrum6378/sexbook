@@ -9,6 +9,7 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Identify
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
 import ir.mahdiparastesh.sexbook.more.Act
@@ -47,11 +48,12 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                     }
                 }
                 this[R.id.lcIdentify] = {
-                    if (cr != null) Identify(c, cr, PageLove.handler.value)
+                    if (cr != null) identify(cr)
                 }
                 this[R.id.lcStatistics] = {
-                    c.m.crush = c.m.liefde.value!![i].key
-                    c.goTo(Singular::class)
+                    c.goTo(Singular::class) {
+                        putExtra(Singular.EXTRA_CRUSH_KEY, c.m.liefde.value!![i].key)
+                    }
                 }
             }).apply {
                 menu.findItem(R.id.lcInstagram).isEnabled = ins != null && ins != ""
@@ -61,10 +63,14 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
             }.show()
         }
         h.b.root.setOnLongClickListener {
-            c.m.liefde.value?.get(h.layoutPosition)
-                ?.also { Identify(c, it, PageLove.handler.value) }; true
+            c.m.liefde.value?.get(h.layoutPosition)?.also { identify(it) }; true
         }
     }
 
     override fun getItemCount() = c.m.liefde.value?.size ?: 0
+
+    private fun identify(crush: Crush) {
+        c.m.identifying = crush.key
+        Identify(c, crush, PageLove.handler.value)
+    }
 }

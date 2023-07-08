@@ -26,7 +26,6 @@ class Model : ViewModel() {
 
     var loaded = false
     var currentPage = 0
-    var crush: String? = null
     val visOnani = arrayListOf<Report>()
     var listFilter = -1
     var summary: Summary? = null
@@ -35,6 +34,7 @@ class Model : ViewModel() {
     var showingSummary = false
     var showingRecency = false
     var lookingFor: String? = null
+    var identifying: String? = null
 
     fun lookForIt(text: String) =
         lookingFor?.let { it != "" && text.contains(it, true) } ?: false
