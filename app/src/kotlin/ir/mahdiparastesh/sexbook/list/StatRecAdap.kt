@@ -12,10 +12,9 @@ import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.RecencyBinding
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
-import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Singular
 
-class StatRecAdap(private val c: Main, private val rec: Recency) :
+class StatRecAdap(private val c: Main) :
     RecyclerView.Adapter<AnyViewHolder<RecencyBinding>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -23,18 +22,20 @@ class StatRecAdap(private val c: Main, private val rec: Recency) :
         AnyViewHolder(RecencyBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<RecencyBinding>, i: Int) {
-        h.b.name.text = "${i + 1}. ${rec.arr[i].name}"
-        val lm = rec.arr[i].time.calendar(c)
+        h.b.name.text = "${i + 1}. ${c.m.recency[i].name}"
+        val lm = c.m.recency[i].time.calendar(c)
         h.b.date.text = "${lm.fullDate()} - " +
                 "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
-        h.b.sep.vis(i != rec.arr.size - 1)
+        h.b.sep.vis(i != c.m.recency.size - 1)
         h.b.root.setOnClickListener {
             if (!c.summarize(true)) return@setOnClickListener
-            c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, rec.arr[i].name) }
+            c.goTo(Singular::class) {
+                putExtra(Singular.EXTRA_CRUSH_KEY, c.m.recency[h.layoutPosition].name)
+            }
         }
-        h.b.root.foreground = if (c.m.lookForIt(rec.arr[i].name))
+        h.b.root.foreground = if (c.m.lookForIt(c.m.recency[i].name))
             ColorDrawable(c.color(R.color.recencyHighlight)) else null
     }
 
-    override fun getItemCount() = rec.arr.size
+    override fun getItemCount() = c.m.recency.size
 }

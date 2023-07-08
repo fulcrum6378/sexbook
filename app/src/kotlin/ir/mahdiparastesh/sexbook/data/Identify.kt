@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
@@ -27,11 +26,10 @@ import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.BaseDialog
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
 
-class Identify() : DialogFragment() {
-    private val c: BaseActivity by lazy { activity as BaseActivity }
-
+class Identify() : BaseDialog() {
     constructor(crush: Crush?, handler: Handler? = null) : this() {
         Companion.crush = crush
         Companion.handler = handler

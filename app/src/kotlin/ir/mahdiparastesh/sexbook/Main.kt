@@ -15,11 +15,8 @@ import android.os.*
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -30,9 +27,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
@@ -164,8 +159,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         // Miscellaneous
         m.onani.observe(this) { instilledGuesses = false }
         if (m.navOpen) b.root.openDrawer(drawerGravity)
-        if (m.showingSummary) summary()
-        if (m.showingRecency) recency()
         /*if (showAdAfterRecreation) {
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
@@ -193,15 +186,15 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }*/
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        if (item.itemId in arrayOf(R.id.momSum, R.id.momRec, R.id.momPop, R.id.momGrw) &&
+            !summarize(true)
+        ) {
+            uiToast(R.string.noStat); return true; }
         when (item.itemId) {
-            R.id.momSum -> summary()
-            R.id.momRec -> recency()
-            R.id.momPop ->
-                if (summarize()) goTo(Adorability::class)
-                else uiToast(R.string.noStat)
-            R.id.momGrw ->
-                if (summarize()) goTo(Growth::class)
-                else uiToast(R.string.noStat)
+            R.id.momSum -> SummaryDialog().show(supportFragmentManager, SummaryDialog.TAG)
+            R.id.momRec -> Recency().show(supportFragmentManager, Recency.TAG)
+            R.id.momPop -> goTo(Adorability::class)
+            R.id.momGrw -> goTo(Growth::class)
             R.id.momMix -> goTo(Mixture::class)
             R.id.momPlc -> goTo(Places::class)
             R.id.momEst -> goTo(Estimation::class)
@@ -356,53 +349,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         return true
     }
 
-    private fun summary() {
-        if (!summarize(true)) return
-        val vp2 = ViewPager2(this@Main).apply {
-            layoutParams = ViewGroup.LayoutParams(-1, -1)
-            adapter = SumAdapter(this@Main)
-        }
-        MaterialAlertDialogBuilder(this).apply {
-            setTitle("${getString(R.string.summary)} (${m.summary!!.actual} / ${m.onani.value!!.size})")
-            setView(ConstraintLayout(this@Main).apply {
-                layoutParams = ViewGroup.LayoutParams(-1, -1)
-                addView(vp2)
-                // The EditText below improves the EditText focus issue when you put
-                // a Fragment inside a Dialog with a ViewPager in the middle!
-                addView(EditText(this@Main).apply {
-                    layoutParams = ViewGroup.LayoutParams(-1, -2)
-                    visibility = View.GONE
-                })
-            })
-            setPositiveButton(android.R.string.ok, null)
-            setNeutralButton(R.string.chart, null)
-            setCancelable(true)
-            setOnDismissListener {
-                m.showingSummary = false
-                m.lookingFor = null
-            }
-            m.showingSummary = true
-        }.show().apply {
-            getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener { vp2.currentItem = 1 }
-        }
-    }
-
-    private fun recency() {
-        if (!summarize(true)) return
-        m.recency = Recency(m.summary!!)
-        MaterialAlertDialogBuilder(this).apply {
-            setTitle(resources.getString(R.string.recency))
-            setView(m.recency!!.draw(this@Main))
-            setPositiveButton(android.R.string.ok, null)
-            setCancelable(true)
-            setOnDismissListener {
-                m.showingRecency = false
-                m.lookingFor = null
-            }
-            m.showingRecency = true
-        }.show()
-    }
-
     private fun notifyBirth(crush: Crush, dist: Long) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
             ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
@@ -462,14 +408,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
     }
 
-    private inner class SumAdapter(c: Main) : FragmentStateAdapter(c) {
-        override fun getItemCount(): Int = 2
-        override fun createFragment(i: Int): Fragment = when (i) {
-            1 -> SumPie()
-            else -> SumChips()
-        }
-    }
-
     enum class Action(val s: String) {
         RELOAD("${Main::class.java.`package`!!.name}.ACTION_RELOAD"),
         ADD("${Main::class.java.`package`!!.name}.ACTION_ADD"),
@@ -483,7 +421,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Tweak if it should use GregorianCalendar for birthdays
   * Tweak turning off all the birthday notifications
   * Statisticise delays in hours between orgasms
-  * Persistence for identification dialogue
   * -
   * Extension:
   * Export data to other files types (only export) e.g. TXT, PDF and/or HTML...

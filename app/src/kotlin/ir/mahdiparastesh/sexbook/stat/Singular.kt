@@ -41,8 +41,12 @@ class Singular : ChartActivity<SingularBinding>() {
             }
         }
         crush = m.liefde.value?.find { it.key == crushKey }
-        b.identify.setOnClickListener { identify() }
-        if (m.identifying != null) identify()
+        b.identify.setOnClickListener {
+            Identify(crush, handler).apply {
+                arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crushKey) }
+                show(supportFragmentManager, Identify.TAG)
+            }
+        }
     }
 
     override fun requirements(): Boolean {
@@ -60,13 +64,6 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override suspend fun render(data: AbstractChartData) {
         b.main.columnChartData = data as ColumnChartData
-    }
-
-    private fun identify() {
-        Identify(crush, handler).apply {
-            arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crushKey) }
-            show(supportFragmentManager, Identify.TAG)
-        }
     }
 
     override fun onDestroy() {

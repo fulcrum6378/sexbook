@@ -34,7 +34,9 @@ class StatSumAdap(
             text = arr[i].value[crush]
             val bb = c.m.lookForIt(text.toString())
             setOnClickListener {
-                c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, arr[i].value[crush]) }
+                c.goTo(Singular::class) {
+                    putExtra(Singular.EXTRA_CRUSH_KEY, arr[h.layoutPosition].value[crush])
+                }
             }
             isActivated = bb
             vis(true)

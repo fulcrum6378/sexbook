@@ -29,12 +29,9 @@ class Model : ViewModel() {
     val visOnani = arrayListOf<Report>()
     var listFilter = -1
     var summary: Summary? = null
-    var recency: Recency? = null
+    var recency: ArrayList<Recency.Item> = ArrayList()
     var navOpen = false
-    var showingSummary = false
-    var showingRecency = false
     var lookingFor: String? = null
-    var identifying: String? = null
 
     fun lookForIt(text: String) =
         lookingFor?.let { it != "" && text.contains(it, true) } ?: false
