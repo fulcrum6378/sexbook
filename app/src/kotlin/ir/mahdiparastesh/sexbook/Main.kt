@@ -25,7 +25,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentFactory
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.navigation.NavigationView
@@ -45,8 +44,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener {
     private val b: MainBinding by lazy { MainBinding.inflate(layoutInflater) }
     private val exporter = Exporter(this)
-    private var pageSex: PageSex? = null
-    private var pageLove: PageLove? = null
     private var calManager: CalendarManager? = null
     private var exiting = false
     private val drawerGravity = GravityCompat.START
@@ -60,7 +57,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        supportFragmentManager.fragmentFactory = PageFactory()
         super.onCreate(savedInstanceState)
         setContentView(b.root)
         toolbar(b.toolbar, R.string.app_name)
@@ -132,9 +128,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         // Pager
         b.pager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int = 2
-            override fun createFragment(i: Int): Fragment =
-                if (i == 0) PageSex().also { pageSex = it }
-                else PageLove().also { pageLove = it }
+            override fun createFragment(i: Int): Fragment = if (i == 0) PageSex() else PageLove()
         }
         b.pager.setPageTransformer { _, pos ->
             b.transformer.layoutParams =
@@ -235,7 +229,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     if (value is Int) putInt(Settings.spPageLoveSortBy, value)
                     else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)
                 }
-                pageLove?.prepareList()
+                pageLove()?.prepareList()
             }
         }
         return true
@@ -262,10 +256,16 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
 
+    private fun pageSex(): PageSex? =
+        supportFragmentManager.findFragmentByTag("f${b.pager.adapter?.getItemId(0)}") as? PageSex
+
+    private fun pageLove(): PageLove? =
+        supportFragmentManager.findFragmentByTag("f${b.pager.adapter?.getItemId(1)}") as? PageLove
+
     var intentViewId: Long? = null
     private fun Intent.check(isOnCreate: Boolean = false) {
         when (action) {
-            Action.ADD.s -> pageSex?.messages?.add(Work.SPECIAL_ADD)
+            Action.ADD.s -> pageSex()?.messages?.add(Work.SPECIAL_ADD)
             Action.RELOAD.s -> {
                 m.resetData()
                 // showAdAfterRecreation = true
@@ -278,7 +278,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             })?.also { id ->
                 if (!isOnCreate && m.onani.value != null)
                     m.findGlobalIndexOfReport(id)
-                        .also { if (it != -1) pageSex?.resetAllReports(it) }
+                        .also { if (it != -1) pageSex()?.resetAllReports(it) }
                 else intentViewId = id
             }
         }
@@ -345,7 +345,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     .also { this.nExcluded += scores.size - it.size }
             }
         }
-        (pageSex?.b?.rv?.adapter as? ReportAdap)?.crushSuggester?.update()
+        (pageSex()?.b?.rv?.adapter as? ReportAdap)?.crushSuggester?.update()
         return true
     }
 
@@ -400,14 +400,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
 
-    private inner class PageFactory : FragmentFactory() {
-        override fun instantiate(loader: ClassLoader, name: String): Fragment = when (name) {
-            PageSex::class.java.name -> PageSex().also { pageSex = it }
-            PageLove::class.java.name -> PageLove().also { pageLove = it }
-            else -> super.instantiate(loader, name)
-        }
-    }
-
     enum class Action(val s: String) {
         RELOAD("${Main::class.java.`package`!!.name}.ACTION_RELOAD"),
         ADD("${Main::class.java.`package`!!.name}.ACTION_ADD"),
@@ -419,9 +411,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Problems:
   * Tweak days before a birthday reminder (and hours before repetition?)
   * Tweak if it should use GregorianCalendar for birthdays
-  * Tweak turning off all the birthday notifications
-  * Statisticise delays in hours between orgasms
   * -
   * Extension:
+  * Tweak turning off all the birthday notifications
+  * Statisticise delays in hours between orgasms
   * Export data to other files types (only export) e.g. TXT, PDF and/or HTML...
   */

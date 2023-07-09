@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -34,14 +35,23 @@ class Recency : BaseDialog(), BaseDialog.SearchableStat {
     data class Item(val name: String, val time: Long)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        isCancelable = true
         if (c.m.recency.isEmpty()) compute()
         return MaterialAlertDialogBuilder(c).apply {
             setTitle(resources.getString(R.string.recency))
             setView(draw())
             setPositiveButton(android.R.string.ok, null)
-            setCancelable(true)
-            setOnDismissListener { c.m.recency.clear() }
-        }.show()
+        }.create()
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        c.m.recency.clear()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        c.m.recency.clear()
     }
 
     @SuppressLint("InflateParams", "NotifyDataSetChanged")

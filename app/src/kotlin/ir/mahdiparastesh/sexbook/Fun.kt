@@ -128,7 +128,7 @@ object Fun {
     fun Long.defCalendar(c: BaseActivity): Calendar =
         c.calType().getDeclaredConstructor().newInstance().apply {
             timeInMillis = this@defCalendar
-            this[Calendar.HOUR] = 0
+            this[Calendar.HOUR_OF_DAY] = 0
             this[Calendar.MINUTE] = 0
             this[Calendar.SECOND] = 0
             this[Calendar.MILLISECOND] = 0

@@ -33,20 +33,23 @@ import ir.mahdiparastesh.sexbook.more.BaseDialog
 import ir.mahdiparastesh.sexbook.more.BaseFragment
 
 class SummaryDialog : BaseDialog() {
+    private var dialogue: AlertDialog? = null
+    private var pager: ViewPager2? = null
+
     companion object {
         const val TAG = "summary"
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val vp2 = ViewPager2(c).apply {
+        pager = ViewPager2(c).apply {
             layoutParams = ViewGroup.LayoutParams(-1, -1)
             adapter = SumAdapter(c)
         }
-        return MaterialAlertDialogBuilder(c).apply {
+        dialogue = MaterialAlertDialogBuilder(c).apply {
             setTitle("${getString(R.string.summary)} (${c.m.summary!!.actual} / ${c.m.onani.value!!.size})")
             setView(ConstraintLayout(c).apply {
                 layoutParams = ViewGroup.LayoutParams(-1, -1)
-                addView(vp2)
+                addView(pager)
                 // The EditText below improves the EditText focus issue when you put
                 // a Fragment inside a Dialog with a ViewPager in the middle!
                 addView(EditText(c).apply {
@@ -57,9 +60,14 @@ class SummaryDialog : BaseDialog() {
             setPositiveButton(android.R.string.ok, null)
             setNeutralButton(R.string.chart, null)
             setCancelable(true)
-        }.show().apply {
-            getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener { vp2.currentItem = 1 }
-        }
+        }.create()
+        return dialogue!!
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dialogue?.getButton(AlertDialog.BUTTON_NEUTRAL)
+            ?.setOnClickListener { pager?.currentItem = 1 }
     }
 
     private inner class SumAdapter(c: FragmentActivity) : FragmentStateAdapter(c) {

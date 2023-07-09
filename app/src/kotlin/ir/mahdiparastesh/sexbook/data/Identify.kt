@@ -202,7 +202,7 @@ class Identify() : BaseDialog() {
                 c.shake()
             }
             setCancelable(true)
-        }.show()
+        }.create()
     }
 
     @RequiresApi(33)
