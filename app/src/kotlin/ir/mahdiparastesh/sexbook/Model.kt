@@ -31,10 +31,6 @@ class Model : ViewModel() {
     var summary: Summary? = null
     var recency: ArrayList<Recency.Item> = ArrayList()
     var navOpen = false
-    var lookingFor: String? = null
-
-    fun lookForIt(text: String) =
-        lookingFor?.let { it != "" && text.contains(it, true) } ?: false
 
     fun findGlobalIndexOfReport(id: Long) =
         onani.value!!.indexOfFirst { it.id == id }

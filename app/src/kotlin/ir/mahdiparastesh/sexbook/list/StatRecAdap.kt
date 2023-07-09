@@ -12,9 +12,10 @@ import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.RecencyBinding
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
+import ir.mahdiparastesh.sexbook.more.BaseDialog
 import ir.mahdiparastesh.sexbook.stat.Singular
 
-class StatRecAdap(private val c: Main) :
+class StatRecAdap(private val c: Main, private val searchable: BaseDialog.SearchableStat) :
     RecyclerView.Adapter<AnyViewHolder<RecencyBinding>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -33,7 +34,7 @@ class StatRecAdap(private val c: Main) :
                 putExtra(Singular.EXTRA_CRUSH_KEY, c.m.recency[h.layoutPosition].name)
             }
         }
-        h.b.root.foreground = if (c.m.lookForIt(c.m.recency[i].name))
+        h.b.root.foreground = if (searchable.lookForIt(c.m.recency[i].name))
             ColorDrawable(c.color(R.color.recencyHighlight)) else null
     }
 

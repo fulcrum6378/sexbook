@@ -29,8 +29,8 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.databinding.SumPieBinding
 import ir.mahdiparastesh.sexbook.list.StatSumAdap
-import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.BaseDialog
+import ir.mahdiparastesh.sexbook.more.BaseFragment
 
 class SummaryDialog : BaseDialog() {
     companion object {
@@ -57,9 +57,6 @@ class SummaryDialog : BaseDialog() {
             setPositiveButton(android.R.string.ok, null)
             setNeutralButton(R.string.chart, null)
             setCancelable(true)
-            setOnDismissListener {
-                c.m.lookingFor = null // TODO
-            }
         }.show().apply {
             getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener { vp2.currentItem = 1 }
         }
@@ -73,9 +70,9 @@ class SummaryDialog : BaseDialog() {
         }
     }
 
-    class SumChips : Fragment() {
-        val c: BaseActivity by lazy { activity as BaseActivity }
+    class SumChips : BaseFragment(), SearchableStat {
         private lateinit var b: SearchableStatBinding
+        override var lookingFor: String? = null
 
         override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
             SearchableStatBinding.inflate(inf, parent, false).apply { b = this }.root
@@ -88,29 +85,31 @@ class SummaryDialog : BaseDialog() {
                 override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
-                    c.m.lookingFor = s.toString()
+                    lookingFor = s.toString()
                     b.notFound.isInvisible = true
                     (b.list.adapter as? StatSumAdap)?.also {
                         it.notifyDataSetChanged()
 
                         var firstGroup: Int? = null
-                        if (!c.m.lookingFor.isNullOrEmpty()) for (group in it.arr.indices) {
+                        if (!lookingFor.isNullOrEmpty()) for (group in it.arr.indices) {
                             for (chip in it.arr[group].value)
-                                if (c.m.lookForIt(chip)) {
+                                if (lookForIt(chip)) {
                                     firstGroup = group
                                     break; }
                             if (firstGroup != null) break
                         }
                         if (firstGroup != null) b.list.smoothScrollToPosition(firstGroup)
                         b.notFound.isInvisible =
-                            firstGroup != null || c.m.lookingFor.isNullOrEmpty()
+                            firstGroup != null || lookingFor.isNullOrEmpty()
                     }
                 }
             })
-            c.m.lookingFor?.also { b.find.setText(it) }
+            lookingFor?.also { b.find.setText(it) }
 
             if (c.m.summary == null) return
-            b.list.adapter = StatSumAdap(c, c.m.summary!!.results().calculations.entries.toList())
+            b.list.adapter = StatSumAdap(
+                c, c.m.summary!!.results().calculations.entries.toList(), this@SumChips
+            )
 
             val pluses = LinearLayout(c).apply {
                 id = R.id.pluses
@@ -148,8 +147,7 @@ class SummaryDialog : BaseDialog() {
         }
     }
 
-    class SumPie : Fragment() {
-        val c: BaseActivity by lazy { activity as BaseActivity }
+    class SumPie : BaseFragment() {
         private lateinit var b: SumPieBinding
 
         override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =

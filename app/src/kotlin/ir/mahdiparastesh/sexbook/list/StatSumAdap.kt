@@ -10,11 +10,13 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SumChipGroupBinding
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.BaseDialog
 import ir.mahdiparastesh.sexbook.stat.Singular
 
 class StatSumAdap(
     private val c: BaseActivity,
-    val arr: List<MutableMap.MutableEntry<Float, ArrayList<String>>>
+    val arr: List<MutableMap.MutableEntry<Float, ArrayList<String>>>,
+    private val searchable: BaseDialog.SearchableStat,
 ) : RecyclerView.Adapter<AnyViewHolder<SumChipGroupBinding>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -32,7 +34,7 @@ class StatSumAdap(
             h.b.root.addView(this)
         } else h.b.root.getChildAt(crush + 1) as Chip).apply {
             text = arr[i].value[crush]
-            val bb = c.m.lookForIt(text.toString())
+            val bb = searchable.lookForIt(text.toString())
             setOnClickListener {
                 c.goTo(Singular::class) {
                     putExtra(Singular.EXTRA_CRUSH_KEY, arr[h.layoutPosition].value[crush])

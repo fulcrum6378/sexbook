@@ -13,7 +13,9 @@ import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.list.StatRecAdap
 import ir.mahdiparastesh.sexbook.more.BaseDialog
 
-class Recency : BaseDialog() {
+class Recency : BaseDialog(), BaseDialog.SearchableStat {
+    override var lookingFor: String? = null
+
     companion object {
         const val TAG = "recency"
     }
@@ -32,15 +34,13 @@ class Recency : BaseDialog() {
     data class Item(val name: String, val time: Long)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        compute()
+        if (c.m.recency.isEmpty()) compute()
         return MaterialAlertDialogBuilder(c).apply {
             setTitle(resources.getString(R.string.recency))
             setView(draw())
             setPositiveButton(android.R.string.ok, null)
             setCancelable(true)
-            setOnDismissListener {
-                c.m.lookingFor = null // TODO
-            }
+            setOnDismissListener { c.m.recency.clear() }
         }.show()
     }
 
@@ -50,21 +50,20 @@ class Recency : BaseDialog() {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                c.m.lookingFor = s.toString()
+                lookingFor = s.toString()
 
                 notFound.isInvisible = true
                 if (list.adapter == null) return
                 list.adapter?.notifyDataSetChanged()
-                val firstOccur = if (!c.m.lookingFor.isNullOrEmpty())
-                    c.m.recency.indexOfFirst { c.m.lookForIt(it.name) }
+                val firstOccur = if (!lookingFor.isNullOrEmpty())
+                    c.m.recency.indexOfFirst { lookForIt(it.name) }
                         .let { if (it != -1) it else null }
                 else null
                 if (firstOccur != null) list.smoothScrollToPosition(firstOccur)
-                notFound.isInvisible = firstOccur != null || c.m.lookingFor.isNullOrEmpty()
+                notFound.isInvisible = firstOccur != null || lookingFor.isNullOrEmpty()
             }
         })
-        c.m.lookingFor?.also { find.setText(it) }
-        list.adapter = StatRecAdap(c as Main)
+        list.adapter = StatRecAdap(c as Main, this@Recency)
         list.clipToPadding = false
     }.root
 }
