@@ -410,9 +410,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 /* TODO:
   * Problems:
   * Tweak days before a birthday reminder (and hours before repetition?)
-  * Tweak if it should use GregorianCalendar for birthdays
   * -
   * Extension:
+  * Tweak if it should use GregorianCalendar for birthdays
   * Tweak turning off all the birthday notifications
   * Statisticise delays in hours between orgasms
   * Export data to other files types (only export) e.g. TXT, PDF and/or HTML...
