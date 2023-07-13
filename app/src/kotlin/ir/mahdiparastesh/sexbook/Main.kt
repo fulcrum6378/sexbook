@@ -30,6 +30,7 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
+import ir.mahdiparastesh.sexbook.Fun.toDefaultType
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
@@ -76,9 +77,21 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                                     ) < Settings.notifyBirthAfterLastTime
                         ) return@apply
                         for (it in this) if (it.notifyBirth) it.bCalendar()?.also { birth ->
-                            val now = GregorianCalendar()
-                            val dist = now.timeInMillis - birth
-                                .apply { this[Calendar.YEAR] = now[Calendar.YEAR] }.timeInMillis
+                            var now: Calendar = GregorianCalendar()
+                            var bir: Calendar = GregorianCalendar()
+                            if (!sp.getBoolean(
+                                    Settings.spUseGregorianForBirthdays,
+                                    Settings.spUseGregorianForBirthdaysDef
+                                )
+                            ) {
+                                now = (now as GregorianCalendar).toDefaultType(this@Main)
+                                bir = (bir as GregorianCalendar).toDefaultType(this@Main)
+                            }
+                            // do NOT alter the "birth" instance!
+                            val dist = now.timeInMillis - bir.apply {
+                                this.timeInMillis = birth.timeInMillis
+                                this[Calendar.YEAR] = now[Calendar.YEAR]
+                            }.timeInMillis
                             if (abs(dist) <=
                                 sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * 86400000L
                             ) notifyBirth(it, dist)

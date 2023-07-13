@@ -46,11 +46,14 @@ class Crush(
             else -> key
         } else "$fName $lName"
 
-    /** @param c if given null, only a GregorianCalendar is returned. */
+    /**
+     * @param c if given null, only a GregorianCalendar is returned.
+     * @return Do NOT alter the returned Calendar instance!
+     */
     fun bCalendar(c: BaseActivity? = null, tz: TimeZone = TimeZone.getDefault()): Calendar? {
         if (bCalendar_ != null) return bCalendar_
         val spl = birth?.split(".") ?: return null
-        fCalendar_ = GregorianCalendar(tz).apply {
+        bCalendar_ = GregorianCalendar(tz).apply {
             set(spl[0].toInt(), spl[1].toInt() - 1, spl[2].toInt())
         }.let {
             if (c?.sp?.getBoolean(
@@ -59,7 +62,7 @@ class Crush(
             ) it
             else it.toDefaultType(c)
         }.let { McdtpUtils.trimToMidnight(it) }
-        return fCalendar_
+        return bCalendar_
     }
 
     fun fCalendar(c: BaseActivity, tz: TimeZone = TimeZone.getDefault()): Calendar? {
