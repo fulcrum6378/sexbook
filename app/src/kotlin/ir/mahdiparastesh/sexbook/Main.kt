@@ -429,4 +429,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Tweak turning off all the birthday notifications
   * Statisticise delays in hours between orgasms
   * Export data to other files types (only export) e.g. TXT, PDF and/or HTML...
+  * US English translation
+  * -
+  * Why is it fucked up after a package reinstall? Does it happen for others?
   */
