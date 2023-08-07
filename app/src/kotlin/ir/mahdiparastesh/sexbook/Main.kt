@@ -28,7 +28,6 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.navigation.NavigationView
-import com.google.gson.Gson
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.toDefaultType
@@ -175,7 +174,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             remove("prefersMasculine")
             if (sp.getInt(Settings.spPageLoveSortBy, 0) == 4) putInt(Settings.spPageLoveSortBy, 5)
         }
-        Toast.makeText(c, Gson().toJson(Fubar.solution(intArrayOf(5, 10, 15, 10, 7), 1)), Toast.LENGTH_LONG).show()
 
         intent.check(true)
         addOnNewIntentListener { it.check() }
