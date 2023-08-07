@@ -78,7 +78,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         b.type.adapter = TypeAdap(c)
 
         // Place
-        b.place.adapter = ArrayAdapter(c, R.layout.spinner, ArrayList(places.map { it.name })
+        b.place.adapter = ArrayAdapter(c, R.layout.spinner_yellow, ArrayList(places.map { it.name })
             .apply { add(0, if (places.isEmpty()) c.getString(R.string.placeHint) else "") }
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         b.place.onItemSelectedListener = OnPlaceSelectedListener()

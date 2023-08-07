@@ -10,6 +10,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
@@ -52,8 +54,14 @@ class Identify() : BaseDialog() {
 
         // Gender
         bi.gender.adapter = ArrayAdapter(
-            c, R.layout.spinner, c.resources.getStringArray(R.array.genders)
+            c, R.layout.spinner_white, c.resources.getStringArray(R.array.genders)
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
+        bi.gender.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+            override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
+                bi.gender.alpha = if (i == 0) DISABLED_ALPHA else 1f
+            }
+        }
 
         // Default Values
         var isBirthSet = false

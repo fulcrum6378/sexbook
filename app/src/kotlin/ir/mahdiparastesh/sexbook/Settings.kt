@@ -73,7 +73,7 @@ class Settings : BaseActivity() {
 
         // Calendar Type
         b.stCalendarType.adapter =
-            ArrayAdapter(this@Settings, R.layout.spinner, calendarTypes.toList())
+            ArrayAdapter(this@Settings, R.layout.spinner_yellow, calendarTypes.toList())
                 .apply { setDropDownViewResource(R.layout.spinner_dd) }
         b.stCalendarType.setSelection(sp.getInt(spCalType, 0))
         b.stCalendarType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

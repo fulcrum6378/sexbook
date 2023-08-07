@@ -43,7 +43,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
 
         // Place
         places?.also { l ->
-            b.place.adapter = ArrayAdapter(c, R.layout.spinner,
+            b.place.adapter = ArrayAdapter(c, R.layout.spinner_yellow,
                 ArrayList(l.map { it.name }).apply { add(0, "") })
                 .apply { setDropDownViewResource(R.layout.spinner_dd) }
         }

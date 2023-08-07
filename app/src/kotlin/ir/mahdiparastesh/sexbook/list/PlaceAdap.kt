@@ -63,7 +63,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
                 this[R.id.plDelete] = {
                     MaterialAlertDialogBuilder(c).apply {
                         val bm = MigratePlaceBinding.inflate(c.layoutInflater)
-                        bm.places.adapter = ArrayAdapter(c, R.layout.spinner,
+                        bm.places.adapter = ArrayAdapter(c, R.layout.spinner_white,
                             ArrayList(c.m.places.value!!.map { it.name }).apply {
                                 add(0, "")
                                 remove(c.m.places.value!![h.layoutPosition].name)
