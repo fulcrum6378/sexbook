@@ -91,7 +91,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
 
     private fun Crush?.containsBirth() = this != null && birth != null
 
-    /** Write the index after executing this function. */
+    /** Don't forget to write() the Index after executing this function. */
     private fun Crush.insertEvent() {
         val cal = bCalendar(tz = TimeZone.getTimeZone(tz)) ?: return
         ContentValues().apply {
@@ -113,21 +113,13 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
                 newCrush!!.insertEvent()
                 Index().write()
             }
-            oldCrush.containsBirth() && newCrush.containsBirth() -> {
-                val ev = arrayOf(index[oldCrush!!.key].toString())
-                ContentValues().apply {
-                    if (oldCrush.visName() != newCrush!!.visName())
-                        put(CCE.TITLE, c.getString(R.string.sBirthday, newCrush.visName()))
-                    if (oldCrush.birth != newCrush.birth)
-                        put(
-                            CCE.DTSTART,
-                            newCrush.bCalendar(tz = TimeZone.getTimeZone(tz))!!.timeInMillis
-                        )
-
-                    if (size() > 0)
-                        c.contentResolver.update(CCE.CONTENT_URI, this, "_id = ?", ev)
+            oldCrush.containsBirth() && newCrush.containsBirth() ->
+                if (oldCrush!!.visName() != newCrush!!.visName() || oldCrush.birth != newCrush.birth) {
+                    val ev = arrayOf(index[oldCrush.key].toString())
+                    c.contentResolver.delete(CCE.CONTENT_URI, "_id = ?", ev)
+                    newCrush.insertEvent()
+                    Index().write()
                 }
-            }
             oldCrush.containsBirth() && !newCrush.containsBirth() -> {
                 val ev = arrayOf(index[oldCrush!!.key].toString())
                 c.contentResolver.delete(CCE.CONTENT_URI, "_id = ?", ev)
