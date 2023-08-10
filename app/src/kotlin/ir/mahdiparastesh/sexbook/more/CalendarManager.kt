@@ -72,11 +72,11 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     }
 
     private suspend fun deleteEvents() {
-        c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
+        c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id LIKE ?", arrayOf(id.toString()))
     }
 
     private suspend fun deleteCalendar() {
-        c.contentResolver.delete(CCC.CONTENT_URI, "account_name = ?", arrayOf(accName))
+        c.contentResolver.delete(CCC.CONTENT_URI, "account_name LIKE ?", arrayOf(accName))
     }
 
     fun replaceEvents(crushes: Iterable<Crush>) {
@@ -91,12 +91,14 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
 
     private fun Crush?.containsBirth() = this != null && birth != null
 
+    private fun Crush.eventName() = c.getString(R.string.sBirthday, visName())
+
     /** Don't forget to write() the Index after executing this function. */
     private fun Crush.insertEvent() {
         val cal = bCalendar(tz = TimeZone.getTimeZone(tz)) ?: return
         ContentValues().apply {
             put(CCE.CALENDAR_ID, id)
-            put(CCE.TITLE, c.getString(R.string.sBirthday, visName()))
+            put(CCE.TITLE, eventName())
             put(CCE.DTSTART, cal.timeInMillis)
             put(CCE.RRULE, "FREQ=YEARLY")
             put(CCE.DURATION, "P1D")
@@ -107,6 +109,12 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         }
     }
 
+    /**
+     * Beware:
+     * 1. Never use "=", use "LIKE" instead!
+     * 2. Using contentResolver.update() fucks the calendar!
+     * 3. Don't use "_id", use "title" instead!
+     */
     fun updateEvent(oldCrush: Crush?, newCrush: Crush?) {
         when {
             !oldCrush.containsBirth() && newCrush.containsBirth() -> {
@@ -116,13 +124,15 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
             oldCrush.containsBirth() && newCrush.containsBirth() ->
                 if (oldCrush!!.visName() != newCrush!!.visName() || oldCrush.birth != newCrush.birth) {
                     val ev = arrayOf(index[oldCrush.key].toString())
-                    c.contentResolver.delete(CCE.CONTENT_URI, "_id = ?", ev)
+                    c.contentResolver.delete(
+                        CCE.CONTENT_URI, CCE.TITLE + " = ?", arrayOf(oldCrush.eventName())
+                    )
                     newCrush.insertEvent()
                     Index().write()
                 }
             oldCrush.containsBirth() && !newCrush.containsBirth() -> {
                 val ev = arrayOf(index[oldCrush!!.key].toString())
-                c.contentResolver.delete(CCE.CONTENT_URI, "_id = ?", ev)
+                c.contentResolver.delete(CCE.CONTENT_URI, "_id LIKE ?", ev)
                 index.remove(oldCrush.key)
                 Index().write()
             }
