@@ -103,8 +103,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         sortWith(Guess.Sort())
                         instillGuesses()
                     }
-                    Work.CRUSH_ALTERED -> (msg.obj as List<Crush?>)
-                        .also { calManager?.updateEvent(it[0], it[1]) }
+                    Work.CRUSH_ALTERED ->
+                        //(msg.obj as List<Crush?>).also { calManager?.updateEvent(it[0], it[1]) }
+                        m.liefde.value?.also { calManager?.replaceEvents(it) }
                 }
             }
         }
