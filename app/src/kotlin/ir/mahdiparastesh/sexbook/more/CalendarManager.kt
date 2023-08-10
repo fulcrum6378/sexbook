@@ -8,16 +8,11 @@ import android.net.Uri
 import android.provider.CalendarContract
 import androidx.core.app.ActivityCompat
 import androidx.core.database.getLongOrNull
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import android.provider.CalendarContract.Calendars as CCC
 import android.provider.CalendarContract.Events as CCE
 
@@ -58,9 +53,6 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
                     .appendQueryParameter(CCC.ACCOUNT_TYPE, accType).build(), this
             )?.also { id = it.getId() }
             insertEvents(crushes!!)
-        } else if (!Index().read()) {
-            deleteEvents()
-            insertEvents(crushes!!)
         }
         crushes = null
     }
@@ -68,15 +60,14 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     private suspend fun insertEvents(crushes: Iterable<Crush>) {
         index = hashMapOf()
         for (cr in crushes) cr.insertEvent()
-        Index().write()
     }
 
     private suspend fun deleteEvents() {
-        c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id LIKE ?", arrayOf(id.toString()))
+        c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
     }
 
     private suspend fun deleteCalendar() {
-        c.contentResolver.delete(CCC.CONTENT_URI, "account_name LIKE ?", arrayOf(accName))
+        c.contentResolver.delete(CCC.CONTENT_URI, "account_name = ?", arrayOf(accName))
     }
 
     fun replaceEvents(crushes: Iterable<Crush>) {
@@ -88,8 +79,6 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
 
     private fun Uri.getId() =
         toString().substringAfterLast("/").substringBefore("?").toLong()
-
-    private fun Crush?.containsBirth() = this != null && birth != null
 
     /** Don't forget to write() the Index after executing this function. */
     private fun Crush.insertEvent() {
@@ -107,48 +96,10 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         }
     }
 
-    /*fun updateEvent(oldCrush: Crush?, newCrush: Crush?) {
-        when {
-            !oldCrush.containsBirth() && newCrush.containsBirth() -> {
-                newCrush!!.insertEvent()
-                Index().write()
-            }
-            oldCrush.containsBirth() && newCrush.containsBirth() ->
-                if (oldCrush!!.visName() != newCrush!!.visName() || oldCrush.birth != newCrush.birth) {
-                    val ev = arrayOf(index[oldCrush.key].toString())
-                    c.contentResolver.delete(CCE.CONTENT_URI, "_id = ?", ev)
-                    newCrush.insertEvent()
-                    Index().write()
-                }
-            oldCrush.containsBirth() && !newCrush.containsBirth() -> {
-                val ev = arrayOf(index[oldCrush!!.key].toString())
-                c.contentResolver.delete(CCE.CONTENT_URI, "_id = ?", ev)
-                index.remove(oldCrush.key)
-                Index().write()
-            }
-            else -> {}
-        }
-    }*/
-
     fun terminate() {
         CoroutineScope(Dispatchers.IO).launch {
             deleteEvents()
             deleteCalendar()
-        }
-    }
-
-    inner class Index : File(c.cacheDir, "calendar_index.json") {
-        fun read(): Boolean {
-            if (!exists()) return false
-            index = Gson().fromJson(
-                FileInputStream(this).use { it.readBytes() }.toString(Charsets.UTF_8),
-                object : TypeToken<HashMap<String, Long>>() {}.type
-            )
-            return true
-        }
-
-        fun write() {
-            FileOutputStream(Index()).use { it.write(Gson().toJson(index).encodeToByteArray()) }
         }
     }
 

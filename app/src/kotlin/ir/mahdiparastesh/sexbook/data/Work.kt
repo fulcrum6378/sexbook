@@ -118,7 +118,7 @@ class Work(
                 var result: Long = -1
                 if (!values.isNullOrEmpty()) result = dao.cInsert(values[0] as Crush)
                 handler?.obtainMessage(action, result)?.sendToTarget()
-                Main.handler!!.obtainMessage(CRUSH_ALTERED/*, values!!.reversed()*/).sendToTarget()
+                Main.handler!!.obtainMessage(CRUSH_ALTERED).sendToTarget()
             }
 
             C_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
@@ -133,7 +133,7 @@ class Work(
                     action, /*if (values.size > 1) values[1] as Int else*/ 0,
                     if (values.size > 2) values[2] as Int else 0, values[0]
                 )?.sendToTarget()
-                Main.handler!!.obtainMessage(CRUSH_ALTERED, values.reversed()).sendToTarget()
+                Main.handler!!.obtainMessage(CRUSH_ALTERED).sendToTarget()
             }
 
             C_DELETE_ONE -> if (!values.isNullOrEmpty()) {
@@ -142,7 +142,7 @@ class Work(
                     action, /*if (values.size > 1) values[1] as Int else*/ 0,
                     if (values.size > 2) values[2] as Int else 0, values[0]
                 )?.sendToTarget()
-                Main.handler!!.obtainMessage(CRUSH_ALTERED, values.reversed()).sendToTarget()
+                Main.handler!!.obtainMessage(CRUSH_ALTERED).sendToTarget()
             }
 
 
