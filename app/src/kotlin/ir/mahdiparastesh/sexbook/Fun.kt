@@ -33,6 +33,8 @@ object Fun {
     const val SORT_BY_HEIGHT = 3
     const val SORT_BY_BEGINNING = 4
     const val SORT_BY_LAST = 5
+    const val MAX_BADGE_CHAR = 6
+    val materialTheme = com.google.android.material.R.style.Theme_MaterialComponents_DayNight
     // private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
     /** Specifies if vibration is enabled. */

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import com.google.android.material.badge.BadgeDrawable
 import ir.mahdiparastesh.sexbook.Fun.explode
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.data.Place
@@ -13,11 +14,14 @@ import ir.mahdiparastesh.sexbook.databinding.PlacesBinding
 import ir.mahdiparastesh.sexbook.list.PlaceAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Delay
+import ir.mahdiparastesh.sexbook.more.Lister
 
-class Places : BaseActivity() {
+class Places : BaseActivity(), Lister {
     private lateinit var b: PlacesBinding
     private var changed = false
     private var adding = false
+
+    override var countBadge: BadgeDrawable? = null
 
     companion object {
         var handler: Handler? = null
@@ -44,6 +48,7 @@ class Places : BaseActivity() {
                             b.list.adapter!!.notifyItemInserted(m.places.value!!.size - 1)
                             adding = false
                             b.add.explode(this@Places)
+                            count(m.places.value?.size ?: 0)
                         }
                     }
                     Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>).apply {
@@ -67,6 +72,7 @@ class Places : BaseActivity() {
                         b.list.adapter?.notifyItemRangeChanged(
                             msg.arg1, b.list.adapter!!.itemCount - msg.arg1
                         )
+                        count(m.places.value?.size ?: 0)
                     }
                 }
             }
@@ -80,6 +86,7 @@ class Places : BaseActivity() {
             }
             if (b.list.adapter == null) b.list.adapter = PlaceAdap(this)
             else b.list.adapter?.notifyDataSetChanged()
+            count(m.places.value?.size ?: 0)
         }
         b.add.setOnClickListener {
             if (adding) return@setOnClickListener

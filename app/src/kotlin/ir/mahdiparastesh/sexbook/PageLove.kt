@@ -41,6 +41,7 @@ class PageLove : BasePage() {
                     Work.C_VIEW_ALL -> {
                         c.m.liefde.value = msg.obj as ArrayList<Crush>
                         prepareList()
+                        c.count(c.m.liefde.value?.size ?: 0)
                     }
                     Work.REPLACE_ALL -> Work(c, Work.C_VIEW_ALL).start()
                     Work.C_UPDATE_ONE -> if (b.rv.adapter != null)
@@ -49,12 +50,14 @@ class PageLove : BasePage() {
                             // b.rv.adapter?.notifyItemChanged(it)
                             prepareList()
                         }
-                    Work.C_DELETE_ONE -> if (b.rv.adapter != null)
+                    Work.C_DELETE_ONE -> if (b.rv.adapter != null) {
                         c.m.liefde.value?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
                             c.m.liefde.value?.removeAt(it)
                             b.rv.adapter?.notifyItemRemoved(it)
                             b.rv.adapter?.notifyItemRangeChanged(it, b.rv.adapter!!.itemCount - it)
                         }
+                        c.count(c.m.liefde.value?.size ?: 0)
+                    }
                     // Work.ADMOB_LOADED -> loadAd()
                 }
             }

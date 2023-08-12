@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import com.google.android.material.badge.BadgeDrawable
 import ir.mahdiparastesh.sexbook.Fun.explode
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.data.Guess
@@ -13,11 +14,14 @@ import ir.mahdiparastesh.sexbook.databinding.EstimationBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Delay
+import ir.mahdiparastesh.sexbook.more.Lister
 
-class Estimation : BaseActivity() {
+class Estimation : BaseActivity(), Lister {
     private lateinit var b: EstimationBinding
     private var changed = false
     private var adding = false
+
+    override var countBadge: BadgeDrawable? = null
 
     companion object {
         var handler: Handler? = null
@@ -46,6 +50,7 @@ class Estimation : BaseActivity() {
                             b.list.adapter!!.notifyItemInserted(m.guesses.value!!.size - 1)
                             adding = false
                             b.add.explode(this@Estimation)
+                            count(m.guesses.value?.size ?: 0)
                         }
                     }
                     Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>)
@@ -60,6 +65,7 @@ class Estimation : BaseActivity() {
                         b.list.adapter?.notifyItemRangeChanged(
                             msg.arg1, b.list.adapter!!.itemCount - msg.arg1
                         )
+                        count(m.guesses.value?.size ?: 0)
                     }
                 }
             }
@@ -73,6 +79,7 @@ class Estimation : BaseActivity() {
             }
             if (b.list.adapter == null) b.list.adapter = GuessAdap(this)
             else b.list.adapter?.notifyDataSetChanged()
+            count(m.guesses.value?.size ?: 0)
         }
         b.add.setOnClickListener {
             if (adding) return@setOnClickListener

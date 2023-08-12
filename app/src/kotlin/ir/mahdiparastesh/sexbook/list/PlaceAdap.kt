@@ -61,7 +61,8 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
                     }
                 }
                 this[R.id.plDelete] = {
-                    MaterialAlertDialogBuilder(c).apply {
+                    if (c.m.places.value!![h.layoutPosition].sum > 0
+                    ) MaterialAlertDialogBuilder(c).apply {
                         val bm = MigratePlaceBinding.inflate(c.layoutInflater)
                         bm.places.adapter = ArrayAdapter(c, R.layout.spinner_white,
                             ArrayList(c.m.places.value!!.map { it.name }).apply {
@@ -72,20 +73,18 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
                         setMessage(c.resources.getString(R.string.plDeletePlaceSure))
                         setView(bm.root)
                         setPositiveButton(R.string.yes) { _, _ ->
-                            Work(
-                                c, Work.P_DELETE_ONE, listOf(
-                                    c.m.places.value!![h.layoutPosition],
-                                    c.m.places.value!!.find { it.name == (bm.places.selectedItem as String) }
-                                        ?.id ?: -1L,
-                                    h.layoutPosition
-                                )
-                            ).start()
+                            delete(
+                                h.layoutPosition, c.m.places.value!!
+                                    .find { it.name == (bm.places.selectedItem as String) }?.id
+                                    ?: -1L
+                            )
                             c.shake()
                         }
                         setNegativeButton(R.string.no, null)
                         setCancelable(true)
+                        c.shake()
                     }.show()
-                    c.shake()
+                    else delete(h.layoutPosition, -1L)
                 }
             }).apply {
                 if (c.sp.contains(spDefPlace) && c.sp.getLong(spDefPlace, -1L)
@@ -104,5 +103,9 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
         if (c.m.places.value == null) return
         if (c.m.places.value!!.size <= i || i < 0) return
         Work(c, Work.P_UPDATE_ONE, listOf(c.m.places.value!![i], i, refresh)).start()
+    }
+
+    fun delete(i: Int, migrateToId: Long) {
+        Work(c, Work.P_DELETE_ONE, listOf(c.m.places.value!![i], migrateToId, i)).start()
     }
 }

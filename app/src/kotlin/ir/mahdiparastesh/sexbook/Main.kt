@@ -27,6 +27,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
@@ -37,13 +38,14 @@ import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.Delay
+import ir.mahdiparastesh.sexbook.more.Lister
 import ir.mahdiparastesh.sexbook.stat.*
 import java.io.File
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
-    Toolbar.OnMenuItemClickListener {
+    Toolbar.OnMenuItemClickListener, Lister {
     private val b: MainBinding by lazy { MainBinding.inflate(layoutInflater) }
     private val exporter = Exporter(this)
     private var calManager: CalendarManager? = null
@@ -52,6 +54,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private val menus = arrayOf(R.menu.page_sex_tlb, R.menu.sort)
     /*private lateinit var adBanner: AdView
     private var adBannerLoaded = false*/
+
+    override var countBadge: BadgeDrawable? = null
 
     companion object {
         var handler: Handler? = null
@@ -162,6 +166,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 b.toolbar.menu.clear()
                 b.toolbar.inflateMenu(menus[i])
                 m.currentPage = i
+                count(if (i == 0) null else m.liefde.value?.size ?: 0)
             }
         })
 

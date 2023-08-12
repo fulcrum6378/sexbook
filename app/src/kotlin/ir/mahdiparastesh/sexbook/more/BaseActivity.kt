@@ -33,7 +33,7 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
     val c: Context get() = applicationContext
     lateinit var m: Model
     lateinit var sp: SharedPreferences
-    private var tbTitle: TextView? = null
+    var tbTitle: TextView? = null
     val dm: DisplayMetrics by lazy { resources.displayMetrics }
     private var lastToast = -1L
     /*var interstitialAd: InterstitialAd? = null
