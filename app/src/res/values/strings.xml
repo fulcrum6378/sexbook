@@ -46,6 +46,7 @@
     <string name="asc">Ascending</string>
     <string name="dsc">Descending</string>
     <string name="lastOrgasm">Last Orgasm</string>
+    <string name="unspecified">Unspecified</string>
 
     <!-- Main -->
     <string name="momImport">Import from Json</string>
@@ -71,7 +72,7 @@
     <string name="crushes">List of Crushes</string>
     <string name="emptyLove">
         After adding some sex records,
-        go to Navigation Menu -> Summary -> Select a crush ->
+        go to the Navigation Menu -> Summary -> Select a crush ->
         Hit the top right button with a \"Person\" (Identification) icon.
     </string>
 
@@ -80,8 +81,8 @@
     <string name="recency">Recency</string>
     <string name="adorability">Adorability</string>
     <string name="growth">Growth</string>
-    <string name="mixture">Mixture</string>
     <string name="taste">Your Taste</string>
+    <string name="mixture">Mixture</string>
     <string name="statistics">Statistics</string>
     <string name="noStat">The range of your records must exceed one month!</string>
 
@@ -96,7 +97,6 @@
         <item>Male</item>
         <item>Non-Binary</item>
     </string-array>
-    <string name="unspecified">Unspecified</string>
     <string name="birth">Birthday</string><!--TODO translate again-->
     <string name="heightInCM">Height (cm)</string>
     <string name="address">Address</string>

@@ -43,6 +43,7 @@
     <string name="asc">Aufsteigend</string>
     <string name="dsc">Absteigend</string>
     <string name="lastOrgasm">Letzter Orgasmus</string>
+    <string name="unspecified">Nicht spezifiziert</string>
 
     <!-- Main -->
     <string name="momImport">Import aus Json</string>
@@ -77,6 +78,7 @@
     <string name="recency">Neuheit</string>
     <string name="adorability">Bewunderung</string>
     <string name="growth">Wachstum</string>
+    <string name="taste">Dein Geschmack</string>
     <string name="mixture">Mischung</string>
     <string name="statistics">Statistiken</string>
     <string name="noStat">Der Umfang Ihrer Datensätze muss einen Monat überschreiten!</string>

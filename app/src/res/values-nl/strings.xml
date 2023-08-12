@@ -42,6 +42,7 @@
     <string name="asc">Oplopend</string>
     <string name="dsc">Aflopend</string>
     <string name="lastOrgasm">Laatste orgasme</string>
+    <string name="unspecified">Niet gespecificeerd</string>
 
     <!-- Main -->
     <string name="momImport">Importeren uit Json</string>
@@ -77,6 +78,7 @@
     <string name="recency">Recentheid</string>
     <string name="adorability">Schattigheid</string>
     <string name="growth">Groei</string>
+    <string name="taste">Jouw Smaak</string>
     <string name="mixture">Mengsel</string>
     <string name="statistics">Statistieken</string>
     <string name="noStat">Het bereik van uw platen moet langer zijn dan een maand!</string>

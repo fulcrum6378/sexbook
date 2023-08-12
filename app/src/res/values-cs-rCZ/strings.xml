@@ -43,6 +43,7 @@
     <string name="asc">Vzestupně</string>
     <string name="dsc">Klesající</string>
     <string name="lastOrgasm">Poslední orgasmus</string>
+    <string name="unspecified">Nespecifikováno</string>
 
     <!-- Main -->
     <string name="momImport">Import z Json</string>
@@ -77,6 +78,7 @@
     <string name="recency">Aktuálnost</string>
     <string name="adorability">Rozkošnost</string>
     <string name="growth">Růst</string>
+    <string name="taste">Váš Vkus</string>
     <string name="mixture">Směs</string>
     <string name="statistics">Statistika</string>
     <string name="noStat">Rozsah vašich záznamů musí přesáhnout jeden měsíc!</string>

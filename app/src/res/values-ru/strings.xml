@@ -44,6 +44,7 @@
     <string name="asc">Восходящий</string>
     <string name="dsc">По убыванию</string>
     <string name="lastOrgasm">Последний оргазм</string>
+    <string name="unspecified">Неопределенные</string>
 
     <!-- Main -->
     <string name="momImport">Импорт из Json</string>
@@ -78,6 +79,7 @@
     <string name="recency">Новизна</string>
     <string name="adorability">Прелесть</string>
     <string name="growth">Рост</string>
+    <string name="taste">Твой Вкус</string>
     <string name="mixture">Смесь</string>
     <string name="statistics">Статистика</string>
     <string name="noStat">Диапазон ваших записей должен превышать один месяц!</string>

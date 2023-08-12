@@ -201,7 +201,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }*/
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if (item.itemId in arrayOf(R.id.momSum, R.id.momRec, R.id.momPop, R.id.momGrw) &&
+        if (item.itemId in arrayOf(
+                R.id.momSum,
+                R.id.momRec,
+                R.id.momPop,
+                R.id.momGrw,
+                R.id.momTst
+            ) &&
             !summarize(true)
         ) {
             uiToast(R.string.noStat); return true; }
@@ -210,6 +216,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momRec -> Recency().show(supportFragmentManager, Recency.TAG)
             R.id.momPop -> goTo(Adorability::class)
             R.id.momGrw -> goTo(Growth::class)
+            R.id.momTst -> goTo(Taste::class)
             R.id.momMix -> goTo(Mixture::class)
             R.id.momPlc -> goTo(Places::class)
             R.id.momEst -> goTo(Estimation::class)
@@ -431,6 +438,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 /* TODO:
   * Problems:
   * Tweak days before a birthday reminder (and hours before repetition?)
+  * Searching in Summary and Recency is so immature!
   * -
   * Extension:
   * Tweak if it should use GregorianCalendar for birthdays
@@ -438,7 +446,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Statisticise delays in hours between orgasms
   * Export data to other files types (only export) e.g. TXT, PDF and/or HTML...
   * US English translation
-  * Statisticise using crushes' data
   * -
   * Why is it fucked up after a package reinstall? Does it happen for others?
   */

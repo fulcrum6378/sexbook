@@ -13,24 +13,31 @@ class Taste : ChartActivity<TasteBinding>() {
     override val chartView: AbstractChartView get() = b.main
 
     override suspend fun draw(): AbstractChartData {
-        val data = arrayListOf<SliceValue>()
         val genders = resources.getStringArray(R.array.genders)
             .apply { this[0] = getString(R.string.unspecified) }
+        val stats = hashMapOf<Byte, Double>()
+        for (g in genders.indices) stats[(g - 1).toByte()] = 0.0
+        val crushKeys = m.liefde.value?.map { it.key } ?: listOf()
+        for (agent in m.summary!!.scores.keys) {
+            val addable = m.summary!!.scores[agent]!!.sumOf { it.value.toDouble() }
+            if (agent in crushKeys) {
+                val g = m.liefde.value!!.find { it.key == agent }!!.gender
+                try {
+                    stats[g] = stats[g]!! + addable
+                } catch (_: NullPointerException) {
+                    throw Exception(g.toString())
+                }
+            } else stats[-1] = stats[-1]!! + addable
+        }
+
+        val data = arrayListOf<SliceValue>()
         for (g in genders.indices) {
-            val byt = g.toByte()
-            var score = m.liefde.value?.filter { it.gender == byt }
-                ?.sumOf { it.sum(m)!!.toDouble() }?.toFloat() ?: 0f
-            if (g == 0) {
-                // TODO m.summary!!.scores.keys
-                score += 0
-            }
+            val score = stats[(g - 1).toByte()]!!.toFloat()
             data.add(
                 SliceValue(score, color(R.color.CPV_LIGHT))
                     .apply { setLabel("${genders[g]} {${score.tripleRound()}}") })
         }
-        return PieChartData(data).apply {
-            setHasLabelsOnlyForSelected(true)
-        }
+        return PieChartData(data).apply { setHasLabels(true) }
     }
 
     override suspend fun render(data: AbstractChartData) {
