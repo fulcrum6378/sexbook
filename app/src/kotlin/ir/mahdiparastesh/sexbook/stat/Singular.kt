@@ -18,7 +18,7 @@ class Singular : ChartActivity<SingularBinding>() {
     override val chartView: AbstractChartView get() = b.main
     private var crushKey: String? = null
     private var crush: Crush? = null
-    private var history: ArrayList<Summary.Erection>? = null
+    private var history: ArrayList<Summary.Orgasm>? = null
 
     companion object {
         const val EXTRA_CRUSH_KEY = "crush_key"

@@ -94,7 +94,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
     }
 
     fun calcHistory(
-        c: BaseActivity, list: ArrayList<Summary.Erection>, month: String,
+        c: BaseActivity, list: ArrayList<Summary.Orgasm>, month: String,
         growing: Boolean = false
     ): Float {
         var value = 0f

@@ -70,7 +70,7 @@ class PageLove : BasePage() {
     override fun onResume() {
         super.onResume()
         c.summarize(true)
-        if (!wasListEverPrepared) prepareList()
+        if (!wasListEverPrepared || loadingNeedsSummary()) prepareList()
         if (changed) {
             Work(c, Work.C_VIEW_ALL).start()
             changed = false

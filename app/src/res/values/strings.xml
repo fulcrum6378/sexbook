@@ -81,6 +81,7 @@
     <string name="adorability">Adorability</string>
     <string name="growth">Growth</string>
     <string name="mixture">Mixture</string>
+    <string name="taste">Your Taste</string>
     <string name="statistics">Statistics</string>
     <string name="noStat">The range of your records must exceed one month!</string>
 
@@ -95,6 +96,7 @@
         <item>Male</item>
         <item>Non-Binary</item>
     </string-array>
+    <string name="unspecified">Unspecified</string>
     <string name="birth">Birthday</string><!--TODO translate again-->
     <string name="heightInCM">Height (cm)</string>
     <string name="address">Address</string>

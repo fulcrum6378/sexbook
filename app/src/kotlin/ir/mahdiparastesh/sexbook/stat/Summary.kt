@@ -8,7 +8,7 @@ import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 
 class Summary(list: List<Report>, var nExcluded: Int) {
-    var scores: HashMap<String, ArrayList<Erection>>
+    var scores: HashMap<String, ArrayList<Orgasm>>
     var unknown = 0f
     val actual = list.size
 
@@ -136,17 +136,17 @@ class Summary(list: List<Report>, var nExcluded: Int) {
         ?.replace(" & ", " + ")
         ?: ""
 
-    private fun HashMap<String, ArrayList<Erection>>.insert(
+    private fun HashMap<String, ArrayList<Orgasm>>.insert(
         theKey: String, time: Long, value: Float = 1f
     ) {
         var key = theKey
         val ckic = containsKeyIgnoreCase(key)
         if (ckic != null) key = ckic
-        if (!containsKey(key) && ckic == null) this[key] = arrayListOf(Erection(time, value))
-        else this[key]?.add(Erection(time, value))
+        if (!containsKey(key) && ckic == null) this[key] = arrayListOf(Orgasm(time, value))
+        else this[key]?.add(Orgasm(time, value))
     }
 
-    private fun HashMap<String, ArrayList<Erection>>.containsKeyIgnoreCase(key: String): String? {
+    private fun HashMap<String, ArrayList<Orgasm>>.containsKeyIgnoreCase(key: String): String? {
         var index: String? = null
         for (m in this) if (m.key.equals(key, true)) index = m.key
         return index
@@ -197,7 +197,7 @@ class Summary(list: List<Report>, var nExcluded: Int) {
         MERE_DESCRIPTION, ONE, ONE_WITH_DESCRIPTION, SOME_WITH_DESCRIPTION, MORE_THAN_ONE, NOT_SURE
     }
 
-    class Erection(val time: Long, val value: Float) : Serializable
+    class Orgasm(val time: Long, val value: Float) : Serializable
 
     class Result(var calculations: HashMap<Float, ArrayList<String>>) : Parcelable {
         @Suppress("DEPRECATION", "UNCHECKED_CAST")
