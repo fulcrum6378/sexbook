@@ -201,16 +201,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }*/
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if (item.itemId in arrayOf(
-                R.id.momSum,
-                R.id.momRec,
-                R.id.momPop,
-                R.id.momGrw,
-                R.id.momTst
-            ) &&
-            !summarize(true)
+        if (item.itemId in arrayOf(R.id.momSum, R.id.momRec, R.id.momMix)
+            && !summarize(true)
         ) {
+            uiToast(R.string.noRecords); return true
+        } else if (item.itemId in arrayOf(R.id.momPop, R.id.momGrw, R.id.momTst) && !summarize()) {
             uiToast(R.string.noStat); return true; }
+
         when (item.itemId) {
             R.id.momSum -> SummaryDialog().show(supportFragmentManager, SummaryDialog.TAG)
             R.id.momRec -> Recency().show(supportFragmentManager, Recency.TAG)
@@ -333,11 +330,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
      *
      * This operation doesn't take so much time, generating the views for statistics takes that long!
      *
-     * @param ignoreChartingDisability ignores returning false if the range of the sex records
-     *                                 doesn't extend one month
+     * @param ignoreIfItsLessThanAMonth ignores returning false if date range of sex records doesn't
+     *                                  extend one month
      * @return true if statisticisation was possible
      */
-    fun summarize(ignoreChartingDisability: Boolean = false): Boolean {
+    fun summarize(ignoreIfItsLessThanAMonth: Boolean = false): Boolean {
         if (m.onani.value.isNullOrEmpty()) return false
         var nExcluded = 0
         var filtered: List<Report> = m.onani.value!!
@@ -352,12 +349,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // Check if it can draw any visual charts;
         // this is possible only if the range of the sex records exceeds one month.
-        if (filtered.isNotEmpty() && // if it's empty, minOf will throw NoSuchElementException!
+        if (filtered.isEmpty()) return false
+        else if (!ignoreIfItsLessThanAMonth && // if it's empty, minOf will throw NoSuchElementException!
             filtered.minOf { it.time }.calendar(this).createFilterYm().toString() ==
-            filtered.maxOf { it.time }.calendar(this).createFilterYm().toString() &&
-            !ignoreChartingDisability
+            filtered.maxOf { it.time }.calendar(this).createFilterYm().toString()
         ) return false
-        if (filtered.isEmpty() && !ignoreChartingDisability) return false
 
         // Filter by type
         val allowedTypes = Fun.allowedSexTypes(sp)
