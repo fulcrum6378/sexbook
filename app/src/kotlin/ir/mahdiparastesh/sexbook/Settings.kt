@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.annotation.Dimension
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.addTextChangedListener
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
@@ -51,9 +52,11 @@ class Settings : BaseActivity() {
         const val spStatOnlyCrushes = "statisticiseOnlyCrushes" // def false
         const val spVibration = "vibration" // def true
         const val spCalOutput = "calendarOutput" // def false
-        const val spUseGregorianForBirthdays = "useGregorianForBirthdays" // TODO
-        const val spUseGregorianForBirthdaysDef = true
-        const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // def 3 TODO
+        const val spGregorianForBirthdays = "useGregorianForBirthdays"
+        const val spGregorianForBirthdaysDef = true
+        const val spPauseBirthdaysNtf = "pauseBirthdayNotifications" // def false
+        const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore"
+        const val spNotifyBirthDaysBeforeDef = 3
 
         // Via other places
         const val spDefPlace = "defaultPlace"
@@ -235,13 +238,35 @@ class Settings : BaseActivity() {
             c.shake()
         }
 
-        // Calendar output
+        // Birthdays
         b.stCalOutput.isChecked = sp.getBoolean(spCalOutput, false)
         b.stCalOutput.setOnCheckedChangeListener { _, isChecked ->
             if (!CalendarManager.checkPerm(this))
                 CalendarManager.askPerm(this)
             else turnCalendar(isChecked)
             c.shake()
+        }
+        b.stUseGregorianForBirthdays.isChecked =
+            sp.getBoolean(spGregorianForBirthdays, spGregorianForBirthdaysDef)
+        b.stUseGregorianForBirthdays.setOnCheckedChangeListener { _, isChecked ->
+            sp.edit().putBoolean(spGregorianForBirthdays, isChecked).apply()
+            c.shake()
+        }
+        b.stPauseBirthdaysNtf.isChecked = sp.getBoolean(spPauseBirthdaysNtf, false)
+        b.stPauseBirthdaysNtf.setOnCheckedChangeListener { _, isChecked ->
+            sp.edit().putBoolean(spPauseBirthdaysNtf, isChecked).apply()
+            c.shake()
+        }
+        b.stNotifyBirthDaysBefore
+            .setText(sp.getInt(spNotifyBirthDaysBefore, spNotifyBirthDaysBeforeDef).toString())
+        b.stNotifyBirthDaysBefore.addTextChangedListener {
+            sp.edit().putInt(
+                spNotifyBirthDaysBefore, try {
+                    it.toString().toInt()
+                } catch (_: NumberFormatException) {
+                    return@addTextChangedListener
+                }
+            ).apply()
         }
 
         // Removal

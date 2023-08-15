@@ -131,7 +131,11 @@
     <string name="stSexTypeInclude">Zahrnout %s</string>
     <string name="stStatOnlyCrushes">Jen statistiku mých zamilovaných</string>
     <string name="stVibration">Vibrace pro důležitá tlačítka</string>
+    <string name="stBirthdays">Narozeniny</string>
     <string name="stCalOutput">Seznam narozenin v systémovém kalendáři</string>
+    <string name="stUseGregorianForBirthdays">Gregoriánský kalendář používejte pouze pro narozeniny</string>
+    <string name="stPauseBirthdaysNtf">Pozastavit všechna oznámení o narozeninách</string>
+    <string name="stNotifyBirthDaysBefore">Upozornit N dní před narozeninami:</string>
     <string name="stReset">Resetovat nastavení</string>
     <string name="stResetSure">Opravdu chcete všechna nastavení vrátit na výchozí hodnoty?</string>
     <string name="stTruncate">Odebrat všechna data</string>

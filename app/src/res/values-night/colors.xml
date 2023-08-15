@@ -6,6 +6,7 @@
     <color name="yellowRipple">@color/ripple</color>
     <color name="textHighlight">#AAFFFFFF</color>
     <color name="dialogHint">#AFFFD422</color>
+    <color name="editTextOnYellow">@color/weakBlack</color>
 
     <!-- Main -->
     <color name="mrvClockPoint">?colorPrimaryVariant</color>

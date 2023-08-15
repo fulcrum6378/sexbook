@@ -32,7 +32,7 @@ class Crush(
 ) {
     @Ignore
     @Transient
-    private var bCalendar_: Calendar? = null
+    private var bCalendar_: GregorianCalendar? = null
 
     @Ignore
     @Transient
@@ -51,18 +51,19 @@ class Crush(
      * @return Do NOT alter the returned Calendar instance!
      */
     fun bCalendar(c: BaseActivity? = null, tz: TimeZone = TimeZone.getDefault()): Calendar? {
-        if (bCalendar_ != null) return bCalendar_
-        val spl = birth?.split(".") ?: return null
-        bCalendar_ = GregorianCalendar(tz).apply {
-            set(spl[0].toInt(), spl[1].toInt() - 1, spl[2].toInt())
-        }.let {
+        if (bCalendar_ == null) {
+            val spl = birth?.split(".") ?: return null
+            bCalendar_ = GregorianCalendar(tz).apply {
+                set(spl[0].toInt(), spl[1].toInt() - 1, spl[2].toInt())
+            }.let { McdtpUtils.trimToMidnight(it) }
+        }
+        return bCalendar_?.let {
             if (c?.sp?.getBoolean(
-                    Settings.spUseGregorianForBirthdays, Settings.spUseGregorianForBirthdaysDef
+                    Settings.spGregorianForBirthdays, Settings.spGregorianForBirthdaysDef
                 ) != false
             ) it
             else it.toDefaultType(c)
-        }.let { McdtpUtils.trimToMidnight(it) }
-        return bCalendar_
+        }
     }
 
     fun fCalendar(c: BaseActivity, tz: TimeZone = TimeZone.getDefault()): Calendar? {
@@ -91,8 +92,8 @@ class Crush(
             Fun.SORT_BY_NAME -> a.visName().lowercase(Locale.getDefault())
                 .compareTo(b.visName().lowercase(Locale.getDefault()))
             Fun.SORT_BY_SUM -> (a.sum(c.m) ?: 0f).compareTo(b.sum(c.m) ?: 0f)
-            Fun.SORT_BY_AGE -> (b.bCalendar(c)?.timeInMillis ?: 0L)
-                .compareTo(a.bCalendar(c)?.timeInMillis ?: 0L)
+            Fun.SORT_BY_AGE -> (b.bCalendar(null)?.timeInMillis ?: 0L)
+                .compareTo(a.bCalendar(null)?.timeInMillis ?: 0L)
             Fun.SORT_BY_HEIGHT -> a.height.compareTo(b.height)
             Fun.SORT_BY_BEGINNING -> (a.fCalendar(c)?.timeInMillis ?: 0L)
                 .compareTo(b.fCalendar(c)?.timeInMillis ?: 0L)

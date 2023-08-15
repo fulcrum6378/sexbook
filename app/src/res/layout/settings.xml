@@ -28,7 +28,7 @@
             android:paddingEnd="10dp"
             android:paddingBottom="20dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItem">
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemContainer">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/stItemTV"
@@ -43,7 +43,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/stStatSince"
-                style="@style/stItem">
+                style="@style/stItemContainer">
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stStatSinceDateCb"
@@ -64,7 +64,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/stStatUntil"
-                style="@style/stItem">
+                style="@style/stItemContainer">
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stStatUntilDateCb"
@@ -84,21 +84,15 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/sexTypes"
-                style="@style/stItem">
+                style="@style/stItemContainer">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/sexTypesTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stSexTypesTitle"
-                    android:textSize="14sp"
-                    app:fontFamily="@font/normal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    style="@style/stGroupTitle"
+                    android:text="@string/stSexTypesTitle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemSingleCheckBox">
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemThinContainer">
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stStatOnlyCrushes"
@@ -107,7 +101,7 @@
                     android:text="@string/stStatOnlyCrushes" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemSingleCheckBox">
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemThinContainer">
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stVibration"
@@ -116,18 +110,63 @@
                     android:text="@string/stVibration" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemSingleCheckBox">
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemContainer">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/birthdaysTitle"
+                    style="@style/stGroupTitle"
+                    android:text="@string/stBirthdays" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stCalOutput"
+                    style="@style/stItemCheckBox"
+                    android:text="@string/stCalOutput"
+                    app:layout_constraintTop_toBottomOf="@id/birthdaysTitle" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stUseGregorianForBirthdays"
+                    style="@style/stItemCheckBox"
+                    android:text="@string/stUseGregorianForBirthdays"
+                    app:layout_constraintTop_toBottomOf="@id/stCalOutput" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stPauseBirthdaysNtf"
+                    style="@style/stItemCheckBox"
+                    android:text="@string/stPauseBirthdaysNtf"
+                    app:layout_constraintTop_toBottomOf="@id/stUseGregorianForBirthdays" />
+
+                <!--android:id="@+id/stNotifyBirthDaysBeforeLabel"-->
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/stItemTV"
-                    android:saveEnabled="false"
-                    android:text="@string/stCalOutput" />
+                    android:layout_width="0dp"
+                    android:labelFor="@+id/stNotifyBirthDaysBefore"
+                    android:text="@string/stNotifyBirthDaysBefore"
+                    app:layout_constraintBottom_toBottomOf="@null"
+                    app:layout_constraintEnd_toStartOf="@id/stNotifyBirthDaysBefore"
+                    app:layout_constraintTop_toBottomOf="@id/stPauseBirthdaysNtf"
+                    app:layout_constraintTop_toTopOf="@null" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/stNotifyBirthDaysBefore"
+                    style="@style/stItemTV"
+                    android:layout_width="40sp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/edit_text_on_yellow"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="@null"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@null"
+                    app:layout_constraintTop_toBottomOf="@id/stPauseBirthdaysNtf"
+                    app:layout_constraintTop_toTopOf="@null" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/stReset"
-                style="@style/stItem">
+                style="@style/stItemContainer">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/stItemTV"
@@ -136,7 +175,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/stTruncate"
-                style="@style/stItem">
+                style="@style/stItemContainer">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/stItemTV"

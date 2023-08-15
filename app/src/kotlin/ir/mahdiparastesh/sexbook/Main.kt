@@ -78,15 +78,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                             CalendarManager.checkPerm(this@Main)
                         ) calManager = CalendarManager(this@Main, this)
 
+                        // notify if any birthday is around
                         if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
-                                    ) < Settings.notifyBirthAfterLastTime
+                                    ) < Settings.notifyBirthAfterLastTime ||
+                            sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
                         ) return@apply
                         for (it in this) if (it.notifyBirth) it.bCalendar()?.also { birth ->
                             var now: Calendar = GregorianCalendar()
                             var bir: Calendar = GregorianCalendar()
                             if (!sp.getBoolean(
-                                    Settings.spUseGregorianForBirthdays,
-                                    Settings.spUseGregorianForBirthdaysDef
+                                    Settings.spGregorianForBirthdays,
+                                    Settings.spGregorianForBirthdaysDef
                                 )
                             ) {
                                 now = (now as GregorianCalendar).toDefaultType(this@Main)
@@ -433,12 +435,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * Tweak days before a birthday reminder (and hours before repetition?)
   * Searching in Summary and Recency is so immature!
   * -
   * Extension:
-  * Tweak if it should use GregorianCalendar for birthdays
-  * Tweak turning off all the birthday notifications
   * Statisticise delays in hours between orgasms
   * Export data to other files types (only export) e.g. TXT, PDF and/or HTML...
   * US English translation

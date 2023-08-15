@@ -189,7 +189,7 @@
 
 
     <!-- Settings -->
-    <style name="stItem">
+    <style name="stItemContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">10dp</item>
@@ -201,6 +201,11 @@
         <item name="android:paddingEnd">@dimen/stItemPadH</item>
         <item name="android:paddingTop">@dimen/stItemPadV</item>
         <item name="android:paddingBottom">@dimen/stItemPadV</item>
+    </style>
+
+    <style name="stItemThinContainer" parent="@style/stItemContainer">
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
     </style>
 
     <style name="stItemTV">
@@ -224,8 +229,19 @@
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 
-    <style name="stItemSingleCheckBox" parent="@style/stItem">
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:paddingTop">5dp</item>
+    <style name="stItemCheckBox" parent="@style/stItemTV">
+        <item name="android:saveEnabled">false</item>
+        <item name="layout_constraintTop_toTopOf">@null</item>
+        <item name="layout_constraintBottom_toBottomOf">@null</item>
+    </style>
+
+    <style name="stGroupTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/normal</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 </resources>

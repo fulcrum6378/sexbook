@@ -133,7 +133,13 @@
     <string name="stSexTypeInclude">Включите %s</string>
     <string name="stStatOnlyCrushes">Только статистика моей любви</string>
     <string name="stVibration">Вибрация для важных кнопок</string>
+    <string name="stBirthdays">Дни рождения</string>
     <string name="stCalOutput">Список дней рождения в системном календаре</string>
+    <string name="stUseGregorianForBirthdays">
+        Используйте только григорианский календарь для дней рождения
+    </string>
+    <string name="stPauseBirthdaysNtf">Приостановить все уведомления о днях рождения</string>
+    <string name="stNotifyBirthDaysBefore">Уведомлять за N дней до дня рождения:</string>
     <string name="stReset">Сбросить настройки</string>
     <string name="stResetSure">Вы уверены, что хотите вернуть все настройки к значениям по умолчанию?</string>
     <string name="stTruncate">Удалить все данные</string>

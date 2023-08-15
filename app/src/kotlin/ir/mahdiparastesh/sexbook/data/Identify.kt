@@ -66,9 +66,8 @@ class Identify() : BaseDialog() {
         // Default Values
         var isBirthSet = false
         var bir = crush?.bCalendar(c)
-        val birIsGrg = c.sp.getBoolean(
-            Settings.spUseGregorianForBirthdays, Settings.spUseGregorianForBirthdaysDef
-        )
+        val birIsGrg =
+            c.sp.getBoolean(Settings.spGregorianForBirthdays, Settings.spGregorianForBirthdaysDef)
         var isFirstSet = false
         var fir = crush?.fCalendar(c)
         if (crush != null) {

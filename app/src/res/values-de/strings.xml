@@ -133,7 +133,13 @@
     <string name="stSexTypeInclude">%s einbeziehen</string>
     <string name="stStatOnlyCrushes">Statistik nur meine Schwärmereien</string>
     <string name="stVibration">Bei wichtigen Tasten vibrieren</string>
+    <string name="stBirthdays">Geburtstage</string>
     <string name="stCalOutput">Geburtstage im Systemkalender auflisten</string>
+    <string name="stUseGregorianForBirthdays">
+        Benutzen Sie für Geburtstage nur den gregorianischen Kalender
+    </string>
+    <string name="stPauseBirthdaysNtf">Pausieren Sie alle Geburtstagsbenachrichtigungen</string>
+    <string name="stNotifyBirthDaysBefore">N Tage vor Geburtstagen benachrichtigen:</string>
     <string name="stReset">Einstellungen zurücksetzen</string>
     <string name="stResetSure">
         Sind Sie sicher, dass Sie alle Einstellungen auf die Standardeinstellungen zurücksetzen möchten?

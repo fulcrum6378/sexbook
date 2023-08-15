@@ -132,7 +132,11 @@
     <string name="stSexTypeInclude">Inclusief %s</string>
     <string name="stStatOnlyCrushes">Statisticeer alleen mijn verliefdheden</string>
     <string name="stVibration">Trillen voor belangrijke knoppen</string>
+    <string name="stBirthdays">Verjaardagen</string>
     <string name="stCalOutput">Maak een lijst van verjaardagen in de systeemkalender</string>
+    <string name="stUseGregorianForBirthdays">Gebruik alleen de Gregoriaanse kalender voor verjaardagen</string>
+    <string name="stPauseBirthdaysNtf">Pauzeer alle verjaardagsmeldingen</string>
+    <string name="stNotifyBirthDaysBefore">Meld N dagen voor verjaardagen:</string>
     <string name="stReset">Reset Instellingen</string>
     <string name="stResetSure">
         Weet je zeker dat je alle instellingen terug wilt zetten naar de standaardinstellingen?
