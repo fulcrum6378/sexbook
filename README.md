@@ -91,18 +91,18 @@ The navigation menu in *Main* has these 3 options:
 ### Localisation
 
 This app currently supports only the below languages.
-The statistics are from Google Play Console (334 active users, updated at 2023.07.07),
+The statistics are from Google Play Console (279 active users, updated at 2023.08.08),
 but there are more users from Galaxy Store.
 
 | Language        | Active Users        |
 |:----------------|:--------------------|
-| English (en-GB) | 131(US) & 24+26(GB) |
+| English (en-GB) | 103(US) & 19+20(GB) |
 | Czech (cz)      | 8                   |
-| German (de)     | 37+3                |
-| Dutch (nl)      | 5+4                 |
-| Russian (ru)    | 17+1                |
+| German (de)     | 33+2                |
+| Dutch (nl)      | 4+1                 |
+| Russian (ru)    | 20+1                |
 
-I may add translations for Spanish(1+14) and French(11+4) later.
+I may add translations for Spanish(3+14) and French(10+1) later.
 
 ### Publishing
 
