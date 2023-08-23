@@ -29,7 +29,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
 
         // Texts
         h.b.name.text = c.m.liefde.value!![i].visName()
-        h.b.sum.text = c.m.liefde.value!![i].sum(c.m)?.let { "{$it}" } ?: ""
+        h.b.sum.text = c.m.liefde.value!![i].sum(c.m)?.let { "{${Fun.decimalCount(it)}}" } ?: ""
 
         // Click
         h.b.root.setOnClickListener { v ->

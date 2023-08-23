@@ -34,6 +34,7 @@ object Fun {
     const val SORT_BY_BEGINNING = 4
     const val SORT_BY_LAST = 5
     const val MAX_BADGE_CHAR = 6
+    const val A_DAY = 86400000L
     val materialTheme = com.google.android.material.R.style.Theme_MaterialComponents_DayNight
     // private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
@@ -255,6 +256,8 @@ object Fun {
         return GregorianCalendar()
             .apply { this@apply.timeInMillis = this@toGregorian.timeInMillis }
     }
+
+    fun decimalCount(d: Float) = if (d % 1 > 0) d.toString() else d.toInt().toString()
 
     /**
      * Data class that indicates a sex type.

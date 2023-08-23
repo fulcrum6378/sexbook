@@ -79,10 +79,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         ) calManager = CalendarManager(this@Main, this)
 
                         // notify if any birthday is around
-                        if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
+                        /*if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                                     ) < Settings.notifyBirthAfterLastTime ||
                             sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
-                        ) return@apply
+                        ) return@apply*/
                         for (it in this) if (it.notifyBirth) it.bCalendar()?.also { birth ->
                             var now: Calendar = GregorianCalendar()
                             var bir: Calendar = GregorianCalendar()
@@ -99,8 +99,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                                 this.timeInMillis = birth.timeInMillis
                                 this[Calendar.YEAR] = now[Calendar.YEAR]
                             }.timeInMillis
-                            if (abs(dist) <=
-                                sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * 86400000L
+                            if (dist in
+                                -(sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * Fun.A_DAY)
+                                ..Fun.A_DAY
                             ) notifyBirth(it, dist)
                         }
                     }
@@ -396,8 +397,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
                 setContentText(
                     getString(
-                        if (dist < 0L) R.string.bHappyBef
-                        else R.string.bHappyAft,
+                        if (dist < 0L) R.string.bHappyBef else R.string.bHappyAft,
                         abs(dist / 3600000L)
                     )
                 )

@@ -40,7 +40,7 @@ class Settings : BaseActivity() {
     /** Beware of the numerical fields; go to Exporter.replace() for modifications. */
     companion object {
         const val spName = "settings"
-        const val notifyBirthAfterLastTime = 3600000L * 6L
+        const val notifyBirthAfterLastTime = 3600000L * 12L
 
         // Via Settings
         const val spCalType = "calendarType" // def 0
