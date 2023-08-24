@@ -1,10 +1,11 @@
 package ir.mahdiparastesh.sexbook.data
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity
-class Guess(
+class Guess @Ignore constructor(
     var crsh: String?,
     var sinc: Long,
     var till: Long,

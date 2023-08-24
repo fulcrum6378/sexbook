@@ -20,6 +20,7 @@ class Report(
     @Transient
     var guess: Boolean = false
 
+    @Ignore
     constructor(time: Long, name: String, type: Byte, plac: Long)
             : this(time, name, type, null, false, plac) {
         guess = true

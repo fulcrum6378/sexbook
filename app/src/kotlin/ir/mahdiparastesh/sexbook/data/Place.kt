@@ -5,7 +5,7 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity
-class Place(
+class Place @Ignore constructor(
     var name: String?,
     var latitude: Double,
     var longitude: Double,
