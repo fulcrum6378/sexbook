@@ -15,6 +15,7 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
 import ir.mahdiparastesh.sexbook.more.BasePage
+import java.util.concurrent.CopyOnWriteArrayList
 
 @SuppressLint("NotifyDataSetChanged")
 class PageLove : BasePage() {
@@ -39,31 +40,31 @@ class PageLove : BasePage() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.C_VIEW_ALL -> {
-                        c.m.liefde.value = msg.obj as ArrayList<Crush>
+                        c.m.liefde = CopyOnWriteArrayList(msg.obj as List<Crush>)
                         prepareList()
-                        c.count(c.m.liefde.value?.size ?: 0)
+                        c.count(c.m.liefde?.size ?: 0)
                     }
                     Work.REPLACE_ALL -> Work(c, Work.C_VIEW_ALL).start()
                     Work.C_UPDATE_ONE -> if (b.rv.adapter != null)
-                        c.m.liefde.value?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
-                            c.m.liefde.value?.set(it, msg.obj as Crush)
+                        c.m.liefde?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
+                            c.m.liefde?.set(it, msg.obj as Crush)
                             // b.rv.adapter?.notifyItemChanged(it)
                             prepareList()
                         }
                     Work.C_DELETE_ONE -> if (b.rv.adapter != null) {
-                        c.m.liefde.value?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
-                            c.m.liefde.value?.removeAt(it)
+                        c.m.liefde?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
+                            c.m.liefde?.removeAt(it)
                             b.rv.adapter?.notifyItemRemoved(it)
                             b.rv.adapter?.notifyItemRangeChanged(it, b.rv.adapter!!.itemCount - it)
                         }
-                        c.count(c.m.liefde.value?.size ?: 0)
+                        c.count(c.m.liefde?.size ?: 0)
                     }
                     // Work.ADMOB_LOADED -> loadAd()
                 }
             }
         }
 
-        if (c.m.liefde.value == null) Work(c, Work.C_VIEW_ALL).start()
+        if (c.m.liefde == null) Work(c, Work.C_VIEW_ALL).start()
         else if (!loadingNeedsSummary()) prepareList()
     }
 
@@ -83,14 +84,14 @@ class PageLove : BasePage() {
      */
     override fun prepareList() {
         wasListEverPrepared = true
-        c.m.liefde.value?.sortWith(Crush.Sort(c))
-        if (!c.sp.getBoolean(Settings.spPageLoveSortAsc, true)) c.m.liefde.value?.reverse()
+        c.m.liefde?.sortWith(Crush.Sort(c))
+        if (!c.sp.getBoolean(Settings.spPageLoveSortAsc, true)) c.m.liefde?.reverse()
         arrangeList()
     }
 
     /** Arranges the list in the adapter, and creates the adapter if it doesn't exist. */
     private fun arrangeList() {
-        if (b.empty.vis(c.m.liefde.value.isNullOrEmpty())) return
+        if (b.empty.vis(c.m.liefde.isNullOrEmpty())) return
         if (b.rv.adapter == null) b.rv.adapter = CrushAdap(c)
         else b.rv.adapter?.notifyDataSetChanged()
     }

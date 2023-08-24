@@ -40,7 +40,7 @@ class Singular : ChartActivity<SingularBinding>() {
                 }
             }
         }
-        crush = m.liefde.value?.find { it.key == crushKey }
+        crush = m.liefde?.find { it.key == crushKey }
         b.identify.setOnClickListener {
             Identify(crush, handler).apply {
                 arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crushKey) }

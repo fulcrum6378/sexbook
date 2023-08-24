@@ -327,7 +327,7 @@ class Settings : BaseActivity() {
     /** In the both cases, requires WRITE_CALENDAR permission. */
     private fun turnCalendar(on: Boolean) {
         sp.edit().putBoolean(spCalOutput, on).apply()
-        calManager = CalendarManager(this, m.liefde.value)
+        calManager = CalendarManager(this, m.liefde)
         if (!on) calManager?.terminate()
     }
 }

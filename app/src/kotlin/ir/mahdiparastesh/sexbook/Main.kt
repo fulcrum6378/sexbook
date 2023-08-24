@@ -41,6 +41,7 @@ import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
 import ir.mahdiparastesh.sexbook.stat.*
 import java.io.File
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
@@ -72,17 +73,19 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
-                    Work.C_VIEW_ALL -> m.liefde.value = (msg.obj as ArrayList<Crush>).apply {
+                    Work.C_VIEW_ALL -> m.liefde = CopyOnWriteArrayList(
+                        msg.obj as List<Crush>
+                    ).apply {
                         if (isEmpty()) return@apply
                         if (sp.getBoolean(Settings.spCalOutput, false) &&
                             CalendarManager.checkPerm(this@Main)
                         ) calManager = CalendarManager(this@Main, this)
 
                         // notify if any birthday is around
-                        /*if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
+                        if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                                     ) < Settings.notifyBirthAfterLastTime ||
                             sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
-                        ) return@apply*/
+                        ) return@apply
                         for (it in this) if (it.notifyBirth) it.bCalendar()?.also { birth ->
                             var now: Calendar = GregorianCalendar()
                             var bir: Calendar = GregorianCalendar()
@@ -113,7 +116,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     }
                     Work.CRUSH_ALTERED ->
                         //(msg.obj as List<Crush?>).also { calManager?.updateEvent(it[0], it[1]) }
-                        m.liefde.value?.also { calManager?.replaceEvents(it) }
+                        m.liefde?.also { calManager?.replaceEvents(it) }
                 }
             }
         }
@@ -169,7 +172,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 b.toolbar.menu.clear()
                 b.toolbar.inflateMenu(menus[i])
                 m.currentPage = i
-                count(if (i == 0) null else m.liefde.value?.size ?: 0)
+                count(if (i == 0) null else m.liefde?.size ?: 0)
             }
         })
 
@@ -188,7 +191,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         intent.check(true)
         addOnNewIntentListener { it.check() }
-        if (m.liefde.value == null) Work(c, Work.C_VIEW_ALL).start()
+        if (m.liefde == null) Work(c, Work.C_VIEW_ALL).start()
         if (m.places.value == null) Work(c, Work.P_VIEW_ALL).start()
         if (m.guesses.value == null) Work(c, Work.G_VIEW_ALL).start()
     }
@@ -367,7 +370,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         m.summary = Summary(filtered, nExcluded).apply {
             // Filter if only crushes wanted
             if (sp.getBoolean(Settings.spStatOnlyCrushes, false)) {
-                val liefde = m.liefde.value?.map { it.key }
+                val liefde = m.liefde?.map { it.key }
                 if (!liefde.isNullOrEmpty()) scores = HashMap(scores.filter { it.key in liefde })
                     .also { this.nExcluded += scores.size - it.size }
             }

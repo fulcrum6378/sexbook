@@ -9,6 +9,7 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Summary
+import java.util.concurrent.CopyOnWriteArrayList
 
 /** Static ViewModel available for all BaseActivity instances. */
 class Model : ViewModel() {
@@ -16,7 +17,7 @@ class Model : ViewModel() {
     val onani = MutableLiveData<ArrayList<Report>?>(null)
 
     /** Holds all crushes. */
-    val liefde = MutableLiveData<ArrayList<Crush>?>(null)
+    var liefde: CopyOnWriteArrayList<Crush>? = null
 
     /** Holds all places. */
     val places = MutableLiveData<ArrayList<Place>?>(null)
@@ -39,7 +40,7 @@ class Model : ViewModel() {
 
     fun resetData() {
         onani.value = null
-        liefde.value = null
+        liefde = null
         places.value = null
         guesses.value = null
         visOnani.clear()

@@ -17,11 +17,11 @@ class Taste : ChartActivity<TasteBinding>() {
             .apply { this[0] = getString(R.string.unspecified) }
         val stats = hashMapOf<Byte, Double>()
         for (g in genders.indices) stats[(g - 1).toByte()] = 0.0
-        val crushKeys = m.liefde.value?.map { it.key } ?: listOf()
+        val crushKeys = m.liefde?.map { it.key } ?: listOf()
         for (agent in m.summary!!.scores.keys) {
             val addable = m.summary!!.scores[agent]!!.sumOf { it.value.toDouble() }
             if (agent in crushKeys) {
-                val g = m.liefde.value!!.find { it.key == agent }!!.gender
+                val g = m.liefde!!.find { it.key == agent }!!.gender
                 try {
                     stats[g] = stats[g]!! + addable
                 } catch (_: NullPointerException) {

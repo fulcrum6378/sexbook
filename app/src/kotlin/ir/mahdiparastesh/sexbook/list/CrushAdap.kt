@@ -25,16 +25,16 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
         AnyViewHolder(ItemCrushBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<ItemCrushBinding>, i: Int) {
-        if (c.m.liefde.value == null) return
+        if (c.m.liefde == null) return
 
         // Texts
-        h.b.name.text = c.m.liefde.value!![i].visName()
-        h.b.sum.text = c.m.liefde.value!![i].sum(c.m)?.let { "{${Fun.decimalCount(it)}}" } ?: ""
+        h.b.name.text = c.m.liefde!![i].visName()
+        h.b.sum.text = c.m.liefde!![i].sum(c.m)?.let { "{${Fun.decimalCount(it)}}" } ?: ""
 
         // Click
         h.b.root.setOnClickListener { v ->
             if (!c.summarize(true)) return@setOnClickListener
-            val cr = c.m.liefde.value?.get(h.layoutPosition)
+            val cr = c.m.liefde?.get(h.layoutPosition)
             val ins = cr?.insta
             MaterialMenu(c, v, R.menu.crush, Act().apply {
                 this[R.id.lcInstagram] = {
@@ -42,7 +42,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                         c.startActivity(
                             Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse(Fun.INSTA + c.m.liefde.value!![h.layoutPosition].insta)
+                                Uri.parse(Fun.INSTA + c.m.liefde!![h.layoutPosition].insta)
                             ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         )
                     } catch (_: ActivityNotFoundException) {
@@ -53,22 +53,22 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                 }
                 this[R.id.lcStatistics] = {
                     c.goTo(Singular::class) {
-                        putExtra(Singular.EXTRA_CRUSH_KEY, c.m.liefde.value!![i].key)
+                        putExtra(Singular.EXTRA_CRUSH_KEY, c.m.liefde!![i].key)
                     }
                 }
             }).apply {
                 menu.findItem(R.id.lcInstagram).isEnabled = ins != null && ins != ""
-                val sum = c.m.summary?.scores?.get(c.m.liefde.value!![i].key)
+                val sum = c.m.summary?.scores?.get(c.m.liefde!![i].key)
                     ?.sumOf { it.value.toDouble() }
                 menu.findItem(R.id.lcStatistics).isEnabled = sum != null && sum > 0.0
             }.show()
         }
         h.b.root.setOnLongClickListener {
-            c.m.liefde.value?.get(h.layoutPosition)?.also { identify(it) }; true
+            c.m.liefde?.get(h.layoutPosition)?.also { identify(it) }; true
         }
     }
 
-    override fun getItemCount() = c.m.liefde.value?.size ?: 0
+    override fun getItemCount() = c.m.liefde?.size ?: 0
 
     private fun identify(crush: Crush) {
         Identify(crush, PageLove.handler.value).apply {
