@@ -316,8 +316,7 @@ class Settings : BaseActivity() {
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    @Suppress("DEPRECATION")
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         if (changed) goTo(Main::class, true) { action = RELOAD.s }
         else super.onBackPressed()

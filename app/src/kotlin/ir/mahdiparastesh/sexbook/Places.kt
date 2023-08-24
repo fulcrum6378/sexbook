@@ -107,8 +107,7 @@ class Places : BaseActivity(), Lister {
         super.onDestroy()
     }
 
-    @Deprecated("Deprecated in Java")
-    @Suppress("DEPRECATION")
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         if (changed) goTo(Main::class, true) { action = Main.Action.RELOAD.s }
         else super.onBackPressed()

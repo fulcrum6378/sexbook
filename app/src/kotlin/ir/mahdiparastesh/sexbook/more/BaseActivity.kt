@@ -25,7 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.Settings
-import java.util.*
+import java.util.Locale
 import kotlin.reflect.KClass
 
 /** Abstract class for all Activity instances in this app and it extends AppCompatActivity. */
@@ -88,7 +88,6 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
                 setDisplayHomeAsUpEnabled(true)
                 setDisplayShowHomeEnabled(true)
             }
-            @Suppress("DEPRECATION")
             tb.setNavigationOnClickListener { onBackPressed() }
         }
         tb.navigationIcon?.colorFilter = themePdcf()

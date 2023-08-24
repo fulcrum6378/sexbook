@@ -54,7 +54,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
     @MainThread
     abstract suspend fun render(data: AbstractChartData)
 
-    @Deprecated("Deprecated in Java")
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         job?.cancel()
         super.onBackPressed()
