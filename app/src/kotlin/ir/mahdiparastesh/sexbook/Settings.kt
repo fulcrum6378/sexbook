@@ -43,29 +43,29 @@ class Settings : BaseActivity() {
         const val notifyBirthAfterLastTime = 3600000L * 12L
 
         // Via Settings
-        const val spCalType = "calendarType" // def 0
-        const val spStatSinceCb = "statisticiseSinceCb" // def false
-        const val spStatSince = "statisticiseSince"
-        const val spStatUntilCb = "statisticiseUntilCb" // def false
-        const val spStatUntil = "statisticiseUntil"
-        const val spStatInclude = "statisticiseInclude" // + s; def true
-        const val spStatOnlyCrushes = "statisticiseOnlyCrushes" // def false
-        const val spVibration = "vibration" // def true
-        const val spCalOutput = "calendarOutput" // def false
-        const val spGregorianForBirthdays = "useGregorianForBirthdays"
+        const val spCalType = "calendarType" // Int, def 0
+        const val spStatSinceCb = "statisticiseSinceCb" // Boolean, def false
+        const val spStatSince = "statisticiseSince" // Long
+        const val spStatUntilCb = "statisticiseUntilCb" // Boolean, def false
+        const val spStatUntil = "statisticiseUntil" // Long
+        const val spStatInclude = "statisticiseInclude" // + s; Boolean, def true
+        const val spStatOnlyCrushes = "statisticiseOnlyCrushes" // Boolean, def false
+        const val spVibration = "vibration" // Boolean, def true
+        const val spCalOutput = "calendarOutput" // Boolean, def false
+        const val spGregorianForBirthdays = "useGregorianForBirthdays"// Boolean
         const val spGregorianForBirthdaysDef = true
-        const val spPauseBirthdaysNtf = "pauseBirthdayNotifications" // def false
-        const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore"
+        const val spPauseBirthdaysNtf = "pauseBirthdayNotifications" // Boolean, def false
+        const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // Int
         const val spNotifyBirthDaysBeforeDef = 3
 
         // Via other places
-        const val spDefPlace = "defaultPlace"
-        const val spPageLoveSortBy = "page_love_sort_by" // def 0
-        const val spPageLoveSortAsc = "page_love_sort_ascending" // def true
+        const val spDefPlace = "defaultPlace" // Long
+        const val spPageLoveSortBy = "page_love_sort_by" // Int, def 0
+        const val spPageLoveSortAsc = "page_love_sort_ascending" // Boolean, def true
 
         // Automatic and hidden
-        const val spPrefersOrgType = "prefersOrgType"
-        const val spLastNotifiedBirthAt = "lastNotifiedBirthAt"
+        const val spPrefersOrgType = "prefersOrgType" // Int
+        const val spLastNotifiedBirthAt = "lastNotifiedBirthAt" // Long
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

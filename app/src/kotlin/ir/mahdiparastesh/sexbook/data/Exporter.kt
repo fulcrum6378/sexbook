@@ -143,16 +143,14 @@ class Exporter(val c: BaseActivity) {
             imported.settings.forEach { (k, v) ->
                 when (v) {
                     is Boolean -> putBoolean(k, v)
-                    is Double -> // all numbers become Double in SP.
-                        when (k) {
-                            Settings.spDefPlace, Settings.spStatSince,
-                            Settings.spStatUntil, Settings.spPageLoveSortBy,
-                            Settings.spLastNotifiedBirthAt ->
-                                putLong(k, v.toLong())
-                            Settings.spCalType, Settings.spNotifyBirthDaysBefore,
-                            Settings.spPrefersOrgType ->
-                                putInt(k, v.toInt())
-                        }
+                    is Double -> when (k) { // all numbers become Double in SP.
+                        Settings.spCalType, Settings.spNotifyBirthDaysBefore,
+                        Settings.spPageLoveSortBy, Settings.spPrefersOrgType ->
+                            putInt(k, v.toInt())
+                        Settings.spStatSince, Settings.spStatUntil, Settings.spDefPlace,
+                        Settings.spLastNotifiedBirthAt ->
+                            putLong(k, v.toLong())
+                    }
                     is String -> putString(k, v)
                 }
             }
