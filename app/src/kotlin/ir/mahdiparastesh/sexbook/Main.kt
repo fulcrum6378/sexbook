@@ -443,6 +443,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Extension:
   * Statisticise delays in hours between orgasms
   * Export data to TXT
+  * Remove Dutch translations
+  * Add SPANISH translation
   * -
   * Why is it fucked up after a package reinstall? Does it happen for others?
   */
