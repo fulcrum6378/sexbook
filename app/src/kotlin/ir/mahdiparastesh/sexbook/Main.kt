@@ -438,13 +438,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
+  * After whirling around the app sorting feature of PageLove doesn't work!
   * Searching in Summary and Recency is so immature!
   * -
   * Extension:
-  * Statisticise delays in hours between orgasms
-  * Export data to TXT
-  * Remove Dutch translations
   * Add SPANISH translation
+  * Statisticise delays in hours between orgasms
+  * Eye and hair colours for Crush
+  * Export data to TXT
   * -
   * Why is it fucked up after a package reinstall? Does it happen for others?
   */

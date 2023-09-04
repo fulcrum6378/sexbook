@@ -99,7 +99,6 @@ but there are more users from Galaxy Store.
 | English (en-GB) | 109(US) & 21+17(GB) |
 | Czech (cz)      | 11                  |
 | German (de)     | 34+2                |
-| Dutch (nl)      | 4+1                 |
 | Russian (ru)    | 21                  |
 
 I may add translations for Spanish(5+17) and French(9+1) later.
