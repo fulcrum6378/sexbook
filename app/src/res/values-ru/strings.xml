@@ -12,6 +12,7 @@
     <string name="discard">Отмена</string>
     <string name="excStat">Плюс %s исключено из статистики.</string>
     <string name="unknown">Плюс %s от неизвестных людей.</string>
+    <string name="nonCrush">Плюс %s от тех, кто не указан в списке влюбленных.</string>
     <string name="instagram" tools:ignore="Untranslatable">Инстаграм</string>
     <string-array name="types">
         <item>Поллюция</item>

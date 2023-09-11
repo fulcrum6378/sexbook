@@ -20,6 +20,7 @@ import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.HumanistIranianCalendar
+import java.text.DecimalFormat
 
 /** Static functions and utilities used everywhere. */
 object Fun {
@@ -202,15 +203,6 @@ object Fun {
         if (isEmpty()) addAll((0 until sexTypesCount).map { it.toByte() })
     }
 
-    fun Float.tripleRound(): Float {
-        val int = toInt()
-        return when {
-            (this - int) < 0.33334f -> int.toFloat()
-            (this - int) > 0.66666f -> int + 1f
-            else -> int.toFloat() + 0.5f
-        }
-    }
-
     /** Listens for the time when a View is completely loaded and then executes "func". */
     fun View.onLoad(func: () -> Unit) {
         object : CountDownTimer(5000, 50) {
@@ -257,7 +249,8 @@ object Fun {
             .apply { this@apply.timeInMillis = this@toGregorian.timeInMillis }
     }
 
-    fun decimalCount(d: Float) = if (d % 1 > 0) d.toString() else d.toInt().toString()
+    fun Float.show(): String =
+        if (this % 1 > 0) DecimalFormat("#.##").format(this) else toInt().toString()
 
     /**
      * Data class that indicates a sex type.

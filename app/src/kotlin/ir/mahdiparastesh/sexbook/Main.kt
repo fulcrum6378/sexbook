@@ -372,7 +372,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             if (sp.getBoolean(Settings.spStatOnlyCrushes, false)) {
                 val liefde = m.liefde?.map { it.key }
                 if (!liefde.isNullOrEmpty()) scores = HashMap(scores.filter { it.key in liefde })
-                    .also { this.nExcluded += scores.size - it.size }
+                    .also {
+                        nonCrush = it.values.sumOf { orgasms ->
+                            orgasms.sumOf { o -> o.value.toDouble() }
+                        }.toFloat()
+                        actual -= nonCrush
+                    }
             }
         }
         (pageSex()?.b?.rv?.adapter as? ReportAdap)?.crushSuggester?.update()

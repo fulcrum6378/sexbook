@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
@@ -29,7 +30,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
 
         // Texts
         h.b.name.text = c.m.liefde!![i].visName()
-        h.b.sum.text = c.m.liefde!![i].sum(c.m)?.let { "{${Fun.decimalCount(it)}}" } ?: ""
+        h.b.sum.text = c.m.liefde!![i].sum(c.m)?.let { "{${it.show()}}" } ?: ""
 
         // Click
         h.b.root.setOnClickListener { v ->

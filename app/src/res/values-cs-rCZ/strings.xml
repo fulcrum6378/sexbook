@@ -12,6 +12,7 @@
     <string name="discard">Vyřadit</string>
     <string name="excStat">Plus %s vyloučeno ze statistiky.</string>
     <string name="unknown">Plus %s od neznámých lidí.</string>
+    <string name="nonCrush">Plus %s od těch, kteří nejsou uvedeni jako zamilovaní.</string>
     <string-array name="types">
         <item>Poluce</item>
         <item>Masturbace</item>

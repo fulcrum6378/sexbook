@@ -12,6 +12,7 @@
     <string name="discard">Verwerfen</string>
     <string name="excStat">Plus %s von der Statistik ausgeschlossen.</string>
     <string name="unknown">Plus %s von unbekannten Personen.</string>
+    <string name="nonCrush">Plus %s von denen, die nicht als Schwärmereien aufgeführt sind.</string>
     <string-array name="types">
         <item>Pollution</item>
         <item>Masturbation</item>

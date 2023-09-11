@@ -5,7 +5,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SumChipGroupBinding
@@ -25,7 +25,7 @@ class StatSumAdap(
         AnyViewHolder(SumChipGroupBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<SumChipGroupBinding>, i: Int) {
-        h.b.count.text = Fun.decimalCount(arr[i].key).plus(": ")
+        h.b.count.text = arr[i].key.show().plus(": ")
 
         for (crush in arr[i].value.indices) (if (h.b.root.childCount < crush + 2) Chip(c).apply {
             layoutParams = ChipGroup.LayoutParams(-2, -2)

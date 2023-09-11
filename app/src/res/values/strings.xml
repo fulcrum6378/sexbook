@@ -14,6 +14,7 @@
     <string name="discard">Discard</string>
     <string name="excStat">Plus %s excluded from statisticisation.</string>
     <string name="unknown">Plus %s from unknown people.</string>
+    <string name="nonCrush">Plus %s from those who are not listed as crushes.</string>
     <string name="instagram" translatable="false">Instagram</string>
     <string-array name="types">
         <item>Wet Dream</item>

@@ -3,14 +3,14 @@ package ir.mahdiparastesh.sexbook.stat
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
-import ir.mahdiparastesh.sexbook.Fun.tripleRound
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 
 class Summary(list: List<Report>, var nExcluded: Int) {
     var scores: HashMap<String, ArrayList<Orgasm>>
     var unknown = 0f
-    val actual = list.size
+    var nonCrush = 0f
+    var actual = list.size.toFloat()
 
     init {
         val all = arrayListOf<List<List<String>>?>()
@@ -174,7 +174,7 @@ class Summary(list: List<Report>, var nExcluded: Int) {
         var results = HashMap<Float, ArrayList<String>>()
         for (s in scores) {
             val key = s.key
-            val sumErect = s.value.sumOf { it.value.toDouble() }.toFloat().tripleRound()
+            val sumErect = s.value.sumOf { it.value.toDouble() }.toFloat()
             if (isUnknown(key)) {
                 unknown = sumErect
                 continue

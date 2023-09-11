@@ -4,7 +4,7 @@ import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
-import ir.mahdiparastesh.sexbook.Fun.tripleRound
+import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
 
@@ -35,7 +35,7 @@ class Taste : ChartActivity<TasteBinding>() {
             val score = stats[(g - 1).toByte()]!!.toFloat()
             data.add(
                 SliceValue(score, color(R.color.CPV_LIGHT))
-                    .apply { setLabel("${genders[g]} {${score.tripleRound()}}") })
+                    .apply { setLabel("${genders[g]} {${score.show()}}") })
         }
         return PieChartData(data).apply { setHasLabels(true) }
     }

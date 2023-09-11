@@ -23,8 +23,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
+import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Fun.onLoad
-import ir.mahdiparastesh.sexbook.Fun.tripleRound
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.databinding.SumPieBinding
@@ -46,7 +46,10 @@ class SummaryDialog : BaseDialog() {
             adapter = SumAdapter(c)
         }
         dialogue = MaterialAlertDialogBuilder(c).apply {
-            setTitle("${getString(R.string.summary)} (${c.m.summary!!.actual} / ${c.m.onani.value!!.size})")
+            setTitle(
+                "${getString(R.string.summary)} " +
+                        "(${c.m.summary!!.actual.show()} / ${c.m.onani.value!!.size})"
+            )
             setView(ConstraintLayout(c).apply {
                 layoutParams = ViewGroup.LayoutParams(-1, -1)
                 addView(pager)
@@ -133,7 +136,12 @@ class SummaryDialog : BaseDialog() {
             }
             c.m.summary?.unknown?.also {
                 if (it > 0f) pluses.addView(
-                    plus(b.root.context, getString(R.string.unknown, it.toString()))
+                    plus(b.root.context, getString(R.string.unknown, it.show()))
+                )
+            }
+            c.m.summary?.nonCrush?.also {
+                if (it > 0f) pluses.addView(
+                    plus(b.root.context, getString(R.string.nonCrush, it.show()))
                 )
             }
             b.root.addView(pluses)
@@ -171,7 +179,7 @@ class SummaryDialog : BaseDialog() {
                 val score = it.value.sumOf { s -> s.value.toDouble() }.toFloat()
                 data.add(
                     SliceValue(score, c.color(R.color.CPV_LIGHT))
-                        .apply { setLabel("${it.key} {${score.tripleRound()}}") })
+                        .apply { setLabel("${it.key} {${score.show()}}") })
             }
             b.root.pieChartData = PieChartData(data).apply {
                 setHasLabelsOnlyForSelected(true) // setHasLabels(true)

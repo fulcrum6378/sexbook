@@ -10,7 +10,6 @@ import androidx.room.PrimaryKey
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.toDefaultType
-import ir.mahdiparastesh.sexbook.Fun.tripleRound
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.more.BaseActivity
@@ -77,7 +76,7 @@ class Crush(
     }
 
     fun sum(m: Model): Float? = m.summary?.scores?.get(key)
-        ?.sumOf { it.value.toDouble() }?.toFloat()?.tripleRound()
+        ?.sumOf { it.value.toDouble() }?.toFloat()
 
     fun last(m: Model): Long? = m.summary?.scores?.get(key)?.maxOf { it.time }
 
