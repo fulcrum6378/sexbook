@@ -6,11 +6,11 @@ import android.os.Parcelable
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 
-class Summary(list: List<Report>, var nExcluded: Int) {
+class Summary(list: List<Report>, var nExcluded: Int, total: Int) {
     var scores: HashMap<String, ArrayList<Orgasm>>
     var unknown = 0f
     var nonCrush = 0f
-    var actual = list.size.toFloat()
+    var apparent = (total - nExcluded).toFloat()
 
     init {
         val all = arrayListOf<List<List<String>>?>()
@@ -177,6 +177,7 @@ class Summary(list: List<Report>, var nExcluded: Int) {
             val sumErect = s.value.sumOf { it.value.toDouble() }.toFloat()
             if (isUnknown(key)) {
                 unknown = sumErect
+                apparent -= unknown
                 continue
             }
             if (!results.containsKey(sumErect)) results[sumErect] = arrayListOf(key)

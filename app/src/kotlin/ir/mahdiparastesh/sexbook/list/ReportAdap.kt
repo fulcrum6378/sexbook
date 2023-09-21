@@ -271,6 +271,8 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         fun update() {
             clear()
             addAll(c.m.summaryCrushes())
+            //notifyDataSetChanged()
+            //Toast.makeText(c, c.m.summary?.scores?.size.toString(), Toast.LENGTH_LONG).show()
         }
     }
 

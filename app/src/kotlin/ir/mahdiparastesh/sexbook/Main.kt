@@ -367,16 +367,16 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             filtered = filtered.filter { it.type in allowedTypes }
                 .also { nExcluded += filtered.size - it.size }
 
-        m.summary = Summary(filtered, nExcluded).apply {
+        m.summary = Summary(filtered, nExcluded, m.onani.value!!.size).apply {
             // Filter if only crushes wanted
             if (sp.getBoolean(Settings.spStatOnlyCrushes, false)) {
                 val liefde = m.liefde?.map { it.key }
                 if (!liefde.isNullOrEmpty()) scores = HashMap(scores.filter { it.key in liefde })
                     .also {
-                        nonCrush = it.values.sumOf { orgasms ->
+                        nonCrush = apparent - it.values.sumOf { orgasms ->
                             orgasms.sumOf { o -> o.value.toDouble() }
                         }.toFloat()
-                        actual -= nonCrush
+                        apparent -= nonCrush
                     }
             }
         }
@@ -451,6 +451,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Statisticise delays in hours between orgasms
   * Eye and hair colours for Crush
   * Export data to TXT
+  * Pleasure score for Reports?!?
   * -
   * Why is it fucked up after a package reinstall? Does it happen for others?
   */

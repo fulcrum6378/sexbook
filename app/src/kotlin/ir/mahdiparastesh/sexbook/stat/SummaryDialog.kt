@@ -23,8 +23,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
-import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Fun.onLoad
+import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.databinding.SumPieBinding
@@ -48,7 +48,7 @@ class SummaryDialog : BaseDialog() {
         dialogue = MaterialAlertDialogBuilder(c).apply {
             setTitle(
                 "${getString(R.string.summary)} " +
-                        "(${c.m.summary!!.actual.show()} / ${c.m.onani.value!!.size})"
+                        "(${c.m.summary!!.apparent.show()} / ${c.m.onani.value!!.size})"
             )
             setView(ConstraintLayout(c).apply {
                 layoutParams = ViewGroup.LayoutParams(-1, -1)
