@@ -7,11 +7,7 @@
 
     <ir.mahdiparastesh.hellocharts.view.PieChartView
         android:id="@+id/main"
-        style="@style/statChart"
-        android:paddingStart="25dp"
-        android:paddingTop="5dp"
-        android:paddingEnd="25dp"
-        android:paddingBottom="10dp" />
+        style="@style/statChart" />
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/statTitle"
