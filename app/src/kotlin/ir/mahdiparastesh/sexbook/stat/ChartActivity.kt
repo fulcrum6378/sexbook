@@ -23,7 +23,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@Suppress("DEPRECATION")
 abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
     protected abstract val b: L
     private var job: Job? = null

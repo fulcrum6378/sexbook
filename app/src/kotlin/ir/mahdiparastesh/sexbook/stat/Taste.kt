@@ -20,6 +20,7 @@ class Taste : ChartActivity<TasteBinding>() {
         val crushKeys = m.liefde?.map { it.key } ?: listOf()
         for (agent in m.summary!!.scores.keys) {
             val addable = m.summary!!.scores[agent]!!.sumOf { it.value.toDouble() }
+            // `sumOf()` only accepts Double values!
             if (agent in crushKeys) {
                 val g = m.liefde!!.find { it.key == agent }!!.gender
                 try {
@@ -33,6 +34,7 @@ class Taste : ChartActivity<TasteBinding>() {
         val data = arrayListOf<SliceValue>()
         for (g in genders.indices) {
             val score = stats[(g - 1).toByte()]!!.toFloat()
+            if (score == 0f) continue
             data.add(
                 SliceValue(score, color(R.color.CPV_LIGHT))
                     .apply { setLabel("${genders[g]} {${score.show()}}") })

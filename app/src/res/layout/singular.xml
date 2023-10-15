@@ -8,15 +8,14 @@
 
     <ir.mahdiparastesh.hellocharts.view.ColumnChartView
         android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp" />
+        style="@style/statChart"
+        android:paddingTop="68dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/identify"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_margin="18dp"
+        android:layout_margin="10dp"
         android:background="@drawable/button_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">

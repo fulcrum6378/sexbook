@@ -4,6 +4,7 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -266,6 +267,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         return true
     }
 
+    @SuppressLint("MissingSuperCall")
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         if (b.root.isDrawerOpen(drawerGravity)) {
@@ -452,6 +454,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Eye and hair colours for Crush
   * Export data to TXT
   * Pleasure score for Reports?!?
+  * Crush name on top of Singular
   * -
   * Why is it fucked up after a package reinstall? Does it happen for others?
   */
