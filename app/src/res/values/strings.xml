@@ -98,14 +98,15 @@
         <item>Male</item>
         <item>Non-Binary</item>
     </string-array>
-    <string name="birth">Birthday</string><!--TODO translate again-->
+    <string name="birth">Birthday</string>
     <string name="heightInCM">Height (cm)</string>
     <string name="address">Address</string>
     <string name="firstMet">First Met</string>
     <string name="notifyBirth">Notify me in their birthday</string>
     <string name="crushClear">Clear Information: %s</string>
     <string name="crushClearSure">
-        Are you sure you want to clear this person\'s information? (THIS DOES NOT INCLUDE THE SEX RECORDS!)
+        Are you sure you want to clear this person\'s information?
+        (THIS DOES NOT INCLUDE THE SEX RECORDS!)
     </string>
 
     <!-- Places -->
@@ -150,7 +151,7 @@
     <!-- #External -->
     <string name="sBirthday">%s\'s birthday</string>
     <string name="lastOrgasmHours">hours since the last one.</string>
-    <string name="lastOrgasmDesc">Shows hours elapsed since your last orgasm!</string>
+    <string name="lastOrgasmDesc">Shows hours elapsed since your last orgasm.</string>
     <string name="permReadDb" translatable="false">
         Allows the app to view data from the Sexbook database.
     </string>

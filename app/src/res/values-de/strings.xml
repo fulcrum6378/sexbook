@@ -95,8 +95,8 @@
         <item>Mann</item>
         <item>Nicht-binär</item>
     </string-array>
+    <string name="birth">Geburtstag</string>
     <string name="heightInCM">Höhe (cm)</string>
-    <string name="birth">Geburtsdatum</string>
     <string name="address">Adresse</string>
     <string name="firstMet">Erstes Treffen</string>
     <string name="notifyBirth">Benachrichtigen Sie mich an ihrem Geburtstag</string>
@@ -151,5 +151,5 @@
     <!-- #External -->
     <string name="sBirthday">%ss Geburtstag</string>
     <string name="lastOrgasmHours">Stunden seitdem letzten.</string>
-    <string name="lastOrgasmDesc">Zeigt die seit Ihrem letzten Orgasmus verstrichenen Stunden an!</string>
+    <string name="lastOrgasmDesc">Zeigt die seit Ihrem letzten Orgasmus verstrichenen Stunden an.</string>
 </resources>

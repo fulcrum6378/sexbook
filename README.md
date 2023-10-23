@@ -45,6 +45,8 @@ The statistical charts are provided by [**HelloCharts**](https://github.com/fulc
   makes a line chart of sexual partners using the number of sexual intercourses in each month.
 - [**Growth**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Growth.kt) :
   same as Adorability, but this one shows the numbers additively.
+- [**Taste**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Taste.kt) :
+  creates charts suggesting your sexual taste.
 - [**Mixture**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Mixture.kt) :
   shows months by the number of total sexual intercourses, regardless of sexual partners.
 
@@ -91,17 +93,18 @@ The navigation menu in *Main* has these 3 options:
 ### Localisation
 
 This app currently supports only the below languages.
-The statistics are from Google Play Console (272 active users, updated at 2023.09.29),
+The statistics are from Google Play Console (272 active users, updated at 2023.10.23),
 but there are more users from Galaxy Store.
 
-| Language        | Active Users        |
-|:----------------|:--------------------|
-| English (en-GB) | 100(US) & 23+20(GB) |
-| Czech (cz)      | 13                  |
-| German (de)     | 36+2                |
-| Russian (ru)    | 17                  |
+| Language        | Active Users      |
+|:----------------|:------------------|
+| English (en-GB) | 88(US), 23+18(GB) |
+| Czech (cz)      | 13                |
+| German (de)     | 33+2              |
+| Spanish (es)    | 3+19              |
+| Russian (ru)    | 20                |
 
-I may add translations for Spanish(2+13) and French(7+1) later.
+I may add translations for French(9+1) later.
 
 ### Publishing
 

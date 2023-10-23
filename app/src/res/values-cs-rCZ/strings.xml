@@ -95,8 +95,8 @@
         <item>Muž</item>
         <item>Nebinární</item>
     </string-array>
+    <string name="birth">Narozeniny</string>
     <string name="heightInCM">Výška (cm)</string>
-    <string name="birth">Datum narození</string>
     <string name="address">Adresa</string>
     <string name="firstMet">Se poprvé setkali</string>
     <string name="notifyBirth">Upozornit mě na jejich narozeniny</string>
@@ -145,5 +145,5 @@
     <!-- #External -->
     <string name="sBirthday">narozeniny %s</string>
     <string name="lastOrgasmHours">hodin od posledního.</string>
-    <string name="lastOrgasmDesc">Ukazuje hodiny uplynulé od vašeho posledního orgasmu!</string>
+    <string name="lastOrgasmDesc">Ukazuje hodiny uplynulé od vašeho posledního orgasmu.</string>
 </resources>

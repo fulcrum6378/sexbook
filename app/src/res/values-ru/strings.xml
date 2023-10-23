@@ -96,8 +96,8 @@
         <item>Мужской</item>
         <item>Небинарный</item>
     </string-array>
+    <string name="birth">День рождения</string>
     <string name="heightInCM">Рост (см)</string>
-    <string name="birth">Дата рождения</string>
     <string name="address">Адрес</string>
     <string name="firstMet">Первая встреча</string>
     <string name="notifyBirth">Сообщите мне об их дне рождения</string>
@@ -149,5 +149,5 @@
     <!-- #External -->
     <string name="sBirthday">День рождения %s</string>
     <string name="lastOrgasmHours">Часов с момента последнего.</string>
-    <string name="lastOrgasmDesc">Показывает часы, прошедшие с момента вашего последнего оргазма!</string>
+    <string name="lastOrgasmDesc">Показывает часы, прошедшие с момента вашего последнего оргазма.</string>
 </resources>

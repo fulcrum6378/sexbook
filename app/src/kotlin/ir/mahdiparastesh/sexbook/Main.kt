@@ -407,7 +407,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
                 setContentText(
                     getString(
-                        if (dist < 0L) R.string.bHappyBef else R.string.bHappyAft,
+                        if (dist < 0L) R.string.bHappyBef
+                        else R.string.bHappyAft,
                         abs(dist / 3600000L)
                     )
                 )
@@ -449,12 +450,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Searching in Summary and Recency is so immature!
   * -
   * Extension:
-  * Add SPANISH translation
   * Statisticise delays in hours between orgasms
   * Eye and hair colours for Crush
   * Export data to TXT
   * Pleasure score for Reports?!?
   * Crush name on top of Singular
+  * Jump to Android 8 and remove many unnecessary things
   * -
   * Why is it fucked up after a package reinstall? Does it happen for others?
   */

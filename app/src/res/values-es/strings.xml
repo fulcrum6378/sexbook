@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sexbook</string>
+
+    <!-- GLOBAL -->
+    <string name="sOpen">Abierto</string>
+    <string name="close">Cerca</string>
+    <string name="toExit">Toca dos veces para salir&#8230;</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="save">Guarda</string>
+    <string name="discard">Deseche</string>
+    <string name="excStat">Más %s excluidas de la estadística.</string>
+    <string name="unknown">Más %s de personas desconocidas.</string>
+    <string name="nonCrush">Más %s de aquellos que no figuran como enamorados.</string>
+    <string-array name="types">
+        <item>Sueño Húmedo</item>
+        <item>Masturbación</item>
+        <item>Sexo Oral</item>
+        <item>Sexo Anal</item>
+        <item>Sexo Vaginal</item>
+    </string-array>
+    <string-array name="calendarTypes">
+        <item>Gregoriano</item>
+        <item>Iraní</item>
+        <item>Indio</item>
+    </string-array>
+    <string name="shrAdd">Añadir nuevo registro</string>
+    <string name="delete">Borrar</string>
+    <string name="expand">Expandir</string>
+    <string name="collapse">Colapsar</string>
+    <string name="bHappyTitle">¡Feliz cumpleaños %s!</string>
+    <string name="bHappyBef">¡Quedan %d hora(s) para su cumpleaños!</string>
+    <string name="bHappyAft">¡Han pasado %d hora(s) desde su cumpleaños!</string>
+    <string name="birthDateNtf">Notificación de cumpleaños</string>
+    <string name="clear">Limpialo</string>
+    <string name="suspend">Suspender</string>
+    <string name="clearDate">Borrar la fecha</string>
+    <string name="none">Ninguno</string>
+    <string name="name">Nombre</string>
+    <string name="sum">Suma</string>
+    <string name="age">Edad</string>
+    <string name="height">Altura</string>
+    <string name="asc">Ascendente</string>
+    <string name="dsc">Descendente</string>
+    <string name="lastOrgasm">Último Orgasmo</string>
+    <string name="unspecified">No especificado</string>
+
+    <!-- Main -->
+    <string name="momImport">Importar desde Json</string>
+    <string name="momExport">Exportar a Json</string>
+    <string name="momSend">Enviar Json a</string>
+    <string name="momSettings">Ajustes</string>
+    <string name="exportDone">¡Hecho!</string>
+    <string name="exportUndone">¡Fallido!</string>
+    <string name="importDone">¡Hecho!</string>
+    <string name="importOpenError">¡Lamentablemente se produjo un error al abrir el archivo!</string>
+    <string name="importReadError">¡Lamentablemente se produjo un error al leer el archivo!</string>
+    <string name="noRecords">¡Aún no tienes registros!</string>
+    <string name="askImport">
+        ¿Estás seguro de que quieres reemplazar todos los datos de la aplicación?
+    </string>
+    <string name="findCrush">Encontrar un Amor&#8230;</string>
+    <string name="chart">Cuadro</string>
+
+    <!-- Page Sex -->
+    <string name="lcAccurate">Exacta?</string>
+    <string name="desc">Escribe descripciones&#8230;</string>
+    <string name="placeHint">Añadir un nuevo lugar&#8230;</string>
+
+    <!-- Page Love -->
+    <string name="crushes">Lista de Amores</string>
+    <string name="emptyLove">
+        Después de agregar algunos registros de sexo,
+        vaya al Menú de navegación -> Resumen -> Seleccione una persona que le guste ->
+        Presiona el botón superior derecho con un ícono de \"Persona\" (Identificación).
+    </string>
+
+    <!-- #Statistics -->
+    <string name="summary">Resumen</string>
+    <string name="recency">Frescura</string>
+    <string name="adorability">Adorabilidad</string>
+    <string name="growth">Crecimiento</string>
+    <string name="taste">Tu Gusto</string>
+    <string name="mixture">Mezcla</string>
+    <string name="statistics">Estadísticas</string>
+    <string name="noStat">¡El rango de sus registros debe exceder un mes!</string>
+
+    <!-- Identification -->
+    <string name="identify">Identificación</string>
+    <string name="firstName">Nombre de pila</string>
+    <string name="middleName">Segundo nombre</string>
+    <string name="lastName">Apellido</string>
+    <string-array name="genders">
+        <item>Especifique su género&#8230;</item>
+        <item>Femenina</item>
+        <item>Masculino</item>
+        <item>No binaria</item>
+    </string-array>
+    <string name="birth">Cumpleaños</string>
+    <string name="heightInCM">Altura (cm)</string>
+    <string name="address">Dirección</string>
+    <string name="firstMet">Primer encuentro</string>
+    <string name="notifyBirth">Avísame en su cumpleaños</string>
+    <string name="crushClear">Borrar la información: %s</string>
+    <string name="crushClearSure">
+        ¿Está seguro de que desea borrar la información de esta persona?
+        (¡ESTO NO INCLUYE LOS REGISTROS SEXUALES!)
+    </string>
+
+    <!-- Places -->
+    <string name="places">Lugares</string>
+    <string name="plItemHint">Nombre del lugar&#8230;</string>
+    <string name="plDeletePlaceSure">
+        ¿Estás seguro de que deseas eliminar este lugar?
+         En caso afirmativo, especifique qué acción se debe tomar sobre los registros relacionados con este lugar:
+    </string>
+    <string name="plDefPlace">¿Lugar predeterminado?</string>
+
+    <!-- Estimation -->
+    <string name="estimation">Estimacion</string>
+    <string name="etCrsh">Amor (opcional)</string>
+    <string name="etSince">Desde</string>
+    <string name="etUntil">Hasta</string>
+    <string name="etFreq">veces por día</string>
+    <string name="etDeleteGuessSure">¿Está seguro de que desea eliminar esta estimación?</string>
+
+    <!-- Settings -->
+    <string name="stTitle">Sexbook Ajustes</string>
+    <string name="stCalendarType">Tipo de calendario</string>
+    <string name="stStatSince">Estadísticar desde</string>
+    <string name="stStatUntil">Estadísticar hasta</string>
+    <string name="statSinceIllogical">¡La fecha máxima debe ser posterior a la fecha mínima!</string>
+    <string name="statUntilIllogical">¡La fecha mínima debe ser anterior a la fecha máxima!</string>
+    <string name="stSexTypesTitle">Filtrar estadísticas por tipo de sexo</string>
+    <string name="stSexTypeInclude">Incluir %s</string>
+    <string name="stStatOnlyCrushes">Sólo estadísticamente mis amores</string>
+    <string name="stVibration">Vibración para botones importantes</string>
+    <string name="stBirthdays">Cumpleaños</string>
+    <string name="stCalOutput">Listar cumpleaños en el calendario del sistema.</string>
+    <string name="stUseGregorianForBirthdays">
+        Utilice únicamente el calendario gregoriano para los cumpleaños
+    </string>
+    <string name="stPauseBirthdaysNtf">Pausar todas las notificaciones de cumpleaños</string>
+    <string name="stNotifyBirthDaysBefore">Notificar N días antes de los cumpleaños:</string>
+    <string name="stReset">Reiniciar ajustes</string>
+    <string name="stResetSure">
+        ¿Está seguro de que desea restablecer todas las configuraciones a los valores predeterminados?
+    </string>
+    <string name="stTruncate">Eliminar todos los datos</string>
+    <string name="stTruncateSure">¿Estás seguro de que deseas eliminar todos tus datos personales?</string>
+
+    <!-- #External -->
+    <string name="sBirthday">El cumpleaños de %s</string>
+    <string name="lastOrgasmHours">horas desde el último.</string>
+    <string name="lastOrgasmDesc">¡Muestra las horas transcurridas desde tu último orgasmo.</string>
+</resources>
