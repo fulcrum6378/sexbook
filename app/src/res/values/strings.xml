@@ -82,10 +82,12 @@
     <string name="recency">Recency</string>
     <string name="adorability">Adorability</string>
     <string name="growth">Growth</string>
-    <string name="taste">Your Taste</string>
     <string name="mixture">Mixture</string>
+    <string name="intervals">Intervals</string>
+    <string name="taste">Your Taste</string>
     <string name="statistics">Statistics</string>
     <string name="noStat">The range of your records must exceed one month!</string>
+    <string name="afterNHours">&#160;after %d hours</string>
 
     <!-- Identification -->
     <string name="identify">Identification</string>

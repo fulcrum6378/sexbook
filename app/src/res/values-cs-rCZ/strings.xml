@@ -79,10 +79,12 @@
     <string name="recency">Aktuálnost</string>
     <string name="adorability">Rozkošnost</string>
     <string name="growth">Růst</string>
-    <string name="taste">Váš Vkus</string>
     <string name="mixture">Směs</string>
+    <string name="intervals">Intervaly</string>
+    <string name="taste">Váš Vkus</string>
     <string name="statistics">Statistika</string>
     <string name="noStat">Rozsah vašich záznamů musí přesáhnout jeden měsíc!</string>
+    <string name="afterNHours">&#160;po %d hodinách</string>
 
     <!-- Identification -->
     <string name="identify">Identifikace</string>

@@ -220,8 +220,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momRec -> Recency().show(supportFragmentManager, Recency.TAG)
             R.id.momPop -> goTo(Adorability::class)
             R.id.momGrw -> goTo(Growth::class)
-            R.id.momTst -> goTo(Taste::class)
             R.id.momMix -> goTo(Mixture::class)
+            R.id.momInt -> goTo(Intervals::class)
+            R.id.momTst -> goTo(Taste::class)
             R.id.momPlc -> goTo(Places::class)
             R.id.momEst -> goTo(Estimation::class)
             R.id.momImport -> exporter.launchImport()
@@ -450,12 +451,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Searching in Summary and Recency is so immature!
   * -
   * Extension:
-  * Statisticise delays in hours between orgasms
   * Eye and hair colours for Crush
   * Export data to TXT
   * Pleasure score for Reports?!?
   * Crush name on top of Singular
-  * Jump to Android 8 and remove many unnecessary things
+  * Jump to Android 8 and remove many unnecessary things (only ~1 person uses Android 7!)
   * -
   * Why is it fucked up after a package reinstall? Does it happen for others?
   */

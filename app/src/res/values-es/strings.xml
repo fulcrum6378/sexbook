@@ -81,10 +81,12 @@
     <string name="recency">Frescura</string>
     <string name="adorability">Adorabilidad</string>
     <string name="growth">Crecimiento</string>
-    <string name="taste">Tu Gusto</string>
     <string name="mixture">Mezcla</string>
+    <string name="intervals">Intervalos</string>
+    <string name="taste">Tu Gusto</string>
     <string name="statistics">Estadísticas</string>
     <string name="noStat">¡El rango de sus registros debe exceder un mes!</string>
+    <string name="afterNHours">&#160;después de %d horas</string>
 
     <!-- Identification -->
     <string name="identify">Identificación</string>

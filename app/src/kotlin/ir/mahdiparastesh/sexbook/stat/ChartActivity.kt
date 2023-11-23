@@ -56,7 +56,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         job?.cancel()
-        super.onBackPressed()
+        @Suppress("DEPRECATION") super.onBackPressed()
     }
 
     fun sinceTheBeginning(c: BaseActivity, mOnani: ArrayList<Report>): List<String> {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/body"
+    tools:context=".stat.Intervals"
+    tools:ignore="MissingConstraints">
+
+    <ir.mahdiparastesh.hellocharts.view.LineChartView
+        android:id="@+id/main"
+        style="@style/statChart" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/statTitle"
+        android:text="@string/intervals" />
+</androidx.constraintlayout.widget.ConstraintLayout>

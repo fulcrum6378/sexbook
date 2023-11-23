@@ -80,10 +80,12 @@
     <string name="recency">Новизна</string>
     <string name="adorability">Прелесть</string>
     <string name="growth">Рост</string>
-    <string name="taste">Твой Вкус</string>
     <string name="mixture">Смесь</string>
+    <string name="intervals">Интервалы</string>
+    <string name="taste">Твой Вкус</string>
     <string name="statistics">Статистика</string>
     <string name="noStat">Диапазон ваших записей должен превышать один месяц!</string>
+    <string name="afterNHours">&#160;через %d часа</string>
 
     <!-- Identification -->
     <string name="identify">Идентификация</string>

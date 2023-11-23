@@ -87,6 +87,11 @@
             android:launchMode="singleTop" />
 
         <activity
+            android:name=".stat.Intervals"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
+        <activity
             android:name=".stat.Taste"
             android:exported="false"
             android:launchMode="singleTop" />

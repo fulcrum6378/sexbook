@@ -45,10 +45,12 @@ The statistical charts are provided by [**HelloCharts**](https://github.com/fulc
   makes a line chart of sexual partners using the number of sexual intercourses in each month.
 - [**Growth**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Growth.kt) :
   same as Adorability, but this one shows the numbers additively.
-- [**Taste**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Taste.kt) :
-  creates charts suggesting your sexual taste.
 - [**Mixture**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Mixture.kt) :
   shows months by the number of total sexual intercourses, regardless of sexual partners.
+- [**Intervals**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Intervals.kt) :
+  statisticises delays between orgasms in terms of hours.
+- [**Taste**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Taste.kt) :
+  creates charts suggesting your sexual taste.
 
 ### Other Activity instances
 

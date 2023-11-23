@@ -17,13 +17,17 @@
         android:icon="@drawable/growth"
         android:title="@string/growth" />
     <item
-        android:id="@+id/momTst"
-        android:icon="@drawable/taste"
-        android:title="@string/taste" />
-    <item
         android:id="@+id/momMix"
         android:icon="@drawable/sum"
         android:title="@string/mixture" />
+    <item
+        android:id="@+id/momInt"
+        android:icon="@drawable/intervals"
+        android:title="@string/intervals" />
+    <item
+        android:id="@+id/momTst"
+        android:icon="@drawable/taste"
+        android:title="@string/taste" />
     <item
         android:id="@+id/momPlc"
         android:icon="@drawable/places"
