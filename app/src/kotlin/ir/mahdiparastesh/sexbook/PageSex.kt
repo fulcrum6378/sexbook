@@ -181,7 +181,7 @@ class PageSex : BasePage() {
         //Log.println(Log.ASSERT, "AIMI", "resetAllReports ${filters.size} filters")
 
         // Which month to show?
-        var newFilter = filters.size - 1
+        var newFilter = if (c.m.listFilter == -1) (filters.size - 1) else c.m.listFilter
         toGlobalIndexOfItem?.also { gIndex ->
             val toFilter = c.m.onani.value!![gIndex].time.calendar(c).createFilterYm()
             val fIndex =
@@ -190,7 +190,7 @@ class PageSex : BasePage() {
         }
 
         // Application...
-        applyFilter(newFilter, true, toGlobalIndexOfItem == null)
+        applyFilter(newFilter, true, toGlobalIndexOfItem != null)
         updateFilterSpinner()
 
         // Scroll to the edited item position...
@@ -227,7 +227,7 @@ class PageSex : BasePage() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun applyFilter(i: Int, causedByResetAllReports: Boolean, scrollDown: Boolean = true) {
+    fun applyFilter(i: Int, causedByResetAllReports: Boolean, willScrollToItem: Boolean = false) {
         //Log.println(Log.ASSERT, "AIMI", "applyFilter $i")
         if (c.m.listFilter == i && c.m.listFilter > -1 && !causedByResetAllReports) return
         c.m.visOnani.clear()
@@ -250,7 +250,8 @@ class PageSex : BasePage() {
             (b.rv.adapter!! as ReportAdap).notifyAnyChange(true)
             b.rv.adapter!!.notifyDataSetChanged()
         }
-        if (scrollDown) b.rv.scrollToPosition(c.m.visOnani.size - 1)
+        if (!willScrollToItem && !causedByResetAllReports)
+            b.rv.scrollToPosition(c.m.visOnani.size - 1)
     }
 
     // private var addedToShowAd = 0

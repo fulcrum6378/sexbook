@@ -44,8 +44,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         ?: arrayListOf()
     private val clockBg: Drawable by lazy { ContextCompat.getDrawable(c, R.drawable.clock_bg)!! }
     private val etIcon: Drawable by lazy {
-        ContextCompat.getDrawable(c, R.drawable.estimation)!!.mutate()
-            .apply { if (c.night()) colorFilter = c.pdcf(R.color.mrvClock) }
+        ContextCompat.getDrawable(c, R.drawable.estimation)!!.mutate().apply {
+            if (c.night()) colorFilter =
+                c.themePdcf(com.google.android.material.R.attr.colorSecondary)
+        }
     }
     var crushSuggester = CrushSuggester()
 
@@ -132,7 +134,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         for (tim in arrayOf(h.b.clockHour, h.b.clockMin, h.b.point, h.b.ampm)) tim.vis(!r.guess)
         h.b.clock.background = if (!r.guess) clockBg else etIcon
         if (r.guess && c.night()) h.b.clock.background = h.b.clock.background
-            .apply { colorFilter = c.pdcf(R.color.mrvClock) }
+            .apply { colorFilter = c.themePdcf(com.google.android.material.R.attr.colorSecondary) }
 
         // Name
         h.b.name.setText(r.name)

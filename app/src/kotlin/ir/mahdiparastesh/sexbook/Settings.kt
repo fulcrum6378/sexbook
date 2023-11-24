@@ -319,7 +319,7 @@ class Settings : BaseActivity() {
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         if (changed) goTo(Main::class, true) { action = RELOAD.s }
-        else super.onBackPressed()
+        else @Suppress("DEPRECATION") super.onBackPressed()
     }
 
 

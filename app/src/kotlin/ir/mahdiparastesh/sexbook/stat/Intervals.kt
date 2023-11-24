@@ -8,6 +8,7 @@ import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.IntervalsBinding
 
 class Intervals : ChartActivity<IntervalsBinding>() {
@@ -18,15 +19,22 @@ class Intervals : ChartActivity<IntervalsBinding>() {
         val points = arrayListOf<PointValue>()
         var prev: Long? = null
         var i = -1f
+        val minima: Long =
+            if (!sp.getBoolean(Settings.spStatSinceCb, false)) Long.MIN_VALUE
+            else sp.getLong(Settings.spStatSince, Long.MIN_VALUE)
+        val maxima: Long =
+            if (!sp.getBoolean(Settings.spStatUntilCb, false)) Long.MAX_VALUE
+            else sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
         for (org in m.onani.value!!) {
-            i += 1f
-            if (prev == null) {
+            if (prev == null || org.time < minima || org.time > maxima) {
                 prev = org.time
                 continue; }
-            val delay = (org.time - prev) / 3600000
+            i += 1f
+            val delay = (org.time - prev) / 3600000f
             points.add(
-                PointValue(i, delay.toFloat()).setLabel(
-                    org.time.calendar(this).fullDate() + getString(R.string.afterNHours, delay)
+                PointValue(i, delay).setLabel(
+                    org.time.calendar(this).fullDate() +
+                            getString(R.string.afterNHours, delay.toInt())
                 )
             )
             prev = org.time

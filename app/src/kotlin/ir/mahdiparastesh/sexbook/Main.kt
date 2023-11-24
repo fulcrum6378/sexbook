@@ -41,7 +41,6 @@ import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
 import ir.mahdiparastesh.sexbook.stat.*
-import java.io.File
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.abs
 import kotlin.system.exitProcess
@@ -184,11 +183,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
         }*/
-        if (sp.contains("prefersMasculine")) sp.edit {
-            remove("prefersMasculine")
-            if (sp.getInt(Settings.spPageLoveSortBy, 0) == 4) putInt(Settings.spPageLoveSortBy, 5)
-        }
-        File(c.cacheDir, "calendar_index.json").also { if (it.exists()) it.delete() }
 
         intent.check(true)
         addOnNewIntentListener { it.check() }

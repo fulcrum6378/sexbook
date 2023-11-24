@@ -88,7 +88,9 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
                 setDisplayHomeAsUpEnabled(true)
                 setDisplayShowHomeEnabled(true)
             }
-            tb.setNavigationOnClickListener { onBackPressed() }
+            tb.setNavigationOnClickListener {
+                @Suppress("DEPRECATION") onBackPressed()
+            }
         }
         tb.navigationIcon?.colorFilter = themePdcf()
     }

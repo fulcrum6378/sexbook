@@ -64,7 +64,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
         var end = c.calType().getDeclaredConstructor().newInstance()
         var oldest = end.timeInMillis
         if (c.sp.getBoolean(Settings.spStatUntilCb, false)) {
-            val statTill = c.sp.getLong(Settings.spStatUntil, 0L)
+            val statTill = c.sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
             var newest = 0L
             for (h in mOnani) if (h.time in (newest + 1)..statTill) newest = h.time
             if (newest != 0L) end = newest.calendar(c)
@@ -72,7 +72,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
 
         // Find the beginning
         if (c.sp.getBoolean(Settings.spStatSinceCb, false)) {
-            val statSinc = c.sp.getLong(Settings.spStatSince, 0L)
+            val statSinc = c.sp.getLong(Settings.spStatSince, Long.MIN_VALUE)
             for (h in mOnani) if (h.time in statSinc until oldest) oldest = h.time
         } else for (h in mOnani) if (h.time < oldest) oldest = h.time
 
