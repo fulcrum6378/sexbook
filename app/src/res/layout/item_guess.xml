@@ -4,16 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/itemMarH"
-    android:layout_marginTop="@dimen/itemMarV"
-    android:layout_marginEnd="@dimen/itemMarH"
-    android:layout_marginBottom="@dimen/itemMarV"
+    android:layout_marginHorizontal="@dimen/itemMarH"
+    android:layout_marginVertical="@dimen/itemMarV"
     android:background="@drawable/yellow_box"
-    android:paddingTop="@dimen/etPadV"
-    android:paddingBottom="@dimen/etPadV"
+    android:paddingVertical="@dimen/etPadV"
     tools:ignore="ContentDescription,LabelFor,MissingConstraints">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/crshLabel"
         style="@style/etLabel"
         android:text="@string/etCrsh"
@@ -34,35 +31,35 @@
         app:layout_constraintStart_toEndOf="@id/crshLabel"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/sincLabel"
         style="@style/etDateLabel"
         android:text="@string/etSince"
         app:layout_constraintBottom_toBottomOf="@id/sinc"
         app:layout_constraintTop_toTopOf="@id/sinc" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/sinc"
         style="@style/etDateButton"
-        app:fontFamily="@font/normal"
+        android:fontFamily="@font/normal"
         app:layout_constraintStart_toEndOf="@id/sincLabel"
         app:layout_constraintTop_toBottomOf="@id/crsh" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/tillLabel"
         style="@style/etDateLabel"
         android:text="@string/etUntil"
         app:layout_constraintBottom_toBottomOf="@id/till"
         app:layout_constraintTop_toTopOf="@id/till" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/till"
         style="@style/etDateButton"
-        app:fontFamily="@font/normal"
+        android:fontFamily="@font/normal"
         app:layout_constraintStart_toEndOf="@id/tillLabel"
         app:layout_constraintTop_toBottomOf="@id/sinc" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/freqLabel"
         style="@style/etLabel"
         android:text="@string/etFreq"
@@ -73,16 +70,15 @@
         android:id="@+id/freq"
         style="@style/etField"
         android:layout_height="30sp"
-        android:layout_marginTop="15sp"
+        android:layout_marginVertical="15sp"
         android:layout_marginEnd="30sp"
-        android:layout_marginBottom="15sp"
         android:background="@null"
+        android:fontFamily="@font/bold"
         android:importantForAutofill="no"
         android:inputType="numberDecimal"
         android:maxLength="5"
         android:textIsSelectable="true"
         android:textSize="15sp"
-        app:fontFamily="@font/bold"
         app:layout_constraintEnd_toEndOf="@null"
         app:layout_constraintEnd_toStartOf="@id/type"
         app:layout_constraintStart_toEndOf="@id/freqLabel"
@@ -102,17 +98,14 @@
         android:id="@+id/desc"
         style="@style/desc"
         android:importantForAutofill="no"
-        android:paddingStart="@dimen/etPadH"
-        android:paddingEnd="@dimen/etPadH"
+        android:paddingHorizontal="@dimen/etPadH"
         app:layout_constraintTop_toBottomOf="@id/freq" />
 
     <Spinner
         android:id="@+id/place"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/etPadH"
-        android:paddingTop="12dp"
-        android:paddingEnd="@dimen/etPadH"
-        android:paddingBottom="12dp"
+        android:paddingHorizontal="@dimen/etPadH"
+        android:paddingVertical="12dp"
         app:layout_constraintTop_toBottomOf="@id/desc" />
 </androidx.constraintlayout.widget.ConstraintLayout>

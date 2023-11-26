@@ -4,32 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/button_mask"
-    android:paddingStart="@dimen/ssPadH"
-    android:paddingEnd="@dimen/ssPadH"
+    android:paddingHorizontal="@dimen/ssPadH"
     android:theme="@style/Theme.Sexbook.Dialogue.Layout">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:fontFamily="@font/normal"
+        android:paddingVertical="16dp"
         android:textAlignment="viewStart"
         android:textSize="14sp"
-        app:fontFamily="@font/normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.1"
         app:layout_constraintWidth_percent="0.5" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/normal"
         android:textAlignment="center"
         android:textSize="12sp"
-        app:fontFamily="@font/normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

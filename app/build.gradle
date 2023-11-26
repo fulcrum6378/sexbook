@@ -20,14 +20,15 @@ android {
 
     defaultConfig {
         applicationId 'ir.mahdiparastesh.sexbook'
-        minSdk 24
+        minSdk 26
         targetSdk 34
         versionCode 38
-        versionName '21.1.0'
+        versionName '21.3.3'
         signingConfig signingConfigs.main
     }
     sourceSets.main {
         manifest.srcFile 'src/AndroidManifest.xml'
+        java.srcDirs = ['src/java']
         kotlin.srcDirs = ['src/kotlin']
         res.srcDirs = ['src/res']
     }
@@ -57,7 +58,6 @@ dependencies {
     def room_version = '2.6.0'
 
     implementation 'androidx.activity:activity-ktx:1.8.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'

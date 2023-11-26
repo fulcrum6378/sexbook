@@ -11,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isInvisible
@@ -153,7 +153,7 @@ class SummaryDialog : BaseDialog() {
             }
         }
 
-        fun plus(c: Context, s: String) = AppCompatTextView(c).apply {
+        fun plus(c: Context, s: String) = TextView(c).apply {
             layoutParams = LinearLayout.LayoutParams(-2, -2)
             setPadding(0, this@SumChips.c.dp(5), 0, this@SumChips.c.dp(2))
             text = s

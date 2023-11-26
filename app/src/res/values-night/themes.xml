@@ -14,8 +14,8 @@
 
     <style name="ThemeOverlay.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox">
         <item name="android:textColor">?colorOnSecondary</item>
-        <item name="buttonTint">?colorOnSecondary</item>
         <item name="buttonIconTint">?colorSurface</item>
+        <item name="buttonTint">?colorOnSecondary</item>
     </style>
 
 

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/mtCrush"
         android:icon="@drawable/crush"
+        android:iconTint="?android:attr/textColor"
+        android:showAsAction="always"
         android:title="@string/crushes"
-        app:iconTint="?android:attr/textColor"
-        app:showAsAction="always" />
+        tools:ignore="AppCompatResource" />
 </menu>

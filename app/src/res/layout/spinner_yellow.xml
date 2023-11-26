@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatTextView xmlns:tools="http://schemas.android.com/tools"
+<TextView xmlns:tools="http://schemas.android.com/tools"
     style="@style/spinner"
     tools:viewBindingIgnore="true" />

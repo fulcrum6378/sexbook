@@ -78,7 +78,7 @@
 
     <!-- Popup -->
     <style name="Theme.Sexbook.Popup" parent="Widget.Material3.PopupMenu">
-        <item name="fontFamily">@font/normal</item>
+        <item name="android:fontFamily">@font/normal</item>
         <item name="android:textColor">?colorOnSecondary</item>
         <item name="checkboxStyle">@style/ThemeOverlay.Sexbook.CheckBox.White</item>
     </style>
@@ -112,21 +112,21 @@
     </style>
 
     <style name="Theme.Sexbook.Dialogue.Title" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:fontFamily">@font/bold</item>
         <item name="android:textColor">?colorOnSecondary</item>
-        <item name="fontFamily">@font/bold</item>
     </style>
 
     <style name="Theme.Sexbook.Dialogue.Body" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:fontFamily">@font/normal</item>
         <item name="android:textColor">?colorOnSecondary</item>
         <item name="android:textSize">15.5sp</item>
-        <item name="fontFamily">@font/normal</item>
         <item name="lineHeight">25sp</item><!--android:lineSpacingExtra doesn't work here.-->
     </style>
 
     <style name="Widget.Sexbook.Dialogue.Button" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:fontFamily">@font/normal</item>
         <item name="android:textColor">?colorOnSecondary</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Sexbook.Small</item>
-        <item name="fontFamily">@font/normal</item>
     </style>
 
     <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">

@@ -6,19 +6,18 @@
     tools:context=".Places"
     tools:ignore="MissingConstraints,ContentDescription">
 
-    <androidx.appcompat.widget.Toolbar
+    <android.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/toolbar"
-        app:title="@string/places" />
+        android:title="@string/places" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingStart="10dp"
+        android:paddingHorizontal="10dp"
         android:paddingTop="20dp"
-        android:paddingEnd="10dp"
         android:paddingBottom="85dp"
         app:layoutManager=".more.SafeLinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"

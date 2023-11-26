@@ -14,13 +14,13 @@ import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
@@ -29,7 +29,7 @@ import java.util.Locale
 import kotlin.reflect.KClass
 
 /** Abstract class for all Activity instances in this app and it extends AppCompatActivity. */
-abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteListener*/ {
+abstract class BaseActivity : FragmentActivity()/*, OnInitializationCompleteListener*/ {
     val c: Context get() = applicationContext
     lateinit var m: Model
     lateinit var sp: SharedPreferences
@@ -77,20 +77,18 @@ abstract class BaseActivity : AppCompatActivity()/*, OnInitializationCompleteLis
 
     /** Applies custom styles and actions on the Toolbar. */
     fun toolbar(tb: Toolbar, @StringRes title: Int) {
-        setSupportActionBar(tb)
+        setActionBar(tb)
         for (g in 0 until tb.childCount) {
             val getTitle = tb.getChildAt(g)
             if (getTitle is TextView && getTitle.text.toString() == getString(title))
                 tbTitle = getTitle
         }
         if (this !is Main) {
-            supportActionBar?.apply {
+            actionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
                 setDisplayShowHomeEnabled(true)
             }
-            tb.setNavigationOnClickListener {
-                @Suppress("DEPRECATION") onBackPressed()
-            }
+            tb.setNavigationOnClickListener { @Suppress("DEPRECATION") onBackPressed() }
         }
         tb.navigationIcon?.colorFilter = themePdcf()
     }

@@ -14,16 +14,15 @@
         android:layout_marginBottom="5dp"
         android:autofillHints="personName"
         android:background="@null"
+        android:fontFamily="@font/normal"
         android:hint="@string/findCrush"
         android:inputType="text"
+        android:paddingVertical="17dp"
         android:paddingStart="@dimen/ssPadH"
-        android:paddingTop="17dp"
         android:paddingEnd="45dp"
-        android:paddingBottom="17dp"
         android:textColorHint="@color/searchHint"
         android:textIsSelectable="true"
         android:textSize="14sp"
-        app:fontFamily="@font/normal"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView

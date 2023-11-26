@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingStart="0dp"
-    android:paddingLeft="0dp"
     android:paddingEnd="48dp"
-    android:paddingRight="0dp"
     android:paddingMode="stack">
     <item>
         <ripple android:color="@color/yellowRipple">

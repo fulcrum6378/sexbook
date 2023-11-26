@@ -11,9 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingStart="10dp"
+        android:paddingHorizontal="10dp"
         android:paddingTop="20dp"
-        android:paddingEnd="10dp"
         android:paddingBottom="85dp"
         app:layoutManager=".more.SafeLinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/spnFilter"
@@ -35,10 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/spinner"
+        android:paddingVertical="@dimen/spnFilterPadV"
         android:paddingStart="26dp"
-        android:paddingTop="@dimen/spnFilterPadV"
         android:paddingEnd="42dp"
-        android:paddingBottom="@dimen/spnFilterPadV"
         android:saveEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

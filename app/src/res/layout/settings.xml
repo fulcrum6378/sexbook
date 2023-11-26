@@ -6,10 +6,10 @@
     tools:context=".Settings"
     tools:ignore="MissingConstraints">
 
-    <androidx.appcompat.widget.Toolbar
+    <android.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/toolbar"
-        app:title="@string/stTitle" />
+        android:title="@string/stTitle" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,14 +23,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="10dp"
-            android:paddingTop="20dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="20dp">
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="20dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemContainer">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     style="@style/stItemTV"
                     android:text="@string/stCalendarType" />
 
@@ -52,12 +50,12 @@
                     android:saveEnabled="false"
                     android:text="@string/stStatSince" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/stStatSinceDate"
                     style="@style/stItemTV"
                     android:layout_marginEnd="5sp"
                     android:enabled="false"
-                    app:fontFamily="@font/normal"
+                    android:fontFamily="@font/normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@null" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -73,11 +71,11 @@
                     android:saveEnabled="false"
                     android:text="@string/stStatUntil" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/stStatUntilDate"
                     style="@style/stItemTV"
                     android:layout_marginEnd="5sp"
-                    app:fontFamily="@font/normal"
+                    android:fontFamily="@font/normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@null" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -86,7 +84,7 @@
                 android:id="@+id/sexTypes"
                 style="@style/stItemContainer">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/sexTypesTitle"
                     style="@style/stGroupTitle"
                     android:text="@string/stSexTypesTitle" />
@@ -112,7 +110,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemContainer">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/birthdaysTitle"
                     style="@style/stGroupTitle"
                     android:text="@string/stBirthdays" />
@@ -136,7 +134,7 @@
                     app:layout_constraintTop_toBottomOf="@id/stUseGregorianForBirthdays" />
 
                 <!--android:id="@+id/stNotifyBirthDaysBeforeLabel"-->
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     style="@style/stItemTV"
                     android:layout_width="0dp"
                     android:labelFor="@+id/stNotifyBirthDaysBefore"
@@ -146,16 +144,16 @@
                     app:layout_constraintTop_toBottomOf="@id/stPauseBirthdaysNtf"
                     app:layout_constraintTop_toTopOf="@null" />
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <EditText
                     android:id="@+id/stNotifyBirthDaysBefore"
                     style="@style/stItemTV"
                     android:layout_width="40sp"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/edit_text_on_yellow"
+                    android:importantForAutofill="no"
                     android:inputType="number"
                     android:maxLength="1"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
+                    android:paddingVertical="3dp"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="@null"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -168,7 +166,7 @@
                 android:id="@+id/stReset"
                 style="@style/stItemContainer">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     style="@style/stItemTV"
                     android:text="@string/stReset" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -177,7 +175,7 @@
                 android:id="@+id/stTruncate"
                 style="@style/stItemContainer">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     style="@style/stItemTV"
                     android:text="@string/stTruncate" />
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,11 +22,14 @@
 
     <style name="toolbar">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:layout_height">wrap_content</item><!--?actionBarSize-->
         <item name="android:background">?colorPrimary</item>
+        <item name="android:paddingBottom">@dimen/tbPadBottom</item>
+        <!--paddingTop deforms it-->
+        <item name="android:titleMarginStart">0dp</item>
+        <item name="android:titleTextAppearance">@style/TextAppearance.Sexbook.Toolbar</item>
+        <item name="android:titleTextColor">?titleTextColor</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
-        <item name="titleMarginStart">0dp</item>
-        <item name="titleTextAppearance">@style/TextAppearance.Sexbook.Toolbar</item>
     </style>
 
     <style name="tbShadow" parent="shadow">
@@ -56,37 +59,33 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@null</item>
+        <item name="android:fontFamily">@font/normal</item>
         <item name="android:hint">@string/desc</item>
         <item name="android:inputType">textMultiLine</item>
-        <item name="android:minLines">2</item>
         <!--<item name="android:maxLines">10</item>-->
-        <item name="android:paddingTop">@dimen/descPadV</item>
-        <item name="android:paddingBottom">@dimen/descPadV</item>
+        <item name="android:minLines">2</item>
+        <item name="android:paddingVertical">@dimen/descPadV</item>
         <item name="android:textIsSelectable">true</item>
         <item name="android:textSize">@dimen/descFont</item>
-        <item name="fontFamily">@font/normal</item>
     </style>
 
     <style name="statChart">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:visibility">invisible</item>
-        <item name="android:paddingTop">40sp</item>
         <item name="android:paddingBottom">10dp</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">40sp</item>
+        <item name="android:paddingHorizontal">10dp</item>
     </style>
 
     <style name="statTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/stat_title</item>
-        <item name="android:paddingStart">11sp</item>
-        <item name="android:paddingEnd">11sp</item>
-        <item name="android:paddingTop">6sp</item>
-        <item name="android:paddingBottom">6sp</item>
+        <item name="android:paddingHorizontal">11sp</item>
+        <item name="android:paddingVertical">6sp</item>
         <item name="android:textSize">18sp</item>
-        <item name="fontFamily">@font/bold</item>
+        <item name="android:fontFamily">@font/bold</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
@@ -95,19 +94,19 @@
     <style name="spinner">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/normal</item>
         <item name="android:textSize">@dimen/spnFont</item>
-        <item name="fontFamily">@font/normal</item>
     </style>
 
 
     <!-- #TextAppearance -->
     <style name="TextAppearance.Sexbook.Toolbar" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/bold</item>
         <item name="android:textSize">@dimen/tbTitle</item>
-        <item name="fontFamily">@font/bold</item>
     </style>
 
     <style name="TextAppearance.Sexbook.Nav" parent="@android:style/TextAppearance">
-        <item name="fontFamily">@font/normal</item>
+        <item name="android:fontFamily">@font/normal</item>
         <item name="android:textSize">@dimen/navFont</item>
     </style>
 
@@ -126,16 +125,14 @@
     <style name="identifyField">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/normal</item>
+        <item name="android:paddingVertical">10dp</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="fontFamily">@font/normal</item>
     </style>
 
     <style name="identifyET" parent="identifyField">
-        <item name="android:paddingStart">5dp</item>
-        <item name="android:paddingEnd">5dp</item>
         <item name="android:background">@null</item>
+        <item name="android:paddingHorizontal">5dp</item>
         <item name="android:textIsSelectable">true</item>
     </style>
 
@@ -148,8 +145,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/divider</item>
-        <item name="android:layout_marginTop">7dp</item>
-        <item name="android:layout_marginBottom">7dp</item>
+        <item name="android:layout_marginVertical">7dp</item>
     </style>
 
 
@@ -157,10 +153,10 @@
     <style name="etLabel">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/normal</item>
         <item name="android:layout_marginStart">@dimen/etPadH</item>
         <item name="android:textAlignment">viewStart</item>
         <item name="android:textSize">@dimen/etLabel</item>
-        <item name="fontFamily">@font/normal</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintWidth_percent">0.4</item>
     </style>
@@ -172,23 +168,22 @@
 
     <style name="etField">
         <item name="android:layout_width">0dp</item>
-        <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="android:layout_marginTop">7dp</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 
     <style name="etDateButton" parent="etField">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/button_rectangle</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textSize">@dimen/etDateButton</item>
-        <item name="android:paddingTop">7dp</item>
-        <item name="android:paddingBottom">7dp</item>
-        <item name="android:text">@string/etDateHint</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_marginStart">10dp</item>
         <item name="android:layout_marginEnd">@dimen/etPadH</item>
+        <item name="android:paddingVertical">7dp</item>
+        <item name="android:text">@string/etDateHint</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">@dimen/etDateButton</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 
@@ -196,34 +191,27 @@
     <style name="stItemContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">10dp</item>
-        <item name="android:layout_marginEnd">10dp</item>
-        <item name="android:layout_marginTop">7dp</item>
-        <item name="android:layout_marginBottom">7dp</item>
         <item name="android:background">@drawable/yellow_box</item>
-        <item name="android:paddingStart">@dimen/stItemPadH</item>
-        <item name="android:paddingEnd">@dimen/stItemPadH</item>
-        <item name="android:paddingTop">@dimen/stItemPadV</item>
-        <item name="android:paddingBottom">@dimen/stItemPadV</item>
+        <item name="android:layout_marginHorizontal">10dp</item>
+        <item name="android:layout_marginVertical">7dp</item>
+        <item name="android:paddingHorizontal">@dimen/stItemPadH</item>
+        <item name="android:paddingVertical">@dimen/stItemPadV</item>
     </style>
 
     <style name="stItemThinContainer" parent="@style/stItemContainer">
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingVertical">5dp</item>
     </style>
 
     <style name="stItemTV">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/normal</item>
+        <item name="android:layout_marginVertical">0dp</item>
+        <item name="android:paddingHorizontal">7sp</item>
         <item name="android:textSize">@dimen/stItemTVFont</item>
-        <item name="android:paddingStart">7sp</item>
-        <item name="android:paddingEnd">7sp</item>
-        <item name="android:layout_marginTop">0dp</item>
-        <item name="android:layout_marginBottom">0dp</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
-        <item name="fontFamily">@font/normal</item>
     </style>
 
     <style name="stItemTweak">
@@ -242,8 +230,8 @@
     <style name="stGroupTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/normal</item>
         <item name="android:textSize">14sp</item>
-        <item name="fontFamily">@font/normal</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>

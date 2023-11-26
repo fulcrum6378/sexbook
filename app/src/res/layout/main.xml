@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
+        <android.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/toolbar"
-            app:title="@string/app_name" />
+            android:title="@string/app_name" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"

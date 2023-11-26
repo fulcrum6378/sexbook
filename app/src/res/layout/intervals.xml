@@ -9,7 +9,7 @@
         android:id="@+id/main"
         style="@style/statChart" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         style="@style/statTitle"
         android:text="@string/intervals" />
 </androidx.constraintlayout.widget.ConstraintLayout>

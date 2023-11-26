@@ -17,12 +17,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
+import android.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -36,6 +34,7 @@ import ir.mahdiparastesh.sexbook.Fun.toDefaultType
 import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
+import ir.mahdiparastesh.sexbook.more.ActionBarDrawerToggle
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.Delay
@@ -382,35 +381,34 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun notifyBirth(crush: Crush, dist: Long) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU ||
             ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-            != PackageManager.PERMISSION_GRANTED
-        ) return
-
-        val channelBirth = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
+            == PackageManager.PERMISSION_GRANTED
+        ) (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).also { nm ->
+            val channelBirth = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
+            nm.createNotificationChannel(
                 NotificationChannel(
                     channelBirth, getString(R.string.birthDateNtf),
                     NotificationManager.IMPORTANCE_HIGH
                 )
             )
-        NotificationManagerCompat.from(this).notify(
-            crush.key.length + crush.visName().length,
-            NotificationCompat.Builder(this@Main, channelBirth).apply {
-                setSmallIcon(R.drawable.notification)
-                setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
-                setContentText(
-                    getString(
-                        if (dist < 0L) R.string.bHappyBef
-                        else R.string.bHappyAft,
-                        abs(dist / 3600000L)
+            nm.notify(
+                crush.key.length + crush.visName().length,
+                NotificationCompat.Builder(this@Main, channelBirth).apply {
+                    setSmallIcon(R.drawable.notification)
+                    setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
+                    setContentText(
+                        getString(
+                            if (dist < 0L) R.string.bHappyBef
+                            else R.string.bHappyAft,
+                            abs(dist / 3600000L)
+                        )
                     )
-                )
-                priority = NotificationCompat.PRIORITY_HIGH
-            }.build()
-        )
-        sp.edit().putLong(Settings.spLastNotifiedBirthAt, Fun.now()).apply()
+                    priority = NotificationCompat.PRIORITY_HIGH
+                }.build()
+            )
+            sp.edit().putLong(Settings.spLastNotifiedBirthAt, Fun.now()).apply()
+        }
     }
 
     private var instilledGuesses = false
@@ -450,7 +448,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Export data to TXT
   * Pleasure score for Reports?!?
   * Crush name on top of Singular
-  * Jump to Android 8 and remove many unnecessary things (only ~1 person uses Android 7!)
   * -
   * Why is it fucked up after a package reinstall? Does it happen for others?
   */
