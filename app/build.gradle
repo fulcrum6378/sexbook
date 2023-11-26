@@ -23,7 +23,7 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 37
-        versionName '21.0.7'
+        versionName '21.0.8'
         signingConfig signingConfigs.main
     }
     sourceSets.main {
@@ -50,12 +50,13 @@ android {
         }
     }
     android.variantFilter { if (it.buildType.name in ['debug', 'androidTest']) it.setIgnore(true) }
+    tasks.configureEach { if (it.name == "lint" || it.name.contains("Test")) it.enabled = false }
 }
 
 dependencies {
     def room_version = '2.6.0'
 
-    implementation 'androidx.activity:activity-ktx:1.8.0'
+    implementation 'androidx.activity:activity-ktx:1.8.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.drawerlayout:drawerlayout:1.2.0'

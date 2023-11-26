@@ -5,6 +5,7 @@ import ir.mahdiparastesh.hellocharts.model.Line
 import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.model.PointValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
+import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.R
@@ -12,6 +13,8 @@ import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.IntervalsBinding
 
 class Intervals : ChartActivity<IntervalsBinding>() {
+    private lateinit var allowedSexTypes: List<Byte>
+
     override val b by lazy { IntervalsBinding.inflate(layoutInflater) }
     override val chartView: AbstractChartView get() = b.main
 
@@ -25,8 +28,9 @@ class Intervals : ChartActivity<IntervalsBinding>() {
         val maxima: Long =
             if (!sp.getBoolean(Settings.spStatUntilCb, false)) Long.MAX_VALUE
             else sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
+        allowedSexTypes = Fun.allowedSexTypes(sp)
         for (org in m.onani.value!!) {
-            if (prev == null || org.time < minima || org.time > maxima) {
+            if (prev == null || org.time < minima || org.time > maxima || org.type !in allowedSexTypes) {
                 prev = org.time
                 continue; }
             i += 1f
