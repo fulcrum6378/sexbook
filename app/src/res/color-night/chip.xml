@@ -6,7 +6,7 @@
     <item android:color="?colorAccent" android:state_activated="false" android:state_focused="true" />
 
     <!-- found in search -->
-    <item android:color="?colorPrimaryVariant" android:state_activated="true" />
-    <item android:color="?colorPrimaryVariant" android:state_activated="true" android:state_pressed="true" />
-    <item android:color="?colorPrimaryVariant" android:state_activated="true" android:state_focused="true" />
+    <item android:color="?colorPrimaryContainer" android:state_activated="true" />
+    <item android:color="?colorOnSecondary" android:state_activated="true" android:state_pressed="true" />
+    <item android:color="?colorOnSecondary" android:state_activated="true" android:state_focused="true" />
 </selector>

@@ -8,6 +8,7 @@ import com.google.android.material.chip.ChipGroup
 import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.SumChipGroupBinding
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
 import ir.mahdiparastesh.sexbook.more.BaseActivity
@@ -19,6 +20,8 @@ class StatSumAdap(
     val arr: List<MutableMap.MutableEntry<Float, ArrayList<String>>>,
     private val searchable: BaseDialog.SearchableStat,
 ) : RecyclerView.Adapter<AnyViewHolder<SumChipGroupBinding>>() {
+    private val curCrushes: List<String>? = c.m.liefde?.map { it.key }
+    private val statOnlyCrushes = c.sp.getBoolean(Settings.spStatOnlyCrushes, false)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             AnyViewHolder<SumChipGroupBinding> =
@@ -31,17 +34,20 @@ class StatSumAdap(
             layoutParams = ChipGroup.LayoutParams(-2, -2)
             typeface = ResourcesCompat.getFont(c, R.font.normal)!!
             h.b.root.addView(this)
-        } else h.b.root.getChildAt(crush + 1) as Chip).apply {
-            text = arr[i].value[crush]
-            val bb = searchable.lookForIt(text.toString())
-            setOnClickListener {
-                c.goTo(Singular::class) {
-                    putExtra(Singular.EXTRA_CRUSH_KEY, arr[h.layoutPosition].value[crush])
+        } else h.b.root.getChildAt(crush + 1) as Chip
+                ).apply {
+                val crushKey = arr[i].value[crush]
+                text = crushKey +
+                        (if (!statOnlyCrushes && curCrushes?.contains(crushKey) == true) "*" else "")
+                val bb = searchable.lookForIt(text.toString())
+                setOnClickListener {
+                    c.goTo(Singular::class) {
+                        putExtra(Singular.EXTRA_CRUSH_KEY, arr[h.layoutPosition].value[crush])
+                    }
                 }
+                isActivated = bb
+                vis(true)
             }
-            isActivated = bb
-            vis(true)
-        }
         for (hide in arr[i].value.size + 1 until h.b.root.childCount)
             h.b.root.getChildAt(hide).vis(false)
     }
