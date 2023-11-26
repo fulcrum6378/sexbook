@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.list
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
 import android.view.ViewGroup
@@ -25,6 +26,7 @@ class StatRecAdap(private val c: Main, private val searchable: BaseDialog.Search
             AnyViewHolder<RecencyBinding> =
         AnyViewHolder(RecencyBinding.inflate(c.layoutInflater, parent, false))
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<RecencyBinding>, i: Int) {
         val crushKey = c.m.recency[i].name
         h.b.name.text = "${i + 1}. $crushKey" +

@@ -1,9 +1,9 @@
 package ir.mahdiparastesh.sexbook.more
 
+import android.view.ContextThemeWrapper
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.widget.PopupMenu
+import android.widget.PopupMenu
 import ir.mahdiparastesh.sexbook.R
 
 /** Represents a PopupMenu action. */

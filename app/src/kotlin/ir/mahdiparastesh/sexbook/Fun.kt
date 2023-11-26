@@ -114,9 +114,7 @@ object Fun {
         val vib = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
             (getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
         else getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            vib.vibrate(VibrationEffect.createOneShot(dur, VibrationEffect.DEFAULT_AMPLITUDE))
-        else vib.vibrate(dur)
+        vib.vibrate(VibrationEffect.createOneShot(dur, VibrationEffect.DEFAULT_AMPLITUDE))
     }
 
     /** @return human-readable date from this Calendar */

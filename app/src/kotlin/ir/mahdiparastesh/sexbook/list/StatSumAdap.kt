@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.list
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,7 @@ class StatSumAdap(
             AnyViewHolder<SumChipGroupBinding> =
         AnyViewHolder(SumChipGroupBinding.inflate(c.layoutInflater, parent, false))
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<SumChipGroupBinding>, i: Int) {
         h.b.count.text = arr[i].key.show().plus(": ")
 

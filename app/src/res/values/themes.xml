@@ -6,8 +6,11 @@
         <item name="colorOnPrimaryContainer">#FFF</item>
         <item name="colorSecondaryVariant">@color/CPV_LIGHT</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.Sexbook.OverflowButton</item>
+        <item name="android:checkboxStyle">@style/Theme.Sexbook.CheckBox</item>
         <item name="android:editTextColor">?colorOnPrimary</item>
         <item name="android:navigationBarColor">?colorPrimary</item>
+        <item name="android:popupTheme">@style/Theme.Sexbook.Popup</item>
+        <item name="android:radioButtonStyle">@style/Theme.Sexbook.RadioButton</item>
         <item name="android:statusBarColor">?colorPrimary</item>
         <item name="android:textColor">?colorOnPrimary</item>
         <item name="android:textColorHighlight">@color/textHighlight</item>
@@ -23,7 +26,8 @@
         <item name="popupTheme">@style/Theme.Sexbook.Popup</item>
         <item name="radioButtonStyle">@style/Theme.Sexbook.RadioButton</item>
         <item name="rippleColor">@color/CPV_LIGHT</item>
-        <item name="titleTextColor">?colorOnPrimary</item>
+        <item name="titleTextColor">?colorOnPrimary
+        </item><!--needs to be here, despite style/toolbar-->
     </style>
 
     <style name="Theme.Sexbook" parent="Theme.Sexbook.Base">
@@ -80,7 +84,10 @@
     <style name="Theme.Sexbook.Popup" parent="Widget.Material3.PopupMenu">
         <item name="android:fontFamily">@font/normal</item>
         <item name="android:textColor">?colorOnSecondary</item>
+        <item name="android:checkboxStyle">@style/ThemeOverlay.Sexbook.CheckBox.White</item>
+        <item name="android:radioButtonStyle">@style/Theme.Sexbook.RadioButton</item>
         <item name="checkboxStyle">@style/ThemeOverlay.Sexbook.CheckBox.White</item>
+        <item name="radioButtonStyle">@style/Theme.Sexbook.RadioButton</item>
     </style>
 
     <style name="Widget.Sexbook.OverflowButton" parent="@android:style/Widget.Material.ActionButton.Overflow">

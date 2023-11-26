@@ -28,7 +28,7 @@ import ir.mahdiparastesh.sexbook.Settings
 import java.util.Locale
 import kotlin.reflect.KClass
 
-/** Abstract class for all Activity instances in this app and it extends AppCompatActivity. */
+/** Abstract class for all Activity instances in this app and it extends FragmentActivity. */
 abstract class BaseActivity : FragmentActivity()/*, OnInitializationCompleteListener*/ {
     val c: Context get() = applicationContext
     lateinit var m: Model

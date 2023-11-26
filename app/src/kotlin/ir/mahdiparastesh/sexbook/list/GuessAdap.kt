@@ -27,6 +27,7 @@ import kotlin.collections.set
 class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGuessBinding>>() {
     val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             AnyViewHolder<ItemGuessBinding> {
         val b = ItemGuessBinding.inflate(c.layoutInflater, parent, false)

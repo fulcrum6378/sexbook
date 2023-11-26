@@ -14,8 +14,8 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
@@ -49,7 +49,7 @@ class Identify() : BaseDialog() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val oldCrush = crush?.copy()
         val bi = IdentifyBinding.inflate(c.layoutInflater)
-        AppCompatResources.getColorStateList(c, R.color.chip)
+        ContextCompat.getColorStateList(c, R.color.chip)
             .also { bi.notifyBirth.trackTintList = it }
 
         // Gender
