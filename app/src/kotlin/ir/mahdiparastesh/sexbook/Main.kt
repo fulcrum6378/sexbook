@@ -441,7 +441,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Problems:
   * After whirling around the app sorting feature of PageLove doesn't work!
   * Searching in Summary and Recency is so immature!
-  * ReportAdap doesn't render estimated dates correctly; they jump on other estimated ones!
   * -
   * Extension:
   * Eye and hair colours for Crush

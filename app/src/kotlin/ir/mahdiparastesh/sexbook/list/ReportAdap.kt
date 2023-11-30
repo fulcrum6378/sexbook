@@ -88,6 +88,8 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         return AnyViewHolder(b)
     }
 
+    /** In order to avoid data from jumping into other items, remove all TextWatchers from
+     * all EditTexts, then set their texts, then re-implement new listeners. */
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
         val r = c.m.visOnani.getOrNull(i) ?: return
@@ -137,9 +139,10 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             .apply { colorFilter = c.themePdcf(com.google.android.material.R.attr.colorSecondary) }
 
         // Name
+        h.b.name.setTextWatcher(null)
         h.b.name.setText(r.name)
         h.b.name.isEnabled = !r.guess
-        val nameWatcher = object : TextWatcher {
+        h.b.name.setTextWatcher(if (!r.guess) object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -150,9 +153,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                     }
                 }
             }
-        }
-        if (!r.guess) h.b.name.addTextChangedListener(nameWatcher)
-        else h.b.name.removeTextChangedListener(nameWatcher)
+        } else null)
 
         // Type
         h.b.type.setSelection(r.type.toInt(), true)
@@ -181,8 +182,9 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         }
 
         // Descriptions
+        h.b.desc.setTextWatcher(null)
         h.b.desc.setText(if (!r.guess) r.desc else "")
-        val descWatcher = object : TextWatcher {
+        h.b.desc.setTextWatcher(if (!r.guess) object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -193,9 +195,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                     }
                 }
             }
-        }
-        if (!r.guess) h.b.desc.addTextChangedListener(descWatcher)
-        else h.b.desc.removeTextChangedListener(descWatcher)
+        } else null)
         h.b.desc.isEnabled = !r.guess
 
         // Place

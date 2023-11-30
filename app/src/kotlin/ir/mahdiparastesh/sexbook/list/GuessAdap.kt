@@ -59,8 +59,9 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         else Delay(350) { h.b.root.alpha = .7f }
 
         // Crush
+        h.b.crsh.setTextWatcher(null)
         h.b.crsh.setText(g.crsh)
-        h.b.crsh.addTextChangedListener(object : TextWatcher {
+        h.b.crsh.setTextWatcher(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -115,8 +116,9 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         }
 
         // Frequency
+        h.b.freq.setTextWatcher(null)
         h.b.freq.setText(g.freq.toString())
-        h.b.freq.addTextChangedListener(object : TextWatcher {
+        h.b.freq.setTextWatcher(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -145,8 +147,9 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         }
 
         // Descriptions
+        h.b.desc.setTextWatcher(null)
         h.b.desc.setText(g.desc)
-        h.b.desc.addTextChangedListener(object : TextWatcher {
+        h.b.desc.setTextWatcher(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {

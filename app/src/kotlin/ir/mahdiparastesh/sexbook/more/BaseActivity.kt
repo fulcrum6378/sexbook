@@ -54,7 +54,7 @@ abstract class BaseActivity : FragmentActivity()/*, OnInitializationCompleteList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         m = ViewModelProvider(this, Model.Factory())["Model", Model::class.java]
-        sp = getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
+        sp = getSharedPreferences(Settings.spName, MODE_PRIVATE)
     }
 
     /*override fun onStart() {

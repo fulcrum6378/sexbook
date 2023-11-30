@@ -29,8 +29,9 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
         if (c.m.places.value == null) return
 
         // Name
+        h.b.name.setTextWatcher(null)
         h.b.name.setText(c.m.places.value!![i].name)
-        h.b.name.addTextChangedListener(object : TextWatcher {
+        h.b.name.setTextWatcher(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
