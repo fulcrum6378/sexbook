@@ -14,6 +14,7 @@ import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import java.util.Locale
+import kotlin.experimental.and
 
 @Entity
 class Crush(
@@ -21,14 +22,27 @@ class Crush(
     @ColumnInfo(name = "first_name") var fName: String?,
     @ColumnInfo(name = "middle_name") var mName: String?,
     @ColumnInfo(name = "last_name") var lName: String?,
-    @ColumnInfo(name = "gender") var gender: Byte,
+    @ColumnInfo(name = "status") var status: Byte,
     @ColumnInfo(name = "birth") var birth: String?,
     @ColumnInfo(name = "height") var height: Float,
     @ColumnInfo(name = "address") var address: String?,
-    @ColumnInfo(name = "instagram") var insta: String?,
     @ColumnInfo(name = "first_met") var first: String?,
-    @ColumnInfo(name = "notify_birth") var notifyBirth: Boolean,
+    @ColumnInfo(name = "instagram") var insta: String?,
 ) {
+    companion object {
+        /** 3 bytes in `status` (0..7) dedicated to gender.
+         * 0=>unspecified, 1=>female, 2=>male, 3=>bigender, 4=>agender (empty:5,6,7) */
+        const val STAT_GENDER = 0x07.toByte()
+
+        /** whether or not should the user be notified of their birthday. */
+        const val STAT_NOTIFY_BIRTH = 0x08.toByte()
+
+        /** whether or not they are currently an active crush.
+         * (sign bit, inactive oneswould be negative)
+         * unassigned bits: 0x10 (16) 0x20 (32) 0x40 (64)*/
+        const val STAT_INACTIVE = 0x80.toByte()
+    }
+
     @Ignore
     @Transient
     private var bCalendar_: GregorianCalendar? = null
@@ -75,13 +89,15 @@ class Crush(
         return fCalendar_
     }
 
+    fun notifyBirth(): Boolean = (status and STAT_NOTIFY_BIRTH) != 0.toByte()
+
     fun sum(m: Model): Float? = m.summary?.scores?.get(key)
         ?.sumOf { it.value.toDouble() }?.toFloat()
 
     fun last(m: Model): Long? = m.summary?.scores?.get(key)?.maxOf { it.time }
 
     fun copy() = Crush(
-        key, fName, mName, lName, gender, birth, height, address, insta, first, notifyBirth
+        key, fName, mName, lName, status, birth, height, address, first, insta
     )
 
     class Sort(private val c: BaseActivity) : Comparator<Crush> {

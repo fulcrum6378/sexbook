@@ -37,6 +37,10 @@
         android:icon="@drawable/estimation"
         android:title="@string/estimation" />
     <item
+        android:id="@+id/momPpl"
+        android:icon="@drawable/people"
+        android:title="@string/people" />
+    <item
         android:id="@+id/momExport"
         android:icon="@drawable/json_export"
         android:title="@string/momExport" />

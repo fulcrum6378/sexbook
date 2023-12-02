@@ -85,7 +85,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                                     ) < Settings.notifyBirthAfterLastTime ||
                             sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
                         ) return@apply
-                        for (it in this) if (it.notifyBirth) it.bCalendar()?.also { birth ->
+                        for (it in this) if (it.notifyBirth()) it.bCalendar()?.also { birth ->
                             var now: Calendar = GregorianCalendar()
                             var bir: Calendar = GregorianCalendar()
                             if (!sp.getBoolean(

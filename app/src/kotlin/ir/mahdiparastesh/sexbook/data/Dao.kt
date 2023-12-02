@@ -40,6 +40,9 @@ interface Dao {
     fun cGet(key: String): Crush
 
     @Query("SELECT * FROM Crush")
+    fun cGetPeople(): List<Crush>
+
+    @Query("SELECT * FROM Crush WHERE active = 0")
     fun cGetAll(): List<Crush>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

@@ -60,6 +60,13 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
+            android:name=".People"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:parentActivityName=".Main"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
             android:name=".Settings"
             android:exported="false"
             android:launchMode="singleTop"

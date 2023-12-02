@@ -30,6 +30,8 @@ import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.BaseDialog
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
+import kotlin.experimental.and
+import kotlin.experimental.or
 
 class Identify() : BaseDialog() {
     constructor(crush: Crush?, handler: Handler? = null) : this() {
@@ -74,7 +76,7 @@ class Identify() : BaseDialog() {
             bi.fName.setText(crush!!.fName)
             bi.mName.setText(crush!!.mName)
             bi.lName.setText(crush!!.lName)
-            bi.gender.setSelection(crush!!.gender.toInt() + 1)
+            bi.gender.setSelection((crush!!.status and Crush.STAT_GENDER).toInt())
             if (bir != null) {
                 bi.birth.text = bir.fullDate()
                 isBirthSet = true
@@ -87,7 +89,7 @@ class Identify() : BaseDialog() {
                 bi.firstMet.text = fir.fullDate()
                 isFirstSet = true
             }
-            bi.notifyBirth.isChecked = crush!!.notifyBirth
+            bi.notifyBirth.isChecked = crush!!.notifyBirth()
         }
         if (bir == null) {
             bir =
@@ -135,7 +137,7 @@ class Identify() : BaseDialog() {
                 ActivityCompat.checkSelfPermission(
                     c, Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
-        if (needsNtfPerm && crush?.notifyBirth == true) reqNotificationPerm(c)
+        if (needsNtfPerm && crush?.notifyBirth() == true) reqNotificationPerm(c)
         bi.notifyBirth.setOnCheckedChangeListener { _, isChecked ->
             if (!needsNtfPerm && isChecked) reqNotificationPerm(c)
             bi.notifyBirth.alpha = if (isChecked) 1f else DISABLED_ALPHA
@@ -176,16 +178,16 @@ class Identify() : BaseDialog() {
                     bi.fName.text.toString().ifBlank { null },
                     bi.mName.text.toString().ifBlank { null },
                     bi.lName.text.toString().ifBlank { null },
-                    (bi.gender.selectedItemPosition - 1).toByte(),
+                    bi.gender.selectedItemPosition.toByte() or
+                            (if (bi.notifyBirth.isChecked) Crush.STAT_NOTIFY_BIRTH else 0),
                     if (isBirthSet) "${endBir[Calendar.YEAR]}.${endBir[Calendar.MONTH] + 1}." +
                             "${endBir[Calendar.DAY_OF_MONTH]}" else null,
                     if (bi.height.text.toString() != "")
                         bi.height.text.toString().toFloat() else -1f,
                     bi.address.text.toString().ifBlank { null },
-                    bi.instagram.text.toString().ifBlank { null },
                     if (isFirstSet) "${endFir[Calendar.YEAR]}.${endFir[Calendar.MONTH] + 1}." +
                             "${endFir[Calendar.DAY_OF_MONTH]}" else null,
-                    bi.notifyBirth.isChecked
+                    bi.instagram.text.toString().ifBlank { null },
                 )
                 Work(
                     c, if (crush == null) Work.C_INSERT_ONE else Work.C_UPDATE_ONE,

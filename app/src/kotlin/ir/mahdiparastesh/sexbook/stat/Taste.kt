@@ -6,7 +6,9 @@ import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
+import kotlin.experimental.and
 
 class Taste : ChartActivity<TasteBinding>() {
     override val b by lazy { TasteBinding.inflate(layoutInflater) }
@@ -22,13 +24,13 @@ class Taste : ChartActivity<TasteBinding>() {
             val addable = m.summary!!.scores[agent]!!.sumOf { it.value.toDouble() }
             // `sumOf()` only accepts Double values!
             if (agent in crushKeys) {
-                val g = m.liefde!!.find { it.key == agent }!!.gender
+                val g = (m.liefde!!.find { it.key == agent }!!.status and Crush.STAT_GENDER).toByte()
                 try {
                     stats[g] = stats[g]!! + addable
                 } catch (_: NullPointerException) {
                     throw Exception(g.toString())
                 }
-            } else stats[-1] = stats[-1]!! + addable
+            } else stats[0] = stats[0]!! + addable
         }
 
         val data = arrayListOf<SliceValue>()

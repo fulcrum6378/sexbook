@@ -129,6 +129,9 @@
     <string name="etFreq">Times Per Day</string>
     <string name="etDeleteGuessSure">Are you sure you want to delete this estimation?</string>
 
+    <!-- People -->
+    <string name="people">People</string>
+
     <!-- Settings -->
     <string name="stTitle">Sexbook Settings</string>
     <string name="stCalendarType">Calendar Type</string>
