@@ -23,7 +23,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 38
-        versionName '21.5.7'
+        versionName '21.9.0'
         signingConfig signingConfigs.main
     }
     sourceSets.main {
@@ -55,7 +55,7 @@ android {
 }
 
 dependencies {
-    def room_version = '2.6.0'
+    def room_version = '2.6.1'
 
     implementation 'androidx.activity:activity-ktx:1.8.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

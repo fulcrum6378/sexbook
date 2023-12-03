@@ -22,5 +22,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
+    <TextView
+        android:id="@+id/empty"
+        style="@style/parentConstraint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:justificationMode="inter_word"
+        android:lineSpacingMultiplier="1.5"
+        android:text="@string/emptyLove"
+        android:textColor="@color/empty"
+        android:textSize="17sp"
+        android:visibility="gone"
+        app:layout_constraintWidth_percent="0.75"
+        tools:ignore="UnusedAttribute" />
+
     <View style="@style/tbShadow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

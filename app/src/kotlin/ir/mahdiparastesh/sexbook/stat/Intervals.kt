@@ -30,6 +30,7 @@ class Intervals : ChartActivity<IntervalsBinding>() {
             else sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
         allowedSexTypes = Fun.allowedSexTypes(sp)
         for (org in m.onani.value!!) {
+            if (!org.ogsm) continue
             if (prev == null || org.time < minima || org.time > maxima || org.type !in allowedSexTypes) {
                 prev = org.time
                 continue; }

@@ -86,6 +86,8 @@ class Crush(
         val BODY_BREASTS = 0x00300000 to 20  // 0000000x03 shl 20
     }
 
+    fun active(): Boolean = (status and STAT_INACTIVE) == 0.toByte()
+
     fun fiction(): Boolean = (status and STAT_FICTION) != 0.toByte()
 
     fun notifyBirth(): Boolean = (status and STAT_NOTIFY_BIRTH) != 0.toByte()

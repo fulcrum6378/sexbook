@@ -9,4 +9,7 @@
     <item
         android:id="@+id/lcStatistics"
         android:title="@string/statistics" />
+    <item
+        android:id="@+id/lcDeactivate"
+        android:title="@string/deactivate" />
 </menu>

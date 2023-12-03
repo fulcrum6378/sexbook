@@ -1,7 +1,11 @@
 package ir.mahdiparastesh.sexbook.data
 
-import androidx.room.*
 import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface Dao {
@@ -16,7 +20,7 @@ interface Dao {
     @Query("SELECT * FROM Report WHERE plac == :place")
     fun getByPlace(place: Long): List<Report>
 
-    @Query("SELECT MAX(time) FROM Report")
+    @Query("SELECT MAX(time) FROM Report WHERE ogsm LIKE 1")
     fun whenWasTheLastTime(): Long?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -42,7 +46,7 @@ interface Dao {
     @Query("SELECT * FROM Crush")
     fun cGetPeople(): List<Crush>
 
-    @Query("SELECT * FROM Crush WHERE (status & 128) == 0")
+    @Query("SELECT * FROM Crush WHERE (status & 128) LIKE 0")
     fun cGetAll(): List<Crush>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

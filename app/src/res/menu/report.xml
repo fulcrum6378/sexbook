@@ -9,6 +9,11 @@
         android:checked="true"
         android:title="@string/lcAccurate" />
     <item
+        android:id="@+id/lcOrgasmed"
+        android:checkable="true"
+        android:checked="true"
+        android:title="@string/lcOrgasmed" />
+    <item
         android:id="@+id/lcDelete"
         android:title="@string/delete" />
 </menu>

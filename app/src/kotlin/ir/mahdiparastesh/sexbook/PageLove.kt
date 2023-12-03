@@ -47,9 +47,19 @@ class PageLove : BasePage() {
                     Work.REPLACE_ALL -> Work(c, Work.C_VIEW_ALL).start()
                     Work.C_UPDATE_ONE -> if (b.rv.adapter != null)
                         c.m.liefde?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
-                            c.m.liefde?.set(it, msg.obj as Crush)
-                            // b.rv.adapter?.notifyItemChanged(it)
-                            prepareList()
+                            val newCrs = msg.obj as Crush
+                            if (newCrs.active()) {
+                                c.m.liefde?.set(it, newCrs)
+                                // b.rv.adapter?.notifyItemChanged(it)
+                                prepareList()
+                            } else {
+                                c.m.liefde?.removeAt(it)
+                                b.rv.adapter?.notifyItemRemoved(it)
+                                b.rv.adapter?.notifyItemRangeChanged(
+                                    it, b.rv.adapter!!.itemCount - it
+                                )
+                                c.count(c.m.liefde?.size ?: 0)
+                            }
                         }
                     Work.C_DELETE_ONE -> if (b.rv.adapter != null) {
                         c.m.liefde?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {

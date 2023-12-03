@@ -2,7 +2,11 @@ package ir.mahdiparastesh.sexbook.data
 
 import android.content.Context
 import android.os.Handler
-import ir.mahdiparastesh.sexbook.*
+import ir.mahdiparastesh.sexbook.Estimation
+import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.PageLove
+import ir.mahdiparastesh.sexbook.PageSex
+import ir.mahdiparastesh.sexbook.Places
 
 class Work(
     val c: Context,
@@ -33,6 +37,7 @@ class Work(
         const val C_REPLACE_ALL = 13
         const val C_UPDATE_ONE = 14
         const val C_DELETE_ONE = 15
+        const val C_VIEW_ALL_PEOPLE = 16
 
         // Place
         const val P_VIEW_ONE = 20
@@ -113,6 +118,7 @@ class Work(
             )?.sendToTarget()
 
             C_VIEW_ALL -> handler?.obtainMessage(action, dao.cGetAll())?.sendToTarget()
+            C_VIEW_ALL_PEOPLE -> handler?.obtainMessage(action, dao.cGetPeople())?.sendToTarget()
 
             C_INSERT_ONE -> {
                 var result: Long = -1

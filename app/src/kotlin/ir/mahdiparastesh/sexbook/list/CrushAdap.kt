@@ -7,17 +7,20 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Identify
+import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
 import ir.mahdiparastesh.sexbook.stat.Singular
+import kotlin.experimental.or
 
 class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBinding>>() {
 
@@ -32,10 +35,10 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
         h.b.name.text = c.m.liefde!![i].visName()
         h.b.sum.text = c.m.liefde!![i].sum(c.m)?.let { "{${it.show()}}" } ?: ""
 
-        // Click
+        // Clicks
         h.b.root.setOnClickListener { v ->
             if (!c.summarize(true)) return@setOnClickListener
-            val cr = c.m.liefde?.get(h.layoutPosition)
+            val cr = c.m.liefde?.getOrNull(h.layoutPosition)
             val ins = cr?.insta
             MaterialMenu(c, v, R.menu.crush, Act().apply {
                 this[R.id.lcInstagram] = {
@@ -53,8 +56,18 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                     if (cr != null) identify(cr)
                 }
                 this[R.id.lcStatistics] = {
-                    c.goTo(Singular::class) {
-                        putExtra(Singular.EXTRA_CRUSH_KEY, c.m.liefde!![i].key)
+                    if (cr != null) c.goTo(Singular::class) {
+                        putExtra(Singular.EXTRA_CRUSH_KEY, cr.key)
+                    }
+                }
+                this[R.id.lcDeactivate] = {
+                    if (cr != null) {
+                        Work(
+                            c, Work.C_UPDATE_ONE, listOf<Any?>(
+                                cr.apply { status = status or Crush.STAT_INACTIVE }, cr
+                            ), Identify.handler
+                        ).start()
+                        c.shake()
                     }
                 }
             }).apply {
@@ -65,7 +78,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
             }.show()
         }
         h.b.root.setOnLongClickListener {
-            c.m.liefde?.get(h.layoutPosition)?.also { identify(it) }; true
+            c.m.liefde?.getOrNull(h.layoutPosition)?.also { identify(it) }; true
         }
     }
 

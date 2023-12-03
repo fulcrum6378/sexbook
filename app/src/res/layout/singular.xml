@@ -11,6 +11,10 @@
         style="@style/statChart"
         android:paddingTop="68dp" />
 
+    <TextView
+        android:id="@+id/title"
+        style="@style/statTitle" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/identify"
         android:layout_width="48dp"

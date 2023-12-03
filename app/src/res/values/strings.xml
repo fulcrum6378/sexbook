@@ -48,6 +48,7 @@
     <string name="dsc">Descending</string>
     <string name="lastOrgasm">Last Orgasm</string>
     <string name="unspecified">Unspecified</string>
+    <string name="deactivate">Deactivate</string>
 
     <!-- Main -->
     <string name="momImport">Import from Json</string>
@@ -66,6 +67,7 @@
 
     <!-- Page Sex -->
     <string name="lcAccurate">Accurate?</string>
+    <string name="lcOrgasmed">Orgasmed?</string>
     <string name="desc">Write descriptions&#8230;</string>
     <string name="placeHint">Add a new place&#8230;</string>
 

@@ -12,7 +12,7 @@ class Report(
     var desc: String?,
     var accu: Boolean,
     var plac: Long,
-    var ogsm: Boolean,
+    var ogsm: Boolean, // Mixture, Intervals and whenWasTheLastTime() require this
     var frtn: Byte, // fortuna
 ) {
     @PrimaryKey(autoGenerate = true)

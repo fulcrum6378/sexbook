@@ -218,6 +218,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momTst -> goTo(Taste::class)
             R.id.momPlc -> goTo(Places::class)
             R.id.momEst -> goTo(Estimation::class)
+            R.id.momPpl -> goTo(People::class)
             R.id.momImport -> exporter.launchImport()
             R.id.momExport -> exporter.launchExport()
             R.id.momSend -> exporter.send()
@@ -441,11 +442,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Problems:
   * After whirling around the app sorting feature of PageLove doesn't work!
   * Searching in Summary and Recency is so immature!
+  * Pleasure score for Reports
   * -
   * Extension:
   * Export data to TXT
-  * Pleasure score for Reports?!?
-  * Crush name on top of Singular
+  * "Turn off notifications for this Crush" on the notification
   * -
   * Why is it fucked up after a package reinstall? Does it happen for others?
   */

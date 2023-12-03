@@ -41,6 +41,7 @@ class Singular : ChartActivity<SingularBinding>() {
             }
         }
         crush = m.liefde?.find { it.key == crushKey }
+        b.title.text = crushKey
         b.identify.setOnClickListener {
             Identify(crush, handler).apply {
                 arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crushKey) }
@@ -67,7 +68,7 @@ class Singular : ChartActivity<SingularBinding>() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         handler = null
+        super.onDestroy()
     }
 }

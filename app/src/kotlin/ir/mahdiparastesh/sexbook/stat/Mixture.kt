@@ -17,7 +17,9 @@ class Mixture : ChartActivity<MixtureBinding>() {
         val history = arrayListOf<Summary.Orgasm>()
         val allowedTypes = Fun.allowedSexTypes(sp)
         for (o in m.onani.value!!.let {
-            if (allowedTypes.size < Fun.sexTypesCount) it.filter { r -> r.type in allowedTypes } else it
+            if (allowedTypes.size < Fun.sexTypesCount)
+                it.filter { r -> r.type in allowedTypes && r.ogsm }
+            else it.filter { r -> r.ogsm } // do not simplify
         }) history.add(Summary.Orgasm(o.time, 1f))
         sinceTheBeginning(this, m.onani.value!!)
             .forEach { data.add(Pair(it, calcHistory(this, history, it))) }

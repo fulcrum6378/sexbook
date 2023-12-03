@@ -227,6 +227,14 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                         }
                     }
                 }
+                this[R.id.lcOrgasmed] = {
+                    c.m.visOnani[h.layoutPosition].apply {
+                        if (ogsm != !it.isChecked) {
+                            ogsm = !it.isChecked
+                            updateStatic(this, h.layoutPosition)
+                        }
+                    }
+                }
                 this[R.id.lcDelete] = {
                     if (c.m.onani.value != null) {
                         val aPos = globalPos(c.m, h.layoutPosition)
@@ -236,6 +244,8 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
             }).apply {
                 menu.findItem(R.id.lcAccurate).isChecked =
                     c.m.visOnani[h.layoutPosition].accu
+                menu.findItem(R.id.lcOrgasmed).isChecked =
+                    c.m.visOnani[h.layoutPosition].ogsm
                 if (expansion[h.layoutPosition]) menu.findItem(R.id.lcExpand).title =
                     c.resources.getString(R.string.collapse)
             }.show()
