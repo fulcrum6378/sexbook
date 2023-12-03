@@ -23,6 +23,7 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
         val p = c.mm.people?.getOrNull(i) ?: return
 
         // Active
+        h.b.active.setOnCheckedChangeListener(null)
         h.b.active.isChecked = p.active()
         h.b.active.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked == p.active()) return@setOnCheckedChangeListener

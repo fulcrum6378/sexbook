@@ -35,7 +35,7 @@ class Taste : ChartActivity<TasteBinding>() {
 
         val data = arrayListOf<SliceValue>()
         for (g in genders.indices) {
-            val score = stats[(g - 1).toByte()]!!.toFloat()
+            val score = stats[g.toByte()]!!.toFloat()
             if (score == 0f) continue
             data.add(
                 SliceValue(score, color(R.color.CPV_LIGHT))

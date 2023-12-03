@@ -216,9 +216,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momMix -> goTo(Mixture::class)
             R.id.momInt -> goTo(Intervals::class)
             R.id.momTst -> goTo(Taste::class)
+
+            R.id.momPpl -> goTo(People::class)
             R.id.momPlc -> goTo(Places::class)
             R.id.momEst -> goTo(Estimation::class)
-            R.id.momPpl -> goTo(People::class)
+
             R.id.momImport -> exporter.launchImport()
             R.id.momExport -> exporter.launchExport()
             R.id.momSend -> exporter.send()

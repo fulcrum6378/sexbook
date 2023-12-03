@@ -189,7 +189,8 @@ class Identify() : BaseDialog() {
                     b.lName.text.toString().ifBlank { null },
                     b.gender.selectedItemPosition.toByte() or
                             (if (b.fiction.isChecked) Crush.STAT_FICTION else 0) or
-                            (if (b.notifyBirth.isChecked) Crush.STAT_NOTIFY_BIRTH else 0),
+                            (if (b.notifyBirth.isChecked) Crush.STAT_NOTIFY_BIRTH else 0) or
+                            (crush?.let { it.status and Crush.STAT_INACTIVE } ?: 0),
                     if (isBirthSet) "${endBir[Calendar.YEAR]}.${endBir[Calendar.MONTH] + 1}." +
                             "${endBir[Calendar.DAY_OF_MONTH]}" else null,
                     if (b.height.text.toString() != "")

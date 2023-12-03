@@ -46,6 +46,13 @@
         </activity>
 
         <activity
+            android:name=".People"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:parentActivityName=".Main"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
             android:name=".Places"
             android:exported="false"
             android:launchMode="singleTop"
@@ -54,13 +61,6 @@
 
         <activity
             android:name=".Estimation"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".Main"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
-
-        <activity
-            android:name=".People"
             android:exported="false"
             android:launchMode="singleTop"
             android:parentActivityName=".Main"
