@@ -43,11 +43,11 @@
 
     <style name="Theme.Sexbook.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="android:textColor">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
-        <item name="buttonTint">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
         <item name="buttonIconTint">?colorPrimary</item><!--avoid transparent-->
+        <item name="buttonTint">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
     </style>
 
-    <style name="ThemeOverlay.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox">
+    <style name="Theme.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox"><!--unused-->
         <item name="buttonTint">?colorOnSecondary</item>
         <item name="buttonIconTint">?colorSurface</item>
     </style>

@@ -89,7 +89,7 @@
     <string name="noStat">The range of your records must exceed one month!</string>
     <string name="afterNHours">&#160;after %d hours</string>
 
-    <!-- Identification -->
+    <!-- Identify -->
     <string name="identify">Identification</string>
     <string name="firstName">First Name</string>
     <string name="middleName">Middle Name</string>
@@ -98,8 +98,10 @@
         <item>Specify their gender&#8230;</item>
         <item>Female</item>
         <item>Male</item>
-        <item>Non-Binary</item>
+        <item>Bigender</item>
+        <item>Agender</item>
     </string-array>
+    <string name="fiction">Is a fictional character?</string>
     <string name="birth">Birthday</string>
     <string name="heightInCM">Height (cm)</string>
     <string name="address">Address</string>

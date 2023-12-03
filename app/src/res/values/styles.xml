@@ -127,7 +127,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/normal</item>
         <item name="android:paddingVertical">6dp</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
     <style name="identifyET" parent="identifyField">
@@ -139,6 +139,11 @@
     <style name="identifyButton" parent="identifyField">
         <item name="android:background">@drawable/button_mask</item>
         <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="identifySubField" parent="identifyField">
+        <item name="android:paddingVertical">0dp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="identifySep">
