@@ -261,7 +261,7 @@ class PageSex : BasePage() {
         adding = true
         val newOne = Report(
             Fun.now(), "", c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
-            "", true, c.sp.getLong(Settings.spDefPlace, -1L)
+            "", true, c.sp.getLong(Settings.spDefPlace, -1L), true, -127
         )
         Work(c.c, Work.INSERT_ONE, listOf(newOne)).start()
         Delay { adding = false }

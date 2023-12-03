@@ -83,6 +83,13 @@
 
         <View style="@style/identifySep" />
 
+        <TextView
+            android:id="@+id/firstMet"
+            style="@style/identifyButton"
+            android:text="@string/firstMet" />
+
+        <View style="@style/identifySep" />
+
         <ir.mahdiparastesh.sexbook.more.SoftEditText
             android:id="@+id/instagram"
             style="@style/identifyET"
@@ -94,13 +101,6 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:fontFamily="serif-monospace" />
-
-        <View style="@style/identifySep" />
-
-        <TextView
-            android:id="@+id/firstMet"
-            style="@style/identifyButton"
-            android:text="@string/firstMet" />
 
         <View style="@style/identifySep" />
 

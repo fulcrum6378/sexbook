@@ -443,7 +443,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Searching in Summary and Recency is so immature!
   * -
   * Extension:
-  * Eye and hair colours for Crush
   * Export data to TXT
   * Pleasure score for Reports?!?
   * Crush name on top of Singular

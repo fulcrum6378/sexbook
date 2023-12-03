@@ -42,7 +42,7 @@ interface Dao {
     @Query("SELECT * FROM Crush")
     fun cGetPeople(): List<Crush>
 
-    @Query("SELECT * FROM Crush WHERE active = 0")
+    @Query("SELECT * FROM Crush WHERE (status & 128) == 0")
     fun cGetAll(): List<Crush>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

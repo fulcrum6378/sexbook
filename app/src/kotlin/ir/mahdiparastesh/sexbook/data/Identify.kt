@@ -84,11 +84,11 @@ class Identify() : BaseDialog() {
             if (crush!!.height != -1f)
                 bi.height.setText(crush!!.height.toString())
             bi.address.setText(crush!!.address)
-            bi.instagram.setText(crush!!.insta)
             if (fir != null) {
                 bi.firstMet.text = fir.fullDate()
                 isFirstSet = true
             }
+            bi.instagram.setText(crush!!.insta)
             bi.notifyBirth.isChecked = crush!!.notifyBirth()
         }
         if (bir == null) {
@@ -184,6 +184,7 @@ class Identify() : BaseDialog() {
                             "${endBir[Calendar.DAY_OF_MONTH]}" else null,
                     if (bi.height.text.toString() != "")
                         bi.height.text.toString().toFloat() else -1f,
+                    /*TODO*/0,
                     bi.address.text.toString().ifBlank { null },
                     if (isFirstSet) "${endFir[Calendar.YEAR]}.${endFir[Calendar.MONTH] + 1}." +
                             "${endFir[Calendar.DAY_OF_MONTH]}" else null,

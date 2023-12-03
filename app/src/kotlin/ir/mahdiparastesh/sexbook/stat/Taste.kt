@@ -24,7 +24,7 @@ class Taste : ChartActivity<TasteBinding>() {
             val addable = m.summary!!.scores[agent]!!.sumOf { it.value.toDouble() }
             // `sumOf()` only accepts Double values!
             if (agent in crushKeys) {
-                val g = (m.liefde!!.find { it.key == agent }!!.status and Crush.STAT_GENDER).toByte()
+                val g = (m.liefde!!.find { it.key == agent }!!.status and Crush.STAT_GENDER)
                 try {
                     stats[g] = stats[g]!! + addable
                 } catch (_: NullPointerException) {

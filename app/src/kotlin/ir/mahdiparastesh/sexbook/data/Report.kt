@@ -12,6 +12,8 @@ class Report(
     var desc: String?,
     var accu: Boolean,
     var plac: Long,
+    var ogsm: Boolean,
+    var frtn: Byte, // fortuna
 ) {
     @PrimaryKey(autoGenerate = true)
     var id = 0L
@@ -22,7 +24,7 @@ class Report(
 
     @Ignore
     constructor(time: Long, name: String, type: Byte, plac: Long)
-            : this(time, name, type, null, false, plac) {
+            : this(time, name, type, null, false, plac, true, -127) {
         guess = true
     }
 

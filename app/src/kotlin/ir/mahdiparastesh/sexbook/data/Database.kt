@@ -26,7 +26,8 @@ abstract class Database : RoomDatabase(), Closeable {
                     db.execSQL(
                         "CREATE TABLE IF NOT EXISTS `Crush` (`key` TEXT NOT NULL, " +
                                 "`first_name` TEXT, `middle_name` TEXT, `last_name` TEXT, " +
-                                "`status` INTEGER NOT NULL, `birth` TEXT, `height` REAL NOT NULL, " +
+                                "`status` INTEGER NOT NULL, `birth` TEXT, " +
+                                "`height` REAL NOT NULL, `body` INTEGER NOT NULL, " +
                                 "`address` TEXT, `first_met` TEXT, `instagram` TEXT, " +
                                 "PRIMARY KEY(`key`))"
                     )
@@ -34,14 +35,15 @@ abstract class Database : RoomDatabase(), Closeable {
                     while (cur.moveToNext()) {
                         db.execSQL(
                             "INSERT INTO `Crush` (key, first_name, middle_name, last_name, status, " +
-                                    "birth, height, address, first_met, instagram) " +
+                                    "birth, height, body, address, first_met, instagram) " +
                                     "VALUES (?,?,?,?,?,?,?,?,?,?,?)", arrayOf(
                                 cur.getString(0),
                                 cur.getString(1), cur.getString(2), cur.getString(3),
                                 (cur.getInt(4) + 1) or // gender
-                                        (cur.getInt(11) shl 3), // notify_birth
+                                        (cur.getInt(10) shl 4), // notify_birth
                                 cur.getString(5), // birth
                                 cur.getFloat(6), // height
+                                0, // body
                                 cur.getString(7), // address
                                 cur.getString(9), // first_met
                                 cur.getString(8), // instagram
@@ -50,6 +52,9 @@ abstract class Database : RoomDatabase(), Closeable {
                     }
                     cur.close()
                     db.execSQL("DROP TABLE Crush_old")
+
+                    db.execSQL("ALTER TABLE Report ADD COLUMN ogsm INTEGER NOT NULL DEFAULT -127")
+                    db.execSQL("ALTER TABLE Report ADD COLUMN frtn INTEGER NOT NULL DEFAULT 1")
                 }
             })
 
