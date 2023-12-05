@@ -22,18 +22,12 @@ class Work(
 ) : Thread() {
     companion object {
         // Report
-        const val VIEW_ONE = 0
-        const val INSERT_ONE = 2
-        const val REPLACE_ALL = 3
-        const val UPDATE_ONE = 4
-        const val DELETE_ONE = 5
         const val SCROLL = 6
 
         // Crush
         const val C_VIEW_ONE = 10
         const val C_VIEW_ALL = 11
         const val C_INSERT_ONE = 12
-        const val C_REPLACE_ALL = 13
         const val C_UPDATE_ONE = 14
         const val C_DELETE_ONE = 15
         const val C_VIEW_ALL_PEOPLE = 16
@@ -41,14 +35,12 @@ class Work(
         // Place
         const val P_VIEW_ONE = 20
         const val P_INSERT_ONE = 22
-        const val P_REPLACE_ALL = 23
         const val P_UPDATE_ONE = 24
         const val P_DELETE_ONE = 25
 
         // Guess
         const val G_VIEW_ONE = 30
         const val G_INSERT_ONE = 32
-        const val G_REPLACE_ALL = 33
         const val G_UPDATE_ONE = 34
         const val G_DELETE_ONE = 35
 
@@ -62,48 +54,10 @@ class Work(
         // const val ADMOB_LOADED = 10X
     }
 
-    @Suppress("UNCHECKED_CAST")
     override fun run() {
         val db = Database.Builder(c).build()
         val dao = db.dao()
         when (action) {
-            // Report
-            VIEW_ONE -> if (!values.isNullOrEmpty()) handler?.obtainMessage(
-                action,
-                if (values.size > 1) values[1] as Int else 0,
-                if (values.size > 2) values[2] as Int else 0,
-                dao.get(values[0] as Long)
-            )?.sendToTarget()
-
-            INSERT_ONE -> {
-                var result: Long = -1
-                if (!values.isNullOrEmpty()) result = dao.insert(values[0] as Report)
-                handler?.obtainMessage(action, result)?.sendToTarget()
-            }
-
-            REPLACE_ALL -> if (!values.isNullOrEmpty()) {
-                dao.deleteAll(dao.getAll())
-                dao.replaceAll(values as List<Report>)
-                handler?.obtainMessage(action)?.sendToTarget()
-            }
-
-            UPDATE_ONE -> if (!values.isNullOrEmpty()) {
-                dao.update(values[0] as Report)
-                handler?.obtainMessage(
-                    action, if (values.size > 1) values[1] as Int else 0,
-                    if (values.size > 2) values[2] as Int else 0, null
-                )?.sendToTarget()
-            }
-
-            DELETE_ONE -> if (!values.isNullOrEmpty()) {
-                dao.delete(values[0] as Report)
-                handler?.obtainMessage(
-                    action, if (values.size > 1) values[1] as Int else 0,
-                    if (values.size > 2) values[2] as Int else 0, null
-                )?.sendToTarget()
-            }
-
-
             // Crush
             C_VIEW_ONE -> if (!values.isNullOrEmpty()) handler?.obtainMessage(
                 action,
@@ -120,12 +74,6 @@ class Work(
                 if (!values.isNullOrEmpty()) result = dao.cInsert(values[0] as Crush)
                 handler?.obtainMessage(action, result)?.sendToTarget()
                 Main.handler!!.obtainMessage(CRUSH_ALTERED).sendToTarget()
-            }
-
-            C_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
-                dao.cDeleteAll(dao.cGetAll())
-                dao.cReplaceAll(values as List<Crush>)
-                handler?.obtainMessage(action, values)?.sendToTarget()
             }
 
             C_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
@@ -161,12 +109,6 @@ class Work(
                 handler?.obtainMessage(action, result)?.sendToTarget()
             }
 
-            P_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
-                dao.pDeleteAll(dao.pGetAll())
-                dao.pReplaceAll(values as List<Place>)
-                handler?.obtainMessage(action)?.sendToTarget()
-            }
-
             P_UPDATE_ONE -> if (!values.isNullOrEmpty()) {
                 dao.pUpdate(values[0] as Place)
                 handler?.obtainMessage(
@@ -178,8 +120,8 @@ class Work(
             P_DELETE_ONE -> if (!values.isNullOrEmpty()) {
                 val old = values[0] as Place
                 dao.pDelete(old)
-                for (mig in dao.getByPlace(old.id))
-                    dao.update(mig.apply { plac = values[1] as Long })
+                for (mig in dao.rGetByPlace(old.id))
+                    dao.rUpdate(mig.apply { plac = values[1] as Long })
                 handler?.obtainMessage(
                     action, if (values.size > 2) values[2] as Int else 0,
                     if (values.size > 3) values[3] as Int else 0, null
@@ -199,12 +141,6 @@ class Work(
                 var result: Long = -1
                 if (!values.isNullOrEmpty()) result = dao.gInsert(values[0] as Guess)
                 handler?.obtainMessage(action, result)?.sendToTarget()
-            }
-
-            G_REPLACE_ALL -> if (!values.isNullOrEmpty()) {
-                dao.gDeleteAll(dao.gGetAll())
-                dao.gReplaceAll(values as List<Guess>)
-                handler?.obtainMessage(action)?.sendToTarget()
             }
 
             G_UPDATE_ONE -> if (!values.isNullOrEmpty()) {

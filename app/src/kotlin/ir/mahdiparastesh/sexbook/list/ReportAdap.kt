@@ -17,23 +17,30 @@ import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.Fun.calendar
+import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
+import ir.mahdiparastesh.sexbook.PageSex
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
-import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.more.*
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.DateFormatSymbols
+import java.util.Collections
 
-class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
-    RecyclerView.Adapter<AnyViewHolder<ItemReportBinding>>(),
+class ReportAdap(
+    private val c: Main, private val f: PageSex, private val autoExpand: Boolean = false
+) : RecyclerView.Adapter<AnyViewHolder<ItemReportBinding>>(),
     TimePickerDialog.OnTimeSetListener {
 
     private var clockHeight = c.resources.getDimension(R.dimen.clockSize)
@@ -120,7 +127,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                     val pos = view.tag!!.substring(4).toInt()
                     if (c.m.onani.value!!.size > pos && view.tag!!.substring(0, 4) == tagEdit) {
                         c.m.onani.value!![pos].time = cal.timeInMillis
-                        Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
+                        syncDb(pos, true)
                     }
                 }, cal).defaultOptions()
                     // .setOnDismissListener { dialogDismissed() }
@@ -238,14 +245,32 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 this[R.id.lcDelete] = {
                     if (c.m.onani.value != null) {
                         val aPos = globalPos(c.m, h.layoutPosition)
-                        Work(c, Work.DELETE_ONE, listOf(c.m.onani.value!![aPos], aPos)).start()
+                        CoroutineScope(Dispatchers.IO).launch {
+                            c.m.dao.rDelete(c.m.onani.value!![aPos])
+                            LastOrgasm.updateAll(c)
+                            withContext(Dispatchers.Main) {
+                                if (c.m.onani.value != null) {
+                                    val nominalPos = c.m.visOnani.indexOf(c.m.onani.value!![aPos])
+                                    if (nominalPos != -1) {
+                                        c.m.visOnani.removeAt(nominalPos)
+                                        notifyItemRemoved(nominalPos)
+                                        notifyItemRangeChanged(nominalPos, itemCount)
+                                    } else f.resetAllReports()
+
+                                    c.m.onani.value!!.remove(c.m.onani.value!![aPos])
+                                    if (c.m.onani.value!!.isNotEmpty())
+                                        f.filters.getOrNull(c.m.listFilter)?.map?.remove(aPos)
+                                    else f.filters = f.createFilters(c.m.onani.value!!)
+                                    f.updateFilterSpinner()
+                                    notifyAnyChange(false)
+                                } else f.resetAllReports()
+                            }
+                        }
                     }
                 }
             }).apply {
-                menu.findItem(R.id.lcAccurate).isChecked =
-                    c.m.visOnani[h.layoutPosition].accu
-                menu.findItem(R.id.lcOrgasmed).isChecked =
-                    c.m.visOnani[h.layoutPosition].ogsm
+                menu.findItem(R.id.lcAccurate).isChecked = c.m.visOnani[h.layoutPosition].accu
+                menu.findItem(R.id.lcOrgasmed).isChecked = c.m.visOnani[h.layoutPosition].ogsm
                 if (expansion[h.layoutPosition]) menu.findItem(R.id.lcExpand).title =
                     c.resources.getString(R.string.collapse)
             }.show()
@@ -273,7 +298,7 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
                 calc[Calendar.MINUTE] = minute
                 calc[Calendar.SECOND] = second
                 c.m.onani.value!![pos].time = calc.timeInMillis
-                Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 0)).start()
+                syncDb(pos, true)
             }
         }
     }
@@ -320,7 +345,42 @@ class ReportAdap(val c: Main, private val autoExpand: Boolean = false) :
         val pos = globalPos(c.m, nominalPos)
         if (c.m.onani.value!!.size <= pos || pos < 0) return
         c.m.onani.value!![pos] = updated
-        Work(c, Work.UPDATE_ONE, listOf(c.m.onani.value!![pos], pos, 1)).start()
+        syncDb(pos, false)
+    }
+
+    private fun syncDb(pos: Int, dateTimeChanged: Boolean) {
+        CoroutineScope(Dispatchers.IO).launch {
+            c.m.dao.rUpdate(c.m.onani.value!![pos])
+            LastOrgasm.doUpdateAll(c)
+            withContext(Dispatchers.Main) {
+                if (c.m.onani.value == null) {
+                    f.resetAllReports(); return@withContext; }
+
+                val nominalPos = c.m.visOnani.indexOf(c.m.onani.value!![pos])
+                if (nominalPos != -1) c.m.visOnani[nominalPos] = c.m.onani.value!![pos]
+
+                // In addition, if date or time have been changed...
+                if (!dateTimeChanged) return@withContext
+                val ym = c.m.onani.value!![pos].time.calendar(c).createFilterYm()
+                if (nominalPos != -1 && f.filters.getOrNull(c.m.listFilter)
+                        ?.let { ym.first == it.year && ym.second == it.month } == true
+                ) { // report is still in this month
+                    notifyItemChanged(nominalPos)
+                    Collections.sort(c.m.visOnani, Report.Sort())
+                    val newPos = c.m.visOnani.indexOf(c.m.onani.value!![pos])
+                    notifyItemMoved(nominalPos, newPos)
+                    f.b.rv.smoothScrollToPosition(newPos)
+                    f.filters.getOrNull(c.m.listFilter)?.map?.apply {
+                        this[nominalPos] = c.m.onani.value!!.indexOf(c.m.visOnani[nominalPos])
+                        this[newPos] = pos
+                    }
+                } else { // report moved to another month or is missing
+                    notifyItemRemoved(nominalPos)
+                    notifyItemRangeChanged(nominalPos, itemCount)
+                    f.resetAllReports(pos)
+                }
+            }
+        }
     }
 
     private fun arExpansion() = BooleanArray(itemCount) { autoExpand }

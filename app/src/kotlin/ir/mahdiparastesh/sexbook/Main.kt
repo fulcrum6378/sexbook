@@ -142,7 +142,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // Load all data from the database
         CoroutineScope(Dispatchers.IO).launch {
-            val rp = if (m.onani.value == null) m.dao.getAll() else null
+            val rp = if (m.onani.value == null) m.dao.rGetAll() else null
             val cr = if (m.liefde == null) m.dao.cGetAll() else null
             val pl = if (m.places.value == null) m.dao.pGetAll() else null
             val gs = if (m.guesses.value == null) m.dao.gGetAll() else null

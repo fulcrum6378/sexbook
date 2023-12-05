@@ -296,7 +296,7 @@ class Settings : BaseActivity() {
                     DbFile(DbFile.Triple.MAIN).delete()
                     DbFile(DbFile.Triple.SHARED_MEMORY).delete()
                     DbFile(DbFile.Triple.WRITE_AHEAD_LOG).delete()
-                    LastOrgasm.updateAll(c)
+                    LastOrgasm.doUpdateAll(c)
                     c.shake()
                     changed = true
                 }

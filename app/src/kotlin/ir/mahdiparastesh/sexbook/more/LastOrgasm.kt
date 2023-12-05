@@ -19,40 +19,44 @@ import kotlinx.coroutines.withContext
 /** An app widget that counts hours since the user's latest orgasm! */
 class LastOrgasm : AppWidgetProvider() {
     override fun onUpdate(c: Context, manager: AppWidgetManager, ids: IntArray) {
-        Widget(c).render { rv -> ids.forEach { id -> manager.updateAppWidget(id, rv) } }
+        CoroutineScope(Dispatchers.IO).launch {
+            Widget(c).render { rv -> ids.forEach { id -> manager.updateAppWidget(id, rv) } }
+        }
     }
 
     private class Widget(private val c: Context) {
-        fun render(then: (rv: RemoteViews) -> Unit) {
-            CoroutineScope(Dispatchers.IO).launch {
-                val number: Int? = Database.Builder(c).build().use { db ->
-                    db.dao().whenWasTheLastTime()?.let { ((now() - it) / 3600000L).toInt() }
-                }
+        suspend fun render(then: (rv: RemoteViews) -> Unit) {
+            val number: Int? = Database.Builder(c).build().use { db ->
+                db.dao().whenWasTheLastTime()?.let { ((now() - it) / 3600000L).toInt() }
+            }
 
-                withContext(Dispatchers.Main) {
-                    then(RemoteViews(c.packageName, R.layout.last_orgasm).apply {
-                        setOnClickPendingIntent(
-                            R.id.root, PendingIntent.getActivity(
-                                c, 0, Intent(c, Main::class.java),
-                                PendingIntent.FLAG_IMMUTABLE
-                            )
+            withContext(Dispatchers.Main) {
+                then(RemoteViews(c.packageName, R.layout.last_orgasm).apply {
+                    setOnClickPendingIntent(
+                        R.id.root, PendingIntent.getActivity(
+                            c, 0, Intent(c, Main::class.java),
+                            PendingIntent.FLAG_IMMUTABLE
                         )
-                        setTextViewText(
-                            R.id.number, number?.toString() ?: c.getString(R.string.none)
-                        )
-                    })
-                }
+                    )
+                    setTextViewText(
+                        R.id.number, number?.toString() ?: c.getString(R.string.none)
+                    )
+                })
             }
         }
     }
 
     companion object {
-        fun updateAll(c: Context) {
+        suspend fun updateAll(c: Context) {
             Widget(c).render { rv ->
                 AppWidgetManager.getInstance(c).updateAppWidget(
                     ComponentName(c, LastOrgasm::class.java.name), rv
                 )
             }
+        }
+
+        fun doUpdateAll(c: Context) {
+            CoroutineScope(Dispatchers.IO).launch { updateAll(c) }
         }
     }
 }

@@ -10,9 +10,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
+import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.LastOrgasm
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -135,27 +137,40 @@ class Exporter(val c: BaseActivity) {
     }
 
     private fun replace(c: BaseActivity, imported: Exported) {
-        Work(c, Work.REPLACE_ALL, imported.reports?.toList()).start()
-        Work(c, Work.C_REPLACE_ALL, imported.crushes?.toList()).start()
-        Work(c, Work.P_REPLACE_ALL, imported.places?.toList()).start()
-        Work(c, Work.G_REPLACE_ALL, imported.guesses?.toList()).start()
-        if (imported.settings != null) c.sp.edit().apply {
-            imported.settings.forEach { (k, v) ->
-                when (v) {
-                    is Boolean -> putBoolean(k, v)
-                    is Double -> when (k) { // all numbers become Double in SP.
-                        Settings.spCalType, Settings.spNotifyBirthDaysBefore,
-                        Settings.spPageLoveSortBy, Settings.spPrefersOrgType ->
-                            putInt(k, v.toInt())
-                        Settings.spStatSince, Settings.spStatUntil, Settings.spDefPlace,
-                        Settings.spLastNotifiedBirthAt ->
-                            putLong(k, v.toLong())
+        CoroutineScope(Dispatchers.IO).launch {
+            c.m.dao.rDeleteAll(c.m.dao.rGetAll())
+            imported.reports?.toList()?.also { c.m.dao.rReplaceAll(it) }
+            c.m.dao.cDeleteAll(c.m.dao.cGetAll())
+            imported.crushes?.toList()?.also { c.m.dao.cReplaceAll(it) }
+            c.m.dao.pDeleteAll(c.m.dao.pGetAll())
+            imported.places?.toList()?.also { c.m.dao.pReplaceAll(it) }
+            c.m.dao.gDeleteAll(c.m.dao.gGetAll())
+            imported.guesses?.toList()?.also { c.m.dao.gReplaceAll(it) }
+
+            if (imported.settings != null) c.sp.edit().apply {
+                imported.settings.forEach { (k, v) ->
+                    when (v) {
+                        is Boolean -> putBoolean(k, v)
+                        is Double -> when (k) { // all numbers become Double in SP.
+                            Settings.spCalType, Settings.spNotifyBirthDaysBefore,
+                            Settings.spPageLoveSortBy, Settings.spPrefersOrgType ->
+                                putInt(k, v.toInt())
+                            Settings.spStatSince, Settings.spStatUntil, Settings.spDefPlace,
+                            Settings.spLastNotifiedBirthAt ->
+                                putLong(k, v.toLong())
+                        }
+                        is String -> putString(k, v)
                     }
-                    is String -> putString(k, v)
                 }
+            }.apply()
+            c.m.resetData()
+            LastOrgasm.updateAll(c)
+
+            withContext(Dispatchers.Main) {
+                Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
+                c.goTo(Main::class) { action = Main.Action.RELOAD.s }
             }
-        }.apply()
-        c.m.resetData()
+        }
     }
 
     class Exported(

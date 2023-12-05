@@ -11,32 +11,29 @@ import androidx.room.Update
 interface Dao {
 
     // Report
-    @Query("SELECT * FROM Report WHERE id LIKE :id LIMIT 1")
-    fun get(id: Long): Report
-
     @Query("SELECT * FROM Report")
-    fun getAll(): List<Report>
+    fun rGetAll(): List<Report>
 
     @Query("SELECT * FROM Report WHERE plac == :place")
-    fun getByPlace(place: Long): List<Report>
+    fun rGetByPlace(place: Long): List<Report>
 
     @Query("SELECT MAX(time) FROM Report WHERE ogsm LIKE 1")
     suspend fun whenWasTheLastTime(): Long?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(item: Report): Long
+    suspend fun rInsert(item: Report): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun replaceAll(list: List<Report>)
+    fun rReplaceAll(list: List<Report>)
 
     @Update
-    fun update(item: Report)
+    suspend fun rUpdate(item: Report)
 
     @Delete
-    fun delete(item: Report)
+    suspend fun rDelete(item: Report)
 
     @Delete
-    fun deleteAll(item: List<Report>)
+    fun rDeleteAll(item: List<Report>)
 
 
     // Crush

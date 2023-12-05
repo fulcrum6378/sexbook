@@ -37,7 +37,6 @@ class PageLove : BasePage() {
         handler.value = object : Handler(Looper.getMainLooper()) {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.REPLACE_ALL -> Work(c, Work.C_VIEW_ALL).start()
                     Work.C_UPDATE_ONE -> if (b.rv.adapter != null)
                         c.m.liefde?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
                             val newCrs = msg.obj as Crush
