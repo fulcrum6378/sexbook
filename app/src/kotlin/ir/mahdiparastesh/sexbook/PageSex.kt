@@ -16,12 +16,10 @@ import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.explode
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.data.Report
-import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.BasePage
-import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.LastOrgasm
 import ir.mahdiparastesh.sexbook.more.MessageInbox
 import kotlinx.coroutines.CoroutineScope
@@ -36,6 +34,8 @@ class PageSex : BasePage() {
     var filters: List<Report.Filter> = listOf()
 
     companion object {
+        const val SCROLL_TO = 6
+        const val SPECIAL_ADD = 100
         /*const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
         const val DISMISSAL_REFRAIN_FROM_AD_TIMES = 3*/
         var handler = MutableLiveData<Handler?>(null)
@@ -51,8 +51,8 @@ class PageSex : BasePage() {
         handler.value = object : Handler(Looper.getMainLooper()) {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.SCROLL -> b.rv.smoothScrollBy(0, msg.obj as Int)
-                    Work.SPECIAL_ADD -> add()
+                    SCROLL_TO -> b.rv.smoothScrollBy(0, msg.obj as Int)
+                    SPECIAL_ADD -> add()
                 }
             }
         }
@@ -176,11 +176,12 @@ class PageSex : BasePage() {
         CoroutineScope(Dispatchers.IO).launch {
             newOne.id = c.m.dao.rInsert(newOne)
             LastOrgasm.updateAll(c)
-            withContext(Dispatchers.Main) {
-                val firstRecordEver = c.m.onani.value == null
-                if (firstRecordEver) c.m.onani.value = ArrayList()
-                c.m.onani.value!!.add(newOne)
+            val firstRecordEver = c.m.onani.value == null
+            if (firstRecordEver) c.m.onani.value = ArrayList()
+            c.m.onani.value!!.add(newOne)
+            adding = false
 
+            withContext(Dispatchers.Main) {
                 val ym = newOne.time.calendar(c).createFilterYm()
                 if (filters.indexOfFirst { it.year == ym.first && it.month == ym.second }
                     == c.m.listFilter && c.m.listFilter >= 0 && !firstRecordEver) {
@@ -196,11 +197,9 @@ class PageSex : BasePage() {
                 } else // go to/create a new month
                     resetAllReports(c.m.onani.value!!.size - 1)
 
-                adding = false
                 b.add.explode(c)
             }
         }
-        Delay { adding = false }
         c.c.shake()
         /*addedToShowAd++
         if (addedToShowAd >= MAX_ADDED_REPORTS_TO_SHOW_AD)

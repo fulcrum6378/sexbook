@@ -19,13 +19,16 @@ import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.now
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Place
-import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
 import ir.mahdiparastesh.sexbook.more.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.collections.set
 
 class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGuessBinding>>() {
-    val places = c.m.places.value?.sortedWith(Place.Sort(Place.Sort.NAME))
+    val places = c.m.places?.sortedWith(Place.Sort(Place.Sort.NAME))
 
     @SuppressLint("SetTextI18n")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -54,7 +57,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemGuessBinding>, i: Int) {
-        val g = c.m.guesses.value?.getOrNull(i) ?: return
+        val g = c.m.guesses?.getOrNull(i) ?: return
         if (g.able) h.b.root.alpha = 1f
         else Delay(350) { h.b.root.alpha = .7f }
 
@@ -65,7 +68,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                val gu = c.m.guesses.value?.getOrNull(h.layoutPosition) ?: return
+                val gu = c.m.guesses?.getOrNull(h.layoutPosition) ?: return
                 if (gu.crsh != h.b.crsh.text.toString()) {
                     gu.crsh = h.b.crsh.text.toString()
                     update(h.layoutPosition)
@@ -78,7 +81,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             h.b.sinc.text = g.sinc.defCalendar(c).fullDate()
         else h.b.sinc.setText(R.string.etDateHint)
         h.b.sinc.setOnClickListener {
-            val gu = c.m.guesses.value?.getOrNull(h.layoutPosition) ?: return@setOnClickListener
+            val gu = c.m.guesses?.getOrNull(h.layoutPosition) ?: return@setOnClickListener
             val oldTime = gu.sinc
             var oldSinc = (if (oldTime > -1L) oldTime else now()).defCalendar(c)
             DatePickerDialog.newInstance({ _, year, month, day ->
@@ -99,7 +102,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             h.b.till.text = g.till.defCalendar(c).fullDate()
         else h.b.till.setText(R.string.etDateHint)
         h.b.till.setOnClickListener {
-            val gu = c.m.guesses.value?.getOrNull(h.layoutPosition) ?: return@setOnClickListener
+            val gu = c.m.guesses?.getOrNull(h.layoutPosition) ?: return@setOnClickListener
             val oldTime = gu.till
             var oldTill = (if (oldTime > -1L) oldTime else now()).defCalendar(c)
             DatePickerDialog.newInstance({ _, year, month, day ->
@@ -122,7 +125,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                val gu = c.m.guesses.value?.getOrNull(h.layoutPosition) ?: return
+                val gu = c.m.guesses?.getOrNull(h.layoutPosition) ?: return
                 try {
                     if (gu.freq != h.b.freq.text.toString().toFloat()) {
                         gu.freq = h.b.freq.text.toString().toFloat()
@@ -138,7 +141,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         h.b.type.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                val gu = c.m.guesses.value?.getOrNull(h.layoutPosition) ?: return
+                val gu = c.m.guesses?.getOrNull(h.layoutPosition) ?: return
                 if (gu.type != i.toByte()) {
                     gu.type = i.toByte()
                     update(h.layoutPosition)
@@ -153,7 +156,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                val gu = c.m.guesses.value?.getOrNull(h.layoutPosition) ?: return
+                val gu = c.m.guesses?.getOrNull(h.layoutPosition) ?: return
                 if (gu.desc != h.b.desc.text.toString()) {
                     gu.desc = h.b.desc.text.toString()
                     update(h.layoutPosition)
@@ -169,7 +172,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
                 if (places == null || !placeTouched) return
                 val id = if (i == 0) -1L else places[i - 1].id
-                val gu = c.m.guesses.value?.getOrNull(h.layoutPosition) ?: return
+                val gu = c.m.guesses?.getOrNull(h.layoutPosition) ?: return
                 if (gu.plac != id) {
                     gu.plac = id
                     update(h.layoutPosition)
@@ -184,13 +187,17 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
 
         // Long Click
         val longClick = View.OnLongClickListener { v ->
-            val gu = c.m.guesses.value?.getOrNull(h.layoutPosition)
+            val gu = c.m.guesses?.getOrNull(h.layoutPosition)
                 ?: return@OnLongClickListener false
             MaterialMenu(c, v, R.menu.guess, Act().apply {
                 this[R.id.glSuspend] = {
-                    c.m.guesses.value?.getOrNull(h.layoutPosition)?.apply {
+                    c.m.guesses?.getOrNull(h.layoutPosition)?.apply {
                         able = !able
-                        Work(c, Work.G_UPDATE_ONE, listOf(this, h.layoutPosition, 1)).start()
+                        CoroutineScope(Dispatchers.IO).launch {
+                            @Suppress("LABEL_NAME_CLASH") c.m.dao.gUpdate(this@apply)
+                            c.changed = true
+                            withContext(Dispatchers.IO) { notifyItemChanged(h.layoutPosition) }
+                        }
                     }
                 }
                 this[R.id.glDelete] = {
@@ -198,10 +205,17 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                         setTitle(c.resources.getString(R.string.delete))
                         setMessage(c.resources.getString(R.string.etDeleteGuessSure))
                         setPositiveButton(R.string.yes) { _, _ ->
-                            Work(
-                                c, Work.G_DELETE_ONE,
-                                listOf(gu, h.layoutPosition)
-                            ).start()
+                            CoroutineScope(Dispatchers.IO).launch {
+                                c.m.dao.gDelete(gu)
+                                c.m.guesses?.removeAt(h.layoutPosition)
+                                c.changed = true
+                                withContext(Dispatchers.IO) {
+                                    val ii = h.layoutPosition
+                                    notifyItemRemoved(ii)
+                                    notifyItemRangeChanged(ii, itemCount - ii)
+                                    c.count(c.m.guesses?.size ?: 0)
+                                }
+                            }
                         }
                         setNegativeButton(R.string.no, null)
                         setCancelable(true)
@@ -221,12 +235,13 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         h.b.place.setOnLongClickListener(longClick)
     }
 
-    override fun getItemCount() = c.m.guesses.value?.size ?: 0
+    override fun getItemCount() = c.m.guesses?.size ?: 0
 
-    fun update(i: Int, refresh: Int = 0) {
-        c.m.guesses.value?.also { list ->
-            if (list.size <= i || i < 0) return
-            Work(c, Work.G_UPDATE_ONE, listOf(list[i], i, refresh)).start()
+    fun update(i: Int) {
+        if (c.m.guesses == null || c.m.guesses!!.size <= i || i < 0) return
+        CoroutineScope(Dispatchers.IO).launch {
+            c.m.dao.gUpdate(c.m.guesses!![i])
+            c.changed = true
         }
     }
 }

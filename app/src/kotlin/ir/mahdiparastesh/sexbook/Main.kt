@@ -44,7 +44,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
@@ -52,7 +51,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener, Lister {
     private val b: MainBinding by lazy { MainBinding.inflate(layoutInflater) }
     private val exporter = Exporter(this)
-    private var calManager: CalendarManager? = null
     private var exiting = false
     private val drawerGravity = GravityCompat.START
     private val menus = arrayOf(R.menu.page_sex_tlb, R.menu.sort)
@@ -61,10 +59,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     override var countBadge: BadgeDrawable? = null
 
-    companion object {
-        var handler: Handler? = null
-        // var showAdAfterRecreation = false
-    }
+    /*companion object {
+        //var showAdAfterRecreation = false
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,18 +69,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         toolbar(b.toolbar, R.string.app_name)
         m.db = Database.Builder(c).build()
         m.dao = m.db.dao()
-
-        handler = object : Handler(Looper.getMainLooper()) {
-            @Suppress("UNCHECKED_CAST")
-            override fun handleMessage(msg: Message) {
-                when (msg.what) {
-                    Work.C_REPLACE_ALL -> calManager?.replaceEvents(msg.obj as List<Crush>)
-                    Work.CRUSH_ALTERED ->
-                        //(msg.obj as List<Crush?>).also { calManager?.updateEvent(it[0], it[1]) }
-                        m.liefde?.also { calManager?.replaceEvents(it) }
-                }
-            }
-        }
 
         // Loading
         if (m.loaded) b.body.removeView(b.load)
@@ -144,18 +129,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         CoroutineScope(Dispatchers.IO).launch {
             val rp = if (m.onani.value == null) m.dao.rGetAll() else null
             val cr = if (m.liefde == null) m.dao.cGetAll() else null
-            val pl = if (m.places.value == null) m.dao.pGetAll() else null
-            val gs = if (m.guesses.value == null) m.dao.gGetAll() else null
+            val pl = if (m.places == null) m.dao.pGetAll() else null
+            val gs = if (m.guesses == null) m.dao.gGetAll() else null
             withContext(Dispatchers.Main) {
                 rp?.also { m.onani.value = ArrayList(it) }
-                cr?.let { CopyOnWriteArrayList(it) }?.apply {
+                cr?.also { m.people = ArrayList(it) }
+                m.getCrushes()?.apply {
                     m.liefde = this
-                    m.liefde?.sortWith(Crush.Sort(this@Main))
-                    if (!sp.getBoolean(Settings.spPageLoveSortAsc, true)) m.liefde?.reverse()
                     if (isEmpty()) return@apply
                     if (sp.getBoolean(Settings.spCalOutput, false) &&
                         CalendarManager.checkPerm(this@Main)
-                    ) calManager = CalendarManager(this@Main, this)
+                    ) m.calManager = CalendarManager(this@Main, this)
 
                     // notify if any birthday is around
                     if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
@@ -185,7 +169,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     }
                 }
                 pl?.let { ArrayList(it) }?.apply {
-                    m.places.value = this
+                    m.places = this
                     if (m.onani.value != null) for (p in indices) {
                         var sum = 0L
                         for (r in m.onani.value!!)
@@ -197,7 +181,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     if (m.onani.value != null) sortWith(Place.Sort(Place.Sort.SUM))
                 }
                 gs?.also {
-                    m.guesses.value = ArrayList(it.sortedWith(Guess.Sort()))
+                    m.guesses = ArrayList(it.sortedWith(Guess.Sort()))
                     instillGuesses()
                 }
                 pageSex()?.prepareList() // guesses must be instilled before doing this.
@@ -221,7 +205,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         b.nav.addView(adBanner, FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ).apply { gravity = Gravity.BOTTOM })
-        PageLove.handler.value?.obtainMessage(Work.ADMOB_LOADED)?.sendToTarget()
+        pageLove()?.loadAd()
     }*/
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -305,7 +289,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onDestroy() {
-        handler = null
         m.db.close() // TODO onConfigurationChanged
         super.onDestroy()
     }
@@ -314,13 +297,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private fun pageSex(): PageSex? =
         supportFragmentManager.findFragmentByTag("f${b.pager.adapter?.getItemId(0)}") as? PageSex
 
-    private fun pageLove(): PageLove? =
+    fun pageLove(): PageLove? =
         supportFragmentManager.findFragmentByTag("f${b.pager.adapter?.getItemId(1)}") as? PageLove
 
     var intentViewId: Long? = null
     private fun Intent.check(isOnCreate: Boolean = false) {
         when (action) {
-            Action.ADD.s -> pageSex()?.messages?.add(Work.SPECIAL_ADD)
+            Action.ADD.s -> pageSex()?.messages?.add(PageSex.SPECIAL_ADD)
             Action.RELOAD.s -> {
                 m.resetData()
                 // showAdAfterRecreation = true
@@ -442,7 +425,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private fun instillGuesses() {
         // FIXME this should not be done:
         //  m.onani.value = m.onani.value?.filter { !it.guess }?.let { ArrayList(it) }
-        for (g in m.guesses.value!!.filter { it.able }) {
+        for (g in m.guesses!!.filter { it.able }) {
             if (!g.checkValid()) continue
             var time = g.sinc
             val share = (86400000.0 / g.freq).toLong()
@@ -468,6 +451,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * After whirling around the app sorting feature of PageLove doesn't work!
   * Searching in Summary and Recency is so immature!
   * Pleasure score for Reports
+  * Sorting UI for People
   * -
   * Extension:
   * Export data to TXT

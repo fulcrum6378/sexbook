@@ -2,30 +2,25 @@ package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import com.google.android.material.badge.BadgeDrawable
 import ir.mahdiparastesh.sexbook.Fun.explode
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.data.Place
-import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PlacesBinding
 import ir.mahdiparastesh.sexbook.list.PlaceAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Places : BaseActivity(), Lister {
     private lateinit var b: PlacesBinding
-    private var changed = false
+    var changed = false
     private var adding = false
 
     override var countBadge: BadgeDrawable? = null
-
-    companion object {
-        var handler: Handler? = null
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,63 +29,31 @@ class Places : BaseActivity(), Lister {
         setContentView(b.root)
         toolbar(b.toolbar, R.string.places)
 
-        handler = object : Handler(Looper.getMainLooper()) {
-            override fun handleMessage(msg: Message) {
-                if (msg.what in arrayOf(Work.P_INSERT_ONE, Work.P_UPDATE_ONE, Work.P_DELETE_ONE))
-                    changed = true
-
-                when (msg.what) {
-                    Work.P_VIEW_ONE -> if (msg.obj != null) when (msg.arg1) {
-                        Work.ADD_NEW_ITEM -> {
-                            if (m.places.value == null) m.places.value = ArrayList()
-                            m.places.value!!.add(msg.obj as Place)
-                            b.list.adapter!!.notifyItemInserted(m.places.value!!.size - 1)
-                            adding = false
-                            b.add.explode(this@Places)
-                            count(m.places.value?.size ?: 0)
-                        }
-                    }
-                    Work.P_INSERT_ONE -> if (msg.obj != null)
-                        Work(c, Work.P_VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()
-                    Work.P_UPDATE_ONE ->
-                        if (msg.arg2 == 1) b.list.adapter?.notifyItemChanged(msg.arg1)
-                    Work.P_DELETE_ONE -> {
-                        m.places.value?.removeAt(msg.arg1)
-                        b.list.adapter?.notifyItemRemoved(msg.arg1)
-                        b.list.adapter?.notifyItemRangeChanged(
-                            msg.arg1, b.list.adapter!!.itemCount - msg.arg1
-                        )
-                        count(m.places.value?.size ?: 0)
-                    }
-                }
-            }
-        }
-
         // List
-        m.places.observe(this) {
-            if (it == null) {
-                b.list.adapter = null
-                return@observe
-            }
-            if (b.list.adapter == null) b.list.adapter = PlaceAdap(this)
-            else b.list.adapter?.notifyDataSetChanged()
-            count(m.places.value?.size ?: 0)
-        }
+        if (b.list.adapter == null) b.list.adapter = PlaceAdap(this)
+        else b.list.adapter?.notifyDataSetChanged()
+        count(m.places?.size ?: 0)
+
+        // "Add" button
+        if (night()) b.addIV.colorFilter = themePdcf()
         b.add.setOnClickListener {
             if (adding) return@setOnClickListener
             adding = true
-            Work(c, Work.P_INSERT_ONE, listOf(Place())).start()
-            Delay { adding = false }
+            CoroutineScope(Dispatchers.IO).launch {
+                val newPlace = Place()
+                newPlace.id = m.dao.pInsert(newPlace)
+                if (m.places == null) m.places = ArrayList()
+                m.places!!.add(newPlace)
+                changed = true
+                adding = false
+                withContext(Dispatchers.Main) {
+                    b.list.adapter!!.notifyItemInserted(m.places!!.size - 1)
+                    b.add.explode(this@Places)
+                    count(m.places?.size ?: 0)
+                }
+            }
             c.shake()
         }
-
-        // Miscellaneous
-        if (night()) b.addIV.colorFilter = themePdcf()
-    }
-
-    override fun onDestroy() {
-        handler = null
-        super.onDestroy()
     }
 
     @Suppress("OVERRIDE_DEPRECATION")

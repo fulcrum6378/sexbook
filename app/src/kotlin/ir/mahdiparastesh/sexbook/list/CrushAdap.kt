@@ -10,16 +10,18 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Identify
-import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
 import ir.mahdiparastesh.sexbook.stat.Singular
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.experimental.or
 
 class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBinding>>() {
@@ -62,11 +64,11 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                 }
                 this[R.id.lcDeactivate] = {
                     if (cr != null) {
-                        Work(
-                            c, Work.C_UPDATE_ONE, listOf<Any?>(
-                                cr.apply { status = status or Crush.STAT_INACTIVE }, cr
-                            ), Identify.handler
-                        ).start()
+                        cr.status = cr.status or Crush.STAT_INACTIVE
+                        CoroutineScope(Dispatchers.IO).launch {
+                            c.m.dao.cUpdate(cr)
+                            withContext(Dispatchers.Main) { c.m.onCrushChanged(c, cr, 1) }
+                        }
                         c.shake()
                     }
                 }
@@ -85,7 +87,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
     override fun getItemCount() = c.m.liefde?.size ?: 0
 
     private fun identify(crush: Crush) {
-        Identify(crush, PageLove.handler.value).apply {
+        Identify(crush).apply {
             arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crush.key) }
             show(c.supportFragmentManager, Identify.TAG)
         }

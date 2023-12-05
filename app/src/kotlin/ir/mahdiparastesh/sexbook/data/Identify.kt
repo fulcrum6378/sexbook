@@ -8,7 +8,6 @@ import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
@@ -31,13 +30,16 @@ import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.BaseDialog
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.experimental.and
 import kotlin.experimental.or
 
 class Identify() : BaseDialog() {
-    constructor(crush: Crush?, handler: Handler? = null) : this() {
+    constructor(crush: Crush?) : this() {
         Companion.crush = crush
-        Companion.handler = handler
     }
 
     companion object {
@@ -45,7 +47,6 @@ class Identify() : BaseDialog() {
         const val BUNDLE_CRUSH_KEY = "crush_key"
         const val DISABLED_ALPHA = 0.7f
         var crush: Crush? = null
-        var handler: Handler? = null
     }
 
     private lateinit var b: IdentifyBinding
@@ -56,7 +57,6 @@ class Identify() : BaseDialog() {
 
     @SuppressLint("NewApi")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val oldCrush = crush?.copy()
         b = IdentifyBinding.inflate(c.layoutInflater)
         ContextCompat.getColorStateList(c, R.color.chip)
             .also { b.notifyBirth.trackTintList = it }
@@ -201,10 +201,13 @@ class Identify() : BaseDialog() {
                             "${endFir[Calendar.DAY_OF_MONTH]}" else null,
                     b.instagram.text.toString().ifBlank { null },
                 )
-                Work(
-                    c, if (crush == null) Work.C_INSERT_ONE else Work.C_UPDATE_ONE,
-                    listOf<Any?>(inserted, oldCrush), handler
-                ).start()
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (crush == null) c.m.dao.cInsert(inserted)
+                    else c.m.dao.cUpdate(inserted)
+                    withContext(Dispatchers.Main) {
+                        c.m.onCrushChanged(c, inserted, if (crush == null) 0 else 1)
+                    }
+                }
                 c.shake()
             }
             setNegativeButton(R.string.discard, null)
@@ -214,7 +217,12 @@ class Identify() : BaseDialog() {
                     setTitle(c.getString(R.string.crushClear, crush!!.key))
                     setMessage(R.string.crushClearSure)
                     setPositiveButton(R.string.yes) { _, _ ->
-                        Work(c, Work.C_DELETE_ONE, listOf(crush, null), handler).start()
+                        CoroutineScope(Dispatchers.IO).launch {
+                            c.m.dao.cDelete(crush!!)
+                            withContext(Dispatchers.Main) {
+                                c.m.onCrushChanged(c, crush!!, 2)
+                            }
+                        }
                         c.shake()
                         ad1.dismiss()
                     }

@@ -70,11 +70,9 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         c.contentResolver.delete(CCC.CONTENT_URI, "account_name = ?", arrayOf(accName))
     }
 
-    fun replaceEvents(crushes: Iterable<Crush>) {
-        CoroutineScope(Dispatchers.IO).launch {
-            deleteEvents()
-            insertEvents(crushes)
-        }
+    suspend fun replaceEvents(crushes: Iterable<Crush>?) {
+        deleteEvents()
+        if (crushes != null) insertEvents(crushes)
     }
 
     private fun Uri.getId() =
