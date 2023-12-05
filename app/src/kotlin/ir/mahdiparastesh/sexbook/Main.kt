@@ -289,7 +289,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onDestroy() {
-        m.db.close() // TODO onConfigurationChanged
+        m.db.close()
         super.onDestroy()
     }
 
@@ -307,7 +307,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             Action.RELOAD.s -> {
                 m.resetData()
                 // showAdAfterRecreation = true
-                if (!isOnCreate) recreate()
+                if (!isOnCreate) recreate() // FIXME
             }
             Action.VIEW.s -> (try {
                 dataString?.toLong()

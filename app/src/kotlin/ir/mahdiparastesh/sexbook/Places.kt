@@ -32,7 +32,7 @@ class Places : BaseActivity(), Lister {
         // List
         if (b.list.adapter == null) b.list.adapter = PlaceAdap(this)
         else b.list.adapter?.notifyDataSetChanged()
-        count(m.places?.size ?: 0)
+        count(m.places?.size ?: 0) // FIXME
 
         // "Add" button
         if (night()) b.addIV.colorFilter = themePdcf()

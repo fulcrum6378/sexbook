@@ -34,10 +34,10 @@ class PageSex : BasePage() {
     var filters: List<Report.Filter> = listOf()
 
     companion object {
-        const val SCROLL_TO = 6
-        const val SPECIAL_ADD = 100
         /*const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
         const val DISMISSAL_REFRAIN_FROM_AD_TIMES = 3*/
+        const val SCROLL_TO = 6
+        const val SPECIAL_ADD = 100
         var handler = MutableLiveData<Handler?>(null)
     }
 

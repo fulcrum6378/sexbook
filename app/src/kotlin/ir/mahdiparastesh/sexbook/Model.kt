@@ -27,7 +27,7 @@ class Model : ViewModel() {
     lateinit var dao: Dao
 
     /** Holds all sex records with static unsorted indices. */
-    val onani = MutableLiveData<ArrayList<Report>?>(null)
+    val onani = MutableLiveData<ArrayList<Report>?>(null) // TODO UNLIVE IT!!!
     val visOnani = arrayListOf<Report>()
 
     /** Holds all crushes (liefde is a subset of people). */

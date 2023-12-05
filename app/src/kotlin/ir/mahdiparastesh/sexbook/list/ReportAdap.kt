@@ -45,7 +45,7 @@ class ReportAdap(
 
     private var clockHeight = c.resources.getDimension(R.dimen.clockSize)
     private var expansion = arExpansion()
-    val places = c.m.places.value
+    val places = c.m.places
         ?.sortedWith(Place.Sort(Place.Sort.NAME))
         ?.filter { it.name?.isNotBlank() == true } // throws NullPointerException when empty!
         ?: arrayListOf()

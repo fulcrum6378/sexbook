@@ -1,39 +1,30 @@
 package ir.mahdiparastesh.sexbook.stat
 
-import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.sexbook.Fun.show
-import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
 import kotlin.experimental.and
 
 class Taste : ChartActivity<TasteBinding>() {
-    val mm: MyModel by viewModels()
-
     override val b by lazy { TasteBinding.inflate(layoutInflater) }
     override val chartView: AbstractChartView get() = b.main
-
-    class MyModel : ViewModel() {
-        var people: ArrayList<Crush>? = null
-    }
 
     override suspend fun draw(): AbstractChartData {
         val genders = resources.getStringArray(R.array.genders)
             .apply { this[0] = getString(R.string.unspecified) }
         val stats = hashMapOf<Byte, Double>()
         for (g in genders.indices) stats[g.toByte()] = 0.0
-        val crushKeys = m.liefde?.map { it.key } ?: listOf()
+        val crushKeys = m.people?.map { it.key } ?: listOf()
         for (agent in m.summary!!.scores.keys) {
             val addable = m.summary!!.scores[agent]!!.sumOf { it.value.toDouble() }
             // `sumOf()` only accepts Double values!
             if (agent in crushKeys) {
-                val g = (m.liefde!!.find { it.key == agent }!!.status and Crush.STAT_GENDER)
+                val g = (m.people!!.find { it.key == agent }!!.status and Crush.STAT_GENDER)
                 try {
                     stats[g] = stats[g]!! + addable
                 } catch (_: NullPointerException) {
