@@ -35,7 +35,6 @@ class Estimation : BaseActivity(), Lister {
         toolbar(b.toolbar, R.string.estimation)
 
         handler = object : Handler(Looper.getMainLooper()) {
-            @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 if (msg.what in arrayOf(
                         Work.G_VIEW_ONE, Work.G_INSERT_ONE, Work.G_UPDATE_ONE, Work.G_DELETE_ONE
@@ -53,8 +52,6 @@ class Estimation : BaseActivity(), Lister {
                             count(m.guesses.value?.size ?: 0)
                         }
                     }
-                    Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>)
-                        .apply { sortWith(Guess.Sort()) }
                     Work.G_INSERT_ONE -> if (msg.obj != null)
                         Work(c, Work.G_VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()
                     Work.G_UPDATE_ONE ->
@@ -91,12 +88,10 @@ class Estimation : BaseActivity(), Lister {
 
         // Miscellaneous
         if (night()) b.addIV.colorFilter = themePdcf()
-
-        Work(c, Work.G_VIEW_ALL).start()
     }
 
     override fun onDestroy() {
-        Places.handler = null
+        handler = null
         super.onDestroy()
     }
 

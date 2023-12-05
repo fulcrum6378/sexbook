@@ -35,7 +35,6 @@ class Places : BaseActivity(), Lister {
         toolbar(b.toolbar, R.string.places)
 
         handler = object : Handler(Looper.getMainLooper()) {
-            @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 if (msg.what in arrayOf(Work.P_INSERT_ONE, Work.P_UPDATE_ONE, Work.P_DELETE_ONE))
                     changed = true
@@ -50,17 +49,6 @@ class Places : BaseActivity(), Lister {
                             b.add.explode(this@Places)
                             count(m.places.value?.size ?: 0)
                         }
-                    }
-                    Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>).apply {
-                        if (m.onani.value != null) for (p in indices) {
-                            var sum = 0L
-                            for (r in m.onani.value!!)
-                                if (r.plac == this[p].id)
-                                    sum++
-                            this[p].sum = sum
-                        }
-                        sortWith(Place.Sort(Place.Sort.NAME))
-                        if (m.onani.value != null) sortWith(Place.Sort(Place.Sort.SUM))
                     }
                     Work.P_INSERT_ONE -> if (msg.obj != null)
                         Work(c, Work.P_VIEW_ONE, listOf(msg.obj as Long, Work.ADD_NEW_ITEM)).start()
@@ -98,8 +86,6 @@ class Places : BaseActivity(), Lister {
 
         // Miscellaneous
         if (night()) b.addIV.colorFilter = themePdcf()
-
-        Work(c, Work.P_VIEW_ALL).start()
     }
 
     override fun onDestroy() {

@@ -16,7 +16,6 @@ import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.explode
 import ir.mahdiparastesh.sexbook.Fun.shake
-import ir.mahdiparastesh.sexbook.data.Filter
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
@@ -31,7 +30,7 @@ import java.util.*
 class PageSex : BasePage() {
     lateinit var b: PageSexBinding
     val messages = MessageInbox(handler)
-    private var filters: List<Filter> = listOf()
+    private var filters: List<Report.Filter> = listOf()
 
     companion object {
         /*const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
@@ -47,14 +46,8 @@ class PageSex : BasePage() {
         super.onViewCreated(view, savedInstanceState)
 
         handler.value = object : Handler(Looper.getMainLooper()) {
-            @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.VIEW_ALL -> {
-                        //Log.println(Log.ASSERT, "AIMI", "Work.VIEW_ALL")
-                        c.m.onani.value = msg.obj as ArrayList<Report>?
-                        prepareList()
-                    }
                     Work.VIEW_ONE -> if (msg.obj != null) when (msg.arg1) {
                         Work.ADD_NEW_ITEM -> (msg.obj as Report).also { report ->
                             val firstRecordEver = c.m.onani.value == null
@@ -159,12 +152,10 @@ class PageSex : BasePage() {
         if (c.night()) b.addIV.colorFilter = c.themePdcf()
         b.add.setOnClickListener { add() }
 
-        if (c.m.onani.value == null) Work(c, Work.VIEW_ALL).start()
-        else prepareList()
+        if (c.m.onani.value != null) prepareList()
     }
 
     override fun prepareList() {
-        c.instillGuesses()
         resetAllReports(
             c.intentViewId?.let { id ->
                 c.m.findGlobalIndexOfReport(id).let { if (it != -1) it else null }
@@ -176,9 +167,9 @@ class PageSex : BasePage() {
     var spnFilterTouched = false
     fun resetAllReports(toGlobalIndexOfItem: Int? = null) {
         if (c.m.onani.value == null) return
-        //Log.println(Log.ASSERT, "AIMI", "resetAllReports to index $toGlobalIndexOfItem")
+        //Log.println(Log.ASSERT, "ASHLYN", "resetAllReports to index $toGlobalIndexOfItem")
         filters = createFilters(c.m.onani.value!!)
-        //Log.println(Log.ASSERT, "AIMI", "resetAllReports ${filters.size} filters")
+        //Log.println(Log.ASSERT, "ASHLYN", "resetAllReports ${filters.size} filters")
 
         // Which month to show?
         var newFilter = if (c.m.listFilter == -1) (filters.size - 1) else c.m.listFilter
@@ -209,9 +200,9 @@ class PageSex : BasePage() {
         b.spnFilter.setSelection(c.m.listFilter, true)
     }
 
-    private fun createFilters(reports: List<Report>): List<Filter> {
-        //Log.println(Log.ASSERT, "AIMI", "createFilters ${reports.size} reports")
-        val filters = arrayListOf<Filter>()
+    private fun createFilters(reports: List<Report>): List<Report.Filter> {
+        //Log.println(Log.ASSERT, "ASHLYN", "createFilters ${reports.size} reports")
+        val filters = arrayListOf<Report.Filter>()
         for (r in reports.indices) {
             val ym = reports[r].time.calendar(c).createFilterYm()
             var filterExists = false
@@ -221,17 +212,17 @@ class PageSex : BasePage() {
                     filters[f] = filters[f].apply { put(r) }
                 }
             if (!filterExists)
-                filters.add(Filter(ym.first, ym.second, ArrayList<Int>().apply { add(r) }))
+                filters.add(Report.Filter(ym.first, ym.second, ArrayList<Int>().apply { add(r) }))
         }
         return filters.toList()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun applyFilter(i: Int, causedByResetAllReports: Boolean, willScrollToItem: Boolean = false) {
-        //Log.println(Log.ASSERT, "AIMI", "applyFilter $i")
+        //Log.println(Log.ASSERT, "ASHLYN", "applyFilter $i")
         if (c.m.listFilter == i && c.m.listFilter > -1 && !causedByResetAllReports) return
         c.m.visOnani.clear()
-        //Log.println(Log.ASSERT, "AIMI", "visOnani cleared")
+        //Log.println(Log.ASSERT, "ASHLYN", "visOnani cleared")
         if (c.m.onani.value == null) return // if onani is null, empty visOnani.
         c.m.listFilter = i
 
@@ -243,7 +234,7 @@ class PageSex : BasePage() {
                     c.m.visOnani.add(c.m.onani.value!![o])
             Collections.sort(c.m.visOnani, Report.Sort())
         }
-        //Log.println(Log.ASSERT, "AIMI", "visOnani filled ${c.m.visOnani.size}")
+        //Log.println(Log.ASSERT, "ASHLYN", "visOnani filled ${c.m.visOnani.size}")
 
         // Update the adapter and scroll to position...
         if (b.rv.adapter == null) b.rv.adapter = ReportAdap(c) else {

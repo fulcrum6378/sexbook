@@ -23,7 +23,6 @@ class Work(
     companion object {
         // Report
         const val VIEW_ONE = 0
-        const val VIEW_ALL = 1
         const val INSERT_ONE = 2
         const val REPLACE_ALL = 3
         const val UPDATE_ONE = 4
@@ -41,7 +40,6 @@ class Work(
 
         // Place
         const val P_VIEW_ONE = 20
-        const val P_VIEW_ALL = 21
         const val P_INSERT_ONE = 22
         const val P_REPLACE_ALL = 23
         const val P_UPDATE_ONE = 24
@@ -49,7 +47,6 @@ class Work(
 
         // Guess
         const val G_VIEW_ONE = 30
-        const val G_VIEW_ALL = 31
         const val G_INSERT_ONE = 32
         const val G_REPLACE_ALL = 33
         const val G_UPDATE_ONE = 34
@@ -77,8 +74,6 @@ class Work(
                 if (values.size > 2) values[2] as Int else 0,
                 dao.get(values[0] as Long)
             )?.sendToTarget()
-
-            VIEW_ALL -> handler?.obtainMessage(action, dao.getAll())?.sendToTarget()
 
             INSERT_ONE -> {
                 var result: Long = -1
@@ -160,8 +155,6 @@ class Work(
                 dao.pGet(values[0] as Long)
             )?.sendToTarget()
 
-            P_VIEW_ALL -> handler?.obtainMessage(action, dao.pGetAll())?.sendToTarget()
-
             P_INSERT_ONE -> {
                 var result: Long = -1
                 if (!values.isNullOrEmpty()) result = dao.pInsert(values[0] as Place)
@@ -201,8 +194,6 @@ class Work(
                 if (values.size > 2) values[2] as Int else 0,
                 dao.gGet(values[0] as Long)
             )?.sendToTarget()
-
-            G_VIEW_ALL -> handler?.obtainMessage(action, dao.gGetAll())?.sendToTarget()
 
             G_INSERT_ONE -> {
                 var result: Long = -1

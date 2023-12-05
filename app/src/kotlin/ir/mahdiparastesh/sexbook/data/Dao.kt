@@ -21,7 +21,7 @@ interface Dao {
     fun getByPlace(place: Long): List<Report>
 
     @Query("SELECT MAX(time) FROM Report WHERE ogsm LIKE 1")
-    fun whenWasTheLastTime(): Long?
+    suspend fun whenWasTheLastTime(): Long?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(item: Report): Long

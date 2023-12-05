@@ -15,7 +15,6 @@ import ir.mahdiparastesh.sexbook.data.Work
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
 import ir.mahdiparastesh.sexbook.more.BasePage
-import java.util.concurrent.CopyOnWriteArrayList
 
 @SuppressLint("NotifyDataSetChanged")
 class PageLove : BasePage() {
@@ -36,14 +35,8 @@ class PageLove : BasePage() {
         // if (BaseActivity.adsInitStatus?.isReady() == true) loadAd()
 
         handler.value = object : Handler(Looper.getMainLooper()) {
-            @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.C_VIEW_ALL -> {
-                        c.m.liefde = CopyOnWriteArrayList(msg.obj as List<Crush>)
-                        prepareList()
-                        c.count(c.m.liefde?.size ?: 0)
-                    }
                     Work.REPLACE_ALL -> Work(c, Work.C_VIEW_ALL).start()
                     Work.C_UPDATE_ONE -> if (b.rv.adapter != null)
                         c.m.liefde?.indexOfFirst { it.key == (msg.obj as Crush).key }?.also {
@@ -74,8 +67,8 @@ class PageLove : BasePage() {
             }
         }
 
-        if (c.m.liefde == null) Work(c, Work.C_VIEW_ALL).start()
-        else if (!loadingNeedsSummary()) prepareList()
+        if (!loadingNeedsSummary()) prepareList()
+        c.count(c.m.liefde?.size ?: 0)
     }
 
     override fun onResume() {
@@ -88,19 +81,8 @@ class PageLove : BasePage() {
         } else b.rv.adapter?.notifyDataSetChanged()
     }
 
-    /**
-     * Called whenever data is loaded, it sorts the data and then calls arrangeList().
-     * The data doesn't need to be sorted again sometimes; that's why it was separated from arrangeList().
-     */
     override fun prepareList() {
         wasListEverPrepared = true
-        c.m.liefde?.sortWith(Crush.Sort(c))
-        if (!c.sp.getBoolean(Settings.spPageLoveSortAsc, true)) c.m.liefde?.reverse()
-        arrangeList()
-    }
-
-    /** Arranges the list in the adapter, and creates the adapter if it doesn't exist. */
-    private fun arrangeList() {
         if (b.empty.vis(c.m.liefde.isNullOrEmpty())) return
         if (b.rv.adapter == null) b.rv.adapter = CrushAdap(c)
         else b.rv.adapter?.notifyDataSetChanged()

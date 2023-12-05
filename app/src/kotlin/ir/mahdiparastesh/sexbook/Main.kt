@@ -40,6 +40,10 @@ import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
 import ir.mahdiparastesh.sexbook.stat.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.abs
 import kotlin.system.exitProcess
@@ -66,53 +70,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         super.onCreate(savedInstanceState)
         setContentView(b.root)
         toolbar(b.toolbar, R.string.app_name)
+        m.db = Database.Builder(c).build()
+        m.dao = m.db.dao()
 
         handler = object : Handler(Looper.getMainLooper()) {
             @Suppress("UNCHECKED_CAST")
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
-                    Work.VIEW_ALL -> m.onani.value = msg.obj as ArrayList<Report>
-                    Work.C_VIEW_ALL -> m.liefde = CopyOnWriteArrayList(
-                        msg.obj as List<Crush>
-                    ).apply {
-                        if (isEmpty()) return@apply
-                        if (sp.getBoolean(Settings.spCalOutput, false) &&
-                            CalendarManager.checkPerm(this@Main)
-                        ) calManager = CalendarManager(this@Main, this)
-
-                        // notify if any birthday is around
-                        if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
-                                    ) < Settings.notifyBirthAfterLastTime ||
-                            sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
-                        ) return@apply
-                        for (it in this) if (it.notifyBirth()) it.bCalendar()?.also { birth ->
-                            var now: Calendar = GregorianCalendar()
-                            var bir: Calendar = GregorianCalendar()
-                            if (!sp.getBoolean(
-                                    Settings.spGregorianForBirthdays,
-                                    Settings.spGregorianForBirthdaysDef
-                                )
-                            ) {
-                                now = (now as GregorianCalendar).toDefaultType(this@Main)
-                                bir = (bir as GregorianCalendar).toDefaultType(this@Main)
-                            }
-                            // do NOT alter the "birth" instance!
-                            val dist = now.timeInMillis - bir.apply {
-                                this.timeInMillis = birth.timeInMillis
-                                this[Calendar.YEAR] = now[Calendar.YEAR]
-                            }.timeInMillis
-                            if (dist in
-                                -(sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * Fun.A_DAY)
-                                ..Fun.A_DAY
-                            ) notifyBirth(it, dist)
-                        }
-                    }
                     Work.C_REPLACE_ALL -> calManager?.replaceEvents(msg.obj as List<Crush>)
-                    Work.P_VIEW_ALL -> m.places.value = (msg.obj as ArrayList<Place>)
-                    Work.G_VIEW_ALL -> m.guesses.value = (msg.obj as ArrayList<Guess>).apply {
-                        sortWith(Guess.Sort())
-                        instillGuesses()
-                    }
                     Work.CRUSH_ALTERED ->
                         //(msg.obj as List<Crush?>).also { calManager?.updateEvent(it[0], it[1]) }
                         m.liefde?.also { calManager?.replaceEvents(it) }
@@ -175,19 +140,78 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             }
         })
 
+        // Load all data from the database
+        CoroutineScope(Dispatchers.IO).launch {
+            val rp = if (m.onani.value == null) m.dao.getAll() else null
+            val cr = if (m.liefde == null) m.dao.cGetAll() else null
+            val pl = if (m.places.value == null) m.dao.pGetAll() else null
+            val gs = if (m.guesses.value == null) m.dao.gGetAll() else null
+            withContext(Dispatchers.Main) {
+                rp?.also { m.onani.value = ArrayList(it) }
+                cr?.let { CopyOnWriteArrayList(it) }?.apply {
+                    m.liefde = this
+                    m.liefde?.sortWith(Crush.Sort(this@Main))
+                    if (!sp.getBoolean(Settings.spPageLoveSortAsc, true)) m.liefde?.reverse()
+                    if (isEmpty()) return@apply
+                    if (sp.getBoolean(Settings.spCalOutput, false) &&
+                        CalendarManager.checkPerm(this@Main)
+                    ) calManager = CalendarManager(this@Main, this)
+
+                    // notify if any birthday is around
+                    if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
+                                ) < Settings.notifyBirthAfterLastTime ||
+                        sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
+                    ) return@apply
+                    for (it in this) if (it.notifyBirth()) it.bCalendar()?.also { birth ->
+                        var now: Calendar = GregorianCalendar()
+                        var bir: Calendar = GregorianCalendar()
+                        if (!sp.getBoolean(
+                                Settings.spGregorianForBirthdays,
+                                Settings.spGregorianForBirthdaysDef
+                            )
+                        ) {
+                            now = (now as GregorianCalendar).toDefaultType(this@Main)
+                            bir = (bir as GregorianCalendar).toDefaultType(this@Main)
+                        }
+                        // do NOT alter the "birth" instance!
+                        val dist = now.timeInMillis - bir.apply {
+                            this.timeInMillis = birth.timeInMillis
+                            this[Calendar.YEAR] = now[Calendar.YEAR]
+                        }.timeInMillis
+                        if (dist in
+                            -(sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * Fun.A_DAY)
+                            ..Fun.A_DAY
+                        ) notifyBirth(it, dist)
+                    }
+                }
+                pl?.let { ArrayList(it) }?.apply {
+                    m.places.value = this
+                    if (m.onani.value != null) for (p in indices) {
+                        var sum = 0L
+                        for (r in m.onani.value!!)
+                            if (r.plac == this[p].id)
+                                sum++
+                        this[p].sum = sum
+                    }
+                    sortWith(Place.Sort(Place.Sort.NAME))
+                    if (m.onani.value != null) sortWith(Place.Sort(Place.Sort.SUM))
+                }
+                gs?.also {
+                    m.guesses.value = ArrayList(it.sortedWith(Guess.Sort()))
+                    instillGuesses()
+                }
+                pageSex()?.prepareList() // guesses must be instilled before doing this.
+            }
+        }
+
         // Miscellaneous
-        m.onani.observe(this) { instilledGuesses = false }
         if (m.navOpen) b.root.openDrawer(drawerGravity)
         /*if (showAdAfterRecreation) {
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
         }*/
-
         intent.check(true)
         addOnNewIntentListener { it.check() }
-        if (m.liefde == null) Work(c, Work.C_VIEW_ALL).start()
-        if (m.places.value == null) Work(c, Work.P_VIEW_ALL).start()
-        if (m.guesses.value == null) Work(c, Work.G_VIEW_ALL).start()
     }
 
     /*override fun onInitializationComplete(adsInitStatus: InitializationStatus) {
@@ -281,8 +305,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         handler = null
+        m.db.close() // TODO onConfigurationChanged
+        super.onDestroy()
     }
 
 
@@ -414,10 +439,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
     }
 
-    private var instilledGuesses = false
-    fun instillGuesses() {
-        if (m.onani.value == null || m.guesses.value == null || instilledGuesses) return
-        m.onani.value = m.onani.value?.filter { !it.guess }?.let { ArrayList(it) }
+    private fun instillGuesses() {
+        // FIXME this should not be done:
+        //  m.onani.value = m.onani.value?.filter { !it.guess }?.let { ArrayList(it) }
         for (g in m.guesses.value!!.filter { it.able }) {
             if (!g.checkValid()) continue
             var time = g.sinc
@@ -429,7 +453,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             }
         }
         m.onani.value!!.sortWith(Report.Sort())
-        instilledGuesses = true
     }
 
 

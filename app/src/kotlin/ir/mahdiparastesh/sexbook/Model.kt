@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.data.Crush
+import ir.mahdiparastesh.sexbook.data.Dao
+import ir.mahdiparastesh.sexbook.data.Database
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
@@ -13,6 +15,9 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 /** Static ViewModel available for all BaseActivity instances. */
 class Model : ViewModel() {
+    lateinit var db: Database
+    lateinit var dao: Dao
+
     /** Holds all sex records with static unsorted indices. */
     val onani = MutableLiveData<ArrayList<Report>?>(null)
 
