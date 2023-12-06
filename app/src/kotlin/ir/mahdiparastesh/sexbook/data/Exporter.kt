@@ -97,7 +97,7 @@ class Exporter(val c: BaseActivity) {
 
     private fun export(): Boolean {
         exported = Exported(
-            c.m.onani.value?.filter { !it.guess }?.toTypedArray(),
+            c.m.onani?.filter { !it.guess }?.toTypedArray(),
             c.m.people?.toTypedArray(),
             c.m.places?.toTypedArray(),
             c.m.guesses?.toTypedArray(),

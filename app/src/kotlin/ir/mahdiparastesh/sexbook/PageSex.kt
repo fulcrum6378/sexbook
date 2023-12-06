@@ -71,7 +71,7 @@ class PageSex : BasePage() {
         if (c.night()) b.addIV.colorFilter = c.themePdcf()
         b.add.setOnClickListener { add() }
 
-        if (c.m.onani.value != null) prepareList()
+        if (c.m.onani != null) prepareList()
     }
 
     override fun prepareList() {
@@ -85,15 +85,15 @@ class PageSex : BasePage() {
 
     var spnFilterTouched = false
     fun resetAllReports(toGlobalIndexOfItem: Int? = null) {
-        if (c.m.onani.value == null) return
+        if (c.m.onani == null) return
         //Log.println(Log.ASSERT, "ASHLYN", "resetAllReports to index $toGlobalIndexOfItem")
-        filters = createFilters(c.m.onani.value!!)
+        filters = createFilters(c.m.onani!!)
         //Log.println(Log.ASSERT, "ASHLYN", "resetAllReports ${filters.size} filters")
 
         // which month to show?
         var newFilter = if (c.m.listFilter == -1) (filters.size - 1) else c.m.listFilter
         toGlobalIndexOfItem?.also { gIndex ->
-            val toFilter = c.m.onani.value!![gIndex].time.calendar(c).createFilterYm()
+            val toFilter = c.m.onani!![gIndex].time.calendar(c).createFilterYm()
             val fIndex =
                 filters.indexOfFirst { it.year == toFilter.first && it.month == toFilter.second }
             if (fIndex != -1) newFilter = fIndex
@@ -105,7 +105,7 @@ class PageSex : BasePage() {
 
         // scroll to the edited item position...
         toGlobalIndexOfItem?.also { gIndex ->
-            val pos = c.m.visOnani.indexOf(c.m.onani.value!![gIndex])
+            val pos = c.m.visOnani.indexOf(c.m.onani!![gIndex])
             if (pos != -1) b.rv.smoothScrollToPosition(pos)
         }
     }
@@ -142,15 +142,15 @@ class PageSex : BasePage() {
         if (c.m.listFilter == i && c.m.listFilter > -1 && !causedByResetAllReports) return
         c.m.visOnani.clear()
         //Log.println(Log.ASSERT, "ASHLYN", "visOnani cleared")
-        if (c.m.onani.value == null) return // if onani is null, empty visOnani.
+        if (c.m.onani == null) return // if onani is null, empty visOnani.
         c.m.listFilter = i
 
         // Fill visOnani...
-        if (filters.isEmpty()) for (o in c.m.onani.value!!) c.m.visOnani.add(o)
+        if (filters.isEmpty()) for (o in c.m.onani!!) c.m.visOnani.add(o)
         else {
             for (o in filters[c.m.listFilter].map)
-                if (c.m.onani.value!!.size > o)
-                    c.m.visOnani.add(c.m.onani.value!![o])
+                if (c.m.onani!!.size > o)
+                    c.m.visOnani.add(c.m.onani!![o])
             Collections.sort(c.m.visOnani, Report.Sort())
         }
         //Log.println(Log.ASSERT, "ASHLYN", "visOnani filled ${c.m.visOnani.size}")
@@ -176,9 +176,9 @@ class PageSex : BasePage() {
             )
             newOne.id = c.m.dao.rInsert(newOne)
             LastOrgasm.updateAll(c)
-            val firstRecordEver = c.m.onani.value == null
-            if (firstRecordEver) c.m.onani.value = ArrayList()
-            c.m.onani.value!!.add(newOne)
+            val firstRecordEver = c.m.onani == null
+            if (firstRecordEver) c.m.onani = ArrayList()
+            c.m.onani!!.add(newOne)
             adding = false
 
             withContext(Dispatchers.Main) {
@@ -192,10 +192,10 @@ class PageSex : BasePage() {
                     val thePos = c.m.visOnani.indexOf(newOne)
                     b.rv.adapter?.notifyItemInserted(thePos)
                     filters.getOrNull(c.m.listFilter)?.map
-                        ?.add(thePos, c.m.onani.value!!.size - 1)
+                        ?.add(thePos, c.m.onani!!.size - 1)
                     updateFilterSpinner()
                 } else // go to/create a new month
-                    resetAllReports(c.m.onani.value!!.size - 1)
+                    resetAllReports(c.m.onani!!.size - 1)
 
                 b.add.explode(c)
             }

@@ -127,12 +127,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // Load all data from the database
         CoroutineScope(Dispatchers.IO).launch {
-            val rp = if (m.onani.value == null) m.dao.rGetAll() else null
+            val rp = if (m.onani == null) m.dao.rGetAll() else null
             val cr = if (m.liefde == null) m.dao.cGetAll() else null
             val pl = if (m.places == null) m.dao.pGetAll() else null
             val gs = if (m.guesses == null) m.dao.gGetAll() else null
             withContext(Dispatchers.Main) {
-                rp?.also { m.onani.value = ArrayList(it) }
+                rp?.also { m.onani = ArrayList(it) }
                 cr?.also { m.people = ArrayList(it) }
                 m.getCrushes()?.apply {
                     m.liefde = this
@@ -170,15 +170,15 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 }
                 pl?.let { ArrayList(it) }?.apply {
                     m.places = this
-                    if (m.onani.value != null) for (p in indices) {
+                    if (m.onani != null) for (p in indices) {
                         var sum = 0L
-                        for (r in m.onani.value!!)
+                        for (r in m.onani!!)
                             if (r.plac == this[p].id)
                                 sum++
                         this[p].sum = sum
                     }
                     sortWith(Place.Sort(Place.Sort.NAME))
-                    if (m.onani.value != null) sortWith(Place.Sort(Place.Sort.SUM))
+                    if (m.onani != null) sortWith(Place.Sort(Place.Sort.SUM))
                 }
                 gs?.also {
                     m.guesses = ArrayList(it.sortedWith(Guess.Sort()))
@@ -315,7 +315,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             } catch (e: NumberFormatException) {
                 null
             })?.also { id ->
-                if (!isOnCreate && m.onani.value != null)
+                if (!isOnCreate && m.onani != null)
                     m.findGlobalIndexOfReport(id)
                         .also { if (it != -1) pageSex()?.resetAllReports(it) }
                 else intentViewId = id
@@ -349,9 +349,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
      * @return true if statisticisation was possible
      */
     fun summarize(ignoreIfItsLessThanAMonth: Boolean = false): Boolean {
-        if (m.onani.value.isNullOrEmpty()) return false
+        if (m.onani.isNullOrEmpty()) return false
         var nExcluded = 0
-        var filtered: List<Report> = m.onani.value!!
+        var filtered: List<Report> = m.onani!!
 
         // Filter by time
         if (sp.getBoolean(Settings.spStatSinceCb, false))
@@ -375,7 +375,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             filtered = filtered.filter { it.type in allowedTypes }
                 .also { nExcluded += filtered.size - it.size }
 
-        m.summary = Summary(filtered, nExcluded, m.onani.value!!.size).apply {
+        m.summary = Summary(filtered, nExcluded, m.onani!!.size).apply {
             // Filter if only crushes wanted
             if (sp.getBoolean(Settings.spStatOnlyCrushes, false)) {
                 val liefde = m.liefde?.map { it.key }
@@ -425,18 +425,18 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     private fun instillGuesses() {
         // FIXME this should not be done:
-        //  m.onani.value = m.onani.value?.filter { !it.guess }?.let { ArrayList(it) }
+        //  m.onani = m.onani?.filter { !it.guess }?.let { ArrayList(it) }
         for (g in m.guesses!!.filter { it.able }) {
             if (!g.checkValid()) continue
             var time = g.sinc
             val share = (86400000.0 / g.freq).toLong()
 
             while (time <= g.till) {
-                m.onani.value!!.add(Report(time, g.crsh ?: "", g.type, g.plac))
+                m.onani!!.add(Report(time, g.crsh ?: "", g.type, g.plac))
                 time += share
             }
         }
-        m.onani.value!!.sortWith(Report.Sort())
+        m.onani!!.sortWith(Report.Sort())
     }
 
 

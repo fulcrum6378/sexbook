@@ -108,7 +108,7 @@ class ReportAdap(
             h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
             h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
             h.b.clock.setOnClickListener {
-                if (c.m.onani.value == null) return@setOnClickListener
+                if (c.m.onani == null) return@setOnClickListener
                 TimePickerDialog.newInstance(
                     this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], cal[Calendar.SECOND]
                 ).defaultOptions()
@@ -117,16 +117,16 @@ class ReportAdap(
                 // mayShowAd()
             }
             h.b.date.setOnClickListener {
-                if (c.m.onani.value == null) return@setOnClickListener
+                if (c.m.onani == null) return@setOnClickListener
                 DatePickerDialog.newInstance({ view, year, month, day ->
-                    if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4)
+                    if (c.m.onani == null || view.tag == null || view.tag!!.length <= 4)
                         return@newInstance
                     cal.set(Calendar.YEAR, year)
                     cal.set(Calendar.MONTH, month)
                     cal.set(Calendar.DAY_OF_MONTH, day)
                     val pos = view.tag!!.substring(4).toInt()
-                    if (c.m.onani.value!!.size > pos && view.tag!!.substring(0, 4) == tagEdit) {
-                        c.m.onani.value!![pos].time = cal.timeInMillis
+                    if (c.m.onani!!.size > pos && view.tag!!.substring(0, 4) == tagEdit) {
+                        c.m.onani!![pos].time = cal.timeInMillis
                         syncDb(pos, true)
                     }
                 }, cal).defaultOptions()
@@ -220,7 +220,7 @@ class ReportAdap(
 
         // Long Click
         val longClick = if (!r.guess) View.OnLongClickListener { v ->
-            if (c.m.onani.value == null || c.m.visOnani.size <= h.layoutPosition)
+            if (c.m.onani == null || c.m.visOnani.size <= h.layoutPosition)
                 return@OnLongClickListener true
             MaterialMenu(c, v, R.menu.report, Act().apply {
                 this[R.id.lcExpand] = {
@@ -243,24 +243,24 @@ class ReportAdap(
                     }
                 }
                 this[R.id.lcDelete] = {
-                    if (c.m.onani.value != null) {
+                    if (c.m.onani != null) {
                         val aPos = globalPos(c.m, h.layoutPosition)
                         CoroutineScope(Dispatchers.IO).launch {
-                            c.m.dao.rDelete(c.m.onani.value!![aPos])
+                            c.m.dao.rDelete(c.m.onani!![aPos])
                             LastOrgasm.updateAll(c)
                             withContext(Dispatchers.Main) {
-                                if (c.m.onani.value != null) {
-                                    val nominalPos = c.m.visOnani.indexOf(c.m.onani.value!![aPos])
+                                if (c.m.onani != null) {
+                                    val nominalPos = c.m.visOnani.indexOf(c.m.onani!![aPos])
                                     if (nominalPos != -1) {
                                         c.m.visOnani.removeAt(nominalPos)
                                         notifyItemRemoved(nominalPos)
                                         notifyItemRangeChanged(nominalPos, itemCount)
                                     } else f.resetAllReports()
 
-                                    c.m.onani.value!!.remove(c.m.onani.value!![aPos])
-                                    if (c.m.onani.value!!.isNotEmpty())
+                                    c.m.onani!!.remove(c.m.onani!![aPos])
+                                    if (c.m.onani!!.isNotEmpty())
                                         f.filters.getOrNull(c.m.listFilter)?.map?.remove(aPos)
-                                    else f.filters = f.createFilters(c.m.onani.value!!)
+                                    else f.filters = f.createFilters(c.m.onani!!)
                                     f.updateFilterSpinner()
                                     notifyAnyChange(false)
                                 } else f.resetAllReports()
@@ -289,15 +289,15 @@ class ReportAdap(
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onTimeSet(view: TimePickerDialog, hourOfDay: Int, minute: Int, second: Int) {
-        if (c.m.onani.value == null || view.tag == null || view.tag!!.length <= 4) return
+        if (c.m.onani == null || view.tag == null || view.tag!!.length <= 4) return
         val pos = view.tag!!.substring(4).toInt()
-        if (c.m.onani.value!!.size > pos) when (view.tag!!.substring(0, 4)) {
+        if (c.m.onani!!.size > pos) when (view.tag!!.substring(0, 4)) {
             tagEdit -> {
-                val calc = c.m.onani.value!![pos].time.calendar(c)
+                val calc = c.m.onani!![pos].time.calendar(c)
                 calc[Calendar.HOUR_OF_DAY] = hourOfDay
                 calc[Calendar.MINUTE] = minute
                 calc[Calendar.SECOND] = second
-                c.m.onani.value!![pos].time = calc.timeInMillis
+                c.m.onani!![pos].time = calc.timeInMillis
                 syncDb(pos, true)
             }
         }
@@ -341,37 +341,37 @@ class ReportAdap(
     }
 
     fun updateStatic(updated: Report, nominalPos: Int) {
-        if (c.m.onani.value == null) return
+        if (c.m.onani == null) return
         val pos = globalPos(c.m, nominalPos)
-        if (c.m.onani.value!!.size <= pos || pos < 0) return
-        c.m.onani.value!![pos] = updated
+        if (c.m.onani!!.size <= pos || pos < 0) return
+        c.m.onani!![pos] = updated
         syncDb(pos, false)
     }
 
     private fun syncDb(pos: Int, dateTimeChanged: Boolean) {
         CoroutineScope(Dispatchers.IO).launch {
-            c.m.dao.rUpdate(c.m.onani.value!![pos])
+            c.m.dao.rUpdate(c.m.onani!![pos])
             LastOrgasm.doUpdateAll(c)
             withContext(Dispatchers.Main) {
-                if (c.m.onani.value == null) {
+                if (c.m.onani == null) {
                     f.resetAllReports(); return@withContext; }
 
-                val nominalPos = c.m.visOnani.indexOf(c.m.onani.value!![pos])
-                if (nominalPos != -1) c.m.visOnani[nominalPos] = c.m.onani.value!![pos]
+                val nominalPos = c.m.visOnani.indexOf(c.m.onani!![pos])
+                if (nominalPos != -1) c.m.visOnani[nominalPos] = c.m.onani!![pos]
 
                 // In addition, if date or time have been changed...
                 if (!dateTimeChanged) return@withContext
-                val ym = c.m.onani.value!![pos].time.calendar(c).createFilterYm()
+                val ym = c.m.onani!![pos].time.calendar(c).createFilterYm()
                 if (nominalPos != -1 && f.filters.getOrNull(c.m.listFilter)
                         ?.let { ym.first == it.year && ym.second == it.month } == true
                 ) { // report is still in this month
                     notifyItemChanged(nominalPos)
                     Collections.sort(c.m.visOnani, Report.Sort())
-                    val newPos = c.m.visOnani.indexOf(c.m.onani.value!![pos])
+                    val newPos = c.m.visOnani.indexOf(c.m.onani!![pos])
                     notifyItemMoved(nominalPos, newPos)
                     f.b.rv.smoothScrollToPosition(newPos)
                     f.filters.getOrNull(c.m.listFilter)?.map?.apply {
-                        this[nominalPos] = c.m.onani.value!!.indexOf(c.m.visOnani[nominalPos])
+                        this[nominalPos] = c.m.onani!!.indexOf(c.m.visOnani[nominalPos])
                         this[newPos] = pos
                     }
                 } else { // report moved to another month or is missing
@@ -434,8 +434,8 @@ class ReportAdap(
 
         fun globalPos(m: Model, pos: Int): Int {
             var index = -1
-            for (o in m.onani.value!!.indices)
-                if (m.onani.value!![o].id == m.visOnani[pos].id)
+            for (o in m.onani!!.indices)
+                if (m.onani!![o].id == m.visOnani[pos].id)
                     index = o
             return index
         }

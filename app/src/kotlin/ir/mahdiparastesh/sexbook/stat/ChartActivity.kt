@@ -46,7 +46,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
         }
     }
 
-    open fun requirements() = m.onani.value != null && m.summary != null
+    open fun requirements() = m.onani != null && m.summary != null
 
     abstract suspend fun draw(): AbstractChartData
 

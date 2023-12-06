@@ -10,7 +10,7 @@ class Adorability : ChartActivity<AdorabilityBinding>() {
     override val chartView: AbstractChartView get() = b.main
 
     override suspend fun draw(): AbstractChartData {
-        val stb = sinceTheBeginning(this, m.onani.value!!)
+        val stb = sinceTheBeginning(this, m.onani!!)
         val stars = ArrayList<Star>()
         for (x in m.summary!!.scores) {
             if (Summary.isUnknown(x.key)) continue

@@ -10,18 +10,18 @@ class Mixture : ChartActivity<MixtureBinding>() {
     override val b by lazy { MixtureBinding.inflate(layoutInflater) }
     override val chartView: AbstractChartView get() = b.main
 
-    override fun requirements() = m.onani.value != null
+    override fun requirements() = m.onani != null
 
     override suspend fun draw(): AbstractChartData {
         val data = ArrayList<Pair<String, Float>>()
         val history = arrayListOf<Summary.Orgasm>()
         val allowedTypes = Fun.allowedSexTypes(sp)
-        for (o in m.onani.value!!.let {
+        for (o in m.onani!!.let {
             if (allowedTypes.size < Fun.sexTypesCount)
                 it.filter { r -> r.type in allowedTypes && r.ogsm }
             else it.filter { r -> r.ogsm } // do not simplify
         }) history.add(Summary.Orgasm(o.time, 1f))
-        sinceTheBeginning(this, m.onani.value!!)
+        sinceTheBeginning(this, m.onani!!)
             .forEach { data.add(Pair(it, calcHistory(this, history, it))) }
         return ColumnChartData().setColumns(ColumnFactory(this, data))
     }

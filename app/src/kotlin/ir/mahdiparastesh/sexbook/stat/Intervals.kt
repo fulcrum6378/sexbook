@@ -29,7 +29,7 @@ class Intervals : ChartActivity<IntervalsBinding>() {
             if (!sp.getBoolean(Settings.spStatUntilCb, false)) Long.MAX_VALUE
             else sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
         allowedSexTypes = Fun.allowedSexTypes(sp)
-        for (org in m.onani.value!!) {
+        for (org in m.onani!!) {
             if (!org.ogsm) continue
             if (prev == null || org.time < minima || org.time > maxima || org.type !in allowedSexTypes) {
                 prev = org.time
@@ -58,5 +58,5 @@ class Intervals : ChartActivity<IntervalsBinding>() {
         b.main.isViewportCalculationEnabled = false
     }
 
-    override fun requirements() = m.onani.value != null
+    override fun requirements() = m.onani != null
 }

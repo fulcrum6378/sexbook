@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
 import androidx.annotation.MainThread
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -27,7 +26,7 @@ class Model : ViewModel() {
     lateinit var dao: Dao
 
     /** Holds all sex records with static unsorted indices. */
-    val onani = MutableLiveData<ArrayList<Report>?>(null) // TODO UNLIVE IT!!!
+    var onani: ArrayList<Report>? = null
     val visOnani = arrayListOf<Report>()
 
     /** Holds all crushes (liefde is a subset of people). */
@@ -51,7 +50,7 @@ class Model : ViewModel() {
     var navOpen = false
 
     fun findGlobalIndexOfReport(id: Long) =
-        onani.value!!.indexOfFirst { it.id == id }
+        onani!!.indexOfFirst { it.id == id }
 
     fun getCrushes() = people?.let { ppl ->
         CopyOnWriteArrayList(ppl.filter {
@@ -118,7 +117,7 @@ class Model : ViewModel() {
     fun summaryCrushes() = summary?.let { ArrayList(it.scores.keys) } ?: arrayListOf<String>()
 
     fun resetData() {
-        onani.value = null
+        onani = null
         visOnani.clear()
         people = null
         liefde = null

@@ -41,7 +41,7 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override suspend fun draw(): AbstractChartData {
         val data = ArrayList<Pair<String, Float>>()
-        sinceTheBeginning(this, m.onani.value!!)
+        sinceTheBeginning(this, m.onani!!)
             .forEach { data.add(Pair(it, calcHistory(this, history!!, it))) }
         return ColumnChartData().setColumns(ColumnFactory(this, data))
     }
