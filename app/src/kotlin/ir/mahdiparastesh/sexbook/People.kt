@@ -30,5 +30,6 @@ class People : BaseActivity(), Lister {
         if (!sp.getBoolean(Settings.spPageLoveSortAsc, true)) m.people?.reverse()
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()
+        count(m.people?.size ?: 0)
     }
 }

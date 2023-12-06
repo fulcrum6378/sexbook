@@ -23,7 +23,7 @@ class Singular : ChartActivity<SingularBinding>() {
         super.onCreate(savedInstanceState)
         if (night()) b.identifyIV.colorFilter = themePdcf()
 
-        crush = m.liefde?.find { it.key == crushKey }
+        crush = m.people?.find { it.key == crushKey }
         b.title.text = crushKey
         b.identify.setOnClickListener {
             Identify(crush).apply {
