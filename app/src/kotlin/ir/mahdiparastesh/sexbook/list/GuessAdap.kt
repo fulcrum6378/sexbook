@@ -17,6 +17,7 @@ import ir.mahdiparastesh.sexbook.Fun.defCalendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.now
+import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
@@ -195,7 +196,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                         able = !able
                         CoroutineScope(Dispatchers.IO).launch {
                             @Suppress("LABEL_NAME_CLASH") c.m.dao.gUpdate(this@apply)
-                            c.changed = true
+                            Main.changed = true
                             withContext(Dispatchers.IO) { notifyItemChanged(h.layoutPosition) }
                         }
                     }
@@ -208,7 +209,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                             CoroutineScope(Dispatchers.IO).launch {
                                 c.m.dao.gDelete(gu)
                                 c.m.guesses?.removeAt(h.layoutPosition)
-                                c.changed = true
+                                Main.changed = true
                                 withContext(Dispatchers.IO) {
                                     val ii = h.layoutPosition
                                     notifyItemRemoved(ii)
@@ -241,7 +242,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         if (c.m.guesses == null || c.m.guesses!!.size <= i || i < 0) return
         CoroutineScope(Dispatchers.IO).launch {
             c.m.dao.gUpdate(c.m.guesses!![i])
-            c.changed = true
+            Main.changed = true
         }
     }
 }

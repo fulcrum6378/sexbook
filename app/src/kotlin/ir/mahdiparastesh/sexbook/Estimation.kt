@@ -17,7 +17,6 @@ import kotlinx.coroutines.withContext
 
 class Estimation : BaseActivity(), Lister {
     private lateinit var b: EstimationBinding
-    var changed = false
     private var adding = false
 
     override var countBadge: BadgeDrawable? = null
@@ -44,7 +43,7 @@ class Estimation : BaseActivity(), Lister {
                 newGuess.id = m.dao.gInsert(newGuess)
                 if (m.guesses == null) m.guesses = ArrayList()
                 m.guesses!!.add(newGuess)
-                changed = true
+                Main.changed = true
                 adding = false
                 withContext(Dispatchers.Main) {
                     b.list.adapter!!.notifyItemInserted(m.guesses!!.size - 1)
@@ -54,11 +53,5 @@ class Estimation : BaseActivity(), Lister {
             }
             c.shake()
         }
-    }
-
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onBackPressed() {
-        if (changed) goTo(Main::class, true) { action = Main.Action.RELOAD.s }
-        else @Suppress("DEPRECATION") super.onBackPressed()
     }
 }

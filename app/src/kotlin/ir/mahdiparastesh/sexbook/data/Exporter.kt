@@ -169,7 +169,8 @@ class Exporter(val c: BaseActivity) {
 
             withContext(Dispatchers.Main) {
                 Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
-                c.goTo(Main::class) { action = Main.Action.RELOAD.s }
+                if (c is Main) c.onDataChanged()
+                else Main.changed = true
             }
         }
     }

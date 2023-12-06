@@ -17,7 +17,6 @@ import kotlinx.coroutines.withContext
 
 class Places : BaseActivity(), Lister {
     private lateinit var b: PlacesBinding
-    var changed = false
     private var adding = false
 
     override var countBadge: BadgeDrawable? = null
@@ -44,7 +43,7 @@ class Places : BaseActivity(), Lister {
                 newPlace.id = m.dao.pInsert(newPlace)
                 if (m.places == null) m.places = ArrayList()
                 m.places!!.add(newPlace)
-                changed = true
+                Main.changed = true
                 adding = false
                 withContext(Dispatchers.Main) {
                     b.list.adapter!!.notifyItemInserted(m.places!!.size - 1)
@@ -54,11 +53,5 @@ class Places : BaseActivity(), Lister {
             }
             c.shake()
         }
-    }
-
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onBackPressed() {
-        if (changed) goTo(Main::class, true) { action = Main.Action.RELOAD.s }
-        else @Suppress("DEPRECATION") super.onBackPressed()
     }
 }

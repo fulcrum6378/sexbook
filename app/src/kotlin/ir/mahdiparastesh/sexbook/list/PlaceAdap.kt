@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Fun.vis
+import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings.Companion.spDefPlace
@@ -107,7 +108,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
         if (c.m.places == null || c.m.places!!.size <= i || i < 0) return
         CoroutineScope(Dispatchers.IO).launch {
             c.m.dao.pUpdate(c.m.places!![i])
-            c.changed = true
+            Main.changed = true
             withContext(Dispatchers.Main) { notifyItemChanged(i) }
         }
     }
@@ -118,7 +119,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
             for (mig in c.m.dao.rGetByPlace(c.m.places!![i].id))
                 c.m.dao.rUpdate(mig.apply { plac = migrateToId })
             c.m.places?.removeAt(i)
-            c.changed = true
+            Main.changed = true
             withContext(Dispatchers.Main) {
                 notifyItemRemoved(i)
                 notifyItemRangeChanged(i, itemCount - i)

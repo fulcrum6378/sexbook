@@ -59,9 +59,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     override var countBadge: BadgeDrawable? = null
 
-    /*companion object {
+    companion object {
+        /** when set to true, Main will recreate() in onResume(). */
+        var changed = false
         //var showAdAfterRecreation = false
-    }*/
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -208,6 +210,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         pageLove()?.loadAd()
     }*/
 
+    override fun onResume() {
+        super.onResume()
+        if (changed) {
+            changed = false
+            onDataChanged()
+            return; }
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if (item.itemId in arrayOf(R.id.momSum, R.id.momRec, R.id.momMix)
             && !summarize(true)
@@ -305,11 +315,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private fun Intent.check(isOnCreate: Boolean = false) {
         when (action) {
             Action.ADD.s -> pageSex()?.messages?.add(PageSex.SPECIAL_ADD)
-            Action.RELOAD.s -> {
-                m.resetData()
-                // showAdAfterRecreation = true
-                if (!isOnCreate) recreate() // FIXME
-            }
             Action.VIEW.s -> (try {
                 dataString?.toLong()
             } catch (e: NumberFormatException) {
@@ -424,8 +429,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun instillGuesses() {
-        // FIXME this should not be done:
-        //  m.onani = m.onani?.filter { !it.guess }?.let { ArrayList(it) }
         for (g in m.guesses!!.filter { it.able }) {
             if (!g.checkValid()) continue
             var time = g.sinc
@@ -439,9 +442,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         m.onani!!.sortWith(Report.Sort())
     }
 
+    fun onDataChanged() {
+        m.resetData()
+        // showAdAfterRecreation = true
+        recreate()
+    }
+
 
     enum class Action(val s: String) {
-        RELOAD("${Main::class.java.`package`!!.name}.ACTION_RELOAD"),
         ADD("${Main::class.java.`package`!!.name}.ACTION_ADD"),
         VIEW("${Main::class.java.`package`!!.name}.ACTION_VIEW"),
     }

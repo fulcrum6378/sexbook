@@ -21,7 +21,6 @@ import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.shake
-import ir.mahdiparastesh.sexbook.Main.Action.RELOAD
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.more.Act
@@ -35,7 +34,6 @@ class Settings : BaseActivity() {
     private val calendarTypes: Array<String> by lazy { resources.getStringArray(R.array.calendarTypes) }
     private val emptyDate: String by lazy { getString(R.string.emptyDate) }
     private var calManager: CalendarManager? = null
-    private var changed = false
 
     /** Beware of the numerical fields; go to Exporter.replace() for modifications. */
     companion object {
@@ -85,7 +83,7 @@ class Settings : BaseActivity() {
                 if (sp.getInt(spCalType, 0) == i) return
                 sp.edit().putInt(spCalType, i).apply()
                 c.shake()
-                changed = true
+                Main.changed = true
             }
         }
 
@@ -281,7 +279,7 @@ class Settings : BaseActivity() {
                     // "saveEnabled" to "false", it worked like a charm!
                     c.shake()
                     recreate()
-                    changed = true
+                    Main.changed = true
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
@@ -298,7 +296,7 @@ class Settings : BaseActivity() {
                     DbFile(DbFile.Triple.WRITE_AHEAD_LOG).delete()
                     LastOrgasm.doUpdateAll(c)
                     c.shake()
-                    changed = true
+                    Main.changed = true
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
@@ -314,12 +312,6 @@ class Settings : BaseActivity() {
                 turnCalendar(true)
             else b.stCalOutput.isChecked = false
         }
-    }
-
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onBackPressed() {
-        if (changed) goTo(Main::class, true) { action = RELOAD.s }
-        else @Suppress("DEPRECATION") super.onBackPressed()
     }
 
 
