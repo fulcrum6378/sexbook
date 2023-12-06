@@ -90,7 +90,7 @@ class PageSex : BasePage() {
         filters = createFilters(c.m.onani.value!!)
         //Log.println(Log.ASSERT, "ASHLYN", "resetAllReports ${filters.size} filters")
 
-        // Which month to show?
+        // which month to show?
         var newFilter = if (c.m.listFilter == -1) (filters.size - 1) else c.m.listFilter
         toGlobalIndexOfItem?.also { gIndex ->
             val toFilter = c.m.onani.value!![gIndex].time.calendar(c).createFilterYm()
@@ -99,11 +99,11 @@ class PageSex : BasePage() {
             if (fIndex != -1) newFilter = fIndex
         }
 
-        // Application...
+        // application...
         applyFilter(newFilter, true, toGlobalIndexOfItem != null)
         updateFilterSpinner()
 
-        // Scroll to the edited item position...
+        // scroll to the edited item position...
         toGlobalIndexOfItem?.also { gIndex ->
             val pos = c.m.visOnani.indexOf(c.m.onani.value!![gIndex])
             if (pos != -1) b.rv.smoothScrollToPosition(pos)
@@ -169,11 +169,11 @@ class PageSex : BasePage() {
     fun add() {
         if (adding) return
         adding = true
-        val newOne = Report(
-            Fun.now(), "", c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
-            "", true, c.sp.getLong(Settings.spDefPlace, -1L), true, -127
-        )
         CoroutineScope(Dispatchers.IO).launch {
+            val newOne = Report(
+                Fun.now(), "", c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
+                "", true, c.sp.getLong(Settings.spDefPlace, -1L), true, -127
+            )
             newOne.id = c.m.dao.rInsert(newOne)
             LastOrgasm.updateAll(c)
             val firstRecordEver = c.m.onani.value == null

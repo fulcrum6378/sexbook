@@ -26,6 +26,10 @@
         <item name="itemTextColor">@color/CPV_LIGHT</item>
     </style>
 
+    <style name="ThemeOverlay.Sexbook.Nav" parent="">
+        <item name="android:listDivider">@color/CPV_LIGHT</item>
+    </style>
+
 
     <!-- Dialogue -->
     <style name="Theme.Sexbook.Switch.Dialogue" parent="Widget.Material3.CompoundButton.Switch">

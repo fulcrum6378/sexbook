@@ -53,8 +53,8 @@ abstract class Database : RoomDatabase(), Closeable {
                     cur.close()
                     db.execSQL("DROP TABLE Crush_old")
 
-                    db.execSQL("ALTER TABLE Report ADD COLUMN ogsm INTEGER NOT NULL DEFAULT -127")
-                    db.execSQL("ALTER TABLE Report ADD COLUMN frtn INTEGER NOT NULL DEFAULT 1")
+                    db.execSQL("ALTER TABLE Report ADD COLUMN ogsm INTEGER NOT NULL DEFAULT 1")
+                    db.execSQL("ALTER TABLE Report ADD COLUMN frtn INTEGER NOT NULL DEFAULT -127")
                 }
             })
 

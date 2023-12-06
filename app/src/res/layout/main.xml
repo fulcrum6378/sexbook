@@ -57,5 +57,6 @@
         android:layout_gravity="start"
         android:background="?colorPrimary"
         android:paddingTop="@dimen/statusBarSize"
+        android:theme="@style/ThemeOverlay.Sexbook.Nav"
         app:menu="@menu/nav" />
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -70,7 +70,7 @@
     <style name="Widget.Sexbook.Nav.Base" parent="Widget.Material3.NavigationView">
         <item name="itemIconPadding">@dimen/navFont</item>
         <item name="itemTextAppearance">@style/TextAppearance.Sexbook.Nav</item>
-        <item name="shapeAppearance">@style/ShapeAppearance_Sexbook_Nav</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Sexbook.Nav</item>
     </style><!-- we better put these values here so they can be changes in different situations. -->
 
     <style name="Widget.Sexbook.Nav" parent="Widget.Sexbook.Nav.Base">
@@ -78,6 +78,10 @@
         <item name="itemRippleColor">#629A7C00</item>
         <item name="itemTextColor">@color/CP_DARKEST</item>
     </style><!-- do not refer to a neighbouring attribute inside a style. -->
+
+    <style name="ThemeOverlay.Sexbook.Nav" parent="">
+        <item name="android:listDivider">@color/CP_DARKEST</item>
+    </style>
 
 
     <!-- Popup -->
@@ -141,7 +145,7 @@
 
 
     <!-- ShapeAppearance -->
-    <style name="ShapeAppearance_Sexbook_Nav">
+    <style name="ShapeAppearance.Sexbook.Nav" parent="">
         <item name="cornerFamilyBottomRight">rounded</item>
         <item name="cornerFamilyTopRight">rounded</item>
         <item name="cornerSizeBottomRight">@dimen/largeCornerSize</item>
