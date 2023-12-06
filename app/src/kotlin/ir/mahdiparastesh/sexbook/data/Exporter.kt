@@ -138,13 +138,13 @@ class Exporter(val c: BaseActivity) {
 
     private fun replace(c: BaseActivity, imported: Exported) {
         CoroutineScope(Dispatchers.IO).launch {
-            c.m.dao.rDeleteAll(c.m.dao.rGetAll())
+            c.m.dao.rDeleteAll()
             imported.reports?.toList()?.also { c.m.dao.rReplaceAll(it) }
-            c.m.dao.cDeleteAll(c.m.dao.cGetAll())
+            c.m.dao.cDeleteAll()
             imported.crushes?.toList()?.also { c.m.dao.cReplaceAll(it) }
-            c.m.dao.pDeleteAll(c.m.dao.pGetAll())
+            c.m.dao.pDeleteAll()
             imported.places?.toList()?.also { c.m.dao.pReplaceAll(it) }
-            c.m.dao.gDeleteAll(c.m.dao.gGetAll())
+            c.m.dao.gDeleteAll()
             imported.guesses?.toList()?.also { c.m.dao.gReplaceAll(it) }
 
             c.m.calManager?.replaceEvents(imported.crushes?.toList()) // don't merge with top

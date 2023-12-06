@@ -9,6 +9,7 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.PlacesBinding
 import ir.mahdiparastesh.sexbook.list.PlaceAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +32,7 @@ class Places : BaseActivity(), Lister {
         // List
         if (b.list.adapter == null) b.list.adapter = PlaceAdap(this)
         else b.list.adapter?.notifyDataSetChanged()
-        count(m.places?.size ?: 0) // FIXME
+        Delay(100L) { count(m.places?.size ?: 0) }
 
         // "Add" button
         if (night()) b.addIV.colorFilter = themePdcf()

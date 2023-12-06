@@ -9,6 +9,7 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
 import kotlin.experimental.and
+import kotlin.math.roundToInt
 
 class Taste : ChartActivity<TasteBinding>() {
     override val b by lazy { TasteBinding.inflate(layoutInflater) }
@@ -34,12 +35,13 @@ class Taste : ChartActivity<TasteBinding>() {
         }
 
         val data = arrayListOf<SliceValue>()
+        val sumOfAll = m.onani?.size?.toFloat() ?: 0f
         for (g in genders.indices) {
             val score = stats[g.toByte()]!!.toFloat()
             if (score == 0f) continue
-            data.add(
-                SliceValue(score, color(R.color.CPV_LIGHT))
-                    .apply { setLabel("${genders[g]} {${score.show()}}") })
+            data.add(SliceValue(score, color(R.color.CPV_LIGHT)).apply {
+                setLabel("${genders[g]}: ${score.show()} (${((100f / sumOfAll) * score).roundToInt()}%)")
+            })
         }
         return PieChartData(data).apply { setHasLabels(true) }
     }

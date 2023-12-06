@@ -8,6 +8,7 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
 import ir.mahdiparastesh.sexbook.list.PersonAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
 
 class People : BaseActivity(), Lister {
@@ -30,6 +31,6 @@ class People : BaseActivity(), Lister {
         if (!sp.getBoolean(Settings.spPageLoveSortAsc, true)) m.people?.reverse()
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()
-        count(m.people?.size ?: 0)
+        Delay(100L) { count(m.people?.size ?: 0) }
     }
 }

@@ -9,6 +9,7 @@ import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.databinding.EstimationBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +32,7 @@ class Estimation : BaseActivity(), Lister {
         // List
         if (b.list.adapter == null) b.list.adapter = GuessAdap(this)
         else b.list.adapter?.notifyDataSetChanged()
-        count(m.guesses?.size ?: 0)
+        Delay(100L) { count(m.guesses?.size ?: 0) }
 
         // "Add" button
         if (night()) b.addIV.colorFilter = themePdcf()
@@ -53,5 +54,10 @@ class Estimation : BaseActivity(), Lister {
             }
             c.shake()
         }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        count(m.guesses?.size ?: 0)
     }
 }

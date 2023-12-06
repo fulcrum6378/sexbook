@@ -2,15 +2,11 @@ package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.lifecycle.MutableLiveData
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.explode
@@ -21,7 +17,6 @@ import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.BasePage
 import ir.mahdiparastesh.sexbook.more.LastOrgasm
-import ir.mahdiparastesh.sexbook.more.MessageInbox
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,16 +25,12 @@ import java.util.*
 
 class PageSex : BasePage() {
     lateinit var b: PageSexBinding
-    val messages = MessageInbox(handler)
     var filters: List<Report.Filter> = listOf()
 
-    companion object {
-        /*const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
-        const val DISMISSAL_REFRAIN_FROM_AD_TIMES = 3*/
-        const val SCROLL_TO = 6
-        const val SPECIAL_ADD = 100
-        var handler = MutableLiveData<Handler?>(null)
-    }
+    /*companion object {
+        const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
+        const val DISMISSAL_REFRAIN_FROM_AD_TIMES = 3
+    }*/
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
         PageSexBinding.inflate(layoutInflater, parent, false).apply { b = this }.root
@@ -47,16 +38,6 @@ class PageSex : BasePage() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        handler.value = object : Handler(Looper.getMainLooper()) {
-            override fun handleMessage(msg: Message) {
-                when (msg.what) {
-                    SCROLL_TO -> b.rv.smoothScrollBy(0, msg.obj as Int)
-                    SPECIAL_ADD -> add()
-                }
-            }
-        }
-        messages.clear()
 
         // Spinner of filters
         b.spnFilter.setOnTouchListener { _, _ -> spnFilterTouched = true; false }
@@ -67,7 +48,7 @@ class PageSex : BasePage() {
             }
         }
 
-        // Add
+        // "Add" button
         if (c.night()) b.addIV.colorFilter = c.themePdcf()
         b.add.setOnClickListener { add() }
 
@@ -160,8 +141,7 @@ class PageSex : BasePage() {
             (b.rv.adapter!! as ReportAdap).notifyAnyChange(true)
             b.rv.adapter!!.notifyDataSetChanged()
         }
-        if (!willScrollToItem && !causedByResetAllReports)
-            b.rv.scrollToPosition(c.m.visOnani.size - 1)
+        if (!willScrollToItem) b.rv.scrollToPosition(c.m.visOnani.size - 1)
     }
 
     // private var addedToShowAd = 0

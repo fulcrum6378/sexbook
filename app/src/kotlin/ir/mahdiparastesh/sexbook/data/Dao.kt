@@ -32,8 +32,8 @@ interface Dao {
     @Delete
     suspend fun rDelete(item: Report)
 
-    @Delete
-    suspend fun rDeleteAll(item: List<Report>)
+    @Query("DELETE FROM Report")
+    suspend fun rDeleteAll()
 
 
     // Crush
@@ -52,8 +52,8 @@ interface Dao {
     @Delete
     suspend fun cDelete(item: Crush)
 
-    @Delete
-    suspend fun cDeleteAll(item: List<Crush>)
+    @Query("DELETE FROM Crush")
+    suspend fun cDeleteAll()
 
 
     // Place
@@ -72,8 +72,8 @@ interface Dao {
     @Delete
     suspend fun pDelete(item: Place)
 
-    @Delete
-    suspend fun pDeleteAll(item: List<Place>)
+    @Query("DELETE FROM Place")
+    suspend fun pDeleteAll()
 
 
     // Guess
@@ -92,6 +92,6 @@ interface Dao {
     @Delete
     suspend fun gDelete(item: Guess)
 
-    @Delete
-    suspend fun gDeleteAll(item: List<Guess>)
+    @Query("DELETE FROM Guess")
+    suspend fun gDeleteAll()
 }

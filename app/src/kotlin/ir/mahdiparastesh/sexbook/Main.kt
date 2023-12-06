@@ -314,7 +314,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     var intentViewId: Long? = null
     private fun Intent.check(isOnCreate: Boolean = false) {
         when (action) {
-            Action.ADD.s -> pageSex()?.messages?.add(PageSex.SPECIAL_ADD)
+            Action.ADD.s -> pageSex()?.add()
             Action.VIEW.s -> (try {
                 dataString?.toLong()
             } catch (e: NumberFormatException) {
