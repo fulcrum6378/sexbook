@@ -59,7 +59,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     fun arrangeList() {
         if (b.empty.vis(m.people.isNullOrEmpty())) return
         m.people?.sortWith(Crush.Sort(this, Settings.spPeopleSortBy))
-        if (!sp.getBoolean(Settings.spPageLoveSortAsc, true)) m.people?.reverse()
+        if (!sp.getBoolean(Settings.spPeopleSortAsc, true)) m.people?.reverse()
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()
         Delay(100L) { count(m.people?.size ?: 0) }

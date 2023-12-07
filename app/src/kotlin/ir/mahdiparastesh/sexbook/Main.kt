@@ -457,13 +457,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * After whirling around the app sorting feature of PageLove doesn't work!
   * Searching in Summary and Recency is so immature!
-  * Pleasure score for Reports
   * -
   * Extension:
-  * Export data to TXT
   * "Turn off notifications for this Crush" on the notification
-  * -
-  * Why is it fucked up after a package reinstall? Does it happen for others?
+  * Pleasure score for Reports
   */
