@@ -21,6 +21,7 @@ class Taste : ChartActivity<TasteBinding>() {
         val stats = hashMapOf<Byte, Double>()
         for (g in genders.indices) stats[g.toByte()] = 0.0
         val crushKeys = m.people?.map { it.key } ?: listOf()
+        var sumOfAll = 0.0
         for (agent in m.summary!!.scores.keys) {
             val addable = m.summary!!.scores[agent]!!.sumOf { it.value.toDouble() }
             // `sumOf()` only accepts Double values!
@@ -32,10 +33,10 @@ class Taste : ChartActivity<TasteBinding>() {
                     throw Exception(g.toString())
                 }
             } else stats[0] = stats[0]!! + addable
+            sumOfAll += addable
         }
 
         val data = arrayListOf<SliceValue>()
-        val sumOfAll = m.onani?.size?.toFloat() ?: 0f
         for (g in genders.indices) {
             val score = stats[g.toByte()]!!.toFloat()
             if (score == 0f) continue

@@ -55,9 +55,4 @@ class Estimation : BaseActivity(), Lister {
             c.shake()
         }
     }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        count(m.guesses?.size ?: 0)
-    }
 }

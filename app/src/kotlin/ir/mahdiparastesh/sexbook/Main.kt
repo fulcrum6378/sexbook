@@ -460,7 +460,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * After whirling around the app sorting feature of PageLove doesn't work!
   * Searching in Summary and Recency is so immature!
   * Pleasure score for Reports
-  * Sorting UI for People
   * -
   * Extension:
   * Export data to TXT

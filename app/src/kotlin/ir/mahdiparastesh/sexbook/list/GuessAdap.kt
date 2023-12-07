@@ -197,7 +197,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                         CoroutineScope(Dispatchers.IO).launch {
                             @Suppress("LABEL_NAME_CLASH") c.m.dao.gUpdate(this@apply)
                             Main.changed = true
-                            withContext(Dispatchers.IO) { notifyItemChanged(h.layoutPosition) }
+                            withContext(Dispatchers.Main) { notifyItemChanged(h.layoutPosition) }
                         }
                     }
                 }
@@ -210,7 +210,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                                 c.m.dao.gDelete(gu)
                                 c.m.guesses?.removeAt(h.layoutPosition)
                                 Main.changed = true
-                                withContext(Dispatchers.IO) {
+                                withContext(Dispatchers.Main) {
                                     val ii = h.layoutPosition
                                     notifyItemRemoved(ii)
                                     notifyItemRangeChanged(ii, itemCount - ii)

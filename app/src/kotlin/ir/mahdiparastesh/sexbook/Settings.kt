@@ -60,6 +60,8 @@ class Settings : BaseActivity() {
         const val spDefPlace = "defaultPlace" // Long
         const val spPageLoveSortBy = "page_love_sort_by" // Int, def 0
         const val spPageLoveSortAsc = "page_love_sort_ascending" // Boolean, def true
+        const val spPeopleSortBy = "people_sort_by" // Int, def 0
+        const val spPeopleSortAsc = "people_sort_ascending" // Boolean, def true
 
         // Automatic and hidden
         const val spPrefersOrgType = "prefersOrgType" // Int

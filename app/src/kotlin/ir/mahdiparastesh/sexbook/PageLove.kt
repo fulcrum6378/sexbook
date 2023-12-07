@@ -47,7 +47,7 @@ class PageLove : BasePage() {
 
     override fun prepareList() {
         wasListEverPrepared = true
-        c.m.liefde?.sortWith(Crush.Sort(c))
+        c.m.liefde?.sortWith(Crush.Sort(c, Settings.spPageLoveSortBy))
         if (!c.sp.getBoolean(Settings.spPageLoveSortAsc, true)) c.m.liefde?.reverse()
         c.count(c.m.liefde?.size ?: 0)
         if (b.empty.vis(c.m.liefde.isNullOrEmpty())) return

@@ -149,8 +149,8 @@ class Crush(
         key, fName, mName, lName, status, birth, height, body, address, first, insta
     )
 
-    class Sort(private val c: BaseActivity) : Comparator<Crush> {
-        private val by = c.sp.getInt(Settings.spPageLoveSortBy, 0)
+    class Sort(private val c: BaseActivity, spKey: String) : Comparator<Crush> {
+        private val by = c.sp.getInt(spKey, 0)
 
         override fun compare(a: Crush, b: Crush): Int = when (by) {
             Fun.SORT_BY_NAME -> a.visName().lowercase(Locale.getDefault())
