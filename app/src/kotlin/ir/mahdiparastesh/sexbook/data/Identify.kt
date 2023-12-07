@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import androidx.annotation.ArrayRes
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -72,6 +73,17 @@ class Identify() : BaseDialog() {
             }
         }
 
+        // Body Attributes
+        b.bodySkinColour.adapter = bodyAttrSpinnerAdapter(R.array.bodySkinColour)
+        b.bodyHairColour.adapter = bodyAttrSpinnerAdapter(R.array.bodyHairColour)
+        b.bodyEyeColour.adapter = bodyAttrSpinnerAdapter(R.array.bodyEyeColour)
+        b.bodyEyeShape.adapter = bodyAttrSpinnerAdapter(R.array.bodyEyeShape)
+        b.bodyFaceShape.adapter = bodyAttrSpinnerAdapter(R.array.bodyFaceShape)
+        b.bodyFat.adapter = bodyAttrSpinnerAdapter(R.array.bodyFat)
+        b.bodyBreasts.adapter = bodyAttrSpinnerAdapter(R.array.bodyBreasts)
+        b.bodyPenis.adapter = bodyAttrSpinnerAdapter(R.array.bodyPenis)
+        b.bodyMuscle.adapter = bodyAttrSpinnerAdapter(R.array.bodyMuscle)
+
         // Default Values
         bir = crush?.bCalendar(c)
         fir = crush?.fCalendar(c)
@@ -85,15 +97,33 @@ class Identify() : BaseDialog() {
                 b.birth.text = bir!!.fullDate()
                 isBirthSet = true
             }
+            b.notifyBirth.isChecked = crush!!.notifyBirth()
             if (crush!!.height != -1f)
                 b.height.setText(crush!!.height.toString())
             b.address.setText(crush!!.address)
+            b.instagram.setText(crush!!.insta)
             if (fir != null) {
                 b.firstMet.text = fir!!.fullDate()
                 isFirstSet = true
             }
-            b.instagram.setText(crush!!.insta)
-            b.notifyBirth.isChecked = crush!!.notifyBirth()
+            b.bodySkinColour.setSelection(
+                (crush!!.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second)
+            b.bodyHairColour.setSelection(
+                (crush!!.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second)
+            b.bodyEyeColour.setSelection(
+                (crush!!.body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second)
+            b.bodyEyeShape.setSelection(
+                (crush!!.body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second)
+            b.bodyFaceShape.setSelection(
+                (crush!!.body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second)
+            b.bodyFat.setSelection(
+                (crush!!.body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second)
+            b.bodyBreasts.setSelection(
+                (crush!!.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second)
+            b.bodyPenis.setSelection(
+                (crush!!.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second)
+            b.bodyMuscle.setSelection(
+                (crush!!.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second)
         }
         if (bir == null) {
             bir = if (c.sp.getBoolean(
@@ -127,6 +157,18 @@ class Identify() : BaseDialog() {
             }, bir).defaultOptions().show(c.supportFragmentManager, "birth")
         }
 
+        // Notify Birth
+        val needsNtfPerm = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ActivityCompat.checkSelfPermission(
+                    c, Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+        if (needsNtfPerm && crush?.notifyBirth() == true) reqNotificationPerm(c)
+        b.notifyBirth.setOnCheckedChangeListener { _, isChecked ->
+            if (!needsNtfPerm && isChecked) reqNotificationPerm(c)
+            b.notifyBirth.alpha = if (isChecked) 1f else DISABLED_ALPHA
+        } // changing isChecked programmatically won't invoke the listener!
+        b.notifyBirth.alpha = if (b.notifyBirth.isChecked) 1f else DISABLED_ALPHA
+
         // First Met
         b.firstMet.setOnClickListener {
             DatePickerDialog.newInstance({ _, year, month, day ->
@@ -140,18 +182,6 @@ class Identify() : BaseDialog() {
                 b.firstMet.isLongClickable = true
             }, fir).defaultOptions().show(c.supportFragmentManager, "first_met")
         }
-
-        // Notify Birth
-        val needsNtfPerm = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-                ActivityCompat.checkSelfPermission(
-                    c, Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-        if (needsNtfPerm && crush?.notifyBirth() == true) reqNotificationPerm(c)
-        b.notifyBirth.setOnCheckedChangeListener { _, isChecked ->
-            if (!needsNtfPerm && isChecked) reqNotificationPerm(c)
-            b.notifyBirth.alpha = if (isChecked) 1f else DISABLED_ALPHA
-        } // changing isChecked programmatically won't invoke the listener!
-        b.notifyBirth.alpha = if (b.notifyBirth.isChecked) 1f else DISABLED_ALPHA
 
         // Date Pickers: Long Click
         View.OnLongClickListener { v ->
@@ -195,7 +225,15 @@ class Identify() : BaseDialog() {
                             "${endBir[Calendar.DAY_OF_MONTH]}" else null,
                     if (b.height.text.toString() != "")
                         b.height.text.toString().toFloat() else -1f,
-                    /*TODO*/0,
+                    (b.bodySkinColour.selectedItemPosition shl Crush.BODY_SKIN_COLOUR.second) or
+                            (b.bodyHairColour.selectedItemPosition shl Crush.BODY_HAIR_COLOUR.second) or
+                            (b.bodyEyeColour.selectedItemPosition shl Crush.BODY_EYE_COLOUR.second) or
+                            (b.bodyEyeShape.selectedItemPosition shl Crush.BODY_EYE_SHAPE.second) or
+                            (b.bodyFaceShape.selectedItemPosition shl Crush.BODY_FACE_SHAPE.second) or
+                            (b.bodyFat.selectedItemPosition shl Crush.BODY_FAT.second) or
+                            (b.bodyBreasts.selectedItemPosition shl Crush.BODY_MUSCLE.second) or
+                            (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second) or
+                            (b.bodyMuscle.selectedItemPosition shl Crush.BODY_BREASTS.second),
                     b.address.text.toString().ifBlank { null },
                     if (isFirstSet) "${endFir[Calendar.YEAR]}.${endFir[Calendar.MONTH] + 1}." +
                             "${endFir[Calendar.DAY_OF_MONTH]}" else null,
@@ -242,9 +280,11 @@ class Identify() : BaseDialog() {
     private fun onFictionChanged(bb: Boolean) {
         b.birth.vis(!bb)
         b.birthSep.vis(!bb)
-        b.firstMetSep.vis(!bb)
-        b.instagram.vis(!bb)
-        b.instagramSep.vis(!bb)
         b.notifyBirth.vis(!bb)
+        b.instagram.vis(!bb)
     }
+
+    private fun bodyAttrSpinnerAdapter(@ArrayRes arr: Int) = ArrayAdapter(
+        c, R.layout.spinner_white_small, c.resources.getStringArray(arr)
+    ).apply { setDropDownViewResource(R.layout.spinner_dd) }
 }

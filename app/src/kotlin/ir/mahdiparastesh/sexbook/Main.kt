@@ -461,5 +461,5 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * -
   * Extension:
   * "Turn off notifications for this Crush" on the notification
-  * Pleasure score for Reports
+  * Pleasure score for Reports ("How did it feel?" onLongClick)
   */

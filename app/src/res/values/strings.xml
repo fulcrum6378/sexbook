@@ -114,6 +114,70 @@
         Are you sure you want to clear this person\'s information?
         (THIS DOES NOT INCLUDE THE SEX RECORDS!)
     </string>
+    <string-array name="bodySkinColour">
+        <item>Skin colour&#8230;</item>
+        <item>Black skin</item>
+        <item>Brown skin</item>
+        <item>Olive skin</item>
+        <item>Medium skin</item>
+        <item>Fair skin</item>
+        <item>Pale skin</item>
+    </string-array>
+    <string-array name="bodyHairColour">
+        <item>Hair colour&#8230;</item>
+        <item>Black hair</item>
+        <item>Brunette hair</item>
+        <item>Blonde hair</item>
+        <item>Red hair</item>
+    </string-array>
+    <string-array name="bodyEyeColour">
+        <item>Eye colour&#8230;</item>
+        <item>Brown eyes</item>
+        <item>Hazel eyes</item>
+        <item>Blue eyes</item>
+        <item>Green eyes</item>
+        <item>Grey eyes</item>
+        <item>Other eye colour</item>
+    </string-array>
+    <string-array name="bodyEyeShape">
+        <item>Shape of eyes&#8230;</item>
+        <item>Round eyes</item>
+        <item>Almond eyes</item>
+    </string-array>
+    <string-array name="bodyFaceShape">
+        <item>Face shape&#8230;</item>
+        <item>Diamond face</item>
+        <item>Heart face</item>
+        <item>Long face</item>
+        <item>Oval face</item>
+        <item>Round face</item>
+        <item>Square face</item>
+        <item>Triangle face</item>
+    </string-array>
+    <string-array name="bodyFat">
+        <item>How fat&#8230;?</item>
+        <item>Skinny</item>
+        <item>Skinny-fat</item>
+        <item>Fat</item>
+    </string-array>
+    <string-array name="bodyBreasts">
+        <item>Muscularity&#8230;</item>
+        <item>Not muscular</item>
+        <item>A little muscular</item>
+        <item>Too muscular</item>
+    </string-array>
+    <string-array name="bodyPenis">
+        <item>Penis size&#8230;</item>
+        <item>Short penis</item>
+        <item>Medium penis</item>
+        <item>Long penis</item>
+    </string-array>
+    <string-array name="bodyMuscle">
+        <item>Breast size&#8230;</item>
+        <item>Normal breasts</item>
+        <item>Prominent breasts</item>
+        <item>Large breasts</item>
+    </string-array>
 
     <!-- Places -->
     <string name="places">Places</string>

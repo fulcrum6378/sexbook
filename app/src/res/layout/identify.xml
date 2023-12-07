@@ -67,6 +67,16 @@
             style="@style/identifyButton"
             android:text="@string/birth" />
 
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/notifyBirth"
+            style="@style/identifyField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/notifyBirth"
+            android:textSize="15sp"
+            android:theme="@style/Theme.Sexbook.Switch.Dialogue" />
+
         <View
             android:id="@+id/birthSep"
             style="@style/identifySep" />
@@ -91,17 +101,6 @@
             android:maxLength="200"
             android:maxLines="5" />
 
-        <View style="@style/identifySep" />
-
-        <TextView
-            android:id="@+id/firstMet"
-            style="@style/identifyButton"
-            android:text="@string/firstMet" />
-
-        <View
-            android:id="@+id/firstMetSep"
-            style="@style/identifySep" />
-
         <ir.mahdiparastesh.sexbook.more.SoftEditText
             android:id="@+id/instagram"
             style="@style/identifyET"
@@ -114,18 +113,71 @@
             android:textSize="19sp"
             android:textStyle="bold" />
 
+        <View style="@style/identifySep" />
+
+        <TextView
+            android:id="@+id/firstMet"
+            style="@style/identifyButton"
+            android:text="@string/firstMet" />
+
         <View
-            android:id="@+id/instagramSep"
+            android:id="@+id/firstMetSep"
             style="@style/identifySep" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/notifyBirth"
-            style="@style/identifyField"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/notifyBirth"
-            android:textSize="16sp"
-            android:theme="@style/Theme.Sexbook.Switch.Dialogue" />
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:id="@+id/bodySkinColour"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyEyeColour"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyFaceShape"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyBreasts"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyMuscle"
+                    style="@style/identifyBodyAttr" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:id="@+id/bodyHairColour"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyEyeShape"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyFat"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyPenis"
+                    style="@style/identifyBodyAttr" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
