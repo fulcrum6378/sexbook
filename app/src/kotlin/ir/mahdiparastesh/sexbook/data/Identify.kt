@@ -70,6 +70,8 @@ class Identify() : BaseDialog() {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
                 b.gender.alpha = if (i == 0) DISABLED_ALPHA else 1f
+                b.bodyBreasts.vis(i == 1 || i == 3)
+                b.bodyPenis.vis(i == 2 || i == 3)
             }
         }
 
@@ -107,23 +109,32 @@ class Identify() : BaseDialog() {
                 isFirstSet = true
             }
             b.bodySkinColour.setSelection(
-                (crush!!.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second)
+                (crush!!.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second
+            )
             b.bodyHairColour.setSelection(
-                (crush!!.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second)
+                (crush!!.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second
+            )
             b.bodyEyeColour.setSelection(
-                (crush!!.body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second)
+                (crush!!.body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second
+            )
             b.bodyEyeShape.setSelection(
-                (crush!!.body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second)
+                (crush!!.body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second
+            )
             b.bodyFaceShape.setSelection(
-                (crush!!.body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second)
+                (crush!!.body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second
+            )
             b.bodyFat.setSelection(
-                (crush!!.body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second)
-            b.bodyBreasts.setSelection(
-                (crush!!.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second)
-            b.bodyPenis.setSelection(
-                (crush!!.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second)
+                (crush!!.body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second
+            )
             b.bodyMuscle.setSelection(
-                (crush!!.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second)
+                (crush!!.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second
+            )
+            b.bodyBreasts.setSelection(
+                (crush!!.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second
+            )
+            b.bodyPenis.setSelection(
+                (crush!!.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second
+            )
         }
         if (bir == null) {
             bir = if (c.sp.getBoolean(
@@ -231,9 +242,9 @@ class Identify() : BaseDialog() {
                             (b.bodyEyeShape.selectedItemPosition shl Crush.BODY_EYE_SHAPE.second) or
                             (b.bodyFaceShape.selectedItemPosition shl Crush.BODY_FACE_SHAPE.second) or
                             (b.bodyFat.selectedItemPosition shl Crush.BODY_FAT.second) or
-                            (b.bodyBreasts.selectedItemPosition shl Crush.BODY_MUSCLE.second) or
-                            (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second) or
-                            (b.bodyMuscle.selectedItemPosition shl Crush.BODY_BREASTS.second),
+                            (b.bodyMuscle.selectedItemPosition shl Crush.BODY_MUSCLE.second) or
+                            (b.bodyBreasts.selectedItemPosition shl Crush.BODY_BREASTS.second) or
+                            (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second),
                     b.address.text.toString().ifBlank { null },
                     if (isFirstSet) "${endFir[Calendar.YEAR]}.${endFir[Calendar.MONTH] + 1}." +
                             "${endFir[Calendar.DAY_OF_MONTH]}" else null,

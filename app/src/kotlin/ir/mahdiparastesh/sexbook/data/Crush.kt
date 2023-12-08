@@ -49,41 +49,41 @@ class Crush(
 
         /** `body` offset  0; 3 bits; their skin colour (0..6)
          * 0=>unspecified, 1=>black, 2=>brown, 3=>olive, 4=>medium, 5=>fair, 6=>pale, (7) */
-        val BODY_SKIN_COLOUR = 0x00000005 to 0
+        val BODY_SKIN_COLOUR = 0x00000007 to 0
 
         /** `body` offset  3; 3 bits; their hair colour (0..4)
          * 0=>unspecified, 1=>black, 2=>brunette, 3=>blonde, 4=>red, (5,6,7) */
-        val BODY_HAIR_COLOUR = 0x00000028 to 3  // 0000000x05 shl 3
+        val BODY_HAIR_COLOUR = (0x00000007 shl 3) to 3
 
         /** `body` offset  6; 3 bits; their eye colour (0..6)
          * 0=>unspecified, 1=>brown, 2=>hazel, 3=>blue, 4=>green, 5=>other (6,7) */
-        val BODY_EYE_COLOUR = 0x00000140 to 6  // 0000000x05 shl 6
+        val BODY_EYE_COLOUR = (0x00000007 shl 6) to 6
 
         /** `body` offset  9; 2 bits; whether they have round or almond eyes (0..2)
          * 0=>unspecified, 1=>round, 2=>almond */
-        val BODY_EYE_SHAPE = 0x00000600 to 9  // 0000000x03 shl 9
+        val BODY_EYE_SHAPE = (0x00000003 shl 9) to 9
 
         /** `body` offset 11; 3 bits; their face shape (0..7)
          * 0=>unspecified, 1=>diamond, 2=>heart, 3=>long, 4=>oval, 5=>round, 6=>square, 7=>triangle */
-        val BODY_FACE_SHAPE = 0x00002800 to 11  // 0000000x05 shl 11
+        val BODY_FACE_SHAPE = (0x00000007 shl 11) to 11
 
         /** `body` offset 14; 2 bits; how fat they are (0..3)
          * 0=> unspecified, 1=>thin, 2=>medium, 3=>fat */
-        val BODY_FAT = 0x0000c000 to 14  // 0000000x03 shl 14
+        val BODY_FAT = (0x00000003 shl 14) to 14
 
-        /** `body` offset 16; 2 bits; how big their breasts are (0..3)
+        /** `body` offset 16; 2 bits; how muscular they are (0..3)
+         * 0=>unspecified, 1=>normal, 2=>low, 3=>high */
+        val BODY_MUSCLE = (0x00000003 shl 16) to 16
+
+        /** `body` offset 18; 2 bits; how big their breasts are (0..3)
          * 9+1 more bits are unassigned.
          * 0=>unspecified, 1=>normal, 2=>prominent, 3=>large */
-        val BODY_BREASTS = 0x00030000 to 16  // 0000000x03 shl 16
+        val BODY_BREASTS = (0x00000003 shl 18) to 18
 
-        /** `body` offset 18; 2 bits; how long their penis is (0..3)
+        /** `body` offset 20; 2 bits; how long their penis is (0..3)
          * do not merge into BODY_BREASTS for bigenders' sake.
          * 0=>unspecified, 1=>short, 2=>medium, 3=>long */
-        val BODY_PENIS = 0x000c0000 to 18  // 0000000x03 shl 18
-
-        /** `body` offset 20; 2 bits; how muscular they are (0..3)
-         * 0=>unspecified, 1=>normal, 2=>low, 3=>high */
-        val BODY_MUSCLE = 0x00300000 to 20  // 0000000x03 shl 20
+        val BODY_PENIS = (0x00000003 shl 20) to 20
     }
 
     fun active(): Boolean = (status and STAT_INACTIVE) == 0.toByte()

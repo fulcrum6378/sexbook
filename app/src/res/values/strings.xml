@@ -160,23 +160,23 @@
         <item>Skinny-fat</item>
         <item>Fat</item>
     </string-array>
-    <string-array name="bodyBreasts">
+    <string-array name="bodyMuscle">
         <item>Muscularity&#8230;</item>
         <item>Not muscular</item>
         <item>A little muscular</item>
         <item>Too muscular</item>
+    </string-array>
+    <string-array name="bodyBreasts">
+        <item>Breast size&#8230;</item>
+        <item>Normal breasts</item>
+        <item>Prominent breasts</item>
+        <item>Large breasts</item>
     </string-array>
     <string-array name="bodyPenis">
         <item>Penis size&#8230;</item>
         <item>Short penis</item>
         <item>Medium penis</item>
         <item>Long penis</item>
-    </string-array>
-    <string-array name="bodyMuscle">
-        <item>Breast size&#8230;</item>
-        <item>Normal breasts</item>
-        <item>Prominent breasts</item>
-        <item>Large breasts</item>
     </string-array>
 
     <!-- Places -->

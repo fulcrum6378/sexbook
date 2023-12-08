@@ -457,6 +457,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
+  * Tearing at the bottom of Identify
   * Searching in Summary and Recency is so immature!
   * -
   * Extension:
