@@ -46,6 +46,7 @@
     <string name="dsc">По убыванию</string>
     <string name="lastOrgasm">Последний оргазм</string>
     <string name="unspecified">Неопределенные</string>
+    <string name="deactivate">Деактивировать</string>
 
     <!-- Main -->
     <string name="momImport">Импорт из Json</string>
@@ -64,6 +65,7 @@
 
     <!-- Page Sex -->
     <string name="lcAccurate">Точный?</string>
+    <string name="lcOrgasmed">Оргазмировали?</string>
     <string name="desc">Пишите описания&#8230;</string>
     <string name="placeHint">Добавить новое место&#8230;</string>
 
@@ -96,8 +98,10 @@
         <item>Укажите их пол&#8230;</item>
         <item>Женский</item>
         <item>Мужской</item>
-        <item>Небинарный</item>
+        <item>Бигендер</item>
+        <item>Агендер</item>
     </string-array>
+    <string name="fiction">Является ли вымышленный персонаж?</string>
     <string name="birth">День рождения</string>
     <string name="heightInCM">Рост (см)</string>
     <string name="address">Адрес</string>
@@ -107,6 +111,72 @@
     <string name="crushClearSure">
         Вы уверены, что хотите удалить информацию об этом человеке? (ЭТО НЕ ВКЛЮЧАЕТ СЕКС-ЗАПИСЬ!)
     </string>
+    <string-array name="bodySkinColour">
+        <item>Цвет кожи&#8230;</item>
+        <item>Темная кожа</item>
+        <item>Смуглая кожа</item>
+        <item>Оливковая кожа</item>
+        <item>Средняя кожа</item>
+        <item>Светлая кожа</item>
+        <item>Бледная кожа</item>
+    </string-array>
+    <string-array name="bodyHairColour">
+        <item>Цвет волос&#8230;</item>
+        <item>Черные волосы</item>
+        <item>Брюнетка с волосами</item>
+        <item>Светлые волосы</item>
+        <item>Красные волосы</item>
+    </string-array>
+    <string-array name="bodyEyeColour">
+        <item>Цвет глаз&#8230;</item>
+        <item>Карие глаза</item>
+        <item>Карие глаза</item>
+        <item>Голубые глаза</item>
+        <item>Зеленые глаза</item>
+        <item>Другой цвет глаз</item>
+    </string-array>
+    <string-array name="bodyEyeShape">
+        <item>Форма глаз&#8230;</item>
+        <item>Круглые глаза</item>
+        <item>Миндалевидные глаза</item>
+    </string-array>
+    <string-array name="bodyFaceShape">
+        <item>Форма лица&#8230;</item>
+        <item>Алмазное лицо</item>
+        <item>Сердце лицо</item>
+        <item>Вытянутое лицо</item>
+        <item>Овальное лицо</item>
+        <item>Круглое лицо</item>
+        <item>Квадратное лицо</item>
+        <item>Треугольное лицо</item>
+    </string-array>
+    <string-array name="bodyFat">
+        <item>Форма кузова&#8230;</item>
+        <item>Тощий</item>
+        <item>Тощий-толстый</item>
+        <item>Толстый</item>
+    </string-array>
+    <string-array name="bodyMuscle">
+        <item>Мускулистость&#8230;</item>
+        <item>Не мускулистый</item>
+        <item>Немного мускулистый</item>
+        <item>Слишком мускулистый</item>
+    </string-array>
+    <string-array name="bodyBreasts">
+        <item>Размер груди&#8230;</item>
+        <item>Нормальная грудь</item>
+        <item>Выдающаяся грудь</item>
+        <item>Большие груди</item>
+    </string-array>
+    <string-array name="bodyPenis">
+        <item>Размер пениса&#8230;</item>
+        <item>Короткий пенис</item>
+        <item>Средний пенис</item>
+        <item>Длинный пенис</item>
+    </string-array>
+
+    <!-- People -->
+    <string name="people">Люди</string>
 
     <!-- Places -->
     <string name="places">Места</string>

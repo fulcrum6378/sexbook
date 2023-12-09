@@ -45,6 +45,7 @@
     <string name="dsc">Absteigend</string>
     <string name="lastOrgasm">Letzter Orgasmus</string>
     <string name="unspecified">Nicht spezifiziert</string>
+    <string name="deactivate">Deaktivieren</string>
 
     <!-- Main -->
     <string name="momImport">Import aus Json</string>
@@ -63,6 +64,7 @@
 
     <!-- Page Sex -->
     <string name="lcAccurate">Präzise?</string>
+    <string name="lcOrgasmed">Orgasmus?</string>
     <string name="desc">Beschreibungen schreiben&#8230;</string>
     <string name="placeHint">Einen neuen Ort hinzufügen&#8230;</string>
 
@@ -95,8 +97,10 @@
         <item>Geben Sie ihr Geschlecht an&#8230;</item>
         <item>Frau</item>
         <item>Mann</item>
-        <item>Nicht-binär</item>
+        <item>Bigender</item>
+        <item>Agender</item>
     </string-array>
+    <string name="fiction">Ist eine fiktive Figur?</string>
     <string name="birth">Geburtstag</string>
     <string name="heightInCM">Höhe (cm)</string>
     <string name="address">Adresse</string>
@@ -107,6 +111,72 @@
         Möchten Sie die Informationen dieser Person wirklich löschen?
         (DAS SCHLIESST DIE SEXAUFZEICHNUNGEN NICHT EIN!)
     </string>
+    <string-array name="bodySkinColour">
+        <item>Hautfarbe&#8230;</item>
+        <item>Schwarze Haut</item>
+        <item>Braune Haut</item>
+        <item>Olivenhaut</item>
+        <item>Mittlere Haut</item>
+        <item>Helle Haut</item>
+        <item>Blasse Haut</item>
+    </string-array>
+    <string-array name="bodyHairColour">
+        <item>Haarfarbe&#8230;</item>
+        <item>Schwarzes Haar</item>
+        <item>Braune Haare</item>
+        <item>Blondes Haar</item>
+        <item>Rote Haare</item>
+    </string-array>
+    <string-array name="bodyEyeColour">
+        <item>Augenfarbe&#8230;</item>
+        <item>Braune Augen</item>
+        <item>Haselnussbraune Augen</item>
+        <item>Blaue Augen</item>
+        <item>Grüne Augen</item>
+        <item>Andere Augenfarbe</item>
+    </string-array>
+    <string-array name="bodyEyeShape">
+        <item>Form der Augen&#8230;</item>
+        <item>Runde Augen</item>
+        <item>Mandel Augen</item>
+    </string-array>
+    <string-array name="bodyFaceShape">
+        <item>Gesichtsform&#8230;</item>
+        <item>Diamantgesicht</item>
+        <item>Herzgesicht</item>
+        <item>Langes Gesicht</item>
+        <item>Ovales Gesicht</item>
+        <item>Rundes Gesicht</item>
+        <item>Quadratgesicht</item>
+        <item>Dreieckiges Gesicht</item>
+    </string-array>
+    <string-array name="bodyFat">
+        <item>Körperform&#8230;</item>
+        <item>Schlank</item>
+        <item>Dünn-fett</item>
+        <item>Fett</item>
+    </string-array>
+    <string-array name="bodyMuscle">
+        <item>Muskulösität&#8230;</item>
+        <item>Nicht muskulös</item>
+        <item>Ein bisschen muskulös</item>
+        <item>Zu muskulös</item>
+    </string-array>
+    <string-array name="bodyBreasts">
+        <item>Brustgröße&#8230;</item>
+        <item>Normale Brüste</item>
+        <item>Markante Brüste</item>
+        <item>Große Brüste</item>
+    </string-array>
+    <string-array name="bodyPenis">
+        <item>Penisgröße&#8230;</item>
+        <item>Kurzer Penis</item>
+        <item>Mittlerer Penis</item>
+        <item>Langer Penis</item>
+    </string-array>
+
+    <!-- People -->
+    <string name="people">Menschen</string>
 
     <!-- Places -->
     <string name="places">Setzt</string>

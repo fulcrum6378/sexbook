@@ -45,6 +45,7 @@
     <string name="dsc">Descendente</string>
     <string name="lastOrgasm">Último Orgasmo</string>
     <string name="unspecified">No especificado</string>
+    <string name="deactivate">Desactivar</string>
 
     <!-- Main -->
     <string name="momImport">Importar desde Json</string>
@@ -64,7 +65,8 @@
     <string name="chart">Cuadro</string>
 
     <!-- Page Sex -->
-    <string name="lcAccurate">Exacta?</string>
+    <string name="lcAccurate">¿Exacta?</string>
+    <string name="lcOrgasmed">¿Orgasmado?</string>
     <string name="desc">Escribe descripciones&#8230;</string>
     <string name="placeHint">Añadir un nuevo lugar&#8230;</string>
 
@@ -97,8 +99,10 @@
         <item>Especifique su género&#8230;</item>
         <item>Femenina</item>
         <item>Masculino</item>
-        <item>No binaria</item>
+        <item>Bigénero</item>
+        <item>Agenda</item>
     </string-array>
+    <string name="fiction">¿Es un personaje ficticio?</string>
     <string name="birth">Cumpleaños</string>
     <string name="heightInCM">Altura (cm)</string>
     <string name="address">Dirección</string>
@@ -109,6 +113,72 @@
         ¿Está seguro de que desea borrar la información de esta persona?
         (¡ESTO NO INCLUYE LOS REGISTROS SEXUALES!)
     </string>
+    <string-array name="bodySkinColour">
+        <item>Color de piel&#8230;</item>
+        <item>Piel oscura</item>
+        <item>Piel marrón</item>
+        <item>Piel de oliva</item>
+        <item>Piel media</item>
+        <item>Piel blanca</item>
+        <item>Piel pálida</item>
+    </string-array>
+    <string-array name="bodyHairColour">
+        <item>Color de pelo&#8230;</item>
+        <item>Pelo negro</item>
+        <item>Pelo castaño</item>
+        <item>Pelo rubio</item>
+        <item>Cabello rojo</item>
+    </string-array>
+    <string-array name="bodyEyeColour">
+        <item>Color de ojos&#8230;</item>
+        <item>Ojos cafés</item>
+        <item>Ojos color avellana</item>
+        <item>Ojos azules</item>
+        <item>Ojos verdes</item>
+        <item>Otro color de ojos</item>
+    </string-array>
+    <string-array name="bodyEyeShape">
+        <item>Forma de ojos&#8230;</item>
+        <item>Ojos redondos</item>
+        <item>Ojos almendrados</item>
+    </string-array>
+    <string-array name="bodyFaceShape">
+        <item>Forma de la cara&#8230;</item>
+        <item>Cara de diamante</item>
+        <item>Cara de corazon</item>
+        <item>Cara larga</item>
+        <item>Cara ovalada</item>
+        <item>Cara redonda</item>
+        <item>Cara cuadrada</item>
+        <item>Cara triangular</item>
+    </string-array>
+    <string-array name="bodyFat">
+        <item>Forma del cuerpo&#8230;</item>
+        <item>Flaco</item>
+        <item>Flaco-gordo</item>
+        <item>Gordo</item>
+    </string-array>
+    <string-array name="bodyMuscle">
+        <item>Musculatura&#8230;</item>
+        <item>No musculoso</item><!--musculosa-->
+        <item>Un poco musculoso</item><!--musculosa-->
+        <item>Demasiado musculoso</item><!--musculosa-->
+    </string-array>
+    <string-array name="bodyBreasts">
+        <item>Tamaño de los senos&#8230;</item>
+        <item>Senos normales</item>
+        <item>Senos prominentes</item>
+        <item>Pechos grandes</item>
+    </string-array>
+    <string-array name="bodyPenis">
+        <item>Tamaño del pene&#8230;</item>
+        <item>Pene corto</item>
+        <item>Pene mediano</item>
+        <item>Pene largo</item>
+    </string-array>
+
+    <!-- People -->
+    <string name="people">Gente</string>
 
     <!-- Places -->
     <string name="places">Lugares</string>

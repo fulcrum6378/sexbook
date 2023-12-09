@@ -45,6 +45,7 @@
     <string name="dsc">Klesající</string>
     <string name="lastOrgasm">Poslední orgasmus</string>
     <string name="unspecified">Nespecifikováno</string>
+    <string name="deactivate">Deactivate</string>
 
     <!-- Main -->
     <string name="momImport">Import z Json</string>
@@ -63,6 +64,7 @@
 
     <!-- Page Sex -->
     <string name="lcAccurate">Přesný?</string>
+    <string name="lcOrgasmed">Orgasmus?</string>
     <string name="desc">Pište popisy&#8230;</string>
     <string name="placeHint">Přidat nové místo&#8230;</string>
 
@@ -95,8 +97,10 @@
         <item>Uveďte jejich pohlaví&#8230;</item>
         <item>Žena</item>
         <item>Muž</item>
-        <item>Nebinární</item>
+        <item>Bigender</item>
+        <item>Agender</item>
     </string-array>
+    <string name="fiction">Je fiktivní postava?</string>
     <string name="birth">Narozeniny</string>
     <string name="heightInCM">Výška (cm)</string>
     <string name="address">Adresa</string>
@@ -106,6 +110,72 @@
     <string name="crushClearSure">
         Opravdu chcete vymazat informace o této osobě? (NEZAHRNUJÍ ZÁZNAMY SEXU!)
     </string>
+    <string-array name="bodySkinColour">
+        <item>Barva kůže&#8230;</item>
+        <item>Černá kůže</item>
+        <item>Hnědá kůže</item>
+        <item>Olivová kůže</item>
+        <item>Střední kůže</item>
+        <item>Světlá kůže</item>
+        <item>Bledá kůže</item>
+    </string-array>
+    <string-array name="bodyHairColour">
+        <item>Barva vlasů&#8230;</item>
+        <item>Černé vlasy</item>
+        <item>Bruneta vlasy</item>
+        <item>Blond vlasy</item>
+        <item>Zrzavé vlasy</item>
+    </string-array>
+    <string-array name="bodyEyeColour">
+        <item>Barva očí&#8230;</item>
+        <item>Hnědé oči</item>
+        <item>Oříškové oči</item>
+        <item>Modré oči</item>
+        <item>Zelené oči</item>
+        <item>Jiná barva očí</item>
+    </string-array>
+    <string-array name="bodyEyeShape">
+        <item>Tvar očí&#8230;</item>
+        <item>Kulaté oči</item>
+        <item>Mandlové oči</item>
+    </string-array>
+    <string-array name="bodyFaceShape">
+        <item>Tvar obličeje&#8230;</item>
+        <item>Diamantový obličej</item>
+        <item>Tvář srdce</item>
+        <item>Dlouhý obličej</item>
+        <item>Oválný obličej</item>
+        <item>Kulatý obličej</item>
+        <item>Hranatý obličej</item>
+        <item>Trojúhelníkový obličej</item>
+    </string-array>
+    <string-array name="bodyFat">
+        <item>Tvar těla&#8230;</item>
+        <item>Hubená</item>
+        <item>Hubená-tlustá</item>
+        <item>Tlustý</item>
+    </string-array>
+    <string-array name="bodyMuscle">
+        <item>Svalnatost&#8230;</item>
+        <item>Ne svalnatý</item>
+        <item>Trochu svalnatý</item>
+        <item>Příliš svalnatý</item>
+    </string-array>
+    <string-array name="bodyBreasts">
+        <item>Velikost prsou&#8230;</item>
+        <item>Normální prsa</item>
+        <item>Výrazná prsa</item>
+        <item>Velká prsa</item>
+    </string-array>
+    <string-array name="bodyPenis">
+        <item>Velikost penisu&#8230;</item>
+        <item>Krátký penis</item>
+        <item>Střední penis</item>
+        <item>Dlouhý penis</item>
+    </string-array>
+
+    <!-- People -->
+    <string name="people">Lidé</string>
 
     <!-- Places -->
     <string name="places">Místa</string>
