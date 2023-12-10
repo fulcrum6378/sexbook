@@ -10,6 +10,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.TypeAdapter
+import com.google.gson.TypeAdapterFactory
+import com.google.gson.reflect.TypeToken
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -30,7 +34,7 @@ class Exporter(val c: BaseActivity) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
         else "application/json"
 
-    private var exportLauncher: ActivityResultLauncher<Intent> =
+    private val exportLauncher: ActivityResultLauncher<Intent> =
         c.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
             CoroutineScope(Dispatchers.IO).launch {
@@ -51,11 +55,23 @@ class Exporter(val c: BaseActivity) {
             }
         }
 
-    private var importLauncher: ActivityResultLauncher<Intent> =
+    private val importLauncher: ActivityResultLauncher<Intent> =
         c.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
             import(c, it.data!!.data!!)
         }
+
+    private val typeAdapterFactory = object : TypeAdapterFactory {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : Any?> create(gson: Gson?, type: TypeToken<T>?): TypeAdapter<T>? =
+            when (type?.rawType) {
+                Report::class.java -> Report.GsonAdapter() as TypeAdapter<T>
+                Crush::class.java -> Crush.GsonAdapter() as TypeAdapter<T>
+                Place::class.java -> Place.GsonAdapter() as TypeAdapter<T>
+                Guess::class.java -> Guess.GsonAdapter() as TypeAdapter<T>
+                else -> null
+            }
+    }
 
     fun launchExport() {
         if (!export()) return
@@ -122,7 +138,8 @@ class Exporter(val c: BaseActivity) {
         }
         val imported: Exported
         try {
-            imported = Gson().fromJson(data, Exported::class.java)
+            imported = GsonBuilder().registerTypeAdapterFactory(typeAdapterFactory).create()
+                .fromJson(data, Exported::class.java)
         } catch (e: Exception) {
             Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
             return
@@ -175,7 +192,7 @@ class Exporter(val c: BaseActivity) {
         }
     }
 
-    class Exported(
+    inner class Exported(
         val reports: Array<Report>?,
         val crushes: Array<Crush>?,
         val places: Array<Place>?,
@@ -184,6 +201,7 @@ class Exporter(val c: BaseActivity) {
     ) {
         fun isEmpty() = reports.isNullOrEmpty()
 
-        fun binary() = Gson().toJson(this).toByteArray()
+        fun binary() = GsonBuilder().registerTypeAdapterFactory(typeAdapterFactory).create()
+            .toJson(this).toByteArray()
     }
 }

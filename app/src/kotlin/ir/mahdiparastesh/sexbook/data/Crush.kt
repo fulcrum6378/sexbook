@@ -7,6 +7,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.google.gson.TypeAdapter
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.toDefaultType
@@ -18,7 +21,7 @@ import kotlin.experimental.and
 
 @Entity
 class Crush(
-    @PrimaryKey val key: String,
+    @PrimaryKey var key: String,
     @ColumnInfo(name = "first_name") var fName: String?,
     @ColumnInfo(name = "middle_name") var mName: String?,
     @ColumnInfo(name = "last_name") var lName: String?,
@@ -30,6 +33,11 @@ class Crush(
     @ColumnInfo(name = "first_met") var first: String?,
     @ColumnInfo(name = "instagram") var insta: String?,
 ) {
+    constructor() : this(
+        "", null, null, null, 0, null, 0f, 0,
+        null, null, null
+    )
+
     companion object {
         /** `status` offset 0; 3 bits; their gender (0..4)
          * 0=>unspecified, 1=>female, 2=>male, 3=>bigender, 4=>agender, (5,6,7) */
@@ -159,6 +167,44 @@ class Crush(
                 .compareTo(b.fCalendar(c)?.timeInMillis ?: 0L)
             Fun.SORT_BY_LAST -> (a.last(c.m) ?: 0L).compareTo(b.last(c.m) ?: 0L)
             else -> throw IllegalArgumentException("Invalid sorting method!")
+        }
+    }
+
+    class GsonAdapter : TypeAdapter<Crush>() {
+        override fun write(w: JsonWriter, o: Crush) {
+            w.beginObject()
+            w.name("key").value(o.key)
+            if (!o.fName.isNullOrBlank()) w.name("first_name").value(o.fName)
+            if (!o.mName.isNullOrBlank()) w.name("middle_name").value(o.mName)
+            if (!o.lName.isNullOrBlank()) w.name("last_name").value(o.lName)
+            if (o.status != 0.toByte()) w.name("status").value(o.status)
+            if (!o.birth.isNullOrBlank()) w.name("birth").value(o.birth)
+            if (o.height != -1f) w.name("height").value(o.height)
+            if (o.body != 0) w.name("body").value(o.body)
+            if (!o.address.isNullOrBlank()) w.name("address").value(o.address)
+            if (!o.first.isNullOrBlank()) w.name("first_met").value(o.first)
+            if (!o.insta.isNullOrBlank()) w.name("instagram").value(o.insta)
+            w.endObject()
+        }
+
+        override fun read(r: JsonReader): Crush {
+            val o = Crush()
+            r.beginObject()
+            while (r.hasNext()) when (r.nextName()) {
+                "key" -> o.key = r.nextString()
+                "first_name", "fName" -> o.fName = r.nextString()
+                "middle_name", "mName" -> o.mName = r.nextString()
+                "last_name", "lName" -> o.lName = r.nextString()
+                "status" -> o.status = r.nextInt().toByte()
+                "birth" -> o.birth = r.nextString()
+                "height" -> o.height = r.nextDouble().toFloat()
+                "body" -> o.body = r.nextInt()
+                "address" -> o.address = r.nextString()
+                "first_met", "first" -> o.first = r.nextString()
+                "instagram", "insta" -> o.insta = r.nextString()
+            }
+            r.endObject()
+            return o
         }
     }
 }
