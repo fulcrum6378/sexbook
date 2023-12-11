@@ -107,6 +107,7 @@
     <string name="birth">Birthday</string>
     <string name="heightInCM">Height (cm)</string>
     <string name="address">Address</string>
+    <string name="creator">Creator(s)</string>
     <string name="firstMet">First Met</string>
     <string name="notifyBirth">Notify me in their birthday</string>
     <string name="crushClear">Clear Information: %s</string>

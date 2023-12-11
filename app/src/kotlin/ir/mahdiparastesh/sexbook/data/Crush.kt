@@ -34,7 +34,7 @@ class Crush(
     @ColumnInfo(name = "instagram") var insta: String?,
 ) {
     constructor() : this(
-        "", null, null, null, 0, null, 0f, 0,
+        "", null, null, null, 0, null, -1f, 0,
         null, null, null
     )
 

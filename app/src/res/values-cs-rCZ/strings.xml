@@ -104,6 +104,7 @@
     <string name="birth">Narozeniny</string>
     <string name="heightInCM">Výška (cm)</string>
     <string name="address">Adresa</string>
+    <string name="creator">Tvůrci</string>
     <string name="firstMet">Se poprvé setkali</string>
     <string name="notifyBirth">Upozornit mě na jejich narozeniny</string>
     <string name="crushClear">Vymažte informace: %s</string>

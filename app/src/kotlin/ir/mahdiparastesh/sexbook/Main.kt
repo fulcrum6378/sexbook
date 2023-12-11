@@ -461,6 +461,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Searching in Summary and Recency is so immature!
   * -
   * Extension:
+  * "Include non-orgasm sex records in statistics" checkbox in Settings
+  * Taste (needs ViewPager2 to be implemented first!)
   * "Turn off notifications for this Crush" on the notification
-  * Pleasure score for Reports ("How did it feel?" onLongClick)
   */

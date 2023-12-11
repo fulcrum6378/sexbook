@@ -105,6 +105,7 @@
     <string name="birth">День рождения</string>
     <string name="heightInCM">Рост (см)</string>
     <string name="address">Адрес</string>
+    <string name="creator">Создатели</string>
     <string name="firstMet">Первая встреча</string>
     <string name="notifyBirth">Сообщите мне об их дне рождения</string>
     <string name="crushClear">Очистить информацию: %s</string>

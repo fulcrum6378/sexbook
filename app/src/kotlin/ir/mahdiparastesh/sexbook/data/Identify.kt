@@ -293,6 +293,7 @@ class Identify() : BaseDialog() {
         b.birthSep.vis(!bb)
         b.notifyBirth.vis(!bb)
         b.instagram.vis(!bb)
+        b.address.hint = if (bb) getString(R.string.creator) else getString(R.string.address)
     }
 
     private fun bodyAttrSpinnerAdapter(@ArrayRes arr: Int) = ArrayAdapter(

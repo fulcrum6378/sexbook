@@ -106,6 +106,7 @@
     <string name="birth">Cumpleaños</string>
     <string name="heightInCM">Altura (cm)</string>
     <string name="address">Dirección</string>
+    <string name="creator">Creador(es)</string>
     <string name="firstMet">Primer encuentro</string>
     <string name="notifyBirth">Avísame en su cumpleaños</string>
     <string name="crushClear">Borrar la información: %s</string>

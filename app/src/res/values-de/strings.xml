@@ -104,6 +104,7 @@
     <string name="birth">Geburtstag</string>
     <string name="heightInCM">Höhe (cm)</string>
     <string name="address">Adresse</string>
+    <string name="creator">Schöpfer</string>
     <string name="firstMet">Erstes Treffen</string>
     <string name="notifyBirth">Benachrichtigen Sie mich an ihrem Geburtstag</string>
     <string name="crushClear">Klar Informationen: %s</string>
