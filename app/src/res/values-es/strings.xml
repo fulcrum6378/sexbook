@@ -208,6 +208,7 @@
     <string name="stSexTypesTitle">Filtrar estadísticas por tipo de sexo</string>
     <string name="stSexTypeInclude">Incluir %s</string>
     <string name="stStatOnlyCrushes">Sólo estadísticamente mis amores</string>
+    <string name="stStatNonOrgasm">Estadísticar los registros sexuales sin orgasmo</string>
     <string name="stVibration">Vibración para botones importantes</string>
     <string name="stBirthdays">Cumpleaños</string>
     <string name="stCalOutput">Listar cumpleaños en el calendario del sistema.</string>

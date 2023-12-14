@@ -206,6 +206,7 @@
     <string name="stSexTypesTitle">Statistiken nach Geschlechtstyp filtern</string>
     <string name="stSexTypeInclude">%s einbeziehen</string>
     <string name="stStatOnlyCrushes">Statistik nur meine Schwärmereien</string>
+    <string name="stStatNonOrgasm">Statistiken über Sex außerhalb des Orgasmus statistisch erstellen</string>
     <string name="stVibration">Bei wichtigen Tasten vibrieren</string>
     <string name="stBirthdays">Geburtstage</string>
     <string name="stCalOutput">Geburtstage im Systemkalender auflisten</string>

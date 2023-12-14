@@ -206,6 +206,7 @@
     <string name="stSexTypesTitle">Фильтровать статистику по типу пола</string>
     <string name="stSexTypeInclude">Включите %s</string>
     <string name="stStatOnlyCrushes">Только статистика моей любви</string>
+    <string name="stStatNonOrgasm">Статистическая обработка записей о сексе без оргазма</string>
     <string name="stVibration">Вибрация для важных кнопок</string>
     <string name="stBirthdays">Дни рождения</string>
     <string name="stCalOutput">Список дней рождения в системном календаре</string>

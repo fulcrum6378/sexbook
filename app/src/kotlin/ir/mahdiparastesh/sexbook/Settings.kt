@@ -48,6 +48,7 @@ class Settings : BaseActivity() {
         const val spStatUntil = "statisticiseUntil" // Long
         const val spStatInclude = "statisticiseInclude" // + s; Boolean, def true
         const val spStatOnlyCrushes = "statisticiseOnlyCrushes" // Boolean, def false
+        const val spStatNonOrgasm = "statNonOrgasm" // Boolean, def true
         const val spVibration = "vibration" // Boolean, def true
         const val spCalOutput = "calendarOutput" // Boolean, def false
         const val spGregorianForBirthdays = "useGregorianForBirthdays"// Boolean
@@ -223,10 +224,15 @@ class Settings : BaseActivity() {
             })
         }
 
-        // Statisticise only crushes
+        // Other statistical tweaks
         b.stStatOnlyCrushes.isChecked = sp.getBoolean(spStatOnlyCrushes, false)
         b.stStatOnlyCrushes.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spStatOnlyCrushes, isChecked).apply()
+            c.shake()
+        }
+        b.stStatNonOrgasm.isChecked = sp.getBoolean(spStatNonOrgasm, true)
+        b.stStatNonOrgasm.setOnCheckedChangeListener { _, isChecked ->
+            sp.edit().putBoolean(spStatNonOrgasm, isChecked).apply()
             c.shake()
         }
 

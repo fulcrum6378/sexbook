@@ -210,6 +210,7 @@
     <string name="stSexTypesTitle">Filter Statistics by Sex Type</string>
     <string name="stSexTypeInclude">Include %s</string>
     <string name="stStatOnlyCrushes">Only statisticise my crushes</string>
+    <string name="stStatNonOrgasm">Statisticise non-orgasm sex records</string>
     <string name="stVibration">Vibration for important buttons</string>
     <string name="stBirthdays">Birthdays</string>
     <string name="stCalOutput">List birthdays in the system calendar</string>

@@ -380,6 +380,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             filtered = filtered.filter { it.type in allowedTypes }
                 .also { nExcluded += filtered.size - it.size }
 
+        // Filter non-orgasm sex records if enabled
+        if (!sp.getBoolean(Settings.spStatNonOrgasm, true))
+            filtered = filtered.filter { it.ogsm }
+                .also { nExcluded += filtered.size - it.size }
+
         m.summary = Summary(filtered, nExcluded, m.onani!!.size).apply {
             // Filter if only crushes wanted
             if (sp.getBoolean(Settings.spStatOnlyCrushes, false)) {
@@ -461,7 +466,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Searching in Summary and Recency is so immature!
   * -
   * Extension:
-  * "Include non-orgasm sex records in statistics" checkbox in Settings
   * Taste (needs ViewPager2 to be implemented first!)
   * "Turn off notifications for this Crush" on the notification
   */

@@ -17,7 +17,9 @@ class Report(
     var desc: String?,
     var accu: Boolean,
     var plac: Long,
-    var ogsm: Boolean, // Mixture, Intervals and whenWasTheLastTime() require this
+    /** Mixture, Intervals and whenWasTheLastTime() require this.
+     * Main::summarize() requires this if "spStatNonOrgasm" is checked in Settings. */
+    var ogsm: Boolean,
     var frtn: Byte, // fortuna
 ) {
     @PrimaryKey(autoGenerate = true)

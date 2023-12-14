@@ -204,6 +204,7 @@
     <string name="stSexTypesTitle">Filtrovat statistiky podle typu pohlaví</string>
     <string name="stSexTypeInclude">Zahrnout %s</string>
     <string name="stStatOnlyCrushes">Jen statistiku mých zamilovaných</string>
+    <string name="stStatNonOrgasm">Statistika záznamů o sexu bez orgasmu</string>
     <string name="stVibration">Vibrace pro důležitá tlačítka</string>
     <string name="stBirthdays">Narozeniny</string>
     <string name="stCalOutput">Seznam narozenin v systémovém kalendáři</string>
