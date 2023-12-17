@@ -27,10 +27,11 @@ class PageSex : BasePage() {
     lateinit var b: PageSexBinding
     var filters: List<Report.Filter> = listOf()
 
-    /*companion object {
-        const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
-        const val DISMISSAL_REFRAIN_FROM_AD_TIMES = 3
-    }*/
+    companion object {
+        const val PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME = 5
+        //const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
+        //const val DISMISSAL_REFRAIN_FROM_AD_TIMES = 3
+    }
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
         PageSexBinding.inflate(layoutInflater, parent, false).apply { b = this }.root
@@ -150,8 +151,17 @@ class PageSex : BasePage() {
         if (adding) return
         adding = true
         CoroutineScope(Dispatchers.IO).launch {
+            var name = ""
+            c.m.onani?.size?.also { total ->
+                if (total < PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME) return@also
+                name = c.m.onani!![total - 1].name ?: ""
+                if (name == "") return@also
+                for (r in (total - 2) downTo (total - PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME))
+                    if (name != c.m.onani?.get(r)?.name) { // don't use ".."
+                        name = ""; break; }
+            }
             val newOne = Report(
-                Fun.now(), "", c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
+                Fun.now(), name, c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
                 "", true, c.sp.getLong(Settings.spDefPlace, -1L), true, -127
             )
             newOne.id = c.m.dao.rInsert(newOne)

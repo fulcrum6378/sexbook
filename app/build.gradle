@@ -23,7 +23,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 38
-        versionName '23.3.0'
+        versionName '23.3.8'
         signingConfig signingConfigs.main
     }
     sourceSets.main {
@@ -51,7 +51,6 @@ android {
         }
     }
     android.variantFilter { if (it.buildType.name in ['debug', 'androidTest']) it.setIgnore(true) }
-    tasks.configureEach { if (it.name == "lint" || it.name.contains("Test")) it.enabled = false }
 }
 
 dependencies {
