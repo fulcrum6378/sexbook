@@ -16,6 +16,7 @@ import androidx.annotation.ArrayRes
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
@@ -23,7 +24,6 @@ import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Fun.toGregorian
-import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
@@ -70,8 +70,8 @@ class Identify() : BaseDialog() {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
                 b.gender.alpha = if (i == 0) DISABLED_ALPHA else 1f
-                b.bodyBreasts.vis(i == 1 || i == 3)
-                b.bodyPenis.vis(i == 2 || i == 3)
+                b.bodyBreasts.isVisible = i == 1 || i == 3
+                b.bodyPenis.isVisible = i == 2 || i == 3
             }
         }
 
@@ -289,10 +289,10 @@ class Identify() : BaseDialog() {
     }
 
     private fun onFictionChanged(bb: Boolean) {
-        b.birth.vis(!bb)
-        b.birthSep.vis(!bb)
-        b.notifyBirth.vis(!bb)
-        b.instagram.vis(!bb)
+        b.birth.isVisible = !bb
+        b.birthSep.isVisible = !bb
+        b.notifyBirth.isVisible = !bb
+        b.instagram.isVisible = !bb
         b.address.hint = if (bb) getString(R.string.creator) else getString(R.string.address)
     }
 

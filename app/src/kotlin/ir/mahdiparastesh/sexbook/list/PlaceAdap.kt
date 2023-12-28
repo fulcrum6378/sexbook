@@ -5,10 +5,10 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.Fun.shake
-import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
@@ -50,7 +50,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
 
         // Sum
         (c.m.places!![i].sum >= 0L).apply {
-            h.b.sum.vis(this)
+            h.b.sum.isVisible = this
             h.b.sum.text = if (this) "{${c.m.places!![i].sum}}" else ""
         }
 

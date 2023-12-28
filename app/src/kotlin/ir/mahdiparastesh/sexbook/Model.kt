@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook
 
 import androidx.annotation.MainThread
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -62,23 +63,24 @@ class Model : ViewModel() {
     @MainThread
     fun onCrushChanged(c: BaseActivity, crush: Crush, changeType: Int) {
         val pageLove = if (c is Main) c.pageLove() else null
-        val aPos = c.m.people?.indexOfFirst { it.key == crush.key }
-        val pos = c.m.liefde?.indexOfFirst { it.key == crush.key }
+        val aPos = people?.indexOfFirst { it.key == crush.key }
+        val pos = liefde?.indexOfFirst { it.key == crush.key }
         if (changeType != 2) { // insert, update
             if (crush.active()) {
-                if (pos != null && pos != -1) c.m.liefde?.set(pos, crush)
-                else c.m.liefde?.add(crush)
-                if (c is Main) {
+                if (pos != null && pos != -1) liefde?.set(pos, crush)
+                else liefde?.add(crush)
+                pageLove?.apply {
                     // b.rv.adapter?.notifyItemChanged(it)
-                    pageLove?.prepareList() // so they can be sorted
+                    prepareList() // so they can be sorted
                 }
             } else if (pos != null && pos != -1) { // deactivated
-                c.m.liefde?.removeAt(pos)
-                if (c is Main) {
-                    pageLove?.b?.rv?.adapter?.notifyItemRemoved(pos)
-                    pageLove?.b?.rv?.adapter?.notifyItemRangeChanged(
+                liefde?.removeAt(pos)
+                pageLove?.apply {
+                    b.rv.adapter?.notifyItemRemoved(pos)
+                    b.rv.adapter?.notifyItemRangeChanged(
                         pos, pageLove.b.rv.adapter!!.itemCount - pos
                     )
+                    b.empty.isVisible = liefde.isNullOrEmpty()
                 }
             }
             if (aPos != null && aPos != -1) people?.set(aPos, crush)
@@ -87,12 +89,13 @@ class Model : ViewModel() {
                 c.arrangeList() // so they can be sorted
         } else { // delete
             if (crush.active() && pos != -1) pos?.also {
-                c.m.liefde?.removeAt(it)
-                if (c is Main) {
-                    pageLove?.b?.rv?.adapter?.notifyItemRemoved(it)
-                    pageLove?.b?.rv?.adapter?.notifyItemRangeChanged(
+                liefde?.removeAt(it)
+                pageLove?.apply {
+                    b.rv.adapter?.notifyItemRemoved(it)
+                    b.rv.adapter?.notifyItemRangeChanged(
                         it, pageLove.b.rv.adapter!!.itemCount - it
                     )
+                    b.empty.isVisible = liefde.isNullOrEmpty()
                 }
             }
             if (aPos != -1) aPos?.also {
@@ -106,12 +109,12 @@ class Model : ViewModel() {
             }
         }
         if (c is Main)
-            c.count(c.m.liefde?.size ?: 0)
+            c.count(liefde?.size ?: 0)
         else {
             PageLove.changed = true
             if (c is Singular) c.crush = crush
         }
-        c.m.calManager?.apply { CoroutineScope(Dispatchers.IO).launch { replaceEvents(liefde) } }
+        calManager?.apply { CoroutineScope(Dispatchers.IO).launch { replaceEvents(liefde) } }
     }
 
     fun summaryCrushes() = summary?.let { ArrayList(it.scores.keys) } ?: arrayListOf<String>()

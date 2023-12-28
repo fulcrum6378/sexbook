@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ir.mahdiparastesh.sexbook.Fun.vis
+import androidx.core.view.isVisible
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
@@ -50,7 +50,7 @@ class PageLove : BasePage() {
         c.m.liefde?.sortWith(Crush.Sort(c, Settings.spPageLoveSortBy))
         if (!c.sp.getBoolean(Settings.spPageLoveSortAsc, true)) c.m.liefde?.reverse()
         c.count(c.m.liefde?.size ?: 0)
-        if (b.empty.vis(c.m.liefde.isNullOrEmpty())) return
+        b.empty.isVisible = c.m.liefde.isNullOrEmpty()
         if (b.rv.adapter == null) b.rv.adapter = CrushAdap(c)
         else b.rv.adapter?.notifyDataSetChanged()
     }

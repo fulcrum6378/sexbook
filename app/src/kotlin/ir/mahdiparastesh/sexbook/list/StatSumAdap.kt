@@ -3,11 +3,11 @@ package ir.mahdiparastesh.sexbook.list
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import ir.mahdiparastesh.sexbook.Fun.show
-import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.SumChipGroupBinding
@@ -48,10 +48,10 @@ class StatSumAdap(
                     }
                 }
                 isActivated = bb
-                vis(true)
+                isVisible = true
             }
         for (hide in arr[i].value.size + 1 until h.b.root.childCount)
-            h.b.root.getChildAt(hide).vis(false)
+            h.b.root.getChildAt(hide).isVisible = false
     }
 
     override fun getItemCount() = arr.size

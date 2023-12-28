@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
@@ -19,7 +20,6 @@ import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
-import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.PageSex
@@ -140,7 +140,8 @@ class ReportAdap(
             h.b.clock.setOnClickListener(null)
             h.b.date.setOnClickListener(null)
         }
-        for (tim in arrayOf(h.b.clockHour, h.b.clockMin, h.b.point, h.b.ampm)) tim.vis(!r.guess)
+        for (tim in arrayOf(h.b.clockHour, h.b.clockMin, h.b.point, h.b.ampm))
+            tim.isVisible = !r.guess
         h.b.clock.background = if (!r.guess) clockBg else etIcon
         if (r.guess && c.night()) h.b.clock.background = h.b.clock.background
             .apply { colorFilter = c.themePdcf(com.google.android.material.R.attr.colorSecondary) }
@@ -185,7 +186,7 @@ class ReportAdap(
             turnOverflow(i, h.b, expansion[i])
         } else {
             h.b.root.setOnClickListener(null)
-            h.b.desc.vis(false)
+            h.b.desc.isVisible = false
         }
 
         // Descriptions
@@ -215,7 +216,7 @@ class ReportAdap(
             if (r.plac == -1L || places.isEmpty()) 0
             else placePos(r.plac, places) + 1, true
         )
-        if (r.guess) h.b.place.vis()
+        if (r.guess) h.b.place.isVisible = true
         h.b.place.isEnabled = !r.guess
 
         // Long Click
@@ -315,8 +316,8 @@ class ReportAdap(
 
     private fun turnOverflow(i: Int, b: ItemReportBinding, expand: Boolean = !expansion[i]) {
         expansion[i] = expand
-        b.desc.vis(expand)
-        b.place.vis(expand)
+        b.desc.isVisible = expand
+        b.place.isVisible = expand
     }
 
     inner class OnPlaceSelectedListener : AdapterView.OnItemSelectedListener,

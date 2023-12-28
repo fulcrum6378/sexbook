@@ -74,7 +74,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                 }
             }).apply {
                 menu.findItem(R.id.lcInstagram).isEnabled = ins != null && ins != ""
-                val sum = c.m.summary?.scores?.get(c.m.liefde!![i].key)
+                val sum = cr?.key?.let { c.m.summary?.scores?.get(it) }
                     ?.sumOf { it.value.toDouble() }
                 menu.findItem(R.id.lcStatistics).isEnabled = sum != null && sum > 0.0
             }.show()

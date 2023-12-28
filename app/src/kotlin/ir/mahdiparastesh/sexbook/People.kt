@@ -6,8 +6,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toolbar
 import androidx.core.content.edit
+import androidx.core.view.isVisible
 import com.google.android.material.badge.BadgeDrawable
-import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
 import ir.mahdiparastesh.sexbook.list.PersonAdap
@@ -57,7 +57,8 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     @SuppressLint("NotifyDataSetChanged")
     fun arrangeList() {
-        if (b.empty.vis(m.people.isNullOrEmpty())) return
+        b.empty.isVisible = m.people.isNullOrEmpty()
+        if (m.people.isNullOrEmpty()) return
         m.people?.sortWith(Crush.Sort(this, Settings.spPeopleSortBy))
         if (!sp.getBoolean(Settings.spPeopleSortAsc, true)) m.people?.reverse()
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)

@@ -9,7 +9,11 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
-import android.os.*
+import android.os.Build
+import android.os.CountDownTimer
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
@@ -92,16 +96,6 @@ object Fun {
     fun z(n: Int): String {
         val s = n.toString()
         return if (s.length == 1) "0$s" else s
-    }
-
-    /**
-     * Switches visibility of a View between VISIBLE and GONE
-     * @param b false for GONE, defaults to true: VISIBLE
-     * @return b
-     */
-    fun View.vis(b: Boolean = true): Boolean {
-        visibility = if (b) View.VISIBLE else View.GONE
-        return b
     }
 
     /** Proper implementation of Vibration in across different supported APIs. */

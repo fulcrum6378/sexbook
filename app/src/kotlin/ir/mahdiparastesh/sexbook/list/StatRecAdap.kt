@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.fullDate
-import ir.mahdiparastesh.sexbook.Fun.vis
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -34,7 +34,7 @@ class StatRecAdap(private val c: Main, private val searchable: BaseDialog.Search
         val lm = c.m.recency[i].time.calendar(c)
         h.b.date.text = "${lm.fullDate()} - " +
                 "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
-        h.b.sep.vis(i != c.m.recency.size - 1)
+        h.b.sep.isVisible = i != c.m.recency.size - 1
         h.b.root.setOnClickListener {
             if (!c.summarize(true)) return@setOnClickListener
             c.goTo(Singular::class) {
