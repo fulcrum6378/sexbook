@@ -7,6 +7,7 @@
     <color name="textHighlight">#AAFFFFFF</color>
     <color name="dialogHint">#AFFFD422</color>
     <color name="editTextOnYellow">@color/weakBlack</color>
+    <color name="fastScrollLine">#11FFFFFF</color>
 
     <!-- Main -->
     <color name="mrvClockPoint">?colorPrimaryVariant</color>

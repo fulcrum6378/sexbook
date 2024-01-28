@@ -98,6 +98,15 @@
         <item name="android:textSize">@dimen/spnFont</item>
     </style>
 
+    <style name="longRecyclerView">
+        <item name="fastScrollEnabled">true</item>
+        <item name="fastScrollHorizontalThumbDrawable">@drawable/fast_scroll_thumb</item>
+        <item name="fastScrollHorizontalTrackDrawable">@drawable/fast_scroll_line</item>
+        <item name="fastScrollVerticalThumbDrawable">@drawable/fast_scroll_thumb</item>
+        <item name="fastScrollVerticalTrackDrawable">@drawable/fast_scroll_line</item>
+        <!-- all 4 are required, even if not used! -->
+    </style>
+
 
     <!-- #TextAppearance -->
     <style name="TextAppearance.Sexbook.Toolbar" parent="@android:style/TextAppearance">
