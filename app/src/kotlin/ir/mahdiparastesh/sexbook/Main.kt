@@ -468,5 +468,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * -
   * Extension:
   * Taste (needs ViewPager2 to be implemented first!)
+  * Searching feature for People
+  * "Filtring" alongside sorting for People
+  * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification
   */

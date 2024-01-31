@@ -12,7 +12,6 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.more.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CalendarManager
-import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.stat.Summary
 import kotlinx.coroutines.CoroutineScope
@@ -40,14 +39,15 @@ class Model : ViewModel() {
     /** Holds all estimations. */
     var guesses: ArrayList<Guess>? = null
 
+    /** Main data structure for most statistical analyses. */
+    var summary: Summary? = null
+
     /** Interface for controlling this app's calendar events in the system calendar. */
     var calManager: CalendarManager? = null
 
     var loaded = false
     var currentPage = 0
     var listFilter = -1
-    var summary: Summary? = null
-    var recency: ArrayList<Recency.Item> = ArrayList()
     var navOpen = false
 
     fun findGlobalIndexOfReport(id: Long) =

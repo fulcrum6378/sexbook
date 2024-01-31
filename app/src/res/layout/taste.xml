@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.viewpager2.widget.ViewPager2 xmlns:tools="http://schemas.android.com/tools"
     style="@style/body"
-    tools:context=".stat.Adorability"
-    tools:ignore="MissingConstraints">
-
-    <ir.mahdiparastesh.hellocharts.view.PieChartView
-        android:id="@+id/main"
-        style="@style/statChart" />
-
-    <TextView
-        style="@style/statTitle"
-        android:text="@string/taste" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    tools:context=".stat.Taste" />

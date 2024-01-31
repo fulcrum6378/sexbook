@@ -9,41 +9,44 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.fullDate
+import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.RecencyBinding
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
-import ir.mahdiparastesh.sexbook.more.BaseDialog
+import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Singular
 
-class StatRecAdap(private val c: Main, private val searchable: BaseDialog.SearchableStat) :
+class StatRecAdap(private val r: Recency) :
     RecyclerView.Adapter<AnyViewHolder<RecencyBinding>>() {
-    private val curCrushes: List<String>? = c.m.liefde?.map { it.key }
-    private val statOnlyCrushes = c.sp.getBoolean(Settings.spStatOnlyCrushes, false)
+    private val curCrushes: List<String>? = r.c.m.liefde?.map { it.key }
+    private val statOnlyCrushes = r.c.sp.getBoolean(Settings.spStatOnlyCrushes, false)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             AnyViewHolder<RecencyBinding> =
-        AnyViewHolder(RecencyBinding.inflate(c.layoutInflater, parent, false))
+        AnyViewHolder(RecencyBinding.inflate(r.c.layoutInflater, parent, false))
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<RecencyBinding>, i: Int) {
-        val crushKey = c.m.recency[i].name
+        val crushKey = r.items[i].name
         h.b.name.text = "${i + 1}. $crushKey" +
-                (if (!statOnlyCrushes && curCrushes?.contains(crushKey) == true) "*" else "")
-        val lm = c.m.recency[i].time.calendar(c)
+                (if (!statOnlyCrushes && curCrushes?.contains(crushKey) == true) "*" else "") +
+                (r.c.m.summary!!.scores[crushKey]?.sumOf { it.value.toDouble() }?.toFloat()
+                    ?.show()?.let {" {$it}"} ?: "")
+        val lm = r.items[i].time.calendar(r.c)
         h.b.date.text = "${lm.fullDate()} - " +
                 "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
-        h.b.sep.isVisible = i != c.m.recency.size - 1
+        h.b.sep.isVisible = i != r.items.size - 1
         h.b.root.setOnClickListener {
-            if (!c.summarize(true)) return@setOnClickListener
-            c.goTo(Singular::class) {
-                putExtra(Singular.EXTRA_CRUSH_KEY, c.m.recency[h.layoutPosition].name)
+            if (!(r.c as Main).summarize(true)) return@setOnClickListener
+            r.c.goTo(Singular::class) {
+                putExtra(Singular.EXTRA_CRUSH_KEY, r.items[h.layoutPosition].name)
             }
         }
-        h.b.root.foreground = if (searchable.lookForIt(crushKey))
-            ColorDrawable(c.color(R.color.recencyHighlight)) else null
+        h.b.root.foreground = if (r.lookForIt(crushKey))
+            ColorDrawable(r.c.color(R.color.recencyHighlight)) else null
     }
 
-    override fun getItemCount() = c.m.recency.size
+    override fun getItemCount() = r.items.size
 }
