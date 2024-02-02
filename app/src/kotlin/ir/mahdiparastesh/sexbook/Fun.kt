@@ -244,6 +244,12 @@ object Fun {
     fun Float.show(): String =
         if (this % 1 > 0) DecimalFormat("#.##").format(this) else toInt().toString()
 
+    inline fun <T> Iterable<T>.sumOf(selector: (T) -> Float): Float {
+        var sum = 0f
+        for (element in this) sum += selector(element)
+        return sum
+    }
+
     /**
      * Data class that indicates a sex type.
      * @param name visible name
