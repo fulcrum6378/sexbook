@@ -64,7 +64,7 @@ class Taste : BaseActivity() {
             myJob = CoroutineScope(Dispatchers.IO).launch {
                 val drawn = draw()
                 withContext(Dispatchers.Main) {
-                    render(drawn)
+                    b.main.pieChartData = drawn as PieChartData
                     b.main.isInvisible = false
                 }
                 myJob?.also { c.jobs.remove(it) }
@@ -74,9 +74,6 @@ class Taste : BaseActivity() {
         }
 
         abstract suspend fun draw(): AbstractChartData
-
-        @MainThread
-        abstract suspend fun render(data: AbstractChartData)
     }
 
     class GenderTaste : TasteFragment() {
@@ -113,10 +110,6 @@ class Taste : BaseActivity() {
                 })
             }
             return PieChartData(data).apply { setHasLabels(true) }
-        }
-
-        override suspend fun render(data: AbstractChartData) {
-            b.main.pieChartData = data as PieChartData
         }
     }
 

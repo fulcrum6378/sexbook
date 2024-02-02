@@ -73,10 +73,10 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                     }
                 }
             }).apply {
-                menu.findItem(R.id.lcInstagram).isEnabled = ins != null && ins != ""
+                menu.findItem(R.id.lcInstagram).isVisible = ins != null && ins != ""
                 val sum = cr?.key?.let { c.m.summary?.scores?.get(it) }
                     ?.sumOf { it.value.toDouble() }
-                menu.findItem(R.id.lcStatistics).isEnabled = sum != null && sum > 0.0
+                menu.findItem(R.id.lcStatistics).isVisible = sum != null && sum > 0.0
             }.show()
         }
         h.b.root.setOnLongClickListener {
@@ -87,7 +87,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
     override fun getItemCount() = c.m.liefde?.size ?: 0
 
     private fun identify(crush: Crush) {
-        Identify(crush).apply {
+        Identify(c, crush).apply {
             arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crush.key) }
             show(c.supportFragmentManager, Identify.TAG)
         }

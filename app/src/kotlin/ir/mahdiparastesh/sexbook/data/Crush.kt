@@ -59,16 +59,16 @@ class Crush(
          * 0=>unspecified, 1=>black, 2=>brown, 3=>olive, 4=>medium, 5=>fair, 6=>pale, (7) */
         val BODY_SKIN_COLOUR = 0x00000007 to 0
 
-        /** `body` offset  3; 3 bits; their hair colour (0..4)
-         * 0=>unspecified, 1=>black, 2=>brunette, 3=>blonde, 4=>red, (5,6,7) */
+        /** `body` offset  3; 3 bits; their hair colour (0..5)
+         * 0=>unspecified, 1=>black, 2=>brunette, 3=>blonde, 4=>red, 5=>other, (6,7) */
         val BODY_HAIR_COLOUR = (0x00000007 shl 3) to 3
 
-        /** `body` offset  6; 3 bits; their eye colour (0..6)
-         * 0=>unspecified, 1=>brown, 2=>hazel, 3=>blue, 4=>green, 5=>other (6,7) */
+        /** `body` offset  6; 3 bits; their eye colour (0..5)
+         * 0=>unspecified, 1=>brown, 2=>hazel, 3=>blue, 4=>green, 5=>other, (6,7) */
         val BODY_EYE_COLOUR = (0x00000007 shl 6) to 6
 
         /** `body` offset  9; 2 bits; whether they have round or almond eyes (0..2)
-         * 0=>unspecified, 1=>round, 2=>almond */
+         * 0=>unspecified, 1=>round, 2=>almond, (3) */
         val BODY_EYE_SHAPE = (0x00000003 shl 9) to 9
 
         /** `body` offset 11; 3 bits; their face shape (0..7)
@@ -92,6 +92,10 @@ class Crush(
          * do not merge into BODY_BREASTS for bigenders' sake.
          * 0=>unspecified, 1=>short, 2=>medium, 3=>long */
         val BODY_PENIS = (0x00000003 shl 20) to 20
+
+        /** `body` offset 22; 3 bits; their sexual orientation (0..)
+         * 0=>unspecified, 1=>heterosexual, 2=>homosexual, 3=>bisexual, 4=>asexual, 5=>other, (6,7) */
+        val BODY_SEXUALITY = (0x00000007 shl 22) to 22
     }
 
     fun active(): Boolean = (status and STAT_INACTIVE) == 0.toByte()

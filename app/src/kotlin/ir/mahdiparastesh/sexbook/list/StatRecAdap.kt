@@ -18,8 +18,7 @@ import ir.mahdiparastesh.sexbook.more.AnyViewHolder
 import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Singular
 
-class StatRecAdap(private val r: Recency) :
-    RecyclerView.Adapter<AnyViewHolder<RecencyBinding>>() {
+class StatRecAdap(private val r: Recency) : RecyclerView.Adapter<AnyViewHolder<RecencyBinding>>() {
     private val curCrushes: List<String>? = r.c.m.liefde?.map { it.key }
     private val statOnlyCrushes = r.c.sp.getBoolean(Settings.spStatOnlyCrushes, false)
 

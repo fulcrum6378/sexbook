@@ -130,6 +130,7 @@
         <item>Brunette hair</item>
         <item>Blonde hair</item>
         <item>Red hair</item>
+        <item>Other hair colour</item>
     </string-array>
     <string-array name="bodyEyeColour">
         <item>Eye colour&#8230;</item>
@@ -177,6 +178,14 @@
         <item>Short penis</item>
         <item>Medium penis</item>
         <item>Long penis</item>
+    </string-array>
+    <string-array name="bodySexuality"><!--TODO-->
+        <item>Sexual orientation&#8230;</item>
+        <item>Heterosexual</item>
+        <item>Homosexual</item>
+        <item>Bisexual</item>
+        <item>Asexual</item>
+        <item>Other</item>
     </string-array>
 
     <!-- People -->

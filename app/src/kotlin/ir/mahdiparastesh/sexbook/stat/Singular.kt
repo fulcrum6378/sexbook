@@ -26,7 +26,7 @@ class Singular : ChartActivity<SingularBinding>() {
         crush = m.people?.find { it.key == crushKey }
         b.title.text = crushKey
         b.identify.setOnClickListener {
-            Identify(crush).apply {
+            Identify(this@Singular, crush).apply {
                 arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crushKey) }
                 show(supportFragmentManager, Identify.TAG)
             }

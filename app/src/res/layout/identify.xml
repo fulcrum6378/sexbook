@@ -179,6 +179,10 @@
                 <Spinner
                     android:id="@+id/bodyPenis"
                     style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodySexuality"
+                    style="@style/identifyBodyAttr" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -59,7 +59,7 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
     override fun getItemCount() = c.m.people?.size ?: 0
 
     private fun identify(crush: Crush) {
-        Identify(crush).apply {
+        Identify(c, crush).apply {
             arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crush.key) }
             show(c.supportFragmentManager, Identify.TAG)
         }

@@ -3,11 +3,13 @@ package ir.mahdiparastesh.sexbook.data
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
@@ -17,6 +19,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
@@ -29,7 +32,6 @@ import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.more.BaseDialog
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,8 +40,9 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.and
 import kotlin.experimental.or
 
-class Identify() : BaseDialog() {
-    constructor(crush: Crush?) : this() {
+class Identify() : DialogFragment() {
+    constructor(c: BaseActivity, crush: Crush?) : this() {
+        this.c = c
         Companion.crush = crush
     }
 
@@ -50,15 +53,24 @@ class Identify() : BaseDialog() {
         var crush: Crush? = null
     }
 
+    private lateinit var c: BaseActivity
     private lateinit var b: IdentifyBinding
     private var isBirthSet = false
     private var isFirstSet = false
     private var bir: Calendar? = null
     private var fir: Calendar? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        c = context as BaseActivity
+    }
+
     @SuppressLint("NewApi")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        super.onCreateDialog(savedInstanceState)
+        Log.println(Log.ASSERT, "ZOEY", "A")
         b = IdentifyBinding.inflate(c.layoutInflater)
+        Log.println(Log.ASSERT, "ZOEY", "B")
         ContextCompat.getColorStateList(c, R.color.chip)
             .also { b.notifyBirth.trackTintList = it }
 
@@ -85,6 +97,7 @@ class Identify() : BaseDialog() {
         b.bodyBreasts.adapter = bodyAttrSpinnerAdapter(R.array.bodyBreasts)
         b.bodyPenis.adapter = bodyAttrSpinnerAdapter(R.array.bodyPenis)
         b.bodyMuscle.adapter = bodyAttrSpinnerAdapter(R.array.bodyMuscle)
+        b.bodySexuality.adapter = bodyAttrSpinnerAdapter(R.array.bodySexuality)
 
         // Default Values
         bir = crush?.bCalendar(c)
@@ -134,6 +147,9 @@ class Identify() : BaseDialog() {
             )
             b.bodyPenis.setSelection(
                 (crush!!.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second
+            )
+            b.bodySexuality.setSelection(
+                (crush!!.body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second
             )
         }
         if (bir == null) {
@@ -244,7 +260,8 @@ class Identify() : BaseDialog() {
                             (b.bodyFat.selectedItemPosition shl Crush.BODY_FAT.second) or
                             (b.bodyMuscle.selectedItemPosition shl Crush.BODY_MUSCLE.second) or
                             (b.bodyBreasts.selectedItemPosition shl Crush.BODY_BREASTS.second) or
-                            (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second),
+                            (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second) or
+                            (b.bodySexuality.selectedItemPosition shl Crush.BODY_SEXUALITY.second),
                     b.address.text.toString().ifBlank { null },
                     if (isFirstSet) "${endFir[Calendar.YEAR]}.${endFir[Calendar.MONTH] + 1}." +
                             "${endFir[Calendar.DAY_OF_MONTH]}" else null,
