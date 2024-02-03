@@ -47,6 +47,7 @@
     <string name="lastOrgasm">Последний оргазм</string>
     <string name="unspecified">Неопределенные</string>
     <string name="deactivate">Деактивировать</string>
+    <string name="gender">Пол</string>
 
     <!-- Main -->
     <string name="momImport">Импорт из Json</string>
@@ -127,6 +128,7 @@
         <item>Брюнетка с волосами</item>
         <item>Светлые волосы</item>
         <item>Красные волосы</item>
+        <item>Другой цвет волос</item>
     </string-array>
     <string-array name="bodyEyeColour">
         <item>Цвет глаз&#8230;</item>
@@ -174,6 +176,14 @@
         <item>Короткий пенис</item>
         <item>Средний пенис</item>
         <item>Длинный пенис</item>
+    </string-array>
+    <string-array name="bodySexuality">
+        <item>Сексуальная ориентация&#8230;</item>
+        <item>Гетеросексуальный</item>
+        <item>Гомосексуал</item>
+        <item>Бисексуал</item>
+        <item>Бесполый</item>
+        <item>Другой</item>
     </string-array>
 
     <!-- People -->

@@ -46,6 +46,7 @@
     <string name="lastOrgasm">Último Orgasmo</string>
     <string name="unspecified">No especificado</string>
     <string name="deactivate">Desactivar</string>
+    <string name="gender">Género</string>
 
     <!-- Main -->
     <string name="momImport">Importar desde Json</string>
@@ -129,6 +130,7 @@
         <item>Pelo castaño</item>
         <item>Pelo rubio</item>
         <item>Cabello rojo</item>
+        <item>Otro color de pelo</item>
     </string-array>
     <string-array name="bodyEyeColour">
         <item>Color de ojos&#8230;</item>
@@ -176,6 +178,14 @@
         <item>Pene corto</item>
         <item>Pene mediano</item>
         <item>Pene largo</item>
+    </string-array>
+    <string-array name="bodySexuality">
+        <item>Orientación sexual&#8230;</item>
+        <item>Heterosexual</item>
+        <item>Homosexual</item>
+        <item>Bisexual</item>
+        <item>Asexual</item>
+        <item>Otro/otra</item>
     </string-array>
 
     <!-- People -->

@@ -7,10 +7,10 @@
 
     <ir.mahdiparastesh.hellocharts.view.PieChartView
         android:id="@+id/main"
-        android:visibility="visible"
-        style="@style/statChart" />
+        style="@style/statChart"
+        android:visibility="visible" />
 
     <TextView
-        style="@style/statTitle"
-        android:text="@string/taste" /><!--FIXME-->
+        android:id="@+id/title"
+        style="@style/statTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,6 +49,7 @@
     <string name="lastOrgasm">Last Orgasm</string>
     <string name="unspecified">Unspecified</string>
     <string name="deactivate">Deactivate</string>
+    <string name="gender">Gender</string>
 
     <!-- Main -->
     <string name="momImport">Import from Json</string>
@@ -156,7 +157,7 @@
         <item>Triangle face</item>
     </string-array>
     <string-array name="bodyFat">
-        <item>How fat&#8230;?</item>
+        <item>How fat&#8230;</item>
         <item>Skinny</item>
         <item>Skinny-fat</item>
         <item>Fat</item>
@@ -179,7 +180,7 @@
         <item>Medium penis</item>
         <item>Long penis</item>
     </string-array>
-    <string-array name="bodySexuality"><!--TODO-->
+    <string-array name="bodySexuality">
         <item>Sexual orientation&#8230;</item>
         <item>Heterosexual</item>
         <item>Homosexual</item>

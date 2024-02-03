@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Identify
@@ -44,6 +45,7 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
 
         // Name
         h.b.name.text = "${i + 1}. ${p.visName()}"
+        h.b.sum.text = c.m.people!![i].sum(c.m)?.let { "{${it.show()}}" } ?: ""
 
         // Clicks
         h.b.root.setOnClickListener {

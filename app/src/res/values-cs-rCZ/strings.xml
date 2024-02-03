@@ -46,6 +46,7 @@
     <string name="lastOrgasm">Poslední orgasmus</string>
     <string name="unspecified">Nespecifikováno</string>
     <string name="deactivate">Deactivate</string>
+    <string name="gender">Rod</string>
 
     <!-- Main -->
     <string name="momImport">Import z Json</string>
@@ -126,6 +127,7 @@
         <item>Bruneta vlasy</item>
         <item>Blond vlasy</item>
         <item>Zrzavé vlasy</item>
+        <item>Jiná barva vlasů</item>
     </string-array>
     <string-array name="bodyEyeColour">
         <item>Barva očí&#8230;</item>
@@ -173,6 +175,14 @@
         <item>Krátký penis</item>
         <item>Střední penis</item>
         <item>Dlouhý penis</item>
+    </string-array>
+    <string-array name="bodySexuality">
+        <item>Sexuální orientace&#8230;</item>
+        <item>Heterosexuální</item>
+        <item>Homosexuál</item>
+        <item>Bisexuální</item>
+        <item>Nepohlavní</item>
+        <item>jiný</item>
     </string-array>
 
     <!-- People -->
