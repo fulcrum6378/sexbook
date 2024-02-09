@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun.show
-import ir.mahdiparastesh.sexbook.People
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Identify
 import ir.mahdiparastesh.sexbook.databinding.ItemPersonBinding
@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.or
 import kotlin.experimental.xor
 
-class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonBinding>>() {
+class BNtfCrushAdap(val c: Settings) : RecyclerView.Adapter<AnyViewHolder<ItemPersonBinding>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             AnyViewHolder<ItemPersonBinding> =
@@ -26,17 +26,17 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<ItemPersonBinding>, i: Int) {
-        val p = c.mm.visPeople.getOrNull(i) ?: return
+        val p = c.mm.bNtfCrushes.getOrNull(i) ?: return
 
         // Active
         h.b.active.setOnCheckedChangeListener(null)
-        h.b.active.isChecked = p.active()
+        h.b.active.isChecked = p.notifyBirth()
         h.b.active.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked == p.active()) return@setOnCheckedChangeListener
+            if (isChecked == p.notifyBirth()) return@setOnCheckedChangeListener
             CoroutineScope(Dispatchers.IO).launch {
                 p.apply {
-                    status = if (isChecked) (status xor Crush.STAT_INACTIVE)
-                    else (status or Crush.STAT_INACTIVE)
+                    status = if (isChecked) (status or Crush.STAT_NOTIFY_BIRTH)
+                    else (status xor Crush.STAT_NOTIFY_BIRTH)
                 }
                 c.m.dao.cUpdate(p)
                 withContext(Dispatchers.Main) { c.m.onCrushChanged(c, p, 1) }
@@ -45,20 +45,20 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
 
         // Name
         h.b.name.text = "${i + 1}. ${p.visName()}"
-        h.b.sum.text = c.mm.visPeople[i].sum(c.m)?.let { "{${it.show()}}" } ?: ""
+        h.b.sum.text = c.mm.bNtfCrushes[i].sum(c.m)?.let { "{${it.show()}}" } ?: ""
 
         // Clicks
         h.b.root.setOnClickListener {
-            c.mm.visPeople.getOrNull(h.layoutPosition)?.also { identify(it) }
+            c.mm.bNtfCrushes.getOrNull(h.layoutPosition)?.also { identify(it) }
         }
         h.b.root.setOnLongClickListener {
-            c.mm.visPeople.getOrNull(h.layoutPosition)?.also { person ->
+            c.mm.bNtfCrushes.getOrNull(h.layoutPosition)?.also { person ->
                 c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, person.key) }
             }; true
         }
     }
 
-    override fun getItemCount() = c.mm.visPeople.size
+    override fun getItemCount() = c.mm.bNtfCrushes.size
 
     private fun identify(crush: Crush) {
         Identify(c, crush).apply {

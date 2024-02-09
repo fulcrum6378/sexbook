@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toolbar
+import androidx.activity.viewModels
 import androidx.core.content.edit
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModel
 import com.google.android.material.badge.BadgeDrawable
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
@@ -17,8 +19,13 @@ import ir.mahdiparastesh.sexbook.more.Lister
 
 class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     lateinit var b: PeopleBinding
+    val mm: MyModel by viewModels()
 
     override var countBadge: BadgeDrawable? = null
+
+    class MyModel : ViewModel() {
+        lateinit var visPeople: ArrayList<Crush>
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,10 +66,13 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     fun arrangeList() {
         b.empty.isVisible = m.people.isNullOrEmpty()
         if (m.people.isNullOrEmpty()) return
-        m.people?.sortWith(Crush.Sort(this, Settings.spPeopleSortBy))
-        if (!sp.getBoolean(Settings.spPeopleSortAsc, true)) m.people?.reverse()
+
+        mm.visPeople = ArrayList(m.people!!.sortedWith(Crush.Sort(this, Settings.spPeopleSortBy)))
+        if (!sp.getBoolean(Settings.spPeopleSortAsc, true)) mm.visPeople.reverse()
+        // TODO filter
+
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()
-        Delay(100L) { count(m.people?.size ?: 0) }
+        Delay(100L) { count(mm.visPeople.size) }
     }
 }

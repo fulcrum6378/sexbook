@@ -475,5 +475,4 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * "Filtring" alongside sorting for People
   * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification
-  * A list page for birthday-notification-enabled Crushes
   */

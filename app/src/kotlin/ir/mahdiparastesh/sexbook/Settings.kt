@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -9,10 +10,13 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.Dimension
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
@@ -21,19 +25,28 @@ import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.shake
+import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
+import ir.mahdiparastesh.sexbook.list.BNtfCrushAdap
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.more.BaseDialog
 import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.LastOrgasm
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
+import ir.mahdiparastesh.sexbook.more.SafeLinearLayoutManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
     private val calendarTypes: Array<String> by lazy { resources.getStringArray(R.array.calendarTypes) }
     private val emptyDate: String by lazy { getString(R.string.emptyDate) }
     private var calManager: CalendarManager? = null
+    val mm: MyModel by viewModels()
 
     /** Beware of the numerical fields; go to Exporter.replace() for modifications. */
     companion object {
@@ -67,6 +80,10 @@ class Settings : BaseActivity() {
         // Automatic and hidden
         const val spPrefersOrgType = "prefersOrgType" // Int
         const val spLastNotifiedBirthAt = "lastNotifiedBirthAt" // Long
+    }
+
+    class MyModel : ViewModel() {
+        lateinit var bNtfCrushes: List<Crush>
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -274,6 +291,14 @@ class Settings : BaseActivity() {
                 }
             ).apply()
         }
+        CoroutineScope(Dispatchers.IO).launch {
+            mm.bNtfCrushes = m.people?.filter { it.notifyBirth() } ?: listOf()
+            withContext(Dispatchers.Main) {
+                b.stBNtfCrushes.setOnClickListener {
+                    BNtfCrushes().show(supportFragmentManager, BNtfCrushes.TAG)
+                }
+            }
+        }
 
         // Removal
         b.stReset.setOnClickListener {
@@ -328,5 +353,24 @@ class Settings : BaseActivity() {
         sp.edit().putBoolean(spCalOutput, on).apply()
         calManager = CalendarManager(this, m.liefde)
         if (!on) calManager?.terminate()
+    }
+
+    class BNtfCrushes : BaseDialog() {
+        companion object {
+            const val TAG = "b_ntf_crushes"
+        }
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            isCancelable = true
+            return MaterialAlertDialogBuilder(c).apply {
+                setTitle(resources.getString(R.string.stBNtfCrushes))
+                setView(RecyclerView(c).apply {
+                    layoutManager = SafeLinearLayoutManager(c)
+                    setPadding(0, c.dp(12), 0, 0)
+                    adapter = BNtfCrushAdap(c as Settings)
+                })
+                setPositiveButton(android.R.string.ok, null)
+            }.create()
+        }
     }
 }

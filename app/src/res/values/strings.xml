@@ -227,6 +227,7 @@
     <string name="stUseGregorianForBirthdays">Only use the Gregorian calendar for birthdays</string>
     <string name="stPauseBirthdaysNtf">Pause all birthday notifications</string>
     <string name="stNotifyBirthDaysBefore">Notify N days before birthdays:</string>
+    <string name="stBNtfCrushes">Notification-enabled Crushes</string>
     <string name="stReset">Reset Settings</string>
     <string name="stResetSure">Are you sure you want to all the settings back to default?</string>
     <string name="stTruncate">Remove All Data</string>

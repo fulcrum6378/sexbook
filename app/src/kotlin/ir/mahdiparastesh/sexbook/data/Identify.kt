@@ -9,7 +9,8 @@ import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.text.InputFilter
+import android.text.Spanned
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
@@ -23,6 +24,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
+import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.shake
@@ -40,6 +42,7 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.and
 import kotlin.experimental.or
 
+/** A Dialog for filling data for a Crush. */
 class Identify() : DialogFragment() {
     constructor(c: BaseActivity, crush: Crush?) : this() {
         this.c = c
@@ -51,6 +54,7 @@ class Identify() : DialogFragment() {
         const val BUNDLE_CRUSH_KEY = "crush_key"
         const val DISABLED_ALPHA = 0.7f
         var crush: Crush? = null
+        val accFromUrl = arrayOf(Fun.INSTA, "https://instagram.com/")
     }
 
     private lateinit var c: BaseActivity
@@ -68,9 +72,7 @@ class Identify() : DialogFragment() {
     @SuppressLint("NewApi")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
-        Log.println(Log.ASSERT, "ZOEY", "A")
         b = IdentifyBinding.inflate(c.layoutInflater)
-        Log.println(Log.ASSERT, "ZOEY", "B")
         ContextCompat.getColorStateList(c, R.color.chip)
             .also { b.notifyBirth.trackTintList = it }
 
@@ -86,6 +88,22 @@ class Identify() : DialogFragment() {
                 b.bodyPenis.isVisible = i == 2 || i == 3
             }
         }
+
+        // Instagram
+        b.instagram.filters = arrayOf(object : InputFilter {
+            override fun filter(
+                source: CharSequence?, start: Int, end: Int,
+                dest: Spanned?, dstart: Int, dend: Int
+            ): CharSequence? {
+                if (source?.let { it.length > 20 } != true) return null
+                val str = source.toString()
+                for (host in accFromUrl)
+                    if (str.startsWith(host))
+                        return str.substringAfter(host).substringBefore("/")
+                            .substringBefore("?")
+                return null
+            }
+        })
 
         // Body Attributes
         b.bodySkinColour.adapter = bodyAttrSpinnerAdapter(R.array.bodySkinColour)
@@ -233,6 +251,7 @@ class Identify() : DialogFragment() {
         }
 
         val crushKey = requireArguments().getString(BUNDLE_CRUSH_KEY)!!
+        isCancelable = false
         return MaterialAlertDialogBuilder(c).apply {
             setTitle("${c.getString(R.string.identify)}: ${crush?.key ?: crushKey}")
             setView(b.root)
@@ -296,7 +315,6 @@ class Identify() : DialogFragment() {
                 }.show()
                 c.shake()
             }
-            setCancelable(true)
         }.create()
     }
 
