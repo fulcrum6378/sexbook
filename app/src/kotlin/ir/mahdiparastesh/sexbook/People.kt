@@ -37,7 +37,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        b.toolbar.inflateMenu(R.menu.sort)
+        b.toolbar.inflateMenu(R.menu.crush_list)
         b.toolbar.setOnMenuItemClickListener(this)
         return true
     }
@@ -53,12 +53,13 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
-        sp.edit {
-            val value = Fun.sort(item.itemId)
-            if (value is Int) putInt(Settings.spPeopleSortBy, value)
-            else if (value is Boolean) putBoolean(Settings.spPeopleSortAsc, value)
+        Fun.sort(item.itemId)?.also { value ->
+            sp.edit {
+                if (value is Int) putInt(Settings.spPeopleSortBy, value)
+                else if (value is Boolean) putBoolean(Settings.spPeopleSortAsc, value)
+            }
+            arrangeList()
         }
-        arrangeList()
         return true
     }
 
@@ -69,7 +70,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
         mm.visPeople = ArrayList(m.people!!.sortedWith(Crush.Sort(this, Settings.spPeopleSortBy)))
         if (!sp.getBoolean(Settings.spPeopleSortAsc, true)) mm.visPeople.reverse()
-        // TODO filter
+        // TODO filter | search
 
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()

@@ -50,6 +50,10 @@
     <string name="unspecified">Unspecified</string>
     <string name="deactivate">Deactivate</string>
     <string name="gender">Gender</string>
+    <string name="chart">Chart</string><!--TODO moved here-->
+    <string name="search">Search</string>
+    <string name="sort">Sort</string>
+    <string name="filter">Filter</string>
 
     <!-- Main -->
     <string name="momImport">Import from Json</string>
@@ -64,7 +68,6 @@
     <string name="noRecords">You have no records yet!</string>
     <string name="askImport">Are you sure you want to replace all the app data?</string>
     <string name="findCrush">Find a crush&#8230;</string>
-    <string name="chart">Chart</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">Accurate?</string>

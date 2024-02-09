@@ -53,7 +53,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private val exporter = Exporter(this)
     private var exiting = false
     private val drawerGravity = GravityCompat.START
-    private val menus = arrayOf(R.menu.page_sex_tlb, R.menu.sort)
+    private val menus = arrayOf(R.menu.page_sex_tlb, R.menu.crush_list)
     /*private lateinit var adBanner: AdView
     private var adBannerLoaded = false*/
 
@@ -270,14 +270,15 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             // PageSex (R.menu.page_sex_tlb):
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
 
-            // PageLove (R.menu.sort):
+            // PageLove (R.menu.crush_list):
             else -> {
-                sp.edit {
-                    val value = Fun.sort(item.itemId)
-                    if (value is Int) putInt(Settings.spPageLoveSortBy, value)
-                    else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)
+                Fun.sort(item.itemId)?.also { value ->
+                    sp.edit {
+                        if (value is Int) putInt(Settings.spPageLoveSortBy, value)
+                        else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)
+                    }
+                    pageLove()?.prepareList()
                 }
-                pageLove()?.prepareList()
             }
         }
         return true
@@ -471,8 +472,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * -
   * Extension:
   * Crush Statistics
-  * Searching feature for People
-  * "Filtring" alongside sorting for People
   * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification
   */

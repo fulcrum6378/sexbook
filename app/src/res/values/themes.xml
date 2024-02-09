@@ -91,7 +91,7 @@
     </style>
 
     <style name="Widget.Sexbook.OverflowButton" parent="@android:style/Widget.Material.ActionButton.Overflow">
-        <item name="android:src">@drawable/sort</item>
+        <!--<item name="android:src">@drawable/sort</item>-->
         <item name="android:tint">?android:attr/textColor</item>
     </style>
 

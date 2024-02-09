@@ -207,7 +207,7 @@ object Fun {
         }.start()
     }
 
-    fun sort(@IdRes menuItemId: Int): Any = when (menuItemId) {
+    fun sort(@IdRes menuItemId: Int): Any? = when (menuItemId) {
         R.id.sortByName -> SORT_BY_NAME
         R.id.sortBySum -> SORT_BY_SUM
         R.id.sortByAge -> SORT_BY_AGE
@@ -216,7 +216,7 @@ object Fun {
         R.id.sortByLast -> SORT_BY_LAST
         R.id.sortAsc -> true
         R.id.sortDsc -> false
-        else -> throw IllegalArgumentException("Unsupported menu item id!")
+        else -> null
     }
 
     fun findSortMenuItemId(sortBy: Int) = when (sortBy) {
