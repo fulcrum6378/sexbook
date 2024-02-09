@@ -51,7 +51,7 @@ class Taste : BaseActivity() {
 
             withContext(Dispatchers.Main) {
                 b.root.adapter = object : FragmentStateAdapter(this@Taste) {
-                    override fun getItemCount(): Int = 10
+                    override fun getItemCount(): Int = 9
                     override fun createFragment(i: Int): Fragment = when (i) {
                         1 -> SkinColourTaste()
                         2 -> EyeColourTaste()
@@ -61,7 +61,6 @@ class Taste : BaseActivity() {
                         6 -> MuscleTaste()
                         7 -> BreastsTaste()
                         8 -> PenisTaste()
-                        9 -> SexualityTaste()
                         else -> GenderTaste()
                     }
                 }
@@ -198,15 +197,6 @@ class Taste : BaseActivity() {
 
         override fun crushProperty(cr: Crush): Byte =
             ((cr.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second).toByte()
-    }
-
-    class SexualityTaste : TasteFragment() {
-        override val modes: Int = R.array.bodySexuality
-        override fun crushFilter(cr: Crush): Boolean =
-            (cr.status and Crush.STAT_GENDER) != 4.toByte()
-
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second).toByte()
     }
 
     @Suppress("OVERRIDE_DEPRECATION")

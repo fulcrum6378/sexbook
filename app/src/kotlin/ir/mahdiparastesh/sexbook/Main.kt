@@ -426,7 +426,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                             abs(dist / 3600000L)
                         )
                     )
-                    priority = NotificationCompat.PRIORITY_HIGH
+                    priority =
+                        if (crush.active()) NotificationCompat.PRIORITY_HIGH
+                        else NotificationCompat.PRIORITY_LOW
                 }.build()
             )
             sp.edit().putLong(Settings.spLastNotifiedBirthAt, Fun.now()).apply()
@@ -465,11 +467,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Tearing at the bottom of Identify
   * Material v1.11.0
   * Searching in Summary and Recency is so immature!
+  * Crushes regularly swap places in Sum sort mode
   * -
   * Extension:
-  * Taste (needs ViewPager2 to be implemented first!)
+  * Crush Statistics
   * Searching feature for People
   * "Filtring" alongside sorting for People
   * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification
+  * A list page for birthday-notification-enabled Crushes
   */
