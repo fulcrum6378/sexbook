@@ -14,7 +14,7 @@
         android:clipToPadding="false"
         android:paddingHorizontal="10dp"
         android:paddingVertical="20dp"
-        app:layoutManager=".more.SafeLinearLayoutManager" />
+        app:layoutManager=".base.SafeLinearLayoutManager" />
 
     <TextView
         android:id="@+id/empty"

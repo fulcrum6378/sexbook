@@ -5,6 +5,7 @@ import android.view.ContextThemeWrapper
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 
 interface Lister {
     var countBadge: BadgeDrawable?

@@ -16,7 +16,7 @@ import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.randomColor
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.data.Report
-import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

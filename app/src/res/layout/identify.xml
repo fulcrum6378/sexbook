@@ -13,7 +13,7 @@
         android:layout_marginHorizontal="30dp"
         android:orientation="vertical">
 
-        <ir.mahdiparastesh.sexbook.more.SoftEditText
+        <ir.mahdiparastesh.sexbook.base.SoftEditText
             android:id="@+id/fName"
             style="@style/identifyET"
             android:autofillHints="personGivenName"
@@ -24,7 +24,7 @@
 
         <View style="@style/identifySep" />
 
-        <ir.mahdiparastesh.sexbook.more.SoftEditText
+        <ir.mahdiparastesh.sexbook.base.SoftEditText
             android:id="@+id/mName"
             style="@style/identifyET"
             android:autofillHints="personMiddleName"
@@ -35,7 +35,7 @@
 
         <View style="@style/identifySep" />
 
-        <ir.mahdiparastesh.sexbook.more.SoftEditText
+        <ir.mahdiparastesh.sexbook.base.SoftEditText
             android:id="@+id/lName"
             style="@style/identifyET"
             android:autofillHints="personFamilyName"
@@ -57,7 +57,7 @@
             style="@style/identifySubField"
             android:text="@string/fiction"
             android:textColor="?colorOnSecondary"
-            app:buttonIconTint="?colorSurface"
+            app:buttonIconTint="?colorSurfaceContainer"
             app:buttonTint="?colorOnSecondary" />
 
         <View style="@style/identifySep" />
@@ -81,7 +81,7 @@
             android:id="@+id/birthSep"
             style="@style/identifySep" />
 
-        <ir.mahdiparastesh.sexbook.more.SoftEditText
+        <ir.mahdiparastesh.sexbook.base.SoftEditText
             android:id="@+id/height"
             style="@style/identifyET"
             android:hint="@string/heightInCM"
@@ -92,7 +92,7 @@
 
         <View style="@style/identifySep" />
 
-        <ir.mahdiparastesh.sexbook.more.SoftEditText
+        <ir.mahdiparastesh.sexbook.base.SoftEditText
             android:id="@+id/address"
             style="@style/identifyET"
             android:autofillHints="addressLocality"
@@ -101,7 +101,7 @@
             android:maxLength="200"
             android:maxLines="5" />
 
-        <ir.mahdiparastesh.sexbook.more.SoftEditText
+        <ir.mahdiparastesh.sexbook.base.SoftEditText
             android:id="@+id/instagram"
             style="@style/identifyET"
             android:autofillHints="username"

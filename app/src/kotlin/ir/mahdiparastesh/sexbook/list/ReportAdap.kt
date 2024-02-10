@@ -26,11 +26,12 @@ import ir.mahdiparastesh.sexbook.PageSex
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.more.*
-import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
+import ir.mahdiparastesh.sexbook.base.BaseActivity.Companion.night
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

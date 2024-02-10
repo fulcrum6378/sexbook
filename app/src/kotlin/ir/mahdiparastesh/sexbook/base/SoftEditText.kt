@@ -1,6 +1,6 @@
 @file:SuppressLint("AppCompatCustomView")
 
-package ir.mahdiparastesh.sexbook.more
+package ir.mahdiparastesh.sexbook.base
 
 import android.annotation.SuppressLint
 import android.content.Context

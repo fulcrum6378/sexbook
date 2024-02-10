@@ -5,6 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 
 /** Represents a PopupMenu action. */
 typealias Act = HashMap<Int, (item: MenuItem) -> Unit>

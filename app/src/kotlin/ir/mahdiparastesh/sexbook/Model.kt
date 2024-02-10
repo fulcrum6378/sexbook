@@ -10,7 +10,7 @@ import ir.mahdiparastesh.sexbook.data.Database
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
-import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.stat.Summary

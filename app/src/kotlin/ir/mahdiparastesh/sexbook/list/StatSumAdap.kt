@@ -12,8 +12,8 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.SumChipGroupBinding
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
-import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.more.BaseDialog
+import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.stat.Singular
 
 class StatSumAdap(

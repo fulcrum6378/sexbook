@@ -35,7 +35,7 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override fun requirements(): Boolean {
         crushKey = intent.getStringExtra(EXTRA_CRUSH_KEY)
-        history = m.summary!!.scores[crushKey]
+        history = m.summary?.scores?.get(crushKey)
         return super.requirements() && crushKey != null && history != null
     }
 

@@ -74,7 +74,7 @@
         app:layout_constraintStart_toEndOf="@id/clock"
         app:layout_constraintTop_toTopOf="@id/clock" />
 
-    <ir.mahdiparastesh.sexbook.more.LiveAutoCompleteTextView
+    <ir.mahdiparastesh.sexbook.base.LiveAutoCompleteTextView
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/clock" />
 
-    <ir.mahdiparastesh.sexbook.more.LiveEditText
+    <ir.mahdiparastesh.sexbook.base.LiveEditText
         android:id="@+id/desc"
         style="@style/desc"
         android:layout_marginHorizontal="@dimen/reportPadH"

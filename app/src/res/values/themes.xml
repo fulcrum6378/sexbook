@@ -38,6 +38,18 @@
         <item name="colorOnSecondary">#6F5900</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+
+        <!-- Tonal Surface Color system
+             https://material.io/blog/tone-based-surface-color-m3
+             https://github.com/material-components/material-components-android/blob/master/docs/theming/Color.md
+             -->
+        <item name="colorSurfaceContainer">#FFF9ED</item><!--PopupMenu-->
+        <item name="colorSurfaceContainerLow">#000</item>
+        <item name="colorSurfaceContainerHigh">#FFF6E5</item><!--Dialog-->
+        <item name="colorSurfaceContainerLowest">#0F0</item>
+        <item name="colorSurfaceContainerHighest">#00F</item>
+        <item name="colorSurfaceDim">#FF0</item>
+        <item name="colorSurfaceBright">#0FF</item>
     </style>
 
 
@@ -49,7 +61,7 @@
 
     <style name="Theme.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox"><!--unused-->
         <item name="buttonTint">?colorOnSecondary</item>
-        <item name="buttonIconTint">?colorSurface</item>
+        <item name="buttonIconTint">?colorSurfaceContainer</item>
     </style>
 
     <style name="Theme.Sexbook.Chip" parent="Widget.Material3.Chip.Suggestion">

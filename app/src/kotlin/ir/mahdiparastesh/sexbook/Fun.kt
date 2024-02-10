@@ -21,8 +21,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
-import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.more.BaseActivity.Companion.night
+import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.base.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.HumanistIranianCalendar
 import java.text.DecimalFormat
 

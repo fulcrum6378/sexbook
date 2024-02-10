@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.more
+package ir.mahdiparastesh.sexbook.base
 
 import androidx.fragment.app.Fragment
 import ir.mahdiparastesh.sexbook.Main

@@ -30,12 +30,12 @@ import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.list.BNtfCrushAdap
 import ir.mahdiparastesh.sexbook.more.Act
-import ir.mahdiparastesh.sexbook.more.BaseActivity
-import ir.mahdiparastesh.sexbook.more.BaseDialog
+import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.LastOrgasm
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
-import ir.mahdiparastesh.sexbook.more.SafeLinearLayoutManager
+import ir.mahdiparastesh.sexbook.base.SafeLinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -292,7 +292,10 @@ class Settings : BaseActivity() {
             ).apply()
         }
         CoroutineScope(Dispatchers.IO).launch {
-            mm.bNtfCrushes = m.people?.filter { it.notifyBirth() } ?: listOf()
+            mm.bNtfCrushes = m.people?.filter { it.notifyBirth() }
+                ?.sortedWith(Crush.Sort(this@Settings, spPeopleSortBy))
+                ?.let { if (!sp.getBoolean(spPeopleSortAsc, true)) it.reversed() else it }
+                ?: listOf()
             withContext(Dispatchers.Main) {
                 b.stBNtfCrushes.setOnClickListener {
                     BNtfCrushes().show(supportFragmentManager, BNtfCrushes.TAG)

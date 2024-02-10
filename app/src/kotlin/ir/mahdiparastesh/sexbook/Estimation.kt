@@ -8,7 +8,7 @@ import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.databinding.EstimationBinding
 import ir.mahdiparastesh.sexbook.list.GuessAdap
-import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
 import kotlinx.coroutines.CoroutineScope

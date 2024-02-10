@@ -10,7 +10,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.list.StatRecAdap
-import ir.mahdiparastesh.sexbook.more.BaseDialog
+import ir.mahdiparastesh.sexbook.base.BaseDialog
 
 class Recency : BaseDialog(), BaseDialog.SearchableStat {
     val items: ArrayList<Item> = ArrayList()

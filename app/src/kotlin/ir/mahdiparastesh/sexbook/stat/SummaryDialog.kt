@@ -29,8 +29,8 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.databinding.SumPieBinding
 import ir.mahdiparastesh.sexbook.list.StatSumAdap
-import ir.mahdiparastesh.sexbook.more.BaseDialog
-import ir.mahdiparastesh.sexbook.more.BaseFragment
+import ir.mahdiparastesh.sexbook.base.BaseDialog
+import ir.mahdiparastesh.sexbook.base.BaseFragment
 
 class SummaryDialog : BaseDialog() {
     private var dialogue: AlertDialog? = null

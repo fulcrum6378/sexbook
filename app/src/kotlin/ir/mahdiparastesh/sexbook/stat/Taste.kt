@@ -16,7 +16,7 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
 import ir.mahdiparastesh.sexbook.databinding.TasteFragmentBinding
-import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

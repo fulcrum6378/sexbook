@@ -9,7 +9,7 @@
     android:paddingHorizontal="@dimen/itemPadH"
     android:paddingVertical="@dimen/itemPadV">
 
-    <ir.mahdiparastesh.sexbook.more.LiveEditText
+    <ir.mahdiparastesh.sexbook.base.LiveEditText
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

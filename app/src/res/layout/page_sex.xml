@@ -14,7 +14,7 @@
         android:paddingHorizontal="10dp"
         android:paddingTop="20dp"
         android:paddingBottom="85dp"
-        app:layoutManager=".more.SafeLinearLayoutManager"
+        app:layoutManager=".base.SafeLinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/spnFilter"
         app:layout_constraintTop_toTopOf="parent" />
 

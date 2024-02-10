@@ -23,7 +23,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 38
-        versionName '24.0.0'
+        versionName '24.0.5'
         signingConfig signingConfigs.main
     }
     sourceSets.main {
@@ -66,8 +66,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation 'androidx.sqlite:sqlite-ktx:2.4.0'
     // implementation 'com.google.android.gms:play-services-ads:21.1.0'
-    //noinspection GradleDependency (v1.11.0 changes the colour of Summary)
-    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'ir.mahdiparastesh:hellocharts:2.6.5'
     implementation 'ir.mahdiparastesh:mcdtp:3.0'

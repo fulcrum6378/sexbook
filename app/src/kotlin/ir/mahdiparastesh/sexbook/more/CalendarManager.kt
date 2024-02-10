@@ -9,6 +9,7 @@ import android.provider.CalendarContract
 import androidx.core.app.ActivityCompat
 import androidx.core.database.getLongOrNull
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

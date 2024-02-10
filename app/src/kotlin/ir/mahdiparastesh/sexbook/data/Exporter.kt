@@ -17,7 +17,7 @@ import com.google.gson.reflect.TypeToken
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
-import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.more.LastOrgasm
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

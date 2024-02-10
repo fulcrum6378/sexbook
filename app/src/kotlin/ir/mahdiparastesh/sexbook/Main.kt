@@ -35,7 +35,7 @@ import ir.mahdiparastesh.sexbook.data.*
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.ActionBarDrawerToggle
-import ir.mahdiparastesh.sexbook.more.BaseActivity
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
@@ -466,7 +466,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 /* TODO:
   * Problems:
   * Tearing at the bottom of Identify
-  * Material v1.11.0
   * Searching in Summary and Recency is so immature!
   * Crushes regularly swap places in Sum sort mode
   * -
