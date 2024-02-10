@@ -94,6 +94,7 @@
     <string name="statistics">Statistics</string>
     <string name="noStat">The range of your records must exceed one month!</string>
     <string name="afterNHours">&#160;after %d hours</string>
+    <string name="crushesStat">Crushes\' Statistics</string>
 
     <!-- Identify -->
     <string name="identify">Identification</string>

@@ -16,7 +16,7 @@
             android:title="@string/adorability" />
         <item
             android:id="@+id/momGrw"
-            android:icon="@drawable/growth"
+            android:icon="@drawable/chart_growth"
             android:title="@string/growth" />
         <item
             android:id="@+id/momMix"
@@ -28,7 +28,7 @@
             android:title="@string/intervals" />
         <item
             android:id="@+id/momTst"
-            android:icon="@drawable/taste"
+            android:icon="@drawable/chart_pie"
             android:title="@string/taste" />
     </group>
 

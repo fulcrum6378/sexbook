@@ -273,6 +273,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             // PageLove (R.menu.crush_list):
             else -> {
                 Fun.sort(item.itemId)?.also { value ->
+                    item.isChecked = true
                     sp.edit {
                         if (value is Int) putInt(Settings.spPageLoveSortBy, value)
                         else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)

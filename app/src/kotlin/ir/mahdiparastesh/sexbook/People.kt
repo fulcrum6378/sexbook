@@ -16,6 +16,7 @@ import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
 import ir.mahdiparastesh.sexbook.list.PersonAdap
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
+import ir.mahdiparastesh.sexbook.stat.CrushesStat
 
 class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     lateinit var b: PeopleBinding
@@ -53,12 +54,19 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
-        Fun.sort(item.itemId)?.also { value ->
-            sp.edit {
-                if (value is Int) putInt(Settings.spPeopleSortBy, value)
-                else if (value is Boolean) putBoolean(Settings.spPeopleSortAsc, value)
+        when (item.itemId) {
+            R.id.chart -> CrushesStat().show(supportFragmentManager, CrushesStat.TAG)
+
+            else -> {
+                Fun.sort(item.itemId)?.also { value ->
+                    item.isChecked = true
+                    sp.edit {
+                        if (value is Int) putInt(Settings.spPeopleSortBy, value)
+                        else if (value is Boolean) putBoolean(Settings.spPeopleSortAsc, value)
+                    }
+                    arrangeList()
+                }
             }
-            arrangeList()
         }
         return true
     }

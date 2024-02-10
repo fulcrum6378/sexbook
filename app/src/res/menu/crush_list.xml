@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AppCompatResource">
 
     <item
-        android:id="@+id/search"
-        android:title="@string/search" />
+        android:id="@+id/chart"
+        android:icon="@drawable/chart_pie"
+        android:iconTint="?android:attr/textColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/chart" />
 
     <item
         android:icon="@drawable/sort"
         android:iconTint="?android:attr/textColor"
-        android:title="@string/sort"
-        app:showAsAction="always">
+        android:showAsAction="ifRoom"
+        android:title="@string/sort">
 
         <menu>
             <!-- do not remove group ids. -->
@@ -53,4 +57,11 @@
     <item android:title="@string/filter">
         <menu />
     </item>
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/search"
+        android:iconTint="?android:attr/textColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/search" />
 </menu>

@@ -71,7 +71,6 @@ class Identify() : DialogFragment() {
 
     @SuppressLint("NewApi")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
         b = IdentifyBinding.inflate(c.layoutInflater)
         ContextCompat.getColorStateList(c, R.color.chip)
             .also { b.notifyBirth.trackTintList = it }

@@ -372,7 +372,6 @@ class Settings : BaseActivity() {
                     setPadding(0, c.dp(12), 0, 0)
                     adapter = BNtfCrushAdap(c as Settings)
                 })
-                setPositiveButton(android.R.string.ok, null)
             }.create()
         }
     }
