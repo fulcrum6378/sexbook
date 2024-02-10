@@ -164,6 +164,9 @@
 
     <style name="identifyBodyAttr" parent="identifyField">
         <item name="android:paddingVertical">2dp</item>
+        <!--https://stackoverflow.com/questions/36167187/android-spinner-arrow-always-above-other-views/
+            68789834#68789834-->
+        <item name="android:layerType">software</item>
     </style>
 
 

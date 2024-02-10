@@ -43,13 +43,13 @@
              https://material.io/blog/tone-based-surface-color-m3
              https://github.com/material-components/material-components-android/blob/master/docs/theming/Color.md
              -->
-        <item name="colorSurfaceContainer">#FFF9ED</item><!--PopupMenu-->
-        <item name="colorSurfaceContainerLow">#000</item>
+        <item name="colorSurfaceContainer">#FFF9ED</item><!--PopupMenu,spinner_dd-->
+        <!--<item name="colorSurfaceContainerLow">#000</item>-->
         <item name="colorSurfaceContainerHigh">#FFF6E5</item><!--Dialog-->
-        <item name="colorSurfaceContainerLowest">#0F0</item>
+        <!--<item name="colorSurfaceContainerLowest">#0F0</item>
         <item name="colorSurfaceContainerHighest">#00F</item>
         <item name="colorSurfaceDim">#FF0</item>
-        <item name="colorSurfaceBright">#0FF</item>
+        <item name="colorSurfaceBright">#0FF</item>-->
     </style>
 
 

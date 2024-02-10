@@ -13,10 +13,10 @@ import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
 import ir.mahdiparastesh.sexbook.databinding.TasteFragmentBinding
-import ir.mahdiparastesh.sexbook.base.BaseActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

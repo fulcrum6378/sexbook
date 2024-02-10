@@ -32,7 +32,7 @@ class StatRecAdap(private val r: Recency) : RecyclerView.Adapter<AnyViewHolder<R
         h.b.name.text = "${i + 1}. $crushKey" +
                 (if (!statOnlyCrushes && curCrushes?.contains(crushKey) == true) "*" else "") +
                 (r.c.m.summary!!.scores[crushKey]?.sumOf { it.value.toDouble() }?.toFloat()
-                    ?.show()?.let {" {$it}"} ?: "")
+                    ?.show()?.let { " {$it}" } ?: "")
         val lm = r.items[i].time.calendar(r.c)
         h.b.date.text = "${lm.fullDate()} - " +
                 "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"

@@ -31,9 +31,9 @@ import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Fun.toGregorian
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.more.Act
-import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -75,6 +75,7 @@ class Identify() : DialogFragment() {
         b = IdentifyBinding.inflate(c.layoutInflater)
         ContextCompat.getColorStateList(c, R.color.chip)
             .also { b.notifyBirth.trackTintList = it }
+        b.root.scrollTo(0, 0)
 
         // Gender
         b.gender.adapter = ArrayAdapter(

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/spinner_dd"
     android:orientation="horizontal"
     android:paddingHorizontal="10dp"
     android:paddingVertical="15dp"
