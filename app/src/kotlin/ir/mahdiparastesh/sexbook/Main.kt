@@ -271,6 +271,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
 
             // PageLove (R.menu.crush_list):
+            R.id.chart -> CrushesStat().apply {
+                arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 1) }
+                show(supportFragmentManager, CrushesStat.TAG)
+            }
             else -> {
                 Fun.sort(item.itemId)?.also { value ->
                     item.isChecked = true
@@ -470,7 +474,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Crushes regularly swap places in Sum sort mode
   * -
   * Extension:
-  * Crush Statistics
   * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification
   */

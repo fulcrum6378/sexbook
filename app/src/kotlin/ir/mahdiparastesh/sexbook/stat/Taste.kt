@@ -15,8 +15,8 @@ import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
+import ir.mahdiparastesh.sexbook.databinding.ChartPieFragmentBinding
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
-import ir.mahdiparastesh.sexbook.databinding.TasteFragmentBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -70,7 +70,7 @@ class Taste : BaseActivity() {
 
     abstract class TasteFragment : Fragment() {
         protected val c: Taste by lazy { activity as Taste }
-        protected lateinit var b: TasteFragmentBinding
+        protected lateinit var b: ChartPieFragmentBinding
         private var myJob: Job? = null
         private var sumOfAll = 0f
 
@@ -79,7 +79,7 @@ class Taste : BaseActivity() {
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-        ): View = TasteFragmentBinding.inflate(layoutInflater, container, false)
+        ): View = ChartPieFragmentBinding.inflate(layoutInflater, container, false)
             .apply { b = this }.root
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

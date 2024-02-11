@@ -11,6 +11,7 @@ import ir.mahdiparastesh.sexbook.base.BaseDialog
 
 class CrushesStat : BaseDialog() {
     companion object {
+        const val BUNDLE_WHICH_LIST = "which_list"
         const val TAG = "crushes_stat"
     }
 
