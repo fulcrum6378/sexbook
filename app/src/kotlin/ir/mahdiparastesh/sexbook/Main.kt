@@ -136,7 +136,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             withContext(Dispatchers.Main) {
                 rp?.also { m.onani = ArrayList(it) }
                 cr?.also { m.people = ArrayList(it) }
-                m.getCrushes()?.apply {
+                if (m.liefde == null) m.getCrushes()?.apply {
                     m.liefde = this
                     if (isEmpty()) return@apply
                     if (sp.getBoolean(Settings.spCalOutput, false) &&
@@ -472,8 +472,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Problems:
   * Searching in Summary and Recency is so immature!
   * Crushes regularly swap places in Sum sort mode
+  * Make Identify cancelable if not edited
   * -
   * Extension:
+  * Allow "mahdi" along with of "Mahdi" in Summary
   * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification
+  * "Ethnicity" for Crushes
   */
