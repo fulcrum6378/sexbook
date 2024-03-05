@@ -23,7 +23,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 38
-        versionName '24.1.9'
+        versionName '24.2.0'
         signingConfig signingConfigs.main
     }
     sourceSets.main {
@@ -34,9 +34,9 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_20; targetCompatibility JavaVersion.VERSION_20
+        sourceCompatibility JavaVersion.VERSION_21; targetCompatibility JavaVersion.VERSION_21
     }
-    kotlinOptions { jvmTarget = '20' }
+    kotlinOptions { jvmTarget = '21' }
     buildFeatures { buildConfig true; viewBinding true }
 
     buildTypes {

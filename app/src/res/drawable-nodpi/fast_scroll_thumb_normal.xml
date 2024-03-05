@@ -5,4 +5,5 @@
         android:width="@dimen/fastScroll"
         android:height="@dimen/fastScroll" />
     <solid android:color="?colorPrimaryVariant" />
+    <corners android:radius="@dimen/smallCornerSize" />
 </shape>
