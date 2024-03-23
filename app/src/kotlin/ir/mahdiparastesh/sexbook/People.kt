@@ -55,10 +55,10 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.chart -> CrushesStat().apply {
+            /*R.id.chart -> CrushesStat().apply {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 0) }
                 show(supportFragmentManager, CrushesStat.TAG)
-            }
+            }*/
             else -> {
                 Fun.sort(item.itemId)?.also { value ->
                     item.isChecked = true

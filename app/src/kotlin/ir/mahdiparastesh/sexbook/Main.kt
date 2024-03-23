@@ -271,10 +271,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
 
             // PageLove (R.menu.crush_list):
-            R.id.chart -> CrushesStat().apply {
+            /*R.id.chart -> CrushesStat().apply {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 1) }
                 show(supportFragmentManager, CrushesStat.TAG)
-            }
+            }*/
             else -> {
                 Fun.sort(item.itemId)?.also { value ->
                     item.isChecked = true
@@ -473,10 +473,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Searching in Summary and Recency is so immature!
   * Crushes regularly swap places in Sum sort mode
   * Make Identify cancelable if not edited
+  * https://stackoverflow.com/questions/26015548/sqlitedatabaselockedexception-database-is-locked-retrycount-exceeded
   * -
   * Extension:
   * Allow "mahdi" along with of "Mahdi" in Summary
   * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification
   * "Ethnicity" for Crushes
+  * Field for changing Crush key
   */
