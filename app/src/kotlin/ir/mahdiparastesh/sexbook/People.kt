@@ -16,7 +16,6 @@ import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
 import ir.mahdiparastesh.sexbook.list.PersonAdap
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
-import ir.mahdiparastesh.sexbook.stat.CrushesStat
 
 class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     lateinit var b: PeopleBinding
@@ -80,7 +79,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
         mm.visPeople = ArrayList(m.people!!.sortedWith(Crush.Sort(this, Settings.spPeopleSortBy)))
         if (!sp.getBoolean(Settings.spPeopleSortAsc, true)) mm.visPeople.reverse()
-        // TODO filter | search
+        // TO-DO filter | search
 
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()

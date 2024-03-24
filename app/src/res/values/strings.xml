@@ -50,7 +50,7 @@
     <string name="unspecified">Unspecified</string>
     <string name="deactivate">Deactivate</string>
     <string name="gender">Gender</string>
-    <string name="chart">Chart</string><!--TODO moved here-->
+    <string name="chart">Chart</string>
     <string name="search">Search</string>
     <string name="sort">Sort</string>
     <string name="filter">Filter</string>

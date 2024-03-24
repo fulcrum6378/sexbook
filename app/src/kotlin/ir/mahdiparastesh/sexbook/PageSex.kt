@@ -68,9 +68,9 @@ class PageSex : BasePage() {
     var spnFilterTouched = false
     fun resetAllReports(toGlobalIndexOfItem: Int? = null) {
         if (c.m.onani == null) return
-        //Log.println(Log.ASSERT, "ASHLYN", "resetAllReports to index $toGlobalIndexOfItem")
+        //Log.println(Log.ASSERT, "SHADI", "resetAllReports to index $toGlobalIndexOfItem")
         filters = createFilters(c.m.onani!!)
-        //Log.println(Log.ASSERT, "ASHLYN", "resetAllReports ${filters.size} filters")
+        //Log.println(Log.ASSERT, "SHADI", "resetAllReports ${filters.size} filters")
 
         // which month to show?
         var newFilter = if (c.m.listFilter == -1) (filters.size - 1) else c.m.listFilter
@@ -102,7 +102,7 @@ class PageSex : BasePage() {
     }
 
     fun createFilters(reports: List<Report>): List<Report.Filter> {
-        //Log.println(Log.ASSERT, "ASHLYN", "createFilters ${reports.size} reports")
+        //Log.println(Log.ASSERT, "SHADI", "createFilters ${reports.size} reports")
         val filters = arrayListOf<Report.Filter>()
         for (r in reports.indices) {
             val ym = reports[r].time.calendar(c).createFilterYm()
@@ -120,10 +120,10 @@ class PageSex : BasePage() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun applyFilter(i: Int, causedByResetAllReports: Boolean, willScrollToItem: Boolean = false) {
-        //Log.println(Log.ASSERT, "ASHLYN", "applyFilter $i")
+        //Log.println(Log.ASSERT, "SHADI", "applyFilter $i")
         if (c.m.listFilter == i && c.m.listFilter > -1 && !causedByResetAllReports) return
         c.m.visOnani.clear()
-        //Log.println(Log.ASSERT, "ASHLYN", "visOnani cleared")
+        //Log.println(Log.ASSERT, "SHADI", "visOnani cleared")
         if (c.m.onani == null) return // if onani is null, empty visOnani.
         c.m.listFilter = i
 
@@ -135,7 +135,7 @@ class PageSex : BasePage() {
                     c.m.visOnani.add(c.m.onani!![o])
             Collections.sort(c.m.visOnani, Report.Sort())
         }
-        //Log.println(Log.ASSERT, "ASHLYN", "visOnani filled ${c.m.visOnani.size}")
+        //Log.println(Log.ASSERT, "SHADI", "visOnani filled ${c.m.visOnani.size}")
 
         // Update the adapter and scroll to position...
         if (b.rv.adapter == null) b.rv.adapter = ReportAdap(c, this) else {

@@ -47,6 +47,10 @@
     <string name="unspecified">No especificado</string>
     <string name="deactivate">Desactivar</string>
     <string name="gender">Género</string>
+    <string name="chart">Cuadro</string>
+    <string name="search">Buscar</string>
+    <string name="sort">Clasificar</string>
+    <string name="filter">Filtrar</string>
 
     <!-- Main -->
     <string name="momImport">Importar desde Json</string>
@@ -63,7 +67,6 @@
         ¿Estás seguro de que quieres reemplazar todos los datos de la aplicación?
     </string>
     <string name="findCrush">Encontrar un Amor&#8230;</string>
-    <string name="chart">Cuadro</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">¿Exacta?</string>
@@ -90,6 +93,7 @@
     <string name="statistics">Estadísticas</string>
     <string name="noStat">¡El rango de sus registros debe exceder un mes!</string>
     <string name="afterNHours">&#160;después de %d horas</string>
+    <string name="crushesStat">Estadísticas de Crushes</string>
 
     <!-- Identification -->
     <string name="identify">Identificación</string>
@@ -227,6 +231,7 @@
     </string>
     <string name="stPauseBirthdaysNtf">Pausar todas las notificaciones de cumpleaños</string>
     <string name="stNotifyBirthDaysBefore">Notificar N días antes de los cumpleaños:</string>
+    <string name="stBNtfCrushes">Amores habilitados para notificaciones</string>
     <string name="stReset">Reiniciar ajustes</string>
     <string name="stResetSure">
         ¿Está seguro de que desea restablecer todas las configuraciones a los valores predeterminados?

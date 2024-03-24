@@ -48,6 +48,10 @@
     <string name="unspecified">Неопределенные</string>
     <string name="deactivate">Деактивировать</string>
     <string name="gender">Пол</string>
+    <string name="chart">Диаграмма</string>
+    <string name="search">Поиск</string>
+    <string name="sort">Сортировать</string>
+    <string name="filter">Фильтр</string>
 
     <!-- Main -->
     <string name="momImport">Импорт из Json</string>
@@ -62,7 +66,6 @@
     <string name="noRecords">У вас еще нет записей!</string>
     <string name="askImport">Вы уверены, что хотите заменить все данные приложения?</string>
     <string name="findCrush">Найди любовь&#8230;</string>
-    <string name="chart">Диаграмма</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">Точный?</string>
@@ -89,6 +92,7 @@
     <string name="statistics">Статистика</string>
     <string name="noStat">Диапазон ваших записей должен превышать один месяц!</string>
     <string name="afterNHours">&#160;через %d часа</string>
+    <string name="crushesStat">Статистика сокрушений</string>
 
     <!-- Identification -->
     <string name="identify">Идентификация</string>
@@ -225,6 +229,7 @@
     </string>
     <string name="stPauseBirthdaysNtf">Приостановить все уведомления о днях рождения</string>
     <string name="stNotifyBirthDaysBefore">Уведомлять за N дней до дня рождения:</string>
+    <string name="stBNtfCrushes">Разрушения с поддержкой уведомлений</string>
     <string name="stReset">Сбросить настройки</string>
     <string name="stResetSure">Вы уверены, что хотите вернуть все настройки к значениям по умолчанию?</string>
     <string name="stTruncate">Удалить все данные</string>

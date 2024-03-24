@@ -122,6 +122,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     firstTime = false; return; }
                 b.toolbar.menu.clear()
                 b.toolbar.inflateMenu(menus[i])
+                onPrepareOptionsMenu(b.toolbar.menu)
                 m.currentPage = i
                 count(if (i == 0) null else m.liefde?.size ?: 0)
             }
