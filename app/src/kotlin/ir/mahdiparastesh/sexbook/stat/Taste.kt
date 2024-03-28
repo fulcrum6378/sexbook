@@ -51,16 +51,17 @@ class Taste : BaseActivity() {
 
             withContext(Dispatchers.Main) {
                 b.root.adapter = object : FragmentStateAdapter(this@Taste) {
-                    override fun getItemCount(): Int = 9
+                    override fun getItemCount(): Int = 10
                     override fun createFragment(i: Int): Fragment = when (i) {
                         1 -> SkinColourTaste()
-                        2 -> EyeColourTaste()
-                        3 -> EyeShapeTaste()
-                        4 -> FaceShapeTaste()
-                        5 -> FatTaste()
-                        6 -> MuscleTaste()
-                        7 -> BreastsTaste()
-                        8 -> PenisTaste()
+                        2 -> HairColourTaste()
+                        3 -> EyeColourTaste()
+                        4 -> EyeShapeTaste()
+                        5 -> FaceShapeTaste()
+                        6 -> FatTaste()
+                        7 -> MuscleTaste()
+                        8 -> BreastsTaste()
+                        9 -> PenisTaste()
                         else -> GenderTaste()
                     }
                 }
@@ -144,6 +145,13 @@ class Taste : BaseActivity() {
         override fun crushFilter(cr: Crush): Boolean = true
         override fun crushProperty(cr: Crush): Byte =
             ((cr.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second).toByte()
+    }
+
+    class HairColourTaste : TasteFragment() {
+        override val modes: Int = R.array.bodyHairColour
+        override fun crushFilter(cr: Crush): Boolean = true
+        override fun crushProperty(cr: Crush): Byte =
+            ((cr.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second).toByte()
     }
 
     class EyeColourTaste : TasteFragment() {
