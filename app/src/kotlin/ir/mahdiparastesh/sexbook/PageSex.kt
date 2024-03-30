@@ -157,7 +157,7 @@ class PageSex : BasePage() {
                 name = c.m.onani!![total - 1].name ?: ""
                 if (name == "") return@also
                 for (r in (total - 2) downTo (total - PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME))
-                    if (name != c.m.onani?.get(r)?.name) { // don't use ".."
+                    if (!name.equals(c.m.onani?.get(r)?.name, true)) { // don't use ".."
                         name = ""; break; }
             }
             val newOne = Report(
