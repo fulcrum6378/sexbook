@@ -59,6 +59,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
         @Suppress("DEPRECATION") super.onBackPressed()
     }
 
+    /** Creates a list of months of the recorded sexual history. */
     fun sinceTheBeginning(c: BaseActivity, mOnani: ArrayList<Report>): List<String> {
         // Find the ending
         var end = c.calType().getDeclaredConstructor().newInstance()
@@ -92,6 +93,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
         return list
     }
 
+    /** Filters a month of sex records out of a list. */
     fun calcHistory(
         c: BaseActivity, list: ArrayList<Summary.Orgasm>, month: String,
         growing: Boolean = false
