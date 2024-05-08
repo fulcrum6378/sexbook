@@ -9,6 +9,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 
+@Suppress("UNUSED_EXPRESSION", "unused")
 class CrushesStat : BaseDialog() {
     companion object {
         const val BUNDLE_WHICH_LIST = "which_list"

@@ -341,6 +341,7 @@ class Settings : BaseActivity() {
         }
     }
 
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun onRequestPermissionsResult(code: Int, arr: Array<out String>, res: IntArray) {
         super.onRequestPermissionsResult(code, arr, res)
         if (code == CalendarManager.reqCode) {

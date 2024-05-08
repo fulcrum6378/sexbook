@@ -471,15 +471,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * Searching in Summary and Recency is so immature!
-  * Crushes regularly swap places in Sum sort mode
   * Make Identify cancelable if not edited
+  * Crushes regularly swap places in Sum sort mode
   * https://stackoverflow.com/questions/26015548/sqlitedatabaselockedexception-database-is-locked-retrycount-exceeded
+  * Searching in Summary and Recency is so immature!
   * -
   * Extension:
   * Allow "mahdi" along with of "Mahdi" in Summary
   * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification
-  * "Ethnicity" for Crushes
   * Field for changing Crush key
   */
