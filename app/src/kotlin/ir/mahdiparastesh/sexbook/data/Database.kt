@@ -20,7 +20,39 @@ abstract class Database : RoomDatabase(), Closeable {
 
     class Builder(c: Context) {
         private val room = Room.databaseBuilder(c, Database::class.java, Fun.DATABASE)
-            .addMigrations(object : Migration(5, 6) {
+            .addMigrations(object : Migration(4, 5) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL("ALTER TABLE Crush RENAME TO Crush_old")
+                    db.execSQL(
+                        "CREATE TABLE IF NOT EXISTS `Crush` (`key` TEXT NOT NULL, " +
+                                "`first_name` TEXT, `middle_name` TEXT, `last_name` TEXT, " +
+                                "`gender` INTEGER NOT NULL, `birth` TEXT, `height` REAL NOT NULL, " +
+                                "`address` TEXT, `instagram` TEXT, `first_met` TEXT, " +
+                                "`notify_birth` INTEGER NOT NULL, PRIMARY KEY(`key`))"
+                    )
+                    val cur = db.query("SELECT * FROM Crush_old")
+                    while (cur.moveToNext()) {
+                        val bYear = cur.getInt(6)
+                        val bMonth = cur.getInt(7)
+                        val bDay = cur.getInt(8)
+                        db.execSQL(
+                            "INSERT INTO `Crush` (key, first_name, middle_name, last_name, gender, " +
+                                    "birth, height, address, instagram, first_met, notify_birth) " +
+                                    "VALUES (?,?,?,?,?,?,?,?,?,?,?)", arrayOf(
+                                cur.getString(0),
+                                cur.getString(1), cur.getString(2), cur.getString(3),
+                                cur.getInt(4),
+                                if (bYear != -1 && bMonth != -1 && bDay != -1)
+                                    "$bYear.${bMonth + 1}.$bDay" else null,
+                                cur.getFloat(5), cur.getString(9), cur.getString(10),
+                                null, cur.getInt(11)
+                            )
+                        )
+                    }
+                    cur.close()
+                    db.execSQL("DROP TABLE Crush_old")
+                }
+            }, object : Migration(5, 6) {
                 override fun migrate(db: SupportSQLiteDatabase) {
                     db.execSQL("ALTER TABLE Crush RENAME TO Crush_old")
                     db.execSQL(

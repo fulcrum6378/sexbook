@@ -477,8 +477,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Searching in Summary and Recency is so immature!
   * -
   * Extension:
+  * Field for changing Crush key
+  * "Add Person" for People
   * Allow "mahdi" along with of "Mahdi" in Summary
   * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification
-  * Field for changing Crush key
   */
