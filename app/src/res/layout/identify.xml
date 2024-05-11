@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingVertical="20dp"
@@ -13,38 +14,58 @@
         android:layout_marginHorizontal="30dp"
         android:orientation="vertical">
 
-        <ir.mahdiparastesh.sexbook.base.SoftEditText
-            android:id="@+id/fName"
-            style="@style/identifyET"
-            android:autofillHints="personGivenName"
-            android:hint="@string/firstName"
-            android:inputType="text"
-            android:maxLength="100"
-            android:maxLines="1" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/identifyInputLayout"
+            android:hint="@string/identifyKey"
+            android:paddingBottom="50dp">
 
-        <View style="@style/identifySep" />
+            <ir.mahdiparastesh.sexbook.base.SoftEditText
+                android:id="@+id/key"
+                style="@style/identifyET"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLength="100"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <ir.mahdiparastesh.sexbook.base.SoftEditText
-            android:id="@+id/mName"
-            style="@style/identifyET"
-            android:autofillHints="personMiddleName"
-            android:hint="@string/middleName"
-            android:inputType="text"
-            android:maxLength="100"
-            android:maxLines="1" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/identifyInputLayout"
+            android:hint="@string/firstName">
 
-        <View style="@style/identifySep" />
+            <ir.mahdiparastesh.sexbook.base.SoftEditText
+                android:id="@+id/fName"
+                style="@style/identifyET"
+                android:autofillHints="personGivenName"
+                android:inputType="text"
+                android:maxLength="40"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <ir.mahdiparastesh.sexbook.base.SoftEditText
-            android:id="@+id/lName"
-            style="@style/identifyET"
-            android:autofillHints="personFamilyName"
-            android:hint="@string/lastName"
-            android:inputType="text"
-            android:maxLength="100"
-            android:maxLines="1" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/identifyInputLayout"
+            android:hint="@string/middleName">
 
-        <View style="@style/identifySep" />
+            <ir.mahdiparastesh.sexbook.base.SoftEditText
+                android:id="@+id/mName"
+                style="@style/identifyET"
+                android:autofillHints="personMiddleName"
+                android:inputType="text"
+                android:maxLength="40"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/identifyInputLayout"
+            android:hint="@string/lastName">
+
+            <ir.mahdiparastesh.sexbook.base.SoftEditText
+                android:id="@+id/lName"
+                style="@style/identifyET"
+                android:autofillHints="personFamilyName"
+                android:inputType="text"
+                android:maxLength="40"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
             android:id="@+id/gender"
@@ -60,12 +81,17 @@
             app:buttonIconTint="?colorSurfaceContainer"
             app:buttonTint="?colorOnSecondary" />
 
-        <View style="@style/identifySep" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/birthIL"
+            style="@style/identifyButtonIL"
+            android:layout_marginBottom="0dp"
+            android:hint="@string/birth">
 
-        <TextView
-            android:id="@+id/birth"
-            style="@style/identifyButton"
-            android:text="@string/birth" />
+            <EditText
+                android:id="@+id/birth"
+                style="@style/identifyButton"
+                tools:ignore="Autofill,LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/notifyBirth"
@@ -77,56 +103,65 @@
             android:textSize="15sp"
             android:theme="@style/Theme.Sexbook.Switch.Dialogue" />
 
-        <View
-            android:id="@+id/birthSep"
-            style="@style/identifySep" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/identifyInputLayout"
+            android:hint="@string/heightInCM">
 
-        <ir.mahdiparastesh.sexbook.base.SoftEditText
-            android:id="@+id/height"
-            style="@style/identifyET"
-            android:hint="@string/heightInCM"
-            android:importantForAutofill="no"
-            android:inputType="numberDecimal"
-            android:maxLength="7"
-            android:maxLines="1" />
+            <ir.mahdiparastesh.sexbook.base.SoftEditText
+                android:id="@+id/height"
+                style="@style/identifyET"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"
+                android:maxLength="7"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <View style="@style/identifySep" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressIL"
+            style="@style/identifyInputLayout"
+            android:hint="@string/address">
 
-        <ir.mahdiparastesh.sexbook.base.SoftEditText
-            android:id="@+id/address"
-            style="@style/identifyET"
-            android:autofillHints="addressLocality"
-            android:hint="@string/address"
-            android:inputType="textMultiLine"
-            android:maxLength="200"
-            android:maxLines="5" />
+            <ir.mahdiparastesh.sexbook.base.SoftEditText
+                android:id="@+id/address"
+                style="@style/identifyET"
+                android:autofillHints="addressLocality"
+                android:inputType="textMultiLine"
+                android:maxLength="200"
+                android:maxLines="5" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <ir.mahdiparastesh.sexbook.base.SoftEditText
-            android:id="@+id/instagram"
-            style="@style/identifyET"
-            android:autofillHints="username"
-            android:fontFamily="serif-monospace"
-            android:hint="@string/instagram"
-            android:inputType="textUri|textMultiLine"
-            android:maxLength="30"
-            android:maxLines="2"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/instagramIL"
+            style="@style/identifyInputLayout"
+            android:hint="@string/instagram">
 
-        <View style="@style/identifySep" />
+            <ir.mahdiparastesh.sexbook.base.SoftEditText
+                android:id="@+id/instagram"
+                style="@style/identifyET"
+                android:autofillHints="username"
+                android:fontFamily="serif-monospace"
+                android:inputType="textUri|textMultiLine"
+                android:maxLength="30"
+                android:maxLines="2"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/firstMet"
-            style="@style/identifyButton"
-            android:text="@string/firstMet" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/identifyButtonIL"
+            android:hint="@string/firstMet">
 
-        <View
-            android:id="@+id/firstMetSep"
-            style="@style/identifySep" />
+            <EditText
+                android:id="@+id/firstMet"
+                style="@style/identifyButton"
+                tools:ignore="Autofill,LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="1">

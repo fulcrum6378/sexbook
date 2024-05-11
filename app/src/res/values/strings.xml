@@ -98,6 +98,7 @@
 
     <!-- Identify -->
     <string name="identify">Identification</string>
+    <string name="identifyKey">Unique Identifier</string>
     <string name="firstName">First Name</string>
     <string name="middleName">Middle Name</string>
     <string name="lastName">Last Name</string>

@@ -117,17 +117,20 @@ class Identify() : DialogFragment() {
         b.bodyMuscle.adapter = bodyAttrSpinnerAdapter(R.array.bodyMuscle)
         b.bodySexuality.adapter = bodyAttrSpinnerAdapter(R.array.bodySexuality)
 
+        //"${c.getString(R.string.identify)}: ${crush?.key ?: crushKey}"
+
         // Default Values
         bir = crush?.bCalendar(c)
         fir = crush?.fCalendar(c)
         if (crush != null) {
+            b.key.setText(crush!!.key)
             b.fName.setText(crush!!.fName)
             b.mName.setText(crush!!.mName)
             b.lName.setText(crush!!.lName)
             b.gender.setSelection((crush!!.status and Crush.STAT_GENDER).toInt())
             b.fiction.isChecked = crush!!.fiction().also { onFictionChanged(it) }
             if (bir != null) {
-                b.birth.text = bir!!.fullDate()
+                b.birth.setText(bir!!.fullDate())
                 isBirthSet = true
             }
             b.notifyBirth.isChecked = crush!!.notifyBirth()
@@ -136,7 +139,7 @@ class Identify() : DialogFragment() {
             b.address.setText(crush!!.address)
             b.instagram.setText(crush!!.insta)
             if (fir != null) {
-                b.firstMet.text = fir!!.fullDate()
+                b.firstMet.setText(fir!!.fullDate())
                 isFirstSet = true
             }
             b.bodySkinColour.setSelection(
@@ -196,7 +199,7 @@ class Identify() : DialogFragment() {
                 bir!!.set(Calendar.DAY_OF_MONTH, day)
                 bir = McdtpUtils.trimToMidnight(bir)
                 isBirthSet = true
-                b.birth.text = bir!!.fullDate()
+                b.birth.setText(bir!!.fullDate())
                 b.birth.alpha = 1f
                 b.birth.isLongClickable = true
             }, bir).defaultOptions().show(c.supportFragmentManager, "birth")
@@ -222,7 +225,7 @@ class Identify() : DialogFragment() {
                 fir!!.set(Calendar.DAY_OF_MONTH, day)
                 fir = McdtpUtils.trimToMidnight(fir)
                 isFirstSet = true
-                b.firstMet.text = fir!!.fullDate()
+                b.firstMet.setText(fir!!.fullDate())
                 b.firstMet.alpha = 1f
                 b.firstMet.isLongClickable = true
             }, fir).defaultOptions().show(c.supportFragmentManager, "first_met")
@@ -253,7 +256,7 @@ class Identify() : DialogFragment() {
         val crushKey = requireArguments().getString(BUNDLE_CRUSH_KEY)!!
         isCancelable = false
         return MaterialAlertDialogBuilder(c).apply {
-            setTitle("${c.getString(R.string.identify)}: ${crush?.key ?: crushKey}")
+            setTitle(R.string.identify)
             setView(b.root)
             setPositiveButton(R.string.save) { _, _ ->
                 val endBir = bir!!.toGregorian() // "this" is returned when it is already Gregorian
@@ -324,11 +327,10 @@ class Identify() : DialogFragment() {
     }
 
     private fun onFictionChanged(bb: Boolean) {
-        b.birth.isVisible = !bb
-        b.birthSep.isVisible = !bb
+        b.birthIL.isVisible = !bb
         b.notifyBirth.isVisible = !bb
-        b.instagram.isVisible = !bb
-        b.address.hint = if (bb) getString(R.string.creator) else getString(R.string.address)
+        b.instagramIL.isVisible = !bb
+        b.addressIL.hint = if (bb) getString(R.string.creator) else getString(R.string.address)
     }
 
     private fun bodyAttrSpinnerAdapter(@ArrayRes arr: Int) = ArrayAdapter(
