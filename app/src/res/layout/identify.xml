@@ -16,8 +16,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/identifyInputLayout"
-            android:hint="@string/identifyKey"
-            android:paddingBottom="50dp">
+            android:hint="@string/identifyKey">
 
             <ir.mahdiparastesh.sexbook.base.SoftEditText
                 android:id="@+id/key"
@@ -27,6 +26,10 @@
                 android:maxLength="100"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/identifyInputLayout"
@@ -70,21 +73,26 @@
         <Spinner
             android:id="@+id/gender"
             style="@style/identifyField"
-            android:paddingHorizontal="5dp"
-            android:paddingTop="12dp" />
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="5dp" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/fiction"
             style="@style/identifySubField"
+            android:layout_height="28sp"
             android:text="@string/fiction"
             android:textColor="?colorOnSecondary"
             app:buttonIconTint="?colorSurfaceContainer"
             app:buttonTint="?colorOnSecondary" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="14dp" />
+        <!-- fiction can't get spacing at the bottom and birthIL can't get it at the top! -->
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/birthIL"
             style="@style/identifyButtonIL"
-            android:layout_marginBottom="0dp"
             android:hint="@string/birth">
 
             <EditText
@@ -139,12 +147,12 @@
                 android:id="@+id/instagram"
                 style="@style/identifyET"
                 android:autofillHints="username"
-                android:fontFamily="serif-monospace"
                 android:inputType="textUri|textMultiLine"
                 android:maxLength="30"
-                android:maxLines="2"
+                android:maxLines="2" />
+            <!--android:fontFamily="serif-monospace"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"-->
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

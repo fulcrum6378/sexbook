@@ -141,6 +141,8 @@
 
     <style name="identifyInputLayout" parent="identifyField">
         <item name="android:paddingVertical">0dp</item>
+        <item name="android:layout_marginVertical">2dp</item>
+        <!-- padding visually works just like margin for TIL, but not in hover ripple. -->
         <item name="android:textColorHint">?android:textColorHint</item>
         <item name="boxStrokeColor">@color/input_layout</item>
         <item name="hintTextColor">?colorSecondaryVariant</item><!--collapsed/focused-->
@@ -165,7 +167,7 @@
     </style>
 
     <style name="identifySubField" parent="identifyField">
-        <item name="android:paddingVertical">0dp</item>
+        <item name="android:layout_marginVertical">0dp</item>
         <item name="android:textSize">15sp</item>
     </style>
 
