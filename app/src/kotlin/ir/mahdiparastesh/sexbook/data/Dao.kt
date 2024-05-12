@@ -14,10 +14,10 @@ interface Dao {
     @Query("SELECT * FROM Report")
     suspend fun rGetAll(): List<Report>
 
-    @Query("SELECT * FROM Report WHERE plac == :place")
+    @Query("SELECT * FROM Report WHERE `plac` == :place")
     suspend fun rGetByPlace(place: Long): List<Report>
 
-    @Query("SELECT MAX(time) FROM Report WHERE ogsm LIKE 1")
+    @Query("SELECT MAX(time) FROM Report WHERE `ogsm` LIKE 1")
     suspend fun whenWasTheLastTime(): Long?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -45,6 +45,9 @@ interface Dao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun cReplaceAll(list: List<Crush>)
+
+    @Query("UPDATE OR ABORT Crush SET `key` = :newKey WHERE `key` = :oldKey")
+    suspend fun cUpdateKey(oldKey: String, newKey: String)
 
     @Update
     suspend fun cUpdate(item: Crush)

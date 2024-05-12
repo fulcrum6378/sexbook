@@ -471,13 +471,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * Make Identify cancelable if not edited
+  * Auto complete is hidden behind the keyboard for a new report
   * Crushes regularly swap places in Sum sort mode
   * https://stackoverflow.com/questions/26015548/sqlitedatabaselockedexception-database-is-locked-retrycount-exceeded
   * Searching in Summary and Recency is so immature!
   * -
   * Extension:
-  * Field for changing Crush key
+  * "Reactivate Crush" for Singular
   * "Add Person" for People
   * Allow "mahdi" along with of "Mahdi" in Summary
   * "First orgasm" for sorting

@@ -95,6 +95,7 @@
 
     <!-- Identification -->
     <string name="identify">Identifikation</string>
+    <string name="identifyKey">Eindeutige Kennung</string>
     <string name="firstName">Vorname</string>
     <string name="middleName">Zweiter Vorname</string>
     <string name="lastName">Familienname</string>

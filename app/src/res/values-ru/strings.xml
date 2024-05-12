@@ -96,6 +96,7 @@
 
     <!-- Identification -->
     <string name="identify">Идентификация</string>
+    <string name="identifyKey">Уникальный идентификатор</string>
     <string name="firstName">Имя</string>
     <string name="middleName">Второе имя</string>
     <string name="lastName">Фамилия</string>

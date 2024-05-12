@@ -9,6 +9,7 @@ import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.InputFilter
 import android.text.Spanned
 import android.view.View
@@ -63,6 +64,13 @@ class Identify() : DialogFragment() {
     private var isFirstSet = false
     private var bir: Calendar? = null
     private var fir: Calendar? = null
+    private val cancellability: CountDownTimer =
+        object : CountDownTimer(8720, 8720) {
+            override fun onTick(millisUntilFinished: Long) {}
+            override fun onFinish() {
+                isCancelable = false
+            }
+        }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -116,8 +124,6 @@ class Identify() : DialogFragment() {
         b.bodyPenis.adapter = bodyAttrSpinnerAdapter(R.array.bodyPenis)
         b.bodyMuscle.adapter = bodyAttrSpinnerAdapter(R.array.bodyMuscle)
         b.bodySexuality.adapter = bodyAttrSpinnerAdapter(R.array.bodySexuality)
-
-        //"${c.getString(R.string.identify)}: ${crush?.key ?: crushKey}"
 
         // Default Values
         bir = crush?.bCalendar(c)
@@ -253,8 +259,9 @@ class Identify() : DialogFragment() {
             b.firstMet.setOnLongClickListener(it)
         }
 
-        val crushKey = requireArguments().getString(BUNDLE_CRUSH_KEY)!!
-        isCancelable = false
+        val crushKey = crush?.key ?: requireArguments().getString(BUNDLE_CRUSH_KEY)!!
+        isCancelable = true
+        cancellability.start()
         return MaterialAlertDialogBuilder(c).apply {
             setTitle(R.string.identify)
             setView(b.root)
@@ -262,7 +269,7 @@ class Identify() : DialogFragment() {
                 val endBir = bir!!.toGregorian() // "this" is returned when it is already Gregorian
                 val endFir = fir!!.toGregorian()
                 val inserted = Crush(
-                    crush?.key ?: crushKey,
+                    b.key.text.toString().ifBlank { crushKey },
                     b.fName.text.toString().ifBlank { null },
                     b.mName.text.toString().ifBlank { null },
                     b.lName.text.toString().ifBlank { null },
@@ -290,10 +297,12 @@ class Identify() : DialogFragment() {
                     b.instagram.text.toString().ifBlank { null },
                 )
                 CoroutineScope(Dispatchers.IO).launch {
+                    if (inserted.key != crushKey)
+                        c.m.dao.cUpdateKey(crushKey, inserted.key)
                     if (crush == null) c.m.dao.cInsert(inserted)
                     else c.m.dao.cUpdate(inserted)
                     withContext(Dispatchers.Main) {
-                        c.m.onCrushChanged(c, inserted, if (crush == null) 0 else 1)
+                        c.m.onCrushChanged(c, inserted, if (crush == null) 0 else 1, crushKey)
                     }
                 }
                 c.shake()
@@ -318,6 +327,7 @@ class Identify() : DialogFragment() {
                 }.show()
                 c.shake()
             }
+            setOnDismissListener { cancellability.cancel() }
         }.create()
     }
 

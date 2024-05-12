@@ -61,10 +61,12 @@ class Model : ViewModel() {
 
     /** @param changeType 0=>insert, 1=>update, 2=>delete */
     @MainThread
-    fun onCrushChanged(c: BaseActivity, crush: Crush, changeType: Int) {
+    fun onCrushChanged(
+        c: BaseActivity, crush: Crush, changeType: Int, crushKey: String = crush.key
+    ) {
         val pageLove = if (c is Main) c.pageLove() else null
-        val aPos = people?.indexOfFirst { it.key == crush.key }
-        val pos = liefde?.indexOfFirst { it.key == crush.key }
+        val aPos = people?.indexOfFirst { it.key == crushKey }
+        val pos = liefde?.indexOfFirst { it.key == crushKey }
         if (changeType != 2) { // insert, update
             if (crush.active()) {
                 if (pos != null && pos != -1) liefde?.set(pos, crush)

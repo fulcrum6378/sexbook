@@ -95,6 +95,7 @@
 
     <!-- Identification -->
     <string name="identify">Identifikace</string>
+    <string name="identifyKey">Unikátní identifikátor</string>
     <string name="firstName">Jméno</string>
     <string name="middleName">Prostřední jméno</string>
     <string name="lastName">Příjmení</string>

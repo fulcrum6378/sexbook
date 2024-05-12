@@ -97,6 +97,7 @@
 
     <!-- Identification -->
     <string name="identify">Identificación</string>
+    <string name="identifyKey">Identificador único</string>
     <string name="firstName">Nombre de pila</string>
     <string name="middleName">Segundo nombre</string>
     <string name="lastName">Apellido</string>
