@@ -31,7 +31,12 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
-import ir.mahdiparastesh.sexbook.more.*
+import ir.mahdiparastesh.sexbook.more.Act
+import ir.mahdiparastesh.sexbook.more.AnyViewHolder
+import ir.mahdiparastesh.sexbook.more.LastOrgasm
+import ir.mahdiparastesh.sexbook.more.MaterialMenu
+import ir.mahdiparastesh.sexbook.more.RecyclerViewItemEvent
+import ir.mahdiparastesh.sexbook.more.TypeAdap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -148,7 +153,6 @@ class ReportAdap(
             .apply { colorFilter = c.themePdcf(com.google.android.material.R.attr.colorSecondary) }
 
         // Name
-        h.b.name.setTextWatcher(null)
         h.b.name.setText(r.name)
         h.b.name.isEnabled = !r.guess
         h.b.name.setTextWatcher(if (!r.guess) object : TextWatcher {

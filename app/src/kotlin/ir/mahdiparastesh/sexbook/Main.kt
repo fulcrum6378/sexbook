@@ -12,10 +12,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Process
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -32,14 +36,26 @@ import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.toDefaultType
 import ir.mahdiparastesh.sexbook.base.BaseActivity
-import ir.mahdiparastesh.sexbook.data.*
+import ir.mahdiparastesh.sexbook.data.Crush
+import ir.mahdiparastesh.sexbook.data.Database
+import ir.mahdiparastesh.sexbook.data.Exporter
+import ir.mahdiparastesh.sexbook.data.Guess
+import ir.mahdiparastesh.sexbook.data.Place
+import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.more.ActionBarDrawerToggle
 import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
-import ir.mahdiparastesh.sexbook.stat.*
+import ir.mahdiparastesh.sexbook.stat.Adorability
+import ir.mahdiparastesh.sexbook.stat.Growth
+import ir.mahdiparastesh.sexbook.stat.Intervals
+import ir.mahdiparastesh.sexbook.stat.Mixture
+import ir.mahdiparastesh.sexbook.stat.Recency
+import ir.mahdiparastesh.sexbook.stat.Summary
+import ir.mahdiparastesh.sexbook.stat.SummaryDialog
+import ir.mahdiparastesh.sexbook.stat.Taste
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -190,6 +206,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 pageSex()?.prepareList() // guesses must be instilled before doing this.
             }
         }
+
+        // Soft input mode
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
+            b.root.setOnApplyWindowInsetsListener { _, insets ->
+                b.root.setPadding(0, 0, 0, insets.getInsets(WindowInsets.Type.ime()).bottom)
+                insets
+            }
+        } else
+            @Suppress("DEPRECATION")
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)*/
 
         // Miscellaneous
         if (m.navOpen) b.root.openDrawer(drawerGravity)
