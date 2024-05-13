@@ -129,7 +129,9 @@ class Settings : BaseActivity() {
                 if (sp.contains(spStatUntil) && cal.timeInMillis >
                     sp.getLong(spStatUntil, 0/*IMPOSSIBLE*/)
                 ) {
-                    Toast.makeText(c, R.string.statSinceIllogical, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        c, R.string.statSinceIllogical, Toast.LENGTH_LONG
+                    ).show()
                     return@newInstance; }
                 b.stStatSinceDate.text = cal.fullDate()
                 sp.edit()
@@ -163,7 +165,9 @@ class Settings : BaseActivity() {
                 if (sp.contains(spStatSince) && cal.timeInMillis <
                     sp.getLong(spStatSince, 0/*IMPOSSIBLE*/)
                 ) {
-                    Toast.makeText(c, R.string.statUntilIllogical, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        c, R.string.statUntilIllogical, Toast.LENGTH_LONG
+                    ).show()
                     return@newInstance; }
                 b.stStatUntilDate.text = cal.fullDate()
                 sp.edit()
@@ -293,7 +297,7 @@ class Settings : BaseActivity() {
         }
         CoroutineScope(Dispatchers.IO).launch {
             mm.bNtfCrushes = m.people?.filter { it.notifyBirth() }
-                ?.sortedWith(Crush.Sort(this@Settings, spPeopleSortBy))
+                ?.sortedWith(Crush.Sort(this@Settings, spPeopleSortBy, spPeopleSortAsc))
                 ?.let { if (!sp.getBoolean(spPeopleSortAsc, true)) it.reversed() else it }
                 ?: listOf()
             withContext(Dispatchers.Main) {

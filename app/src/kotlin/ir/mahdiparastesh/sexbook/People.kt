@@ -77,8 +77,11 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
         b.empty.isVisible = m.people.isNullOrEmpty()
         if (m.people.isNullOrEmpty()) return
 
-        mm.visPeople = ArrayList(m.people!!.sortedWith(Crush.Sort(this, Settings.spPeopleSortBy)))
-        if (!sp.getBoolean(Settings.spPeopleSortAsc, true)) mm.visPeople.reverse()
+        mm.visPeople = ArrayList(
+            m.people!!.sortedWith(
+                Crush.Sort(this, Settings.spPeopleSortBy, Settings.spPeopleSortAsc)
+            )
+        )
         // TO-DO filter | search
 
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)

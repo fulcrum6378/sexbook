@@ -157,20 +157,25 @@ class Crush(
 
     fun last(m: Model): Long? = m.summary?.scores?.get(key)?.maxOf { it.time }
 
-    class Sort(private val c: BaseActivity, spKey: String) : Comparator<Crush> {
-        private val by = c.sp.getInt(spKey, 0)
+    class Sort(private val c: BaseActivity, spByKey: String, spAscKey: String) : Comparator<Crush> {
+        private val by = c.sp.getInt(spByKey, 0)
+        private val asc = c.sp.getBoolean(spAscKey, true)
 
-        override fun compare(a: Crush, b: Crush): Int = when (by) {
-            Fun.SORT_BY_NAME -> a.visName().lowercase(Locale.getDefault())
-                .compareTo(b.visName().lowercase(Locale.getDefault()))
-            Fun.SORT_BY_SUM -> (a.sum(c.m) ?: 0f).compareTo(b.sum(c.m) ?: 0f)
-            Fun.SORT_BY_AGE -> (b.bCalendar(null)?.timeInMillis ?: 0L)
-                .compareTo(a.bCalendar(null)?.timeInMillis ?: 0L)
-            Fun.SORT_BY_HEIGHT -> a.height.compareTo(b.height)
-            Fun.SORT_BY_BEGINNING -> (a.fCalendar(c)?.timeInMillis ?: 0L)
-                .compareTo(b.fCalendar(c)?.timeInMillis ?: 0L)
-            Fun.SORT_BY_LAST -> (a.last(c.m) ?: 0L).compareTo(b.last(c.m) ?: 0L)
-            else -> throw IllegalArgumentException("Invalid sorting method!")
+        override fun compare(aa: Crush, bb: Crush): Int {
+            val a = if (asc) aa else bb
+            val b = if (asc) bb else aa
+            return when (by) {
+                Fun.SORT_BY_NAME -> a.visName().lowercase(Locale.getDefault())
+                    .compareTo(b.visName().lowercase(Locale.getDefault()))
+                Fun.SORT_BY_SUM -> (a.sum(c.m) ?: 0f).compareTo(b.sum(c.m) ?: 0f)
+                Fun.SORT_BY_AGE -> (b.bCalendar(null)?.timeInMillis ?: 0L)
+                    .compareTo(a.bCalendar(null)?.timeInMillis ?: 0L)
+                Fun.SORT_BY_HEIGHT -> a.height.compareTo(b.height)
+                Fun.SORT_BY_BEGINNING -> (a.fCalendar(c)?.timeInMillis ?: 0L)
+                    .compareTo(b.fCalendar(c)?.timeInMillis ?: 0L)
+                Fun.SORT_BY_LAST -> (a.last(c.m) ?: 0L).compareTo(b.last(c.m) ?: 0L)
+                else -> throw IllegalArgumentException("Invalid sorting method!")
+            }
         }
     }
 

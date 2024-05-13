@@ -18,8 +18,6 @@ import android.os.Process
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -206,17 +204,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 pageSex()?.prepareList() // guesses must be instilled before doing this.
             }
         }
-
-        // Soft input mode
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-            b.root.setOnApplyWindowInsetsListener { _, insets ->
-                b.root.setPadding(0, 0, 0, insets.getInsets(WindowInsets.Type.ime()).bottom)
-                insets
-            }
-        } else
-            @Suppress("DEPRECATION")
-            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)*/
 
         // Miscellaneous
         if (m.navOpen) b.root.openDrawer(drawerGravity)
@@ -498,8 +485,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * Auto complete is hidden behind the keyboard for a new report
-  * Crushes regularly swap places in Sum sort mode
   * https://stackoverflow.com/questions/26015548/sqlitedatabaselockedexception-database-is-locked-retrycount-exceeded
   * Searching in Summary and Recency is so immature!
   * -
