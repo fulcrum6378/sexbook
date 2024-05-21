@@ -31,8 +31,8 @@
     <string name="expand">Расширять</string>
     <string name="collapse">Крах</string>
     <string name="bHappyTitle">С Днем Рождения %s!</string>
-    <string name="bHappyBef">До дня рождения осталось %d часов!</string>
-    <string name="bHappyAft">Прошло %d часов с момента их дня рождения!</string>
+    <string name="bHappyBef">До дня рождения осталось %1$d часов!%2$s</string>
+    <string name="bHappyAft">Прошло %1$d часов с момента их дня рождения!%2$s</string>
     <string name="birthDateNtf">Уведомление о дне рождения</string>
     <string name="clear">Стереть</string>
     <string name="suspend">Приостановить</string>
@@ -52,6 +52,9 @@
     <string name="search">Поиск</string>
     <string name="sort">Сортировать</string>
     <string name="filter">Фильтр</string>
+    <string name="her" />
+    <string name="his" />
+    <string name="their" />
 
     <!-- Main -->
     <string name="momImport">Импорт из Json</string>

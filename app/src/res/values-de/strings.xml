@@ -30,8 +30,8 @@
     <string name="expand">Erweitern</string>
     <string name="collapse">Zusammenbruch</string>
     <string name="bHappyTitle">Alles Gute zum Geburtstag von %s!</string>
-    <string name="bHappyBef">Noch %d Stunde(n) bis zu ihrem Geburtstag!</string>
-    <string name="bHappyAft">%d Stunde(n) sind seit ihrem Geburtstag vergangen!</string>
+    <string name="bHappyBef">Noch %1$d Stunde(n) bis zu %2$s Geburtstag!</string>
+    <string name="bHappyAft">%1$d Stunde(n) sind seit %2$s Geburtstag vergangen!</string>
     <string name="birthDateNtf">Geburtstagsbenachrichtigung</string>
     <string name="clear">Klar</string>
     <string name="suspend">Aussetzen</string>
@@ -51,6 +51,9 @@
     <string name="search">Suchen</string>
     <string name="sort">Sortieren</string>
     <string name="filter">Filter</string>
+    <string name="her">ihrem</string>
+    <string name="his">seinem</string>
+    <string name="their">ihrem</string>
 
     <!-- Main -->
     <string name="momImport">Import aus Json</string>

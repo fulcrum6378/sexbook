@@ -51,6 +51,9 @@
     <string name="search">Vyhledávání</string>
     <string name="sort">Seřadit</string>
     <string name="filter">Filtr</string>
+    <string name="her">jejích</string>
+    <string name="his">jeho</string>
+    <string name="their">jejich</string>
 
     <!-- Main -->
     <string name="momImport">Import z Json</string>

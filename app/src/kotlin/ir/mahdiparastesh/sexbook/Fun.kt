@@ -250,6 +250,12 @@ object Fun {
         return sum
     }
 
+    fun Context.possessiveDeterminer(gender: Int): String = when (gender) {
+        1 -> getString(R.string.her)
+        2 -> getString(R.string.his)
+        else -> getString(R.string.their)
+    }
+
     /**
      * Data class that indicates a sex type.
      * @param name visible name

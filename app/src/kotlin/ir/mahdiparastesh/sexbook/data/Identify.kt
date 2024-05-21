@@ -65,7 +65,7 @@ class Identify() : DialogFragment() {
     private var bir: Calendar? = null
     private var fir: Calendar? = null
     private val cancellability: CountDownTimer =
-        object : CountDownTimer(8720, 8720) {
+        object : CountDownTimer(10000, 10000) {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
                 isCancelable = false
@@ -126,10 +126,11 @@ class Identify() : DialogFragment() {
         b.bodySexuality.adapter = bodyAttrSpinnerAdapter(R.array.bodySexuality)
 
         // Default Values
+        val crushKey = crush?.key ?: requireArguments().getString(BUNDLE_CRUSH_KEY)!!
+        b.key.setText(crushKey)
         bir = crush?.bCalendar(c)
         fir = crush?.fCalendar(c)
         if (crush != null) {
-            b.key.setText(crush!!.key)
             b.fName.setText(crush!!.fName)
             b.mName.setText(crush!!.mName)
             b.lName.setText(crush!!.lName)
@@ -259,7 +260,6 @@ class Identify() : DialogFragment() {
             b.firstMet.setOnLongClickListener(it)
         }
 
-        val crushKey = crush?.key ?: requireArguments().getString(BUNDLE_CRUSH_KEY)!!
         isCancelable = true
         cancellability.start()
         return MaterialAlertDialogBuilder(c).apply {

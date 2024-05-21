@@ -32,6 +32,7 @@ import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
+import ir.mahdiparastesh.sexbook.Fun.possessiveDeterminer
 import ir.mahdiparastesh.sexbook.Fun.toDefaultType
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -58,6 +59,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.experimental.and
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
@@ -145,18 +147,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         // Load all data from the database
         CoroutineScope(Dispatchers.IO).launch {
             val rp = if (m.onani == null) m.dao.rGetAll() else null
-            val cr = if (m.liefde == null) m.dao.cGetAll() else null
+            val cr = if (m.people == null) m.dao.cGetAll() else null
             val pl = if (m.places == null) m.dao.pGetAll() else null
             val gs = if (m.guesses == null) m.dao.gGetAll() else null
             withContext(Dispatchers.Main) {
                 rp?.also { m.onani = ArrayList(it) }
-                cr?.also { m.people = ArrayList(it) }
-                if (m.liefde == null) m.getCrushes()?.apply {
-                    m.liefde = this
+                cr?.apply {
+                    m.people = ArrayList(this)
                     if (isEmpty()) return@apply
-                    if (sp.getBoolean(Settings.spCalOutput, false) &&
-                        CalendarManager.checkPerm(this@Main)
-                    ) m.calManager = CalendarManager(this@Main, this)
 
                     // notify if any birthday is around
                     if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
@@ -184,6 +182,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                             ..Fun.A_DAY
                         ) notifyBirth(it, dist)
                     }
+                }
+                if (m.liefde == null) m.getCrushes()?.apply {
+                    m.liefde = this
+                    if (isEmpty()) return@apply
+                    if (sp.getBoolean(Settings.spCalOutput, false) &&
+                        CalendarManager.checkPerm(this@Main)
+                    ) m.calManager = CalendarManager(this@Main, this)
                 }
                 pl?.let { ArrayList(it) }?.apply {
                     m.places = this
@@ -444,7 +449,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         getString(
                             if (dist < 0L) R.string.bHappyBef
                             else R.string.bHappyAft,
-                            abs(dist / 3600000L)
+                            abs(dist / 3600000L),
+                            possessiveDeterminer((crush.status and Crush.STAT_GENDER).toInt())
                         )
                     )
                     priority =
@@ -490,7 +496,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * -
   * Extension:
   * "Reactivate Crush" for Singular
-  * "Add Person" for People
   * Allow "mahdi" along with of "Mahdi" in Summary
   * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification

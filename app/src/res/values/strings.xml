@@ -33,8 +33,8 @@
     <string name="expand">Expand</string>
     <string name="collapse">Collapse</string>
     <string name="bHappyTitle">Happy %s\'s Birthday!</string>
-    <string name="bHappyBef" tools:ignore="PluralsCandidate">%d hour(s) remaining to their birthday!</string>
-    <string name="bHappyAft" tools:ignore="PluralsCandidate">%d hour(s) past since their birthday!</string>
+    <string name="bHappyBef" tools:ignore="PluralsCandidate">%1$d hour(s) remaining to %2$s birthday&#8230;</string>
+    <string name="bHappyAft" tools:ignore="PluralsCandidate">%1$d hour(s) past since %2$s birthday&#8230;</string>
     <string name="birthDateNtf">Birthday Notification</string>
     <string name="clear">Clear</string>
     <string name="suspend">Suspend</string>
@@ -54,6 +54,9 @@
     <string name="search">Search</string>
     <string name="sort">Sort</string>
     <string name="filter">Filter</string>
+    <string name="her">her</string>
+    <string name="his">his</string>
+    <string name="their">their</string>
 
     <!-- Main -->
     <string name="momImport">Import from Json</string>

@@ -7,7 +7,7 @@ plugins {
 android {
     namespace 'ir.mahdiparastesh.sexbook'
     compileSdk 34
-    buildToolsVersion = '35.0.0-rc3'
+    buildToolsVersion = System.getenv("ANDROID_BUILD_TOOLS_VERSION")
 
     signingConfigs {
         main {
@@ -23,7 +23,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 40
-        versionName '24.5.6'
+        versionName '24.6.2'
         signingConfig signingConfigs.main
     }
     sourceSets.main {
