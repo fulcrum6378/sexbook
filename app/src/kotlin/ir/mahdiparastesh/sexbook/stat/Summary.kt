@@ -6,37 +6,34 @@ import android.os.Parcelable
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 
-class Summary(list: List<Report>, var nExcluded: Int, total: Int) {
+class Summary(reports: List<Report>, var nExcluded: Int, total: Int) {
     var scores: HashMap<String, ArrayList<Orgasm>>
     var unknown = 0f
     var nonCrush = 0f
     var apparent = (total - nExcluded).toFloat()
 
     init {
-        val all = arrayListOf<List<List<String>>?>()
+        val divided = arrayListOf<List<List<String>>?>()
         val meanings = arrayListOf<List<Meaning>?>()
 
-        // An initial partial analysis
-        for (m in list) {
-            val key = m.name.fixKey()
-
-            // ONLY 2+ characters allowed
-            if (key.length < 2) {
-                all.add(null)
+        // pre-analyses
+        for (r in reports) {
+            val key = r.name.fixKey()
+            if (key.length < 2) { // only 2+ characters allowed
+                divided.add(null)
                 meanings.add(null)
-                continue
-            }
+                continue; }
 
-            // Split crushes
+            // split crushes
             val split = arrayListOf<List<String>>()
             for (s in key.split(" + ")) split.add(s.split(" "))
-            all.add(split)
+            divided.add(split)
 
-            // Analyze the notes' shape
+            // analyze notes' shapes
             val shape = arrayListOf<ArrayList<Boolean>>()
             split.forEach { s1 ->
                 val thisShape = arrayListOf<Boolean>()
-                // Check if it is a person's name
+                // check if it is a person's name
                 s1.forEach { s2 ->
                     if (s2.isNotEmpty()) thisShape.add(s2[0].isUpperCase() || s2[0] == '#')
                 }
@@ -64,11 +61,11 @@ class Summary(list: List<Report>, var nExcluded: Int, total: Int) {
 
         // Identify crushes from each record and gather scores for them...
         scores = HashMap()
-        for (e in list.indices) {
-            val k = list[e].name.fixKey()
-            val a = all[e]
+        for (e in reports.indices) {
+            val k = reports[e].name.fixKey()
+            val a = divided[e]
             val m = meanings[e]
-            val time = list[e].time
+            val time = reports[e].time
 
             // Exclude faulty or one-character notes
             if (m == null || a == null) {

@@ -465,12 +465,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private fun instillGuesses() {
         for (g in m.guesses!!.filter { it.able }) {
             if (!g.checkValid()) continue
-            var time = g.sinc
+            var curTime = g.sinc
             val share = (86400000.0 / g.freq).toLong()
 
-            while (time <= g.till) {
-                m.onani!!.add(Report(time, g.crsh ?: "", g.type, g.plac))
-                time += share
+            while (curTime <= g.till) {
+                m.onani!!.add(Report(curTime, g.crsh ?: "", g.type, g.plac))
+                curTime += share
             }
         }
         m.onani!!.sortWith(Report.Sort())
