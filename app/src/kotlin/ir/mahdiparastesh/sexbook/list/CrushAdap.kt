@@ -35,7 +35,8 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
 
         // Texts
         h.b.name.text = c.m.liefde!![i].visName()
-        h.b.sum.text = c.m.liefde!![i].sum(c.m)?.let { "{${it.show()}}" } ?: ""
+        h.b.sum.text = c.m.liefde!![i].getSum(c.m)
+            .let { if (it != 0f) "{${it.show()}}" else "" }
 
         // Clicks
         h.b.root.setOnClickListener { v ->

@@ -129,6 +129,7 @@ class Model : ViewModel() {
         places = null
         guesses = null
         listFilter = -1
+        summary = null
     }
 
 

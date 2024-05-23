@@ -28,6 +28,7 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseActivity.Companion.night
+import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
@@ -161,10 +162,14 @@ class ReportAdap(
             override fun afterTextChanged(s: Editable?) {
                 c.m.visOnani[h.layoutPosition].apply {
                     if (name != h.b.name.text.toString()) {
+                        if (!Crush.statsCleared) {
+                            c.m.people?.forEach { it.resetStats() }
+                            Crush.statsCleared = true
+                        }
+                        analysis = null
                         name = h.b.name.text.toString()
                         updateStatic(this, h.layoutPosition)
                     }
-                    analysis = null
                 }
             }
         } else null)

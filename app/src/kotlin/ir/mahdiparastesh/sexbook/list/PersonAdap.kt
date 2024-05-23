@@ -45,7 +45,8 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
 
         // Name
         h.b.name.text = "${i + 1}. ${p.visName()}"
-        h.b.sum.text = c.mm.visPeople[i].sum(c.m)?.let { "{${it.show()}}" } ?: ""
+        h.b.sum.text = c.mm.visPeople[i].getSum(c.m)
+            .let { if (it != 0f) "{${it.show()}}" else "" }
 
         // Clicks
         h.b.root.setOnClickListener {

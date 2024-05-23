@@ -96,6 +96,8 @@ class Crush(
         /** `body` offset 22; 3 bits; their sexual orientation (0..)
          * 0=>unspecified, 1=>heterosexual, 2=>homosexual, 3=>bisexual, 4=>asexual, 5=>other, (6,7) */
         val BODY_SEXUALITY = (0x00000007 shl 22) to 22
+
+        var statsCleared = true
     }
 
     fun active(): Boolean = (status and STAT_INACTIVE) == 0.toByte()
@@ -105,6 +107,7 @@ class Crush(
     fun notifyBirth(): Boolean = (status and STAT_NOTIFY_BIRTH) != 0.toByte()
 
     fun body(field: Pair<Int, Int>): Int = (body and field.first) shr field.second
+
 
     @Ignore
     @Transient
@@ -152,10 +155,42 @@ class Crush(
         return fCalendar_
     }
 
-    fun sum(m: Model): Float? = m.summary?.scores?.get(key)
-        ?.sumOf { it.value.toDouble() }?.toFloat()
 
-    fun last(m: Model): Long? = m.summary?.scores?.get(key)?.maxOf { it.time }
+    @Ignore
+    @Transient
+    private var sum_: Float? = null
+
+    private fun sum(m: Model): Float =
+        m.summary?.scores?.get(key)?.sumOf { it.value.toDouble() }?.toFloat() ?: 0f
+
+    fun getSum(m: Model): Float {
+        if (sum_ == null) {
+            sum_ = sum(m)
+            statsCleared = false
+        }
+        return sum_!!
+    }
+
+
+    @Ignore
+    @Transient
+    private var lastOrgasm_: Long? = null
+
+    private fun lastOrgasm(m: Model): Long =
+        m.summary?.scores?.get(key)?.maxOf { it.time } ?: 0L
+
+    fun getLastOrgasm(m: Model): Long {
+        if (lastOrgasm_ == null) {
+            lastOrgasm_ = lastOrgasm(m)
+            statsCleared = false
+        }
+        return lastOrgasm_!!
+    }
+
+    fun resetStats() {
+        sum_ = null
+        lastOrgasm_ = null
+    }
 
     class Sort(private val c: BaseActivity, spByKey: String, spAscKey: String) : Comparator<Crush> {
         private val by = c.sp.getInt(spByKey, 0)
@@ -167,13 +202,13 @@ class Crush(
             return when (by) {
                 Fun.SORT_BY_NAME -> a.visName().lowercase(Locale.getDefault())
                     .compareTo(b.visName().lowercase(Locale.getDefault()))
-                Fun.SORT_BY_SUM -> (a.sum(c.m) ?: 0f).compareTo(b.sum(c.m) ?: 0f)
+                Fun.SORT_BY_SUM -> a.getSum(c.m).compareTo(b.getSum(c.m))
                 Fun.SORT_BY_AGE -> (b.bCalendar(null)?.timeInMillis ?: 0L)
                     .compareTo(a.bCalendar(null)?.timeInMillis ?: 0L)
                 Fun.SORT_BY_HEIGHT -> a.height.compareTo(b.height)
                 Fun.SORT_BY_BEGINNING -> (a.fCalendar(c)?.timeInMillis ?: 0L)
                     .compareTo(b.fCalendar(c)?.timeInMillis ?: 0L)
-                Fun.SORT_BY_LAST -> (a.last(c.m) ?: 0L).compareTo(b.last(c.m) ?: 0L)
+                Fun.SORT_BY_LAST -> a.getLastOrgasm(c.m).compareTo(b.getLastOrgasm(c.m))
                 else -> throw IllegalArgumentException("Invalid sorting method!")
             }
         }
