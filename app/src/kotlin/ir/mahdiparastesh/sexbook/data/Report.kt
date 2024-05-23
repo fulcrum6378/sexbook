@@ -29,6 +29,10 @@ class Report(
     @Transient
     var guess: Boolean = false
 
+    @Ignore
+    @Transient
+    var analysis: List<String>? = null
+
     @Ignore // for estimation
     constructor(time: Long, name: String, type: Byte, plac: Long)
             : this(time, name, type, null, false, plac, true, -127) {
@@ -40,6 +44,18 @@ class Report(
 
     override fun equals(other: Any?): Boolean = if (other !is Report) false else id == other.id
     override fun hashCode(): Int = id.hashCode()
+
+    fun analyse() {
+        analysis = if (name.isNullOrBlank())
+            listOf()
+        else
+            name!!
+                .replace(" and ", " + ")
+                .replace(" & ", " + ")
+                .replace(", ", " + ")
+                .split(" + ")
+                .onEach { it.trim() }
+    }
 
     class Sort : Comparator<Report> {
         override fun compare(a: Report, b: Report) = a.time.compareTo(b.time)

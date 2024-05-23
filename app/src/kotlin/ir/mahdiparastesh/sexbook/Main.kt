@@ -496,7 +496,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * -
   * Extension:
   * "Reactivate Crush" for Singular
-  * Allow "mahdi" along with of "Mahdi" in Summary
   * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification
   */

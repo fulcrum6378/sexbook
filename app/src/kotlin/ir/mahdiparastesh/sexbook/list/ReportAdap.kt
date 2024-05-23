@@ -164,6 +164,7 @@ class ReportAdap(
                         name = h.b.name.text.toString()
                         updateStatic(this, h.layoutPosition)
                     }
+                    analysis = null
                 }
             }
         } else null)
@@ -365,7 +366,7 @@ class ReportAdap(
                 val nominalPos = c.m.visOnani.indexOf(c.m.onani!![pos])
                 if (nominalPos != -1) c.m.visOnani[nominalPos] = c.m.onani!![pos]
 
-                // In addition, if date or time have been changed...
+                // in addition, if date or time have been changed...
                 if (!dateTimeChanged) return@withContext
                 val ym = c.m.onani!![pos].time.calendar(c).createFilterYm()
                 if (nominalPos != -1 && f.filters.getOrNull(c.m.listFilter)
