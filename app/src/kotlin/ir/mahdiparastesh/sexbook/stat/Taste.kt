@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.stat
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -77,23 +78,26 @@ class Taste : BaseActivity() {
 
         @get:ArrayRes
         abstract val modes: Int
+        abstract fun crushFilter(cr: Crush): Boolean
+        abstract fun crushProperty(cr: Crush): Byte
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
         ): View = ChartPieFragmentBinding.inflate(layoutInflater, container, false)
             .apply { b = this }.root
 
+        @SuppressLint("SetTextI18n")
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
-            // Title
+            // set the title
             val arModes = resources.getStringArray(modes)
             b.title.text = c.getString(R.string.taste) + ": " +
                     (if (modes == R.array.genders)
                         c.getString(R.string.gender)
                     else arModes[0].substring(0..(arModes[0].length - 2)))
 
-            // Prepare the diagram
+            // prepare the diagram
             myJob = CoroutineScope(Dispatchers.IO).launch {
                 arModes[0] = getString(R.string.unspecified)
                 val stats = hashMapOf<Byte, Float>()
@@ -128,9 +132,6 @@ class Taste : BaseActivity() {
             }
             myJob?.also { c.jobs.add(it) }
         }
-
-        abstract fun crushFilter(cr: Crush): Boolean
-        abstract fun crushProperty(cr: Crush): Byte
     }
 
     class GenderTaste : TasteFragment() {

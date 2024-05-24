@@ -48,6 +48,7 @@ import ir.mahdiparastesh.sexbook.more.CalendarManager
 import ir.mahdiparastesh.sexbook.more.Delay
 import ir.mahdiparastesh.sexbook.more.Lister
 import ir.mahdiparastesh.sexbook.stat.Adorability
+import ir.mahdiparastesh.sexbook.stat.CrushesStat
 import ir.mahdiparastesh.sexbook.stat.Growth
 import ir.mahdiparastesh.sexbook.stat.Intervals
 import ir.mahdiparastesh.sexbook.stat.Mixture
@@ -291,10 +292,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
 
             // PageLove (R.menu.crush_list):
-            /*R.id.chart -> CrushesStat().apply {
+            R.id.chart -> CrushesStat().apply {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 1) }
                 show(supportFragmentManager, CrushesStat.TAG)
-            }*/
+            }
             else -> {
                 Fun.sort(item.itemId)?.also { value ->
                     item.isChecked = true
@@ -497,4 +498,5 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Extension:
   * "Reactivate Crush" for Singular
   * "Turn off notifications for this Crush" on the notification
+  * Height, Age, Fictionality for Taste and CrushesStat
   */
