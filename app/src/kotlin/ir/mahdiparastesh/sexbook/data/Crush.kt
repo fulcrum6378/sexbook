@@ -160,15 +160,15 @@ class Crush(
     @Transient
     private var sum_: Float? = null
 
-    private fun sum(m: Model): Float =
-        m.summary?.scores?.get(key)?.sumOf { it.value.toDouble() }?.toFloat() ?: 0f
+    private fun sum(m: Model): Float? =
+        m.summary?.scores?.get(key)?.sumOf { it.value.toDouble() }?.toFloat()
 
     fun getSum(m: Model): Float {
-        if (sum_ == null) {
-            sum_ = sum(m)
+        if (sum_ == null) sum(m)?.also {
+            sum_ = it
             statsCleared = false
         }
-        return sum_!!
+        return sum_ ?: 0f
     }
 
 
@@ -176,15 +176,15 @@ class Crush(
     @Transient
     private var lastOrgasm_: Long? = null
 
-    private fun lastOrgasm(m: Model): Long =
-        m.summary?.scores?.get(key)?.maxOf { it.time } ?: 0L
+    private fun lastOrgasm(m: Model): Long? =
+        m.summary?.scores?.get(key)?.maxOf { it.time }
 
     fun getLastOrgasm(m: Model): Long {
-        if (lastOrgasm_ == null) {
-            lastOrgasm_ = lastOrgasm(m)
+        if (lastOrgasm_ == null) lastOrgasm(m)?.also {
+            lastOrgasm_ = it
             statsCleared = false
         }
-        return lastOrgasm_!!
+        return lastOrgasm_ ?: 0L
     }
 
 
@@ -192,15 +192,15 @@ class Crush(
     @Transient
     private var firstOrgasm_: Long? = null
 
-    private fun firstOrgasm(m: Model): Long =
-        m.summary?.scores?.get(key)?.minOf { it.time } ?: 0L
+    private fun firstOrgasm(m: Model): Long? =
+        m.summary?.scores?.get(key)?.minOf { it.time }
 
     fun getFirstOrgasm(m: Model): Long {
-        if (firstOrgasm_ == null) {
-            firstOrgasm_ = firstOrgasm(m)
+        if (firstOrgasm_ == null) firstOrgasm(m)?.also {
+            firstOrgasm_ = it
             statsCleared = false
         }
-        return firstOrgasm_!!
+        return firstOrgasm_ ?: 0L
     }
 
 
