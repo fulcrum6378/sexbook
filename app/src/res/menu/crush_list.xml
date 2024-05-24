@@ -39,6 +39,9 @@
                 <item
                     android:id="@+id/sortByLast"
                     android:title="@string/lastOrgasm" />
+                <item
+                    android:id="@+id/sortByFirst"
+                    android:title="@string/firstOrgasm" />
             </group>
 
             <group

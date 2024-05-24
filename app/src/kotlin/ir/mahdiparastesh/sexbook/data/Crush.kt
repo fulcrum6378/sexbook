@@ -100,6 +100,14 @@ class Crush(
         var statsCleared = true
     }
 
+    fun visName(): String =
+        if (fName.isNullOrEmpty() || lName.isNullOrEmpty()) when {
+            !fName.isNullOrEmpty() -> fName!!
+            !lName.isNullOrEmpty() -> lName!!
+            !mName.isNullOrEmpty() -> mName!!
+            else -> key
+        } else "$fName $lName"
+
     fun active(): Boolean = (status and STAT_INACTIVE) == 0.toByte()
 
     fun fiction(): Boolean = (status and STAT_FICTION) != 0.toByte()
@@ -116,14 +124,6 @@ class Crush(
     @Ignore
     @Transient
     private var fCalendar_: Calendar? = null
-
-    fun visName(): String =
-        if (fName.isNullOrEmpty() || lName.isNullOrEmpty()) when {
-            !fName.isNullOrEmpty() -> fName!!
-            !lName.isNullOrEmpty() -> lName!!
-            !mName.isNullOrEmpty() -> mName!!
-            else -> key
-        } else "$fName $lName"
 
     /**
      * @param c if given null, only a GregorianCalendar is returned.
@@ -187,9 +187,27 @@ class Crush(
         return lastOrgasm_!!
     }
 
+
+    @Ignore
+    @Transient
+    private var firstOrgasm_: Long? = null
+
+    private fun firstOrgasm(m: Model): Long =
+        m.summary?.scores?.get(key)?.minOf { it.time } ?: 0L
+
+    fun getFirstOrgasm(m: Model): Long {
+        if (firstOrgasm_ == null) {
+            firstOrgasm_ = firstOrgasm(m)
+            statsCleared = false
+        }
+        return firstOrgasm_!!
+    }
+
+
     fun resetStats() {
         sum_ = null
         lastOrgasm_ = null
+        firstOrgasm_ = null
     }
 
     class Sort(private val c: BaseActivity, spByKey: String, spAscKey: String) : Comparator<Crush> {
@@ -209,6 +227,7 @@ class Crush(
                 Fun.SORT_BY_BEGINNING -> (a.fCalendar(c)?.timeInMillis ?: 0L)
                     .compareTo(b.fCalendar(c)?.timeInMillis ?: 0L)
                 Fun.SORT_BY_LAST -> a.getLastOrgasm(c.m).compareTo(b.getLastOrgasm(c.m))
+                Fun.SORT_BY_FIRST -> a.getFirstOrgasm(c.m).compareTo(b.getFirstOrgasm(c.m))
                 else -> throw IllegalArgumentException("Invalid sorting method!")
             }
         }

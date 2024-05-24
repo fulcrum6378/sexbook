@@ -496,6 +496,5 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * -
   * Extension:
   * "Reactivate Crush" for Singular
-  * "First orgasm" for sorting
   * "Turn off notifications for this Crush" on the notification
   */

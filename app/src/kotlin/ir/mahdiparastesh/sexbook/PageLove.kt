@@ -55,7 +55,9 @@ class PageLove : BasePage() {
     }
 
     private fun loadingNeedsSummary() =
-        c.sp.getInt(Settings.spPageLoveSortBy, 0) in arrayOf(Fun.SORT_BY_SUM, Fun.SORT_BY_LAST)
+        c.sp.getInt(Settings.spPageLoveSortBy, 0) in arrayOf(
+            Fun.SORT_BY_SUM, Fun.SORT_BY_LAST, Fun.SORT_BY_FIRST
+        )
 
     /*fun loadAd() {
         if (adBanner != null) return

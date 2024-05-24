@@ -38,6 +38,7 @@ object Fun {
     const val SORT_BY_HEIGHT = 3
     const val SORT_BY_BEGINNING = 4
     const val SORT_BY_LAST = 5
+    const val SORT_BY_FIRST = 6
     const val MAX_BADGE_CHAR = 6
     const val A_DAY = 86400000L
     val materialTheme = com.google.android.material.R.style.Theme_MaterialComponents_DayNight
@@ -214,6 +215,7 @@ object Fun {
         R.id.sortByHeight -> SORT_BY_HEIGHT
         R.id.sortByBeginning -> SORT_BY_BEGINNING
         R.id.sortByLast -> SORT_BY_LAST
+        R.id.sortByFirst -> SORT_BY_FIRST
         R.id.sortAsc -> true
         R.id.sortDsc -> false
         else -> null
@@ -226,6 +228,7 @@ object Fun {
         SORT_BY_HEIGHT -> R.id.sortByHeight
         SORT_BY_BEGINNING -> R.id.sortByBeginning
         SORT_BY_LAST -> R.id.sortByLast
+        SORT_BY_FIRST -> R.id.sortByFirst
         else -> throw IllegalArgumentException("Invalid sorting method!")
     }
 

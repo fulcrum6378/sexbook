@@ -45,6 +45,7 @@
     <string name="asc">Восходящий</string>
     <string name="dsc">По убыванию</string>
     <string name="lastOrgasm">Последний оргазм</string>
+    <string name="firstOrgasm">Первый оргазм</string>
     <string name="unspecified">Неопределенные</string>
     <string name="deactivate">Деактивировать</string>
     <string name="gender">Пол</string>

@@ -47,6 +47,7 @@
     <string name="asc">Ascending</string>
     <string name="dsc">Descending</string>
     <string name="lastOrgasm">Last Orgasm</string>
+    <string name="firstOrgasm">First Orgasm</string>
     <string name="unspecified">Unspecified</string>
     <string name="deactivate">Deactivate</string>
     <string name="gender">Gender</string>
