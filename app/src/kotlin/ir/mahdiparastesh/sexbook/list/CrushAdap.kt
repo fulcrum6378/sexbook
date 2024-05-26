@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Fun.show
+import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -76,7 +77,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
             }).apply {
                 menu.findItem(R.id.lcInstagram).isVisible = ins != null && ins != ""
                 val sum = cr?.key?.let { c.m.summary?.scores?.get(it) }
-                    ?.sumOf { it.value.toDouble() }
+                    ?.sumOf { it.value }?.toDouble()
                 menu.findItem(R.id.lcStatistics).isVisible = sum != null && sum > 0.0
             }.show()
         }

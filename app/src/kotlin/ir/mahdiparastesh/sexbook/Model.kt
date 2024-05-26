@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.CopyOnWriteArrayList
+import java.util.concurrent.CopyOnWriteArraySet
 import kotlin.experimental.and
 
 /** Static ViewModel available for all BaseActivity instances. */
@@ -32,6 +33,7 @@ class Model : ViewModel() {
     /** Holds all crushes (liefde is a subset of people). */
     var liefde: CopyOnWriteArrayList<Crush>? = null
     var people: ArrayList<Crush>? = null
+    var unsafe = CopyOnWriteArraySet<String>()
 
     /** Holds all places. */
     var places: ArrayList<Place>? = null
@@ -89,6 +91,10 @@ class Model : ViewModel() {
             else people?.add(crush)
             if (c is People && people != null) // c.b.list.adapter?.notifyItemChanged(it)
                 c.arrangeList() // so they can be sorted
+            if (crush.unsafe())
+                unsafe.add(crush.key)
+            else
+                unsafe.remove(crush.key)
         } else { // delete
             if (crush.active() && pos != -1) pos?.also {
                 liefde?.removeAt(it)
@@ -109,6 +115,7 @@ class Model : ViewModel() {
                     )
                 }
             }
+            unsafe.remove(crush.key)
         }
         if (c is Main)
             c.count(liefde?.size ?: 0)
@@ -117,6 +124,7 @@ class Model : ViewModel() {
             if (c is Singular) c.crush = crush
         }
         calManager?.apply { CoroutineScope(Dispatchers.IO).launch { replaceEvents(liefde) } }
+        // FIXME replacing calendar events rapidly creats ANR states!!
     }
 
     fun summaryCrushes() = summary?.let { ArrayList(it.scores.keys) } ?: arrayListOf<String>()

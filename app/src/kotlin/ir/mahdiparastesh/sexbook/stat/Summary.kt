@@ -3,21 +3,28 @@ package ir.mahdiparastesh.sexbook.stat
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import ir.mahdiparastesh.sexbook.Fun.sumOf
+import ir.mahdiparastesh.sexbook.Settings
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 
 class Summary(reports: List<Report>, var nExcluded: Int, total: Int) {
     var scores: HashMap<String, ArrayList<Orgasm>> = HashMap()
     var unknown = 0f
-    var nonCrush = 0f
     var apparent = (total - nExcluded).toFloat()
+    var nonCrush = 0f
+    var unsafe = 0f
 
     init {
         for (r in reports) {
             if (r.analysis == null) r.analyse()
-            for (key in r.analysis!!)
+            if (r.analysis!!.isEmpty())
+                unknown++
+            else for (key in r.analysis!!)
                 scores.insert(key, r.time, 1f / r.analysis!!.size)
         }
+        apparent -= unknown
     }
 
     private fun HashMap<String, ArrayList<Orgasm>>.insert(
@@ -36,29 +43,42 @@ class Summary(reports: List<Report>, var nExcluded: Int, total: Int) {
         return index
     }
 
-    fun results(): Result {
-        var results = HashMap<Float, ArrayList<String>>()
-        for (s in scores) {
-            val key = s.key
-            val sumErect = s.value.sumOf { it.value.toDouble() }.toFloat()
-            if (isUnknown(key)) {
-                unknown = sumErect
-                apparent -= unknown
-                continue
-            }
-            if (!results.containsKey(sumErect)) results[sumErect] = arrayListOf(key)
-            else results[sumErect]!!.add(key)
-            results[sumErect]!!.sort()
+    fun results(c: BaseActivity): Result {
+        // tools for filtering
+        var liefde = hashSetOf<String>()
+        var statOnlyCrushes =
+            c.sp.getBoolean(Settings.spStatOnlyCrushes, false) && c.m.liefde != null
+        if (statOnlyCrushes) {
+            liefde = c.m.liefde!!.map { it.key }.toHashSet()
+            statOnlyCrushes = liefde.isNotEmpty()
         }
+        val hideUnsafe =
+            c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.m.unsafe.isNotEmpty()
+
+        var results = HashMap<Float, ArrayList<String>>()
+        var key: String
+        var sum: Float
+        for (crush in scores) {
+            key = crush.key
+            sum = crush.value.sumOf { it.value }
+
+            // filters
+            if (statOnlyCrushes && key !in liefde) {
+                nonCrush += sum; continue; }
+            if (hideUnsafe && key in c.m.unsafe) {
+                unsafe += sum; continue; }
+
+            if (!results.containsKey(sum)) results[sum] = arrayListOf()
+            results[sum]!!.add(key)
+        }
+        for (k in results.keys) results[k]!!.sort()
+        apparent -= nonCrush + unsafe  // will double if results() is called twice, but it doesn't.
+
         results =
             results.toSortedMap(reverseOrder()).toMutableMap() as HashMap<Float, ArrayList<String>>
         return Result(results/*, scores*/)
     }
 
-
-    companion object {
-        fun isUnknown(name: String) = name == "" || name == " " || name == "\n"
-    }
 
     class Orgasm(val time: Long, val value: Float) : Serializable
 

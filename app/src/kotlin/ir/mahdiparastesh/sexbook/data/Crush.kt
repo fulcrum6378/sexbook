@@ -12,6 +12,7 @@ import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.sexbook.Fun
+import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.Fun.toDefaultType
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.Settings
@@ -49,9 +50,12 @@ class Crush(
         /** `status` offset 4; 1 bit; whether or not should the user be notified of their birthday. */
         const val STAT_NOTIFY_BIRTH = 0x10.toByte()
 
+        /** `status` offset 5; 1 bit; whether or not they have an unsafe personality. */
+        const val STAT_UNSAFE_PERSON = 0x20.toByte()
+
         /** `status` offset 7; 1 bit; whether or not they are currently an active crush.
          * (sign bit, inactive oneswould be negative)
-         * unassigned bits: 0x20 (32) , 0x40 (64) */
+         * unassigned bits: 0x40 (64) */
         const val STAT_INACTIVE = 0x80.toByte()
 
 
@@ -114,6 +118,8 @@ class Crush(
 
     fun notifyBirth(): Boolean = (status and STAT_NOTIFY_BIRTH) != 0.toByte()
 
+    fun unsafe(): Boolean = (status and STAT_UNSAFE_PERSON) != 0.toByte()
+
     fun body(field: Pair<Int, Int>): Int = (body and field.first) shr field.second
 
 
@@ -161,7 +167,7 @@ class Crush(
     private var sum_: Float? = null
 
     private fun sum(m: Model): Float? =
-        m.summary?.scores?.get(key)?.sumOf { it.value.toDouble() }?.toFloat()
+        m.summary?.scores?.get(key)?.sumOf { it.value }
 
     fun getSum(m: Model): Float {
         if (sum_ == null) sum(m)?.also {

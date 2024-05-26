@@ -136,6 +136,7 @@ class Identify() : DialogFragment() {
             b.lName.setText(crush!!.lName)
             b.gender.setSelection((crush!!.status and Crush.STAT_GENDER).toInt())
             b.fiction.isChecked = crush!!.fiction().also { onFictionChanged(it) }
+            b.unsafe.isChecked = crush!!.unsafe()
             if (bir != null) {
                 b.birth.setText(bir!!.fullDate())
                 isBirthSet = true
@@ -276,6 +277,7 @@ class Identify() : DialogFragment() {
                     b.gender.selectedItemPosition.toByte() or
                             (if (b.fiction.isChecked) Crush.STAT_FICTION else 0) or
                             (if (b.notifyBirth.isChecked) Crush.STAT_NOTIFY_BIRTH else 0) or
+                            (if (b.unsafe.isChecked) Crush.STAT_UNSAFE_PERSON else 0) or
                             (crush?.let { it.status and Crush.STAT_INACTIVE } ?: 0),
                     if (isBirthSet) "${endBir[Calendar.YEAR]}.${endBir[Calendar.MONTH] + 1}." +
                             "${endBir[Calendar.DAY_OF_MONTH]}" else null,
@@ -337,6 +339,7 @@ class Identify() : DialogFragment() {
     }
 
     private fun onFictionChanged(bb: Boolean) {
+        b.unsafe.isVisible = !bb
         b.birthIL.isVisible = !bb
         b.notifyBirth.isVisible = !bb
         b.instagramIL.isVisible = !bb

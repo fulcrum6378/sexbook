@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import androidx.core.view.isInvisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.list.StatRecAdap
@@ -34,11 +35,15 @@ class Recency : BaseDialog(), BaseDialog.SearchableStat {
 
     /** Uses Summary to compute recency of crushes. */
     private fun compute() {
-        c.m.summary!!.scores.forEach { (name, erections) ->
-            if (Summary.isUnknown(name)) return@forEach
+        val hideUnsafe =
+            c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.m.unsafe.isNotEmpty()
+
+        c.m.summary!!.scores.forEach { (key, orgasms) ->
+            if (hideUnsafe && key in c.m.unsafe) return@forEach
+
             var mostRecent = 0L
-            for (e in erections) if (e.time > mostRecent) mostRecent = e.time
-            items.add(Item(name, mostRecent))
+            for (e in orgasms) if (e.time > mostRecent) mostRecent = e.time
+            items.add(Item(key, mostRecent))
         }
         items.sortByDescending { it.time }
     }

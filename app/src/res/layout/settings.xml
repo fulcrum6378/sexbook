@@ -94,27 +94,30 @@
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stStatOnlyCrushes"
-                    style="@style/stItemTV"
-                    android:saveEnabled="false"
+                    style="@style/stItemCheckBox"
                     android:text="@string/stStatOnlyCrushes"
-                    app:layout_constraintBottom_toBottomOf="@null" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stStatNonOrgasm"
-                    style="@style/stItemTV"
-                    android:saveEnabled="false"
+                    style="@style/stItemCheckBox"
                     android:text="@string/stStatNonOrgasm"
-                    app:layout_constraintTop_toBottomOf="@id/stStatOnlyCrushes"
-                    app:layout_constraintTop_toTopOf="@null" />
+                    app:layout_constraintTop_toBottomOf="@id/stStatOnlyCrushes" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemThinContainer">
 
                 <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stHideUnsafePeople"
+                    style="@style/stItemCheckBox"
+                    android:text="@string/stHideUnsafePeople"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stVibration"
-                    style="@style/stItemTV"
-                    android:saveEnabled="false"
-                    android:text="@string/stVibration" />
+                    style="@style/stItemCheckBox"
+                    android:text="@string/stVibration"
+                    app:layout_constraintTop_toBottomOf="@id/stHideUnsafePeople" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemContainer">

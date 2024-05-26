@@ -3,6 +3,7 @@ package ir.mahdiparastesh.sexbook.stat
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.AdorabilityBinding
 
 class Adorability : ChartActivity<AdorabilityBinding>() {
@@ -10,10 +11,14 @@ class Adorability : ChartActivity<AdorabilityBinding>() {
     override val chartView: AbstractChartView get() = b.main
 
     override suspend fun draw(): AbstractChartData {
+        val hideUnsafe =
+            sp.getBoolean(Settings.spHideUnsafePeople, true) && m.unsafe.isNotEmpty()
+
         val stb = sinceTheBeginning(this, m.onani!!)
         val stars = ArrayList<Star>()
         for (x in m.summary!!.scores) {
-            if (Summary.isUnknown(x.key)) continue
+            if (hideUnsafe && x.key in m.unsafe) continue
+
             val scores = ArrayList<Star.Frame>()
             for (month in stb)
                 scores.add(Star.Frame(calcHistory(this, x.value, month), month))

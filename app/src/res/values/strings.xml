@@ -15,6 +15,7 @@
     <string name="excStat">Plus %s excluded from statisticisation.</string>
     <string name="unknown">Plus %s from unknown people.</string>
     <string name="nonCrush">Plus %s from those who are not listed as crushes.</string>
+    <string name="plusUnsafe">Plus %s from unsafe people.</string>
     <string name="instagram" translatable="false">Instagram</string>
     <string-array name="types">
         <item>Wet Dream</item>
@@ -114,6 +115,7 @@
         <item>Agender</item>
     </string-array>
     <string name="fiction">Is a fictional character?</string>
+    <string name="unsafePerson">Unsafe personality</string>
     <string name="birth">Birthday</string>
     <string name="heightInCM">Height (cm)</string>
     <string name="address">Address</string>
@@ -230,6 +232,7 @@
     <string name="stSexTypeInclude">Include %s</string>
     <string name="stStatOnlyCrushes">Only statisticise my crushes</string>
     <string name="stStatNonOrgasm">Statisticise non-orgasm sex records</string>
+    <string name="stHideUnsafePeople">Hide unsafe people</string>
     <string name="stVibration">Vibration for important buttons</string>
     <string name="stBirthdays">Birthdays</string>
     <string name="stCalOutput">List birthdays in the system calendar</string>

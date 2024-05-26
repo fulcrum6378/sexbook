@@ -171,6 +171,12 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="identifyMaterialCheckBox" parent="identifySubField">
+        <item name="android:textColor">?colorOnSecondary</item>
+        <item name="buttonIconTint">?colorSurfaceContainer</item>
+        <item name="buttonTint">?colorOnSecondary</item>
+    </style>
+
     <style name="identifyBodyAttr" parent="identifyField">
         <item name="android:paddingVertical">2dp</item>
         <!--https://stackoverflow.com/questions/36167187/android-spinner-arrow-always-above-other-views/

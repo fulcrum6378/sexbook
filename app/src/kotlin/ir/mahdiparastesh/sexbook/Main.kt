@@ -151,6 +151,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             val cr = if (m.people == null) m.dao.cGetAll() else null
             val pl = if (m.places == null) m.dao.pGetAll() else null
             val gs = if (m.guesses == null) m.dao.gGetAll() else null
+
+            // list the unsafe people
+            m.unsafe.addAll(cr?.filter { it.unsafe() }?.map { it.key } ?: listOf())
+
             withContext(Dispatchers.Main) {
                 rp?.also { m.onani = ArrayList(it) }
                 cr?.apply {
@@ -412,19 +416,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             filtered = filtered.filter { it.ogsm }
                 .also { nExcluded += filtered.size - it.size }
 
-        m.summary = Summary(filtered, nExcluded, m.onani!!.size).apply {
-            // Filter if only crushes wanted
-            if (sp.getBoolean(Settings.spStatOnlyCrushes, false)) {
-                val liefde = m.liefde?.map { it.key }
-                if (!liefde.isNullOrEmpty()) scores = HashMap(scores.filter { it.key in liefde })
-                    .also {
-                        nonCrush = apparent - it.values.sumOf { orgasms ->
-                            orgasms.sumOf { o -> o.value.toDouble() }
-                        }.toFloat()
-                        apparent -= nonCrush
-                    }
-            }
-        }
+        m.summary = Summary(filtered, nExcluded, m.onani!!.size)
         (pageSex()?.b?.rv?.adapter as? ReportAdap)?.crushSuggester?.update()
         return true
     }
@@ -492,10 +484,15 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
+  * Hide unsafe Crush items from People and PageLove
+  * Help texts
   * https://stackoverflow.com/questions/26015548/sqlitedatabaselockedexception-database-is-locked-retrycount-exceeded
   * Searching in Summary and Recency is so immature!
+  * Time Picker for First Met
+  * FIX-ME^ replacing calendar events rapidly creats ANR states!!
   * -
   * Extension:
+  * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular
   * "Turn off notifications for this Crush" on the notification
   * Height, Age, Fictionality for Taste and CrushesStat

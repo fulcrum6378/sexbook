@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -78,17 +77,20 @@
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/fiction"
-            style="@style/identifySubField"
+            style="@style/identifyMaterialCheckBox"
             android:layout_height="28sp"
-            android:text="@string/fiction"
-            android:textColor="?colorOnSecondary"
-            app:buttonIconTint="?colorSurfaceContainer"
-            app:buttonTint="?colorOnSecondary" />
+            android:text="@string/fiction" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/unsafe"
+            style="@style/identifyMaterialCheckBox"
+            android:layout_height="32sp"
+            android:text="@string/unsafePerson" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="14dp" />
-        <!-- fiction can't get spacing at the bottom and birthIL can't get it at the top! -->
+        <!-- MaterialCheckBox can't get spacing at the bottom and birthIL can't get it at the top! -->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/birthIL"

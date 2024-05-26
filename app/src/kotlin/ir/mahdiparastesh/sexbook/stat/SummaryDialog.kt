@@ -25,6 +25,7 @@ import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.sexbook.Fun.onLoad
 import ir.mahdiparastesh.sexbook.Fun.show
+import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.base.BaseFragment
@@ -119,7 +120,7 @@ class SummaryDialog : BaseDialog() {
 
             if (c.m.summary == null) return
             b.list.adapter = StatSumAdap(
-                c, c.m.summary!!.results().calculations.entries.toList(), this@SumChips
+                c, c.m.summary!!.results(c).calculations.entries.toList(), this@SumChips
             )
 
             val pluses = LinearLayout(c).apply {
@@ -142,6 +143,11 @@ class SummaryDialog : BaseDialog() {
             c.m.summary?.nonCrush?.also {
                 if (it > 0f) pluses.addView(
                     plus(b.root.context, getString(R.string.nonCrush, it.show()))
+                )
+            }
+            c.m.summary?.unsafe?.also {
+                if (it > 0f) pluses.addView(
+                    plus(b.root.context, getString(R.string.plusUnsafe, it.show()))
                 )
             }
             b.root.addView(pluses)
@@ -174,9 +180,9 @@ class SummaryDialog : BaseDialog() {
 
             val data = arrayListOf<SliceValue>()
             c.m.summary?.scores?.entries?.sortedBy {
-                it.value.sumOf { s -> s.value.toDouble() }.toFloat()
+                it.value.sumOf { s -> s.value }
             }?.forEach {
-                val score = it.value.sumOf { s -> s.value.toDouble() }.toFloat()
+                val score = it.value.sumOf { s -> s.value }
                 data.add(
                     SliceValue(score, c.color(R.color.CPV_LIGHT))
                         .apply { setLabel("${it.key} {${score.show()}}") })

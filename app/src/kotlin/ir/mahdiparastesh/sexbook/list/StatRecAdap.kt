@@ -10,6 +10,7 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.show
+import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -31,7 +32,7 @@ class StatRecAdap(private val r: Recency) : RecyclerView.Adapter<AnyViewHolder<R
         val crushKey = r.items[i].name
         h.b.name.text = "${i + 1}. $crushKey" +
                 (if (!statOnlyCrushes && curCrushes?.contains(crushKey) == true) "*" else "") +
-                (r.c.m.summary!!.scores[crushKey]?.sumOf { it.value.toDouble() }?.toFloat()
+                (r.c.m.summary!!.scores[crushKey]?.sumOf { it.value }
                     ?.show()?.let { " {$it}" } ?: "")
         val lm = r.items[i].time.calendar(r.c)
         h.b.date.text = "${lm.fullDate()} - " +

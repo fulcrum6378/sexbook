@@ -62,6 +62,7 @@ class Settings : BaseActivity() {
         const val spStatInclude = "statisticiseInclude" // + s; Boolean, def true
         const val spStatOnlyCrushes = "statisticiseOnlyCrushes" // Boolean, def false
         const val spStatNonOrgasm = "statNonOrgasm" // Boolean, def true
+        const val spHideUnsafePeople = "hideUnsafe" // Boolean, def true
         const val spVibration = "vibration" // Boolean, def true
         const val spCalOutput = "calendarOutput" // Boolean, def false
         const val spGregorianForBirthdays = "useGregorianForBirthdays"// Boolean
@@ -254,6 +255,11 @@ class Settings : BaseActivity() {
         b.stStatNonOrgasm.isChecked = sp.getBoolean(spStatNonOrgasm, true)
         b.stStatNonOrgasm.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spStatNonOrgasm, isChecked).apply()
+            c.shake()
+        }
+        b.stHideUnsafePeople.isChecked = sp.getBoolean(spHideUnsafePeople, true)
+        b.stHideUnsafePeople.setOnCheckedChangeListener { _, isChecked ->
+            sp.edit().putBoolean(spHideUnsafePeople, isChecked).apply()
             c.shake()
         }
 
