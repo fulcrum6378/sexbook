@@ -28,7 +28,6 @@ class Model : ViewModel() {
 
     /** Holds all sex records with static unsorted indices. */
     var onani: ArrayList<Report>? = null
-    val visOnani = arrayListOf<Report>()
 
     /** Holds all crushes (liefde is a subset of people). */
     var liefde: CopyOnWriteArrayList<Crush>? = null
@@ -50,6 +49,7 @@ class Model : ViewModel() {
     var loaded = false
     var currentPage = 0
     var listFilter = -1
+    var visOnani = arrayListOf<Int>()
     var navOpen = false
 
     fun findGlobalIndexOfReport(id: Long) =
@@ -131,12 +131,12 @@ class Model : ViewModel() {
 
     fun resetData() {
         onani = null
-        visOnani.clear()
         people = null
         liefde = null
         places = null
         guesses = null
         listFilter = -1
+        visOnani.clear()
         summary = null
     }
 

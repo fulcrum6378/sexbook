@@ -250,7 +250,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             uiToast(R.string.noRecords); return true
         } else if (item.itemId in arrayOf(R.id.momPop, R.id.momGrw, R.id.momTst) && !summarize()) {
             uiToast(R.string.noStat); return true
-        } else if (item.itemId == R.id.momPpl) summarize()
+        } else if (item.itemId == R.id.momPpl)
+            summarize()
+        else if (item.itemId == R.id.momInt && m.onani.isNullOrEmpty()) {
+            uiToast(R.string.noRecords); return true
+        }
 
         when (item.itemId) {
             R.id.momSum -> SummaryDialog().show(supportFragmentManager, SummaryDialog.TAG)

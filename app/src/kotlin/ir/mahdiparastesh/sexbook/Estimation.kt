@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.core.view.isVisible
 import com.google.android.material.badge.BadgeDrawable
 import ir.mahdiparastesh.sexbook.Fun.explode
 import ir.mahdiparastesh.sexbook.Fun.shake
@@ -32,6 +33,7 @@ class Estimation : BaseActivity(), Lister {
         // List
         if (b.list.adapter == null) b.list.adapter = GuessAdap(this)
         else b.list.adapter?.notifyDataSetChanged()
+        b.empty.isVisible = m.guesses.isNullOrEmpty()
         Delay(100L) { count(m.guesses?.size ?: 0) }
 
         // "Add" button
@@ -50,6 +52,7 @@ class Estimation : BaseActivity(), Lister {
                     b.list.adapter!!.notifyItemInserted(m.guesses!!.size - 1)
                     b.add.explode(this@Estimation)
                     count(m.places?.size ?: 0)
+                    b.empty.isVisible = false
                 }
             }
             c.shake()

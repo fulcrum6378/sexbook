@@ -1,5 +1,8 @@
 package ir.mahdiparastesh.sexbook
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.explode
@@ -21,13 +25,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 class PageSex : BasePage() {
     lateinit var b: PageSexBinding
     var filters: List<Report.Filter> = listOf()
+    private var anGrowShrinkForAdd: AnimatorSet? = null
 
     companion object {
+        const val GROW_AND_SHRINK_SCALE = 1.5f
         const val PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME = 5
         //const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
         //const val DISMISSAL_REFRAIN_FROM_AD_TIMES = 3
@@ -63,31 +68,47 @@ class PageSex : BasePage() {
             })
         c.intentViewId = null
         c.load()
+
+        b.empty.isVisible = c.m.onani.isNullOrEmpty()
+        if (c.m.onani.isNullOrEmpty()) anGrowShrinkForAdd = AnimatorSet().apply {
+            duration = 1000L
+            playTogether(
+                ObjectAnimator.ofFloat(b.add, View.SCALE_X, 1f, GROW_AND_SHRINK_SCALE).apply {
+                    repeatMode = ValueAnimator.REVERSE
+                    repeatCount = ValueAnimator.INFINITE
+                },
+                ObjectAnimator.ofFloat(b.add, View.SCALE_Y, 1f, GROW_AND_SHRINK_SCALE).apply {
+                    repeatMode = ValueAnimator.REVERSE
+                    repeatCount = ValueAnimator.INFINITE
+                }
+            )
+            start()
+        }
     }
 
     var spnFilterTouched = false
-    fun resetAllReports(toGlobalIndexOfItem: Int? = null) {
+    fun resetAllReports(scrollTo: Int? = null) {
         if (c.m.onani == null) return
         //Log.println(Log.ASSERT, "ZOEY", "resetAllReports to index $toGlobalIndexOfItem")
-        filters = createFilters(c.m.onani!!)
+        filters = createFilters()
         //Log.println(Log.ASSERT, "ZOEY", "resetAllReports ${filters.size} filters")
 
         // which month to show?
-        var newFilter = if (c.m.listFilter == -1) (filters.size - 1) else c.m.listFilter
-        toGlobalIndexOfItem?.also { gIndex ->
-            val toFilter = c.m.onani!![gIndex].time.calendar(c).createFilterYm()
+        var curFilter = if (c.m.listFilter == -1) (filters.size - 1) else c.m.listFilter
+        if (scrollTo != null) {
+            val toFilter = c.m.onani!![scrollTo].time.calendar(c).createFilterYm()
             val fIndex =
                 filters.indexOfFirst { it.year == toFilter.first && it.month == toFilter.second }
-            if (fIndex != -1) newFilter = fIndex
+            if (fIndex != -1) curFilter = fIndex
         }
 
         // application...
-        applyFilter(newFilter, true, toGlobalIndexOfItem != null)
+        applyFilter(curFilter, true, scrollTo != null)
         updateFilterSpinner()
 
         // scroll to the edited item position...
-        toGlobalIndexOfItem?.also { gIndex ->
-            val pos = c.m.visOnani.indexOf(c.m.onani!![gIndex])
+        if (scrollTo != null) {
+            val pos = c.m.visOnani.indexOf(scrollTo)
             if (pos != -1) b.rv.smoothScrollToPosition(pos)
         }
     }
@@ -101,47 +122,36 @@ class PageSex : BasePage() {
         b.spnFilter.setSelection(c.m.listFilter, true)
     }
 
-    fun createFilters(reports: List<Report>): List<Report.Filter> {
+    fun createFilters(): List<Report.Filter> {
         //Log.println(Log.ASSERT, "ZOEY", "createFilters ${reports.size} reports")
         val filters = arrayListOf<Report.Filter>()
-        for (r in reports.indices) {
-            val ym = reports[r].time.calendar(c).createFilterYm()
+        for (r in c.m.onani!!.indices) {
+            val ym = c.m.onani!![r].time.calendar(c).createFilterYm()
             var filterExists = false
             for (f in filters.indices)
                 if (filters[f].year == ym.first && filters[f].month == ym.second) {
                     filterExists = true
-                    filters[f] = filters[f].apply { put(r) }
+                    filters[f].put(r)
                 }
             if (!filterExists)
-                filters.add(Report.Filter(ym.first, ym.second, ArrayList<Int>().apply { add(r) }))
+                filters.add(Report.Filter(ym.first, ym.second, arrayListOf(r)))
         }
         return filters.toList()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun applyFilter(i: Int, causedByResetAllReports: Boolean, willScrollToItem: Boolean = false) {
-        //Log.println(Log.ASSERT, "ZOEY", "applyFilter $i")
         if (c.m.listFilter == i && c.m.listFilter > -1 && !causedByResetAllReports) return
-        c.m.visOnani.clear()
-        //Log.println(Log.ASSERT, "ZOEY", "visOnani cleared")
-        if (c.m.onani == null) return // if onani is null, empty visOnani.
         c.m.listFilter = i
+        c.m.visOnani = filters[c.m.listFilter].map
 
-        // Fill visOnani...
-        if (filters.isEmpty()) for (o in c.m.onani!!) c.m.visOnani.add(o)
-        else {
-            for (o in filters[c.m.listFilter].map)
-                if (c.m.onani!!.size > o)
-                    c.m.visOnani.add(c.m.onani!![o])
-            Collections.sort(c.m.visOnani, Report.Sort())
-        }
-        //Log.println(Log.ASSERT, "ZOEY", "visOnani filled ${c.m.visOnani.size}")
-
-        // Update the adapter and scroll to position...
+        // update the adapter
         if (b.rv.adapter == null) b.rv.adapter = ReportAdap(c, this) else {
             (b.rv.adapter!! as ReportAdap).notifyAnyChange(true)
             b.rv.adapter!!.notifyDataSetChanged()
         }
+
+        // scroll to position
         if (!willScrollToItem) b.rv.scrollToPosition(c.m.visOnani.size - 1)
     }
 
@@ -168,6 +178,7 @@ class PageSex : BasePage() {
             LastOrgasm.updateAll(c)
             val firstRecordEver = c.m.onani == null
             if (firstRecordEver) c.m.onani = ArrayList()
+            val gPos = c.m.onani!!.size
             c.m.onani!!.add(newOne)
             adding = false
 
@@ -176,18 +187,23 @@ class PageSex : BasePage() {
                 if (filters.indexOfFirst { it.year == ym.first && it.month == ym.second }
                     == c.m.listFilter && c.m.listFilter >= 0 && !firstRecordEver) {
                     // add to the bottom of the recycler view
-                    c.m.visOnani.add(newOne)
-                    Collections.sort(c.m.visOnani, Report.Sort())
+                    c.m.visOnani.add(gPos)
+                    c.m.visOnani.sortBy { c.m.onani!![it].time }
                     (b.rv.adapter as ReportAdap?)?.notifyAnyChange(false)
-                    val thePos = c.m.visOnani.indexOf(newOne)
+                    val thePos = c.m.visOnani.indexOf(gPos)
                     b.rv.adapter?.notifyItemInserted(thePos)
-                    filters.getOrNull(c.m.listFilter)?.map
-                        ?.add(thePos, c.m.onani!!.size - 1)
                     updateFilterSpinner()
                 } else // go to/create a new month
                     resetAllReports(c.m.onani!!.size - 1)
 
                 b.add.explode(c)
+                b.empty.isVisible = false
+                if (anGrowShrinkForAdd != null) {
+                    anGrowShrinkForAdd?.cancel()
+                    anGrowShrinkForAdd = null
+                    b.add.scaleX = 1f
+                    b.add.scaleY = 1f
+                }
             }
         }
         c.c.shake()

@@ -38,6 +38,19 @@
         <item name="layout_constraintTop_toBottomOf">@id/toolbar</item>
     </style>
 
+    <style name="empty" parent="parentConstraint">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/normal</item>
+        <item name="android:justificationMode">inter_word</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/empty</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:visibility">gone</item>
+        <item name="layout_constraintWidth_percent">0.75</item>
+    </style>
+
     <style name="add">
         <item name="android:layout_width">65dp</item>
         <item name="android:layout_height">65dp</item>

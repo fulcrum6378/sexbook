@@ -23,6 +23,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
+    <TextView
+        android:id="@+id/empty"
+        style="@style/empty"
+        android:text="@string/emptyGuesses" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/add"
         style="@style/add">

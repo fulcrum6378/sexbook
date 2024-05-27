@@ -43,7 +43,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.DateFormatSymbols
-import java.util.Collections
 
 class ReportAdap(
     private val c: Main, private val f: PageSex, private val autoExpand: Boolean = false
@@ -106,7 +105,7 @@ class ReportAdap(
      * all EditTexts, then set their texts, then re-implement new listeners. */
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
-        val r = c.m.visOnani.getOrNull(i) ?: return
+        val r = c.m.visOnani.getOrNull(i)?.let { c.m.onani?.getOrNull(it) } ?: return
 
         // Date & Time
         h.b.date.text = compileDate(c, r.time)
@@ -160,7 +159,7 @@ class ReportAdap(
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                c.m.visOnani[h.layoutPosition].apply {
+                c.m.onani!![c.m.visOnani[h.layoutPosition]].apply {
                     if (name != h.b.name.text.toString()) {
                         if (!Crush.statsCleared) {
                             c.m.people?.forEach { it.resetStats() }
@@ -180,7 +179,7 @@ class ReportAdap(
             if (!r.guess) object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                 override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                    c.m.visOnani[h.layoutPosition].apply {
+                    c.m.onani!![c.m.visOnani[h.layoutPosition]].apply {
                         if (type != i.toByte()) {
                             type = i.toByte()
                             updateStatic(this, h.layoutPosition)
@@ -207,7 +206,7 @@ class ReportAdap(
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                c.m.visOnani[h.layoutPosition].apply {
+                c.m.onani!![c.m.visOnani[h.layoutPosition]].apply {
                     if (desc != h.b.desc.text.toString()) {
                         desc = h.b.desc.text.toString()
                         updateStatic(this, h.layoutPosition)
@@ -239,7 +238,7 @@ class ReportAdap(
                     turnOverflow(h.layoutPosition, h.b)
                 }
                 this[R.id.lcAccurate] = {
-                    c.m.visOnani[h.layoutPosition].apply {
+                    c.m.onani!![c.m.visOnani[h.layoutPosition]].apply {
                         if (accu != !it.isChecked) {
                             accu = !it.isChecked
                             updateStatic(this, h.layoutPosition)
@@ -247,7 +246,7 @@ class ReportAdap(
                     }
                 }
                 this[R.id.lcOrgasmed] = {
-                    c.m.visOnani[h.layoutPosition].apply {
+                    c.m.onani!![c.m.visOnani[h.layoutPosition]].apply {
                         if (ogsm != !it.isChecked) {
                             ogsm = !it.isChecked
                             updateStatic(this, h.layoutPosition)
@@ -255,34 +254,32 @@ class ReportAdap(
                     }
                 }
                 this[R.id.lcDelete] = {
-                    if (c.m.onani != null) {
-                        val aPos = globalPos(c.m, h.layoutPosition)
-                        CoroutineScope(Dispatchers.IO).launch {
-                            c.m.dao.rDelete(c.m.onani!![aPos])
-                            LastOrgasm.updateAll(c)
-                            withContext(Dispatchers.Main) {
-                                if (c.m.onani != null) {
-                                    val nominalPos = c.m.visOnani.indexOf(c.m.onani!![aPos])
-                                    if (nominalPos != -1) {
-                                        c.m.visOnani.removeAt(nominalPos)
-                                        notifyItemRemoved(nominalPos)
-                                        notifyItemRangeChanged(nominalPos, itemCount)
-                                    } else f.resetAllReports()
+                    if (c.m.onani != null) CoroutineScope(Dispatchers.IO).launch {
+                        val aPos = c.m.visOnani[h.layoutPosition]
+                        c.m.dao.rDelete(c.m.onani!![aPos])
+                        LastOrgasm.updateAll(c)
+                        withContext(Dispatchers.Main) {
+                            if (c.m.onani == null) {
+                                f.resetAllReports(); return@withContext; }
 
-                                    c.m.onani!!.remove(c.m.onani!![aPos])
-                                    if (c.m.onani!!.isNotEmpty())
-                                        f.filters.getOrNull(c.m.listFilter)?.map?.remove(aPos)
-                                    else f.filters = f.createFilters(c.m.onani!!)
-                                    f.updateFilterSpinner()
-                                    notifyAnyChange(false)
-                                } else f.resetAllReports()
-                            }
+                            c.m.visOnani.removeAt(h.layoutPosition)
+                            notifyItemRemoved(h.layoutPosition)
+                            notifyItemRangeChanged(h.layoutPosition, itemCount)
+
+                            c.m.onani!!.remove(c.m.onani!![aPos])
+                            if (c.m.onani!!.isNotEmpty())
+                                f.filters.getOrNull(c.m.listFilter)?.map?.remove(aPos)
+                            else f.filters = f.createFilters()
+                            f.updateFilterSpinner()
+                            notifyAnyChange(false)
                         }
                     }
                 }
             }).apply {
-                menu.findItem(R.id.lcAccurate).isChecked = c.m.visOnani[h.layoutPosition].accu
-                menu.findItem(R.id.lcOrgasmed).isChecked = c.m.visOnani[h.layoutPosition].ogsm
+                menu.findItem(R.id.lcAccurate).isChecked =
+                    c.m.onani!![c.m.visOnani[h.layoutPosition]].accu
+                menu.findItem(R.id.lcOrgasmed).isChecked =
+                    c.m.onani!![c.m.visOnani[h.layoutPosition]].ogsm
                 if (expansion[h.layoutPosition]) menu.findItem(R.id.lcExpand).title =
                     c.resources.getString(R.string.collapse)
             }.show()
@@ -343,7 +340,7 @@ class ReportAdap(
             // if "places" is empty, nothing ever can be selected, also onNothingSelected doesn't work!
 
             val id = if (pos == 0) -1L else places[pos - 1].id
-            c.m.visOnani[i!!].apply {
+            c.m.onani!![c.m.visOnani[i!!]].apply {
                 if (plac != id) {
                     plac = id
                     updateStatic(this, i!!)
@@ -360,36 +357,36 @@ class ReportAdap(
         syncDb(pos, false)
     }
 
-    private fun syncDb(pos: Int, dateTimeChanged: Boolean) {
+    private fun syncDb(gPos: Int, dateTimeChanged: Boolean) {
         CoroutineScope(Dispatchers.IO).launch {
-            c.m.dao.rUpdate(c.m.onani!![pos])
+            c.m.dao.rUpdate(c.m.onani!![gPos])
             LastOrgasm.doUpdateAll(c)
             withContext(Dispatchers.Main) {
                 if (c.m.onani == null) {
                     f.resetAllReports(); return@withContext; }
 
-                val nominalPos = c.m.visOnani.indexOf(c.m.onani!![pos])
-                if (nominalPos != -1) c.m.visOnani[nominalPos] = c.m.onani!![pos]
+                val nominalPos = c.m.visOnani.indexOf(gPos)
+                if (nominalPos != -1) c.m.visOnani[nominalPos] = gPos
 
                 // in addition, if date or time have been changed...
                 if (!dateTimeChanged) return@withContext
-                val ym = c.m.onani!![pos].time.calendar(c).createFilterYm()
+                val ym = c.m.onani!![gPos].time.calendar(c).createFilterYm()
                 if (nominalPos != -1 && f.filters.getOrNull(c.m.listFilter)
                         ?.let { ym.first == it.year && ym.second == it.month } == true
                 ) { // report is still in this month
                     notifyItemChanged(nominalPos)
-                    Collections.sort(c.m.visOnani, Report.Sort())
-                    val newPos = c.m.visOnani.indexOf(c.m.onani!![pos])
+                    c.m.visOnani.sortBy { c.m.onani!![it].time }
+                    val newPos = c.m.visOnani.indexOf(gPos)
                     notifyItemMoved(nominalPos, newPos)
                     f.b.rv.smoothScrollToPosition(newPos)
                     f.filters.getOrNull(c.m.listFilter)?.map?.apply {
-                        this[nominalPos] = c.m.onani!!.indexOf(c.m.visOnani[nominalPos])
-                        this[newPos] = pos
+                        this[nominalPos] = c.m.onani!!.indexOf(c.m.onani!![c.m.visOnani[nominalPos]])
+                        this[newPos] = gPos
                     }
                 } else { // report moved to another month or is missing
                     notifyItemRemoved(nominalPos)
                     notifyItemRangeChanged(nominalPos, itemCount)
-                    f.resetAllReports(pos)
+                    f.resetAllReports(gPos)
                 }
             }
         }
@@ -447,7 +444,7 @@ class ReportAdap(
         fun globalPos(m: Model, pos: Int): Int {
             var index = -1
             for (o in m.onani!!.indices)
-                if (m.onani!![o].id == m.visOnani[pos].id)
+                if (m.onani!![o].id == m.onani!![m.visOnani[pos]].id)
                     index = o
             return index
         }

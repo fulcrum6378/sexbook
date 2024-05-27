@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.core.view.isVisible
 import com.google.android.material.badge.BadgeDrawable
 import ir.mahdiparastesh.sexbook.Fun.explode
 import ir.mahdiparastesh.sexbook.Fun.shake
@@ -32,6 +33,7 @@ class Places : BaseActivity(), Lister {
         // List
         if (b.list.adapter == null) b.list.adapter = PlaceAdap(this)
         else b.list.adapter?.notifyDataSetChanged()
+        b.empty.isVisible = m.places.isNullOrEmpty()
         Delay(100L) { count(m.places?.size ?: 0) }
 
         // "Add" button
@@ -50,6 +52,7 @@ class Places : BaseActivity(), Lister {
                     b.list.adapter!!.notifyItemInserted(m.places!!.size - 1)
                     b.add.explode(this@Places)
                     count(m.places?.size ?: 0)
+                    b.empty.isVisible = false
                 }
             }
             c.shake()

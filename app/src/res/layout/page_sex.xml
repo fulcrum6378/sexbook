@@ -18,6 +18,11 @@
         app:layout_constraintBottom_toTopOf="@id/spnFilter"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/empty"
+        style="@style/empty"
+        android:text="@string/noRecords" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/add"
         style="@style/add"

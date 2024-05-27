@@ -181,7 +181,6 @@ class Exporter(val c: BaseActivity) {
                     }
                 }
             }.apply()
-            c.m.resetData()
             LastOrgasm.updateAll(c)
 
             withContext(Dispatchers.Main) {
