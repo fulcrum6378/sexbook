@@ -13,6 +13,7 @@
     <string name="excStat">Плюс %s исключено из статистики.</string>
     <string name="unknown">Плюс %s от неизвестных людей.</string>
     <string name="nonCrush">Плюс %s от тех, кто не указан в списке влюбленных.</string>
+    <string name="plusUnsafe">Плюс %s от небезопасных людей.</string>
     <string name="instagram" tools:ignore="Untranslatable">Инстаграм</string>
     <string-array name="types">
         <item>Поллюция</item>
@@ -98,7 +99,7 @@
     <string name="afterNHours">&#160;через %d часа</string>
     <string name="crushesStat">Статистика сокрушений</string>
 
-    <!-- Identification -->
+    <!-- Identify -->
     <string name="identify">Идентификация</string>
     <string name="identifyKey">Уникальный идентификатор</string>
     <string name="firstName">Имя</string>
@@ -112,6 +113,7 @@
         <item>Агендер</item>
     </string-array>
     <string name="fiction">Является ли вымышленный персонаж?</string>
+    <string name="unsafePerson">Небезопасная личность</string>
     <string name="birth">День рождения</string>
     <string name="heightInCM">Рост (см)</string>
     <string name="address">Адрес</string>
@@ -225,6 +227,7 @@
     <string name="stSexTypesTitle">Фильтровать статистику по типу пола</string>
     <string name="stSexTypeInclude">Включите %s</string>
     <string name="stStatOnlyCrushes">Только статистика моей любви</string>
+    <string name="stHideUnsafePeople">Скрыть небезопасных людей</string>
     <string name="stStatNonOrgasm">Статистическая обработка записей о сексе без оргазма</string>
     <string name="stVibration">Вибрация для важных кнопок</string>
     <string name="stBirthdays">Дни рождения</string>

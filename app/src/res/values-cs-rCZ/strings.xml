@@ -13,6 +13,7 @@
     <string name="excStat">Plus %s vyloučeno ze statistiky.</string>
     <string name="unknown">Plus %s od neznámých lidí.</string>
     <string name="nonCrush">Plus %s od těch, kteří nejsou uvedeni jako zamilovaní.</string>
+    <string name="plusUnsafe">Plus %s od nebezpečných lidí.</string>
     <string-array name="types">
         <item>Poluce</item>
         <item>Masturbace</item>
@@ -97,7 +98,7 @@
     <string name="afterNHours">&#160;po %d hodinách</string>
     <string name="crushesStat">Crushesova statistika</string>
 
-    <!-- Identification -->
+    <!-- Identify -->
     <string name="identify">Identifikace</string>
     <string name="identifyKey">Unikátní identifikátor</string>
     <string name="firstName">Jméno</string>
@@ -111,6 +112,7 @@
         <item>Agender</item>
     </string-array>
     <string name="fiction">Je fiktivní postava?</string>
+    <string name="unsafePerson">Nebezpečná osobnost</string>
     <string name="birth">Narozeniny</string>
     <string name="heightInCM">Výška (cm)</string>
     <string name="address">Adresa</string>
@@ -224,6 +226,7 @@
     <string name="stSexTypeInclude">Zahrnout %s</string>
     <string name="stStatOnlyCrushes">Jen statistiku mých zamilovaných</string>
     <string name="stStatNonOrgasm">Statistika záznamů o sexu bez orgasmu</string>
+    <string name="stHideUnsafePeople">Skryjte nebezpečné lidi</string>
     <string name="stVibration">Vibrace pro důležitá tlačítka</string>
     <string name="stBirthdays">Narozeniny</string>
     <string name="stCalOutput">Seznam narozenin v systémovém kalendáři</string>

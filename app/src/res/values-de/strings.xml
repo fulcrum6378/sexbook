@@ -13,6 +13,7 @@
     <string name="excStat">Plus %s von der Statistik ausgeschlossen.</string>
     <string name="unknown">Plus %s von unbekannten Personen.</string>
     <string name="nonCrush">Plus %s von denen, die nicht als Schwärmereien aufgeführt sind.</string>
+    <string name="plusUnsafe">Plus %s von unsicheren Leuten.</string>
     <string-array name="types">
         <item>Pollution</item>
         <item>Masturbation</item>
@@ -97,7 +98,7 @@
     <string name="afterNHours">&#160;nach %d Stunden</string>
     <string name="crushesStat">Statistiken der Crushes</string>
 
-    <!-- Identification -->
+    <!-- Identify -->
     <string name="identify">Identifikation</string>
     <string name="identifyKey">Eindeutige Kennung</string>
     <string name="firstName">Vorname</string>
@@ -111,6 +112,7 @@
         <item>Agender</item>
     </string-array>
     <string name="fiction">Ist eine fiktive Figur?</string>
+    <string name="unsafePerson">Unsichere Persönlichkeit</string>
     <string name="birth">Geburtstag</string>
     <string name="heightInCM">Höhe (cm)</string>
     <string name="address">Adresse</string>
@@ -226,6 +228,7 @@
     <string name="stSexTypeInclude">%s einbeziehen</string>
     <string name="stStatOnlyCrushes">Statistik nur meine Schwärmereien</string>
     <string name="stStatNonOrgasm">Statistiken über Sex außerhalb des Orgasmus statistisch erstellen</string>
+    <string name="stHideUnsafePeople">Verstecke unsichere Menschen</string>
     <string name="stVibration">Bei wichtigen Tasten vibrieren</string>
     <string name="stBirthdays">Geburtstage</string>
     <string name="stCalOutput">Geburtstage im Systemkalender auflisten</string>

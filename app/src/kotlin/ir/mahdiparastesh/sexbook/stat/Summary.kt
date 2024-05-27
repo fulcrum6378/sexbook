@@ -15,6 +15,7 @@ class Summary(reports: List<Report>, var nExcluded: Int, total: Int) {
     var apparent = (total - nExcluded).toFloat()
     var nonCrush = 0f
     var unsafe = 0f
+    lateinit var classification: Result
 
     init {
         for (r in reports) {
@@ -43,7 +44,9 @@ class Summary(reports: List<Report>, var nExcluded: Int, total: Int) {
         return index
     }
 
-    fun results(c: BaseActivity): Result {
+    fun classify(c: BaseActivity) {
+        if (::classification.isInitialized) return
+
         // tools for filtering
         var liefde = hashSetOf<String>()
         var statOnlyCrushes =
@@ -74,9 +77,10 @@ class Summary(reports: List<Report>, var nExcluded: Int, total: Int) {
         for (k in results.keys) results[k]!!.sort()
         apparent -= nonCrush + unsafe  // will double if results() is called twice, but it doesn't.
 
-        results =
+        classification = Result(
             results.toSortedMap(reverseOrder()).toMutableMap() as HashMap<Float, ArrayList<String>>
-        return Result(results/*, scores*/)
+            /*, scores*/
+        )
     }
 
 

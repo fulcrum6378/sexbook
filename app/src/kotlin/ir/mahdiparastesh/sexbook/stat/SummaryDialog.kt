@@ -42,6 +42,7 @@ class SummaryDialog : BaseDialog() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        c.m.summary!!.classify(c)
         pager = ViewPager2(c).apply {
             layoutParams = ViewGroup.LayoutParams(-1, -1)
             adapter = SumAdapter(c)
@@ -120,7 +121,7 @@ class SummaryDialog : BaseDialog() {
 
             if (c.m.summary == null) return
             b.list.adapter = StatSumAdap(
-                c, c.m.summary!!.results(c).calculations.entries.toList(), this@SumChips
+                c, c.m.summary!!.classification.calculations.entries.toList(), this@SumChips
             )
 
             val pluses = LinearLayout(c).apply {

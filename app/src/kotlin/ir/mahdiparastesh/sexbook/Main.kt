@@ -485,7 +485,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 /* TODO:
   * Problems:
   * Hide unsafe Crush items from People and PageLove
-  * Help texts
+  * Help texts; move to the centres of the pages if lists are empty
   * https://stackoverflow.com/questions/26015548/sqlitedatabaselockedexception-database-is-locked-retrycount-exceeded
   * Searching in Summary and Recency is so immature!
   * Time Picker for First Met

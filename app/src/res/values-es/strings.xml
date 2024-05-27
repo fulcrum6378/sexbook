@@ -13,6 +13,7 @@
     <string name="excStat">Más %s excluidas de la estadística.</string>
     <string name="unknown">Más %s de personas desconocidas.</string>
     <string name="nonCrush">Más %s de aquellos que no figuran como enamorados.</string>
+    <string name="plusUnsafe">Más %s de personas inseguras.</string>
     <string-array name="types">
         <item>Sueño Húmedo</item>
         <item>Masturbación</item>
@@ -99,7 +100,7 @@
     <string name="afterNHours">&#160;después de %d horas</string>
     <string name="crushesStat">Estadísticas de Crushes</string>
 
-    <!-- Identification -->
+    <!-- Identify -->
     <string name="identify">Identificación</string>
     <string name="identifyKey">Identificador único</string>
     <string name="firstName">Nombre de pila</string>
@@ -113,6 +114,7 @@
         <item>Agenda</item>
     </string-array>
     <string name="fiction">¿Es un personaje ficticio?</string>
+    <string name="unsafePerson">Personalidad insegura</string>
     <string name="birth">Cumpleaños</string>
     <string name="heightInCM">Altura (cm)</string>
     <string name="address">Dirección</string>
@@ -228,6 +230,7 @@
     <string name="stSexTypeInclude">Incluir %s</string>
     <string name="stStatOnlyCrushes">Sólo estadísticamente mis amores</string>
     <string name="stStatNonOrgasm">Estadísticar los registros sexuales sin orgasmo</string>
+    <string name="stHideUnsafePeople">Ocultar personas inseguras</string>
     <string name="stVibration">Vibración para botones importantes</string>
     <string name="stBirthdays">Cumpleaños</string>
     <string name="stCalOutput">Listar cumpleaños en el calendario del sistema.</string>
