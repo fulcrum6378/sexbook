@@ -25,41 +25,49 @@ import kotlin.experimental.and
 class Model : ViewModel() {
     lateinit var db: Database
     lateinit var dao: Dao
+    var dbLoaded = false
 
-    /** Holds all sex records with static unsorted indices. */
-    var onani: ArrayList<Report>? = null
-
-    /** Holds all crushes (liefde is a subset of people). */
-    var liefde: CopyOnWriteArrayList<Crush>? = null
-    var people: ArrayList<Crush>? = null
-    var unsafe = CopyOnWriteArraySet<String>()
-
-    /** Holds all places. */
-    var places: ArrayList<Place>? = null
-
-    /** Holds all estimations. */
-    var guesses: ArrayList<Guess>? = null
+    /* --- Database Models --- */
+    var reports = hashMapOf<Long, Report>()
+    var people = arrayListOf<Crush>()
+    var places = arrayListOf<Place>()
+    var guesses = arrayListOf<Guess>()
 
     /** Main data structure for most statistical analyses. */
     var summary: Summary? = null
 
-    /** Interface for controlling this app's calendar events in the system calendar. */
-    var calManager: CalendarManager? = null
+    /** Holds all active crushes (subset of `people`). */
+    var liefde = CopyOnWriteArrayList<Crush>()
 
+    /** A list of Crushes marked as "unsafe". */
+    var unsafe = CopyOnWriteArraySet<String>()
+
+    /* --- Main --- */
     var loaded = false
     var currentPage = 0
     var listFilter = -1
-    var visOnani = arrayListOf<Int>()
+    var visOnani = arrayListOf<Long>()
     var navOpen = false
+    var calManager: CalendarManager? = null
 
-    fun findGlobalIndexOfReport(id: Long) =
-        onani!!.indexOfFirst { it.id == id }
 
-    fun getCrushes() = people?.let { ppl ->
-        CopyOnWriteArrayList(ppl.filter {
-            (it.status and Crush.STAT_INACTIVE) == 0.toByte()
-        })
+    fun resetData() {
+        reports.clear()
+        people.clear()
+        places.clear()
+        guesses.clear()
+
+        summary = null
+        liefde.clear()
+        unsafe.clear()
+
+        listFilter = -1
+        visOnani.clear()
     }
+
+    fun getCrushes() = CopyOnWriteArrayList(people.filter {
+        (it.status and Crush.STAT_INACTIVE) == 0.toByte()
+    })
 
     /** @param changeType 0=>insert, 1=>update, 2=>delete */
     @MainThread
@@ -67,58 +75,59 @@ class Model : ViewModel() {
         c: BaseActivity, crush: Crush, changeType: Int, crushKey: String = crush.key
     ) {
         val pageLove = if (c is Main) c.pageLove() else null
-        val aPos = people?.indexOfFirst { it.key == crushKey }
-        val pos = liefde?.indexOfFirst { it.key == crushKey }
+        val aPos = people.indexOfFirst { it.key == crushKey }
+        val pos = liefde.indexOfFirst { it.key == crushKey }
         if (changeType != 2) { // insert, update
             if (crush.active()) {
-                if (pos != null && pos != -1) liefde?.set(pos, crush)
-                else liefde?.add(crush)
+                if (pos != -1) liefde[pos] = crush
+                else liefde.add(crush)
                 pageLove?.apply {
                     // b.rv.adapter?.notifyItemChanged(it)
                     prepareList() // so they can be sorted
                 }
-            } else if (pos != null && pos != -1) { // deactivated
-                liefde?.removeAt(pos)
+            } else if (pos != -1) { // deactivated
+                liefde.removeAt(pos)
                 pageLove?.apply {
                     b.rv.adapter?.notifyItemRemoved(pos)
-                    b.rv.adapter?.notifyItemRangeChanged(
+                    if (liefde.isNotEmpty()) b.rv.adapter?.notifyItemRangeChanged(
                         pos, pageLove.b.rv.adapter!!.itemCount - pos
                     )
-                    b.empty.isVisible = liefde.isNullOrEmpty()
+                    b.empty.isVisible = liefde.isEmpty()
                 }
             }
-            if (aPos != null && aPos != -1) people?.set(aPos, crush)
-            else people?.add(crush)
-            if (c is People && people != null) // c.b.list.adapter?.notifyItemChanged(it)
+            if (aPos != -1) people[aPos] = crush
+            else people.add(crush)
+            if (c is People) // c.b.list.adapter?.notifyItemChanged(it)
                 c.arrangeList() // so they can be sorted
             if (crush.unsafe())
                 unsafe.add(crush.key)
             else
                 unsafe.remove(crush.key)
         } else { // delete
-            if (crush.active() && pos != -1) pos?.also {
-                liefde?.removeAt(it)
+            if (crush.active() && pos != -1) pos.also {
+                liefde.removeAt(it)
                 pageLove?.apply {
                     b.rv.adapter?.notifyItemRemoved(it)
-                    b.rv.adapter?.notifyItemRangeChanged(
+                    if (liefde.isNotEmpty()) b.rv.adapter?.notifyItemRangeChanged(
                         it, pageLove.b.rv.adapter!!.itemCount - it
                     )
-                    b.empty.isVisible = liefde.isNullOrEmpty()
+                    b.empty.isVisible = liefde.isEmpty()
                 }
             }
-            if (aPos != -1) aPos?.also {
-                people?.removeAt(it)
+            if (aPos != -1) aPos.also {
+                people.removeAt(it)
                 if (c is People) {
                     c.b.list.adapter?.notifyItemRemoved(it)
-                    c.b.list.adapter?.notifyItemRangeChanged(
+                    if (people.isNotEmpty()) c.b.list.adapter?.notifyItemRangeChanged(
                         it, c.b.list.adapter!!.itemCount - it
                     )
+                    c.b.empty.isVisible = people.isEmpty()
                 }
             }
             unsafe.remove(crush.key)
         }
         if (c is Main)
-            c.count(liefde?.size ?: 0)
+            c.count(liefde.size)
         else {
             PageLove.changed = true
             if (c is Singular) c.crush = crush
@@ -128,17 +137,6 @@ class Model : ViewModel() {
     }
 
     fun summaryCrushes() = summary?.let { ArrayList(it.scores.keys) } ?: arrayListOf<String>()
-
-    fun resetData() {
-        onani = null
-        people = null
-        liefde = null
-        places = null
-        guesses = null
-        listFilter = -1
-        visOnani.clear()
-        summary = null
-    }
 
 
     @Suppress("UNCHECKED_CAST")

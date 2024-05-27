@@ -14,7 +14,7 @@ class Adorability : ChartActivity<AdorabilityBinding>() {
         val hideUnsafe =
             sp.getBoolean(Settings.spHideUnsafePeople, true) && m.unsafe.isNotEmpty()
 
-        val stb = sinceTheBeginning(this, m.onani!!)
+        val stb = sinceTheBeginning(this)
         val stars = ArrayList<Star>()
         for (x in m.summary!!.scores) {
             if (hideUnsafe && x.key in m.unsafe) continue

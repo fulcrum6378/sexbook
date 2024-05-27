@@ -19,7 +19,6 @@ import kotlinx.coroutines.withContext
 
 class Estimation : BaseActivity(), Lister {
     private lateinit var b: EstimationBinding
-    private var adding = false
 
     override var countBadge: BadgeDrawable? = null
 
@@ -33,25 +32,22 @@ class Estimation : BaseActivity(), Lister {
         // List
         if (b.list.adapter == null) b.list.adapter = GuessAdap(this)
         else b.list.adapter?.notifyDataSetChanged()
-        b.empty.isVisible = m.guesses.isNullOrEmpty()
-        Delay(100L) { count(m.guesses?.size ?: 0) }
+        b.empty.isVisible = m.guesses.isEmpty()
+        Delay(100L) { count(m.guesses.size) }
 
         // "Add" button
         if (night()) b.addIV.colorFilter = themePdcf()
         b.add.setOnClickListener {
-            if (adding) return@setOnClickListener
-            adding = true
             CoroutineScope(Dispatchers.IO).launch {
                 val newGuess = Guess()
                 newGuess.id = m.dao.gInsert(newGuess)
-                if (m.guesses == null) m.guesses = ArrayList()
-                m.guesses!!.add(newGuess)
+                m.guesses.add(newGuess)
                 Main.changed = true
-                adding = false
+
                 withContext(Dispatchers.Main) {
-                    b.list.adapter!!.notifyItemInserted(m.guesses!!.size - 1)
+                    b.list.adapter!!.notifyItemInserted(m.guesses.size - 1)
                     b.add.explode(this@Estimation)
-                    count(m.places?.size ?: 0)
+                    count(m.places.size)
                     b.empty.isVisible = false
                 }
             }

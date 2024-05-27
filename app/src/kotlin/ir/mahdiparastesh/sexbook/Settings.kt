@@ -302,10 +302,9 @@ class Settings : BaseActivity() {
             ).apply()
         }
         CoroutineScope(Dispatchers.IO).launch {
-            mm.bNtfCrushes = m.people?.filter { it.notifyBirth() }
-                ?.sortedWith(Crush.Sort(this@Settings, spPeopleSortBy, spPeopleSortAsc))
-                ?.let { if (!sp.getBoolean(spPeopleSortAsc, true)) it.reversed() else it }
-                ?: listOf()
+            mm.bNtfCrushes = m.people.filter { it.notifyBirth() }
+                .sortedWith(Crush.Sort(this@Settings, spPeopleSortBy, spPeopleSortAsc))
+                .let { if (!sp.getBoolean(spPeopleSortAsc, true)) it.reversed() else it }
             withContext(Dispatchers.Main) {
                 b.stBNtfCrushes.setOnClickListener {
                     BNtfCrushes().show(supportFragmentManager, BNtfCrushes.TAG)
@@ -365,7 +364,7 @@ class Settings : BaseActivity() {
     /** In the both cases, requires WRITE_CALENDAR permission. */
     private fun turnCalendar(on: Boolean) {
         sp.edit().putBoolean(spCalOutput, on).apply()
-        calManager = CalendarManager(this, m.liefde)
+        calManager = CalendarManager(this, m.liefde).initialize()
         if (!on) calManager?.terminate()
     }
 

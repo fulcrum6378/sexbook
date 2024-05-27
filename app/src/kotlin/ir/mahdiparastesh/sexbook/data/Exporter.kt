@@ -113,10 +113,10 @@ class Exporter(val c: BaseActivity) {
 
     private fun export(): Boolean {
         exported = Exported(
-            c.m.onani?.filter { !it.guess }?.toTypedArray(),
-            c.m.people?.toTypedArray(),
-            c.m.places?.toTypedArray(),
-            c.m.guesses?.toTypedArray(),
+            c.m.reports.values.filter { !it.guess }.toTypedArray(),
+            c.m.people.toTypedArray(),
+            c.m.places.toTypedArray(),
+            c.m.guesses.toTypedArray(),
             c.sp.all
         )
         val emp = exported!!.isEmpty()

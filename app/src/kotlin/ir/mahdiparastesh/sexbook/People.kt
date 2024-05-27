@@ -55,7 +55,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.chart -> CrushesStat().apply {
+            R.id.chart -> if (m.people.isNotEmpty()) CrushesStat().apply {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 0) }
                 show(supportFragmentManager, CrushesStat.TAG)
             }
@@ -75,11 +75,11 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     @SuppressLint("NotifyDataSetChanged")
     fun arrangeList() {
-        b.empty.isVisible = m.people.isNullOrEmpty()
-        if (m.people.isNullOrEmpty()) return
+        b.empty.isVisible = m.people.isEmpty()
+        if (m.people.isEmpty()) return
 
         mm.visPeople = ArrayList(
-            m.people!!.sortedWith(
+            m.people.sortedWith(
                 Crush.Sort(this, Settings.spPeopleSortBy, Settings.spPeopleSortAsc)
             )
         )

@@ -16,7 +16,6 @@ import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.randomColor
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
-import ir.mahdiparastesh.sexbook.data.Report
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -46,7 +45,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
         }
     }
 
-    open fun requirements() = m.onani != null && m.summary != null
+    open fun requirements() = m.reports.isNotEmpty() && m.summary != null
 
     abstract suspend fun draw(): AbstractChartData
 
@@ -60,22 +59,22 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
     }
 
     /** Creates a list of months of the recorded sexual history. */
-    fun sinceTheBeginning(c: BaseActivity, mOnani: ArrayList<Report>): List<String> {
+    fun sinceTheBeginning(c: BaseActivity): List<String> {
         // Find the ending
         var end = c.calType().getDeclaredConstructor().newInstance()
         var oldest = end.timeInMillis
         if (c.sp.getBoolean(Settings.spStatUntilCb, false)) {
             val statTill = c.sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
             var newest = 0L
-            for (h in mOnani) if (h.time in (newest + 1)..statTill) newest = h.time
+            for (h in c.m.reports.values) if (h.time in (newest + 1)..statTill) newest = h.time
             if (newest != 0L) end = newest.calendar(c)
         }
 
         // Find the beginning
         if (c.sp.getBoolean(Settings.spStatSinceCb, false)) {
             val statSinc = c.sp.getLong(Settings.spStatSince, Long.MIN_VALUE)
-            for (h in mOnani) if (h.time in statSinc until oldest) oldest = h.time
-        } else for (h in mOnani) if (h.time < oldest) oldest = h.time
+            for (h in c.m.reports.values) if (h.time in statSinc until oldest) oldest = h.time
+        } else for (h in c.m.reports.values) if (h.time < oldest) oldest = h.time
 
         val beg = oldest.calendar(c)
         val list = arrayListOf<String>()

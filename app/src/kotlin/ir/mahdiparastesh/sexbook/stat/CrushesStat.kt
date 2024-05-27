@@ -74,7 +74,7 @@ class CrushesStat : BaseDialog() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
             val whichList = requireArguments().getInt(BUNDLE_WHICH_LIST)
-            val list = if (whichList == 0) c.m.people!! else c.m.liefde!!
+            val list = if (whichList == 0) c.m.people else c.m.liefde
 
             // set the title
             val arModes = resources.getStringArray(modes)

@@ -21,7 +21,7 @@ class StatSumAdap(
     val arr: List<MutableMap.MutableEntry<Float, ArrayList<String>>>,
     private val searchable: BaseDialog.SearchableStat,
 ) : RecyclerView.Adapter<AnyViewHolder<SumChipGroupBinding>>() {
-    private val curCrushes: List<String>? = c.m.liefde?.map { it.key }
+    private val curCrushes: HashSet<String> = c.m.liefde.map { it.key }.toHashSet()
     private val statOnlyCrushes = c.sp.getBoolean(Settings.spStatOnlyCrushes, false)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -40,7 +40,7 @@ class StatSumAdap(
                 ).apply {
                 val crushKey = arr[i].value[crush]
                 text = crushKey +
-                        (if (!statOnlyCrushes && curCrushes?.contains(crushKey) == true) "*" else "")
+                        (if (!statOnlyCrushes && crushKey in curCrushes) "*" else "")
                 val bb = searchable.lookForIt(text.toString())
                 setOnClickListener {
                     c.goTo(Singular::class) {

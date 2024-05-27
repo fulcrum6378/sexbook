@@ -49,10 +49,9 @@ class Summary(reports: List<Report>, var nExcluded: Int, total: Int) {
 
         // tools for filtering
         var liefde = hashSetOf<String>()
-        var statOnlyCrushes =
-            c.sp.getBoolean(Settings.spStatOnlyCrushes, false) && c.m.liefde != null
+        var statOnlyCrushes = c.sp.getBoolean(Settings.spStatOnlyCrushes, false)
         if (statOnlyCrushes) {
-            liefde = c.m.liefde!!.map { it.key }.toHashSet()
+            liefde = c.m.liefde.map { it.key }.toHashSet()
             statOnlyCrushes = liefde.isNotEmpty()
         }
         val hideUnsafe =

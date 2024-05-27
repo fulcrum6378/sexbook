@@ -38,13 +38,13 @@ class Taste : BaseActivity() {
         setContentView(b.root)
         if (night())
             window.decorView.setBackgroundColor(themeColor(com.google.android.material.R.attr.colorPrimary))
-        if (m.people == null || m.summary == null) {
+        if (m.summary == null) {
             onBackPressed(); return; }
 
         CoroutineScope(Dispatchers.IO).launch {
             var orgasms: ArrayList<Summary.Orgasm>
             var sum: Float
-            for (p in m.people!!) {
+            for (p in m.people) {
                 orgasms = m.summary!!.scores[p.key] ?: continue
                 sum = orgasms.sumOf { it.value }
                 index.add(p to sum)

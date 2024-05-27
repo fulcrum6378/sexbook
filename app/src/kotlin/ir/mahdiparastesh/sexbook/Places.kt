@@ -19,7 +19,6 @@ import kotlinx.coroutines.withContext
 
 class Places : BaseActivity(), Lister {
     private lateinit var b: PlacesBinding
-    private var adding = false
 
     override var countBadge: BadgeDrawable? = null
 
@@ -33,25 +32,22 @@ class Places : BaseActivity(), Lister {
         // List
         if (b.list.adapter == null) b.list.adapter = PlaceAdap(this)
         else b.list.adapter?.notifyDataSetChanged()
-        b.empty.isVisible = m.places.isNullOrEmpty()
-        Delay(100L) { count(m.places?.size ?: 0) }
+        b.empty.isVisible = m.places.isEmpty()
+        Delay(100L) { count(m.places.size) }
 
         // "Add" button
         if (night()) b.addIV.colorFilter = themePdcf()
         b.add.setOnClickListener {
-            if (adding) return@setOnClickListener
-            adding = true
             CoroutineScope(Dispatchers.IO).launch {
                 val newPlace = Place()
                 newPlace.id = m.dao.pInsert(newPlace)
-                if (m.places == null) m.places = ArrayList()
-                m.places!!.add(newPlace)
+                m.places.add(newPlace)
                 Main.changed = true
-                adding = false
+
                 withContext(Dispatchers.Main) {
-                    b.list.adapter!!.notifyItemInserted(m.places!!.size - 1)
+                    b.list.adapter!!.notifyItemInserted(m.places.size - 1)
                     b.add.explode(this@Places)
-                    count(m.places?.size ?: 0)
+                    count(m.places.size)
                     b.empty.isVisible = false
                 }
             }

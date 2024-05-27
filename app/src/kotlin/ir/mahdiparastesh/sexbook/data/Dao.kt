@@ -10,7 +10,8 @@ import androidx.room.Update
 @Dao
 interface Dao {
 
-    // Report
+    /* --- Report --- */
+
     @Query("SELECT * FROM Report")
     suspend fun rGetAll(): List<Report>
 
@@ -36,7 +37,8 @@ interface Dao {
     suspend fun rDeleteAll()
 
 
-    // Crush
+    /* --- Crush --- */
+
     @Query("SELECT * FROM Crush")
     suspend fun cGetAll(): List<Crush>
 
@@ -59,7 +61,8 @@ interface Dao {
     suspend fun cDeleteAll()
 
 
-    // Place
+    /* --- Place --- */
+
     @Query("SELECT * FROM Place")
     suspend fun pGetAll(): List<Place>
 
@@ -79,7 +82,8 @@ interface Dao {
     suspend fun pDeleteAll()
 
 
-    // Guess
+    /* --- Guess --- */
+
     @Query("SELECT * FROM Guess")
     suspend fun gGetAll(): List<Guess>
 

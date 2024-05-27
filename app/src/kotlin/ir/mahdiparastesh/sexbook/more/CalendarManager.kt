@@ -26,11 +26,12 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     private val tz = "GMT"
     private lateinit var index: HashMap<String/*CRUSH_KEY*/, Long/*EVENT_ID*/>
 
-    init {
+    fun initialize(): CalendarManager {
         CoroutineScope(Dispatchers.IO).launch { initialise() }
+        return this
     }
 
-    private suspend fun initialise() {
+    suspend fun initialise(): CalendarManager {
         c.contentResolver.query(
             CCC.CONTENT_URI, arrayOf(CCC.NAME, CCC._ID),
             "account_name = ?", arrayOf(accName), CCC._ID
@@ -56,6 +57,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
             insertEvents(crushes!!)
         }
         crushes = null
+        return this
     }
 
     private suspend fun insertEvents(crushes: Iterable<Crush>) {

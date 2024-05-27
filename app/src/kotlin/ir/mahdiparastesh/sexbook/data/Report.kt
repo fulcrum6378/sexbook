@@ -25,18 +25,18 @@ class Report(
     @PrimaryKey(autoGenerate = true)
     var id = 0L
 
-    @Ignore
-    @Transient
-    var guess: Boolean = false
+    @delegate:Ignore
+    @delegate:Transient
+    val guess: Boolean by lazy { id < 0L }
 
     @Ignore
     @Transient
     var analysis: List<String>? = null
 
     @Ignore // for estimation
-    constructor(time: Long, name: String, type: Byte, plac: Long)
+    constructor(id: Long, time: Long, name: String, type: Byte, plac: Long)
             : this(time, name, type, null, false, plac, true, -127) {
-        guess = true
+        this.id = id
     }
 
     @Ignore // for GsonAdapter
@@ -62,8 +62,8 @@ class Report(
     }
 
     /** Helper class for filtering sex records by month. */
-    class Filter(val year: Int, val month: Int, var map: ArrayList<Int>) {
-        fun put(item: Int) {
+    class Filter(val year: Int, val month: Int, var map: ArrayList<Long>) {
+        fun put(item: Long) {
             map.add(item)
         }
 

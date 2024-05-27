@@ -141,76 +141,69 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 b.toolbar.inflateMenu(menus[i])
                 onPrepareOptionsMenu(b.toolbar.menu)
                 m.currentPage = i
-                count(if (i == 0) null else m.liefde?.size ?: 0)
+                count(if (i == 0) null else m.liefde.size)
             }
         })
 
         // Load all data from the database
-        CoroutineScope(Dispatchers.IO).launch {
-            val rp = if (m.onani == null) m.dao.rGetAll() else null
-            val cr = if (m.people == null) m.dao.cGetAll() else null
-            val pl = if (m.places == null) m.dao.pGetAll() else null
-            val gs = if (m.guesses == null) m.dao.gGetAll() else null
+        if (!m.dbLoaded) CoroutineScope(Dispatchers.IO).launch {
+            // Report
+            for (r in m.dao.rGetAll()) m.reports[r.id] = r
 
-            // list the unsafe people
-            m.unsafe.addAll(cr?.filter { it.unsafe() }?.map { it.key } ?: listOf())
+            // Crush
+            m.people = ArrayList(m.dao.cGetAll())
+            m.unsafe.addAll(m.people.filter { it.unsafe() }.map { it.key })
+            m.liefde = m.getCrushes()
+
+            // Place
+            m.places = ArrayList(m.dao.pGetAll())
+            for (p in m.places) {
+                var sum = 0L
+                for (r in m.reports.values)
+                    if (r.plac == p.id)
+                        sum++
+                p.sum = sum
+            }
+            m.places.sortWith(Place.Sort(Place.Sort.NAME))
+            if (m.reports.isNotEmpty()) m.places.sortWith(Place.Sort(Place.Sort.SUM))
+
+            // Guess
+            m.guesses = ArrayList(m.dao.gGetAll().sortedWith(Guess.Sort()))
+            instillGuesses()
+
 
             withContext(Dispatchers.Main) {
-                rp?.also { m.onani = ArrayList(it) }
-                cr?.apply {
-                    m.people = ArrayList(this)
-                    if (isEmpty()) return@apply
+                // notify if any birthday is around
+                if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
+                            ) >= Settings.notifyBirthAfterLastTime &&
+                    !sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
+                ) for (it in m.people) if (it.notifyBirth()) it.bCalendar()?.also { birth ->
+                    var now: Calendar = GregorianCalendar()
+                    var bir: Calendar = GregorianCalendar()
+                    if (!sp.getBoolean(
+                            Settings.spGregorianForBirthdays,
+                            Settings.spGregorianForBirthdaysDef
+                        )
+                    ) {
+                        now = (now as GregorianCalendar).toDefaultType(this@Main)
+                        bir = (bir as GregorianCalendar).toDefaultType(this@Main)
+                    }
+                    // do NOT alter the "birth" instance!
+                    val dist = now.timeInMillis - bir.apply {
+                        this.timeInMillis = birth.timeInMillis
+                        this[Calendar.YEAR] = now[Calendar.YEAR]
+                    }.timeInMillis
+                    if (dist in
+                        -(sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * Fun.A_DAY)
+                        ..Fun.A_DAY
+                    ) notifyBirth(it, dist)
+                }
 
-                    // notify if any birthday is around
-                    if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
-                                ) < Settings.notifyBirthAfterLastTime ||
-                        sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
-                    ) return@apply
-                    for (it in this) if (it.notifyBirth()) it.bCalendar()?.also { birth ->
-                        var now: Calendar = GregorianCalendar()
-                        var bir: Calendar = GregorianCalendar()
-                        if (!sp.getBoolean(
-                                Settings.spGregorianForBirthdays,
-                                Settings.spGregorianForBirthdaysDef
-                            )
-                        ) {
-                            now = (now as GregorianCalendar).toDefaultType(this@Main)
-                            bir = (bir as GregorianCalendar).toDefaultType(this@Main)
-                        }
-                        // do NOT alter the "birth" instance!
-                        val dist = now.timeInMillis - bir.apply {
-                            this.timeInMillis = birth.timeInMillis
-                            this[Calendar.YEAR] = now[Calendar.YEAR]
-                        }.timeInMillis
-                        if (dist in
-                            -(sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * Fun.A_DAY)
-                            ..Fun.A_DAY
-                        ) notifyBirth(it, dist)
-                    }
-                }
-                if (m.liefde == null) m.getCrushes()?.apply {
-                    m.liefde = this
-                    if (isEmpty()) return@apply
-                    if (sp.getBoolean(Settings.spCalOutput, false) &&
-                        CalendarManager.checkPerm(this@Main)
-                    ) m.calManager = CalendarManager(this@Main, this)
-                }
-                pl?.let { ArrayList(it) }?.apply {
-                    m.places = this
-                    if (m.onani != null) for (p in indices) {
-                        var sum = 0L
-                        for (r in m.onani!!)
-                            if (r.plac == this[p].id)
-                                sum++
-                        this[p].sum = sum
-                    }
-                    sortWith(Place.Sort(Place.Sort.NAME))
-                    if (m.onani != null) sortWith(Place.Sort(Place.Sort.SUM))
-                }
-                gs?.also {
-                    m.guesses = ArrayList(it.sortedWith(Guess.Sort()))
-                    instillGuesses()
-                }
+                // initialise CalendarManager
+                if (m.liefde.isNotEmpty() && sp.getBoolean(Settings.spCalOutput, false) &&
+                    CalendarManager.checkPerm(this@Main)
+                ) m.calManager = CalendarManager(this@Main, m.liefde).initialise()
+
                 pageSex()?.prepareList() // guesses must be instilled before doing this.
             }
         }
@@ -252,7 +245,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             uiToast(R.string.noStat); return true
         } else if (item.itemId == R.id.momPpl)
             summarize()
-        else if (item.itemId == R.id.momInt && m.onani.isNullOrEmpty()) {
+        else if (item.itemId == R.id.momInt && m.reports.isEmpty()) {
             uiToast(R.string.noRecords); return true
         }
 
@@ -300,7 +293,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
 
             // PageLove (R.menu.crush_list):
-            R.id.chart -> CrushesStat().apply {
+            R.id.chart -> if (m.liefde.isNotEmpty()) CrushesStat().apply {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 1) }
                 show(supportFragmentManager, CrushesStat.TAG)
             }
@@ -355,9 +348,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             } catch (e: NumberFormatException) {
                 null
             })?.also { id ->
-                if (!isOnCreate && m.onani != null)
-                    m.findGlobalIndexOfReport(id)
-                        .also { if (it != -1) pageSex()?.resetAllReports(it) }
+                if (!isOnCreate) pageSex()?.reset(id)
                 else intentViewId = id
             }
         }
@@ -389,9 +380,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
      * @return true if statisticisation was possible
      */
     fun summarize(ignoreIfItsLessThanAMonth: Boolean = false): Boolean {
-        if (m.onani.isNullOrEmpty()) return false
+        if (m.reports.isEmpty()) return false
         var nExcluded = 0
-        var filtered: List<Report> = m.onani!!
+        var filtered: List<Report> = m.reports.values.toList()
 
         // Filter by time
         if (sp.getBoolean(Settings.spStatSinceCb, false))
@@ -420,7 +411,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             filtered = filtered.filter { it.ogsm }
                 .also { nExcluded += filtered.size - it.size }
 
-        m.summary = Summary(filtered, nExcluded, m.onani!!.size)
+        m.summary = Summary(filtered, nExcluded, m.reports.size)
         (pageSex()?.b?.rv?.adapter as? ReportAdap)?.crushSuggester?.update()
         return true
     }
@@ -460,17 +451,19 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun instillGuesses() {
-        for (g in m.guesses!!.filter { it.able }) {
+        var id = -1L
+        for (g in m.guesses.filter { it.able }) {
             if (!g.checkValid()) continue
             var curTime = g.sinc
             val share = (86400000.0 / g.freq).toLong()
 
             while (curTime <= g.till) {
-                m.onani!!.add(Report(curTime, g.crsh ?: "", g.type, g.plac))
+                m.reports[id] = Report(id, curTime, g.crsh ?: "", g.type, g.plac)
                 curTime += share
             }
+            id--
         }
-        m.onani!!.sortWith(Report.Sort())
+        //m.onani!!.sortWith(Report.Sort()) TODO ?
     }
 
     fun onDataChanged() {

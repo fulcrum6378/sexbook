@@ -50,7 +50,7 @@ class SummaryDialog : BaseDialog() {
         dialogue = MaterialAlertDialogBuilder(c).apply {
             setTitle(
                 "${getString(R.string.summary)} " +
-                        "(${c.m.summary!!.apparent.show()} / ${c.m.onani!!.size})"
+                        "(${c.m.summary!!.apparent.show()} / ${c.m.reports.size})"
             )
             setView(ConstraintLayout(c).apply {
                 layoutParams = ViewGroup.LayoutParams(-1, -1)

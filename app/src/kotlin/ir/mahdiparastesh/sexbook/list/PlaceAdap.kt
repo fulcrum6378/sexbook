@@ -30,16 +30,15 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
         AnyViewHolder(ItemPlaceBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<ItemPlaceBinding>, i: Int) {
-        if (c.m.places == null) return
 
         // Name
         h.b.name.setTextWatcher(null)
-        h.b.name.setText(c.m.places!![i].name)
+        h.b.name.setText(c.m.places[i].name)
         h.b.name.setTextWatcher(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                c.m.places!![h.layoutPosition].apply {
+                c.m.places[h.layoutPosition].apply {
                     if (name != h.b.name.text.toString()) {
                         name = h.b.name.text.toString()
                         update(h.layoutPosition)
@@ -49,37 +48,37 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
         })
 
         // Sum
-        (c.m.places!![i].sum >= 0L).apply {
+        (c.m.places[i].sum >= 0L).apply {
             h.b.sum.isVisible = this
-            h.b.sum.text = if (this) "{${c.m.places!![i].sum}}" else ""
+            h.b.sum.text = if (this) "{${c.m.places[i].sum}}" else ""
         }
 
         // Click
         val longClick = View.OnLongClickListener { v ->
-            if (c.m.places == null || c.m.places!!.size <= h.layoutPosition)
+            if (c.m.places.size <= h.layoutPosition)
                 return@OnLongClickListener true
             MaterialMenu(c, v, R.menu.place, Act().apply {
                 this[R.id.plDefPlace] = {
                     c.sp.edit().apply {
-                        putLong(spDefPlace, c.m.places!![h.layoutPosition].id)
+                        putLong(spDefPlace, c.m.places[h.layoutPosition].id)
                         apply()
                     }
                 }
                 this[R.id.plDelete] = {
-                    if (c.m.places!![h.layoutPosition].sum > 0
+                    if (c.m.places[h.layoutPosition].sum > 0
                     ) MaterialAlertDialogBuilder(c).apply {
                         val bm = MigratePlaceBinding.inflate(c.layoutInflater)
                         bm.places.adapter = ArrayAdapter(c, R.layout.spinner_white,
-                            ArrayList(c.m.places!!.map { it.name }).apply {
+                            ArrayList(c.m.places.map { it.name }).apply {
                                 add(0, "")
-                                remove(c.m.places!![h.layoutPosition].name)
+                                remove(c.m.places[h.layoutPosition].name)
                             }).apply { setDropDownViewResource(R.layout.spinner_dd) }
                         setTitle(c.resources.getString(R.string.delete))
                         setMessage(c.resources.getString(R.string.plDeletePlaceSure))
                         setView(bm.root)
                         setPositiveButton(R.string.yes) { _, _ ->
                             delete(
-                                h.layoutPosition, c.m.places!!
+                                h.layoutPosition, c.m.places
                                     .find { it.name == (bm.places.selectedItem as String) }?.id
                                     ?: -1L
                             )
@@ -93,7 +92,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
                 }
             }).apply {
                 if (c.sp.contains(spDefPlace) && c.sp.getLong(spDefPlace, -1L)
-                    == c.m.places!![h.layoutPosition].id
+                    == c.m.places[h.layoutPosition].id
                 ) menu.findItem(R.id.plDefPlace).isChecked = true
             }.show()
             true
@@ -102,12 +101,12 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
         h.b.name.setOnLongClickListener(longClick)
     }
 
-    override fun getItemCount() = c.m.places?.size ?: 0
+    override fun getItemCount() = c.m.places.size
 
     fun update(i: Int) {
-        if (c.m.places == null || c.m.places!!.size <= i || i < 0) return
+        if (c.m.places.size <= i || i < 0) return
         CoroutineScope(Dispatchers.IO).launch {
-            c.m.dao.pUpdate(c.m.places!![i])
+            c.m.dao.pUpdate(c.m.places[i])
             Main.changed = true
             withContext(Dispatchers.Main) { notifyItemChanged(i) }
         }
@@ -115,15 +114,15 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
 
     fun delete(i: Int, migrateToId: Long) {
         CoroutineScope(Dispatchers.IO).launch {
-            c.m.dao.pDelete(c.m.places!![i])
-            for (mig in c.m.dao.rGetByPlace(c.m.places!![i].id))
+            c.m.dao.pDelete(c.m.places[i])
+            for (mig in c.m.dao.rGetByPlace(c.m.places[i].id))
                 c.m.dao.rUpdate(mig.apply { plac = migrateToId })
-            c.m.places?.removeAt(i)
+            c.m.places.removeAt(i)
             Main.changed = true
             withContext(Dispatchers.Main) {
                 notifyItemRemoved(i)
                 notifyItemRangeChanged(i, itemCount - i)
-                c.count(c.m.places?.size ?: 0)
+                c.count(c.m.places.size)
             }
         }
     }

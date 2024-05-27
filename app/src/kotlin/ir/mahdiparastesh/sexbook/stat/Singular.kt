@@ -23,7 +23,7 @@ class Singular : ChartActivity<SingularBinding>() {
         super.onCreate(savedInstanceState)
         if (night()) b.identifyIV.colorFilter = themePdcf()
 
-        crush = m.people?.find { it.key == crushKey }
+        crush = m.people.find { it.key == crushKey }
         b.title.text = crushKey
         b.identify.setOnClickListener {
             Identify(this@Singular, crush).apply {
@@ -41,7 +41,7 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override suspend fun draw(): AbstractChartData {
         val data = ArrayList<Pair<String, Float>>()
-        sinceTheBeginning(this, m.onani!!)
+        sinceTheBeginning(this)
             .forEach { data.add(Pair(it, calcHistory(this, history!!, it))) }
         return ColumnChartData().setColumns(ColumnFactory(this, data))
     }

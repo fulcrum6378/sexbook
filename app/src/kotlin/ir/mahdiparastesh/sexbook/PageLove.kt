@@ -47,9 +47,9 @@ class PageLove : BasePage() {
 
     override fun prepareList() {
         wasListEverPrepared = true
-        c.m.liefde?.sortWith(Crush.Sort(c, Settings.spPageLoveSortBy, Settings.spPageLoveSortAsc))
-        c.count(c.m.liefde?.size ?: 0)
-        b.empty.isVisible = c.m.liefde.isNullOrEmpty()
+        c.m.liefde.sortWith(Crush.Sort(c, Settings.spPageLoveSortBy, Settings.spPageLoveSortAsc))
+        c.count(c.m.liefde.size)
+        b.empty.isVisible = c.m.liefde.isEmpty()
         if (b.rv.adapter == null) b.rv.adapter = CrushAdap(c)
         else b.rv.adapter?.notifyDataSetChanged()
     }
