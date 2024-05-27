@@ -21,7 +21,6 @@ import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.PageSex
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
@@ -30,7 +29,6 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Place
-import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
@@ -119,7 +117,7 @@ class ReportAdap(
                     this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], cal[Calendar.SECOND]
                 ).defaultOptions()
                     //.setOnDismissListener { dialogDismissed() }
-                    .show(c.supportFragmentManager, "edit${globalPos(c.m, h.layoutPosition)}")
+                    .show(c.supportFragmentManager, "edit${h.layoutPosition}")
                 // mayShowAd()
             }
             h.b.date.setOnClickListener {
@@ -130,14 +128,15 @@ class ReportAdap(
                     cal.set(Calendar.YEAR, year)
                     cal.set(Calendar.MONTH, month)
                     cal.set(Calendar.DAY_OF_MONTH, day)
-                    val pos = view.tag!!.substring(4).toInt()
-                    if (c.m.onani!!.size > pos && view.tag!!.substring(0, 4) == tagEdit) {
-                        c.m.onani!![pos].time = cal.timeInMillis
-                        syncDb(pos, true)
+                    val ii = view.tag!!.substring(4).toInt()
+                    val gPos = c.m.visOnani[ii]
+                    if (c.m.onani!!.size > gPos && view.tag!!.substring(0, 4) == tagEdit) {
+                        c.m.onani!![gPos].time = cal.timeInMillis
+                        update(ii, true)
                     }
                 }, cal).defaultOptions()
                     // .setOnDismissListener { dialogDismissed() }
-                    .show(c.supportFragmentManager, "$tagEdit${globalPos(c.m, h.layoutPosition)}")
+                    .show(c.supportFragmentManager, "$tagEdit${h.layoutPosition}")
                 // mayShowAd()
             }
             h.b.ampm.text =
@@ -167,7 +166,7 @@ class ReportAdap(
                         }
                         analysis = null
                         name = h.b.name.text.toString()
-                        updateStatic(this, h.layoutPosition)
+                        update(h.layoutPosition)
                     }
                 }
             }
@@ -182,7 +181,7 @@ class ReportAdap(
                     c.m.onani!![c.m.visOnani[h.layoutPosition]].apply {
                         if (type != i.toByte()) {
                             type = i.toByte()
-                            updateStatic(this, h.layoutPosition)
+                            update(h.layoutPosition)
                         }
                     }
                     c.sp.edit().putInt(Settings.spPrefersOrgType, i).apply()
@@ -209,7 +208,7 @@ class ReportAdap(
                 c.m.onani!![c.m.visOnani[h.layoutPosition]].apply {
                     if (desc != h.b.desc.text.toString()) {
                         desc = h.b.desc.text.toString()
-                        updateStatic(this, h.layoutPosition)
+                        update(h.layoutPosition)
                     }
                 }
             }
@@ -231,47 +230,42 @@ class ReportAdap(
 
         // Long Click
         val longClick = if (!r.guess) View.OnLongClickListener { v ->
-            if (c.m.onani == null || c.m.visOnani.size <= h.layoutPosition)
-                return@OnLongClickListener true
-            MaterialMenu(c, v, R.menu.report, Act().apply {
+            if (c.m.onani != null) MaterialMenu(c, v, R.menu.report, Act().apply {
+                val ii = h.layoutPosition
+
                 this[R.id.lcExpand] = {
-                    turnOverflow(h.layoutPosition, h.b)
+                    turnOverflow(ii, h.b)
                 }
                 this[R.id.lcAccurate] = {
-                    c.m.onani!![c.m.visOnani[h.layoutPosition]].apply {
+                    c.m.onani!![c.m.visOnani[ii]].apply {
                         if (accu != !it.isChecked) {
                             accu = !it.isChecked
-                            updateStatic(this, h.layoutPosition)
+                            update(ii)
                         }
                     }
                 }
                 this[R.id.lcOrgasmed] = {
-                    c.m.onani!![c.m.visOnani[h.layoutPosition]].apply {
+                    c.m.onani!![c.m.visOnani[ii]].apply {
                         if (ogsm != !it.isChecked) {
                             ogsm = !it.isChecked
-                            updateStatic(this, h.layoutPosition)
+                            update(ii)
                         }
                     }
                 }
                 this[R.id.lcDelete] = {
-                    if (c.m.onani != null) CoroutineScope(Dispatchers.IO).launch {
-                        val aPos = c.m.visOnani[h.layoutPosition]
-                        c.m.dao.rDelete(c.m.onani!![aPos])
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val gPos = c.m.visOnani[ii]
+                        c.m.dao.rDelete(c.m.onani!![gPos])
+                        c.m.onani!!.removeAt(gPos)
+                        if (c.m.onani!!.isNotEmpty()) c.m.visOnani.removeAt(ii)
+                        else f.resetAllReports()
                         LastOrgasm.updateAll(c)
+
                         withContext(Dispatchers.Main) {
-                            if (c.m.onani == null) {
-                                f.resetAllReports(); return@withContext; }
-
-                            c.m.visOnani.removeAt(h.layoutPosition)
-                            notifyItemRemoved(h.layoutPosition)
-                            notifyItemRangeChanged(h.layoutPosition, itemCount)
-
-                            c.m.onani!!.remove(c.m.onani!![aPos])
-                            if (c.m.onani!!.isNotEmpty())
-                                f.filters.getOrNull(c.m.listFilter)?.map?.remove(aPos)
-                            else f.filters = f.createFilters()
-                            f.updateFilterSpinner()
                             notifyAnyChange(false)
+                            notifyItemRemoved(ii)
+                            notifyItemRangeChanged(ii, itemCount - ii)
+                            f.updateFilterSpinner()
                         }
                     }
                 }
@@ -288,7 +282,6 @@ class ReportAdap(
         h.b.root.setOnLongClickListener(longClick)
         h.b.clock.setOnLongClickListener(longClick)
         h.b.date.setOnLongClickListener(longClick)
-        //h.b.name.setOnLongClickListener(longClick)
         h.b.root.isClickable = !r.guess
         h.b.root.isLongClickable = !r.guess
         h.b.root.alpha = if (!r.guess) 1f else estimatedAlpha
@@ -299,15 +292,16 @@ class ReportAdap(
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onTimeSet(view: TimePickerDialog, hourOfDay: Int, minute: Int, second: Int) {
         if (c.m.onani == null || view.tag == null || view.tag!!.length <= 4) return
-        val pos = view.tag!!.substring(4).toInt()
-        if (c.m.onani!!.size > pos) when (view.tag!!.substring(0, 4)) {
+        val i = view.tag!!.substring(4).toInt()
+        val gPos = c.m.visOnani[i]
+        if (c.m.onani!!.size > gPos) when (view.tag!!.substring(0, 4)) {
             tagEdit -> {
-                val calc = c.m.onani!![pos].time.calendar(c)
+                val calc = c.m.onani!![gPos].time.calendar(c)
                 calc[Calendar.HOUR_OF_DAY] = hourOfDay
                 calc[Calendar.MINUTE] = minute
                 calc[Calendar.SECOND] = second
-                c.m.onani!![pos].time = calc.timeInMillis
-                syncDb(pos, true)
+                c.m.onani!![gPos].time = calc.timeInMillis
+                update(i, true)
             }
         }
     }
@@ -317,11 +311,10 @@ class ReportAdap(
         fun update() {
             clear()
             addAll(c.m.summaryCrushes())
-            //notifyDataSetChanged()
-            //Toast.makeText(c, c.m.summary?.scores?.size.toString(), Toast.LENGTH_LONG).show()
         }
     }
 
+    /** Opens or closes overflow part of a Report item, containing descriptions and Place. */
     private fun turnOverflow(i: Int, b: ItemReportBinding, expand: Boolean = !expansion[i]) {
         expansion[i] = expand
         b.desc.isVisible = expand
@@ -343,21 +336,23 @@ class ReportAdap(
             c.m.onani!![c.m.visOnani[i!!]].apply {
                 if (plac != id) {
                     plac = id
-                    updateStatic(this, i!!)
+                    update(i!!)
                 }
             }
         }
     }
 
-    fun updateStatic(updated: Report, nominalPos: Int) {
+    /**
+     * Writes changes to the database.
+     *
+     * @param i nominal position (in visOnani)
+     * @param dateTimeChanged set to true if date or time of Report is changed
+     */
+    private fun update(i: Int, dateTimeChanged: Boolean = false) {
         if (c.m.onani == null) return
-        val pos = globalPos(c.m, nominalPos)
-        if (c.m.onani!!.size <= pos || pos < 0) return
-        c.m.onani!![pos] = updated
-        syncDb(pos, false)
-    }
+        val gPos = c.m.visOnani[i]
+        if (c.m.onani!!.size <= gPos || gPos < 0) return
 
-    private fun syncDb(gPos: Int, dateTimeChanged: Boolean) {
         CoroutineScope(Dispatchers.IO).launch {
             c.m.dao.rUpdate(c.m.onani!![gPos])
             LastOrgasm.doUpdateAll(c)
@@ -365,27 +360,22 @@ class ReportAdap(
                 if (c.m.onani == null) {
                     f.resetAllReports(); return@withContext; }
 
-                val nominalPos = c.m.visOnani.indexOf(gPos)
-                if (nominalPos != -1) c.m.visOnani[nominalPos] = gPos
-
-                // in addition, if date or time have been changed...
+                // ONLY if date or time have been changed...
                 if (!dateTimeChanged) return@withContext
                 val ym = c.m.onani!![gPos].time.calendar(c).createFilterYm()
-                if (nominalPos != -1 && f.filters.getOrNull(c.m.listFilter)
+                if (f.filters.getOrNull(c.m.listFilter)
                         ?.let { ym.first == it.year && ym.second == it.month } == true
                 ) { // report is still in this month
-                    notifyItemChanged(nominalPos)
+                    notifyItemChanged(i)
                     c.m.visOnani.sortBy { c.m.onani!![it].time }
                     val newPos = c.m.visOnani.indexOf(gPos)
-                    notifyItemMoved(nominalPos, newPos)
                     f.b.rv.smoothScrollToPosition(newPos)
-                    f.filters.getOrNull(c.m.listFilter)?.map?.apply {
-                        this[nominalPos] = c.m.onani!!.indexOf(c.m.onani!![c.m.visOnani[nominalPos]])
-                        this[newPos] = gPos
-                    }
+                    c.m.visOnani[i] = c.m.onani!!.indexOf(c.m.onani!![gPos])
+                    c.m.visOnani[newPos] = gPos
+                    notifyItemMoved(i, newPos)
                 } else { // report moved to another month or is missing
-                    notifyItemRemoved(nominalPos)
-                    notifyItemRangeChanged(nominalPos, itemCount)
+                    notifyItemRemoved(i)
+                    notifyItemRangeChanged(i, itemCount - i)
                     f.resetAllReports(gPos)
                 }
             }
@@ -440,14 +430,6 @@ class ReportAdap(
         fun rotateHour(h: Int) = (h - (if (h > 12) 12 else 0)) * 30f
 
         fun rotateMin(m: Int) = m * 6f
-
-        fun globalPos(m: Model, pos: Int): Int {
-            var index = -1
-            for (o in m.onani!!.indices)
-                if (m.onani!![o].id == m.onani!![m.visOnani[pos]].id)
-                    index = o
-            return index
-        }
 
         fun placePos(id: Long, list: List<Place>): Int {
             var index = -1

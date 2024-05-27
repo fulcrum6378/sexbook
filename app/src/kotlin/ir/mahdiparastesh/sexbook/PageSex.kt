@@ -122,7 +122,7 @@ class PageSex : BasePage() {
         b.spnFilter.setSelection(c.m.listFilter, true)
     }
 
-    fun createFilters(): List<Report.Filter> {
+    private fun createFilters(): List<Report.Filter> {
         //Log.println(Log.ASSERT, "ZOEY", "createFilters ${reports.size} reports")
         val filters = arrayListOf<Report.Filter>()
         for (r in c.m.onani!!.indices) {
@@ -156,11 +156,10 @@ class PageSex : BasePage() {
     }
 
     // private var addedToShowAd = 0
-    private var adding = false
     fun add() {
-        if (adding) return
-        adding = true
         CoroutineScope(Dispatchers.IO).launch {
+
+            // detect a regularly repeated monoamorous crush
             var name = ""
             c.m.onani?.size?.also { total ->
                 if (total < PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME) return@also
@@ -170,28 +169,28 @@ class PageSex : BasePage() {
                     if (!name.equals(c.m.onani?.get(r)?.name, true)) { // don't use ".."
                         name = ""; break; }
             }
+
             val newOne = Report(
                 Fun.now(), name, c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
                 "", true, c.sp.getLong(Settings.spDefPlace, -1L), true, -127
             )
             newOne.id = c.m.dao.rInsert(newOne)
             LastOrgasm.updateAll(c)
-            val firstRecordEver = c.m.onani == null
-            if (firstRecordEver) c.m.onani = ArrayList()
+            if (c.m.onani == null) c.m.onani = ArrayList()
             val gPos = c.m.onani!!.size
             c.m.onani!!.add(newOne)
-            adding = false
 
             withContext(Dispatchers.Main) {
                 val ym = newOne.time.calendar(c).createFilterYm()
                 if (filters.indexOfFirst { it.year == ym.first && it.month == ym.second }
-                    == c.m.listFilter && c.m.listFilter >= 0 && !firstRecordEver) {
-                    // add to the bottom of the recycler view
+                    == c.m.listFilter && c.m.listFilter >= 0
+                ) { // add to the bottom of the recycler view
                     c.m.visOnani.add(gPos)
                     c.m.visOnani.sortBy { c.m.onani!![it].time }
-                    (b.rv.adapter as ReportAdap?)?.notifyAnyChange(false)
-                    val thePos = c.m.visOnani.indexOf(gPos)
-                    b.rv.adapter?.notifyItemInserted(thePos)
+                    (b.rv.adapter as ReportAdap?)?.apply {
+                        notifyAnyChange(false)
+                        notifyItemInserted(c.m.visOnani.indexOf(gPos))
+                    }
                     updateFilterSpinner()
                 } else // go to/create a new month
                     resetAllReports(c.m.onani!!.size - 1)
