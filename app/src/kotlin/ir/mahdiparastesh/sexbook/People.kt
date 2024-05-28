@@ -25,7 +25,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     override var countBadge: BadgeDrawable? = null
 
     class MyModel : ViewModel() {
-        lateinit var visPeople: ArrayList<Crush>
+        lateinit var visPeople: ArrayList<String>
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +33,10 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
         b = PeopleBinding.inflate(layoutInflater)
         setContentView(b.root)
         toolbar(b.toolbar, R.string.people)
+    }
+
+    override fun onResume() {
+        super.onResume()
         arrangeList()
     }
 
@@ -75,18 +79,13 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     @SuppressLint("NotifyDataSetChanged")
     fun arrangeList() {
-        b.empty.isVisible = m.people.isEmpty()
-        if (m.people.isEmpty()) return
-
-        mm.visPeople = ArrayList(
-            m.people.sortedWith(
-                Crush.Sort(this, Settings.spPeopleSortBy, Settings.spPeopleSortAsc)
-            )
-        )
+        mm.visPeople = ArrayList(m.people.filter { !it.value.unsafe() }.keys)
+        mm.visPeople.sortWith(Crush.Sort(this, Settings.spPeopleSortBy, Settings.spPeopleSortAsc))
         // TO-DO filter | search
 
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()
+        b.empty.isVisible = mm.visPeople.isEmpty()
         Delay(100L) { count(mm.visPeople.size) }
     }
 }

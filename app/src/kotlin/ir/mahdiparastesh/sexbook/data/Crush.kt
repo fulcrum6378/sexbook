@@ -216,24 +216,28 @@ class Crush(
         firstOrgasm_ = null
     }
 
-    class Sort(private val c: BaseActivity, spByKey: String, spAscKey: String) : Comparator<Crush> {
+    class Sort(private val c: BaseActivity, spByKey: String, spAscKey: String) : Comparator<String> {
         private val by = c.sp.getInt(spByKey, 0)
         private val asc = c.sp.getBoolean(spAscKey, true)
 
-        override fun compare(aa: Crush, bb: Crush): Int {
+        override fun compare(aa: String, bb: String): Int {
             val a = if (asc) aa else bb
             val b = if (asc) bb else aa
             return when (by) {
-                Fun.SORT_BY_NAME -> a.visName().lowercase(Locale.getDefault())
-                    .compareTo(b.visName().lowercase(Locale.getDefault()))
-                Fun.SORT_BY_SUM -> a.getSum(c.m).compareTo(b.getSum(c.m))
-                Fun.SORT_BY_AGE -> (b.bCalendar(null)?.timeInMillis ?: 0L)
-                    .compareTo(a.bCalendar(null)?.timeInMillis ?: 0L)
-                Fun.SORT_BY_HEIGHT -> a.height.compareTo(b.height)
-                Fun.SORT_BY_BEGINNING -> (a.fCalendar(c)?.timeInMillis ?: 0L)
-                    .compareTo(b.fCalendar(c)?.timeInMillis ?: 0L)
-                Fun.SORT_BY_LAST -> a.getLastOrgasm(c.m).compareTo(b.getLastOrgasm(c.m))
-                Fun.SORT_BY_FIRST -> a.getFirstOrgasm(c.m).compareTo(b.getFirstOrgasm(c.m))
+                Fun.SORT_BY_NAME -> c.m.people[a]!!.visName().lowercase(Locale.getDefault())
+                    .compareTo(c.m.people[b]!!.visName().lowercase(Locale.getDefault()))
+                Fun.SORT_BY_SUM -> c.m.people[a]!!.getSum(c.m)
+                    .compareTo(c.m.people[b]!!.getSum(c.m))
+                Fun.SORT_BY_AGE -> (c.m.people[b]!!.bCalendar(null)?.timeInMillis ?: 0L)
+                    .compareTo(c.m.people[a]!!.bCalendar(null)?.timeInMillis ?: 0L)
+                Fun.SORT_BY_HEIGHT -> c.m.people[a]!!.height
+                    .compareTo(c.m.people[b]!!.height)
+                Fun.SORT_BY_BEGINNING -> (c.m.people[a]!!.fCalendar(c)?.timeInMillis ?: 0L)
+                    .compareTo(c.m.people[b]!!.fCalendar(c)?.timeInMillis ?: 0L)
+                Fun.SORT_BY_LAST -> c.m.people[a]!!.getLastOrgasm(c.m)
+                    .compareTo(c.m.people[b]!!.getLastOrgasm(c.m))
+                Fun.SORT_BY_FIRST -> c.m.people[a]!!.getFirstOrgasm(c.m)
+                    .compareTo(c.m.people[b]!!.getFirstOrgasm(c.m))
                 else -> throw IllegalArgumentException("Invalid sorting method!")
             }
         }

@@ -57,10 +57,6 @@ class Report(
                 .onEach { it.trim() }
     }
 
-    class Sort : Comparator<Report> {
-        override fun compare(a: Report, b: Report) = a.time.compareTo(b.time)
-    }
-
     /** Helper class for filtering sex records by month. */
     class Filter(val year: Int, val month: Int, var map: ArrayList<Long>) {
         fun put(item: Long) {

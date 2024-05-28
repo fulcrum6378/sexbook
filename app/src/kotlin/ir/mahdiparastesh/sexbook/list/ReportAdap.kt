@@ -44,8 +44,7 @@ import java.text.DateFormatSymbols
 
 class ReportAdap(
     private val c: Main, private val f: PageSex, private val autoExpand: Boolean = false
-) : RecyclerView.Adapter<AnyViewHolder<ItemReportBinding>>(),
-    TimePickerDialog.OnTimeSetListener {
+) : RecyclerView.Adapter<AnyViewHolder<ItemReportBinding>>() {
 
     private var clockHeight = c.resources.getDimension(R.dimen.clockSize)
     private var expansion = arExpansion()
@@ -102,7 +101,7 @@ class ReportAdap(
      * all EditTexts, then set their texts, then re-implement new listeners. */
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
-        val r = c.m.visOnani.getOrNull(i)?.let { c.m.reports[it] } ?: return
+        val r = c.mm.visReports.getOrNull(i)?.let { c.m.reports[it] } ?: return
 
         // Date & Time
         h.b.date.text = compileDate(c, r.time)
@@ -111,26 +110,30 @@ class ReportAdap(
             h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
             h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
             h.b.clock.setOnClickListener {
-                TimePickerDialog.newInstance(
-                    this, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], cal[Calendar.SECOND]
-                ).defaultOptions()
+                TimePickerDialog.newInstance({ _, hourOfDay, minute, second ->
+                    val calc = r.time.calendar(c)
+                    calc[Calendar.HOUR_OF_DAY] = hourOfDay
+                    calc[Calendar.MINUTE] = minute
+                    calc[Calendar.SECOND] = second
+                    r.time = calc.timeInMillis
+                    update(r.id, true)
+                }, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], cal[Calendar.SECOND])
+                    .defaultOptions()
                     //.setOnDismissListener { dialogDismissed() }
-                    .show(c.supportFragmentManager, "$tagEdit${r.id}")
+                    .show(c.supportFragmentManager, "timepicker")
                 // mayShowAd()
             }
             h.b.date.setOnClickListener {
-                DatePickerDialog.newInstance({ view, year, month, day ->
-                    if (view.tag == null || view.tag!!.length <= 4) return@newInstance
+                DatePickerDialog.newInstance({ _, year, month, day ->
                     cal.set(Calendar.YEAR, year)
                     cal.set(Calendar.MONTH, month)
                     cal.set(Calendar.DAY_OF_MONTH, day)
-                    if (view.tag!! == tagEdit) {
-                        c.m.reports[r.id]?.time = cal.timeInMillis
-                        update(r.id, true)
-                    }
-                }, cal).defaultOptions()
+                    r.time = cal.timeInMillis
+                    update(r.id, true)
+                }, cal)
+                    .defaultOptions()
                     // .setOnDismissListener { dialogDismissed() }
-                    .show(c.supportFragmentManager, tagEdit)
+                    .show(c.supportFragmentManager, "datepicker")
                 // mayShowAd()
             }
             h.b.ampm.text =
@@ -154,7 +157,7 @@ class ReportAdap(
             override fun afterTextChanged(s: Editable?) {
                 if (r.name != h.b.name.text.toString()) {
                     if (!Crush.statsCleared) {
-                        c.m.people.forEach { it.resetStats() }
+                        c.m.people.values.forEach { it.resetStats() }
                         Crush.statsCleared = true
                     }
                     r.analysis = null
@@ -238,7 +241,7 @@ class ReportAdap(
                     CoroutineScope(Dispatchers.IO).launch {
                         c.m.dao.rDelete(r)
                         c.m.reports.remove(r.id)
-                        if (c.m.reports.isNotEmpty()) c.m.visOnani.remove(r.id)
+                        if (c.m.reports.isNotEmpty()) c.mm.visReports.remove(r.id)
                         LastOrgasm.updateAll(c)
 
                         withContext(Dispatchers.Main) {
@@ -267,23 +270,7 @@ class ReportAdap(
         h.b.root.alpha = if (!r.guess) 1f else estimatedAlpha
     }
 
-    override fun getItemCount() = c.m.visOnani.size
-
-    @SuppressLint("UseRequireInsteadOfGet")
-    override fun onTimeSet(view: TimePickerDialog, hourOfDay: Int, minute: Int, second: Int) {
-        if (view.tag == null || view.tag!!.length <= 4) return
-        val id = view.tag!!.substring(4).toLong()
-        if (id in c.m.reports) when (view.tag!!.substring(0, 4)) {
-            tagEdit -> {
-                val calc = c.m.reports[id]!!.time.calendar(c)
-                calc[Calendar.HOUR_OF_DAY] = hourOfDay
-                calc[Calendar.MINUTE] = minute
-                calc[Calendar.SECOND] = second
-                c.m.reports[id]!!.time = calc.timeInMillis
-                update(id, true)
-            }
-        }
-    }
+    override fun getItemCount() = c.mm.visReports.size
 
     inner class CrushSuggester :
         ArrayAdapter<String>(c, android.R.layout.simple_dropdown_item_1line, c.m.summaryCrushes()) {
@@ -312,7 +299,7 @@ class ReportAdap(
             // if "places" is empty, nothing ever can be selected, also onNothingSelected doesn't work!
 
             val pid = if (pos == 0) -1L else places[pos - 1].id
-            c.m.reports[c.m.visOnani[i!!]]?.apply {
+            c.m.reports[c.mm.visReports[i!!]]?.apply {
                 if (plac != pid) {
                     plac = pid
                     update(this.id)
@@ -329,14 +316,14 @@ class ReportAdap(
 
             // ONLY if date or time have been changed...
             if (dateTimeChanged) withContext(Dispatchers.Main) {
-                val oldPos = c.m.visOnani.indexOf(id)
+                val oldPos = c.mm.visReports.indexOf(id)
                 val ym = c.m.reports[id]!!.time.calendar(c).createFilterYm()
-                if (f.filters.getOrNull(c.m.listFilter)
+                if (f.filters.getOrNull(c.mm.listFilter)
                         ?.let { ym.first == it.year && ym.second == it.month } == true
                 ) { // report is still in this month
                     notifyItemChanged(oldPos)
-                    c.m.visOnani.sortBy { c.m.reports[it]?.time ?: 0L }
-                    val newPos = c.m.visOnani.indexOf(id)
+                    val newPos = c.mm.visReports.indexOf(id)
+                    c.mm.sortVisReports(c.m)
                     notifyItemMoved(oldPos, newPos)
                     f.b.rv.smoothScrollToPosition(newPos)
                 } else { // report moved to another month or is missing
@@ -377,7 +364,6 @@ class ReportAdap(
     }*/
 
     companion object {
-        const val tagEdit = "edit"
         const val estimatedAlpha = 0.75f
 
         fun compileDate(c: BaseActivity, time: Long): String {

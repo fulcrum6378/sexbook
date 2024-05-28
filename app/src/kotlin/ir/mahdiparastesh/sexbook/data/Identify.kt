@@ -30,12 +30,14 @@ import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Fun.toGregorian
+import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.MaterialMenu
+import ir.mahdiparastesh.sexbook.stat.Singular
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,17 +47,24 @@ import kotlin.experimental.or
 
 /** A Dialog for filling data for a Crush. */
 class Identify() : DialogFragment() {
-    constructor(c: BaseActivity, crush: Crush?) : this() {
+    constructor(c: BaseActivity, crush: String?) : this() {
         this.c = c
-        Companion.crush = crush
+        Companion.crush = c.m.people[crush]
     }
 
     companion object {
-        const val TAG = "identify"
+        private const val TAG = "identify"
         const val BUNDLE_CRUSH_KEY = "crush_key"
         const val DISABLED_ALPHA = 0.7f
         var crush: Crush? = null
         val accFromUrl = arrayOf(Fun.INSTA, "https://instagram.com/")
+
+        fun display(c: BaseActivity, crush: String) {
+            Identify(c, crush).apply {
+                arguments = Bundle().apply { putString(BUNDLE_CRUSH_KEY, crush) }
+                show(c.supportFragmentManager, TAG)
+            }
+        }
     }
 
     private lateinit var c: BaseActivity
@@ -299,12 +308,33 @@ class Identify() : DialogFragment() {
                     b.instagram.text.toString().ifBlank { null },
                 )
                 CoroutineScope(Dispatchers.IO).launch {
-                    if (inserted.key != crushKey)
+                    if (inserted.key != crushKey) {  // if Crush key is changed...
                         c.m.dao.cUpdateKey(crushKey, inserted.key)
+                        c.m.people.remove(crushKey)
+                        c.m.liefde.indexOf(crushKey).also { pos ->
+                            if (pos == -1) return@also
+                            c.m.liefde[pos] = inserted.key
+                        }
+                        if (crushKey in c.m.unsafe) {
+                            c.m.unsafe.remove(crushKey)
+                            c.m.unsafe.add(inserted.key)
+                        }
+                        if (c is People) (c as People).mm.visPeople.indexOf(crushKey).also { pos ->
+                            if (pos == -1) return@also
+                            (c as People).mm.visPeople[pos] = inserted.key
+                        }
+                        if (c is Settings) (c as Settings).mm.bNtfCrushes.indexOf(crushKey)
+                            .also { pos ->
+                                if (pos == -1) return@also
+                                (c as Settings).mm.bNtfCrushes[pos] = inserted.key
+                            }
+                    }
                     if (crush == null) c.m.dao.cInsert(inserted)
                     else c.m.dao.cUpdate(inserted)
+                    c.m.people[inserted.key] = inserted
                     withContext(Dispatchers.Main) {
-                        c.m.onCrushChanged(c, inserted, if (crush == null) 0 else 1, crushKey)
+                        c.m.onCrushChanged(c, inserted.key, if (crush == null) 0 else 1)
+                        if (c is Singular && inserted.key != crushKey) c.finish()
                     }
                 }
                 c.shake()
@@ -318,8 +348,9 @@ class Identify() : DialogFragment() {
                     setPositiveButton(R.string.yes) { _, _ ->
                         CoroutineScope(Dispatchers.IO).launch {
                             c.m.dao.cDelete(crush!!)
+                            c.m.people.remove(crush!!.key)
                             withContext(Dispatchers.Main) {
-                                c.m.onCrushChanged(c, crush!!, 2)
+                                c.m.onCrushChanged(c, crush!!.key, 2)
                             }
                         }
                         c.shake()

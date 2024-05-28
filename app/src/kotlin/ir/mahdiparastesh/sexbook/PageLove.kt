@@ -10,10 +10,6 @@ import ir.mahdiparastesh.sexbook.base.BasePage
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @SuppressLint("NotifyDataSetChanged")
 class PageLove : BasePage() {
@@ -38,9 +34,8 @@ class PageLove : BasePage() {
         super.onResume()
         c.summarize(true)
         if (!wasListEverPrepared || loadingNeedsSummary()) prepareList()
-        if (changed) CoroutineScope(Dispatchers.IO).launch {
-            c.m.liefde = c.m.getCrushes()
-            withContext(Dispatchers.Main) { prepareList() }
+        if (changed) {
+            prepareList()
             changed = false
         } else b.rv.adapter?.notifyDataSetChanged()
     }

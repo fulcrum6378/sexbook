@@ -64,7 +64,6 @@ class PageSex : BasePage() {
     override fun prepareList() {
         reset(c.intentViewId)
         c.intentViewId = null
-        c.load()
 
         b.empty.isVisible = c.m.reports.isEmpty()
         if (c.m.reports.isEmpty()) anGrowShrinkForAdd = AnimatorSet().apply {
@@ -81,6 +80,8 @@ class PageSex : BasePage() {
             )
             start()
         }
+
+        if (!c.mm.loaded) c.load()
     }
 
     var spnFilterTouched = false
@@ -88,7 +89,7 @@ class PageSex : BasePage() {
         filters = createFilters()
 
         // which month to show?
-        var curFilter = if (c.m.listFilter == -1) (filters.size - 1) else c.m.listFilter
+        var curFilter = if (c.mm.listFilter == -1) (filters.size - 1) else c.mm.listFilter
         if (scrollToId != null && scrollToId in c.m.reports) {
             val toFilter = c.m.reports[scrollToId]!!.time.calendar(c).createFilterYm()
             val fIndex =
@@ -102,7 +103,7 @@ class PageSex : BasePage() {
 
         // scroll to the edited item position...
         if (scrollToId != null) {
-            val pos = c.m.visOnani.indexOf(scrollToId)
+            val pos = c.mm.visReports.indexOf(scrollToId)
             if (pos != -1) b.rv.smoothScrollToPosition(pos)
         }
     }
@@ -120,16 +121,17 @@ class PageSex : BasePage() {
             if (!filterExists)
                 filters.add(Report.Filter(ym.first, ym.second, arrayListOf(id)))
         }
-        return filters.toList()
+        return filters.sortedBy { (it.year * 100) + it.month }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun applyFilter(i: Int, causedByResetAllReports: Boolean, willScrollToItem: Boolean = false) {
-        if (c.m.listFilter == i && c.m.listFilter > -1 && !causedByResetAllReports) return
-        c.m.listFilter = i
-        c.m.visOnani =
-            if (filters.isNotEmpty()) filters[c.m.listFilter].map
+        if (c.mm.listFilter == i && c.mm.listFilter > -1 && !causedByResetAllReports) return
+        c.mm.listFilter = i
+        c.mm.visReports =
+            if (filters.isNotEmpty()) filters[c.mm.listFilter].map
             else arrayListOf()
+        c.mm.sortVisReports(c.m)
 
         // update the adapter
         if (b.rv.adapter == null) b.rv.adapter = ReportAdap(c, this) else {
@@ -138,7 +140,7 @@ class PageSex : BasePage() {
         }
 
         // scroll to position
-        if (!willScrollToItem) b.rv.scrollToPosition(c.m.visOnani.size - 1)
+        if (!willScrollToItem) b.rv.scrollToPosition(c.mm.visReports.size - 1)
     }
 
     fun updateFilterSpinner() {
@@ -147,7 +149,7 @@ class PageSex : BasePage() {
             List(filters.size) { f -> "${f + 1}. ${filters[f].title(c)}" }
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         spnFilterTouched = false
-        b.spnFilter.setSelection(c.m.listFilter, true)
+        b.spnFilter.setSelection(c.mm.listFilter, true)
     }
 
     // private var addedToShowAd = 0
@@ -178,14 +180,14 @@ class PageSex : BasePage() {
 
             withContext(Dispatchers.Main) {
                 val ym = newOne.time.calendar(c).createFilterYm()
-                if (c.m.listFilter >= 0 &&
-                    filters.indexOfFirst { it.year == ym.first && it.month == ym.second } == c.m.listFilter
+                if (c.mm.listFilter >= 0 &&
+                    filters.indexOfFirst { it.year == ym.first && it.month == ym.second } == c.mm.listFilter
                 ) { // add to the bottom of the recycler view
-                    c.m.visOnani.add(newOne.id)
-                    c.m.visOnani.sortBy { c.m.reports[it]?.time ?: 0L }
+                    c.mm.visReports.add(newOne.id)
+                    c.mm.sortVisReports(c.m)
                     (b.rv.adapter as ReportAdap?)?.apply {
                         notifyAnyChange(false)
-                        notifyItemInserted(c.m.visOnani.indexOf(newOne.id))
+                        notifyItemInserted(c.mm.visReports.indexOf(newOne.id))
                     }
                     updateFilterSpinner()
                 } else // go to/create a new month

@@ -43,15 +43,16 @@ import kotlinx.coroutines.withContext
 
 class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
+    val mm: MyModel by viewModels()
     private val calendarTypes: Array<String> by lazy { resources.getStringArray(R.array.calendarTypes) }
     private val emptyDate: String by lazy { getString(R.string.emptyDate) }
-    private var calManager: CalendarManager? = null
-    val mm: MyModel by viewModels()
+    var bNtfCrushAdap: BNtfCrushAdap? = null
 
     /** Beware of the numerical fields; go to Exporter.replace() for modifications. */
     companion object {
         const val spName = "settings"
         const val notifyBirthAfterLastTime = 3600000L * 12L
+        const val B_NTF_CRUSHES_TAG = "b_ntf_crushes"
 
         // Via Settings
         const val spCalType = "calendarType" // Int, def 0
@@ -84,7 +85,11 @@ class Settings : BaseActivity() {
     }
 
     class MyModel : ViewModel() {
-        lateinit var bNtfCrushes: List<Crush>
+        lateinit var bNtfCrushes: ArrayList<String>
+
+        fun sortBNtfCrushes(c: Settings) {
+            bNtfCrushes.sortWith(Crush.Sort(c, spPeopleSortBy, spPeopleSortAsc))
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -302,12 +307,13 @@ class Settings : BaseActivity() {
             ).apply()
         }
         CoroutineScope(Dispatchers.IO).launch {
-            mm.bNtfCrushes = m.people.filter { it.notifyBirth() }
-                .sortedWith(Crush.Sort(this@Settings, spPeopleSortBy, spPeopleSortAsc))
-                .let { if (!sp.getBoolean(spPeopleSortAsc, true)) it.reversed() else it }
+            mm.bNtfCrushes = ArrayList(
+                m.people.values.filter { it.notifyBirth() }.map { it.key }
+            )
+            mm.sortBNtfCrushes(this@Settings)
             withContext(Dispatchers.Main) {
                 b.stBNtfCrushes.setOnClickListener {
-                    BNtfCrushes().show(supportFragmentManager, BNtfCrushes.TAG)
+                    BNtfCrushes().show(supportFragmentManager, B_NTF_CRUSHES_TAG)
                 }
             }
         }
@@ -364,15 +370,11 @@ class Settings : BaseActivity() {
     /** In the both cases, requires WRITE_CALENDAR permission. */
     private fun turnCalendar(on: Boolean) {
         sp.edit().putBoolean(spCalOutput, on).apply()
-        calManager = CalendarManager(this, m.liefde).initialize()
-        if (!on) calManager?.terminate()
+        m.calManager = CalendarManager(this, m.liefde).initialize()
+        if (!on) m.calManager?.terminate()
     }
 
-    class BNtfCrushes : BaseDialog() {
-        companion object {
-            const val TAG = "b_ntf_crushes"
-        }
-
+    class BNtfCrushes : BaseDialog<Settings>() {
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             isCancelable = true
             return MaterialAlertDialogBuilder(c).apply {
@@ -380,8 +382,10 @@ class Settings : BaseActivity() {
                 setView(RecyclerView(c).apply {
                     layoutManager = SafeLinearLayoutManager(c)
                     setPadding(0, c.dp(12), 0, 0)
-                    adapter = BNtfCrushAdap(c as Settings)
+                    c.bNtfCrushAdap = BNtfCrushAdap(c)
+                    adapter = c.bNtfCrushAdap
                 })
+                setOnDismissListener { c.bNtfCrushAdap = null }
             }.create()
         }
     }

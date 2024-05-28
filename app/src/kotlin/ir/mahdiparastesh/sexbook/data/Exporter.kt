@@ -114,7 +114,7 @@ class Exporter(val c: BaseActivity) {
     private fun export(): Boolean {
         exported = Exported(
             c.m.reports.values.filter { !it.guess }.toTypedArray(),
-            c.m.people.toTypedArray(),
+            c.m.people.values.toTypedArray(),
             c.m.places.toTypedArray(),
             c.m.guesses.toTypedArray(),
             c.sp.all
@@ -164,7 +164,7 @@ class Exporter(val c: BaseActivity) {
             c.m.dao.gDeleteAll()
             imported.guesses?.toList()?.also { c.m.dao.gReplaceAll(it) }
 
-            c.m.calManager?.replaceEvents(imported.crushes?.toList()) // don't merge with top
+            c.m.calManager?.replaceEvents(imported.crushes?.map { it.key }) // don't merge with top
             if (imported.settings != null) c.sp.edit().apply {
                 imported.settings.forEach { (k, v) ->
                     when (v) {

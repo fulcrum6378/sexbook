@@ -14,7 +14,7 @@ interface Lister {
     fun count(n: Int?) {
         val c = this as BaseActivity
         BadgeUtils.detachBadgeDrawable(countBadge, c.tbTitle!!)
-        if (n != null) BadgeUtils.attachBadgeDrawable(
+        if (n != null && n > 0) BadgeUtils.attachBadgeDrawable(
             BadgeDrawable.create(ContextThemeWrapper(c, Fun.materialTheme)).apply {
                 number = n
                 backgroundColor = c.themeColor(android.R.attr.colorAccent)

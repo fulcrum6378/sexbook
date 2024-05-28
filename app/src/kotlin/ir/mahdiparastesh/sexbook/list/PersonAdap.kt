@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook.list
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun.show
@@ -26,7 +25,7 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<ItemPersonBinding>, i: Int) {
-        val p = c.mm.visPeople.getOrNull(i) ?: return
+        val p = c.mm.visPeople.getOrNull(i)?.let { c.m.people[it] } ?: return
 
         // Active
         h.b.active.setOnCheckedChangeListener(null)
@@ -39,32 +38,24 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
                     else (status or Crush.STAT_INACTIVE)
                 }
                 c.m.dao.cUpdate(p)
-                withContext(Dispatchers.Main) { c.m.onCrushChanged(c, p, 1) }
+                withContext(Dispatchers.Main) { c.m.onCrushChanged(c, p.key, 1) }
             }
         }
 
         // Name
         h.b.name.text = "${i + 1}. ${p.visName()}"
-        h.b.sum.text = c.mm.visPeople[i].getSum(c.m)
-            .let { if (it != 0f) "{${it.show()}}" else "" }
+        h.b.sum.text = p.getSum(c.m).let { if (it != 0f) "{${it.show()}}" else "" }
 
         // Clicks
         h.b.root.setOnClickListener {
-            c.mm.visPeople.getOrNull(h.layoutPosition)?.also { identify(it) }
+            c.mm.visPeople.getOrNull(h.layoutPosition)?.also { Identify.display(c, it) }
         }
         h.b.root.setOnLongClickListener {
-            c.mm.visPeople.getOrNull(h.layoutPosition)?.also { person ->
-                c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, person.key) }
+            c.mm.visPeople.getOrNull(h.layoutPosition)?.also {
+                c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, it) }
             }; true
         }
     }
 
     override fun getItemCount() = c.mm.visPeople.size
-
-    private fun identify(crush: Crush) {
-        Identify(c, crush).apply {
-            arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crush.key) }
-            show(c.supportFragmentManager, Identify.TAG)
-        }
-    }
 }

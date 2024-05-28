@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
+import android.annotation.SuppressLint
 import androidx.annotation.MainThread
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
@@ -12,14 +13,12 @@ import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.more.CalendarManager
-import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.stat.Summary
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.CopyOnWriteArraySet
-import kotlin.experimental.and
 
 /** Static ViewModel available for all BaseActivity instances. */
 class Model : ViewModel() {
@@ -29,25 +28,20 @@ class Model : ViewModel() {
 
     /* --- Database Models --- */
     var reports = hashMapOf<Long, Report>()
-    var people = arrayListOf<Crush>()
+    var people = hashMapOf<String, Crush>()
     var places = arrayListOf<Place>()
     var guesses = arrayListOf<Guess>()
 
     /** Main data structure for most statistical analyses. */
     var summary: Summary? = null
 
-    /** Holds all active crushes (subset of `people`). */
-    var liefde = CopyOnWriteArrayList<Crush>()
+    /** A list of active Crushes. */
+    var liefde = CopyOnWriteArrayList<String>()
 
     /** A list of Crushes marked as "unsafe". */
     var unsafe = CopyOnWriteArraySet<String>()
 
-    /* --- Main --- */
-    var loaded = false
-    var currentPage = 0
-    var listFilter = -1
-    var visOnani = arrayListOf<Long>()
-    var navOpen = false
+    /** Interface for controlling this app's calendar events in the system calendar. */
     var calManager: CalendarManager? = null
 
 
@@ -60,80 +54,77 @@ class Model : ViewModel() {
         summary = null
         liefde.clear()
         unsafe.clear()
-
-        listFilter = -1
-        visOnani.clear()
     }
 
-    fun getCrushes() = CopyOnWriteArrayList(people.filter {
-        (it.status and Crush.STAT_INACTIVE) == 0.toByte()
-    })
-
     /** @param changeType 0=>insert, 1=>update, 2=>delete */
+    @SuppressLint("NotifyDataSetChanged")
     @MainThread
-    fun onCrushChanged(
-        c: BaseActivity, crush: Crush, changeType: Int, crushKey: String = crush.key
-    ) {
+    fun onCrushChanged(c: BaseActivity, crush: String, changeType: Int) {
         val pageLove = if (c is Main) c.pageLove() else null
-        val aPos = people.indexOfFirst { it.key == crushKey }
-        val pos = liefde.indexOfFirst { it.key == crushKey }
+        val cr = people[crush]
+        val lfPos = liefde.indexOf(crush)
         if (changeType != 2) { // insert, update
-            if (crush.active()) {
-                if (pos != -1) liefde[pos] = crush
-                else liefde.add(crush)
+            if (cr!!.active()) {
+                if (lfPos == -1) liefde.add(crush)
+                pageLove?.prepareList()
+            } else if (lfPos != -1) { // deactivated
+                liefde.remove(crush)
                 pageLove?.apply {
-                    // b.rv.adapter?.notifyItemChanged(it)
-                    prepareList() // so they can be sorted
-                }
-            } else if (pos != -1) { // deactivated
-                liefde.removeAt(pos)
-                pageLove?.apply {
-                    b.rv.adapter?.notifyItemRemoved(pos)
+                    b.rv.adapter?.notifyItemRemoved(lfPos)
                     if (liefde.isNotEmpty()) b.rv.adapter?.notifyItemRangeChanged(
-                        pos, pageLove.b.rv.adapter!!.itemCount - pos
+                        lfPos, pageLove.b.rv.adapter!!.itemCount - lfPos
                     )
                     b.empty.isVisible = liefde.isEmpty()
                 }
             }
-            if (aPos != -1) people[aPos] = crush
-            else people.add(crush)
-            if (c is People) // c.b.list.adapter?.notifyItemChanged(it)
-                c.arrangeList() // so they can be sorted
-            if (crush.unsafe())
-                unsafe.add(crush.key)
+            if (c is People && crush in c.mm.visPeople) c.arrangeList()
+            if (c is Settings) {
+                c.mm.sortBNtfCrushes(c)
+                c.bNtfCrushAdap?.notifyDataSetChanged()
+            }
+            if (cr.unsafe())
+                unsafe.add(crush)
             else
-                unsafe.remove(crush.key)
+                unsafe.remove(crush)
         } else { // delete
-            if (crush.active() && pos != -1) pos.also {
-                liefde.removeAt(it)
+            if (lfPos != -1) {
+                liefde.removeAt(lfPos)
                 pageLove?.apply {
-                    b.rv.adapter?.notifyItemRemoved(it)
+                    b.rv.adapter?.notifyItemRemoved(lfPos)
                     if (liefde.isNotEmpty()) b.rv.adapter?.notifyItemRangeChanged(
-                        it, pageLove.b.rv.adapter!!.itemCount - it
+                        lfPos, pageLove.b.rv.adapter!!.itemCount - lfPos
                     )
                     b.empty.isVisible = liefde.isEmpty()
                 }
             }
-            if (aPos != -1) aPos.also {
-                people.removeAt(it)
-                if (c is People) {
-                    c.b.list.adapter?.notifyItemRemoved(it)
-                    if (people.isNotEmpty()) c.b.list.adapter?.notifyItemRangeChanged(
-                        it, c.b.list.adapter!!.itemCount - it
-                    )
-                    c.b.empty.isVisible = people.isEmpty()
-                }
+            if (c is People && crush in c.mm.visPeople) {
+                val vpPos = c.mm.visPeople.indexOf(crush)
+                c.mm.visPeople.remove(crush)
+                c.b.list.adapter?.notifyItemRemoved(vpPos)
+                if (people.isNotEmpty()) c.b.list.adapter?.notifyItemRangeChanged(
+                    vpPos, c.b.list.adapter!!.itemCount - vpPos
+                )
+                c.b.empty.isVisible = people.isEmpty()
             }
-            unsafe.remove(crush.key)
+            if (c is Settings) {
+                val bnPos = c.mm.bNtfCrushes.indexOf(crush)
+                c.mm.bNtfCrushes.remove(crush)
+                c.bNtfCrushAdap?.notifyItemRemoved(bnPos)
+                if (c.mm.bNtfCrushes.isNotEmpty()) c.bNtfCrushAdap?.notifyItemRangeChanged(
+                    bnPos, c.bNtfCrushAdap!!.itemCount - bnPos
+                )
+            }
+            unsafe.remove(crush)
         }
         if (c is Main)
             c.count(liefde.size)
         else {
             PageLove.changed = true
-            if (c is Singular) c.crush = crush
+            if (c is People) c.count(c.mm.visPeople.size)
         }
         calManager?.apply { CoroutineScope(Dispatchers.IO).launch { replaceEvents(liefde) } }
         // FIXME replacing calendar events rapidly creats ANR states!!
+        //   therefore mark if anything is changed and replace events at the end
     }
 
     fun summaryCrushes() = summary?.let { ArrayList(it.scores.keys) } ?: arrayListOf<String>()

@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook.list
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun.show
@@ -26,7 +25,7 @@ class BNtfCrushAdap(val c: Settings) : RecyclerView.Adapter<AnyViewHolder<ItemPe
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<ItemPersonBinding>, i: Int) {
-        val p = c.mm.bNtfCrushes.getOrNull(i) ?: return
+        val p = c.m.people[c.mm.bNtfCrushes[i]] ?: return
 
         // Active
         h.b.active.setOnCheckedChangeListener(null)
@@ -39,32 +38,26 @@ class BNtfCrushAdap(val c: Settings) : RecyclerView.Adapter<AnyViewHolder<ItemPe
                     else (status xor Crush.STAT_NOTIFY_BIRTH)
                 }
                 c.m.dao.cUpdate(p)
-                withContext(Dispatchers.Main) { c.m.onCrushChanged(c, p, 1) }
+                withContext(Dispatchers.Main) {
+                    c.m.onCrushChanged(c, p.key, 1)
+                }
             }
         }
 
         // Name
         h.b.name.text = "${i + 1}. ${p.visName()}"
-        h.b.sum.text = c.mm.bNtfCrushes[i].getSum(c.m)
-            .let { if (it != 0f) "{${it.show()}}" else "" }
+        h.b.sum.text = p.getSum(c.m).let { if (it != 0f) "{${it.show()}}" else "" }
 
         // Clicks
         h.b.root.setOnClickListener {
-            c.mm.bNtfCrushes.getOrNull(h.layoutPosition)?.also { identify(it) }
+            c.mm.bNtfCrushes.getOrNull(h.layoutPosition)?.also { Identify.display(c, it) }
         }
         h.b.root.setOnLongClickListener {
-            c.mm.bNtfCrushes.getOrNull(h.layoutPosition)?.also { person ->
-                c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, person.key) }
+            c.mm.bNtfCrushes.getOrNull(h.layoutPosition)?.also {
+                c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, it) }
             }; true
         }
     }
 
     override fun getItemCount() = c.mm.bNtfCrushes.size
-
-    private fun identify(crush: Crush) {
-        Identify(c, crush).apply {
-            arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crush.key) }
-            show(c.supportFragmentManager, Identify.TAG)
-        }
-    }
 }

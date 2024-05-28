@@ -20,12 +20,14 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import android.widget.Toolbar
+import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.badge.BadgeDrawable
@@ -67,6 +69,7 @@ import kotlin.system.exitProcess
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener, Lister {
     private val b: MainBinding by lazy { MainBinding.inflate(layoutInflater) }
+    val mm: MyModel by viewModels()
     private val exporter = Exporter(this)
     private var exiting = false
     private val drawerGravity = GravityCompat.START
@@ -82,6 +85,18 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         //var showAdAfterRecreation = false
     }
 
+    class MyModel : ViewModel() {
+        var loaded = false
+        var currentPage = 0
+        var listFilter = -1
+        var visReports = arrayListOf<Long>()
+        var navOpen = false
+
+        fun sortVisReports(m: Model) {
+            visReports.sortBy { m.reports[it]?.time ?: 0L }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(b.root)
@@ -90,7 +105,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         m.dao = m.db.dao()
 
         // Loading
-        if (m.loaded) b.body.removeView(b.load)
+        if (mm.loaded) b.body.removeView(b.load)
         else if (night()) b.loadIV.colorFilter = themePdcf()
 
         // Navigation
@@ -99,7 +114,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         ) {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
-                m.navOpen = true
+                mm.navOpen = true
                 /*if (::adBanner.isInitialized && !adBannerLoaded) {
                     adBanner.loadAd(AdRequest.Builder().build())
                     adBannerLoaded = true
@@ -108,7 +123,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
             override fun onDrawerClosed(drawerView: View) {
                 super.onDrawerClosed(drawerView)
-                m.navOpen = false
+                mm.navOpen = false
             }
         }.apply {
             b.root.addDrawerListener(this@apply)
@@ -140,7 +155,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 b.toolbar.menu.clear()
                 b.toolbar.inflateMenu(menus[i])
                 onPrepareOptionsMenu(b.toolbar.menu)
-                m.currentPage = i
+                mm.currentPage = i
                 count(if (i == 0) null else m.liefde.size)
             }
         })
@@ -151,9 +166,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             for (r in m.dao.rGetAll()) m.reports[r.id] = r
 
             // Crush
-            m.people = ArrayList(m.dao.cGetAll())
-            m.unsafe.addAll(m.people.filter { it.unsafe() }.map { it.key })
-            m.liefde = m.getCrushes()
+            for (p in m.dao.cGetAll()) m.people[p.key] = p
+            m.liefde.clear()
+            m.liefde.addAll(m.people.filter {
+                (it.value.status and Crush.STAT_INACTIVE) == 0.toByte()
+            }.map { it.key })
+            m.unsafe.clear()
+            m.unsafe.addAll(m.people.filter { it.value.unsafe() }.map { it.key })
 
             // Place
             m.places = ArrayList(m.dao.pGetAll())
@@ -177,7 +196,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                             ) >= Settings.notifyBirthAfterLastTime &&
                     !sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
-                ) for (it in m.people) if (it.notifyBirth()) it.bCalendar()?.also { birth ->
+                ) for (p in m.people.values) if (p.notifyBirth()) p.bCalendar()?.also { birth ->
                     var now: Calendar = GregorianCalendar()
                     var bir: Calendar = GregorianCalendar()
                     if (!sp.getBoolean(
@@ -196,7 +215,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     if (dist in
                         -(sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * Fun.A_DAY)
                         ..Fun.A_DAY
-                    ) notifyBirth(it, dist)
+                    ) notifyBirth(p, dist)
                 }
 
                 // initialise CalendarManager
@@ -209,7 +228,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
 
         // Miscellaneous
-        if (m.navOpen) b.root.openDrawer(drawerGravity)
+        if (mm.navOpen) b.root.openDrawer(drawerGravity)
         /*if (showAdAfterRecreation) {
             loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
             showAdAfterRecreation = false
@@ -245,7 +264,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             uiToast(R.string.noStat); return true
         } else if (item.itemId == R.id.momPpl)
             summarize()
-        else if (item.itemId == R.id.momInt && m.reports.isEmpty()) {
+        else if (item.itemId == R.id.momInt && m.reports.size <= 1) {
             uiToast(R.string.noRecords); return true
         }
 
@@ -272,7 +291,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        b.toolbar.inflateMenu(menus[m.currentPage])
+        b.toolbar.inflateMenu(menus[mm.currentPage])
         b.toolbar.setOnMenuItemClickListener(this)
         return true
     }
@@ -355,7 +374,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     fun load(sd: Long = 1500, dur: Long = 500) {
-        if (m.loaded) return
         val value = -dm.widthPixels.toFloat() * 1.2f
         ObjectAnimator.ofFloat(b.load, View.TRANSLATION_X, value).apply {
             startDelay = sd
@@ -363,7 +381,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     b.body.removeView(b.load)
-                    m.loaded = true
+                    mm.loaded = true
                 }
             })
             start()
@@ -463,11 +481,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             }
             id--
         }
-        //m.onani!!.sortWith(Report.Sort()) TODO ?
     }
 
     fun onDataChanged() {
         m.resetData()
+        mm.listFilter = -1
         // showAdAfterRecreation = true
         recreate()
     }
@@ -481,7 +499,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * Hide unsafe Crush items from People and PageLove
+  * Hide unsafe Crush items from People
   * Help texts; move to the centres of the pages if lists are empty
   * https://stackoverflow.com/questions/26015548/sqlitedatabaselockedexception-database-is-locked-retrycount-exceeded
   * Searching in Summary and Recency is so immature!

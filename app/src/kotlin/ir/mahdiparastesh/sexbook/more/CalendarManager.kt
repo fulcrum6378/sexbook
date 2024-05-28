@@ -10,7 +10,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.database.getLongOrNull
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
-import ir.mahdiparastesh.sexbook.data.Crush
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +18,7 @@ import android.provider.CalendarContract.Events as CCE
 
 /** API for maintaining Sexbook data in the system calendar. */
 @Suppress("RedundantSuspendModifier")
-class CalendarManager(private val c: BaseActivity, private var crushes: Iterable<Crush>?) {
+class CalendarManager(private val c: BaseActivity, private var crushes: Iterable<String>?) {
     var id = -1L
     private val accName = "sexbook"
     private val accType = CalendarContract.ACCOUNT_TYPE_LOCAL
@@ -60,9 +59,9 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         return this
     }
 
-    private suspend fun insertEvents(crushes: Iterable<Crush>) {
+    private suspend fun insertEvents(crushes: Iterable<String>) {
         index = hashMapOf()
-        for (cr in crushes) cr.insertEvent()
+        for (cr in crushes) insertEvent(cr)
     }
 
     private suspend fun deleteEvents() {
@@ -73,7 +72,7 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         c.contentResolver.delete(CCC.CONTENT_URI, "account_name = ?", arrayOf(accName))
     }
 
-    suspend fun replaceEvents(crushes: Iterable<Crush>?) {
+    suspend fun replaceEvents(crushes: Iterable<String>?) {
         deleteEvents()
         if (crushes != null) insertEvents(crushes)
     }
@@ -82,18 +81,20 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
         toString().substringAfterLast("/").substringBefore("?").toLong()
 
     /** Don't forget to write() the Index after executing this function. */
-    private fun Crush.insertEvent() {
-        val cal = bCalendar(tz = TimeZone.getTimeZone(tz)) ?: return
+    private fun insertEvent(crush: String) {
+        val cr = c.m.people[crush] ?: return
+        if (cr.unsafe()) return
+        val cal = cr.bCalendar(tz = TimeZone.getTimeZone(tz)) ?: return
         ContentValues().apply {
             put(CCE.CALENDAR_ID, id)
-            put(CCE.TITLE, c.getString(R.string.sBirthday, visName()))
+            put(CCE.TITLE, c.getString(R.string.sBirthday, cr.visName()))
             put(CCE.DTSTART, cal.timeInMillis)
             put(CCE.RRULE, "FREQ=YEARLY")
             put(CCE.DURATION, "P1D")
             put(CCE.ALL_DAY, 1)
             put(CCE.EVENT_TIMEZONE, tz)
             c.contentResolver.insert(CCE.CONTENT_URI, this)
-                ?.also { index[key] = it.getId() }
+                ?.also { index[crush] = it.getId() }
         }
     }
 

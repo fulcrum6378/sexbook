@@ -26,6 +26,7 @@ import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.sexbook.Fun.onLoad
 import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Fun.sumOf
+import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.base.BaseFragment
@@ -33,7 +34,7 @@ import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.databinding.SumPieBinding
 import ir.mahdiparastesh.sexbook.list.StatSumAdap
 
-class SummaryDialog : BaseDialog() {
+class SummaryDialog : BaseDialog<Main>() {
     private var dialogue: AlertDialog? = null
     private var pager: ViewPager2? = null
 

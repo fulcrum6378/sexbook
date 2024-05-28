@@ -3,7 +3,6 @@ package ir.mahdiparastesh.sexbook.list
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
@@ -32,65 +31,57 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
         AnyViewHolder(ItemCrushBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<ItemCrushBinding>, i: Int) {
+        val cr = c.m.people[c.m.liefde[i]] ?: return
 
         // Texts
-        h.b.name.text = c.m.liefde[i].visName()
-        h.b.sum.text = c.m.liefde[i].getSum(c.m)
-            .let { if (it != 0f) "{${it.show()}}" else "" }
+        h.b.name.text = cr.visName()
+        h.b.sum.text = cr.getSum(c.m).let { if (it != 0f) "{${it.show()}}" else "" }
 
         // Clicks
         h.b.root.setOnClickListener { v ->
             if (!c.summarize(true)) return@setOnClickListener
-            val cr = c.m.liefde.getOrNull(h.layoutPosition)
-            val ins = cr?.insta
+            val crk = c.m.liefde.getOrNull(h.layoutPosition) ?: return@setOnClickListener
+            val crc = c.m.people[crk] ?: return@setOnClickListener
+
             MaterialMenu(c, v, R.menu.crush, Act().apply {
                 this[R.id.lcInstagram] = {
-                    if (ins != null && ins != "") try {
+                    if (crc.insta != null && crc.insta != "") try {
                         c.startActivity(
                             Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse(Fun.INSTA + c.m.liefde[h.layoutPosition].insta)
+                                Uri.parse(Fun.INSTA + crc.insta)
                             ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         )
                     } catch (_: ActivityNotFoundException) {
                     }
                 }
                 this[R.id.lcIdentify] = {
-                    if (cr != null) identify(cr)
+                    Identify.display(c, crk)
                 }
                 this[R.id.lcStatistics] = {
-                    if (cr != null) c.goTo(Singular::class) {
-                        putExtra(Singular.EXTRA_CRUSH_KEY, cr.key)
+                    c.goTo(Singular::class) {
+                        putExtra(Singular.EXTRA_CRUSH_KEY, crk)
                     }
                 }
                 this[R.id.lcDeactivate] = {
-                    if (cr != null) {
-                        cr.status = cr.status or Crush.STAT_INACTIVE
-                        CoroutineScope(Dispatchers.IO).launch {
-                            c.m.dao.cUpdate(cr)
-                            withContext(Dispatchers.Main) { c.m.onCrushChanged(c, cr, 1) }
-                        }
-                        c.shake()
+                    crc.status = crc.status or Crush.STAT_INACTIVE
+                    CoroutineScope(Dispatchers.IO).launch {
+                        c.m.dao.cUpdate(crc)
+                        withContext(Dispatchers.Main) { c.m.onCrushChanged(c, crk, 1) }
                     }
+                    c.shake()
                 }
             }).apply {
-                menu.findItem(R.id.lcInstagram).isVisible = ins != null && ins != ""
-                val sum = cr?.key?.let { c.m.summary?.scores?.get(it) }
+                menu.findItem(R.id.lcInstagram).isVisible = crc.insta != null && crc.insta != ""
+                val sum = c.m.summary?.scores?.get(crk)
                     ?.sumOf { it.value }?.toDouble()
                 menu.findItem(R.id.lcStatistics).isVisible = sum != null && sum > 0.0
             }.show()
         }
         h.b.root.setOnLongClickListener {
-            c.m.liefde.getOrNull(h.layoutPosition)?.also { identify(it) }; true
+            c.m.liefde.getOrNull(h.layoutPosition)?.also { Identify.display(c, it) }; true
         }
     }
 
     override fun getItemCount() = c.m.liefde.size
-
-    private fun identify(crush: Crush) {
-        Identify(c, crush).apply {
-            arguments = Bundle().apply { putString(Identify.BUNDLE_CRUSH_KEY, crush.key) }
-            show(c.supportFragmentManager, Identify.TAG)
-        }
-    }
 }

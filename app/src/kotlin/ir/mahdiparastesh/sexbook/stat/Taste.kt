@@ -44,7 +44,7 @@ class Taste : BaseActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             var orgasms: ArrayList<Summary.Orgasm>
             var sum: Float
-            for (p in m.people) {
+            for (p in m.people.values) {
                 orgasms = m.summary!!.scores[p.key] ?: continue
                 sum = orgasms.sumOf { it.value }
                 index.add(p to sum)

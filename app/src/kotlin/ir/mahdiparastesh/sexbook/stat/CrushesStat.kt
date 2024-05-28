@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
+import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
@@ -25,7 +26,7 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.and
 import kotlin.math.roundToInt
 
-class CrushesStat : BaseDialog() {
+class CrushesStat : BaseDialog<BaseActivity>() {
     companion object {
         const val BUNDLE_WHICH_LIST = "which_list"
         const val TAG = "crushes_stat"
@@ -74,7 +75,7 @@ class CrushesStat : BaseDialog() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
             val whichList = requireArguments().getInt(BUNDLE_WHICH_LIST)
-            val list = if (whichList == 0) c.m.people else c.m.liefde
+            val list = if (whichList == 0) (c as People).mm.visPeople else c.m.liefde
 
             // set the title
             val arModes = resources.getStringArray(modes)
@@ -87,7 +88,8 @@ class CrushesStat : BaseDialog() {
                 arModes[0] = getString(R.string.unspecified)
                 val stats = hashMapOf<Byte, Int>()
                 for (mode in arModes.indices) stats[mode.toByte()] = 0
-                for (p in list) {
+                for (person in list) {
+                    val p = c.m.people[person]!!
                     if (!crushFilter(p)) continue
                     val mode = crushProperty(p)
                     stats[mode] = stats[mode]!! + 1
