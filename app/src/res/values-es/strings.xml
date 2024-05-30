@@ -82,9 +82,9 @@
     <!-- Page Love -->
     <string name="crushes">Lista de Amores</string>
     <string name="emptyLove">
-        Después de agregar algunos registros de sexo,
-        vaya al Menú de navegación -> Resumen -> Seleccione una persona que le guste ->
-        Presiona el botón superior derecho con un ícono de \"Persona\" (Identificación).
+        Después de agregar algunos registros de sexo con nombres de personas,
+        vaya al menú de navegación -> Resumen/Frescura -> seleccione un nombre ->
+        presione el botón superior derecho con un ícono de \"Persona\" (identificación).
     </string>
 
     <!-- #Statistics -->
@@ -204,6 +204,7 @@
 
     <!-- Places -->
     <string name="places">Lugares</string>
+    <string name="emptyPlaces">¡No has definido ningún lugar!</string>
     <string name="plItemHint">Nombre del lugar&#8230;</string>
     <string name="plDeletePlaceSure">
         ¿Estás seguro de que deseas eliminar este lugar?
@@ -213,6 +214,7 @@
 
     <!-- Estimation -->
     <string name="estimation">Estimacion</string>
+    <string name="emptyGuesses">¡No has definido ninguna estimación!</string>
     <string name="etCrsh">Amor (opcional)</string>
     <string name="etSince">Desde</string>
     <string name="etUntil">Hasta</string>

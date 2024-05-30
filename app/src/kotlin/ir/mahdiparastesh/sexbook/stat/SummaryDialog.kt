@@ -28,6 +28,7 @@ import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.base.BaseFragment
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
@@ -179,11 +180,15 @@ class SummaryDialog : BaseDialog<Main>() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
+            val hideUnsafe =
+                c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.m.unsafe.isNotEmpty()
 
             val data = arrayListOf<SliceValue>()
             c.m.summary?.scores?.entries?.sortedBy {
                 it.value.sumOf { s -> s.value }
             }?.forEach {
+                if (hideUnsafe && it.key in c.m.unsafe) return@forEach
+
                 val score = it.value.sumOf { s -> s.value }
                 data.add(
                     SliceValue(score, c.color(R.color.CPV_LIGHT))

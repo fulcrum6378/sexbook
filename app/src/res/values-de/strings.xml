@@ -80,9 +80,9 @@
     <!-- Page Love -->
     <string name="crushes">Liste der Crushes</string>
     <string name="emptyLove">
-        Nachdem Sie einige Sexaufzeichnungen hinzugefügt haben,
-        gehen Sie zu Navigationsmenü -> Zusammenfassung -> Schwarm auswählen ->
-        Klicken Sie auf die Schaltfläche oben rechts mit einem Symbol \"Person\" (Identifikation).
+        Nachdem ich einige Sexaufzeichnungen mit Namen von Personen hinzugefügt habe,
+        Gehen Sie zum Navigationsmenü -> Zusammenfassung/Neuheit -> wählen Sie einen Namen ->
+        Klicken Sie auf die Schaltfläche oben rechts mit dem Symbol „Person“ (Identifikation).
     </string>
 
     <!-- #Statistics -->
@@ -202,6 +202,7 @@
 
     <!-- Places -->
     <string name="places">Setzt</string>
+    <string name="emptyPlaces">Sie haben keine Orte definiert!</string>
     <string name="plItemHint">Name des Ortes&#8230;</string>
     <string name="plDeletePlaceSure">
         Möchten Sie diesen Ort wirklich löschen? Wenn ja, geben Sie bitte an,
@@ -211,6 +212,7 @@
 
     <!-- Estimation -->
     <string name="estimation">Einschätzung</string>
+    <string name="emptyGuesses">Sie haben keine Schätzungen definiert!</string>
     <string name="etCrsh">Crush (wahlweise)</string>
     <string name="etSince">Seit</string>
     <string name="etUntil">Bis</string>

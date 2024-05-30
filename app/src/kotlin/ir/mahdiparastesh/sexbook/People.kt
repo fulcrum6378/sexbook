@@ -79,7 +79,11 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     @SuppressLint("NotifyDataSetChanged")
     fun arrangeList() {
-        mm.visPeople = ArrayList(m.people.filter { !it.value.unsafe() }.keys)
+        val hideUnsafe =
+            sp.getBoolean(Settings.spHideUnsafePeople, true) && m.unsafe.isNotEmpty()
+        mm.visPeople = ArrayList(m.people.let { people ->
+            if (hideUnsafe) people.filter { !it.value.unsafe() } else people
+        }.keys)
         mm.visPeople.sortWith(Crush.Sort(this, Settings.spPeopleSortBy, Settings.spPeopleSortAsc))
         // TO-DO filter | search
 

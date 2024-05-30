@@ -216,9 +216,12 @@ class Crush(
         firstOrgasm_ = null
     }
 
-    class Sort(private val c: BaseActivity, spByKey: String, spAscKey: String) : Comparator<String> {
-        private val by = c.sp.getInt(spByKey, 0)
-        private val asc = c.sp.getBoolean(spAscKey, true)
+    class Sort(
+        private val c: BaseActivity, private val by: Int, private val asc: Boolean
+    ) : Comparator<String> {
+
+        constructor(c: BaseActivity, spByKey: String, spAscKey: String) :
+                this(c, c.sp.getInt(spByKey, 0), c.sp.getBoolean(spAscKey, true))
 
         override fun compare(aa: String, bb: String): Int {
             val a = if (asc) aa else bb

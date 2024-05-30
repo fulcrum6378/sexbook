@@ -175,8 +175,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             m.unsafe.addAll(m.people.filter { it.value.unsafe() }.map { it.key })
 
             // Place
-            m.places = ArrayList(m.dao.pGetAll())
-            for (p in m.places) {
+            for (p in m.dao.pGetAll()) {
+                m.places.add(p)
                 var sum = 0L
                 for (r in m.reports.values)
                     if (r.plac == p.id)
@@ -187,8 +187,20 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             if (m.reports.isNotEmpty()) m.places.sortWith(Place.Sort(Place.Sort.SUM))
 
             // Guess
-            m.guesses = ArrayList(m.dao.gGetAll().sortedWith(Guess.Sort()))
-            instillGuesses()
+            var grId = -1L
+            for (g in m.dao.gGetAll()) {
+                m.guesses.add(g)
+                if (!g.checkValid()) continue
+                var curTime = g.sinc
+                val share = (86400000.0 / g.freq).toLong()
+
+                while (curTime <= g.till) {
+                    m.reports[grId] = Report(grId, curTime, g.crsh ?: "", g.type, g.plac)
+                    curTime += share
+                    grId--
+                }
+            }
+            m.guesses.sortWith(Guess.Sort())
 
 
             withContext(Dispatchers.Main) {
@@ -262,7 +274,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             uiToast(R.string.noRecords); return true
         } else if (item.itemId in arrayOf(R.id.momPop, R.id.momGrw, R.id.momTst) && !summarize()) {
             uiToast(R.string.noStat); return true
-        } else if (item.itemId == R.id.momPpl)
+        } else if (item.itemId in
+            arrayOf(R.id.momPpl, R.id.momImport, R.id.momExport, R.id.momSend)
+        )
             summarize()
         else if (item.itemId == R.id.momInt && m.reports.size <= 1) {
             uiToast(R.string.noRecords); return true
@@ -468,21 +482,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
     }
 
-    private fun instillGuesses() {
-        var id = -1L
-        for (g in m.guesses.filter { it.able }) {
-            if (!g.checkValid()) continue
-            var curTime = g.sinc
-            val share = (86400000.0 / g.freq).toLong()
-
-            while (curTime <= g.till) {
-                m.reports[id] = Report(id, curTime, g.crsh ?: "", g.type, g.plac)
-                curTime += share
-            }
-            id--
-        }
-    }
-
     fun onDataChanged() {
         m.resetData()
         mm.listFilter = -1
@@ -499,12 +498,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * Hide unsafe Crush items from People
-  * Help texts; move to the centres of the pages if lists are empty
-  * https://stackoverflow.com/questions/26015548/sqlitedatabaselockedexception-database-is-locked-retrycount-exceeded
+  * FIX-ME^ replacing calendar events rapidly creats ANR states!!
   * Searching in Summary and Recency is so immature!
   * Time Picker for First Met
-  * FIX-ME^ replacing calendar events rapidly creats ANR states!!
   * -
   * Extension:
   * Progressive diagrams for Taste

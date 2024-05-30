@@ -80,9 +80,9 @@
     <!-- Page Love -->
     <string name="crushes">Seznam Crushes</string>
     <string name="emptyLove">
-        Po přidání některých záznamů o sexu
-        přejděte do Navigační nabídky -> Souhrn -> Vybrat zamilovanost ->
-        Stiskněte pravé horní tlačítko s ikonou "Osoba" (Identifikace).
+        Po přidání některých záznamů o sexu se jmény jednotlivců,
+        přejděte do navigační nabídky -> Souhrn/Aktuálnost -> vyberte název ->
+        stiskněte pravé horní tlačítko s ikonou \"Osoba\" (identifikace).
     </string>
 
     <!-- #Statistics -->
@@ -201,6 +201,7 @@
 
     <!-- Places -->
     <string name="places">Místa</string>
+    <string name="emptyPlaces">Nedefinovali jste žádná místa!</string>
     <string name="plItemHint">Název místa&#8230;</string>
     <string name="plDeletePlaceSure">
         Opravdu chcete toto místo smazat? Pokud ano, uveďte prosím,
@@ -209,6 +210,7 @@
 
     <!-- Estimation -->
     <string name="estimation">Odhad</string>
+    <string name="emptyGuesses">Nedefinovali jste žádné odhady!</string>
     <string name="etCrsh">Crush (volitelné)</string>
     <string name="etSince">Od té doby</string>
     <string name="etUntil">Až do</string>

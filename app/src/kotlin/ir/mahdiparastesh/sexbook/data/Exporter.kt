@@ -113,11 +113,12 @@ class Exporter(val c: BaseActivity) {
 
     private fun export(): Boolean {
         exported = Exported(
-            c.m.reports.values.filter { !it.guess }.toTypedArray(),
-            c.m.people.values.toTypedArray(),
-            c.m.places.toTypedArray(),
-            c.m.guesses.toTypedArray(),
-            c.sp.all
+            c.m.reports.values.filter { !it.guess }.sortedBy { it.time }.toTypedArray(),
+            c.m.people.values.sortedBy { it.key }.sortedBy { it.getFirstOrgasm(c.m) }
+                .toTypedArray(),
+            c.m.places.sortedBy { it.name }.toTypedArray(),
+            c.m.guesses.sortedBy { it.crsh }.sortedWith(Guess.Sort()).toTypedArray(),
+            c.sp.all.toSortedMap()
         )
         val emp = exported!!.isEmpty()
         if (emp) Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show()
@@ -164,7 +165,6 @@ class Exporter(val c: BaseActivity) {
             c.m.dao.gDeleteAll()
             imported.guesses?.toList()?.also { c.m.dao.gReplaceAll(it) }
 
-            c.m.calManager?.replaceEvents(imported.crushes?.map { it.key }) // don't merge with top
             if (imported.settings != null) c.sp.edit().apply {
                 imported.settings.forEach { (k, v) ->
                     when (v) {

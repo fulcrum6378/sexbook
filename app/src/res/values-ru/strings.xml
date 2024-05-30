@@ -81,9 +81,9 @@
     <!-- Page Love -->
     <string name="crushes">Список любви</string>
     <string name="emptyLove">
-        После добавления некоторых записей о сексе,
-        перейдите в Меню навигации -> Сводка -> Выберите любовь ->
-        Нажмите правую верхнюю кнопку со значком «Человек» (Идентификация).
+        После добавления нескольких записей о сексе с именами людей,
+        перейдите в меню навигации -> Краткое Содержание/Новизна -> выберите имя ->
+        нажмите правую верхнюю кнопку со значком «Лицо» (идентификация).
     </string>
 
     <!-- #Statistics -->
@@ -202,6 +202,7 @@
 
     <!-- Places -->
     <string name="places">Места</string>
+    <string name="emptyPlaces">Вы не определили ни одного места!</string>
     <string name="plItemHint">Укажите имя&#8230;</string>
     <string name="plDeletePlaceSure">
         Вы уверены, что хотите удалить это место?
@@ -211,6 +212,7 @@
 
     <!-- Estimation -->
     <string name="estimation">Оценка</string>
+    <string name="emptyGuesses">Вы не определили никаких оценок!</string>
     <string name="etCrsh">Любовь (необязательно)</string>
     <string name="etSince">С</string>
     <string name="etUntil">До</string>

@@ -262,13 +262,13 @@ class Settings : BaseActivity() {
             sp.edit().putBoolean(spStatNonOrgasm, isChecked).apply()
             c.shake()
         }
+
+        // Vibration
         b.stHideUnsafePeople.isChecked = sp.getBoolean(spHideUnsafePeople, true)
         b.stHideUnsafePeople.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spHideUnsafePeople, isChecked).apply()
             c.shake()
         }
-
-        // Vibration
         b.stVibration.isChecked = sp.getBoolean(spVibration, true)
         b.stVibration.setOnCheckedChangeListener { _, isChecked ->
             Fun.vib = isChecked

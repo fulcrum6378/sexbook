@@ -83,7 +83,6 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
     /** Don't forget to write() the Index after executing this function. */
     private fun insertEvent(crush: String) {
         val cr = c.m.people[crush] ?: return
-        if (cr.unsafe()) return
         val cal = cr.bCalendar(tz = TimeZone.getTimeZone(tz)) ?: return
         ContentValues().apply {
             put(CCE.CALENDAR_ID, id)

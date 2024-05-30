@@ -149,6 +149,7 @@ class ReportAdap(
             .apply { colorFilter = c.themePdcf(com.google.android.material.R.attr.colorSecondary) }
 
         // Name
+        h.b.name.setTextWatcher(null) // NEVER REMOVE THIS!!!
         h.b.name.setText(r.name)
         h.b.name.isEnabled = !r.guess
         h.b.name.setTextWatcher(if (!r.guess) object : TextWatcher {
@@ -321,9 +322,8 @@ class ReportAdap(
                 if (f.filters.getOrNull(c.mm.listFilter)
                         ?.let { ym.first == it.year && ym.second == it.month } == true
                 ) { // report is still in this month
-                    notifyItemChanged(oldPos)
-                    val newPos = c.mm.visReports.indexOf(id)
                     c.mm.sortVisReports(c.m)
+                    val newPos = c.mm.visReports.indexOf(id)
                     notifyItemMoved(oldPos, newPos)
                     f.b.rv.smoothScrollToPosition(newPos)
                 } else { // report moved to another month or is missing

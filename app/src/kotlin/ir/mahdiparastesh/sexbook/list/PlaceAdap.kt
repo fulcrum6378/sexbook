@@ -108,7 +108,6 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
         CoroutineScope(Dispatchers.IO).launch {
             c.m.dao.pUpdate(c.m.places[i])
             Main.changed = true
-            withContext(Dispatchers.Main) { notifyItemChanged(i) }
         }
     }
 

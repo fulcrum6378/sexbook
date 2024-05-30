@@ -27,10 +27,10 @@ class Model : ViewModel() {
     var dbLoaded = false
 
     /* --- Database Models --- */
-    var reports = hashMapOf<Long, Report>()
-    var people = hashMapOf<String, Crush>()
-    var places = arrayListOf<Place>()
-    var guesses = arrayListOf<Guess>()
+    val reports = hashMapOf<Long, Report>()
+    val people = hashMapOf<String, Crush>()
+    val places = arrayListOf<Place>()
+    val guesses = arrayListOf<Guess>()
 
     /** Main data structure for most statistical analyses. */
     var summary: Summary? = null
