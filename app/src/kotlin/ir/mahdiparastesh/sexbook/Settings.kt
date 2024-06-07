@@ -370,8 +370,10 @@ class Settings : BaseActivity() {
     /** In the both cases, requires WRITE_CALENDAR permission. */
     private fun turnCalendar(on: Boolean) {
         sp.edit().putBoolean(spCalOutput, on).apply()
-        m.calManager = CalendarManager(this, m.liefde).initialize()
-        if (!on) m.calManager?.terminate()
+        CoroutineScope(Dispatchers.IO).launch {
+            if (on) CalendarManager.initialise(this@Settings)
+            else CalendarManager.destroy(this@Settings)
+        }
     }
 
     class BNtfCrushes : BaseDialog<Settings>() {

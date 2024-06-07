@@ -41,9 +41,6 @@ class Model : ViewModel() {
     /** A list of Crushes marked as "unsafe". */
     var unsafe = CopyOnWriteArraySet<String>()
 
-    /** Interface for controlling this app's calendar events in the system calendar. */
-    var calManager: CalendarManager? = null
-
 
     fun resetData() {
         reports.clear()
@@ -122,9 +119,8 @@ class Model : ViewModel() {
             PageLove.changed = true
             if (c is People) c.count(c.mm.visPeople.size)
         }
-        calManager?.apply { CoroutineScope(Dispatchers.IO).launch { replaceEvents(liefde) } }
-        // FIXME replacing calendar events rapidly creats ANR states!!
-        //   therefore mark if anything is changed and replace events at the end
+        if (CalendarManager.id != null)
+            CoroutineScope(Dispatchers.IO).launch { CalendarManager.update(c) }
     }
 
     fun summaryCrushes() = summary?.let { ArrayList(it.scores.keys) } ?: arrayListOf<String>()

@@ -1,46 +1,86 @@
 package ir.mahdiparastesh.sexbook.more
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.icu.util.TimeZone
 import android.net.Uri
 import android.provider.CalendarContract
+import android.util.Log
+import androidx.annotation.MainThread
 import androidx.core.app.ActivityCompat
 import androidx.core.database.getLongOrNull
+import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import android.provider.CalendarContract.Calendars as CCC
 import android.provider.CalendarContract.Events as CCE
 
 /** API for maintaining Sexbook data in the system calendar. */
 @Suppress("RedundantSuspendModifier")
-class CalendarManager(private val c: BaseActivity, private var crushes: Iterable<String>?) {
-    var id = -1L
-    private val accName = "sexbook"
-    private val accType = CalendarContract.ACCOUNT_TYPE_LOCAL
-    private val tz = "GMT"
-    private lateinit var index: HashMap<String/*CRUSH_KEY*/, Long/*EVENT_ID*/>
+object CalendarManager {
+    private const val accName = "sexbook"
+    private const val tz = "GMT"
+    const val reqCode = 1
 
-    fun initialize(): CalendarManager {
-        CoroutineScope(Dispatchers.IO).launch { initialise() }
-        return this
+    var id: Long? = null
+    private var alteredOnce = false
+
+    @MainThread
+    fun checkPerm(c: BaseActivity) = ActivityCompat.checkSelfPermission(
+        c, Manifest.permission.READ_CALENDAR
+    ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        c, Manifest.permission.WRITE_CALENDAR
+    ) == PackageManager.PERMISSION_GRANTED
+
+    @MainThread
+    fun askPerm(c: BaseActivity) {
+        ActivityCompat.requestPermissions(
+            c, arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR),
+            reqCode
+        )
     }
 
-    suspend fun initialise(): CalendarManager {
+    /** Creates the calendar if it doesn't exist, if it does, retrieves its ID. */
+    suspend fun initialise(c: BaseActivity) {
+        Log.println(Log.ASSERT, "ZOEY", "initialise")
+        if (alteredOnce) return
+        val canCreateCalendar = // implicitly `alterCode != 2`
+            c.sp.getBoolean(Settings.spCalOutput, false)
+        val cache = AlterationCache()
+        val cacheExists = cache.exists()
+        if (!canCreateCalendar && !cacheExists) return
+
+        // check the existence of our calendar
         c.contentResolver.query(
             CCC.CONTENT_URI, arrayOf(CCC.NAME, CCC._ID),
             "account_name = ?", arrayOf(accName), CCC._ID
-        )?.use {
-            if (!it.moveToFirst()) return@use
-            it.getLongOrNull(it.getColumnIndex(CCC._ID))?.also { l -> id = l }
+        )?.use { if (it.moveToFirst()) id = it.getLongOrNull(it.getColumnIndex(CCC._ID)) }
+
+        // check if a previous necessary alteration operation has to be executed now
+        var alterCode = 0
+        if (cacheExists) {
+            alterCode = cache.readCode()
+            cache.delete()
         }
-        if (id == -1L) ContentValues().apply {
+        if (id != null && id != -1L) {
+            when (alterCode) {
+                1 -> update(c)
+                2 -> destroy(c)
+            }
+            return
+        }
+
+        // insert calendar and fill it with events if required
+        if (canCreateCalendar) ContentValues().apply {
             put(CCC.ACCOUNT_NAME, accName)
-            put(CCC.ACCOUNT_TYPE, accType)
+            put(CCC.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL)
             put(CCC.NAME, "Sexbook")
             put(CCC.CALENDAR_DISPLAY_NAME, c.getString(R.string.app_name))
             put(CCC.CALENDAR_COLOR, c.color(R.color.CP_LIGHT))
@@ -51,73 +91,79 @@ class CalendarManager(private val c: BaseActivity, private var crushes: Iterable
                 CCC.CONTENT_URI.buildUpon()
                     .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
                     .appendQueryParameter(CCC.ACCOUNT_NAME, accName)
-                    .appendQueryParameter(CCC.ACCOUNT_TYPE, accType).build(), this
+                    .appendQueryParameter(
+                        CCC.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL
+                    ).build(), this
             )?.also { id = it.getId() }
-            insertEvents(crushes!!)
+            insertEvents(c)
+            Log.println(Log.ASSERT, "ZOEY", "calendar was created with ID: $id")
         }
-        crushes = null
-        return this
-    }
-
-    private suspend fun insertEvents(crushes: Iterable<String>) {
-        index = hashMapOf()
-        for (cr in crushes) insertEvent(cr)
-    }
-
-    private suspend fun deleteEvents() {
-        c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
-    }
-
-    private suspend fun deleteCalendar() {
-        c.contentResolver.delete(CCC.CONTENT_URI, "account_name = ?", arrayOf(accName))
-    }
-
-    suspend fun replaceEvents(crushes: Iterable<String>?) {
-        deleteEvents()
-        if (crushes != null) insertEvents(crushes)
     }
 
     private fun Uri.getId() =
         toString().substringAfterLast("/").substringBefore("?").toLong()
 
-    /** Don't forget to write() the Index after executing this function. */
-    private fun insertEvent(crush: String) {
-        val cr = c.m.people[crush] ?: return
-        val cal = cr.bCalendar(tz = TimeZone.getTimeZone(tz)) ?: return
-        ContentValues().apply {
-            put(CCE.CALENDAR_ID, id)
-            put(CCE.TITLE, c.getString(R.string.sBirthday, cr.visName()))
-            put(CCE.DTSTART, cal.timeInMillis)
-            put(CCE.RRULE, "FREQ=YEARLY")
-            put(CCE.DURATION, "P1D")
-            put(CCE.ALL_DAY, 1)
-            put(CCE.EVENT_TIMEZONE, tz)
-            c.contentResolver.insert(CCE.CONTENT_URI, this)
-                ?.also { index[crush] = it.getId() }
+    private suspend fun insertEvents(c: BaseActivity) {
+        if (c.m.liefde.isEmpty()) return
+
+        val thisTz = TimeZone.getTimeZone(tz)
+        for (crush in c.m.liefde) {
+            val cr = c.m.people[crush] ?: return
+            val cal = cr.bCalendar(tz = thisTz) ?: return
+            ContentValues().apply {
+                put(CCE.CALENDAR_ID, id)
+                put(CCE.TITLE, c.getString(R.string.sBirthday, cr.visName()))
+                put(CCE.DTSTART, cal.timeInMillis)
+                put(CCE.RRULE, "FREQ=YEARLY")
+                put(CCE.DURATION, "P1D")
+                put(CCE.ALL_DAY, 1)
+                put(CCE.EVENT_TIMEZONE, tz)
+                c.contentResolver.insert(CCE.CONTENT_URI, this)
+            }
         }
+        alteredOnce = true
     }
 
-    fun terminate() {
+    suspend fun update(c: BaseActivity) {
+        Log.println(Log.ASSERT, "ZOEY", "update (id: $id)")
+        if (id == null) return
+        if (alteredOnce) {
+            AlterationCache().writeCode(1)
+            return; }
+        Log.println(Log.ASSERT, "ZOEY", "updating")
+
+        deleteEvents(c)
+        insertEvents(c)
+    }
+
+    private suspend fun deleteEvents(c: BaseActivity) {
+        c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
+        alteredOnce = true
+    }
+
+    fun destroy(c: BaseActivity) {
+        Log.println(Log.ASSERT, "ZOEY", "destory (id: $id)")
+        if (id == null) return
+        if (alteredOnce) {
+            AlterationCache().writeCode(2)
+            return; }
+        Log.println(Log.ASSERT, "ZOEY", "destorying")
+
         CoroutineScope(Dispatchers.IO).launch {
-            deleteEvents()
-            deleteCalendar()
+            deleteEvents(c)
+            c.contentResolver.delete(CCC.CONTENT_URI, "account_name = ?", arrayOf(accName))
+            id = null
         }
     }
 
-    companion object {
-        const val reqCode = 1
-
-        fun checkPerm(c: BaseActivity) = ActivityCompat.checkSelfPermission(
-            c, Manifest.permission.READ_CALENDAR
-        ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-            c, Manifest.permission.WRITE_CALENDAR
-        ) == PackageManager.PERMISSION_GRANTED
-
-        fun askPerm(c: BaseActivity) {
-            ActivityCompat.requestPermissions(
-                c, arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR),
-                reqCode
-            )
+    @SuppressLint("SdCardPath")
+    class AlterationCache : File(
+        "/data/data/" + Main::class.java.`package`!!.name + "/cache/alter_calendar"
+    ) {
+        fun writeCode(code: Int) {
+            outputStream().use { it.write(code) }
         }
+
+        fun readCode(): Int = inputStream().use { it.read() }
     }
 }

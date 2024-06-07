@@ -167,12 +167,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
             // Crush
             for (p in m.dao.cGetAll()) m.people[p.key] = p
-            m.liefde.clear()
             m.liefde.addAll(m.people.filter {
                 (it.value.status and Crush.STAT_INACTIVE) == 0.toByte()
             }.map { it.key })
-            m.unsafe.clear()
             m.unsafe.addAll(m.people.filter { it.value.unsafe() }.map { it.key })
+            if (CalendarManager.checkPerm(this@Main)) CalendarManager.initialise(this@Main)
 
             // Place
             for (p in m.dao.pGetAll()) {
@@ -229,11 +228,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         ..Fun.A_DAY
                     ) notifyBirth(p, dist)
                 }
-
-                // initialise CalendarManager
-                if (m.liefde.isNotEmpty() && sp.getBoolean(Settings.spCalOutput, false) &&
-                    CalendarManager.checkPerm(this@Main)
-                ) m.calManager = CalendarManager(this@Main, m.liefde).initialise()
 
                 pageSex()?.prepareList() // guesses must be instilled before doing this.
             }
@@ -498,7 +492,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * FIX-ME^ replacing calendar events rapidly creats ANR states!!
   * Searching in Summary and Recency is so immature!
   * Time Picker for First Met
   * -
