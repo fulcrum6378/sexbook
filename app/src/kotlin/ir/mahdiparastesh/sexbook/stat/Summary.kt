@@ -9,7 +9,9 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 
-class Summary(reports: List<Report>, var nExcluded: Int, total: Int) {
+class Summary(
+    reports: List<Report>, var nExcluded: Int, total: Int, private val people: Set<String>
+) {
     var scores: HashMap<String, ArrayList<Orgasm>> = HashMap()
     var unknown = 0f
     var apparent = (total - nExcluded).toFloat()
@@ -23,25 +25,21 @@ class Summary(reports: List<Report>, var nExcluded: Int, total: Int) {
             if (r.analysis!!.isEmpty())
                 unknown++
             else for (key in r.analysis!!)
-                scores.insert(key, r.time, 1f / r.analysis!!.size)
+                scores.insert(key, Orgasm(r.time, 1f / r.analysis!!.size))
         }
         apparent -= unknown
     }
 
-    private fun HashMap<String, ArrayList<Orgasm>>.insert(
-        theKey: String, time: Long, value: Float = 1f
-    ) {
-        var key = theKey
-        val ckic = containsKeyIgnoreCase(key)
-        if (ckic != null) key = ckic
-        if (!containsKey(key) && ckic == null) this[key] = arrayListOf(Orgasm(time, value))
-        else this[key]?.add(Orgasm(time, value))
-    }
-
-    private fun HashMap<String, ArrayList<Orgasm>>.containsKeyIgnoreCase(key: String): String? {
-        var index: String? = null
-        for (m in this) if (m.key.equals(key, true)) index = m.key
-        return index
+    private fun HashMap<String, ArrayList<Orgasm>>.insert(key: String, value: Orgasm) {
+        for (k in keys) if (k.equals(key, true)) {
+            this[k]?.add(value)
+            return
+        }
+        for (p in people) if (p.equals(key, true)) {
+            this[p] = arrayListOf(value)
+            return
+        }
+        this[key] = arrayListOf(value)
     }
 
     fun classify(c: BaseActivity) {

@@ -23,7 +23,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 42
-        versionName '25.8.5'
+        versionName '25.8.8'
         signingConfig signingConfigs.main
     }
     sourceSets.main {

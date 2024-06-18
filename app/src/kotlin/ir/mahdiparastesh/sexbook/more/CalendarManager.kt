@@ -32,7 +32,6 @@ object CalendarManager {
     var id: Long? = null
     private var alteredOnce = false
 
-    @MainThread
     fun checkPerm(c: BaseActivity) = ActivityCompat.checkSelfPermission(
         c, Manifest.permission.READ_CALENDAR
     ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(

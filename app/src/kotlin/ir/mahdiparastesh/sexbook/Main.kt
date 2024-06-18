@@ -437,7 +437,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             filtered = filtered.filter { it.ogsm }
                 .also { nExcluded += filtered.size - it.size }
 
-        m.summary = Summary(filtered, nExcluded, m.reports.size)
+        m.summary = Summary(filtered, nExcluded, m.reports.size, m.people.keys)
         (pageSex()?.b?.rv?.adapter as? ReportAdap)?.crushSuggester?.update()
         return true
     }
