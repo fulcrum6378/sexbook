@@ -119,15 +119,11 @@ class Crush(
 
     @delegate:Ignore
     @delegate:Transient
-    val birthTime: Long? by lazy {
-        birth?.replace(".", "/")?.let { Fun.compDateTimeToCalendar(it).timeInMillis }
-    }
+    val birthTime: Long? by lazy { birth?.let { Fun.compDateTimeToCalendar(it).timeInMillis } }
 
     @delegate:Ignore
     @delegate:Transient
-    val firstTime: Long? by lazy {
-        first?.replace(".", "/")?.let { Fun.compDateTimeToCalendar(it).timeInMillis }
-    }
+    val firstTime: Long? by lazy { first?.let { Fun.compDateTimeToCalendar(it).timeInMillis } }
 
 
     @Ignore

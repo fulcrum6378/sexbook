@@ -172,6 +172,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             }.map { it.key })
             m.unsafe.addAll(m.people.filter { it.value.unsafe() }.map { it.key })
             if (CalendarManager.checkPerm(this@Main)) CalendarManager.initialise(this@Main)
+            if (!sp.contains("dbDateTimeDotSlashReplaced")) {
+                for (updated in m.people.values) {
+                    if (updated.birth == null && updated.first == null) continue
+                    if (updated.birth != null)
+                        updated.birth = updated.birth!!.replace(".", "/")
+                    if (updated.first != null)
+                        updated.first = updated.first!!.replace(".", "/")
+                    m.dao.cUpdate(updated)
+                }
+                sp.edit().putBoolean("dbDateTimeDotSlashReplaced", true).apply()
+            }
 
             // Place
             for (p in m.dao.pGetAll()) {
@@ -493,10 +504,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 /* TODO:
   * Problems:
   * Searching in Summary and Recency is so immature!
+  * SQLiteDatabaseLockedException: database is locked (code 5 SQLITE_BUSY): , while compiling: PRAGMA journal_mode
+  * (stack trace doesn't show anything specific, as if the database is closed and it crashes if you use it anywhere)
   * -
   * Extension:
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular
   * "Turn off notifications for this Crush" on the notification
-  * Height, Age, Fictionality for Taste and CrushesStat
+  * Height, Birth Year, Birth Month, Fictionality for Taste and CrushesStat
   */
