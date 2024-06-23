@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
+import android.icu.util.TimeZone
 import android.os.Build
 import android.os.CountDownTimer
 import android.os.VibrationEffect
@@ -238,12 +239,6 @@ object Fun {
             .apply { this@apply.timeInMillis = this@toDefaultType.timeInMillis }
     }
 
-    fun Calendar.toGregorian(): GregorianCalendar {
-        if (this is GregorianCalendar) return this
-        return GregorianCalendar()
-            .apply { this@apply.timeInMillis = this@toGregorian.timeInMillis }
-    }
-
     fun Float.show(): String =
         if (this % 1 > 0) DecimalFormat("#.##").format(this) else toInt().toString()
 
@@ -257,6 +252,106 @@ object Fun {
         1 -> getString(R.string.her)
         2 -> getString(R.string.his)
         else -> getString(R.string.their)
+    }
+
+    /** 1=>year / 2=>month / 3=>day   4=>hour : 5=>minute : 6=>second */
+    fun validateDateTime(raw: String): String {
+        if (raw.isBlank()) return "0000/00/00 00:00:00"
+        var put = ""
+        var field = 1
+        for (ch in raw) if (!ch.isDigit()) field++
+        if (field > 6) field = 6
+        if (field != 6) {
+            for (f in 6 downTo (field + 1)) put = when (f) {
+                2 -> "/00"
+                3 -> "/00"
+                4 -> " 00"
+                else -> ":00"
+            } + put
+        }
+
+        var digitCount = 0
+        for (ch in raw.reversed())
+            if (ch.isDigit()) {
+                if (field != 1 && digitCount >= 2) continue
+                put = ch + put
+                digitCount++
+            } else { // `field` always be >=2 on valid inputs
+                //if (digitCount == 0) continue
+                if (field != 1 && digitCount < 2)
+                    repeat(2 - digitCount) { put = "0$put" }
+                digitCount = 0
+
+                if (field != 1) put = when (field) {
+                    2, 3 -> '/'
+                    4 -> ' '
+                    /*5, 6*/ else -> ':'
+                } + put
+                field--
+                if (field == 0) break
+            }
+        if (field == 1 && digitCount < 4)
+            repeat(4 - digitCount) { put = "0$put" }
+        return put
+    }
+
+    fun compressDateTime(full: String): String? {
+        if (full.isBlank()) return null
+        var put = ""
+        var field = 6
+        var cur = full.length
+        var hitNonZero = false
+        var num: Int
+        while (cur != 0) {
+            if (field != 1) {
+                num = full.substring(cur - 2, cur).toInt()
+                if (num != 0) {
+                    put = num.toString() + put
+                    hitNonZero = true
+                }
+                if (hitNonZero) put = full[cur - 3] + put
+                cur -= 3
+            } else {
+                num = full.substring(0, cur).toInt()
+                if (num != 0) {
+                    put = num.toString() + put
+                    hitNonZero = true
+                }
+                cur = 0
+            }
+            field--
+        }
+        return if (hitNonZero) put else null
+    }
+
+    fun compDateTimeToCalendar(comp: String, tz: TimeZone? = null): GregorianCalendar {
+        val cal = GregorianCalendar(1970, 0, 1, 0, 0, 0)
+        cal[Calendar.MILLISECOND] = 0
+        tz?.also { cal.timeZone = it }
+        var field = 1
+        var beg = 0
+        var end = 0
+        var sub: String
+        for (ch in "$comp ") {
+            if (ch.isDigit()) {
+                end++
+                continue; }
+            sub = comp.substring(beg, end)
+            if (sub.isNotEmpty()) cal.set(
+                when (field) {
+                    1 -> Calendar.YEAR
+                    2 -> Calendar.MONTH
+                    3 -> Calendar.DAY_OF_MONTH
+                    4 -> Calendar.HOUR
+                    5 -> Calendar.MINUTE
+                    /*6*/ else -> Calendar.SECOND
+                }, sub.toInt() - (if (field == 2) 1 else 0)
+            )
+            end++
+            beg = end
+            field++
+        }
+        return cal
     }
 
     /**

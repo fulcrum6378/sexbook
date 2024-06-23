@@ -94,12 +94,14 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/birthIL"
-            style="@style/identifyButtonIL"
+            style="@style/identifyInputLayout"
             android:hint="@string/birth">
 
             <EditText
                 android:id="@+id/birth"
-                style="@style/identifyButton"
+                style="@style/identifyET"
+                android:inputType="text"
+                android:textAlignment="center"
                 tools:ignore="Autofill,LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -158,12 +160,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/identifyButtonIL"
+            style="@style/identifyInputLayout"
             android:hint="@string/firstMet">
 
             <EditText
                 android:id="@+id/firstMet"
-                style="@style/identifyButton"
+                style="@style/identifyET"
+                android:inputType="text"
+                android:textAlignment="center"
                 tools:ignore="Autofill,LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 

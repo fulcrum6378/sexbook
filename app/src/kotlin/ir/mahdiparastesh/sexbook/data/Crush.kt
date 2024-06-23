@@ -1,8 +1,5 @@
 package ir.mahdiparastesh.sexbook.data
 
-import android.icu.util.Calendar
-import android.icu.util.GregorianCalendar
-import android.icu.util.TimeZone
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -10,12 +7,9 @@ import androidx.room.PrimaryKey
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
-import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.sumOf
-import ir.mahdiparastesh.sexbook.Fun.toDefaultType
 import ir.mahdiparastesh.sexbook.Model
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import java.util.Locale
 import kotlin.experimental.and
@@ -123,42 +117,16 @@ class Crush(
     fun body(field: Pair<Int, Int>): Int = (body and field.first) shr field.second
 
 
-    @Ignore
-    @Transient
-    private var bCalendar_: GregorianCalendar? = null
-
-    @Ignore
-    @Transient
-    private var fCalendar_: Calendar? = null
-
-    /**
-     * @param c if given null, only a GregorianCalendar is returned.
-     * @return Do NOT alter the returned Calendar instance!
-     */
-    fun bCalendar(c: BaseActivity? = null, tz: TimeZone = TimeZone.getDefault()): Calendar? {
-        if (bCalendar_ == null) {
-            val spl = birth?.split(".") ?: return null
-            bCalendar_ = GregorianCalendar(tz).apply {
-                set(spl[0].toInt(), spl[1].toInt() - 1, spl[2].toInt())
-            }.let { McdtpUtils.trimToMidnight(it) }
-        }
-        return bCalendar_?.let {
-            if (c?.sp?.getBoolean(
-                    Settings.spGregorianForBirthdays, Settings.spGregorianForBirthdaysDef
-                ) != false
-            ) it
-            else it.toDefaultType(c)
-        }
+    @delegate:Ignore
+    @delegate:Transient
+    val birthTime: Long? by lazy {
+        birth?.replace(".", "/")?.let { Fun.compDateTimeToCalendar(it).timeInMillis }
     }
 
-    fun fCalendar(c: BaseActivity, tz: TimeZone = TimeZone.getDefault()): Calendar? {
-        if (fCalendar_ != null) return fCalendar_
-        val spl = first?.split(".") ?: return null
-        fCalendar_ = GregorianCalendar(tz)
-            .apply { set(spl[0].toInt(), spl[1].toInt() - 1, spl[2].toInt()) }
-            .toDefaultType(c)
-            .let { McdtpUtils.trimToMidnight(it) }
-        return fCalendar_
+    @delegate:Ignore
+    @delegate:Transient
+    val firstTime: Long? by lazy {
+        first?.replace(".", "/")?.let { Fun.compDateTimeToCalendar(it).timeInMillis }
     }
 
 
@@ -231,12 +199,12 @@ class Crush(
                     .compareTo(c.m.people[b]!!.visName().lowercase(Locale.getDefault()))
                 Fun.SORT_BY_SUM -> c.m.people[a]!!.getSum(c.m)
                     .compareTo(c.m.people[b]!!.getSum(c.m))
-                Fun.SORT_BY_AGE -> (c.m.people[b]!!.bCalendar(null)?.timeInMillis ?: 0L)
-                    .compareTo(c.m.people[a]!!.bCalendar(null)?.timeInMillis ?: 0L)
+                Fun.SORT_BY_AGE -> (c.m.people[b]!!.birthTime ?: 0L)
+                    .compareTo(c.m.people[a]!!.birthTime ?: 0L)
                 Fun.SORT_BY_HEIGHT -> c.m.people[a]!!.height
                     .compareTo(c.m.people[b]!!.height)
-                Fun.SORT_BY_BEGINNING -> (c.m.people[a]!!.fCalendar(c)?.timeInMillis ?: 0L)
-                    .compareTo(c.m.people[b]!!.fCalendar(c)?.timeInMillis ?: 0L)
+                Fun.SORT_BY_BEGINNING -> (c.m.people[a]!!.firstTime ?: 0L)
+                    .compareTo(c.m.people[b]!!.firstTime ?: 0L)
                 Fun.SORT_BY_LAST -> c.m.people[a]!!.getLastOrgasm(c.m)
                     .compareTo(c.m.people[b]!!.getLastOrgasm(c.m))
                 Fun.SORT_BY_FIRST -> c.m.people[a]!!.getFirstOrgasm(c.m)

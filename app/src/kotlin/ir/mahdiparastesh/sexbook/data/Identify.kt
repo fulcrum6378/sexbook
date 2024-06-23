@@ -5,8 +5,6 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
-import android.icu.util.Calendar
-import android.icu.util.GregorianCalendar
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -23,20 +21,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import ir.mahdiparastesh.mcdtp.McdtpUtils
-import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.defaultOptions
-import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.shake
-import ir.mahdiparastesh.sexbook.Fun.toGregorian
 import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
-import ir.mahdiparastesh.sexbook.more.Act
-import ir.mahdiparastesh.sexbook.more.MaterialMenu
 import ir.mahdiparastesh.sexbook.stat.Singular
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -69,12 +60,8 @@ class Identify() : DialogFragment() {
 
     private lateinit var c: BaseActivity
     private lateinit var b: IdentifyBinding
-    private var isBirthSet = false
-    private var isFirstSet = false
-    private var bir: Calendar? = null
-    private var fir: Calendar? = null
     private val cancellability: CountDownTimer =
-        object : CountDownTimer(10000, 10000) {
+        object : CountDownTimer(15000, 15000) {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
                 isCancelable = false
@@ -137,89 +124,60 @@ class Identify() : DialogFragment() {
         // Default Values
         val crushKey = crush?.key ?: requireArguments().getString(BUNDLE_CRUSH_KEY)!!
         b.key.setText(crushKey)
-        bir = crush?.bCalendar(c)
-        fir = crush?.fCalendar(c)
-        if (crush != null) {
-            b.fName.setText(crush!!.fName)
-            b.mName.setText(crush!!.mName)
-            b.lName.setText(crush!!.lName)
-            b.gender.setSelection((crush!!.status and Crush.STAT_GENDER).toInt())
-            b.fiction.isChecked = crush!!.fiction().also { onFictionChanged(it) }
-            b.unsafe.isChecked = crush!!.unsafe()
-            if (bir != null) {
-                b.birth.setText(bir!!.fullDate())
-                isBirthSet = true
-            }
-            b.notifyBirth.isChecked = crush!!.notifyBirth()
-            if (crush!!.height != -1f)
-                b.height.setText(crush!!.height.toString())
-            b.address.setText(crush!!.address)
-            b.instagram.setText(crush!!.insta)
-            if (fir != null) {
-                b.firstMet.setText(fir!!.fullDate())
-                isFirstSet = true
-            }
+        crush?.apply {
+            b.fName.setText(fName)
+            b.mName.setText(mName)
+            b.lName.setText(lName)
+            b.gender.setSelection((status and Crush.STAT_GENDER).toInt())
+            b.fiction.isChecked = fiction().also { onFictionChanged(it) }
+            b.unsafe.isChecked = unsafe()
+            b.notifyBirth.isChecked = notifyBirth()
+            if (height != -1f) b.height.setText(height.toString())
+            b.address.setText(address)
+            b.instagram.setText(insta)
             b.bodySkinColour.setSelection(
-                (crush!!.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second
+                (body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second
             )
             b.bodyHairColour.setSelection(
-                (crush!!.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second
+                (body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second
             )
             b.bodyEyeColour.setSelection(
-                (crush!!.body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second
+                (body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second
             )
             b.bodyEyeShape.setSelection(
-                (crush!!.body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second
+                (body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second
             )
             b.bodyFaceShape.setSelection(
-                (crush!!.body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second
+                (body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second
             )
             b.bodyFat.setSelection(
-                (crush!!.body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second
+                (body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second
             )
             b.bodyMuscle.setSelection(
-                (crush!!.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second
+                (body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second
             )
             b.bodyBreasts.setSelection(
-                (crush!!.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second
+                (body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second
             )
             b.bodyPenis.setSelection(
-                (crush!!.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second
+                (body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second
             )
             b.bodySexuality.setSelection(
-                (crush!!.body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second
+                (body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second
             )
         }
-        if (bir == null) {
-            bir = if (c.sp.getBoolean(
-                    Settings.spGregorianForBirthdays, Settings.spGregorianForBirthdaysDef
-                )
-            ) GregorianCalendar()
-            else c.calType().getDeclaredConstructor().newInstance()
-            b.birth.alpha = DISABLED_ALPHA
-            b.birth.isLongClickable = false
-        }
-        if (fir == null) {
-            fir = c.calType().getDeclaredConstructor().newInstance()
-            b.firstMet.alpha = DISABLED_ALPHA
-            b.firstMet.isLongClickable = false
-        }
+        b.birth.setText(Fun.validateDateTime(crush?.birth ?: ""))
+        b.firstMet.setText(Fun.validateDateTime(crush?.first ?: ""))
 
         // Fiction
         b.fiction.setOnCheckedChangeListener { _, isChecked -> onFictionChanged(isChecked) }
 
-        // Birthday
-        b.birth.setOnClickListener {
-            DatePickerDialog.newInstance({ _, year, month, day ->
-                bir!!.set(Calendar.YEAR, year)
-                bir!!.set(Calendar.MONTH, month)
-                bir!!.set(Calendar.DAY_OF_MONTH, day)
-                bir = McdtpUtils.trimToMidnight(bir)
-                isBirthSet = true
-                b.birth.setText(bir!!.fullDate())
-                b.birth.alpha = 1f
-                b.birth.isLongClickable = true
-            }, bir).defaultOptions().show(c.supportFragmentManager, "birth")
+        // Date-time Fields
+        b.birth.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) b.birth.setText(Fun.validateDateTime(b.birth.text.toString()))
+        }
+        b.firstMet.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) b.firstMet.setText(Fun.validateDateTime(b.firstMet.text.toString()))
         }
 
         // Notify Birth
@@ -234,50 +192,12 @@ class Identify() : DialogFragment() {
         } // changing isChecked programmatically won't invoke the listener!
         b.notifyBirth.alpha = if (b.notifyBirth.isChecked) 1f else DISABLED_ALPHA
 
-        // First Met
-        b.firstMet.setOnClickListener {
-            DatePickerDialog.newInstance({ _, year, month, day ->
-                fir!!.set(Calendar.YEAR, year)
-                fir!!.set(Calendar.MONTH, month)
-                fir!!.set(Calendar.DAY_OF_MONTH, day)
-                fir = McdtpUtils.trimToMidnight(fir)
-                isFirstSet = true
-                b.firstMet.setText(fir!!.fullDate())
-                b.firstMet.alpha = 1f
-                b.firstMet.isLongClickable = true
-            }, fir).defaultOptions().show(c.supportFragmentManager, "first_met")
-        }
-
-        // Date Pickers: Long Click
-        View.OnLongClickListener { v ->
-            MaterialMenu(c, v, R.menu.clear_date, Act().apply {
-                this[R.id.clearDate] = {
-                    if (v == b.birth) {
-                        isBirthSet = false
-                        b.birth.setText(R.string.birth)
-                        b.birth.alpha = DISABLED_ALPHA
-                        b.birth.isLongClickable = false
-                    } else {
-                        isFirstSet = false
-                        b.firstMet.setText(R.string.firstMet)
-                        b.firstMet.alpha = DISABLED_ALPHA
-                        b.firstMet.isLongClickable = false
-                    }
-                }
-            }).show(); true
-        }.also {
-            b.birth.setOnLongClickListener(it)
-            b.firstMet.setOnLongClickListener(it)
-        }
-
         isCancelable = true
         cancellability.start()
         return MaterialAlertDialogBuilder(c).apply {
             setTitle(R.string.identify)
             setView(b.root)
             setPositiveButton(R.string.save) { _, _ ->
-                val endBir = bir!!.toGregorian() // "this" is returned when it is already Gregorian
-                val endFir = fir!!.toGregorian()
                 val inserted = Crush(
                     b.key.text.toString().ifBlank { crushKey },
                     b.fName.text.toString().ifBlank { null },
@@ -288,8 +208,7 @@ class Identify() : DialogFragment() {
                             (if (b.notifyBirth.isChecked) Crush.STAT_NOTIFY_BIRTH else 0) or
                             (if (b.unsafe.isChecked) Crush.STAT_UNSAFE_PERSON else 0) or
                             (crush?.let { it.status and Crush.STAT_INACTIVE } ?: 0),
-                    if (isBirthSet) "${endBir[Calendar.YEAR]}.${endBir[Calendar.MONTH] + 1}." +
-                            "${endBir[Calendar.DAY_OF_MONTH]}" else null,
+                    Fun.compressDateTime(Fun.validateDateTime(b.birth.text.toString())),
                     if (b.height.text.toString() != "")
                         b.height.text.toString().toFloat() else -1f,
                     (b.bodySkinColour.selectedItemPosition shl Crush.BODY_SKIN_COLOUR.second) or
@@ -303,8 +222,7 @@ class Identify() : DialogFragment() {
                             (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second) or
                             (b.bodySexuality.selectedItemPosition shl Crush.BODY_SEXUALITY.second),
                     b.address.text.toString().ifBlank { null },
-                    if (isFirstSet) "${endFir[Calendar.YEAR]}.${endFir[Calendar.MONTH] + 1}." +
-                            "${endFir[Calendar.DAY_OF_MONTH]}" else null,
+                    Fun.compressDateTime(Fun.validateDateTime(b.firstMet.text.toString())),
                     b.instagram.text.toString().ifBlank { null },
                 )
                 CoroutineScope(Dispatchers.IO).launch {

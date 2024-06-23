@@ -11,7 +11,6 @@ import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Fun.sumOf
-import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.RecencyBinding
@@ -38,7 +37,7 @@ class StatRecAdap(private val r: Recency) : RecyclerView.Adapter<AnyViewHolder<R
                 "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
         h.b.sep.isVisible = i != r.items.size - 1
         h.b.root.setOnClickListener {
-            if (!(r.c as Main).summarize(true)) return@setOnClickListener
+            if (!r.c.summarize(true)) return@setOnClickListener
             r.c.goTo(Singular::class) {
                 putExtra(Singular.EXTRA_CRUSH_KEY, r.items[h.layoutPosition].name)
             }

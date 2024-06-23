@@ -207,7 +207,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                             ) >= Settings.notifyBirthAfterLastTime &&
                     !sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
-                ) for (p in m.people.values) if (p.notifyBirth()) p.bCalendar()?.also { birth ->
+                ) for (p in m.people.values) if (p.notifyBirth()) p.birthTime?.also { birthTime ->
                     var now: Calendar = GregorianCalendar()
                     var bir: Calendar = GregorianCalendar()
                     if (!sp.getBoolean(
@@ -220,7 +220,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     }
                     // do NOT alter the "birth" instance!
                     val dist = now.timeInMillis - bir.apply {
-                        this.timeInMillis = birth.timeInMillis
+                        this.timeInMillis = birthTime
                         this[Calendar.YEAR] = now[Calendar.YEAR]
                     }.timeInMillis
                     if (dist in
@@ -493,7 +493,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 /* TODO:
   * Problems:
   * Searching in Summary and Recency is so immature!
-  * Time Picker for First Met
   * -
   * Extension:
   * Progressive diagrams for Taste

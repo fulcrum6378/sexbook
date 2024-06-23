@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.annotation.MainThread
 import androidx.core.app.ActivityCompat
 import androidx.core.database.getLongOrNull
+import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -108,11 +109,12 @@ object CalendarManager {
         val thisTz = TimeZone.getTimeZone(tz)
         for (crush in c.m.liefde) {
             val cr = c.m.people[crush] ?: return
-            val cal = cr.bCalendar(tz = thisTz) ?: return
+            val birthTime = cr.birth?.replace(".", "/")
+                ?.let { Fun.compDateTimeToCalendar(it, thisTz).timeInMillis } ?: return
             ContentValues().apply {
                 put(CCE.CALENDAR_ID, id)
                 put(CCE.TITLE, c.getString(R.string.sBirthday, cr.visName()))
-                put(CCE.DTSTART, cal.timeInMillis)
+                put(CCE.DTSTART, birthTime)
                 put(CCE.RRULE, "FREQ=YEARLY")
                 put(CCE.DURATION, "P1D")
                 put(CCE.ALL_DAY, 1)
