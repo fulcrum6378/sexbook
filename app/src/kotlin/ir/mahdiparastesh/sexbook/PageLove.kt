@@ -11,10 +11,8 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
 
-@SuppressLint("NotifyDataSetChanged")
 class PageLove : BasePage() {
     lateinit var b: PageLoveBinding
-    private var wasListEverPrepared = false
     // private var adBanner: AdView? = null
 
     companion object {
@@ -22,37 +20,28 @@ class PageLove : BasePage() {
     }
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
-        PageLoveBinding.inflate(layoutInflater, parent, false).apply { b = this }.root
+        PageLoveBinding.inflate(layoutInflater, parent, false).also { b = it }.root
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // if (BaseActivity.adsInitStatus?.isReady() == true) loadAd()
-        if (!loadingNeedsSummary()) prepareList()
-    }
+        if (BaseActivity.adsInitStatus?.isReady() == true) loadAd()
+    }*/
 
     override fun onResume() {
         super.onResume()
         c.summarize(true)
-        if (!wasListEverPrepared || loadingNeedsSummary()) prepareList()
-        if (changed) {
-            prepareList()
-            changed = false
-        } else b.rv.adapter?.notifyDataSetChanged()
+        prepareList()
+        if (changed) changed = false
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun prepareList() {
-        wasListEverPrepared = true
         c.m.liefde.sortWith(Crush.Sort(c, Settings.spPageLoveSortBy, Settings.spPageLoveSortAsc))
         c.count(c.m.liefde.size)
         b.empty.isVisible = c.m.liefde.isEmpty()
         if (b.rv.adapter == null) b.rv.adapter = CrushAdap(c)
         else b.rv.adapter?.notifyDataSetChanged()
     }
-
-    private fun loadingNeedsSummary() =
-        c.sp.getInt(Settings.spPageLoveSortBy, 0) in arrayOf(
-            Fun.SORT_BY_SUM, Fun.SORT_BY_LAST, Fun.SORT_BY_FIRST
-        )
 
     /*fun loadAd() {
         if (adBanner != null) return

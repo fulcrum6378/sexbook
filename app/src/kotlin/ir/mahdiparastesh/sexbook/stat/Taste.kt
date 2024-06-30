@@ -84,7 +84,7 @@ class Taste : BaseActivity() {
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
         ): View = ChartPieFragmentBinding.inflate(layoutInflater, container, false)
-            .apply { b = this }.root
+            .also { b = it }.root
 
         @SuppressLint("SetTextI18n")
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

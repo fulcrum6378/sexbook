@@ -39,7 +39,7 @@ class PageSex : BasePage() {
     }
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
-        PageSexBinding.inflate(layoutInflater, parent, false).apply { b = this }.root
+        PageSexBinding.inflate(layoutInflater, parent, false).also { b = it }.root
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

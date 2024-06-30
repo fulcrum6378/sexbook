@@ -90,7 +90,7 @@ class SummaryDialog : BaseDialog<Main>() {
         override var lookingFor: String? = null
 
         override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
-            SearchableStatBinding.inflate(inf, parent, false).apply { b = this }.root
+            SearchableStatBinding.inflate(inf, parent, false).also { b = it }.root
 
         @SuppressLint("NotifyDataSetChanged")
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -176,7 +176,7 @@ class SummaryDialog : BaseDialog<Main>() {
         private lateinit var b: SumPieBinding
 
         override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
-            SumPieBinding.inflate(layoutInflater, parent, false).apply { b = this }.root
+            SumPieBinding.inflate(layoutInflater, parent, false).also { b = it }.root
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
