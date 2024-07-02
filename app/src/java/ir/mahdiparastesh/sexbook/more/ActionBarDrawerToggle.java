@@ -20,6 +20,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+/**
+ * @noinspection unused
+ */
 public class ActionBarDrawerToggle implements DrawerLayout.DrawerListener {
 
     public interface DelegateProvider {
@@ -83,7 +86,7 @@ public class ActionBarDrawerToggle implements DrawerLayout.DrawerListener {
         mDrawerLayout = drawerLayout;
         mOpenDrawerContentDescRes = openDrawerContentDescRes;
         mCloseDrawerContentDescRes = closeDrawerContentDescRes;
-        if (slider == null)
+        if (slider == null && mActivityImpl != null)
             mSlider = new DrawerArrowDrawable(mActivityImpl.getActionBarThemedContext());
         else mSlider = slider;
 
@@ -242,6 +245,7 @@ public class ActionBarDrawerToggle implements DrawerLayout.DrawerListener {
 
         @Override
         public Drawable getThemeUpIndicator() {
+            //noinspection resource
             final TypedArray a = getActionBarThemedContext().obtainStyledAttributes(null,
                     new int[]{android.R.attr.homeAsUpIndicator},
                     android.R.attr.actionBarStyle, 0);

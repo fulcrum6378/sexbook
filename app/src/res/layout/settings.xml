@@ -134,16 +134,10 @@
                     app:layout_constraintTop_toBottomOf="@id/birthdaysTitle" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/stUseGregorianForBirthdays"
-                    style="@style/stItemCheckBox"
-                    android:text="@string/stUseGregorianForBirthdays"
-                    app:layout_constraintTop_toBottomOf="@id/stCalOutput" />
-
-                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stPauseBirthdaysNtf"
                     style="@style/stItemCheckBox"
                     android:text="@string/stPauseBirthdaysNtf"
-                    app:layout_constraintTop_toBottomOf="@id/stUseGregorianForBirthdays" />
+                    app:layout_constraintTop_toBottomOf="@id/stCalOutput" />
 
                 <!--android:id="@+id/stNotifyBirthDaysBeforeLabel"-->
                 <TextView

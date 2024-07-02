@@ -62,6 +62,7 @@ class PageSex : BasePage() {
     }
 
     override fun prepareList() {
+        super.prepareList()
         reset(c.intentViewId)
         c.intentViewId = null
 

@@ -29,7 +29,7 @@ class Intervals : ChartActivity<IntervalsBinding>() {
             if (!sp.getBoolean(Settings.spStatUntilCb, false)) Long.MAX_VALUE
             else sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
         allowedSexTypes = Fun.allowedSexTypes(sp)
-        for (org in m.reports.values) {
+        for (org in m.reports.values.sortedBy { it.time }) {
             if (!org.ogsm) continue
             if (prev == null || org.time < minima || org.time > maxima || org.type !in allowedSexTypes) {
                 prev = org.time

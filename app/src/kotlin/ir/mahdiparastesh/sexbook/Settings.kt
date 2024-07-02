@@ -66,8 +66,6 @@ class Settings : BaseActivity() {
         const val spHideUnsafePeople = "hideUnsafe" // Boolean, def true
         const val spVibration = "vibration" // Boolean, def true
         const val spCalOutput = "calendarOutput" // Boolean, def false
-        const val spGregorianForBirthdays = "useGregorianForBirthdays"// Boolean
-        const val spGregorianForBirthdaysDef = true
         const val spPauseBirthdaysNtf = "pauseBirthdayNotifications" // Boolean, def false
         const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // Int
         const val spNotifyBirthDaysBeforeDef = 3
@@ -282,12 +280,6 @@ class Settings : BaseActivity() {
             if (!CalendarManager.checkPerm(this))
                 CalendarManager.askPerm(this)
             else turnCalendar(isChecked)
-            c.shake()
-        }
-        b.stUseGregorianForBirthdays.isChecked =
-            sp.getBoolean(spGregorianForBirthdays, spGregorianForBirthdaysDef)
-        b.stUseGregorianForBirthdays.setOnCheckedChangeListener { _, isChecked ->
-            sp.edit().putBoolean(spGregorianForBirthdays, isChecked).apply()
             c.shake()
         }
         b.stPauseBirthdaysNtf.isChecked = sp.getBoolean(spPauseBirthdaysNtf, false)

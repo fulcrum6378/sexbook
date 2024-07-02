@@ -35,7 +35,6 @@ import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.possessiveDeterminer
-import ir.mahdiparastesh.sexbook.Fun.toDefaultType
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Database
@@ -213,22 +212,15 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             m.guesses.sortWith(Guess.Sort())
 
 
+            m.dbLoaded = true
             withContext(Dispatchers.Main) {
                 // notify if any birthday is around
                 if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                             ) >= Settings.notifyBirthAfterLastTime &&
                     !sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
                 ) for (p in m.people.values) if (p.notifyBirth()) p.birthTime?.also { birthTime ->
-                    var now: Calendar = GregorianCalendar()
-                    var bir: Calendar = GregorianCalendar()
-                    if (!sp.getBoolean(
-                            Settings.spGregorianForBirthdays,
-                            Settings.spGregorianForBirthdaysDef
-                        )
-                    ) {
-                        now = (now as GregorianCalendar).toDefaultType(this@Main)
-                        bir = (bir as GregorianCalendar).toDefaultType(this@Main)
-                    }
+                    val now: Calendar = GregorianCalendar()
+                    val bir: Calendar = GregorianCalendar()
                     // do NOT alter the "birth" instance!
                     val dist = now.timeInMillis - bir.apply {
                         this.timeInMillis = birthTime
@@ -240,7 +232,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     ) notifyBirth(p, dist)
                 }
 
-                pageSex()?.prepareList() // guesses must be instilled before doing this.
+                pageSex()?.apply { if (!listEverPrepared) prepareList() }
+                // guesses must be instilled before doing this^
+                pageLove()?.apply { // after restart()
+                    if (!listEverPrepared) {
+                        summarize(true)
+                        prepareList()
+                    }
+                }
             }
         }
 
@@ -252,6 +251,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }*/
         intent.check(true)
         addOnNewIntentListener { it.check() }
+        if (sp.contains("useGregorianForBirthdays"))
+            sp.edit().remove("useGregorianForBirthdays").apply()
     }
 
     /*override fun onInitializationComplete(adsInitStatus: InitializationStatus) {
@@ -503,7 +504,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * Delete spGregorianForBirthdays
   * Searching in Summary and Recency is so immature!
   * SQLiteDatabaseLockedException: database is locked (code 5 SQLITE_BUSY): , while compiling: PRAGMA journal_mode
   *   (stack trace doesn't show anything specific, as if the database is closed and it crashes if you use it anywhere)

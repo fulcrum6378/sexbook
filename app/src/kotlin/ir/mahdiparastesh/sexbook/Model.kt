@@ -47,6 +47,7 @@ class Model : ViewModel() {
         people.clear()
         places.clear()
         guesses.clear()
+        dbLoaded = false
 
         summary = null
         liefde.clear()

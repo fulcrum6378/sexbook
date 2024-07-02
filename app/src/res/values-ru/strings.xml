@@ -234,9 +234,6 @@
     <string name="stVibration">Вибрация для важных кнопок</string>
     <string name="stBirthdays">Дни рождения</string>
     <string name="stCalOutput">Список дней рождения в системном календаре</string>
-    <string name="stUseGregorianForBirthdays">
-        Используйте только григорианский календарь для дней рождения
-    </string>
     <string name="stPauseBirthdaysNtf">Приостановить все уведомления о днях рождения</string>
     <string name="stNotifyBirthDaysBefore">Уведомлять за N дней до дня рождения:</string>
     <string name="stBNtfCrushes">Разрушения с поддержкой уведомлений</string>

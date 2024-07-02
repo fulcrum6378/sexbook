@@ -29,13 +29,16 @@ class PageLove : BasePage() {
 
     override fun onResume() {
         super.onResume()
-        c.summarize(true)
-        prepareList()
-        if (changed) changed = false
+        if (c.m.dbLoaded) {
+            c.summarize(true)
+            prepareList()
+            if (changed) changed = false
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun prepareList() {
+        super.prepareList()
         c.m.liefde.sortWith(Crush.Sort(c, Settings.spPageLoveSortBy, Settings.spPageLoveSortAsc))
         c.count(c.m.liefde.size)
         b.empty.isVisible = c.m.liefde.isEmpty()

@@ -233,12 +233,6 @@ object Fun {
         else -> throw IllegalArgumentException("Invalid sorting method!")
     }
 
-    /** @return another instance of Calendar having the same date in the default calendar type */
-    fun GregorianCalendar.toDefaultType(c: BaseActivity): Calendar {
-        return c.calType().getDeclaredConstructor().newInstance()
-            .apply { this@apply.timeInMillis = this@toDefaultType.timeInMillis }
-    }
-
     fun Float.show(): String =
         if (this % 1 > 0) DecimalFormat("#.##").format(this) else toInt().toString()
 

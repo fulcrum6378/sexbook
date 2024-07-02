@@ -236,9 +236,6 @@
     <string name="stVibration">Vibración para botones importantes</string>
     <string name="stBirthdays">Cumpleaños</string>
     <string name="stCalOutput">Listar cumpleaños en el calendario del sistema.</string>
-    <string name="stUseGregorianForBirthdays">
-        Utilice únicamente el calendario gregoriano para los cumpleaños
-    </string>
     <string name="stPauseBirthdaysNtf">Pausar todas las notificaciones de cumpleaños</string>
     <string name="stNotifyBirthDaysBefore">Notificar N días antes de los cumpleaños:</string>
     <string name="stBNtfCrushes">Amores habilitados para notificaciones</string>

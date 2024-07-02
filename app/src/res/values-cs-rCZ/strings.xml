@@ -232,7 +232,6 @@
     <string name="stVibration">Vibrace pro důležitá tlačítka</string>
     <string name="stBirthdays">Narozeniny</string>
     <string name="stCalOutput">Seznam narozenin v systémovém kalendáři</string>
-    <string name="stUseGregorianForBirthdays">Gregoriánský kalendář používejte pouze pro narozeniny</string>
     <string name="stPauseBirthdaysNtf">Pozastavit všechna oznámení o narozeninách</string>
     <string name="stNotifyBirthDaysBefore">Upozornit N dní před narozeninami:</string>
     <string name="stBNtfCrushes">Rozdrtí s povoleným upozorněním</string>

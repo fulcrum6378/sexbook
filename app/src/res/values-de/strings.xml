@@ -234,9 +234,6 @@
     <string name="stVibration">Bei wichtigen Tasten vibrieren</string>
     <string name="stBirthdays">Geburtstage</string>
     <string name="stCalOutput">Geburtstage im Systemkalender auflisten</string>
-    <string name="stUseGregorianForBirthdays">
-        Benutzen Sie für Geburtstage nur den gregorianischen Kalender
-    </string>
     <string name="stPauseBirthdaysNtf">Pausieren Sie alle Geburtstagsbenachrichtigungen</string>
     <string name="stNotifyBirthDaysBefore">N Tage vor Geburtstagen benachrichtigen:</string>
     <string name="stBNtfCrushes">Benachrichtigungsfähige Crushes</string>
