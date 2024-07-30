@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ArrayRes
+import androidx.annotation.MainThread
+import androidx.annotation.StringRes
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -35,7 +37,7 @@ class CrushesStat : BaseDialog<BaseActivity>() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val pager = ViewPager2(c)
         pager.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount(): Int = 10
+            override fun getItemCount(): Int = 12
             override fun createFragment(i: Int): Fragment = when (i) {
                 1 -> SkinColourStat()
                 2 -> HairColourStat()
@@ -46,6 +48,8 @@ class CrushesStat : BaseDialog<BaseActivity>() {
                 7 -> MuscleStat()
                 8 -> BreastsStat()
                 9 -> PenisStat()
+                10 -> HeightStat()
+                11 -> AgeStat()
                 else -> GenderStat()
             }.apply { arguments = this@CrushesStat.requireArguments() }
         }
@@ -61,11 +65,9 @@ class CrushesStat : BaseDialog<BaseActivity>() {
         protected val c: BaseActivity by lazy { activity as BaseActivity }
         protected lateinit var b: ChartPieFragmentBinding
         private val pieColour by lazy { c.color(R.color.CPV_LIGHT) }
+        protected val counts = hashMapOf<Short, Int>()
 
-        @get:ArrayRes
-        abstract val modes: Int
-        abstract fun crushFilter(cr: Crush): Boolean
-        abstract fun crushProperty(cr: Crush): Byte
+        abstract fun crushProperty(cr: Crush): Short
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -77,115 +79,171 @@ class CrushesStat : BaseDialog<BaseActivity>() {
             val whichList = requireArguments().getInt(BUNDLE_WHICH_LIST)
             val list = if (whichList == 0) (c as People).mm.visPeople else c.m.liefde
 
-            // set the title
-            val arModes = resources.getStringArray(modes)
-            b.title.text =
-                if (modes == R.array.genders) c.getString(R.string.gender)
-                else arModes[0].substring(0..(arModes[0].length - 2))
+            // set the title and miscellaneous stuff
+            preAnalysis()
 
             // prepare the diagram
             CoroutineScope(Dispatchers.IO).launch {
-                arModes[0] = getString(R.string.unspecified)
-                val stats = hashMapOf<Byte, Int>()
-                for (mode in arModes.indices) stats[mode.toByte()] = 0
-                for (person in list) {
-                    val p = c.m.people[person]!!
-                    if (!crushFilter(p)) continue
-                    val mode = crushProperty(p)
-                    stats[mode] = stats[mode]!! + 1
-                }
-
-                val data = arrayListOf<SliceValue>()
-                for (mode in arModes.indices) {
-                    val score = stats[mode.toByte()]!!
-                    if (score == 0) continue
-                    data.add(SliceValue(score.toFloat(), pieColour).apply {
-                        setLabel(
-                            "${arModes[mode]}: $score" +
-                                    " (${((100f / list.size) * score).roundToInt()}%)"
-                        )
-                    })
-                }
-
+                val data = statisticise(list)
                 withContext(Dispatchers.Main) {
                     b.main.pieChartData = PieChartData(data).apply { setHasLabels(true) }
                     b.main.isInvisible = false
                 }
             }
         }
+
+        @MainThread
+        abstract fun preAnalysis()
+        abstract suspend fun statisticise(list: MutableList<String>): ArrayList<SliceValue>
+
+        protected fun createSliceValue(score: Int, division: String, total: Int): SliceValue =
+            SliceValue(score.toFloat(), pieColour).setLabel(
+                "$division: $score (${((100f / total) * score).roundToInt()}%)"
+            )
     }
 
-    class GenderStat : CrshStatFragment() {
+    abstract class QualitativeStat(
+        private val isFiltered: Boolean = false
+    ) : CrshStatFragment() {
+        private lateinit var arModes: Array<String>
+
+        @get:ArrayRes
+        abstract val modes: Int
+        open fun crushFilter(cr: Crush): Boolean = true
+
+        override fun preAnalysis() {
+            arModes = resources.getStringArray(modes)
+            b.title.text =
+                if (modes == R.array.genders) c.getString(R.string.gender)
+                else arModes[0].substring(0..(arModes[0].length - 2))
+            arModes[0] = getString(R.string.unspecified)
+        }
+
+        override suspend fun statisticise(list: MutableList<String>): ArrayList<SliceValue> {
+            for (mode in arModes.indices) counts[mode.toShort()] = 0
+            for (person in list) {
+                val p = c.m.people[person]!!
+                if (isFiltered && !crushFilter(p)) continue
+                val mode = crushProperty(p)
+                counts[mode] = counts[mode]!! + 1
+            }
+
+            val data = arrayListOf<SliceValue>()
+            for (mode in arModes.indices) {
+                val score = counts[mode.toShort()]!!
+                if (score == 0) continue
+                data.add(createSliceValue(score, arModes[mode], list.size))
+            }
+            return data
+        }
+    }
+
+    class GenderStat : QualitativeStat() {
         override val modes: Int = R.array.genders
-        override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            cr.status and Crush.STAT_GENDER
+        override fun crushProperty(cr: Crush): Short =
+            (cr.status and Crush.STAT_GENDER).toShort()
     }
 
-    class SkinColourStat : CrshStatFragment() {
+    class SkinColourStat : QualitativeStat() {
         override val modes: Int = R.array.bodySkinColour
-        override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second).toShort()
     }
 
-    class HairColourStat : CrshStatFragment() {
+    class HairColourStat : QualitativeStat() {
         override val modes: Int = R.array.bodyHairColour
-        override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second).toShort()
     }
 
-    class EyeColourStat : CrshStatFragment() {
+    class EyeColourStat : QualitativeStat() {
         override val modes: Int = R.array.bodyEyeColour
-        override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second).toShort()
     }
 
-    class EyeShapeStat : CrshStatFragment() {
+    class EyeShapeStat : QualitativeStat() {
         override val modes: Int = R.array.bodyEyeShape
-        override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second).toShort()
     }
 
-    class FaceShapeStat : CrshStatFragment() {
+    class FaceShapeStat : QualitativeStat() {
         override val modes: Int = R.array.bodyFaceShape
-        override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second).toShort()
     }
 
-    class FatStat : CrshStatFragment() {
+    class FatStat : QualitativeStat() {
         override val modes: Int = R.array.bodyFat
-        override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second).toShort()
     }
 
-    class MuscleStat : CrshStatFragment() {
+    class MuscleStat : QualitativeStat() {
         override val modes: Int = R.array.bodyMuscle
-        override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second).toShort()
     }
 
-    class BreastsStat : CrshStatFragment() {
+    class BreastsStat : QualitativeStat(true) {
         override val modes: Int = R.array.bodyBreasts
         override fun crushFilter(cr: Crush): Boolean =
             (cr.status and Crush.STAT_GENDER).let { it != 2.toByte() && it != 4.toByte() }
 
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second).toShort()
     }
 
-    class PenisStat : CrshStatFragment() {
+    class PenisStat : QualitativeStat(true) {
         override val modes: Int = R.array.bodyPenis
         override fun crushFilter(cr: Crush): Boolean =
             (cr.status and Crush.STAT_GENDER).let { it != 1.toByte() && it != 4.toByte() }
 
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second).toShort()
+    }
+
+    abstract class QuantitativeStat : CrshStatFragment() {
+        @get:StringRes
+        abstract val topic: Int
+
+        override fun preAnalysis() {
+            b.title.text = getString(topic)
+        }
+
+        override suspend fun statisticise(list: MutableList<String>): ArrayList<SliceValue> {
+            for (person in list) {
+                val p = c.m.people[person]!!
+                val div = crushProperty(p)
+                if (div !in counts) counts[div] = 1
+                else counts[div] = counts[div]!! + 1
+            }
+
+            val data = arrayListOf<SliceValue>()
+            for ((div, score) in counts.toSortedMap()) data.add(
+                createSliceValue(
+                    score, if (div != 0.toShort()) "${div.toInt() * 10}s"
+                    else getString(R.string.unspecified), list.size
+                )
+            )
+            return data
+        }
+    }
+
+    class HeightStat : QuantitativeStat() {
+        override val topic: Int = R.string.height
+        override fun crushProperty(cr: Crush): Short =
+            (if (cr.height == -1f) 0 else (cr.height / 10f).toInt()).toShort()
+    }
+
+    class AgeStat : QuantitativeStat() {
+        override val topic: Int = R.string.age
+        override fun crushProperty(cr: Crush): Short {
+            if (cr.birth.isNullOrBlank()) return 0.toShort()
+            val year = cr.birth!!.split("/")[0]
+            if (year.isEmpty()) return 0.toShort()
+            return (year.toInt() / 10).toShort()
+        }
     }
 }
