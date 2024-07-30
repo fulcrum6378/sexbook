@@ -512,5 +512,5 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular
   * "Turn off notifications for this Crush" on the notification
-  * Height, Birth Year, Birth Month, Fictionality for Taste and CrushesStat
+  * Astrological Month, Fictionality for Taste and CrushesStat
   */

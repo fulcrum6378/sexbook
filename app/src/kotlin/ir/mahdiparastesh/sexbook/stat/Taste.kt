@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ArrayRes
+import androidx.annotation.MainThread
+import androidx.annotation.StringRes
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -53,7 +55,7 @@ class Taste : BaseActivity() {
 
             withContext(Dispatchers.Main) {
                 pager.adapter = object : FragmentStateAdapter(this@Taste) {
-                    override fun getItemCount(): Int = 10
+                    override fun getItemCount(): Int = 12
                     override fun createFragment(i: Int): Fragment = when (i) {
                         1 -> SkinColourTaste()
                         2 -> HairColourTaste()
@@ -64,6 +66,8 @@ class Taste : BaseActivity() {
                         7 -> MuscleTaste()
                         8 -> BreastsTaste()
                         9 -> PenisTaste()
+                        10 -> HeightTaste()
+                        11 -> AgeTaste()
                         else -> GenderTaste()
                     }
                 }
@@ -75,54 +79,27 @@ class Taste : BaseActivity() {
         protected val c: Taste by lazy { activity as Taste }
         protected lateinit var b: ChartPieFragmentBinding
         private var myJob: Job? = null
-        private var sumOfAll = 0f
+        protected val counts = hashMapOf<Short, Float>()
+        protected var sumOfAll = 0f
 
-        @get:ArrayRes
-        abstract val modes: Int
-        abstract fun crushFilter(cr: Crush): Boolean
-        abstract fun crushProperty(cr: Crush): Byte
+        abstract fun crushProperty(cr: Crush): Short
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
         ): View = ChartPieFragmentBinding.inflate(layoutInflater, container, false)
             .also { b = it }.root
 
-        @SuppressLint("SetTextI18n")
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
-            // set the title
-            val arModes = resources.getStringArray(modes)
-            b.title.text = c.getString(R.string.taste) + ": " +
-                    (if (modes == R.array.genders)
-                        c.getString(R.string.gender)
-                    else arModes[0].substring(0..(arModes[0].length - 2)))
+            // set the title and miscellaneous stuff
+            preAnalysis()
 
             // prepare the diagram
             myJob = CoroutineScope(Dispatchers.IO).launch {
-                arModes[0] = getString(R.string.unspecified)
-                val stats = hashMapOf<Byte, Float>()
-                for (mode in arModes.indices) stats[mode.toByte()] = 0f
-                for (p in c.index) {
-                    if (!crushFilter(p.first)) continue
-                    val mode = crushProperty(p.first)
-                    stats[mode] = stats[mode]!! + p.second
-                    sumOfAll += p.second
-                }
-                stats[0] = stats[0]!! + c.m.summary!!.unknown
                 sumOfAll += c.m.summary!!.unknown
-
-                val data = arrayListOf<SliceValue>()
-                for (mode in arModes.indices) {
-                    val score = stats[mode.toByte()]!!
-                    if (score == 0f) continue
-                    data.add(SliceValue(score, c.pieColour).apply {
-                        setLabel(
-                            "${arModes[mode]}: ${score.show()}" +
-                                    " (${((100f / sumOfAll) * score).roundToInt()}%)"
-                        )
-                    })
-                }
+                counts[0] = c.m.summary!!.unknown
+                val data = statisticise()
 
                 withContext(Dispatchers.Main) {
                     b.main.pieChartData = PieChartData(data).apply { setHasLabels(true) }
@@ -133,81 +110,180 @@ class Taste : BaseActivity() {
             }
             myJob?.also { c.jobs.add(it) }
         }
+
+        @MainThread
+        abstract fun preAnalysis()
+        abstract suspend fun statisticise(): ArrayList<SliceValue>
+
+        protected fun createSliceValue(score: Float, division: String): SliceValue =
+            SliceValue(score, c.pieColour).apply {
+                setLabel(
+                    "$division: ${score.show()}" +
+                            " (${((100f / sumOfAll) * score).roundToInt()}%)"
+                )
+            }
     }
 
-    class GenderTaste : TasteFragment() {
+    abstract class QualitativeTasteFragment(
+        private val isFiltered: Boolean = false
+    ) : TasteFragment() {
+        private lateinit var arModes: Array<String>
+
+        @get:ArrayRes
+        abstract val modes: Int
+        abstract fun crushFilter(cr: Crush): Boolean
+
+        @SuppressLint("SetTextI18n")
+        override fun preAnalysis() {
+            arModes = resources.getStringArray(modes)
+            b.title.text = getString(R.string.taste) + ": " +
+                    (if (modes == R.array.genders)
+                        getString(R.string.gender)
+                    else arModes[0].substring(0..(arModes[0].length - 2)))
+            arModes[0] = getString(R.string.unspecified)
+            for (mode in arModes.indices) counts[mode.toShort()] = 0f
+        }
+
+        override suspend fun statisticise(): ArrayList<SliceValue> {
+            for (p in c.index) {
+                if (isFiltered && !crushFilter(p.first)) continue
+                val mode = crushProperty(p.first)
+                counts[mode] = counts[mode]!! + p.second
+                sumOfAll += p.second
+            }
+
+            val data = arrayListOf<SliceValue>()
+            for (mode in arModes.indices) {
+                val score = counts[mode.toShort()]!!
+                if (score == 0f) continue
+                data.add(createSliceValue(score, arModes[mode]))
+            }
+            return data
+        }
+    }
+
+    class GenderTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.genders
         override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            cr.status and Crush.STAT_GENDER
+        override fun crushProperty(cr: Crush): Short =
+            (cr.status and Crush.STAT_GENDER).toShort()
     }
 
-    class SkinColourTaste : TasteFragment() {
+    class SkinColourTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.bodySkinColour
         override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second).toShort()
     }
 
-    class HairColourTaste : TasteFragment() {
+    class HairColourTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.bodyHairColour
         override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second).toShort()
     }
 
-    class EyeColourTaste : TasteFragment() {
+    class EyeColourTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.bodyEyeColour
         override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second).toShort()
     }
 
-    class EyeShapeTaste : TasteFragment() {
+    class EyeShapeTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.bodyEyeShape
         override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second).toShort()
     }
 
-    class FaceShapeTaste : TasteFragment() {
+    class FaceShapeTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.bodyFaceShape
         override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second).toShort()
     }
 
-    class FatTaste : TasteFragment() {
+    class FatTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.bodyFat
         override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second).toShort()
     }
 
-    class MuscleTaste : TasteFragment() {
+    class MuscleTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.bodyMuscle
         override fun crushFilter(cr: Crush): Boolean = true
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second).toShort()
     }
 
-    class BreastsTaste : TasteFragment() {
+    class BreastsTaste : QualitativeTasteFragment(true) {
         override val modes: Int = R.array.bodyBreasts
         override fun crushFilter(cr: Crush): Boolean =
             (cr.status and Crush.STAT_GENDER).let { it != 2.toByte() && it != 4.toByte() }
 
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second).toShort()
     }
 
-    class PenisTaste : TasteFragment() {
+    class PenisTaste : QualitativeTasteFragment(true) {
         override val modes: Int = R.array.bodyPenis
         override fun crushFilter(cr: Crush): Boolean =
             (cr.status and Crush.STAT_GENDER).let { it != 1.toByte() && it != 4.toByte() }
 
-        override fun crushProperty(cr: Crush): Byte =
-            ((cr.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second).toByte()
+        override fun crushProperty(cr: Crush): Short =
+            ((cr.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second).toShort()
     }
+
+    abstract class QuantitativeTasteFragment : TasteFragment() {
+        @get:StringRes
+        abstract val topic: Int
+
+        @SuppressLint("SetTextI18n")
+        override fun preAnalysis() {
+            b.title.text = getString(R.string.taste) + ": " + getString(topic)
+        }
+
+        override suspend fun statisticise(): ArrayList<SliceValue> {
+            for (p in c.index) {
+                val div = crushProperty(p.first)
+                if (div !in counts)
+                    counts[div] = p.second
+                else
+                    counts[div] = counts[div]!! + p.second
+                sumOfAll += p.second
+            }
+            counts
+
+            val data = arrayListOf<SliceValue>()
+            for ((div, score) in counts.toSortedMap()) data.add(
+                createSliceValue(
+                    score,
+                    if (div != 0.toShort()) "${div.toInt() * 10}s"
+                    else getString(R.string.unspecified)
+                )
+            )
+            return data
+        }
+    }
+
+    class HeightTaste : QuantitativeTasteFragment() {
+        override val topic: Int = R.string.height
+        override fun crushProperty(cr: Crush): Short =
+            (if (cr.height == -1f) 0 else (cr.height / 10f).toInt()).toShort()
+    }
+
+    class AgeTaste : QuantitativeTasteFragment() {
+        override val topic: Int = R.string.age
+        override fun crushProperty(cr: Crush): Short {
+            if (cr.birth.isNullOrBlank()) return 0.toShort()
+            val year = cr.birth!!.split("/")[0]
+            if (year.isEmpty()) return 0.toShort()
+            return (year.toInt() / 10).toShort()
+        }
+    }
+
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
