@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.annotation.ArrayRes
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.sexbook.Fun.show
@@ -17,7 +19,6 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.ChartPieFragmentBinding
-import ir.mahdiparastesh.sexbook.databinding.TasteBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -27,7 +28,7 @@ import kotlin.experimental.and
 import kotlin.math.roundToInt
 
 class Taste : BaseActivity() {
-    private val b by lazy { TasteBinding.inflate(layoutInflater) }
+    private val pager by lazy { ViewPager2(ContextThemeWrapper(this, R.style.body)) }
     private val jobs: ArrayList<Job> = arrayListOf()
 
     val index = arrayListOf<Pair<Crush, Float>>()
@@ -35,7 +36,7 @@ class Taste : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(b.root)
+        setContentView(pager)
         if (night())
             window.decorView.setBackgroundColor(themeColor(com.google.android.material.R.attr.colorPrimary))
         if (m.summary == null) {
@@ -51,7 +52,7 @@ class Taste : BaseActivity() {
             }
 
             withContext(Dispatchers.Main) {
-                b.root.adapter = object : FragmentStateAdapter(this@Taste) {
+                pager.adapter = object : FragmentStateAdapter(this@Taste) {
                     override fun getItemCount(): Int = 10
                     override fun createFragment(i: Int): Fragment = when (i) {
                         1 -> SkinColourTaste()
