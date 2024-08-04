@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.icu.util.TimeZone
 import android.net.Uri
 import android.provider.CalendarContract
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.core.app.ActivityCompat
 import androidx.core.database.getLongOrNull
@@ -49,7 +48,7 @@ object CalendarManager {
 
     /** Creates the calendar if it doesn't exist, if it does, retrieves its ID. */
     suspend fun initialise(c: BaseActivity) {
-        Log.println(Log.ASSERT, "ZOEY", "initialise")
+        //Log.println(Log.ASSERT, "ZOEY", "initialise")
         if (alteredOnce) return
         val canCreateCalendar = // implicitly `alterCode != 2`
             c.sp.getBoolean(Settings.spCalOutput, false)
@@ -96,7 +95,7 @@ object CalendarManager {
                     ).build(), this
             )?.also { id = it.getId() }
             insertEvents(c)
-            Log.println(Log.ASSERT, "ZOEY", "calendar was created with ID: $id")
+            //Log.println(Log.ASSERT, "ZOEY", "calendar was created with ID: $id")
         }
     }
 
@@ -126,12 +125,12 @@ object CalendarManager {
     }
 
     suspend fun update(c: BaseActivity) {
-        Log.println(Log.ASSERT, "ZOEY", "update (id: $id)")
+        //Log.println(Log.ASSERT, "ZOEY", "update (id: $id)")
         if (id == null) return
         if (alteredOnce) {
             AlterationCache().writeCode(1)
             return; }
-        Log.println(Log.ASSERT, "ZOEY", "updating")
+        //Log.println(Log.ASSERT, "ZOEY", "updating")
 
         deleteEvents(c)
         insertEvents(c)
@@ -143,12 +142,12 @@ object CalendarManager {
     }
 
     fun destroy(c: BaseActivity) {
-        Log.println(Log.ASSERT, "ZOEY", "destory (id: $id)")
+        //Log.println(Log.ASSERT, "ZOEY", "destory (id: $id)")
         if (id == null) return
         if (alteredOnce) {
             AlterationCache().writeCode(2)
             return; }
-        Log.println(Log.ASSERT, "ZOEY", "destorying")
+        //Log.println(Log.ASSERT, "ZOEY", "destorying")
 
         CoroutineScope(Dispatchers.IO).launch {
             deleteEvents(c)

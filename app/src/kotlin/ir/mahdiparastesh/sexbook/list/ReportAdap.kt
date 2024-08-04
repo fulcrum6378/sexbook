@@ -324,8 +324,11 @@ class ReportAdap(
                 ) { // report is still in this month
                     c.mm.sortVisReports(c.m)
                     val newPos = c.mm.visReports.indexOf(id)
-                    notifyItemMoved(oldPos, newPos)
-                    f.b.rv.smoothScrollToPosition(newPos)
+                    if (oldPos != newPos) {
+                        notifyItemMoved(oldPos, newPos)
+                        f.b.rv.smoothScrollToPosition(newPos)
+                    }
+                    notifyItemChanged(newPos)
                 } else { // report moved to another month or is missing
                     notifyItemRemoved(oldPos)
                     notifyItemRangeChanged(oldPos, itemCount - oldPos)

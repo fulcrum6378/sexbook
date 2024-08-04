@@ -9,6 +9,7 @@ import android.content.Intent
 import android.widget.RemoteViews
 import ir.mahdiparastesh.sexbook.Fun.now
 import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Database
 import kotlinx.coroutines.CoroutineScope
@@ -26,9 +27,11 @@ class LastOrgasm : AppWidgetProvider() {
 
     private class Widget(private val c: Context) {
         suspend fun render(then: (rv: RemoteViews) -> Unit) {
-            val number: Int? = Database.Builder(c).build().use { db ->
-                db.dao().whenWasTheLastTime()?.let { ((now() - it) / 3600000L).toInt() }
-            }
+            var number: Long? = null
+            val m = Model.Factory.hashMapViewModel.getOrElse("Model") { null } as? Model
+            if (m?.dbLoaded == true) number = m.dao.whenWasTheLastTime()
+            if (number == null) number = Database.Builder(c).build()
+                .use { db -> db.dao().whenWasTheLastTime() }
 
             withContext(Dispatchers.Main) {
                 then(RemoteViews(c.packageName, R.layout.last_orgasm).apply {
@@ -39,7 +42,10 @@ class LastOrgasm : AppWidgetProvider() {
                         )
                     )
                     setTextViewText(
-                        R.id.number, number?.toString() ?: c.getString(R.string.none)
+                        R.id.number,
+                        number?.let { ((now() - it) / 3600000L).toInt().toString() } ?: c.getString(
+                            R.string.none
+                        )
                     )
                 })
             }
