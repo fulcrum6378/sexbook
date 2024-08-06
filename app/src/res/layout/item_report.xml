@@ -25,10 +25,10 @@
             android:layout_height="0dp"
             android:background="@drawable/clock_hand"
             app:layout_constraintBottom_toBottomOf="@id/point"
-            app:layout_constraintHeight_percent="0.27"
+            app:layout_constraintHeight_percent=".27"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintWidth_percent="0.07" />
+            app:layout_constraintWidth_percent=".07" />
 
         <View
             android:id="@+id/clockMin"
@@ -36,10 +36,10 @@
             android:layout_height="0dp"
             android:background="@drawable/clock_hand"
             app:layout_constraintBottom_toBottomOf="@id/point"
-            app:layout_constraintHeight_percent="0.4"
+            app:layout_constraintHeight_percent=".4"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintWidth_percent="0.07" />
+            app:layout_constraintWidth_percent=".07" />
 
         <View
             android:id="@+id/point"
@@ -47,8 +47,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/clock_point"
-            app:layout_constraintHeight_percent="0.13"
-            app:layout_constraintWidth_percent="0.13" />
+            app:layout_constraintHeight_percent=".13"
+            app:layout_constraintWidth_percent=".13" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -84,7 +84,7 @@
         app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toStartOf="@id/name"
         app:layout_constraintTop_toTopOf="@id/clock"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintVertical_bias=".15" />
 
     <ir.mahdiparastesh.sexbook.base.LiveAutoCompleteTextView
         android:id="@+id/name"
@@ -113,7 +113,7 @@
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/clock"
-        app:layout_constraintWidth_percent="0.46"
+        app:layout_constraintWidth_percent=".46"
         tools:ignore="RtlSymmetry" />
 
     <Spinner

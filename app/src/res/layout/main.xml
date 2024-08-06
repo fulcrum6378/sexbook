@@ -33,9 +33,9 @@
             android:background="@drawable/transformer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintHorizontal_bias=".25"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent="0.25" />
+            app:layout_constraintWidth_percent=".25" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/load"

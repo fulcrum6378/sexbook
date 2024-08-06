@@ -30,7 +30,7 @@
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:layout_marginEnd="@dimen/ssPadH"
-        android:alpha="0.9"
+        android:alpha=".9"
         android:importantForAccessibility="no"
         android:src="@drawable/error"
         android:visibility="invisible"
