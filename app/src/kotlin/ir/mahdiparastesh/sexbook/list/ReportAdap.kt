@@ -206,6 +206,7 @@ class ReportAdap(
             }
         } else null)
         h.b.desc.isEnabled = !r.guess
+        h.b.descIcon.isVisible = !r.guess && !r.desc.isNullOrBlank()
 
         // Place
         (h.b.place.onItemSelectedListener as? OnPlaceSelectedListener)?.i =

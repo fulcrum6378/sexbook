@@ -23,7 +23,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 44
-        versionName '26.4.3'
+        versionName '26.4.7'
         signingConfig signingConfigs.main
     }
     sourceSets.main {

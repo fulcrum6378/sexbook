@@ -74,6 +74,18 @@
         app:layout_constraintStart_toEndOf="@id/clock"
         app:layout_constraintTop_toTopOf="@id/clock" />
 
+    <ImageView
+        android:id="@+id/descIcon"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginEnd="-5dp"
+        android:src="@drawable/description"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/clock"
+        app:layout_constraintEnd_toStartOf="@id/name"
+        app:layout_constraintTop_toTopOf="@id/clock"
+        app:layout_constraintVertical_bias="0.15" />
+
     <ir.mahdiparastesh.sexbook.base.LiveAutoCompleteTextView
         android:id="@+id/name"
         android:layout_width="0dp"
