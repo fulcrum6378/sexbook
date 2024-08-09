@@ -27,7 +27,7 @@ class Adorability : ChartActivity<AdorabilityBinding>() {
         // empty columns should not be removed or all the points will jump to the beginning!
         stars.sortWith(Star.Sort(1))
         stars.sortWith(Star.Sort())
-        return LineChartData().setLines(LineFactory(this@Adorability, stars))
+        return LineChartData().setLines(LineFactory(stars))
     }
 
     override suspend fun render(data: AbstractChartData) {

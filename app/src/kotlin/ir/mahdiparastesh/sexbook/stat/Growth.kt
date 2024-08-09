@@ -26,7 +26,7 @@ class Growth : ChartActivity<GrowthBinding>() {
         }
         stars.sortWith(Star.Sort(1))
         stars.sortWith(Star.Sort())
-        return LineChartData().setLines(LineFactory(this, stars))
+        return LineChartData().setLines(LineFactory(stars))
     }
 
     override suspend fun render(data: AbstractChartData) {

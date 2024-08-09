@@ -45,10 +45,9 @@ class Summary(
     fun classify(c: BaseActivity) {
         if (::classification.isInitialized) return
 
-        // tools for filtering
-        var liefde = hashSetOf<String>()
-        var statOnlyCrushes = c.sp.getBoolean(Settings.spStatOnlyCrushes, false)
-        if (statOnlyCrushes) statOnlyCrushes = c.m.liefde.isNotEmpty()
+        // filtering criteria
+        val statOnlyCrushes =
+            c.sp.getBoolean(Settings.spStatOnlyCrushes, false) && c.m.liefde.isNotEmpty()
         val hideUnsafe =
             c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.m.unsafe.isNotEmpty()
 
@@ -60,7 +59,7 @@ class Summary(
             sum = crush.value.sumOf { it.value }
 
             // filters
-            if (statOnlyCrushes && key !in liefde) {
+            if (statOnlyCrushes && key !in c.m.liefde) {
                 nonCrush += sum; continue; }
             if (hideUnsafe && key in c.m.unsafe) {
                 unsafe += sum; continue; }

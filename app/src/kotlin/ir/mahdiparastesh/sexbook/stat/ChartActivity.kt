@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.stat
 
+import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.annotation.MainThread
@@ -13,7 +14,6 @@ import ir.mahdiparastesh.hellocharts.model.SubColumnValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.sexbook.Fun.calendar
-import ir.mahdiparastesh.sexbook.Fun.randomColor
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import kotlinx.coroutines.CoroutineScope
@@ -126,12 +126,14 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
             ).setHasLabels(true)
         })
 
-    class LineFactory(c: BaseActivity, stars: List<Star>) : ArrayList<Line>(stars.map {
+    class LineFactory(stars: List<Star>) : ArrayList<Line>(stars.map {
         Line(it.frames.mapIndexed { i, frame ->
             PointValue(i.toFloat(), frame.score)
                 .setLabel("${it.name} : ${frame.month} (${frame.score})")
         })
-            .setColor(c.randomColor())
+            .setColor(
+                Color.HSVToColor(255, floatArrayOf((0..359).random().toFloat(), 1f, 1f))
+            )
             .setCubic(true)
             .setHasLabelsOnlyForSelected(true)
     })

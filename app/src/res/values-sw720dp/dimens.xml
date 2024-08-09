@@ -21,8 +21,9 @@
     <dimen name="clockSize">52dp</dimen>
     <dimen name="ampmFont">13dp</dimen>
     <dimen name="dateFont">24dp</dimen>
-    <dimen name="typeSize">33dp</dimen>
-    <dimen name="typeMarEnd">25dp</dimen>
+    <dimen name="typeSize">28dp</dimen>
+    <dimen name="moreSize">26dp</dimen>
+    <dimen name="reportButtonMarEnd">25dp</dimen>
     <dimen name="spnFilterPadV">19dp</dimen>
     <dimen name="crushNameFont">19.5sp</dimen>
 

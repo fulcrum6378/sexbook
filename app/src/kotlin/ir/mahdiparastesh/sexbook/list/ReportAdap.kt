@@ -29,6 +29,7 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Place
+import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.more.Act
 import ir.mahdiparastesh.sexbook.more.AnyViewHolder
@@ -183,6 +184,9 @@ class ReportAdap(
             } else null
         h.b.type.isEnabled = !r.guess
 
+        // More
+        h.b.more.setOnClickListener { v -> more(v, h, r) }
+
         // Overflow
         if (!r.guess) {
             h.b.root.setOnClickListener { turnOverflow(h.layoutPosition, h.b) }
@@ -222,48 +226,8 @@ class ReportAdap(
         h.b.place.isEnabled = !r.guess
 
         // Long Click
-        val longClick = if (!r.guess) View.OnLongClickListener { v ->
-            MaterialMenu(c, v, R.menu.report, Act().apply {
-                this[R.id.lcExpand] = {
-                    turnOverflow(h.layoutPosition, h.b)
-                }
-                this[R.id.lcAccurate] = {
-                    if (r.accu != !it.isChecked) {
-                        r.accu = !it.isChecked
-                        update(r.id)
-                    }
-                }
-                this[R.id.lcOrgasmed] = {
-                    if (r.ogsm != !it.isChecked) {
-                        r.ogsm = !it.isChecked
-                        update(r.id)
-                    }
-                }
-                this[R.id.lcDelete] = {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        c.m.dao.rDelete(r)
-                        c.m.reports.remove(r.id)
-                        if (c.m.reports.isNotEmpty()) c.mm.visReports.remove(r.id)
-                        LastOrgasm.updateAll(c)
-
-                        withContext(Dispatchers.Main) {
-                            val ii = h.layoutPosition
-                            notifyAnyChange(false)
-                            notifyItemRemoved(ii)
-                            notifyItemRangeChanged(ii, itemCount - ii)
-                            if (c.m.reports.isEmpty()) f.reset()
-                            f.updateFilterSpinner()
-                        }
-                    }
-                }
-            }).apply {
-                menu.findItem(R.id.lcAccurate).isChecked = r.accu
-                menu.findItem(R.id.lcOrgasmed).isChecked = r.ogsm
-                if (expansion[h.layoutPosition]) menu.findItem(R.id.lcExpand).title =
-                    c.resources.getString(R.string.collapse)
-            }.show()
-            true
-        } else null
+        val longClick =
+            if (!r.guess) View.OnLongClickListener { v -> more(v, h, r); true } else null
         h.b.root.setOnLongClickListener(longClick)
         h.b.clock.setOnLongClickListener(longClick)
         h.b.date.setOnLongClickListener(longClick)
@@ -280,6 +244,48 @@ class ReportAdap(
             clear()
             addAll(c.m.summaryCrushes())
         }
+    }
+
+    private fun more(v: View, h: AnyViewHolder<ItemReportBinding>, r: Report) {
+        MaterialMenu(c, v, R.menu.report, Act().apply {
+            this[R.id.lcExpand] = {
+                turnOverflow(h.layoutPosition, h.b)
+            }
+            this[R.id.lcAccurate] = {
+                if (r.accu != !it.isChecked) {
+                    r.accu = !it.isChecked
+                    update(r.id)
+                }
+            }
+            this[R.id.lcOrgasmed] = {
+                if (r.ogsm != !it.isChecked) {
+                    r.ogsm = !it.isChecked
+                    update(r.id)
+                }
+            }
+            this[R.id.lcDelete] = {
+                CoroutineScope(Dispatchers.IO).launch {
+                    c.m.dao.rDelete(r)
+                    c.m.reports.remove(r.id)
+                    if (c.m.reports.isNotEmpty()) c.mm.visReports.remove(r.id)
+                    LastOrgasm.updateAll(c)
+
+                    withContext(Dispatchers.Main) {
+                        val ii = h.layoutPosition
+                        notifyAnyChange(false)
+                        notifyItemRemoved(ii)
+                        notifyItemRangeChanged(ii, itemCount - ii)
+                        if (c.m.reports.isEmpty()) f.reset()
+                        f.updateFilterSpinner()
+                    }
+                }
+            }
+        }).apply {
+            menu.findItem(R.id.lcAccurate).isChecked = r.accu
+            menu.findItem(R.id.lcOrgasmed).isChecked = r.ogsm
+            if (expansion[h.layoutPosition]) menu.findItem(R.id.lcExpand).title =
+                c.resources.getString(R.string.collapse)
+        }.show()
     }
 
     /** Opens or closes overflow part of a Report item, containing descriptions and Place. */

@@ -6,7 +6,6 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.icu.util.TimeZone
@@ -23,7 +22,6 @@ import androidx.core.content.ContextCompat
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.base.BaseActivity
-import ir.mahdiparastesh.sexbook.base.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.more.HumanistIranianCalendar
 import java.text.DecimalFormat
 
@@ -131,12 +129,6 @@ object Fun {
             this[Calendar.SECOND] = 0
             this[Calendar.MILLISECOND] = 0
         }
-
-    /** @return a random colour for a chart item */
-    fun BaseActivity.randomColor() = arrayListOf(
-        Color.BLUE, Color.RED, Color.CYAN, Color.GREEN, Color.MAGENTA,
-        if (night()) Color.WHITE else Color.BLACK
-    ).random()
 
     /*fun InitializationStatus.isReady(): Boolean = if (adapterStatusMap.containsKey(ADMOB))
         adapterStatusMap[ADMOB]?.initializationState == AdapterStatus.State.READY
