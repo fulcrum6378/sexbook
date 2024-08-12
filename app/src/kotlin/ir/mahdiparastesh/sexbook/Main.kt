@@ -505,8 +505,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 /* TODO:
   * Problems:
   * Searching in Summary and Recency is so immature!
-  * SQLiteDatabaseLockedException: database is locked (code 5 SQLITE_BUSY): , while compiling: PRAGMA journal_mode
-  *   (stack trace doesn't show anything specific, as if the database is closed and it crashes if you use it anywhere)
   * -
   * Extension:
   * Progressive diagrams for Taste
