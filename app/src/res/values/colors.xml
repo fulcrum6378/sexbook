@@ -13,7 +13,6 @@
     <color name="weakWhite">#44FFFFFF</color>
     <color name="weakBlack">#44000000</color>
     <color name="editTextOnYellow">@color/weakWhite</color>
-    <color name="fastScrollLine">#11000000</color>
 
     <!-- Main -->
     <color name="mrvClock">?colorSecondary</color>

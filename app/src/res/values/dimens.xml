@@ -16,7 +16,6 @@
     <dimen name="smallCornerSize">8dp</dimen>
     <dimen name="mediumCornerSize">12dp</dimen>
     <dimen name="largeCornerSize">16dp</dimen>
-    <dimen name="fastScroll">18dp</dimen>
 
     <!-- Main-->
     <dimen name="navFont">16sp</dimen>

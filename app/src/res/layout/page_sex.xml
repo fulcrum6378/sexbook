@@ -43,6 +43,6 @@
         android:paddingStart="26dp"
         android:paddingEnd="42dp"
         android:saveEnabled="false"
-        android:spinnerMode="dialog"
+        android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

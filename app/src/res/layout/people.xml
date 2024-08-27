@@ -13,12 +13,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
-        style="@style/longRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingHorizontal="10dp"
         android:paddingVertical="20dp"
+        android:scrollbars="vertical"
         app:layoutManager=".base.SafeLinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
