@@ -41,7 +41,6 @@ object Fun {
     const val MAX_BADGE_CHAR = 6
     const val A_DAY = 86400000L
     val materialTheme = com.google.android.material.R.style.Theme_MaterialComponents_DayNight
-    // private const val ADMOB = "com.google.android.gms.ads.MobileAds"
 
     /** Specifies if vibration is enabled. */
     var vib: Boolean? = null
@@ -129,24 +128,6 @@ object Fun {
             this[Calendar.SECOND] = 0
             this[Calendar.MILLISECOND] = 0
         }
-
-    /*fun InitializationStatus.isReady(): Boolean = if (adapterStatusMap.containsKey(ADMOB))
-        adapterStatusMap[ADMOB]?.initializationState == AdapterStatus.State.READY
-    else false
-
-    fun adaptiveBanner(c: BaseActivity, unitId: String) = AdView(c).apply {
-        id = R.id.adBanner
-        setAdSize(
-            AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                c, (c.dm.widthPixels / c.dm.density).toInt()
-            )
-        )
-        adUnitId = unitId
-    }
-
-    fun adaptiveBannerLp() = ConstraintLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-    ).apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }*/
 
     /** Sets the options specific to Sexbook on this DatePickerDialog. */
     fun DatePickerDialog<*>.defaultOptions(): DatePickerDialog<*> {

@@ -37,16 +37,8 @@ abstract class BaseActivity : FragmentActivity()/*, OnInitializationCompleteList
     var tbTitle: TextView? = null
     val dm: DisplayMetrics by lazy { resources.displayMetrics }
     private var lastToast = -1L
-    /*var interstitialAd: InterstitialAd? = null
-    var loadingAd = false
-    var showingAd = false
-    private var retryForAd = 0*/
 
     companion object {
-        /*const val ADMOB_DELAY = 2000L
-        const val MAX_AD_RETRY = 2
-        var adsInitStatus: InitializationStatus? = null*/
-
         /** @return true if the night mode is on */
         fun Context.night(): Boolean = resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
@@ -57,24 +49,6 @@ abstract class BaseActivity : FragmentActivity()/*, OnInitializationCompleteList
         m = ViewModelProvider(this, Model.Factory())["Model", Model::class.java]
         sp = getSharedPreferences(Settings.spName, MODE_PRIVATE)
     }
-
-    /*override fun onStart() {
-        super.onStart()
-        if (adsInitStatus?.isReady() != true)
-            Delay(ADMOB_DELAY) { initAdmob() }
-        else onInitializationComplete(adsInitStatus!!)
-    }*/
-
-    /*override fun onInitializationComplete(adsInitStatus: InitializationStatus) {
-        Companion.adsInitStatus = adsInitStatus
-        if (!adsInitStatus.isReady()) {
-            if (retryForAd < MAX_AD_RETRY) Delay(ADMOB_DELAY) {
-                initAdmob()
-                retryForAd++
-            } else retryForAd = 0
-            return; }
-        // AdMob SDK made the Main load later and later on each recreation!
-    }*/
 
     /** Applies custom styles and actions on the Toolbar. */
     fun toolbar(tb: Toolbar, @StringRes title: Int) {
@@ -146,56 +120,4 @@ abstract class BaseActivity : FragmentActivity()/*, OnInitializationCompleteList
         Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
         lastToast = SystemClock.elapsedRealtime()
     }
-
-    /*private fun initAdmob() {
-        retryForAd = 0
-        MobileAds.initialize(c, this)
-    }
-
-    @MainThread
-    fun loadInterstitial(adUnitId: String, autoPlay: () -> Boolean) {
-        if (adsInitStatus?.isReady() != true) {
-            if (retryForAd < MAX_AD_RETRY) Delay(ADMOB_DELAY) {
-                loadInterstitial(adUnitId) { false }
-                retryForAd++
-            } else retryForAd = 0
-            return; }
-        if (interstitialAd != null || loadingAd) return
-        loadingAd = true
-        InterstitialAd.load(
-            c, adUnitId, AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    loadingAd = false
-                    if (BuildConfig.DEBUG)
-                        Toast.makeText(c, "onAdFailedToLoad $adError", Toast.LENGTH_LONG).show()
-                }
-
-                override fun onAdLoaded(ad: InterstitialAd) {
-                    loadingAd = false
-                    interstitialAd = ad.apply { fullScreenContentCallback = InterstitialCallback() }
-                    if (autoPlay()) showInterstitial()
-                }
-            })
-    }
-
-    @MainThread
-    fun showInterstitial() {
-        if (!showingAd) interstitialAd?.show(this@BaseActivity)
-    }
-
-    inner class InterstitialCallback : FullScreenContentCallback() {
-        override fun onAdShowedFullScreenContent() {
-            showingAd = true
-        }
-
-        override fun onAdFailedToShowFullScreenContent(adError: AdError) {
-            showingAd = false
-            interstitialAd = null
-        }
-
-        override fun onAdDismissedFullScreenContent() {
-            showingAd = false
-            interstitialAd = null
-        }
-    }*/
 }

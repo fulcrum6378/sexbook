@@ -34,8 +34,6 @@ class PageSex : BasePage() {
     companion object {
         const val GROW_AND_SHRINK_SCALE = 1.5f
         const val PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME = 5
-        //const val MAX_ADDED_REPORTS_TO_SHOW_AD = 5
-        //const val DISMISSAL_REFRAIN_FROM_AD_TIMES = 3
     }
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
@@ -153,7 +151,6 @@ class PageSex : BasePage() {
         b.spnFilter.setSelection(c.mm.listFilter, true)
     }
 
-    // private var addedToShowAd = 0
     fun add() {
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -205,11 +202,5 @@ class PageSex : BasePage() {
             }
         }
         c.c.shake()
-        /*addedToShowAd++
-        if (addedToShowAd >= MAX_ADDED_REPORTS_TO_SHOW_AD)
-            c.loadInterstitial("ca-app-pub-9457309151954418/9505004058") {
-                addedToShowAd = 0
-                true
-            }*/
     }
 }

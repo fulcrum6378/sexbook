@@ -120,9 +120,7 @@ class ReportAdap(
                     update(r.id, true)
                 }, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], cal[Calendar.SECOND])
                     .defaultOptions()
-                    //.setOnDismissListener { dialogDismissed() }
                     .show(c.supportFragmentManager, "timepicker")
-                // mayShowAd()
             }
             h.b.date.setOnClickListener {
                 DatePickerDialog.newInstance({ _, year, month, day ->
@@ -133,9 +131,7 @@ class ReportAdap(
                     update(r.id, true)
                 }, cal)
                     .defaultOptions()
-                    // .setOnDismissListener { dialogDismissed() }
                     .show(c.supportFragmentManager, "datepicker")
-                // mayShowAd()
             }
             h.b.ampm.text =
                 DateFormatSymbols().amPmStrings[if (cal[Calendar.HOUR_OF_DAY] < 12) 0 else 1]
@@ -357,21 +353,6 @@ class ReportAdap(
             if (expansion.size > i)
                 expansion[i] = oldExp[i]
     }
-
-    /*private var refrainFromAd = 0
-    private var showingDialog = false
-    private fun mayShowAd() {
-        showingDialog = true
-        if (refrainFromAd == 0) {
-            c.loadInterstitial("ca-app-pub-9457309151954418/4827392445") { !c.showingAd && !showingDialog }
-            refrainFromAd += PageSex.DISMISSAL_REFRAIN_FROM_AD_TIMES
-        }
-    }
-
-    private fun dialogDismissed() {
-        showingDialog = false
-        c.showInterstitial()
-    }*/
 
     companion object {
         const val estimatedAlpha = 0.75f

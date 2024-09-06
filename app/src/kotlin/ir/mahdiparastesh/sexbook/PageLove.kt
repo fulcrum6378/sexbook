@@ -13,7 +13,6 @@ import ir.mahdiparastesh.sexbook.list.CrushAdap
 
 class PageLove : BasePage() {
     lateinit var b: PageLoveBinding
-    // private var adBanner: AdView? = null
 
     companion object {
         var changed = false
@@ -21,11 +20,6 @@ class PageLove : BasePage() {
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
         PageLoveBinding.inflate(layoutInflater, parent, false).also { b = it }.root
-
-    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if (BaseActivity.adsInitStatus?.isReady() == true) loadAd()
-    }*/
 
     override fun onResume() {
         super.onResume()
@@ -45,13 +39,4 @@ class PageLove : BasePage() {
         if (b.rv.adapter == null) b.rv.adapter = CrushAdap(c)
         else b.rv.adapter?.notifyDataSetChanged()
     }
-
-    /*fun loadAd() {
-        if (adBanner != null) return
-        adBanner = Fun.adaptiveBanner(c, "ca-app-pub-9457309151954418/4204909055")
-        b.root.addView(adBanner, Fun.adaptiveBannerLp())
-        adBanner?.loadAd(AdRequest.Builder().build())
-        b.rv.layoutParams = (b.rv.layoutParams as ConstraintLayout.LayoutParams)
-            .apply { bottomToTop = R.id.adBanner }
-    }*/
 }

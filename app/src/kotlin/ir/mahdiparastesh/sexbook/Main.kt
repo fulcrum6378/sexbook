@@ -73,15 +73,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private var exiting = false
     private val drawerGravity = GravityCompat.START
     private val menus = arrayOf(R.menu.page_sex_tlb, R.menu.crush_list)
-    /*private lateinit var adBanner: AdView
-    private var adBannerLoaded = false*/
 
     override var countBadge: BadgeDrawable? = null
 
     companion object {
         /** when set to true, Main will recreate() in onResume(). */
         var changed = false
-        //var showAdAfterRecreation = false
     }
 
     class MyModel : ViewModel() {
@@ -114,10 +111,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
                 mm.navOpen = true
-                /*if (::adBanner.isInitialized && !adBannerLoaded) {
-                    adBanner.loadAd(AdRequest.Builder().build())
-                    adBannerLoaded = true
-                }*/
             }
 
             override fun onDrawerClosed(drawerView: View) {
@@ -245,25 +238,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // Miscellaneous
         if (mm.navOpen) b.root.openDrawer(drawerGravity)
-        /*if (showAdAfterRecreation) {
-            loadInterstitial("ca-app-pub-9457309151954418/1225353463") { true }
-            showAdAfterRecreation = false
-        }*/
         intent.check(true)
         addOnNewIntentListener { it.check() }
         if (sp.contains("useGregorianForBirthdays"))
             sp.edit().remove("useGregorianForBirthdays").apply()
     }
-
-    /*override fun onInitializationComplete(adsInitStatus: InitializationStatus) {
-        super.onInitializationComplete(adsInitStatus)
-        if (!adsInitStatus.isReady()) return
-        adBanner = Fun.adaptiveBanner(this, "ca-app-pub-9457309151954418/9298848860")
-        b.nav.addView(adBanner, FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        ).apply { gravity = Gravity.BOTTOM })
-        pageLove()?.loadAd()
-    }*/
 
     override fun onResume() {
         super.onResume()
@@ -491,7 +470,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     fun onDataChanged() {
         m.resetData()
         mm.listFilter = -1
-        // showAdAfterRecreation = true
         recreate()
     }
 
