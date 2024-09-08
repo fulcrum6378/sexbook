@@ -23,7 +23,7 @@ class Mixture : ChartActivity<MixtureBinding>() {
         }) history.add(Summary.Orgasm(o.time, 1f))
         sinceTheBeginning(this)
             .forEach { data.add(Pair(it, calcHistory(this, history, it))) }
-        return ColumnChartData().setColumns(ColumnFactory(this, data))
+        return ColumnChartData().setColumns(ColumnFactory(this, data, true))
     }
 
     override suspend fun render(data: AbstractChartData) {

@@ -115,19 +115,23 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
         return value
     }
 
-    class ColumnFactory(c: BaseActivity, list: ArrayList<Pair<String, Float>>) :
-        ArrayList<Column>(list.map {
-            Column(
-                listOf(
-                    SubColumnValue(it.second)
-                        .setLabel("${it.first} (${it.second})")
-                        .setColor(
-                            if (!c.night()) c.themeColor(com.google.android.material.R.attr.colorPrimary)
-                            else c.color(ir.mahdiparastesh.sexbook.R.color.CPV_LIGHT)
-                        )
-                )
-            ).setHasLabels(true)
-        })
+    class ColumnFactory(
+        c: BaseActivity, list: ArrayList<Pair<String, Float>>,
+        hasLabelsOnlyForSelected: Boolean = false
+    ) : ArrayList<Column>(list.map {
+        Column(
+            listOf(
+                SubColumnValue(it.second)
+                    .setLabel("${it.first} (${it.second})")
+                    .setColor(
+                        if (!c.night()) c.themeColor(com.google.android.material.R.attr.colorPrimary)
+                        else c.color(ir.mahdiparastesh.sexbook.R.color.CPV_LIGHT)
+                    )
+            )
+        )
+            .setHasLabels(true)
+            .setHasLabelsOnlyForSelected(hasLabelsOnlyForSelected)
+    })
 
     class LineFactory(stars: List<Star>) : ArrayList<Line>(stars.map {
         Line(it.frames.mapIndexed { i, frame ->
