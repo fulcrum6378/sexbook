@@ -30,8 +30,11 @@ class LastOrgasm : AppWidgetProvider() {
             var number: Long? = null
             val m = Model.Factory.hashMapViewModel.getOrElse("Model") { null } as? Model
             if (m?.dbLoaded == true) number = m.dao.whenWasTheLastTime()
-            if (number == null) number = Database.Builder(c).build()
-                .use { db -> db.dao().whenWasTheLastTime() }
+            if (number == null) {
+                val db = Database.Builder(c).build()
+                number = db.dao().whenWasTheLastTime()
+                db.close()
+            }
 
             withContext(Dispatchers.Main) {
                 then(RemoteViews(c.packageName, R.layout.last_orgasm).apply {
