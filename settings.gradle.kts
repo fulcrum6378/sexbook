@@ -11,20 +11,20 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            url 'https://maven.pkg.github.com/fulcrum6378/HelloCharts'
+            url = uri("https://maven.pkg.github.com/fulcrum6378/HelloCharts")
             credentials {
-                username 'fulcrum6378'
-                password System.getenv('GITHUB_TOKEN')
+                username = "fulcrum6378"
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
         maven {
-            url 'https://maven.pkg.github.com/fulcrum6378/mcdtp'
+            url = uri("https://maven.pkg.github.com/fulcrum6378/mcdtp")
             credentials {
-                username 'fulcrum6378'
-                password System.getenv('GITHUB_TOKEN')
+                username = "fulcrum6378"
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
 }
-rootProject.name = 'Sexbook'
-include ':app'
+rootProject.name = "Sexbook"
+include(":app")
