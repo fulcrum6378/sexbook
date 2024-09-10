@@ -124,7 +124,13 @@ class Model : ViewModel() {
             CoroutineScope(Dispatchers.IO).launch { CalendarManager.update(c) }
     }
 
-    fun summaryCrushes() = summary?.let { ArrayList(it.scores.keys) } ?: arrayListOf<String>()
+    fun summaryCrushes(c: BaseActivity): List<String> =
+        summary?.let { summary ->
+            var all = ArrayList(summary.scores.keys)
+            if (c.sp.getBoolean(Settings.spHideUnsafePeople, true) && unsafe.isNotEmpty())
+                all.filter { it !in unsafe }
+            else all
+        } ?: listOf()
 
 
     @Suppress("UNCHECKED_CAST")

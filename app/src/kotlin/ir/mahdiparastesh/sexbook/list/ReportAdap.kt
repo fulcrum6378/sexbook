@@ -234,11 +234,12 @@ class ReportAdap(
 
     override fun getItemCount() = c.mm.visReports.size
 
-    inner class CrushSuggester :
-        ArrayAdapter<String>(c, android.R.layout.simple_dropdown_item_1line, c.m.summaryCrushes()) {
+    inner class CrushSuggester : ArrayAdapter<String>(
+        c, android.R.layout.simple_dropdown_item_1line, c.m.summaryCrushes(c)
+    ) {
         fun update() {
             clear()
-            addAll(c.m.summaryCrushes())
+            addAll(c.m.summaryCrushes(c))
         }
     }
 
