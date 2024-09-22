@@ -54,6 +54,7 @@ class Intervals : ChartActivity<IntervalsBinding>() {
     }
 
     override suspend fun render(data: AbstractChartData) {
+        b.main.setLabelOffset(dp(20))
         b.main.lineChartData = data as LineChartData
         b.main.isViewportCalculationEnabled = false
     }

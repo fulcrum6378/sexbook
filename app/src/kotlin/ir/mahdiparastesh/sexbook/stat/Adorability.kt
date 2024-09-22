@@ -31,6 +31,7 @@ class Adorability : ChartActivity<AdorabilityBinding>() {
     }
 
     override suspend fun render(data: AbstractChartData) {
+        b.main.setLabelOffset(dp(20))
         b.main.lineChartData = data as LineChartData
         b.main.isViewportCalculationEnabled = false // never do it before setLineChatData
         // it cannot be zoomed out.

@@ -482,7 +482,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 /* TODO:
   * Problems:
-  * Statistical labels are invisible beneath the user's finger
   * Searching in Summary and Recency is so immature!
   * -
   * Extension:

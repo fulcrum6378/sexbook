@@ -23,7 +23,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = 45
-        versionName = "26.7.6"
+        versionName = "26.7.9"
         signingConfig = signingConfigs.getByName("main")
     }
     sourceSets.getByName("main") {
@@ -70,7 +70,7 @@ dependencies {
     implementation("androidx.sqlite:sqlite-ktx:2.4.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("ir.mahdiparastesh:hellocharts:2.6.5")
+    implementation("ir.mahdiparastesh:hellocharts:2.8.5")
     implementation("ir.mahdiparastesh:mcdtp:3.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 }

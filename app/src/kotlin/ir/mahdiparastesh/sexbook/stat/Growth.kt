@@ -30,6 +30,7 @@ class Growth : ChartActivity<GrowthBinding>() {
     }
 
     override suspend fun render(data: AbstractChartData) {
+        b.main.setLabelOffset(dp(20))
         b.main.lineChartData = data as LineChartData
     }
 }
