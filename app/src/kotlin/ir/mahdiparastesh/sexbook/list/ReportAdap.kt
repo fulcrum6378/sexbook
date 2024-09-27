@@ -206,6 +206,7 @@ class ReportAdap(
                     r.desc = dbValue
                     update(r.id)
                 }
+                h.b.descIcon.isVisible = dbValue != null
             }
         } else null)
         h.b.desc.isEnabled = !r.guess
