@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import ir.mahdiparastesh.sexbook.Fun.dbValue
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Places
@@ -39,8 +40,9 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 c.m.places[h.layoutPosition].apply {
-                    if (name != h.b.name.text.toString()) {
-                        name = h.b.name.text.toString()
+                    val dbValue = h.b.name.dbValue()
+                    if (name != dbValue) {
+                        name = dbValue
                         update(h.layoutPosition)
                     }
                 }

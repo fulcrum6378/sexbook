@@ -19,6 +19,7 @@ import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
+import ir.mahdiparastesh.sexbook.Fun.dbValue
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageSex
@@ -153,13 +154,14 @@ class ReportAdap(
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                if (r.name != h.b.name.text.toString()) {
+                val dbValue = h.b.name.dbValue()
+                if (r.name != dbValue) {
                     if (!Crush.statsCleared) {
                         c.m.people.values.forEach { it.resetStats() }
                         Crush.statsCleared = true
                     }
                     r.analysis = null
-                    r.name = h.b.name.text.toString()
+                    r.name = dbValue
                     update(r.id)
                 }
             }
@@ -199,8 +201,9 @@ class ReportAdap(
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                if (r.desc != h.b.desc.text.toString()) {
-                    r.desc = h.b.desc.text.toString()
+                val dbValue = h.b.desc.dbValue()
+                if (r.desc != dbValue) {
+                    r.desc = dbValue
                     update(r.id)
                 }
             }

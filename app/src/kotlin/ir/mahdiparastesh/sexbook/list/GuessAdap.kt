@@ -13,6 +13,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Estimation
+import ir.mahdiparastesh.sexbook.Fun.dbValue
 import ir.mahdiparastesh.sexbook.Fun.defCalendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
@@ -72,8 +73,9 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val gu = c.m.guesses.getOrNull(h.layoutPosition) ?: return
-                if (gu.crsh != h.b.crsh.text.toString()) {
-                    gu.crsh = h.b.crsh.text.toString()
+                val dbValue = h.b.crsh.dbValue()
+                if (gu.crsh != dbValue) {
+                    gu.crsh = dbValue
                     update(h.layoutPosition)
                 }
             }
@@ -160,8 +162,9 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val gu = c.m.guesses.getOrNull(h.layoutPosition) ?: return
-                if (gu.desc != h.b.desc.text.toString()) {
-                    gu.desc = h.b.desc.text.toString()
+                val dbValue = h.b.desc.dbValue()
+                if (gu.desc != dbValue) {
+                    gu.desc = dbValue
                     update(h.layoutPosition)
                 }
             }

@@ -15,6 +15,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.view.View
+import android.widget.EditText
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -320,6 +321,8 @@ object Fun {
         }
         return cal
     }
+
+    fun EditText.dbValue(): String? = text.ifBlank { null }?.toString()
 
     /**
      * Data class that indicates a sex type.
