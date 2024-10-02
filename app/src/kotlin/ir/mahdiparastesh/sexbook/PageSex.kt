@@ -155,22 +155,22 @@ class PageSex : BasePage() {
         CoroutineScope(Dispatchers.IO).launch {
 
             // detect a regularly repeated monoamorous crush
-            var name = ""
+            var name: String? = null
             val total = c.m.reports.size
             if (total >= PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME) {
                 val reportsList = c.m.reports.values.toList()
-                name = reportsList[total - 1].name ?: ""
-                if (name != "")
+                name = reportsList[total - 1].name
+                if (name != null)
                     for (r in (total - 2) downTo (total - PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME))
                         if (!name.equals(reportsList[r].name, true)) { // don't use ".."
-                            name = ""
+                            name = null
                             break
                         }
             }
 
             val newOne = Report(
                 Fun.now(), name, c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
-                "", true, c.sp.getLong(Settings.spDefPlace, -1L), true, -127
+                null, true, c.sp.getLong(Settings.spDefPlace, -1L), true, -127
             )
             newOne.id = c.m.dao.rInsert(newOne)
             LastOrgasm.updateAll(c)
