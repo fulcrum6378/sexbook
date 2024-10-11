@@ -481,12 +481,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 }
 
 /* TODO:
-  * Problems:
-  * Searching in Summary and Recency is so immature!
-  * -
   * Extension:
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular
   * "Turn off notifications for this Crush" on the notification
-  * Astrological Month, Fictionality for Taste and CrushesStat
+  * Fictionality for Taste and CrushesStat
   */

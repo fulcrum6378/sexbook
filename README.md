@@ -3,7 +3,7 @@
 A fun Android app for recording one's sexual activities. One can note their orgasm just in time or sometime later than
 that using a date picker. It has a yellow theme with a banana icon.
 
-This app uses [Multi-Calendar Date Time Picker](https://github.com/fulcrum6378/mcdtp), meaning you can record your
+This app uses the [Multi-Calendar Date Time Picker](https://github.com/fulcrum6378/mcdtp); meaning you can record your
 sexual activities in the Gregorian calendar or any other one, but the app currently supports only Persian and Indian
 calendars. The default calendar can be easily changed in *Settings*.
 
@@ -26,6 +26,14 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
    switch button for notifying the user of their birthdate (requires notification permission in Android 13+).
 
    It uses the [**Crush.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Crush.kt) database model.
+
+### Subpackages
+
+- [**base**](app/src/kotlin/ir/mahdiparastesh/sexbook/base) : abstract classes.
+- [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : everything related to database.
+- [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters.
+- [**more**](app/src/kotlin/ir/mahdiparastesh/sexbook/more) : miscellaneous utilities.
+- [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) : everything related to statistics (as mentioned above).
 
 ### Statistics
 
@@ -51,15 +59,16 @@ The statistical charts are provided by [**HelloCharts**](https://github.com/fulc
   statisticises delays between orgasms in terms of hours.
 - [**Taste**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Taste.kt) :
   creates charts suggesting your sexual taste.
+- [**CrushesStat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/CrushesStat.kt) :
+  statisticises the features of people; like gender, body characteristics, height and age.
 
-### Other Activity instances
-
-excluding Settings and statistical activities.
+### Other Activities
 
 - [**Estimation.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Estimation.kt) :
   this activity lets you estimate your sexual history with specific sexual partners, date ranges and places.
 
   It uses the [**Guess.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Guess.kt) database model.
+
 - [**Places.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Places.kt) :
   this activity records places in which sexual intercourses happened.
 
@@ -67,12 +76,8 @@ excluding Settings and statistical activities.
   It can be linked to several rows in Report table. (It was designed to take latitude and longitude columns too,
   but since it didn't seem to be a good idea, I didn't implement anything for them.)
 
-### Other subpackages
-
-- [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : everything related to database.
-- [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters.
-- [**more**](app/src/kotlin/ir/mahdiparastesh/sexbook/more) : miscellaneous utilities.
-- [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) : everything related to statistics (as mentioned above).
+- [**Settings.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Settings.kt) :
+  this activity controls settings and stores them as shared preferences.
 
 ### JSON Data Export/Import
 
@@ -92,32 +97,21 @@ The navigation menu in *Main* has these 3 options:
 - A [*quick settings tile*](app/src/kotlin/ir/mahdiparastesh/sexbook/more/SexTileService.kt) and an
   [*app shortcut*](app/src/res/xml/shortcuts.xml) for recording an orgasm right away!
 
-### Localisation
-
-This app currently supports only the below languages.
-The statistics are from Google Play Console (228 active users, updated at 2024/06/30),
-but there are more users from Galaxy Store.
-
-| Language        | Active Users      |
-|:----------------|:------------------|
-| English (en-GB) | 68(US), 21+22(GB) |
-| Czech (cz)      | 8                 |
-| German (de)     | 24+1              |
-| Spanish (es)    | 1+14              |
-| Russian (ru)    | 22                |
-
-I may add translations for French(8+1) later.
-
 ### Publishing
 
 Using this [privacy policy](https://mahdiparastesh.ir/welcome/privacy/sexbook.html),
-it is now available for free and without ads in:
+Sexbook is now available for free and without ads on
+[Google Play](https://play.google.com/store/apps/details?id=ir.mahdiparastesh.sexbook)
+with 232 active users as of 2024/10/08,
+and supports the following languages:
 
-- [Google Play](https://play.google.com/store/apps/details?id=ir.mahdiparastesh.sexbook)
-- [Galaxy Store](https://galaxystore.samsung.com/detail/ir.mahdiparastesh.sexbook)
-- [ApkPure](https://apkpure.com/p/ir.mahdiparastesh.sexbook)
-
-The app contains AdMob codes for displaying ads all over it, but they're all commented for the time being!
+| Language        | Active Users      |
+|:----------------|:------------------|
+| English (en-GB) | 76(US), 26+24(GB) |
+| Czech (cz)      | 10                |
+| German (de)     | 20                |
+| Spanish (es)    | 1+10              |
+| Russian (ru)    | 16                |
 
 ### License
 
