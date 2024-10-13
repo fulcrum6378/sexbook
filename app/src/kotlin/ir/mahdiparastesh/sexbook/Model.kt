@@ -124,13 +124,14 @@ class Model : ViewModel() {
             CoroutineScope(Dispatchers.IO).launch { CalendarManager.update(c) }
     }
 
-    fun summaryCrushes(c: BaseActivity): List<String> =
+    fun summaryCrushes(c: BaseActivity): ArrayList<String> =
         summary?.let { summary ->
             var all = ArrayList(summary.scores.keys)
             if (c.sp.getBoolean(Settings.spHideUnsafePeople, true) && unsafe.isNotEmpty())
-                all.filter { it !in unsafe }
+                ArrayList(all.filter { it !in unsafe })
             else all
-        } ?: listOf()
+        } ?: arrayListOf()
+    // it must necessarily return a mutable collection, otherwise CrushSuggester::update() will error!
 
 
     @Suppress("UNCHECKED_CAST")
