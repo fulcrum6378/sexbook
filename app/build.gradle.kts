@@ -22,7 +22,7 @@ android {
         applicationId = "ir.mahdiparastesh.sexbook"
         minSdk = 26
         targetSdk = 35
-        versionCode = 46
+        versionCode = 47
         versionName = "26.8.6"
         signingConfig = signingConfigs.getByName("main")
     }
@@ -60,7 +60,7 @@ androidComponents.beforeVariants { variantBuilder ->
 dependencies {
     val roomVersion = "2.6.1"
 
-    implementation("androidx.activity:activity-ktx:1.9.2")
+    implementation("androidx.activity:activity-ktx:1.9.3")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.drawerlayout:drawerlayout:1.2.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
