@@ -10,8 +10,8 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.PlacesBinding
 import ir.mahdiparastesh.sexbook.list.PlaceAdap
-import ir.mahdiparastesh.sexbook.more.Delay
-import ir.mahdiparastesh.sexbook.more.Lister
+import ir.mahdiparastesh.sexbook.misc.Delay
+import ir.mahdiparastesh.sexbook.misc.Lister
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

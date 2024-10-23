@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.more;
+package ir.mahdiparastesh.sexbook.misc;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -273,16 +273,16 @@ public class ActionBarDrawerToggle implements DrawerLayout.DrawerListener {
             final ActionBar actionBar = mActivity.getActionBar();
             if (actionBar != null) {
                 FrameworkActionBarDelegate.Api18Impl.setHomeAsUpIndicator(actionBar, themeImage);
-                FrameworkActionBarDelegate.Api18Impl.setHomeActionContentDescription(actionBar, contentDescRes);
+                FrameworkActionBarDelegate.Api18Impl.setHomeActionContentDescription(
+                        actionBar, contentDescRes);
             }
         }
 
         @Override
         public void setActionBarDescription(int contentDescRes) {
             final ActionBar actionBar = mActivity.getActionBar();
-            if (actionBar != null) {
-                FrameworkActionBarDelegate.Api18Impl.setHomeActionContentDescription(actionBar, contentDescRes);
-            }
+            if (actionBar != null) FrameworkActionBarDelegate.Api18Impl
+                    .setHomeActionContentDescription(actionBar, contentDescRes);
         }
 
         static class Api18Impl {

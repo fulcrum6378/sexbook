@@ -14,8 +14,8 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
 import ir.mahdiparastesh.sexbook.list.PersonAdap
-import ir.mahdiparastesh.sexbook.more.Delay
-import ir.mahdiparastesh.sexbook.more.Lister
+import ir.mahdiparastesh.sexbook.misc.Delay
+import ir.mahdiparastesh.sexbook.misc.Lister
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
 
 class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {

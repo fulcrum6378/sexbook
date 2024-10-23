@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
@@ -32,10 +33,9 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.list.BNtfCrushAdap
-import ir.mahdiparastesh.sexbook.more.Act
-import ir.mahdiparastesh.sexbook.more.CalendarManager
-import ir.mahdiparastesh.sexbook.more.LastOrgasm
-import ir.mahdiparastesh.sexbook.more.MaterialMenu
+import ir.mahdiparastesh.sexbook.misc.CalendarManager
+import ir.mahdiparastesh.sexbook.misc.LastOrgasm
+import ir.mahdiparastesh.sexbook.misc.MaterialMenu
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,6 +90,7 @@ class Settings : BaseActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = SettingsBinding.inflate(layoutInflater)
@@ -221,7 +222,7 @@ class Settings : BaseActivity() {
                     marginEnd = dp(10)
                 }
                 prevLlId = View.generateViewId()
-                id = prevLlId!!
+                id = prevLlId
                 setImageResource(sex.icon)
                 colorFilter = themePdcf()
                 labelFor = cbId
@@ -243,8 +244,8 @@ class Settings : BaseActivity() {
                 }
             }, ConstraintLayout.LayoutParams(0, -2).apply {
                 topToTop = prevLlId!!
-                bottomToBottom = prevLlId!!
-                endToStart = prevLlId!!
+                bottomToBottom = prevLlId
+                endToStart = prevLlId
                 startToStart = ConstraintLayout.LayoutParams.PARENT_ID
             })
         }

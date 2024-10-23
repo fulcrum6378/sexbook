@@ -23,7 +23,7 @@ import androidx.core.content.ContextCompat
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.base.BaseActivity
-import ir.mahdiparastesh.sexbook.more.HumanistIranianCalendar
+import ir.mahdiparastesh.sexbook.misc.HumanistIranianCalendar
 import java.text.DecimalFormat
 
 /** Static functions and utilities used everywhere. */

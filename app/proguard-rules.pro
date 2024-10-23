@@ -3,7 +3,7 @@
 -keep class ir.mahdiparastesh.sexbook.data.Crush { <fields>; }
 -keep class ir.mahdiparastesh.sexbook.data.Place { <fields>; }
 -keep class ir.mahdiparastesh.sexbook.data.Guess { <fields>; }
--keep class ir.mahdiparastesh.sexbook.more.HumanistIranianCalendar
+-keep class ir.mahdiparastesh.sexbook.misc.HumanistIranianCalendar
 
 # Retain generic signatures of TypeToken and its subclasses with R8 version 3.0 and higher.
 -keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken

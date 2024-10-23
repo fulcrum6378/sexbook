@@ -23,7 +23,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = 47
-        versionName = "26.8.6"
+        versionName = "26.8.8"
         signingConfig = signingConfigs.getByName("main")
     }
     sourceSets.getByName("main") {

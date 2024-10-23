@@ -12,7 +12,7 @@ import ir.mahdiparastesh.sexbook.data.Database
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
-import ir.mahdiparastesh.sexbook.more.CalendarManager
+import ir.mahdiparastesh.sexbook.misc.CalendarManager
 import ir.mahdiparastesh.sexbook.stat.Summary
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -137,15 +137,14 @@ class Model : ViewModel() {
     @Suppress("UNCHECKED_CAST")
     class Factory : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(Model::class.java)) {
-                val key = "Model"
-                return if (hashMapViewModel.containsKey(key)) getViewModel(key) as T
-                else {
-                    addViewModel(key, Model())
-                    getViewModel(key) as T
-                }
+            if (!modelClass.isAssignableFrom(Model::class.java))
+                throw IllegalArgumentException("Unknown Model class")
+            val key = "Model"
+            return if (hashMapViewModel.containsKey(key)) getViewModel(key) as T
+            else {
+                addViewModel(key, Model())
+                getViewModel(key) as T
             }
-            throw IllegalArgumentException("Unknown Model class")
         }
 
         companion object {

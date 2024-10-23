@@ -14,7 +14,7 @@ import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.RecencyBinding
-import ir.mahdiparastesh.sexbook.more.AnyViewHolder
+import ir.mahdiparastesh.sexbook.misc.AnyViewHolder
 import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Singular
 

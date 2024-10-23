@@ -105,7 +105,7 @@
 
 
         <service
-            android:name=".more.SexTileService"
+            android:name=".misc.SexTileService"
             android:exported="true"
             android:icon="@drawable/add"
             android:label="@string/app_name"
@@ -118,7 +118,7 @@
 
 
         <receiver
-            android:name=".more.LastOrgasm"
+            android:name=".misc.LastOrgasm"
             android:exported="false">
 
             <intent-filter>

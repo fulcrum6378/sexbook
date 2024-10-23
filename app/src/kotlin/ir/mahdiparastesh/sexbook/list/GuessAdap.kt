@@ -22,11 +22,10 @@ import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
-import ir.mahdiparastesh.sexbook.more.Act
-import ir.mahdiparastesh.sexbook.more.AnyViewHolder
-import ir.mahdiparastesh.sexbook.more.Delay
-import ir.mahdiparastesh.sexbook.more.MaterialMenu
-import ir.mahdiparastesh.sexbook.more.TypeAdap
+import ir.mahdiparastesh.sexbook.misc.AnyViewHolder
+import ir.mahdiparastesh.sexbook.misc.Delay
+import ir.mahdiparastesh.sexbook.misc.MaterialMenu
+import ir.mahdiparastesh.sexbook.misc.TypeAdap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -136,7 +135,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                         gu.freq = h.b.freq.text.toString().toFloat()
                         update(h.layoutPosition)
                     }
-                } catch (ignored: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                 }
             }
         })

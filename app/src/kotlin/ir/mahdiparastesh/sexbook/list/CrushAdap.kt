@@ -14,9 +14,8 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Identify
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
-import ir.mahdiparastesh.sexbook.more.Act
-import ir.mahdiparastesh.sexbook.more.AnyViewHolder
-import ir.mahdiparastesh.sexbook.more.MaterialMenu
+import ir.mahdiparastesh.sexbook.misc.AnyViewHolder
+import ir.mahdiparastesh.sexbook.misc.MaterialMenu
 import ir.mahdiparastesh.sexbook.stat.Singular
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

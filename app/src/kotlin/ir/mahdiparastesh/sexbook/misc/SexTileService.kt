@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.more
+package ir.mahdiparastesh.sexbook.misc
 
 import android.content.Intent
 import android.service.quicksettings.TileService

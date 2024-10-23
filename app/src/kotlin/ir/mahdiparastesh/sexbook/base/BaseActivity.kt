@@ -25,7 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.Settings
-import ir.mahdiparastesh.sexbook.more.HumanistIranianCalendar
+import ir.mahdiparastesh.sexbook.misc.HumanistIranianCalendar
 import java.util.Locale
 import kotlin.reflect.KClass
 
@@ -80,10 +80,6 @@ abstract class BaseActivity : FragmentActivity()/*, OnInitializationCompleteList
     fun themeColor(@AttrRes attr: Int) = TypedValue().apply {
         theme.resolveAttribute(attr, this, true)
     }.data
-
-    /** Helper function for making a colour filter for the color resource. */
-    fun pdcf(@ColorRes res: Int) =
-        PorterDuffColorFilter(ContextCompat.getColor(c, res), PorterDuff.Mode.SRC_IN)
 
     /** Helper function for making a colour filter for the color resource. */
     fun themePdcf(@AttrRes res: Int = com.google.android.material.R.attr.colorOnPrimary) =

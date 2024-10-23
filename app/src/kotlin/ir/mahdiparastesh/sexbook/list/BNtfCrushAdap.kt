@@ -8,7 +8,7 @@ import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Identify
 import ir.mahdiparastesh.sexbook.databinding.ItemPersonBinding
-import ir.mahdiparastesh.sexbook.more.AnyViewHolder
+import ir.mahdiparastesh.sexbook.misc.AnyViewHolder
 import ir.mahdiparastesh.sexbook.stat.Singular
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

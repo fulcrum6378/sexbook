@@ -18,7 +18,7 @@ import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
-import ir.mahdiparastesh.sexbook.more.LastOrgasm
+import ir.mahdiparastesh.sexbook.misc.LastOrgasm
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -133,16 +133,20 @@ class Exporter(val c: BaseActivity) {
                     .toString(Charsets.UTF_8)
             }
             data!!
-        } catch (e: Exception) {
-            Toast.makeText(c, R.string.importOpenError, Toast.LENGTH_LONG).show()
+        } catch (_: Exception) {
+            Toast.makeText(
+                c, R.string.importOpenError, Toast.LENGTH_LONG
+            ).show()
             return
         }
         val imported: Exported
         try {
             imported = GsonBuilder().registerTypeAdapterFactory(typeAdapterFactory).create()
                 .fromJson(data, Exported::class.java)
-        } catch (e: Exception) {
-            Toast.makeText(c, R.string.importReadError, Toast.LENGTH_LONG).show()
+        } catch (_: Exception) {
+            Toast.makeText(
+                c, R.string.importReadError, Toast.LENGTH_LONG
+            ).show()
             return
         }
         MaterialAlertDialogBuilder(c).apply {

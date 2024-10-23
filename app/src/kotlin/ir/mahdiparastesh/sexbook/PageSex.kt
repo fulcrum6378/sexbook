@@ -20,7 +20,7 @@ import ir.mahdiparastesh.sexbook.base.BasePage
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
-import ir.mahdiparastesh.sexbook.more.LastOrgasm
+import ir.mahdiparastesh.sexbook.misc.LastOrgasm
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

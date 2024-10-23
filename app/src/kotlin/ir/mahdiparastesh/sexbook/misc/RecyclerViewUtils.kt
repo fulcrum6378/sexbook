@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.more
+package ir.mahdiparastesh.sexbook.misc
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding

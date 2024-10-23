@@ -16,9 +16,8 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings.Companion.spDefPlace
 import ir.mahdiparastesh.sexbook.databinding.ItemPlaceBinding
 import ir.mahdiparastesh.sexbook.databinding.MigratePlaceBinding
-import ir.mahdiparastesh.sexbook.more.Act
-import ir.mahdiparastesh.sexbook.more.AnyViewHolder
-import ir.mahdiparastesh.sexbook.more.MaterialMenu
+import ir.mahdiparastesh.sexbook.misc.AnyViewHolder
+import ir.mahdiparastesh.sexbook.misc.MaterialMenu
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

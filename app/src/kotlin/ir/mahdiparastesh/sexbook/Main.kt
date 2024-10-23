@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
@@ -44,10 +43,10 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
-import ir.mahdiparastesh.sexbook.more.ActionBarDrawerToggle
-import ir.mahdiparastesh.sexbook.more.CalendarManager
-import ir.mahdiparastesh.sexbook.more.Delay
-import ir.mahdiparastesh.sexbook.more.Lister
+import ir.mahdiparastesh.sexbook.misc.ActionBarDrawerToggle
+import ir.mahdiparastesh.sexbook.misc.CalendarManager
+import ir.mahdiparastesh.sexbook.misc.Delay
+import ir.mahdiparastesh.sexbook.misc.Lister
 import ir.mahdiparastesh.sexbook.stat.Adorability
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
 import ir.mahdiparastesh.sexbook.stat.Growth
@@ -363,7 +362,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             Action.ADD.s -> pageSex()?.add()
             Action.VIEW.s -> (try {
                 dataString?.toLong()
-            } catch (e: NumberFormatException) {
+            } catch (_: NumberFormatException) {
                 null
             })?.also { id ->
                 if (!isOnCreate) pageSex()?.reset(id)
@@ -437,7 +436,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU ||
             ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
             == PackageManager.PERMISSION_GRANTED
-        ) (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).also { nm ->
+        ) (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).also { nm ->
             val channelBirth = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
             nm.createNotificationChannel(
                 NotificationChannel(
