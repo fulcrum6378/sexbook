@@ -14,6 +14,7 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Identify
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
+import ir.mahdiparastesh.sexbook.misc.Act
 import ir.mahdiparastesh.sexbook.misc.AnyViewHolder
 import ir.mahdiparastesh.sexbook.misc.MaterialMenu
 import ir.mahdiparastesh.sexbook.stat.Singular
