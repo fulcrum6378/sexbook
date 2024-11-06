@@ -484,5 +484,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular
   * "Turn off notifications for this Crush" on the notification
-  * Fictionality for Taste and CrushesStat
+  * Fictionality, first met/orgasm year for Taste and CrushesStat
+  * Menu selector for Taste and CrushesStat
   */

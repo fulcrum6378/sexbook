@@ -60,9 +60,6 @@ androidComponents.beforeVariants { variantBuilder ->
 
 dependencies {
     implementation(libs.activity.ktx)
-    implementation(libs.constraintlayout)
-    implementation(libs.drawerlayout)
-    implementation(libs.recyclerview)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
