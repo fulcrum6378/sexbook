@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
@@ -23,7 +23,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = 47
-        versionName = "26.8.8"
+        versionName = "27.0.0"
         signingConfig = signingConfigs.getByName("main")
     }
     sourceSets.getByName("main") {
@@ -33,7 +33,8 @@ android {
         res.setSrcDirs(listOf("src/res"))
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_22; targetCompatibility = JavaVersion.VERSION_22
+        sourceCompatibility = JavaVersion.VERSION_22
+        targetCompatibility = JavaVersion.VERSION_22
     }
     kotlinOptions { jvmTarget = "22" }
 
@@ -58,19 +59,16 @@ androidComponents.beforeVariants { variantBuilder ->
 }
 
 dependencies {
-    val roomVersion = "2.6.1"
-
-    implementation("androidx.activity:activity-ktx:1.9.3")
-    implementation("androidx.constraintlayout:constraintlayout:2.2.0")
-    implementation("androidx.drawerlayout:drawerlayout:1.2.0")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    ksp("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
-    implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.sqlite:sqlite-ktx:2.4.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("ir.mahdiparastesh:hellocharts:2.8.5")
-    implementation("ir.mahdiparastesh:mcdtp:3.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation(libs.activity.ktx)
+    implementation(libs.constraintlayout)
+    implementation(libs.drawerlayout)
+    implementation(libs.recyclerview)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    implementation(libs.sqlite.ktx)
+    implementation(libs.material)
+    implementation(libs.gson)
+    implementation(libs.hellocharts)
+    implementation(libs.mcdtp)
 }
