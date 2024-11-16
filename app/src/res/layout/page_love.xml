@@ -15,7 +15,7 @@
         android:paddingHorizontal="10dp"
         android:paddingVertical="20dp"
         android:scrollbars="vertical"
-        app:layoutManager=".base.SafeLinearLayoutManager" />
+        app:layoutManager=".misc.SafeLinearLayoutManager" />
 
     <TextView
         android:id="@+id/empty"

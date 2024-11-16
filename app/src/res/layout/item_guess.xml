@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="@id/crsh"
         app:layout_constraintTop_toTopOf="@id/crsh" />
 
-    <ir.mahdiparastesh.sexbook.base.LiveAutoCompleteTextView
+    <ir.mahdiparastesh.sexbook.misc.LiveAutoCompleteTextView
         android:id="@+id/crsh"
         style="@style/etField"
         android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
         app:layout_constraintBottom_toBottomOf="@id/freq"
         app:layout_constraintTop_toTopOf="@id/freq" />
 
-    <ir.mahdiparastesh.sexbook.base.LiveEditText
+    <ir.mahdiparastesh.sexbook.misc.LiveEditText
         android:id="@+id/freq"
         style="@style/etField"
         android:layout_height="30sp"
@@ -76,7 +76,7 @@
         android:fontFamily="@font/bold"
         android:importantForAutofill="no"
         android:inputType="numberDecimal"
-        android:maxLength="5"
+        android:maxLength="10"
         android:textIsSelectable="true"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@null"
@@ -94,7 +94,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/freq" />
 
-    <ir.mahdiparastesh.sexbook.base.LiveEditText
+    <ir.mahdiparastesh.sexbook.misc.LiveEditText
         android:id="@+id/desc"
         style="@style/desc"
         android:importantForAutofill="no"
