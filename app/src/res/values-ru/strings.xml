@@ -31,10 +31,6 @@
     <string name="delete">Удалить</string>
     <string name="expand">Расширять</string>
     <string name="collapse">Крах</string>
-    <string name="bHappyTitle">С Днем Рождения %s!</string>
-    <string name="bHappyBef">До дня рождения осталось %1$d часов!%2$s</string>
-    <string name="bHappyAft">Прошло %1$d часов с момента их дня рождения!%2$s</string>
-    <string name="birthDateNtf">Уведомление о дне рождения</string>
     <string name="clear">Стереть</string>
     <string name="suspend">Приостановить</string>
     <string name="clearDate">Очистить дату</string>
@@ -57,6 +53,12 @@
     <string name="her" />
     <string name="his" />
     <string name="their" />
+    <string name="after">&#160;через&#160;</string>
+    <plurals name="hour">
+        <item quantity="one">%d час</item>
+        <item quantity="few">%d часа</item>
+        <item quantity="many">%d часов</item>
+    </plurals>
 
     <!-- Main -->
     <string name="momImport">Импорт из Json</string>
@@ -96,7 +98,6 @@
     <string name="taste">Твой Вкус</string>
     <string name="statistics">Статистика</string>
     <string name="noStat">Диапазон ваших записей должен превышать один месяц!</string>
-    <string name="afterNHours">&#160;через %d часа</string>
     <string name="crushesStat">Статистика сокрушений</string>
 
     <!-- Identify -->
@@ -241,6 +242,12 @@
     <string name="stResetSure">Вы уверены, что хотите вернуть все настройки к значениям по умолчанию?</string>
     <string name="stTruncate">Удалить все данные</string>
     <string name="stTruncateSure">Вы уверены, что хотите удалить все свои личные данные?</string>
+
+    <!-- #Notifications -->
+    <string name="bHappyTitle">С Днем Рождения %s!</string>
+    <string name="bHappyBef">До дня рождения осталось %1$s&#8230;%2$s</string>
+    <string name="bHappyAft">Прошло %1$s с момента их дня рождения&#8230;%2$s</string>
+    <string name="birthDateNtf">Уведомление о дне рождения</string>
 
     <!-- #External -->
     <string name="sBirthday">День рождения %s</string>

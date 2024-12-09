@@ -111,6 +111,15 @@
         <item name="android:textSize">@dimen/spnFont</item>
     </style>
 
+    <style name="yellowBoxList">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:paddingHorizontal">@dimen/ybListPadH</item>
+        <item name="android:scrollbarSize">@dimen/scrollbarSize</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
 
     <!-- #TextAppearance -->
     <style name="TextAppearance.Sexbook.Toolbar" parent="@android:style/TextAppearance">
@@ -220,7 +229,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/yellow_box</item>
-        <item name="android:layout_marginHorizontal">10dp</item>
+        <item name="android:layout_marginHorizontal">@dimen/itemMarH</item>
         <item name="android:layout_marginVertical">7dp</item>
         <item name="android:paddingHorizontal">@dimen/stItemPadH</item>
         <item name="android:paddingVertical">@dimen/stItemPadV</item>

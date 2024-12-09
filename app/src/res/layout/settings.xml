@@ -12,9 +12,7 @@
         android:title="@string/stTitle" />
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
+        style="@style/yellowBoxList"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
@@ -23,8 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="20dp">
+            android:paddingVertical="@dimen/ybListPadV">
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemContainer">
 

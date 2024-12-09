@@ -30,10 +30,6 @@
     <string name="delete">Borrar</string>
     <string name="expand">Expandir</string>
     <string name="collapse">Colapsar</string>
-    <string name="bHappyTitle">¡Feliz cumpleaños %s!</string>
-    <string name="bHappyBef">¡Quedan %1$d hora(s) para su cumpleaños!%2$s</string>
-    <string name="bHappyAft">¡Han pasado %1$d hora(s) desde su cumpleaños!%2$s</string>
-    <string name="birthDateNtf">Notificación de cumpleaños</string>
     <string name="clear">Limpialo</string>
     <string name="suspend">Suspender</string>
     <string name="clearDate">Borrar la fecha</string>
@@ -56,6 +52,11 @@
     <string name="her" />
     <string name="his" />
     <string name="their" />
+    <string name="after">&#160;después&#160;</string>
+    <plurals name="hour">
+        <item quantity="one">%d hora</item>
+        <item quantity="many">%d horas</item>
+    </plurals>
 
     <!-- Main -->
     <string name="momImport">Importar desde Json</string>
@@ -97,7 +98,6 @@
     <string name="taste">Tu Gusto</string>
     <string name="statistics">Estadísticas</string>
     <string name="noStat">¡El rango de sus registros debe exceder un mes!</string>
-    <string name="afterNHours">&#160;después de %d horas</string>
     <string name="crushesStat">Estadísticas de Crushes</string>
 
     <!-- Identify -->
@@ -245,6 +245,12 @@
     </string>
     <string name="stTruncate">Eliminar todos los datos</string>
     <string name="stTruncateSure">¿Estás seguro de que deseas eliminar todos tus datos personales?</string>
+
+    <!-- #Notifications -->
+    <string name="bHappyTitle">¡Feliz cumpleaños %s!</string>
+    <string name="bHappyBef">¡Quedan %1$s para su cumpleaños&#8230;%2$s</string>
+    <string name="bHappyAft">¡Han pasado %1$s desde su cumpleaños&#8230;%2$s</string>
+    <string name="birthDateNtf">Notificación de cumpleaños</string>
 
     <!-- #External -->
     <string name="sBirthday">El cumpleaños de %s</string>

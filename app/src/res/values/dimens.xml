@@ -9,13 +9,19 @@
     <dimen name="menuFont">14sp</dimen>
     <dimen name="spnFont">16sp</dimen>
     <dimen name="spnFontSmall">14sp</dimen>
-    <dimen name="itemMarH">10dp</dimen>
-    <dimen name="itemMarV">7dp</dimen>
-    <dimen name="itemPadH">20dp</dimen>
-    <dimen name="itemPadV">17dp</dimen>
     <dimen name="smallCornerSize">8dp</dimen>
     <dimen name="mediumCornerSize">12dp</dimen>
     <dimen name="largeCornerSize">16dp</dimen>
+    <dimen name="scrollbarSize">7dp</dimen>
+
+    <!-- #YellowBoxList -->
+    <dimen name="ybListPadH">7dp</dimen>
+    <dimen name="ybListPadV">20dp</dimen>
+    <dimen name="ybListPadBottomForAddButton">88dp</dimen>
+    <dimen name="itemMarH">13dp</dimen>
+    <dimen name="itemMarV">7dp</dimen>
+    <dimen name="itemPadH">20dp</dimen>
+    <dimen name="itemPadV">17dp</dimen>
 
     <!-- Main-->
     <dimen name="navFont">16sp</dimen>

@@ -30,10 +30,6 @@
     <string name="delete">Vymazat</string>
     <string name="expand">Rozšířit</string>
     <string name="collapse">Kolaps</string>
-    <string name="bHappyTitle">Všechno nejlepší k narozeninám %s!</string>
-    <string name="bHappyBef">Do jejich narozenin zbývá %d hodin(a)!</string>
-    <string name="bHappyAft">%d hodin uplynulo od jejich narozenin!</string>
-    <string name="birthDateNtf">Oznámení o narozeninách</string>
     <string name="clear">Vyčistěte</string>
     <string name="suspend">Pozastavit</string>
     <string name="clearDate">Vymažte datum</string>
@@ -56,6 +52,12 @@
     <string name="her">jejích</string>
     <string name="his">jeho</string>
     <string name="their">jejich</string>
+    <string name="after">&#160;po&#160;</string>
+    <plurals name="hour">
+        <item quantity="one">%d hodina</item>
+        <item quantity="few">%d hodiny</item>
+        <item quantity="many">%d hodin</item>
+    </plurals>
 
     <!-- Main -->
     <string name="momImport">Import z Json</string>
@@ -95,7 +97,6 @@
     <string name="taste">Váš Vkus</string>
     <string name="statistics">Statistika</string>
     <string name="noStat">Rozsah vašich záznamů musí přesáhnout jeden měsíc!</string>
-    <string name="afterNHours">&#160;po %d hodinách</string>
     <string name="crushesStat">Crushesova statistika</string>
 
     <!-- Identify -->
@@ -239,6 +240,12 @@
     <string name="stResetSure">Opravdu chcete všechna nastavení vrátit na výchozí hodnoty?</string>
     <string name="stTruncate">Odebrat všechna data</string>
     <string name="stTruncateSure">Opravdu chcete odstranit všechny své osobní údaje?</string>
+
+    <!-- #Notifications -->
+    <string name="bHappyTitle">Všechno nejlepší k narozeninám %s!</string>
+    <string name="bHappyBef">Do %2$s narozenin zbývá %1$s&#8230;</string>
+    <string name="bHappyAft">%1$s uplynulo od %2$s narozenin&#8230;</string>
+    <string name="birthDateNtf">Oznámení o narozeninách</string>
 
     <!-- #External -->
     <string name="sBirthday">narozeniny %s</string>

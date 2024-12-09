@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:ignore="MissingConstraints,ContentDescription">
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
-        style="@style/parentConstraint"
+        style="@style/yellowBoxList"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="20dp"
-        android:scrollbars="vertical"
-        app:layoutManager=".misc.SafeLinearLayoutManager" />
+        android:paddingVertical="@dimen/ybListPadV"
+        app:layoutManager=".misc.SafeLinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/empty"
         style="@style/empty"
         android:text="@string/emptyLove"
-        android:textAlignment="textStart" />
+        android:textAlignment="textStart"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Sexbook</string>
 
     <!-- GLOBAL -->
@@ -33,10 +33,6 @@
     <string name="delete">Delete</string>
     <string name="expand">Expand</string>
     <string name="collapse">Collapse</string>
-    <string name="bHappyTitle">Happy %s\'s Birthday!</string>
-    <string name="bHappyBef" tools:ignore="PluralsCandidate">%1$d hour(s) remaining to %2$s birthday&#8230;</string>
-    <string name="bHappyAft" tools:ignore="PluralsCandidate">%1$d hour(s) past since %2$s birthday&#8230;</string>
-    <string name="birthDateNtf">Birthday Notification</string>
     <string name="clear">Clear</string>
     <string name="suspend">Suspend</string>
     <string name="clearDate">Clear the date</string>
@@ -59,6 +55,11 @@
     <string name="her">her</string>
     <string name="his">his</string>
     <string name="their">their</string>
+    <string name="after">&#160;after&#160;</string>
+    <plurals name="hour">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
 
     <!-- Main -->
     <string name="momImport">Import from Json</string>
@@ -98,7 +99,6 @@
     <string name="taste">Your Taste</string>
     <string name="statistics">Statistics</string>
     <string name="noStat">The range of your records must exceed one month!</string>
-    <string name="afterNHours">&#160;after %d hours</string>
     <string name="crushesStat">Crushes\' Statistics</string>
 
     <!-- Identify -->
@@ -245,6 +245,12 @@
     <string name="stResetSure">Are you sure you want to all the settings back to default?</string>
     <string name="stTruncate">Remove All Data</string>
     <string name="stTruncateSure">Are you sure you want to remove all your personal data?</string>
+
+    <!-- #Notifications -->
+    <string name="bHappyTitle">Happy %s\'s Birthday!</string>
+    <string name="bHappyBef">%1$s remaining to %2$s birthday&#8230;</string>
+    <string name="bHappyAft">%1$s past since %2$s birthday&#8230;</string>
+    <string name="birthDateNtf">Birthday Notification</string>
 
     <!-- #External -->
     <string name="sBirthday">%s\'s birthday</string>

@@ -444,6 +444,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     NotificationManager.IMPORTANCE_HIGH
                 )
             )
+            val hours = abs(dist / 3600000L).toInt()
             nm.notify(
                 crush.key.length + crush.visName().length,
                 NotificationCompat.Builder(this@Main, channelBirth).apply {
@@ -453,7 +454,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         getString(
                             if (dist < 0L) R.string.bHappyBef
                             else R.string.bHappyAft,
-                            abs(dist / 3600000L),
+                            resources.getQuantityString(R.plurals.hour, hours, hours),
                             possessiveDeterminer((crush.status and Crush.STAT_GENDER).toInt())
                         )
                     )
