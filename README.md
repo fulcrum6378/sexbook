@@ -32,7 +32,7 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
 - [**base**](app/src/kotlin/ir/mahdiparastesh/sexbook/base) : abstract classes.
 - [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : everything related to database.
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters.
-- [**more**](app/src/kotlin/ir/mahdiparastesh/sexbook/more) : miscellaneous utilities.
+- [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/misc) : miscellaneous utilities.
 - [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) : everything related to statistics (as mentioned above).
 
 ### Statistics
@@ -102,16 +102,16 @@ The navigation menu in *Main* has these 3 options:
 Using this [privacy policy](https://mahdiparastesh.ir/welcome/privacy/sexbook.html),
 Sexbook is now available for free and without ads on
 [Google Play](https://play.google.com/store/apps/details?id=ir.mahdiparastesh.sexbook)
-with 232 active users as of 2024/10/08,
+with 224 active users as of 2024/12/12,
 and supports the following languages:
 
 | Language        | Active Users      |
 |:----------------|:------------------|
-| English (en-GB) | 76(US), 26+24(GB) |
-| Czech (cz)      | 10                |
-| German (de)     | 20                |
-| Spanish (es)    | 1+10              |
-| Russian (ru)    | 16                |
+| English (en-GB) | 90(US), 25+18(GB) |
+| Czech (cz)      | 7                 |
+| German (de)     | 16+2              |
+| Spanish (es)    | 2+11              |
+| Russian (ru)    | 17                |
 
 ### License
 

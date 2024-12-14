@@ -11,6 +11,6 @@ abstract class BaseDialog<Parent> : DialogFragment() where Parent : FragmentActi
         var lookingFor: String?
 
         fun lookForIt(text: String) =
-            lookingFor?.let { it != "" && text.contains(it, true) } ?: false
+            lookingFor?.let { it != "" && text.contains(it, true) } == true
     }
 }

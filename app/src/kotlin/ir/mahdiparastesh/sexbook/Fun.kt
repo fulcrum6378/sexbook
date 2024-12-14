@@ -26,7 +26,7 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.misc.HumanistIranianCalendar
 import java.text.DecimalFormat
 
-/** Static functions and utilities used everywhere. */
+/** Static fields and methods used everywhere. */
 object Fun {
     // Latin + Cyrillic Font: Balsamiq Sans
 

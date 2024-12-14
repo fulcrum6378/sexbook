@@ -59,7 +59,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         return AnyViewHolder(b)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<ItemGuessBinding>, i: Int) {
         val g = c.m.guesses.getOrNull(i) ?: return
         if (g.able) h.b.root.alpha = 1f

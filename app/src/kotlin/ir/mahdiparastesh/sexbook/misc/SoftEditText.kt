@@ -2,7 +2,6 @@
 
 package ir.mahdiparastesh.sexbook.misc
 
-import android.R
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextWatcher
@@ -20,7 +19,7 @@ open class SoftEditText(
     context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int
 ) : EditText(context, attrs, defStyleAttr) {
     constructor(context: Context, attrs: AttributeSet?) :
-            this(context, attrs, R.attr.editTextStyle)
+            this(context, attrs, android.R.attr.editTextStyle)
 
     constructor(context: Context) : this(context, null)
 
@@ -55,7 +54,7 @@ open class SoftAutoCompleteTextView(
     context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int
 ) : AutoCompleteTextView(context, attrs, defStyleAttr) {
     constructor(context: Context, attrs: AttributeSet?) :
-            this(context, attrs, R.attr.autoCompleteTextViewStyle)
+            this(context, attrs, android.R.attr.autoCompleteTextViewStyle)
 
     constructor(context: Context) : this(context, null)
 

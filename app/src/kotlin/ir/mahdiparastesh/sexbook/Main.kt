@@ -76,7 +76,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     override var countBadge: BadgeDrawable? = null
 
     companion object {
-        /** when set to true, Main will recreate() in onResume(). */
+        /** when set to true, [Main] will [recreate] in [onResume]. */
         var changed = false
     }
 
@@ -481,6 +481,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 }
 
 /* TODO:
+  * Problems:
+  * RecyclerView inconsistency; go to SafeLayoutManager
+  * -
   * Extension:
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular

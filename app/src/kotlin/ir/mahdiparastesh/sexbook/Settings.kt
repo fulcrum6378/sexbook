@@ -49,7 +49,10 @@ class Settings : BaseActivity() {
     private val emptyDate: String by lazy { getString(R.string.emptyDate) }
     var bNtfCrushAdap: BNtfCrushAdap? = null
 
-    /** Beware of the numerical fields; go to Exporter.replace() for modifications. */
+    /**
+     * Beware of the numerical fields;
+     * Go to [ir.mahdiparastesh.sexbook.data.Exporter.replace] for modifications.
+     */
     companion object {
         const val spName = "settings"
         const val notifyBirthAfterLastTime = 3600000L * 12L

@@ -73,7 +73,7 @@ class Identify() : DialogFragment() {
         c = context as BaseActivity
     }
 
-    @SuppressLint("NewApi")
+    @SuppressLint("NewApi", "SetTextI18n")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         b = IdentifyBinding.inflate(c.layoutInflater)  // takes ~550 milliseconds
         ContextCompat.getColorStateList(c, R.color.chip)
