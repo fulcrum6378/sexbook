@@ -481,9 +481,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 }
 
 /* TODO:
-  * Problems:
-  * RecyclerView inconsistency; go to SafeLayoutManager
-  * -
   * Extension:
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular

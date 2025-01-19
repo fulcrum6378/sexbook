@@ -36,6 +36,8 @@
           <option value="java.nio.ByteBuffer.getLong" />
           <option value="java.nio.ByteBuffer.getShort" />
           <option value="java.util.HashMap.isEmpty" />
+          <option value="java.util.ArrayList.isEmpty" />
+          <option value="java.util.concurrent.CopyOnWriteArrayList.isEmpty" />
         </list>
       </option>
     </inspection_tool>

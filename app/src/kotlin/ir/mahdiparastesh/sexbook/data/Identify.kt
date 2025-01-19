@@ -288,7 +288,7 @@ class Identify() : DialogFragment() {
     }
 
     private fun onFictionChanged(bb: Boolean) {
-        b.unsafe.isVisible = !bb
+        //b.unsafe.isVisible = !bb
         b.birthIL.isVisible = !bb
         b.notifyBirth.isVisible = !bb
         b.instagramIL.isVisible = !bb
