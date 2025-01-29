@@ -23,7 +23,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = 47
-        versionName = "27.1.7"
+        versionName = "27.2.5"
         signingConfig = signingConfigs.getByName("main")
     }
     sourceSets.getByName("main") {
@@ -33,12 +33,15 @@ android {
         res.setSrcDirs(listOf("src/res"))
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_22
-        targetCompatibility = JavaVersion.VERSION_22
+        sourceCompatibility = JavaVersion.VERSION_23
+        targetCompatibility = JavaVersion.VERSION_23
     }
-    kotlinOptions { jvmTarget = "22" }
+    kotlinOptions { jvmTarget = "23" }
 
-    buildFeatures { buildConfig = true; viewBinding = true }
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
     buildTypes {
         create("debuggee") {
             isDebuggable = true

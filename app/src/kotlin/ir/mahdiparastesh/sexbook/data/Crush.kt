@@ -62,7 +62,7 @@ class Crush(
         val BODY_HAIR_COLOUR = (0x00000007 shl 3) to 3
 
         /** `body` offset  6; 3 bits; their eye colour (0..5)
-         * 0=>unspecified, 1=>brown, 2=>hazel, 3=>blue, 4=>green, 5=>other, (6,7) */
+         * 0=>unspecified, 1=>dark_brown, 2=>light_brown, 3=>hazel, 4=>green, 5=>blue, 6=>other, (7) */
         val BODY_EYE_COLOUR = (0x00000007 shl 6) to 6
 
         /** `body` offset  9; 2 bits; whether they have round or almond eyes (0..2)

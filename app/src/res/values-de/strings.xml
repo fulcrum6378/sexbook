@@ -143,10 +143,11 @@
     </string-array>
     <string-array name="bodyEyeColour">
         <item>Augenfarbe&#8230;</item>
-        <item>Braune Augen</item>
+        <item>Dunkelbraune Augen</item>
+        <item>Hellbraune Augen</item>
         <item>Haselnussbraune Augen</item>
-        <item>Blaue Augen</item>
         <item>Grüne Augen</item>
+        <item>Blaue Augen</item>
         <item>Andere Augenfarbe</item>
     </string-array>
     <string-array name="bodyEyeShape">

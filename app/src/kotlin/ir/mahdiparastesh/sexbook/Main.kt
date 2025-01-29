@@ -174,6 +174,25 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 }
                 sp.edit().putBoolean("dbDateTimeDotSlashReplaced", true).apply()
             }
+            if (!sp.contains("dbLightBrownAdded")) {
+                for (updated in m.people.values) {
+                    val mask = Crush.BODY_EYE_COLOUR.first.inv()
+                    val cleared = updated.body and mask
+                    val pos = when ((updated.body and Crush.BODY_EYE_COLOUR.first)
+                            shr Crush.BODY_EYE_COLOUR.second) {
+                        0 -> 0
+                        1 -> 1
+                        2 -> 3
+                        3 -> 5
+                        4 -> 4
+                        5 -> 6
+                        else -> throw IllegalStateException("Unrecognised eye colour!")
+                    }
+                    updated.body = cleared or (pos shl Crush.BODY_EYE_COLOUR.second)
+                    m.dao.cUpdate(updated)
+                }
+                sp.edit().putBoolean("dbLightBrownAdded", true).apply()
+            }
 
             // Place
             for (p in m.dao.pGetAll()) {

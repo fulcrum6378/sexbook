@@ -143,10 +143,11 @@
     </string-array>
     <string-array name="bodyEyeColour">
         <item>Barva očí&#8230;</item>
-        <item>Hnědé oči</item>
+        <item>Tmavě hnědé oči</item>
+        <item>Světle hnědé oči</item>
         <item>Oříškové oči</item>
-        <item>Modré oči</item>
         <item>Zelené oči</item>
+        <item>Modré oči</item>
         <item>Jiná barva očí</item>
     </string-array>
     <string-array name="bodyEyeShape">

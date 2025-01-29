@@ -146,10 +146,11 @@
     </string-array>
     <string-array name="bodyEyeColour">
         <item>Eye colour&#8230;</item>
-        <item>Brown eyes</item>
+        <item>Dark brown eyes</item>
+        <item>Light brown eyes</item>
         <item>Hazel eyes</item>
-        <item>Blue eyes</item>
         <item>Green eyes</item>
+        <item>Blue eyes</item>
         <item>Other eye colour</item>
     </string-array>
     <string-array name="bodyEyeShape">

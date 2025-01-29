@@ -144,10 +144,11 @@
     </string-array>
     <string-array name="bodyEyeColour">
         <item>Цвет глаз&#8230;</item>
+        <item>Темно-карие глаза</item>
+        <item>Светло-карие глаза</item>
         <item>Карие глаза</item>
-        <item>Карие глаза</item>
-        <item>Голубые глаза</item>
         <item>Зеленые глаза</item>
+        <item>Голубые глаза</item>
         <item>Другой цвет глаз</item>
     </string-array>
     <string-array name="bodyEyeShape">

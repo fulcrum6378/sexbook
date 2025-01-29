@@ -145,10 +145,11 @@
     </string-array>
     <string-array name="bodyEyeColour">
         <item>Color de ojos&#8230;</item>
-        <item>Ojos cafés</item>
-        <item>Ojos color avellana</item>
-        <item>Ojos azules</item>
+        <item>Ojos marrones oscuros</item>
+        <item>Ojos castaños claros</item>
+        <item>Ojos avellana</item>
         <item>Ojos verdes</item>
+        <item>Ojos azules</item>
         <item>Otro color de ojos</item>
     </string-array>
     <string-array name="bodyEyeShape">
