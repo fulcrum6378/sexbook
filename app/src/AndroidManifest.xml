@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <!--<uses-permission android:name="com.google.android.gms.permission.AD_ID" />-->
 
     <permission
         android:name="${packageName}.READ_DATABASE"
@@ -104,19 +103,6 @@
             android:launchMode="singleTop" />
 
 
-        <service
-            android:name=".misc.SexTileService"
-            android:exported="true"
-            android:icon="@drawable/add"
-            android:label="@string/app_name"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-
         <receiver
             android:name=".misc.LastOrgasm"
             android:exported="false">
@@ -148,9 +134,5 @@
             android:exported="true"
             android:readPermission="ir.mahdiparastesh.sexbook.READ_DATABASE"
             android:writePermission="ir.mahdiparastesh.sexbook.WRITE_DATABASE" />
-
-        <!--<meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9457309151954418~8523725765" />-->
     </application>
 </manifest>

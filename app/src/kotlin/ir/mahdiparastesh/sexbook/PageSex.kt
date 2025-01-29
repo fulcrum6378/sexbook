@@ -30,11 +30,8 @@ class PageSex : BasePage() {
     lateinit var b: PageSexBinding
     var filters: List<Report.Filter> = listOf()
     private var anGrowShrinkForAdd: AnimatorSet? = null
-
-    companion object {
-        const val GROW_AND_SHRINK_SCALE = 1.5f
-        const val PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME = 5
-    }
+    private val growShrinkScale = 1.5f
+    private val prevRecordsRequiredToUseTheSameName = 5
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
         PageSexBinding.inflate(layoutInflater, parent, false).also { b = it }.root
@@ -68,11 +65,11 @@ class PageSex : BasePage() {
         if (c.m.reports.isEmpty()) anGrowShrinkForAdd = AnimatorSet().apply {
             duration = 1000L
             playTogether(
-                ObjectAnimator.ofFloat(b.add, View.SCALE_X, 1f, GROW_AND_SHRINK_SCALE).apply {
+                ObjectAnimator.ofFloat(b.add, View.SCALE_X, 1f, growShrinkScale).apply {
                     repeatMode = ValueAnimator.REVERSE
                     repeatCount = ValueAnimator.INFINITE
                 },
-                ObjectAnimator.ofFloat(b.add, View.SCALE_Y, 1f, GROW_AND_SHRINK_SCALE).apply {
+                ObjectAnimator.ofFloat(b.add, View.SCALE_Y, 1f, growShrinkScale).apply {
                     repeatMode = ValueAnimator.REVERSE
                     repeatCount = ValueAnimator.INFINITE
                 }
@@ -157,11 +154,11 @@ class PageSex : BasePage() {
             // detect a regularly repeated monoamorous crush
             var name: String? = null
             val total = c.m.reports.size
-            if (total >= PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME) {
+            if (total >= prevRecordsRequiredToUseTheSameName) {
                 val reportsList = c.m.reports.values.toList()
                 name = reportsList[total - 1].name
                 if (name != null)
-                    for (r in (total - 2) downTo (total - PREV_RECORDS_REQUIRED_TO_USE_THE_SAME_NAME))
+                    for (r in (total - 2) downTo (total - prevRecordsRequiredToUseTheSameName))
                         if (!name.equals(reportsList[r].name, true)) { // don't use ".."
                             name = null
                             break

@@ -1,29 +1,31 @@
 # Sexbook
 
-A fun Android app for recording one's sexual activities. One can note their orgasm just in time or sometime later than
-that using a date picker. It has a yellow theme with a banana icon.
+A fun Android app for recording one's sexual activities. One can note their orgasm just in time
+or later than that using a date picker. It has a yellow theme with a banana icon.
 
-This app uses the [Multi-Calendar Date Time Picker](https://github.com/fulcrum6378/mcdtp); meaning you can record your
-sexual activities in the Gregorian calendar or any other one, but the app currently supports only Persian and Indian
-calendars. The default calendar can be easily changed in *Settings*.
+This app uses the [Multi-Calendar Date Time Picker](https://github.com/fulcrum6378/mcdtp);
+meaning you can record your sexual activities in the Gregorian calendar or any other one,
+but the app currently supports only Persian and Indian calendars.
+The default calendar can be easily changed in *Settings*.
 
 ### Main Activity
 
 The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity contains 2 fragments:
 
 1. [**PageSex.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/PageSex.kt) :
-   which list sex records and their data, including date, time, name of the sexual partner, the place where the sexual
-   intercourse happened and description.
+   which list sex records and their data, including date, time, name of the sexual partner,
+   the place where the sexual intercourse happened and description.
 
    It uses the [**Report.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Report.kt) database model.
-   Keywords like *"and"*, *"&"* and *"+"* can be used for multiple sexual partners in masturbations or triple sexual
-   intercourses.
+   Keywords like *"and"*, *"&"* and *"+"* can be used for multiple sexual partners in masturbations
+   or triple sexual intercourses.
    Sexual intercourses have types with specific icons, ranging from a simple Wet Dream to Vaginal Sex,
    including Masturbation, Oral Sex and Anal Sex.
 2. [**PageLove.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/PageLove.kt) :
-   which lists sexual partners, there is an *Identification* section for each, and all fields are quite optional.
-   The fields are first, middle and last names, male/female, height, birth date, location, Instagram address and a
-   switch button for notifying the user of their birthdate (requires notification permission in Android 13+).
+   which lists sexual partners, there is an *Identification* section for each,
+   and all fields are quite optional. The fields are first, middle and last names, male/female,
+   height, birth date, location, Instagram address and a switch button for notifying the user
+   of their birthdate.
 
    It uses the [**Crush.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Crush.kt) database model.
 
@@ -94,8 +96,7 @@ The navigation menu in *Main* has these 3 options:
 - [*Last Orgasm*](app/src/kotlin/ir/mahdiparastesh/sexbook/more/LastOrgasm.kt) is an app widget which shows
   the number of hours past since one's last orgasm!
 - Putting crush birthdays in the system calendar, which can be tweaked in *Settings*.
-- A [*quick settings tile*](app/src/kotlin/ir/mahdiparastesh/sexbook/more/SexTileService.kt) and an
-  [*app shortcut*](app/src/res/xml/shortcuts.xml) for recording an orgasm right away!
+- An [*app shortcut*](app/src/res/xml/shortcuts.xml) for recording an orgasm right away!
 
 ### Publishing
 

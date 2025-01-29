@@ -46,9 +46,7 @@ class Identify() : DialogFragment() {
     companion object {
         private const val TAG = "identify"
         const val BUNDLE_CRUSH_KEY = "crush_key"
-        const val DISABLED_ALPHA = 0.7f
         var crush: Crush? = null
-        val accFromUrl = arrayOf(Fun.INSTA, "https://instagram.com/")
 
         fun display(c: BaseActivity, crush: String) {
             Identify(c, crush).apply {
@@ -60,13 +58,14 @@ class Identify() : DialogFragment() {
 
     private lateinit var c: BaseActivity
     private lateinit var b: IdentifyBinding
-    private val cancellability: CountDownTimer =
-        object : CountDownTimer(15000, 15000) {
-            override fun onTick(millisUntilFinished: Long) {}
-            override fun onFinish() {
-                isCancelable = false
-            }
+    private val cancellability: CountDownTimer = object : CountDownTimer(15000, 15000) {
+        override fun onTick(millisUntilFinished: Long) {}
+        override fun onFinish() {
+            isCancelable = false
         }
+    }
+    private val disabledAlpha = 0.7f
+    private val accFromUrl = arrayOf(Fun.INSTA, "https://instagram.com/")
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -87,7 +86,7 @@ class Identify() : DialogFragment() {
         b.gender.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                b.gender.alpha = if (i == 0) DISABLED_ALPHA else 1f
+                b.gender.alpha = if (i == 0) disabledAlpha else 1f
                 b.bodyBreasts.isVisible = i == 1 || i == 3
                 b.bodyPenis.isVisible = i == 2 || i == 3
             }
@@ -188,9 +187,9 @@ class Identify() : DialogFragment() {
         if (needsNtfPerm && crush?.notifyBirth() == true) reqNotificationPerm(c)
         b.notifyBirth.setOnCheckedChangeListener { _, isChecked ->
             if (!needsNtfPerm && isChecked) reqNotificationPerm(c)
-            b.notifyBirth.alpha = if (isChecked) 1f else DISABLED_ALPHA
+            b.notifyBirth.alpha = if (isChecked) 1f else disabledAlpha
         } // changing isChecked programmatically won't invoke the listener!
-        b.notifyBirth.alpha = if (b.notifyBirth.isChecked) 1f else DISABLED_ALPHA
+        b.notifyBirth.alpha = if (b.notifyBirth.isChecked) 1f else disabledAlpha
 
         isCancelable = true
         cancellability.start()
