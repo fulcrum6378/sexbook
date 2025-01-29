@@ -36,64 +36,64 @@ class Crush(
     companion object {
         /** `status` offset 0; 3 bits; their gender (0..4)
          * 0=>unspecified, 1=>female, 2=>male, 3=>bigender, 4=>agender, (5,6,7) */
-        const val STAT_GENDER = 0x07.toByte()
+        const val STAT_GENDER = 0b111.toByte() // 7
 
         /** `status` offset 3; 1 bit; whether or not they are a fictional character. */
-        const val STAT_FICTION = 0x08.toByte()
+        const val STAT_FICTION = 0b1000.toByte() // 8
 
         /** `status` offset 4; 1 bit; whether or not should the user be notified of their birthday. */
-        const val STAT_NOTIFY_BIRTH = 0x10.toByte()
+        const val STAT_NOTIFY_BIRTH = 0b10000.toByte() // 16
 
         /** `status` offset 5; 1 bit; whether or not they have an unsafe personality. */
-        const val STAT_UNSAFE_PERSON = 0x20.toByte()
+        const val STAT_UNSAFE_PERSON = 0b100000.toByte() // 32
 
         /** `status` offset 7; 1 bit; whether or not they are currently an active crush.
          * (sign bit, inactive oneswould be negative)
-         * unassigned bits: 0x40 (64) */
-        const val STAT_INACTIVE = 0x80.toByte()
+         * unassigned bits: 0b1000000 (64) */
+        const val STAT_INACTIVE = 0b10000000.toByte() // 128
 
 
         /** `body` offset  0; 3 bits; their skin colour (0..6)
          * 0=>unspecified, 1=>black, 2=>brown, 3=>olive, 4=>medium, 5=>fair, 6=>pale, (7) */
-        val BODY_SKIN_COLOUR = 0x00000007 to 0
+        val BODY_SKIN_COLOUR = 0b111 to 0
 
         /** `body` offset  3; 3 bits; their hair colour (0..5)
          * 0=>unspecified, 1=>black, 2=>brunette, 3=>blonde, 4=>red, 5=>other, (6,7) */
-        val BODY_HAIR_COLOUR = (0x00000007 shl 3) to 3
+        val BODY_HAIR_COLOUR = (0b111 shl 3) to 3
 
         /** `body` offset  6; 3 bits; their eye colour (0..5)
          * 0=>unspecified, 1=>dark_brown, 2=>light_brown, 3=>hazel, 4=>green, 5=>blue, 6=>other, (7) */
-        val BODY_EYE_COLOUR = (0x00000007 shl 6) to 6
+        val BODY_EYE_COLOUR = (0b111 shl 6) to 6
 
         /** `body` offset  9; 2 bits; whether they have round or almond eyes (0..2)
          * 0=>unspecified, 1=>round, 2=>almond, (3) */
-        val BODY_EYE_SHAPE = (0x00000003 shl 9) to 9
+        val BODY_EYE_SHAPE = (0b11 shl 9) to 9
 
         /** `body` offset 11; 3 bits; their face shape (0..7)
          * 0=>unspecified, 1=>diamond, 2=>heart, 3=>long, 4=>oval, 5=>round, 6=>square, 7=>triangle */
-        val BODY_FACE_SHAPE = (0x00000007 shl 11) to 11
+        val BODY_FACE_SHAPE = (0b111 shl 11) to 11
 
         /** `body` offset 14; 2 bits; how fat they are (0..3)
          * 0=> unspecified, 1=>thin, 2=>medium, 3=>fat */
-        val BODY_FAT = (0x00000003 shl 14) to 14
+        val BODY_FAT = (0b11 shl 14) to 14
 
         /** `body` offset 16; 2 bits; how muscular they are (0..3)
          * 0=>unspecified, 1=>normal, 2=>low, 3=>high */
-        val BODY_MUSCLE = (0x00000003 shl 16) to 16
+        val BODY_MUSCLE = (0b11 shl 16) to 16
 
         /** `body` offset 18; 2 bits; how big their breasts are (0..3)
          * 9+1 more bits are unassigned.
          * 0=>unspecified, 1=>normal, 2=>prominent, 3=>large */
-        val BODY_BREASTS = (0x00000003 shl 18) to 18
+        val BODY_BREASTS = (0b11 shl 18) to 18
 
         /** `body` offset 20; 2 bits; how long their penis is (0..3)
          * do not merge into BODY_BREASTS for bigenders' sake.
          * 0=>unspecified, 1=>short, 2=>medium, 3=>long */
-        val BODY_PENIS = (0x00000003 shl 20) to 20
+        val BODY_PENIS = (0b11 shl 20) to 20
 
         /** `body` offset 22; 3 bits; their sexual orientation (0..)
          * 0=>unspecified, 1=>heterosexual, 2=>homosexual, 3=>bisexual, 4=>asexual, 5=>other, (6,7) */
-        val BODY_SEXUALITY = (0x00000007 shl 22) to 22
+        val BODY_SEXUALITY = (0b111 shl 22) to 22
 
         var statsCleared = true
     }
