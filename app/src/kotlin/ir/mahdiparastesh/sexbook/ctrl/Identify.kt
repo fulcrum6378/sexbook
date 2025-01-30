@@ -60,7 +60,6 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
             isCancelable = false
         }
     }
-    private val disabledAlpha = 0.7f
     private val accFromUrl = arrayOf(Fun.INSTA, "https://instagram.com/")
 
     @SuppressLint("NewApi", "SetTextI18n")
@@ -77,7 +76,7 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
         b.gender.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                b.gender.alpha = if (i == 0) disabledAlpha else 1f
+                b.gender.alpha = if (i == 0) Fun.DISABLED_ALPHA else 1f
                 b.bodyBreasts.isVisible = i == 1 || i == 3
                 b.bodyPenis.isVisible = i == 2 || i == 3
             }
@@ -178,9 +177,9 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
         if (needsNtfPerm && crush?.notifyBirth() == true) reqNotificationPerm(c)
         b.notifyBirth.setOnCheckedChangeListener { _, isChecked ->
             if (!needsNtfPerm && isChecked) reqNotificationPerm(c)
-            b.notifyBirth.alpha = if (isChecked) 1f else disabledAlpha
+            b.notifyBirth.alpha = if (isChecked) 1f else Fun.DISABLED_ALPHA
         } // changing isChecked programmatically won't invoke the listener!
-        b.notifyBirth.alpha = if (b.notifyBirth.isChecked) 1f else disabledAlpha
+        b.notifyBirth.alpha = if (b.notifyBirth.isChecked) 1f else Fun.DISABLED_ALPHA
 
         isCancelable = true
         cancellability.start()

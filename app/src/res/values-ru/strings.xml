@@ -59,6 +59,7 @@
         <item quantity="few">%d часа</item>
         <item quantity="many">%d часов</item>
     </plurals>
+    <string name="apply">Применять</string>
 
     <!-- Main -->
     <string name="momImport">Импорт из Json</string>
@@ -100,7 +101,7 @@
     <string name="noStat">Диапазон ваших записей должен превышать один месяц!</string>
     <string name="crushesStat">Статистика сокрушений</string>
 
-    <!-- Identify -->
+    <!-- #Crush { Identify, Screening } -->
     <string name="identify">Идентификация</string>
     <string name="identifyKey">Уникальный идентификатор</string>
     <string name="firstName">Имя</string>
@@ -113,7 +114,11 @@
         <item>Бигендер</item>
         <item>Агендер</item>
     </string-array>
-    <string name="fiction">Является ли вымышленный персонаж?</string>
+    <string name="isFictional">Является ли вымышленный персонаж?</string>
+    <string name="realPerson">Реальный человек</string>
+    <string name="fictionalCharacter">Вымышленный персонаж</string>
+    <string name="isUnsafePerson">Небезопасная личность?</string>
+    <string name="safePerson">Safe personality</string>
     <string name="unsafePerson">Небезопасная личность</string>
     <string name="birth">День рождения</string>
     <string name="heightInCM">Рост (см)</string>

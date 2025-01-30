@@ -36,7 +36,6 @@ import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.possessiveDeterminer
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.ctrl.Exporter
-import ir.mahdiparastesh.sexbook.ctrl.Screening
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Database
 import ir.mahdiparastesh.sexbook.data.Guess
@@ -72,7 +71,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private val exporter = Exporter(this)
     private var exiting = false
     private val drawerGravity = GravityCompat.START
-    private val menus = arrayOf(R.menu.page_sex_tlb, R.menu.crush_list)
+    private val menus = arrayOf(R.menu.page_sex, R.menu.page_love)
 
     override var countBadge: BadgeDrawable? = null
 
@@ -326,27 +325,21 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
-            // PageSex (R.menu.page_sex_tlb):
+            // PageSex (R.menu.page_sex):
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
 
-            // PageLove (R.menu.crush_list):
+            // PageLove (R.menu.page_love):
             R.id.chart -> if (m.liefde.isNotEmpty()) CrushesStat().apply {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 1) }
                 show(supportFragmentManager, CrushesStat.TAG)
             }
-            R.id.filter -> if (m.liefde.isNotEmpty()) Screening().apply {
-                arguments = Bundle().apply { putInt(Screening.BUNDLE_WHICH_LIST, 1) }
-                show(supportFragmentManager, Screening.TAG)
-            }
-            else -> {
-                Fun.sort(item.itemId)?.also { value ->
-                    item.isChecked = true
-                    sp.edit {
-                        if (value is Int) putInt(Settings.spPageLoveSortBy, value)
-                        else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)
-                    }
-                    pageLove()?.prepareList()
+            else -> Fun.sort(item.itemId)?.also { value ->
+                item.isChecked = true
+                sp.edit {
+                    if (value is Int) putInt(Settings.spPageLoveSortBy, value)
+                    else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)
                 }
+                pageLove()?.prepareList()
             }
         }
         return true

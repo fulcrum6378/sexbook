@@ -79,7 +79,7 @@
             android:id="@+id/fiction"
             style="@style/identifyMaterialCheckBox"
             android:layout_height="28sp"
-            android:text="@string/fiction" />
+            android:text="@string/isFictional" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/unsafe"

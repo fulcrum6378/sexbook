@@ -1,9 +1,5 @@
 package ir.mahdiparastesh.sexbook
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.SharedPreferences
 import android.icu.util.Calendar
@@ -18,8 +14,6 @@ import android.view.View
 import android.widget.EditText
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.base.BaseActivity
@@ -41,6 +35,7 @@ object Fun {
     const val SORT_BY_FIRST = 6
     const val MAX_BADGE_CHAR = 6
     const val A_DAY = 86400000L
+    const val DISABLED_ALPHA = 0.7f
     val materialTheme = com.google.android.material.R.style.Theme_MaterialComponents_DayNight
 
     /** Specifies if vibration is enabled. */
@@ -51,41 +46,6 @@ object Fun {
 
     /** @return the current timestamp */
     fun now() = System.currentTimeMillis()
-
-    /** Creates and executes an explosion effect on this View. */
-    fun View.explode(
-        c: BaseActivity, dur: Long = 522, @DrawableRes src: Int = R.drawable.button_light,
-        alpha: Float = 1f, max: Float = 4f
-    ) {
-        if (parent !is ConstraintLayout) return
-        val parent = parent as ConstraintLayout
-        val ex = View(c).apply {
-            background = ContextCompat.getDrawable(c, src)
-            this.alpha = alpha
-        }
-        parent.addView(
-            ex, parent.indexOfChild(this),
-            ConstraintLayout.LayoutParams(0, 0).apply {
-                topToTop = id; leftToLeft = id; rightToRight = id; bottomToBottom = id
-            })
-
-        val explode = AnimatorSet().setDuration(dur)
-        val hide = ObjectAnimator.ofFloat(ex, View.ALPHA, 0f)
-        hide.startDelay = explode.duration / 4
-        explode.apply {
-            playTogether(
-                ObjectAnimator.ofFloat(ex, View.SCALE_X, ex.scaleX * max),
-                ObjectAnimator.ofFloat(ex, View.SCALE_Y, ex.scaleY * max),
-                hide
-            )
-            addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    parent.removeView(ex)
-                }
-            })
-            start()
-        }
-    }
 
     /**
      * Fills a String with a number and zeroes before it.
@@ -163,7 +123,7 @@ object Fun {
         )
     }
 
-    /** @return a ArrayList of the IDs of the allowed sex types based on shared preferences */
+    /** @return an ArrayList of the IDs of the allowed sex types based on shared preferences */
     fun allowedSexTypes(sp: SharedPreferences) = arrayListOf<Byte>().apply {
         for (s in 0 until sexTypesCount)
             if (sp.getBoolean(Settings.spStatInclude + s, true))

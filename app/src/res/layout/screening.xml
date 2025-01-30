@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingVertical="20dp"
+    android:theme="@style/Theme.Sexbook.Dialogue.Layout">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/gender"
+            style="@style/screeningSpinner"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="5dp" />
+
+        <Spinner
+            android:id="@+id/fiction"
+            style="@style/screeningSpinner"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="5dp" />
+
+        <Spinner
+            android:id="@+id/safety"
+            style="@style/screeningSpinner" />
+    </LinearLayout>
+</ScrollView>

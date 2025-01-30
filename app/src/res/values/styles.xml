@@ -186,6 +186,12 @@
     </style>
 
 
+    <!-- Screening -->
+    <style name="screeningSpinner" parent="identifyField">
+        <item name="android:layout_marginTop">4dp</item>
+    </style>
+
+
     <!-- Estimation -->
     <style name="etLabel">
         <item name="android:layout_width">0dp</item>

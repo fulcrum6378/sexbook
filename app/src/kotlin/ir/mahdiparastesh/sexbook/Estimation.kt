@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.core.view.isVisible
 import com.google.android.material.badge.BadgeDrawable
-import ir.mahdiparastesh.sexbook.Fun.explode
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Guess
@@ -46,7 +45,7 @@ class Estimation : BaseActivity(), Lister {
 
                 withContext(Dispatchers.Main) {
                     b.list.adapter!!.notifyItemInserted(m.guesses.size - 1)
-                    b.add.explode(this@Estimation)
+                    explosionEffect(b.add)
                     count(m.places.size)
                     b.empty.isVisible = false
                 }

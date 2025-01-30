@@ -60,6 +60,7 @@
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plurals>
+    <string name="apply">Apply</string>
 
     <!-- Main -->
     <string name="momImport">Import from Json</string>
@@ -101,7 +102,7 @@
     <string name="noStat">The range of your records must exceed one month!</string>
     <string name="crushesStat">Crushes\' Statistics</string>
 
-    <!-- Identify -->
+    <!-- #Crush { Identify, Screening } -->
     <string name="identify">Identification</string>
     <string name="identifyKey">Unique Identifier</string>
     <string name="firstName">First Name</string>
@@ -114,7 +115,11 @@
         <item>Bigender</item>
         <item>Agender</item>
     </string-array>
-    <string name="fiction">Is a fictional character?</string>
+    <string name="isFictional">Is a fictional character?</string>
+    <string name="realPerson">Real person</string>
+    <string name="fictionalCharacter">Fictional character</string>
+    <string name="isUnsafePerson">Is an unsafe personality?</string>
+    <string name="safePerson">Safe personality</string>
     <string name="unsafePerson">Unsafe personality</string>
     <string name="birth">Birthday</string>
     <string name="heightInCM">Height (cm)</string>

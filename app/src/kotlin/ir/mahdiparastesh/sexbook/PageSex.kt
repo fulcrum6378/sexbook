@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
-import ir.mahdiparastesh.sexbook.Fun.explode
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.base.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.base.BasePage
@@ -188,7 +187,7 @@ class PageSex : BasePage() {
                 } else // go to/create a new month
                     reset(newOne.id)
 
-                b.add.explode(c)
+                c.explosionEffect(b.add)
                 b.empty.isVisible = false
                 if (anGrowShrinkForAdd != null) {
                     anGrowShrinkForAdd?.cancel()

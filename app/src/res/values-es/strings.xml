@@ -57,6 +57,7 @@
         <item quantity="one">%d hora</item>
         <item quantity="many">%d horas</item>
     </plurals>
+    <string name="apply">Aplicar</string>
 
     <!-- Main -->
     <string name="momImport">Importar desde Json</string>
@@ -100,7 +101,7 @@
     <string name="noStat">¡El rango de sus registros debe exceder un mes!</string>
     <string name="crushesStat">Estadísticas de Crushes</string>
 
-    <!-- Identify -->
+    <!-- #Crush { Identify, Screening } -->
     <string name="identify">Identificación</string>
     <string name="identifyKey">Identificador único</string>
     <string name="firstName">Nombre de pila</string>
@@ -113,7 +114,11 @@
         <item>Bigénero</item>
         <item>Agenda</item>
     </string-array>
-    <string name="fiction">¿Es un personaje ficticio?</string>
+    <string name="isFictional">¿Es un personaje ficticio?</string>
+    <string name="realPerson">Persona real</string>
+    <string name="fictionalCharacter">Personaje ficticio</string>
+    <string name="isUnsafePerson">¿Es una personalidad insegura?</string>
+    <string name="safePerson">Personalidad segura</string>
     <string name="unsafePerson">Personalidad insegura</string>
     <string name="birth">Cumpleaños</string>
     <string name="heightInCM">Altura (cm)</string>

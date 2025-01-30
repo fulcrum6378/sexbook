@@ -58,6 +58,7 @@
         <item quantity="few">%d hodiny</item>
         <item quantity="many">%d hodin</item>
     </plurals>
+    <string name="apply">Použít</string>
 
     <!-- Main -->
     <string name="momImport">Import z Json</string>
@@ -99,7 +100,7 @@
     <string name="noStat">Rozsah vašich záznamů musí přesáhnout jeden měsíc!</string>
     <string name="crushesStat">Crushesova statistika</string>
 
-    <!-- Identify -->
+    <!-- #Crush { Identify, Screening } -->
     <string name="identify">Identifikace</string>
     <string name="identifyKey">Unikátní identifikátor</string>
     <string name="firstName">Jméno</string>
@@ -112,7 +113,11 @@
         <item>Bigender</item>
         <item>Agender</item>
     </string-array>
-    <string name="fiction">Je fiktivní postava?</string>
+    <string name="isFictional">Je fiktivní postava?</string>
+    <string name="realPerson">Skutečná osoba</string>
+    <string name="fictionalCharacter">Fiktivní postava</string>
+    <string name="isUnsafePerson">Je nebezpečná osobnost?</string>
+    <string name="safePerson">Bezpečná osobnost</string>
     <string name="unsafePerson">Nebezpečná osobnost</string>
     <string name="birth">Narozeniny</string>
     <string name="heightInCM">Výška (cm)</string>

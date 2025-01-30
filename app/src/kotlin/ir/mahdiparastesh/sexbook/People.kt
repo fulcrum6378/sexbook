@@ -43,7 +43,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        b.toolbar.inflateMenu(R.menu.crush_list)
+        b.toolbar.inflateMenu(R.menu.people)
         b.toolbar.setOnMenuItemClickListener(this)
         return true
     }
@@ -64,10 +64,8 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 0) }
                 show(supportFragmentManager, CrushesStat.TAG)
             }
-            R.id.filter -> if (m.people.isNotEmpty()) Screening().apply {
-                arguments = Bundle().apply { putInt(Screening.BUNDLE_WHICH_LIST, 0) }
-                show(supportFragmentManager, Screening.TAG)
-            }
+            R.id.filter -> if (m.people.isNotEmpty())
+                Screening().show(supportFragmentManager, "screening")
             else -> {
                 Fun.sort(item.itemId)?.also { value ->
                     item.isChecked = true

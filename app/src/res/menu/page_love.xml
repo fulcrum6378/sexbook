@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AppCompatResource">
+
+    <item
+        android:id="@+id/chart"
+        android:icon="@drawable/chart_pie"
+        android:iconTint="?android:attr/textColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/chart" />
+
+    <item
+        android:icon="@drawable/sort"
+        android:iconTint="?android:attr/textColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/sort">
+
+        <menu>
+            <!-- do not remove group ids. -->
+            <group
+                android:id="@+id/sortBy"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/sortByName"
+                    android:title="@string/name" />
+                <item
+                    android:id="@+id/sortBySum"
+                    android:title="@string/sum" />
+                <item
+                    android:id="@+id/sortByAge"
+                    android:title="@string/age" />
+                <item
+                    android:id="@+id/sortByHeight"
+                    android:title="@string/height" />
+                <item
+                    android:id="@+id/sortByBeginning"
+                    android:title="@string/firstMet" />
+                <item
+                    android:id="@+id/sortByLast"
+                    android:title="@string/lastOrgasm" />
+                <item
+                    android:id="@+id/sortByFirst"
+                    android:title="@string/firstOrgasm" />
+            </group>
+
+            <group
+                android:id="@+id/sortOrder"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/sortAsc"
+                    android:title="@string/asc" />
+                <item
+                    android:id="@+id/sortDsc"
+                    android:title="@string/dsc" />
+            </group>
+        </menu>
+    </item>
+</menu>

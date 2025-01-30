@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.ctrl.Screening
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Dao
 import ir.mahdiparastesh.sexbook.data.Database
@@ -40,6 +41,8 @@ class Model : ViewModel() {
 
     /** A list of Crushes marked as "unsafe". */
     var unsafe = CopyOnWriteArraySet<String>()
+
+    var screening: Screening.Filters? = null
 
 
     fun resetData() {
