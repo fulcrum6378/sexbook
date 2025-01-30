@@ -11,7 +11,7 @@
         style="@style/yellowBoxList"
         android:paddingTop="@dimen/ybListPadV"
         android:paddingBottom="@dimen/ybListPadBottomForAddButton"
-        app:layoutManager=".misc.SafeLinearLayoutManager"
+        app:layoutManager=".view.SafeLinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/spnFilter"
         app:layout_constraintTop_toTopOf="parent" />
 

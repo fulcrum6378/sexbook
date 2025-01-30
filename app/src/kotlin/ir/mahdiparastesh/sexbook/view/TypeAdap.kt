@@ -1,10 +1,11 @@
-package ir.mahdiparastesh.sexbook.misc
+package ir.mahdiparastesh.sexbook.view
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import com.google.android.material.R
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.SexType
 import ir.mahdiparastesh.sexbook.base.BaseActivity
@@ -28,7 +29,7 @@ class TypeAdap(
     override fun getDropDownView(i: Int, convertView: View?, parent: ViewGroup): View =
         TypeSelectorDdBinding.inflate(li, parent, false).apply {
             icon.setImageResource(types[i].icon)
-            icon.colorFilter = c.themePdcf(com.google.android.material.R.attr.colorOnSecondary)
+            icon.colorFilter = c.themePdcf(R.attr.colorOnSecondary)
             name.text = types[i].name
         }.root
 }

@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package ir.mahdiparastesh.sexbook.misc
+package ir.mahdiparastesh.sexbook.view
 
 import android.content.Context
 import android.util.AttributeSet

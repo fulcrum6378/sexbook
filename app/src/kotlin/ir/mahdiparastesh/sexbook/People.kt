@@ -15,7 +15,7 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
 import ir.mahdiparastesh.sexbook.list.PersonAdap
 import ir.mahdiparastesh.sexbook.misc.Delay
-import ir.mahdiparastesh.sexbook.misc.Lister
+import ir.mahdiparastesh.sexbook.view.Lister
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
 
 class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
@@ -62,6 +62,9 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
             R.id.chart -> if (m.people.isNotEmpty()) CrushesStat().apply {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 0) }
                 show(supportFragmentManager, CrushesStat.TAG)
+            }
+            R.id.filter -> if (m.people.isNotEmpty()) {
+                // TODO
             }
             else -> {
                 Fun.sort(item.itemId)?.also { value ->

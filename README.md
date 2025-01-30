@@ -36,6 +36,7 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters.
 - [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/misc) : miscellaneous utilities.
 - [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) : everything related to statistics (as mentioned above).
+- [**view**](app/src/kotlin/ir/mahdiparastesh/sexbook/view) : View-related utilities.
 
 ### Statistics
 

@@ -43,10 +43,8 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
-import ir.mahdiparastesh.sexbook.misc.ActionBarDrawerToggle
 import ir.mahdiparastesh.sexbook.misc.CalendarManager
 import ir.mahdiparastesh.sexbook.misc.Delay
-import ir.mahdiparastesh.sexbook.misc.Lister
 import ir.mahdiparastesh.sexbook.stat.Adorability
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
 import ir.mahdiparastesh.sexbook.stat.Growth
@@ -56,6 +54,8 @@ import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Summary
 import ir.mahdiparastesh.sexbook.stat.SummaryDialog
 import ir.mahdiparastesh.sexbook.stat.Taste
+import ir.mahdiparastesh.sexbook.view.ActionBarDrawerToggle
+import ir.mahdiparastesh.sexbook.view.Lister
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -332,6 +332,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.chart -> if (m.liefde.isNotEmpty()) CrushesStat().apply {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 1) }
                 show(supportFragmentManager, CrushesStat.TAG)
+            }
+            R.id.filter -> if (m.liefde.isNotEmpty()) {
+                // TODO
             }
             else -> {
                 Fun.sort(item.itemId)?.also { value ->

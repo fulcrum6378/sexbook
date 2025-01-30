@@ -14,10 +14,10 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Identify
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
-import ir.mahdiparastesh.sexbook.misc.Act
-import ir.mahdiparastesh.sexbook.misc.AnyViewHolder
-import ir.mahdiparastesh.sexbook.misc.MaterialMenu
 import ir.mahdiparastesh.sexbook.stat.Singular
+import ir.mahdiparastesh.sexbook.view.Act
+import ir.mahdiparastesh.sexbook.view.AnyViewHolder
+import ir.mahdiparastesh.sexbook.view.MaterialMenu
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

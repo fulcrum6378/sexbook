@@ -32,11 +32,11 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Database.DbFile
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.list.BNtfCrushAdap
-import ir.mahdiparastesh.sexbook.misc.Act
 import ir.mahdiparastesh.sexbook.misc.CalendarManager
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
-import ir.mahdiparastesh.sexbook.misc.MaterialMenu
-import ir.mahdiparastesh.sexbook.misc.SafeLinearLayoutManager
+import ir.mahdiparastesh.sexbook.view.Act
+import ir.mahdiparastesh.sexbook.view.MaterialMenu
+import ir.mahdiparastesh.sexbook.view.SafeLinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

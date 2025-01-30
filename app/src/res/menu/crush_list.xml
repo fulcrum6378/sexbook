@@ -57,9 +57,12 @@
         </menu>
     </item>
 
-    <!--<item android:title="@string/filter">
-        <menu />
-    </item>-->
+    <item
+        android:id="@+id/filter"
+        android:icon="@drawable/filter"
+        android:iconTint="?android:attr/textColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/filter" />
 
     <!--<item
         android:id="@+id/search"

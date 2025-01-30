@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.misc
+package ir.mahdiparastesh.sexbook.view
 
 import android.view.ContextThemeWrapper
 import android.view.MenuItem

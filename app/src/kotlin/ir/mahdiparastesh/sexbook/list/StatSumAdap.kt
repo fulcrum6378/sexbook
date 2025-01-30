@@ -13,8 +13,8 @@ import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.SumChipGroupBinding
-import ir.mahdiparastesh.sexbook.misc.AnyViewHolder
 import ir.mahdiparastesh.sexbook.stat.Singular
+import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 
 class StatSumAdap(
     private val c: BaseActivity,

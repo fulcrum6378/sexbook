@@ -7,7 +7,7 @@
     android:paddingBottom="0dp"
     android:theme="@style/Theme.Sexbook.Dialogue.Layout">
 
-    <ir.mahdiparastesh.sexbook.misc.SoftEditText
+    <ir.mahdiparastesh.sexbook.view.SoftEditText
         android:id="@+id/find"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

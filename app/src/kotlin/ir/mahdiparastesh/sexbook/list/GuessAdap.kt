@@ -22,11 +22,11 @@ import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
-import ir.mahdiparastesh.sexbook.misc.Act
-import ir.mahdiparastesh.sexbook.misc.AnyViewHolder
 import ir.mahdiparastesh.sexbook.misc.Delay
-import ir.mahdiparastesh.sexbook.misc.MaterialMenu
-import ir.mahdiparastesh.sexbook.misc.TypeAdap
+import ir.mahdiparastesh.sexbook.view.Act
+import ir.mahdiparastesh.sexbook.view.AnyViewHolder
+import ir.mahdiparastesh.sexbook.view.MaterialMenu
+import ir.mahdiparastesh.sexbook.view.TypeAdap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

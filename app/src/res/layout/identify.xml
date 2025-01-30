@@ -17,7 +17,7 @@
             style="@style/identifyInputLayout"
             android:hint="@string/identifyKey">
 
-            <ir.mahdiparastesh.sexbook.misc.SoftEditText
+            <ir.mahdiparastesh.sexbook.view.SoftEditText
                 android:id="@+id/key"
                 style="@style/identifyET"
                 android:importantForAutofill="no"
@@ -34,7 +34,7 @@
             style="@style/identifyInputLayout"
             android:hint="@string/firstName">
 
-            <ir.mahdiparastesh.sexbook.misc.SoftEditText
+            <ir.mahdiparastesh.sexbook.view.SoftEditText
                 android:id="@+id/fName"
                 style="@style/identifyET"
                 android:autofillHints="personGivenName"
@@ -47,7 +47,7 @@
             style="@style/identifyInputLayout"
             android:hint="@string/middleName">
 
-            <ir.mahdiparastesh.sexbook.misc.SoftEditText
+            <ir.mahdiparastesh.sexbook.view.SoftEditText
                 android:id="@+id/mName"
                 style="@style/identifyET"
                 android:autofillHints="personMiddleName"
@@ -60,7 +60,7 @@
             style="@style/identifyInputLayout"
             android:hint="@string/lastName">
 
-            <ir.mahdiparastesh.sexbook.misc.SoftEditText
+            <ir.mahdiparastesh.sexbook.view.SoftEditText
                 android:id="@+id/lName"
                 style="@style/identifyET"
                 android:autofillHints="personFamilyName"
@@ -119,7 +119,7 @@
             style="@style/identifyInputLayout"
             android:hint="@string/heightInCM">
 
-            <ir.mahdiparastesh.sexbook.misc.SoftEditText
+            <ir.mahdiparastesh.sexbook.view.SoftEditText
                 android:id="@+id/height"
                 style="@style/identifyET"
                 android:importantForAutofill="no"
@@ -133,7 +133,7 @@
             style="@style/identifyInputLayout"
             android:hint="@string/address">
 
-            <ir.mahdiparastesh.sexbook.misc.SoftEditText
+            <ir.mahdiparastesh.sexbook.view.SoftEditText
                 android:id="@+id/address"
                 style="@style/identifyET"
                 android:autofillHints="addressLocality"
@@ -147,7 +147,7 @@
             style="@style/identifyInputLayout"
             android:hint="@string/instagram">
 
-            <ir.mahdiparastesh.sexbook.misc.SoftEditText
+            <ir.mahdiparastesh.sexbook.view.SoftEditText
                 android:id="@+id/instagram"
                 style="@style/identifyET"
                 android:autofillHints="username"
