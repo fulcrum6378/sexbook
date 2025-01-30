@@ -9,7 +9,6 @@ import android.util.AttributeSet
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import androidx.annotation.AttrRes
-import com.google.android.material.R
 
 /**
  * Subclass of EditText that solves the problem of soft keyboard and selectable text.
@@ -20,7 +19,7 @@ open class SoftEditText(
     context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int
 ) : EditText(context, attrs, defStyleAttr) {
     constructor(context: Context, attrs: AttributeSet?) :
-            this(context, attrs, R.attr.editTextStyle)
+            this(context, attrs, android.R.attr.editTextStyle)
 
     constructor(context: Context) : this(context, null)
 
@@ -55,7 +54,7 @@ open class SoftAutoCompleteTextView(
     context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int
 ) : AutoCompleteTextView(context, attrs, defStyleAttr) {
     constructor(context: Context, attrs: AttributeSet?) :
-            this(context, attrs, R.attr.autoCompleteTextViewStyle)
+            this(context, attrs, android.R.attr.autoCompleteTextViewStyle)
 
     constructor(context: Context) : this(context, null)
 

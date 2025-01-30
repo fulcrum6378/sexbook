@@ -129,7 +129,7 @@
         </provider>
 
         <provider
-            android:name=".data.Provider"
+            android:name=".ctrl.Provider"
             android:authorities="${packageName}"
             android:exported="true"
             android:readPermission="ir.mahdiparastesh.sexbook.READ_DATABASE"

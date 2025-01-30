@@ -11,12 +11,13 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import com.google.android.material.badge.BadgeDrawable
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.ctrl.Screening
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
 import ir.mahdiparastesh.sexbook.list.PersonAdap
 import ir.mahdiparastesh.sexbook.misc.Delay
-import ir.mahdiparastesh.sexbook.view.Lister
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
+import ir.mahdiparastesh.sexbook.view.Lister
 
 class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     lateinit var b: PeopleBinding
@@ -63,8 +64,9 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 0) }
                 show(supportFragmentManager, CrushesStat.TAG)
             }
-            R.id.filter -> if (m.people.isNotEmpty()) {
-                // TODO
+            R.id.filter -> if (m.people.isNotEmpty()) Screening().apply {
+                arguments = Bundle().apply { putInt(Screening.BUNDLE_WHICH_LIST, 0) }
+                show(supportFragmentManager, Screening.TAG)
             }
             else -> {
                 Fun.sort(item.itemId)?.also { value ->

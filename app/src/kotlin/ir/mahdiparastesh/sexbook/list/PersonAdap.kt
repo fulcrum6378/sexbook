@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.People
+import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.data.Crush
-import ir.mahdiparastesh.sexbook.data.Identify
 import ir.mahdiparastesh.sexbook.databinding.ItemPersonBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
@@ -48,7 +48,7 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
 
         // Clicks
         h.b.root.setOnClickListener {
-            c.mm.visPeople.getOrNull(h.layoutPosition)?.also { Identify.display(c, it) }
+            c.mm.visPeople.getOrNull(h.layoutPosition)?.also { Identify.create<People>(c, it) }
         }
         h.b.root.setOnLongClickListener {
             c.mm.visPeople.getOrNull(h.layoutPosition)?.also {

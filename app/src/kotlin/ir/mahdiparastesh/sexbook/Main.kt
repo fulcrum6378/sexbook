@@ -35,9 +35,10 @@ import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.possessiveDeterminer
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.ctrl.Exporter
+import ir.mahdiparastesh.sexbook.ctrl.Screening
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Database
-import ir.mahdiparastesh.sexbook.data.Exporter
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
@@ -333,8 +334,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 1) }
                 show(supportFragmentManager, CrushesStat.TAG)
             }
-            R.id.filter -> if (m.liefde.isNotEmpty()) {
-                // TODO
+            R.id.filter -> if (m.liefde.isNotEmpty()) Screening().apply {
+                arguments = Bundle().apply { putInt(Screening.BUNDLE_WHICH_LIST, 1) }
+                show(supportFragmentManager, Screening.TAG)
             }
             else -> {
                 Fun.sort(item.itemId)?.also { value ->

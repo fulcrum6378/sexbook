@@ -51,7 +51,7 @@ class Settings : BaseActivity() {
 
     /**
      * Beware of the numerical fields;
-     * Go to [ir.mahdiparastesh.sexbook.data.Exporter.replace] for modifications.
+     * Go to [ir.mahdiparastesh.sexbook.ctrl.Exporter.replace] for modifications.
      */
     companion object {
         const val spName = "settings"

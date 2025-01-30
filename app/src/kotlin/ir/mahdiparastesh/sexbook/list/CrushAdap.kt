@@ -11,8 +11,8 @@ import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.data.Crush
-import ir.mahdiparastesh.sexbook.data.Identify
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.view.Act
@@ -56,7 +56,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                     }
                 }
                 this[R.id.lcIdentify] = {
-                    Identify.display(c, crk)
+                    Identify.create<Main>(c, crk)
                 }
                 this[R.id.lcStatistics] = {
                     c.goTo(Singular::class) {
@@ -79,7 +79,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
             }.show()
         }
         h.b.root.setOnLongClickListener {
-            c.m.liefde.getOrNull(h.layoutPosition)?.also { Identify.display(c, it) }; true
+            c.m.liefde.getOrNull(h.layoutPosition)?.also { Identify.create<Main>(c, it) }; true
         }
     }
 

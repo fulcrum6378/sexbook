@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Settings
+import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.data.Crush
-import ir.mahdiparastesh.sexbook.data.Identify
 import ir.mahdiparastesh.sexbook.databinding.ItemPersonBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
-import ir.mahdiparastesh.sexbook.view.Act
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +50,8 @@ class BNtfCrushAdap(val c: Settings) : RecyclerView.Adapter<AnyViewHolder<ItemPe
 
         // Clicks
         h.b.root.setOnClickListener {
-            c.mm.bNtfCrushes.getOrNull(h.layoutPosition)?.also { Identify.display(c, it) }
+            c.mm.bNtfCrushes.getOrNull(h.layoutPosition)
+                ?.also { Identify.create<Settings>(c, it) }
         }
         h.b.root.setOnLongClickListener {
             c.mm.bNtfCrushes.getOrNull(h.layoutPosition)?.also {

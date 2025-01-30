@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.data
+package ir.mahdiparastesh.sexbook.ctrl
 
 import android.app.Activity
 import android.content.Intent
@@ -18,6 +18,10 @@ import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.data.Crush
+import ir.mahdiparastesh.sexbook.data.Guess
+import ir.mahdiparastesh.sexbook.data.Place
+import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,9 +1,8 @@
-package ir.mahdiparastesh.sexbook.data
+package ir.mahdiparastesh.sexbook.ctrl
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -19,7 +18,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.shake
@@ -27,6 +25,8 @@ import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.base.BaseDialog
+import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
 import kotlinx.coroutines.CoroutineScope
@@ -37,26 +37,22 @@ import kotlin.experimental.and
 import kotlin.experimental.or
 
 /** A Dialog for filling data for a Crush. */
-class Identify() : DialogFragment() {
-    constructor(c: BaseActivity, crush: String?) : this() {
-        this.c = c
-        Companion.crush = c.m.people[crush]
-    }
+class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent : BaseActivity {
 
     companion object {
         private const val TAG = "identify"
         const val BUNDLE_CRUSH_KEY = "crush_key"
         var crush: Crush? = null
 
-        fun display(c: BaseActivity, crush: String) {
-            Identify(c, crush).apply {
+        fun <Parent> create(c: BaseActivity, crush: String) where Parent : BaseActivity {
+            Companion.crush = c.m.people[crush]
+            Identify<Parent>().apply {
                 arguments = Bundle().apply { putString(BUNDLE_CRUSH_KEY, crush) }
                 show(c.supportFragmentManager, TAG)
             }
         }
     }
 
-    private lateinit var c: BaseActivity
     private lateinit var b: IdentifyBinding
     private val cancellability: CountDownTimer = object : CountDownTimer(15000, 15000) {
         override fun onTick(millisUntilFinished: Long) {}
@@ -66,11 +62,6 @@ class Identify() : DialogFragment() {
     }
     private val disabledAlpha = 0.7f
     private val accFromUrl = arrayOf(Fun.INSTA, "https://instagram.com/")
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        c = context as BaseActivity
-    }
 
     @SuppressLint("NewApi", "SetTextI18n")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

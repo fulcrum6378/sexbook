@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.data
+package ir.mahdiparastesh.sexbook.ctrl
 
 import android.content.ContentProvider
 import android.content.ContentValues
@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
+import ir.mahdiparastesh.sexbook.data.Database
 
 /** API (ContentProvider) for other apps to read and/or write data in Sexbook. */
 class Provider : ContentProvider() {

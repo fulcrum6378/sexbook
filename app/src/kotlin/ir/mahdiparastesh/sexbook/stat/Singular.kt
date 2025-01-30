@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.ColumnChartData
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
-import ir.mahdiparastesh.sexbook.data.Identify
+import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 
 class Singular : ChartActivity<SingularBinding>() {
@@ -28,7 +28,7 @@ class Singular : ChartActivity<SingularBinding>() {
         if (night()) b.identifyIV.colorFilter = themePdcf()
 
         b.title.text = mm.crushKey
-        b.identify.setOnClickListener { Identify.display(this@Singular, mm.crushKey!!) }
+        b.identify.setOnClickListener { Identify.create<Singular>(this@Singular, mm.crushKey!!) }
     }
 
     override fun requirements(): Boolean {
