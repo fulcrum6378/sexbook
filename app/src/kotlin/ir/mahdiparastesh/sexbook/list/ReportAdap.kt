@@ -33,7 +33,6 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
-import ir.mahdiparastesh.sexbook.view.Act
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.MaterialMenu
 import ir.mahdiparastesh.sexbook.view.RecyclerViewItemEvent
@@ -248,23 +247,23 @@ class ReportAdap(
     }
 
     private fun more(v: View, h: AnyViewHolder<ItemReportBinding>, r: Report) {
-        MaterialMenu(c, v, R.menu.report, Act().apply {
-            this[R.id.lcExpand] = {
+        MaterialMenu(c, v, R.menu.report,
+            R.id.lcExpand to {
                 turnOverflow(h.layoutPosition, h.b)
-            }
-            this[R.id.lcAccurate] = {
+            },
+            R.id.lcAccurate to {
                 if (r.accu != !it.isChecked) {
                     r.accu = !it.isChecked
                     update(r.id)
                 }
-            }
-            this[R.id.lcOrgasmed] = {
+            },
+            R.id.lcOrgasmed to {
                 if (r.ogsm != !it.isChecked) {
                     r.ogsm = !it.isChecked
                     update(r.id)
                 }
-            }
-            this[R.id.lcDelete] = {
+            },
+            R.id.lcDelete to {
                 CoroutineScope(Dispatchers.IO).launch {
                     c.m.dao.rDelete(r)
                     c.m.reports.remove(r.id)
@@ -281,7 +280,7 @@ class ReportAdap(
                     }
                 }
             }
-        }).apply {
+        ).apply {
             menu.findItem(R.id.lcAccurate).isChecked = r.accu
             menu.findItem(R.id.lcOrgasmed).isChecked = r.ogsm
             if (expansion[h.layoutPosition]) menu.findItem(R.id.lcExpand).title =

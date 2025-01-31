@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/lcInstagram"
+        android:title="@string/instagram" />
+    <!--<item
         android:id="@+id/lcIdentify"
-        android:title="@string/identify" />
+        android:title="@string/identify" />-->
     <item
         android:id="@+id/lcStatistics"
         android:title="@string/statistics" />
-    <item
-        android:id="@+id/lcInstagram"
-        android:title="@string/instagram" />
-    <item
-        android:id="@+id/lcDeactivate"
-        android:title="@string/deactivate" />
 </menu>

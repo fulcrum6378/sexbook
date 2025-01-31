@@ -16,7 +16,6 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings.Companion.spDefPlace
 import ir.mahdiparastesh.sexbook.databinding.ItemPlaceBinding
 import ir.mahdiparastesh.sexbook.databinding.MigratePlaceBinding
-import ir.mahdiparastesh.sexbook.view.Act
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.MaterialMenu
 import kotlinx.coroutines.CoroutineScope
@@ -57,16 +56,16 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
 
         // Click
         val longClick = View.OnLongClickListener { v ->
-            if (c.m.places.size <= h.layoutPosition)
-                return@OnLongClickListener true
-            MaterialMenu(c, v, R.menu.place, Act().apply {
-                this[R.id.plDefPlace] = {
+            if (c.m.places.size <= h.layoutPosition) return@OnLongClickListener true
+
+            MaterialMenu(c, v, R.menu.place,
+                R.id.plDefPlace to {
                     c.sp.edit().apply {
                         putLong(spDefPlace, c.m.places[h.layoutPosition].id)
                         apply()
                     }
-                }
-                this[R.id.plDelete] = {
+                },
+                R.id.plDelete to {
                     if (c.m.places[h.layoutPosition].sum > 0
                     ) MaterialAlertDialogBuilder(c).apply {
                         val bm = MigratePlaceBinding.inflate(c.layoutInflater)
@@ -92,7 +91,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
                     }.show()
                     else delete(h.layoutPosition, -1L)
                 }
-            }).apply {
+            ).apply {
                 if (c.sp.contains(spDefPlace) && c.sp.getLong(spDefPlace, -1L)
                     == c.m.places[h.layoutPosition].id
                 ) menu.findItem(R.id.plDefPlace).isChecked = true

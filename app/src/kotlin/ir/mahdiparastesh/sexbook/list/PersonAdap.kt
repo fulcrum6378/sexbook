@@ -1,15 +1,21 @@
 package ir.mahdiparastesh.sexbook.list
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.People
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.ItemPersonBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
+import ir.mahdiparastesh.sexbook.view.MaterialMenu
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,10 +56,29 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
         h.b.root.setOnClickListener {
             c.mm.visPeople.getOrNull(h.layoutPosition)?.also { Identify.create<People>(c, it) }
         }
-        h.b.root.setOnLongClickListener {
-            c.mm.visPeople.getOrNull(h.layoutPosition)?.also {
-                c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, it) }
-            }; true
+        h.b.root.setOnLongClickListener { v ->
+            val pk = c.mm.visPeople.getOrNull(h.layoutPosition)
+                ?: return@setOnLongClickListener false
+            val pc = c.m.people[pk] ?: return@setOnLongClickListener false
+
+            MaterialMenu(c, v, R.menu.person,
+                R.id.lcStatistics to {
+                    c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, pk) }
+                },
+                R.id.lcInstagram to {
+                    if (pc.insta != null && pc.insta != "") try {
+                        c.startActivity(
+                            Intent(Intent.ACTION_VIEW, Uri.parse(Fun.INSTA + pc.insta))
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        )
+                    } catch (_: ActivityNotFoundException) {
+                    }
+                }
+            ).apply {
+                menu.findItem(R.id.lcInstagram).isVisible = pc.insta != null && pc.insta != ""
+                menu.findItem(R.id.lcStatistics).isVisible = p.getSum(c.m) > 0f
+            }.show()
+            true
         }
     }
 

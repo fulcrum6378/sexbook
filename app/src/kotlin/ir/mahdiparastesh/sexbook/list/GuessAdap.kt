@@ -23,7 +23,6 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
 import ir.mahdiparastesh.sexbook.misc.Delay
-import ir.mahdiparastesh.sexbook.view.Act
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.MaterialMenu
 import ir.mahdiparastesh.sexbook.view.TypeAdap
@@ -31,7 +30,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.collections.set
 
 class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGuessBinding>>() {
     val places = c.m.places.sortedWith(Place.Sort(Place.Sort.NAME))
@@ -193,10 +191,10 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
 
         // Long Click
         val longClick = View.OnLongClickListener { v ->
-            val gu = c.m.guesses.getOrNull(h.layoutPosition)
-                ?: return@OnLongClickListener false
-            MaterialMenu(c, v, R.menu.guess, Act().apply {
-                this[R.id.glSuspend] = {
+            val gu = c.m.guesses.getOrNull(h.layoutPosition) ?: return@OnLongClickListener false
+
+            MaterialMenu(c, v, R.menu.guess,
+                R.id.glSuspend to {
                     c.m.guesses.getOrNull(h.layoutPosition)?.apply {
                         able = !able
                         CoroutineScope(Dispatchers.IO).launch {
@@ -205,8 +203,8 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                             withContext(Dispatchers.Main) { notifyItemChanged(h.layoutPosition) }
                         }
                     }
-                }
-                this[R.id.glDelete] = {
+                },
+                R.id.glDelete to {
                     MaterialAlertDialogBuilder(c).apply {
                         setTitle(c.resources.getString(R.string.delete))
                         setMessage(c.resources.getString(R.string.etDeleteGuessSure))
@@ -227,7 +225,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
                         setCancelable(true)
                     }.show()
                 }
-            }).apply {
+            ).apply {
                 if (!gu.able) menu.findItem(R.id.glSuspend)?.isChecked = true
             }.show()
             true

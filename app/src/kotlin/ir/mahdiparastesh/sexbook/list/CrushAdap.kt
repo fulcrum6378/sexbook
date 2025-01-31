@@ -8,14 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Fun.show
-import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
-import ir.mahdiparastesh.sexbook.view.Act
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.MaterialMenu
 import kotlinx.coroutines.CoroutineScope
@@ -43,27 +41,21 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
             val crk = c.m.liefde.getOrNull(h.layoutPosition) ?: return@setOnClickListener
             val crc = c.m.people[crk] ?: return@setOnClickListener
 
-            MaterialMenu(c, v, R.menu.crush, Act().apply {
-                this[R.id.lcInstagram] = {
+            MaterialMenu(c, v, R.menu.crush,
+                R.id.lcIdentify to { Identify.create<Main>(c, crk) },
+                R.id.lcStatistics to {
+                    c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, crk) }
+                },
+                R.id.lcInstagram to {
                     if (crc.insta != null && crc.insta != "") try {
                         c.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(Fun.INSTA + crc.insta)
-                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            Intent(Intent.ACTION_VIEW, Uri.parse(Fun.INSTA + crc.insta))
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         )
                     } catch (_: ActivityNotFoundException) {
                     }
-                }
-                this[R.id.lcIdentify] = {
-                    Identify.create<Main>(c, crk)
-                }
-                this[R.id.lcStatistics] = {
-                    c.goTo(Singular::class) {
-                        putExtra(Singular.EXTRA_CRUSH_KEY, crk)
-                    }
-                }
-                this[R.id.lcDeactivate] = {
+                },
+                R.id.lcDeactivate to {
                     crc.status = crc.status or Crush.STAT_INACTIVE
                     CoroutineScope(Dispatchers.IO).launch {
                         c.m.dao.cUpdate(crc)
@@ -71,11 +63,9 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                     }
                     c.shake()
                 }
-            }).apply {
+            ).apply {
                 menu.findItem(R.id.lcInstagram).isVisible = crc.insta != null && crc.insta != ""
-                val sum = c.m.summary?.scores?.get(crk)
-                    ?.sumOf { it.value }?.toDouble()
-                menu.findItem(R.id.lcStatistics).isVisible = sum != null && sum > 0.0
+                menu.findItem(R.id.lcStatistics).isVisible = cr.getSum(c.m) > 0.0
             }.show()
         }
         h.b.root.setOnLongClickListener {

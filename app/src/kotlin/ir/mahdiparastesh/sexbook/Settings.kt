@@ -34,7 +34,6 @@ import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.list.BNtfCrushAdap
 import ir.mahdiparastesh.sexbook.misc.CalendarManager
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
-import ir.mahdiparastesh.sexbook.view.Act
 import ir.mahdiparastesh.sexbook.view.MaterialMenu
 import ir.mahdiparastesh.sexbook.view.SafeLinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
@@ -190,8 +189,8 @@ class Settings : BaseActivity() {
 
         // Statisticise Range: Long Click
         View.OnLongClickListener { v ->
-            MaterialMenu(this, v, R.menu.clear_date, Act().apply {
-                this[R.id.clearDate] = {
+            MaterialMenu(this, v, R.menu.clear_date,
+                R.id.clearDate to {
                     if (v == b.stStatSince) {
                         sp.edit().remove(spStatSince).putBoolean(spStatSinceCb, false).apply()
                         b.stStatSinceDateCb.isChecked = false
@@ -204,7 +203,7 @@ class Settings : BaseActivity() {
                         b.stStatUntilDate.text = emptyDate
                     }
                 }
-            }).show(); true
+            ).show(); true
         }.also {
             b.stStatSince.setOnLongClickListener(it)
             b.stStatUntil.setOnLongClickListener(it)
