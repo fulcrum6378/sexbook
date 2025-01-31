@@ -104,10 +104,9 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
                     (filters.fiction - 1) != (p.value.status and STAT_FICTION).toInt() shr 3
                 ) return@filter false
 
-                if (filters.safety != 0) {
-                    if ((filters.safety - 1) != (p.value.status and STAT_UNSAFE_PERSON).toInt() shr 5)
-                        return@filter false
-                } else !p.value.unsafe()
+                if (filters.safety != 0 &&
+                    (filters.safety - 1) != (p.value.status and STAT_UNSAFE_PERSON).toInt() shr 5
+                ) return@filter false
 
                 return@filter true
             }

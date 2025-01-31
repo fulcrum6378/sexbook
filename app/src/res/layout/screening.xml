@@ -27,5 +27,69 @@
         <Spinner
             android:id="@+id/safety"
             style="@style/screeningSpinner" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:id="@+id/bodySkinColour"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyEyeColour"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyFaceShape"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyBreasts"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyMuscle"
+                    style="@style/identifyBodyAttr" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:id="@+id/bodyHairColour"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyEyeShape"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyFat"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodyPenis"
+                    style="@style/identifyBodyAttr" />
+
+                <Spinner
+                    android:id="@+id/bodySexuality"
+                    style="@style/identifyBodyAttr" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
