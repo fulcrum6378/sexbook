@@ -13,8 +13,6 @@ import com.google.android.material.badge.BadgeDrawable
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.ctrl.Screening
 import ir.mahdiparastesh.sexbook.data.Crush
-import ir.mahdiparastesh.sexbook.data.Crush.Companion.STAT_FICTION
-import ir.mahdiparastesh.sexbook.data.Crush.Companion.STAT_UNSAFE_PERSON
 import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
 import ir.mahdiparastesh.sexbook.list.PersonAdap
 import ir.mahdiparastesh.sexbook.misc.Delay
@@ -96,16 +94,49 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
         val filters = m.screening
         mm.visPeople = ArrayList(when {
             filters?.any() == true -> m.people.filter { p ->
+
+                // Crush::status
                 if (filters.gender != 0 &&
                     filters.gender != (p.value.status and Crush.STAT_GENDER).toInt()
                 ) return@filter false
-
                 if (filters.fiction != 0 &&
-                    (filters.fiction - 1) != (p.value.status and STAT_FICTION).toInt() shr 3
+                    (filters.fiction - 1) != (p.value.status and Crush.STAT_FICTION).toInt() shr 3
+                ) return@filter false
+                if (filters.safety != 0 &&
+                    (filters.safety - 1) != (p.value.status and Crush.STAT_UNSAFE_PERSON).toInt() shr 5
                 ) return@filter false
 
-                if (filters.safety != 0 &&
-                    (filters.safety - 1) != (p.value.status and STAT_UNSAFE_PERSON).toInt() shr 5
+                // Crush::body
+                val body = p.value.body
+                if (filters.bodySkinColour != 0 && filters.bodySkinColour !=
+                    (body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second
+                ) return@filter false
+                if (filters.bodyHairColour != 0 && filters.bodyHairColour !=
+                    (body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second
+                ) return@filter false
+                if (filters.bodyEyeColour != 0 && filters.bodyEyeColour !=
+                    (body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second
+                ) return@filter false
+                if (filters.bodyEyeShape != 0 && filters.bodyEyeShape !=
+                    (body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second
+                ) return@filter false
+                if (filters.bodyFaceShape != 0 && filters.bodyFaceShape !=
+                    (body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second
+                ) return@filter false
+                if (filters.bodyFat != 0 && filters.bodyFat !=
+                    (body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second
+                ) return@filter false
+                if (filters.bodyMuscle != 0 && filters.bodyMuscle !=
+                    (body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second
+                ) return@filter false
+                if (filters.bodyBreasts != 0 && filters.bodyBreasts !=
+                    (body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second
+                ) return@filter false
+                if (filters.bodyPenis != 0 && filters.bodyPenis !=
+                    (body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second
+                ) return@filter false
+                if (filters.bodySexuality != 0 && filters.bodySexuality !=
+                    (body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second
                 ) return@filter false
 
                 return@filter true

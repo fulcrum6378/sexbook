@@ -14,7 +14,6 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseDialog
-import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.ScreeningBinding
 
 /** An advanced interface for filtering people. */
@@ -42,47 +41,16 @@ class Screening : BaseDialog<People>() {
                 getString(R.string.unsafePerson),
             ), c.m.screening?.safety
         )
-        val body = c.m.screening?.body
-        prepareSpinner(
-            b.bodySkinColour, R.array.bodySkinColour,
-            body?.let { (body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second }
-        )
-        prepareSpinner(
-            b.bodyHairColour, R.array.bodyHairColour,
-            body?.let { (body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second }
-        )
-        prepareSpinner(
-            b.bodyEyeColour, R.array.bodyEyeColour,
-            body?.let { (body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second }
-        )
-        prepareSpinner(
-            b.bodyEyeShape, R.array.bodyEyeShape,
-            body?.let { (body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second }
-        )
-        prepareSpinner(
-            b.bodyFaceShape, R.array.bodyFaceShape,
-            body?.let { (body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second }
-        )
-        prepareSpinner(
-            b.bodyFat, R.array.bodyFat,
-            body?.let { (body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second }
-        )
-        prepareSpinner(
-            b.bodyBreasts, R.array.bodyBreasts,
-            body?.let { (body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second }
-        )
-        prepareSpinner(
-            b.bodyPenis, R.array.bodyPenis,
-            body?.let { (body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second }
-        )
-        prepareSpinner(
-            b.bodyMuscle, R.array.bodyMuscle,
-            body?.let { (body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second }
-        )
-        prepareSpinner(
-            b.bodySexuality, R.array.bodySexuality,
-            body?.let { (body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second }
-        )
+        prepareSpinner(b.bodySkinColour, R.array.bodySkinColour, c.m.screening?.bodySkinColour)
+        prepareSpinner(b.bodyHairColour, R.array.bodyHairColour, c.m.screening?.bodyHairColour)
+        prepareSpinner(b.bodyEyeColour, R.array.bodyEyeColour, c.m.screening?.bodyEyeColour)
+        prepareSpinner(b.bodyEyeShape, R.array.bodyEyeShape, c.m.screening?.bodyEyeShape)
+        prepareSpinner(b.bodyFaceShape, R.array.bodyFaceShape, c.m.screening?.bodyFaceShape)
+        prepareSpinner(b.bodyFat, R.array.bodyFat, c.m.screening?.bodyFat)
+        prepareSpinner(b.bodyBreasts, R.array.bodyBreasts, c.m.screening?.bodyBreasts)
+        prepareSpinner(b.bodyPenis, R.array.bodyPenis, c.m.screening?.bodyPenis)
+        prepareSpinner(b.bodyMuscle, R.array.bodyMuscle, c.m.screening?.bodyMuscle)
+        prepareSpinner(b.bodySexuality, R.array.bodySexuality, c.m.screening?.bodySexuality)
 
         return MaterialAlertDialogBuilder(c).apply {
             setTitle(R.string.filter)
@@ -92,16 +60,11 @@ class Screening : BaseDialog<People>() {
                     b.gender.selectedItemPosition,
                     b.fiction.selectedItemPosition,
                     b.safety.selectedItemPosition,
-                    (b.bodySkinColour.selectedItemPosition shl Crush.BODY_SKIN_COLOUR.second) or
-                            (b.bodyHairColour.selectedItemPosition shl Crush.BODY_HAIR_COLOUR.second) or
-                            (b.bodyEyeColour.selectedItemPosition shl Crush.BODY_EYE_COLOUR.second) or
-                            (b.bodyEyeShape.selectedItemPosition shl Crush.BODY_EYE_SHAPE.second) or
-                            (b.bodyFaceShape.selectedItemPosition shl Crush.BODY_FACE_SHAPE.second) or
-                            (b.bodyFat.selectedItemPosition shl Crush.BODY_FAT.second) or
-                            (b.bodyMuscle.selectedItemPosition shl Crush.BODY_MUSCLE.second) or
-                            (b.bodyBreasts.selectedItemPosition shl Crush.BODY_BREASTS.second) or
-                            (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second) or
-                            (b.bodySexuality.selectedItemPosition shl Crush.BODY_SEXUALITY.second)
+                    b.bodySkinColour.selectedItemPosition, b.bodyHairColour.selectedItemPosition,
+                    b.bodyEyeColour.selectedItemPosition, b.bodyEyeShape.selectedItemPosition,
+                    b.bodyFaceShape.selectedItemPosition, b.bodyFat.selectedItemPosition,
+                    b.bodyBreasts.selectedItemPosition, b.bodyPenis.selectedItemPosition,
+                    b.bodyMuscle.selectedItemPosition, b.bodySexuality.selectedItemPosition,
                 )
                 c.arrangeList()
                 c.updateFilterIcon()
@@ -147,8 +110,17 @@ class Screening : BaseDialog<People>() {
         val gender: Int,
         val fiction: Int,
         val safety: Int,
-        val body: Int,
+        val bodySkinColour: Int, val bodyHairColour: Int,
+        val bodyEyeColour: Int, val bodyEyeShape: Int,
+        val bodyFaceShape: Int, val bodyFat: Int,
+        val bodyBreasts: Int, val bodyPenis: Int,
+        val bodyMuscle: Int, val bodySexuality: Int,
     ) {
-        fun any() = gender != 0 || fiction != 0 || safety != 0 || body != 0
+        fun any() = gender != 0 || fiction != 0 || safety != 0 ||
+                bodySkinColour != 0 || bodyHairColour != 0 ||
+                bodyEyeColour != 0 || bodyEyeShape != 0 ||
+                bodyFaceShape != 0 || bodyFat != 0 ||
+                bodyBreasts != 0 || bodyPenis != 0 ||
+                bodyMuscle != 0 || bodySexuality != 0
     }
 }
