@@ -13,11 +13,14 @@ import com.google.android.material.badge.BadgeDrawable
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.ctrl.Screening
 import ir.mahdiparastesh.sexbook.data.Crush
+import ir.mahdiparastesh.sexbook.data.Crush.Companion.STAT_FICTION
+import ir.mahdiparastesh.sexbook.data.Crush.Companion.STAT_UNSAFE_PERSON
 import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
 import ir.mahdiparastesh.sexbook.list.PersonAdap
 import ir.mahdiparastesh.sexbook.misc.Delay
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
 import ir.mahdiparastesh.sexbook.view.Lister
+import kotlin.experimental.and
 
 class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     lateinit var b: PeopleBinding
@@ -45,7 +48,14 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
         super.onCreateOptionsMenu(menu)
         b.toolbar.inflateMenu(R.menu.people)
         b.toolbar.setOnMenuItemClickListener(this)
+        updateFilterIcon()
         return true
+    }
+
+    fun updateFilterIcon() {
+        b.toolbar.menu.findItem(R.id.filter)?.setIcon(
+            if (m.screening?.any() == true) R.drawable.filtered else R.drawable.filter
+        )
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -82,13 +92,29 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     @SuppressLint("NotifyDataSetChanged")
     fun arrangeList() {
-        val hideUnsafe =
-            sp.getBoolean(Settings.spHideUnsafePeople, true) && m.unsafe.isNotEmpty()
-        mm.visPeople = ArrayList(m.people.let { people ->
-            if (hideUnsafe) people.filter { !it.value.unsafe() } else people
+        val hideUnsafe = sp.getBoolean(Settings.spHideUnsafePeople, true) && m.unsafe.isNotEmpty()
+        val filters = m.screening
+        mm.visPeople = ArrayList(when {
+            filters?.any() == true -> m.people.filter { p ->
+                if (filters.gender != 0 &&
+                    filters.gender != (p.value.status and Crush.STAT_GENDER).toInt()
+                ) return@filter false
+
+                if (filters.fiction != 0 &&
+                    (filters.fiction - 1) != (p.value.status and STAT_FICTION).toInt() shr 3
+                ) return@filter false
+
+                if (filters.safety != 0) {
+                    if ((filters.safety - 1) != (p.value.status and STAT_UNSAFE_PERSON).toInt() shr 5)
+                        return@filter false
+                } else !p.value.unsafe()
+
+                return@filter true
+            }
+            hideUnsafe -> m.people.filter { p -> !p.value.unsafe() }
+            else -> m.people
         }.keys)
         mm.visPeople.sortWith(Crush.Sort(this, Settings.spPeopleSortBy, Settings.spPeopleSortAsc))
-        // TO-DO filter | search
 
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()

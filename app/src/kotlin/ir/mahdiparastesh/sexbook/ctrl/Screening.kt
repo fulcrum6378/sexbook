@@ -14,13 +14,17 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.ScreeningBinding
 
+/** An advanced interface for filtering people. */
 class Screening : BaseDialog<People>() {
     private lateinit var b: ScreeningBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         b = ScreeningBinding.inflate(c.layoutInflater)
 
-        prepareSpinner(b.gender, c.resources.getStringArray(R.array.genders)) {
+        prepareSpinner(
+            b.gender, c.resources.getStringArray(R.array.genders),
+            c.m.screening?.gender ?: 0
+        ) {
             //b.bodyBreasts.isVisible = i == 1 || i == 3
             //b.bodyPenis.isVisible = i == 2 || i == 3
         }
@@ -29,14 +33,14 @@ class Screening : BaseDialog<People>() {
                 getString(R.string.isFictional),
                 getString(R.string.realPerson),
                 getString(R.string.fictionalCharacter),
-            )
+            ), c.m.screening?.fiction ?: 0
         )
         prepareSpinner(
             b.safety, arrayOf(
                 getString(R.string.isUnsafePerson),
                 getString(R.string.safePerson),
                 getString(R.string.unsafePerson),
-            )
+            ), c.m.screening?.safety ?: 0
         )
 
         return MaterialAlertDialogBuilder(c).apply {
@@ -50,19 +54,25 @@ class Screening : BaseDialog<People>() {
                     0
                 )
                 c.arrangeList()
+                c.updateFilterIcon()
             }
             setNeutralButton(R.string.clear) { _, _ ->
                 c.m.screening = null
                 c.arrangeList()
+                c.updateFilterIcon()
             }
         }.create()
     }
 
     private fun prepareSpinner(
-        spinner: Spinner, array: Array<String>, onItemSelected: ((i: Int) -> Unit)? = null
+        spinner: Spinner,
+        array: Array<String>,
+        defaultPos: Int,
+        onItemSelected: ((i: Int) -> Unit)? = null
     ) {
         spinner.adapter = ArrayAdapter(c, R.layout.spinner_white, array)
             .apply { setDropDownViewResource(R.layout.spinner_dd) }
+        spinner.setSelection(defaultPos)
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
@@ -77,5 +87,7 @@ class Screening : BaseDialog<People>() {
         val fiction: Int,
         val safety: Int,
         val body: Int,
-    )
+    ) {
+        fun any() = gender != 0 || fiction != 0 || safety != 0 || body != 0
+    }
 }
