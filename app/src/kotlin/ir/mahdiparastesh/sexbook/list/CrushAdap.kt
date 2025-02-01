@@ -6,7 +6,6 @@ import android.net.Uri
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R

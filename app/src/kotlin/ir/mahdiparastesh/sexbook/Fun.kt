@@ -5,11 +5,7 @@ import android.content.SharedPreferences
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.icu.util.TimeZone
-import android.os.Build
 import android.os.CountDownTimer
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
 import android.view.View
 import android.widget.EditText
 import androidx.annotation.DrawableRes
@@ -56,19 +52,6 @@ object Fun {
     fun z(n: Int): String {
         val s = n.toString()
         return if (s.length == 1) "0$s" else s
-    }
-
-    /** Proper implementation of Vibration in across different supported APIs. */
-    @Suppress("DEPRECATION")
-    @JvmStatic
-    fun Context.shake(dur: Long = 48L) {
-        if (vib == null) vib = getSharedPreferences(Settings.spName, Context.MODE_PRIVATE)
-            .getBoolean(Settings.spVibration, true)
-        if (!vib!!) return
-        val vib = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-            (getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
-        else getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
-        vib.vibrate(VibrationEffect.createOneShot(dur, VibrationEffect.DEFAULT_AMPLITUDE))
     }
 
     /** @return human-readable date from this Calendar */

@@ -8,8 +8,12 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.icu.util.GregorianCalendar
 import android.icu.util.IndianCalendar
+import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.widget.TextView
@@ -22,6 +26,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import ir.mahdiparastesh.sexbook.Fun.vib
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.Settings
@@ -115,5 +120,16 @@ abstract class BaseActivity : FragmentActivity()/*, OnInitializationCompleteList
         if ((SystemClock.elapsedRealtime() - lastToast) < 2000L) return
         Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
         lastToast = SystemClock.elapsedRealtime()
+    }
+
+    /** Proper implementation of Vibration in across different supported APIs. */
+    @Suppress("DEPRECATION")
+    fun shake(dur: Long = 48L) {
+        if (vib == null) vib = sp.getBoolean(Settings.spVibration, true)
+        if (!vib!!) return
+        val vib = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            (getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
+        else getSystemService(VIBRATOR_SERVICE) as Vibrator)
+        vib.vibrate(VibrationEffect.createOneShot(dur, VibrationEffect.DEFAULT_AMPLITUDE))
     }
 }

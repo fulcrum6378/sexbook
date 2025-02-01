@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
-import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.base.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.base.BasePage
 import ir.mahdiparastesh.sexbook.data.Report
@@ -197,6 +196,6 @@ class PageSex : BasePage() {
                 }
             }
         }
-        c.c.shake()
+        c.shake()
     }
 }

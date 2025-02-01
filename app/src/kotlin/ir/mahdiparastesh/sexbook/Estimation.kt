@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.core.view.isVisible
 import com.google.android.material.badge.BadgeDrawable
-import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.databinding.EstimationBinding
@@ -50,7 +49,7 @@ class Estimation : BaseActivity(), Lister {
                     b.empty.isVisible = false
                 }
             }
-            c.shake()
+            shake()
         }
     }
 }

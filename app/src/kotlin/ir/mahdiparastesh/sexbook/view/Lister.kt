@@ -36,7 +36,6 @@ interface Lister {
     }
 
     /** Creates and executes an explosion effect on this View. */
-    @Suppress("KotlinConstantConditions")
     fun explosionEffect(
         v: View, dur: Long = 522, @DrawableRes src: Int = R.drawable.button_light,
         alpha: Float = 1f, max: Float = 4f
@@ -44,7 +43,7 @@ interface Lister {
         if (v.parent !is ConstraintLayout) return
         val parent = v.parent as ConstraintLayout
         val ex = View(this as BaseActivity).apply {
-            background = ContextCompat.getDrawable(this as BaseActivity, src)
+            background = ContextCompat.getDrawable(this@Lister as BaseActivity, src)
             this.alpha = alpha
         }
         parent.addView(

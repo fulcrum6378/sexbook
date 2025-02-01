@@ -25,7 +25,6 @@ import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Fun.fullDate
-import ir.mahdiparastesh.sexbook.Fun.shake
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -110,7 +109,7 @@ class Settings : BaseActivity() {
             override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
                 if (sp.getInt(spCalType, 0) == i) return
                 sp.edit().putInt(spCalType, i).apply()
-                c.shake()
+                shake()
                 Main.changed = true
             }
         }
@@ -122,7 +121,7 @@ class Settings : BaseActivity() {
         }
         b.stStatSinceDateCb.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spStatSinceCb, isChecked).apply()
-            c.shake()
+            shake()
         }
         b.stStatSinceDate.text =
             if (!sp.contains(spStatSince)) emptyDate
@@ -158,7 +157,7 @@ class Settings : BaseActivity() {
         }
         b.stStatUntilDateCb.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spStatUntilCb, isChecked).apply()
-            c.shake()
+            shake()
         }
         b.stStatUntilDate.text =
             if (!sp.contains(spStatUntil)) emptyDate
@@ -243,7 +242,7 @@ class Settings : BaseActivity() {
                 isChecked = sp.getBoolean(spStatInclude + s, true)
                 setOnCheckedChangeListener { _, bb ->
                     sp.edit().putBoolean(spStatInclude + s, bb).apply()
-                    c.shake()
+                    shake()
                 }
             }, ConstraintLayout.LayoutParams(0, -2).apply {
                 topToTop = prevLlId!!
@@ -257,25 +256,25 @@ class Settings : BaseActivity() {
         b.stStatOnlyCrushes.isChecked = sp.getBoolean(spStatOnlyCrushes, false)
         b.stStatOnlyCrushes.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spStatOnlyCrushes, isChecked).apply()
-            c.shake()
+            shake()
         }
         b.stStatNonOrgasm.isChecked = sp.getBoolean(spStatNonOrgasm, true)
         b.stStatNonOrgasm.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spStatNonOrgasm, isChecked).apply()
-            c.shake()
+            shake()
         }
 
         // Vibration
         b.stHideUnsafePeople.isChecked = sp.getBoolean(spHideUnsafePeople, true)
         b.stHideUnsafePeople.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spHideUnsafePeople, isChecked).apply()
-            c.shake()
+            shake()
         }
         b.stVibration.isChecked = sp.getBoolean(spVibration, true)
         b.stVibration.setOnCheckedChangeListener { _, isChecked ->
             Fun.vib = isChecked
             sp.edit().putBoolean(spVibration, isChecked).apply()
-            c.shake()
+            shake()
         }
 
         // Birthdays
@@ -284,12 +283,12 @@ class Settings : BaseActivity() {
             if (!CalendarManager.checkPerm(this))
                 CalendarManager.askPerm(this)
             else turnCalendar(isChecked)
-            c.shake()
+            shake()
         }
         b.stPauseBirthdaysNtf.isChecked = sp.getBoolean(spPauseBirthdaysNtf, false)
         b.stPauseBirthdaysNtf.setOnCheckedChangeListener { _, isChecked ->
             sp.edit().putBoolean(spPauseBirthdaysNtf, isChecked).apply()
-            c.shake()
+            shake()
         }
         b.stNotifyBirthDaysBefore
             .setText(sp.getInt(spNotifyBirthDaysBefore, spNotifyBirthDaysBeforeDef).toString())
@@ -324,14 +323,14 @@ class Settings : BaseActivity() {
                     // spinners and checkboxes saved their instance and after recreation and setting
                     // their values, they saved their values into SP. After assigning their
                     // "saveEnabled" to "false", it worked like a charm!
-                    c.shake()
+                    shake()
                     recreate()
                     Main.changed = true
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
             }.show()
-            c.shake()
+            shake()
         }
         b.stTruncate.setOnClickListener {
             MaterialAlertDialogBuilder(this).apply {
@@ -342,13 +341,13 @@ class Settings : BaseActivity() {
                     DbFile(DbFile.Triple.SHARED_MEMORY).delete()
                     DbFile(DbFile.Triple.WRITE_AHEAD_LOG).delete()
                     LastOrgasm.doUpdateAll(c)
-                    c.shake()
+                    shake()
                     Main.changed = true
                 }
                 setNegativeButton(R.string.no, null)
                 setCancelable(true)
             }.show()
-            c.shake()
+            shake()
         }
     }
 
