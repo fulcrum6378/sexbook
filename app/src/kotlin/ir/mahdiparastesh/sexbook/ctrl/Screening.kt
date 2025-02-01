@@ -24,8 +24,13 @@ class Screening : BaseDialog<People>() {
         b = ScreeningBinding.inflate(c.layoutInflater)
 
         prepareSpinner(b.gender, R.array.genders, c.m.screening?.gender) { i ->
-            b.bodyBreasts.isVisible = i == 1 || i == 3
-            b.bodyPenis.isVisible = i == 2 || i == 3
+            val bb = i == 1 || i == 3
+            b.bodyBreasts.isVisible = bb
+            b.bodyPenis.isVisible = bb
+            if (!bb) {
+                b.bodyBreasts.setSelection(0)
+                b.bodyPenis.setSelection(0)
+            }
         }
         prepareSpinner(
             b.fiction, arrayOf(

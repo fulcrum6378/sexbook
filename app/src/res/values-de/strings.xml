@@ -119,6 +119,7 @@
     <string name="safePerson">Sichere Persönlichkeit</string>
     <string name="unsafePerson">Unsichere Persönlichkeit</string>
     <string name="birth">Geburtstag</string>
+    <string name="creationDate">Erstellungsdatum</string>
     <string name="heightInCM">Höhe (cm)</string>
     <string name="address">Adresse</string>
     <string name="creator">Schöpfer</string>

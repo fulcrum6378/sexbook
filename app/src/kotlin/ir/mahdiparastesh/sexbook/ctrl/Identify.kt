@@ -278,10 +278,10 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
 
     private fun onFictionChanged(bb: Boolean) {
         //b.unsafe.isVisible = !bb
-        b.birthIL.isVisible = !bb
         b.notifyBirth.isVisible = !bb
         b.instagramIL.isVisible = !bb
         b.addressIL.hint = if (bb) getString(R.string.creator) else getString(R.string.address)
+        b.birthIL.hint = if (bb) getString(R.string.creationDate) else getString(R.string.birth)
     }
 
     private fun bodyAttrSpinnerAdapter(@ArrayRes arr: Int) = ArrayAdapter(

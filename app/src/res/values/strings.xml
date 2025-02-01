@@ -122,6 +122,7 @@
     <string name="safePerson">Safe personality</string>
     <string name="unsafePerson">Unsafe personality</string>
     <string name="birth">Birthday</string>
+    <string name="creationDate">Creation Date</string>
     <string name="heightInCM">Height (cm)</string>
     <string name="address">Address</string>
     <string name="creator">Creator(s)</string>

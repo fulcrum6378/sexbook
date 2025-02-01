@@ -57,7 +57,8 @@
 
                 <Spinner
                     android:id="@+id/bodyBreasts"
-                    style="@style/identifyBodyAttr" />
+                    style="@style/identifyBodyAttr"
+                    android:visibility="gone" />
 
                 <Spinner
                     android:id="@+id/bodyMuscle"
@@ -84,7 +85,8 @@
 
                 <Spinner
                     android:id="@+id/bodyPenis"
-                    style="@style/identifyBodyAttr" />
+                    style="@style/identifyBodyAttr"
+                    android:visibility="gone" />
 
                 <Spinner
                     android:id="@+id/bodySexuality"

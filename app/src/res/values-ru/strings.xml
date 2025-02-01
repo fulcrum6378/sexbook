@@ -121,6 +121,7 @@
     <string name="safePerson">Safe personality</string>
     <string name="unsafePerson">Небезопасная личность</string>
     <string name="birth">День рождения</string>
+    <string name="creationDate">Дата создания</string>
     <string name="heightInCM">Рост (см)</string>
     <string name="address">Адрес</string>
     <string name="creator">Создатели</string>

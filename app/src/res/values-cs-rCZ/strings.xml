@@ -120,6 +120,7 @@
     <string name="safePerson">Bezpečná osobnost</string>
     <string name="unsafePerson">Nebezpečná osobnost</string>
     <string name="birth">Narozeniny</string>
+    <string name="creationDate">Datum vytvoření</string>
     <string name="heightInCM">Výška (cm)</string>
     <string name="address">Adresa</string>
     <string name="creator">Tvůrci</string>
