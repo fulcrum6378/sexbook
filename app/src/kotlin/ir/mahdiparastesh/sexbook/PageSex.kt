@@ -37,6 +37,7 @@ class PageSex : BasePage() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //Log.println(Log.ASSERT, "ZOEY", "PageSex::onViewCreated")
 
         // Spinner of filters
         b.spnFilter.setOnTouchListener { _, _ -> spnFilterTouched = true; false }
@@ -56,6 +57,7 @@ class PageSex : BasePage() {
 
     override fun prepareList() {
         super.prepareList()
+        //Log.println(Log.ASSERT, "ZOEY", "PageSex::prepareList()")
         reset(c.intentViewId)
         c.intentViewId = null
 

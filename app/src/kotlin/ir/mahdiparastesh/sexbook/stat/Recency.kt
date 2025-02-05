@@ -20,10 +20,6 @@ class Recency : BaseDialog<Main>(), BaseDialog.SearchableStat {
 
     data class Item(val name: String, val time: Long)
 
-    companion object {
-        const val TAG = "recency"
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         isCancelable = true
         if (items.isEmpty()) compute()

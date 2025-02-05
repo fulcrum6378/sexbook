@@ -17,7 +17,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -39,15 +38,11 @@ class SummaryDialog : BaseDialog<Main>() {
     private var dialogue: AlertDialog? = null
     private var pager: ViewPager2? = null
 
-    companion object {
-        const val TAG = "summary"
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         c.m.summary!!.classify(c)
         pager = ViewPager2(c).apply {
             layoutParams = ViewGroup.LayoutParams(-1, -1)
-            adapter = SumAdapter(c)
+            adapter = SumAdapter()
         }
         dialogue = MaterialAlertDialogBuilder(c).apply {
             setTitle(
@@ -77,7 +72,7 @@ class SummaryDialog : BaseDialog<Main>() {
             ?.setOnClickListener { pager?.currentItem = 1 }
     }
 
-    private inner class SumAdapter(c: FragmentActivity) : FragmentStateAdapter(c) {
+    private inner class SumAdapter : FragmentStateAdapter(this) {
         override fun getItemCount(): Int = 2
         override fun createFragment(i: Int): Fragment = when (i) {
             1 -> SumPie()

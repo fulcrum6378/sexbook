@@ -153,6 +153,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // Load all data from the database
         if (!m.dbLoaded) CoroutineScope(Dispatchers.IO).launch {
+            //Log.println(Log.ASSERT, "ZOEY", "Began reading the database...")
+
             // Report
             for (r in m.dao.rGetAll()) m.reports[r.id] = r
 
@@ -223,6 +225,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             m.guesses.sortWith(Guess.Sort())
 
 
+            //Log.println(Log.ASSERT, "ZOEY", "Finished reading the database...")
             m.dbLoaded = true
             withContext(Dispatchers.Main) {
                 // notify if any birthday is around
@@ -286,8 +289,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
 
         when (item.itemId) {
-            R.id.momSum -> SummaryDialog().show(supportFragmentManager, SummaryDialog.TAG)
-            R.id.momRec -> Recency().show(supportFragmentManager, Recency.TAG)
+            R.id.momSum -> SummaryDialog().show(supportFragmentManager, "summary")
+            R.id.momRec -> Recency().show(supportFragmentManager, "recency")
             R.id.momPop -> goTo(Adorability::class)
             R.id.momGrw -> goTo(Growth::class)
             R.id.momMix -> goTo(Mixture::class)
@@ -367,6 +370,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
 
+    /**
+     * Should you attach another ViewPager2 directly to Main, this function may return null,
+     * unless you override FragmentStateAdapter (+FragmentViewHolder).
+     */
     private fun pageSex(): PageSex? =
         supportFragmentManager.findFragmentByTag("f${b.pager.adapter?.getItemId(0)}") as? PageSex
 
