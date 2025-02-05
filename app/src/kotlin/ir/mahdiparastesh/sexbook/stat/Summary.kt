@@ -17,7 +17,7 @@ class Summary(
     var apparent = (total - nExcluded).toFloat()
     var nonCrush = 0f
     var unsafe = 0f
-    lateinit var classification: Result
+    var classification: Result? = null
 
     init {
         for (r in reports) {
@@ -43,7 +43,7 @@ class Summary(
     }
 
     fun classify(c: BaseActivity) {
-        if (::classification.isInitialized) return
+        if (classification != null) return
 
         // filtering criteria
         val statOnlyCrushes =

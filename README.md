@@ -105,16 +105,16 @@ The navigation menu in *Main* has these 3 options:
 Using this [privacy policy](https://mahdiparastesh.ir/welcome/privacy/sexbook.html),
 Sexbook is now available for free and without ads on
 [Google Play](https://play.google.com/store/apps/details?id=ir.mahdiparastesh.sexbook)
-with 224 active users as of 2024/12/12,
+with 260 active users as of 2025/02/02,
 and supports the following languages:
 
-| Language        | Active Users      |
-|:----------------|:------------------|
-| English (en-GB) | 90(US), 25+18(GB) |
-| Czech (cz)      | 7                 |
-| German (de)     | 16+2              |
-| Spanish (es)    | 2+11              |
-| Russian (ru)    | 17                |
+| Language        | Active Users       |
+|:----------------|:-------------------|
+| English (en-GB) | 106(US), 31+20(GB) |
+| Czech (cz)      | 7                  |
+| German (de)     | 21+2               |
+| Spanish (es)    | 2+9                |
+| Russian (ru)    | 17                 |
 
 ### License
 

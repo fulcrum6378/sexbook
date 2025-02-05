@@ -116,9 +116,9 @@ class SummaryDialog : BaseDialog<Main>() {
             })
             lookingFor?.also { b.find.setText(it) }
 
-            if (c.m.summary == null) return
+            if (c.m.summary?.classification == null) return
             b.list.adapter = StatSumAdap(
-                c, c.m.summary!!.classification.calculations.entries.toList(), this@SumChips
+                c, c.m.summary!!.classification!!.calculations.entries.toList(), this@SumChips
             )
 
             val pluses = LinearLayout(c).apply {

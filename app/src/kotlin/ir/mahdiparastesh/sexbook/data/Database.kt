@@ -37,7 +37,7 @@ abstract class Database : RoomDatabase() {
                         db.execSQL(
                             "INSERT INTO `Crush` (key, first_name, middle_name, last_name, gender, " +
                                     "birth, height, address, instagram, first_met, notify_birth) " +
-                                    "VALUES (?,?,?,?,?,?,?,?,?,?,?)", arrayOf(
+                                    "VALUES (?,?,?,?,?,?,?,?,?,?,?)", arrayOf<Any?>(
                                 cur.getString(0),
                                 cur.getString(1), cur.getString(2), cur.getString(3),
                                 cur.getInt(4),
