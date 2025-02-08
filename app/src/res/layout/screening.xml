@@ -14,15 +14,11 @@
 
         <Spinner
             android:id="@+id/gender"
-            style="@style/screeningSpinner"
-            android:layout_marginTop="8dp"
-            android:paddingHorizontal="5dp" />
+            style="@style/screeningSpinner" />
 
         <Spinner
             android:id="@+id/fiction"
-            style="@style/screeningSpinner"
-            android:layout_marginTop="8dp"
-            android:paddingHorizontal="5dp" />
+            style="@style/screeningSpinner" />
 
         <Spinner
             android:id="@+id/safety"
@@ -32,7 +28,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="17dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="1">
