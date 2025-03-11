@@ -261,4 +261,19 @@
     <string name="sBirthday">%ss Geburtstag</string>
     <string name="lastOrgasmHours">Stunden seitdem letzten.</string>
     <string name="lastOrgasmDesc">Zeigt die seit Ihrem letzten Orgasmus verstrichenen Stunden an.</string>
+
+    <!-- URGENT -->
+    <string name="importantNotice">WICHTIGE MITTEILUNG</string>
+    <string name="googlePlayRemoval">
+        Leider wird diese App bald nicht mehr im Google Play Store verfügbar sein,
+        da ich in einem sanktionierten Land lebe und meine Identität nicht verifizieren kann.
+
+        \n\nIch werde jedoch weiterhin an der Entwicklung und Verbesserung der App in alternativen
+        App-Stores arbeiten. Ich verspreche, Fehler zu beheben und offen für eure Vorschläge zu bleiben.
+
+        \n\nSie können eine Liste alternativer App-Stores und Download-Links auf meiner Website sehen:
+    </string>
+    <string name="checkWebsiteList">Prüfen</string>
+    <string name="doNotShowAgain">Nicht mehr anzeigen</string>
+    <string name="areYouSure">Sind Sie sicher?</string>
 </resources>

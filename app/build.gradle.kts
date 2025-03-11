@@ -22,8 +22,8 @@ android {
         applicationId = "ir.mahdiparastesh.sexbook"
         minSdk = 26
         targetSdk = 35
-        versionCode = 48
-        versionName = "27.7.8"
+        versionCode = 49
+        versionName = "27.8.3-bye"
         signingConfig = signingConfigs.getByName("main")
     }
     sourceSets.getByName("main") {

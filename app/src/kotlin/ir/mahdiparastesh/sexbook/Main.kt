@@ -11,6 +11,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Process
@@ -29,6 +30,7 @@ import androidx.lifecycle.ViewModel
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
@@ -262,6 +264,28 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         addOnNewIntentListener { it.check() }
         if (sp.contains("useGregorianForBirthdays"))
             sp.edit().remove("useGregorianForBirthdays").apply()
+
+        val googlePlayRemovalKey = "do_not_show_google_play_removal"
+        if (!sp.contains(googlePlayRemovalKey)) MaterialAlertDialogBuilder(this).apply {
+            setTitle(R.string.importantNotice)
+            setMessage(R.string.googlePlayRemoval)
+            setCancelable(true)
+            setPositiveButton(R.string.checkWebsiteList) { _, _ ->
+                startActivity(
+                    Intent(Intent.ACTION_VIEW, Uri.parse("https://mahdiparastesh.ir/misc/sexbook/"))
+                )
+            }
+            setNeutralButton(R.string.doNotShowAgain) { _, _ ->
+                MaterialAlertDialogBuilder(this@Main).apply {
+                    setTitle(R.string.app_name)
+                    setMessage(R.string.areYouSure)
+                    setPositiveButton(R.string.yes) { _, _ ->
+                        sp.edit().putBoolean(googlePlayRemovalKey, true).apply()
+                    }
+                    setNegativeButton(R.string.no, null)
+                }.show()
+            }
+        }.show()
     }
 
     override fun onResume() {

@@ -260,4 +260,19 @@
     <string name="sBirthday">День рождения %s</string>
     <string name="lastOrgasmHours">Часов с момента последнего.</string>
     <string name="lastOrgasmDesc">Показывает часы, прошедшие с момента вашего последнего оргазма.</string>
+
+    <!-- URGENT -->
+    <string name="importantNotice">ВАЖНОЕ УВЕДОМЛЕНИЕ</string>
+    <string name="googlePlayRemoval">
+        К сожалению, это приложение скоро станет недоступным в Google Play,
+        потому что я живу в стране под эмбарго и не могу подтвердить свою личность.
+
+        \n\nТем не менее, я продолжу разрабатывать и улучшать это приложение в альтернативных магазинах.
+        Обещаю исправлять ошибки и учитывать ваши предложения.
+
+        \n\nВы можете посмотреть список альтернативных магазинов приложений и ссылки для скачивания на моем сайте:
+    </string>
+    <string name="checkWebsiteList">Проверить</string>
+    <string name="doNotShowAgain">Больше не показывать</string>
+    <string name="areYouSure">Вы уверены?</string>
 </resources>

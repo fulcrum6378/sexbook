@@ -263,4 +263,19 @@
     <string name="sBirthday">El cumpleaños de %s</string>
     <string name="lastOrgasmHours">horas desde el último.</string>
     <string name="lastOrgasmDesc">¡Muestra las horas transcurridas desde tu último orgasmo.</string>
+
+    <!-- URGENT -->
+    <string name="importantNotice">AVISO IMPORTANTE</string>
+    <string name="googlePlayRemoval">
+        Lamentablemente, esta aplicación pronto dejará de estar disponible en Google Play
+        porque vivo en un país embargado y no puedo verificar mi identidad.
+
+        \n\nSin embargo, seguiré desarrollando y mejorando la aplicación en tiendas alternativas.
+        Prometo corregir errores y estar abierto a sus sugerencias.
+
+        \n\nPuedes ver una lista de tiendas de aplicaciones alternativas y enlaces de descarga en mi sitio web:
+    </string>
+    <string name="checkWebsiteList">Comprobar</string>
+    <string name="doNotShowAgain">No mostrar de nuevo</string>
+    <string name="areYouSure">¿Estás seguro?</string>
 </resources>
