@@ -64,6 +64,7 @@
     <string name="momExport">Exportar a Json</string>
     <string name="momSend">Enviar Json a</string>
     <string name="momSettings">Ajustes</string>
+    <string name="momCheckUpdates">Buscar actualizaciones</string>
     <string name="exportDone">¡Hecho!</string>
     <string name="exportUndone">¡Fallido!</string>
     <string name="importDone">¡Hecho!</string>
@@ -267,13 +268,14 @@
     <!-- URGENT -->
     <string name="importantNotice">AVISO IMPORTANTE</string>
     <string name="googlePlayRemoval">
-        Lamentablemente, esta aplicación pronto dejará de estar disponible en Google Play
-        porque vivo en un país embargado y no puedo verificar mi identidad.
+        Lamentablemente, esta aplicación pronto dejará de estar disponible en Google Play,
+        ya que Google Play ya no permite desarrolladores no verificados.
+        Y como vivo en un país embargado, me es imposible verificar mi identidad.
 
-        \n\nSin embargo, seguiré desarrollando y mejorando la aplicación en tiendas alternativas.
-        Prometo corregir errores y estar abierto a sus sugerencias.
+        \n\nSin embargo, seguiré desarrollando esta aplicación en tiendas de aplicaciones alternativas,
+        prometo corregir errores y estar abierto a sus sugerencias.
 
-        \n\nPuedes ver una lista de tiendas de aplicaciones alternativas y enlaces de descarga en mi sitio web:
+        \n\nPuedes ver una lista de tiendas de aplicaciones alternativas en mi sitio web:
     </string>
     <string name="checkWebsiteList">Comprobar</string>
     <string name="doNotShowAgain">No mostrar de nuevo</string>

@@ -67,6 +67,7 @@
     <string name="momExport">Export to Json</string>
     <string name="momSend">Send Json to</string>
     <string name="momSettings">Settings</string>
+    <string name="momCheckUpdates">Check for updates</string>
     <string name="exportDone">Done!</string>
     <string name="exportUndone">Failed!</string>
     <string name="importDone">Done!</string>
@@ -274,12 +275,13 @@
     <string name="importantNotice">IMPORTANT NOTICE</string>
     <string name="googlePlayRemoval">
         Unfortunately, this app will soon no longer be available on Google Play
-        because I live in an embargoed country, making it impossible for me to verify my identity.
+        because Google Play no longer allows unverified developers.
+        Since I live in an embargoed country, it\'s impossible for me to verify my identity.
 
-        \n\nHowever, I will continue developing and improving the app in alternative app stores.
-        I promise to fix issues and remain open to your suggestions.
+        \n\nHowever, I will continue developing this app in alternative app stores,
+        fix issues, and remain open to your suggestions.
 
-        \n\nYou can see a list of alternative app stores and download links in my website:
+        \n\nYou can find a list of alternative app stores on my website:
     </string>
     <string name="checkWebsiteList">Check</string>
     <string name="doNotShowAgain">Don\'t show this again</string>

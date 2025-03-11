@@ -64,6 +64,7 @@
     <string name="momExport">Export nach Json</string>
     <string name="momSend">Senden Sie Json an</string>
     <string name="momSettings">Einstellungen</string>
+    <string name="momCheckUpdates">Nach Updates suchen</string>
     <string name="exportDone">Erledigt!</string>
     <string name="exportUndone">Gescheitert!</string>
     <string name="importDone">Erledigt!</string>
@@ -266,12 +267,13 @@
     <string name="importantNotice">WICHTIGE MITTEILUNG</string>
     <string name="googlePlayRemoval">
         Leider wird diese App bald nicht mehr im Google Play Store verfügbar sein,
-        da ich in einem sanktionierten Land lebe und meine Identität nicht verifizieren kann.
+        da Google Play keine nicht verifizierten Entwickler mehr zulässt.
+        Da ich in einem sanktionierten Land lebe, ist es für mich unmöglich, meine Identität zu verifizieren.
 
-        \n\nIch werde jedoch weiterhin an der Entwicklung und Verbesserung der App in alternativen
-        App-Stores arbeiten. Ich verspreche, Fehler zu beheben und offen für eure Vorschläge zu bleiben.
+        \n\nIch werde die App jedoch weiterhin in alternativen App-Stores weiterentwickeln,
+        Fehler beheben und offen für eure Vorschläge bleiben.
 
-        \n\nSie können eine Liste alternativer App-Stores und Download-Links auf meiner Website sehen:
+        \n\nEine Liste alternativer App-Stores findet ihr auf meiner Website:
     </string>
     <string name="checkWebsiteList">Prüfen</string>
     <string name="doNotShowAgain">Nicht mehr anzeigen</string>

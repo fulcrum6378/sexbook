@@ -65,6 +65,7 @@
     <string name="momExport">Export do Json</string>
     <string name="momSend">Pošlete Json na</string>
     <string name="momSettings">Nastavení</string>
+    <string name="momCheckUpdates">Zkontrolovat aktualizace</string>
     <string name="exportDone">Hotovo!</string>
     <string name="exportUndone">Nepodařilo se!</string>
     <string name="importDone">Hotovo!</string>
@@ -262,13 +263,14 @@
     <!-- URGENT -->
     <string name="importantNotice">DŮLEŽITÉ OZNÁMENÍ</string>
     <string name="googlePlayRemoval">
-        Bohužel tato aplikace brzy přestane být dostupná na Google Play,
-        protože žiji v embargované zemi a nemohu ověřit svou identitu.
+        Bohužel tato aplikace již brzy nebude k dispozici na Google Play,
+        protože Google Play již neumožňuje neověřeným vývojářům publikovat.
+        A jelikož žiji v embargované zemi, není pro mě možné ověřit svou identitu.
 
-        \n\nNicméně budu pokračovat ve vývoji a vylepšování této aplikace v alternativních obchodech.
-        Slibuji opravy chyb a zůstávám otevřený vašim návrhům.
+        \n\nNicméně budu tuto aplikaci nadále vyvíjet v alternativních obchodech s aplikacemi,
+        slibuji opravy chyb a zůstávám otevřený vašim návrhům.
 
-        \n\nMůžete si zobrazit seznam alternativních obchodů s aplikacemi a odkazů ke stažení na mém webu:
+        \n\nSeznam alternativních obchodů s aplikacemi najdete na mém webu:
     </string>
     <string name="checkWebsiteList">Zkontrolovat</string>
     <string name="doNotShowAgain">Nezobrazovat znovu</string>

@@ -64,5 +64,9 @@
             android:id="@+id/momSettings"
             android:icon="@drawable/settings"
             android:title="@string/momSettings" />
+        <item
+            android:id="@+id/momCheckUpdates"
+            android:icon="@drawable/check_for_updates"
+            android:title="@string/momCheckUpdates" />
     </group>
 </menu>

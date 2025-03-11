@@ -271,9 +271,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             setMessage(R.string.googlePlayRemoval)
             setCancelable(true)
             setPositiveButton(R.string.checkWebsiteList) { _, _ ->
-                startActivity(
-                    Intent(Intent.ACTION_VIEW, Uri.parse("https://mahdiparastesh.ir/misc/sexbook/"))
-                )
+                checkForUpdates()
             }
             setNeutralButton(R.string.doNotShowAgain) { _, _ ->
                 MaterialAlertDialogBuilder(this@Main).apply {
@@ -328,6 +326,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momExport -> exporter.launchExport()
             R.id.momSend -> exporter.send()
             R.id.momSettings -> goTo(Settings::class)
+            R.id.momCheckUpdates -> checkForUpdates()
         }
         return true
     }
@@ -369,6 +368,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             }
         }
         return true
+    }
+
+    private fun checkForUpdates() {
+        startActivity(
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://mahdiparastesh.ir/misc/sexbook/"))
+        )
     }
 
     @SuppressLint("MissingSuperCall")
