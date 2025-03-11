@@ -27,7 +27,7 @@ class BNtfCrushAdap(val c: Settings) : RecyclerView.Adapter<AnyViewHolder<ItemPe
     override fun onBindViewHolder(h: AnyViewHolder<ItemPersonBinding>, i: Int) {
         val p = c.m.people[c.mm.bNtfCrushes[i]] ?: return
 
-        // Active
+        // is active?
         h.b.active.setOnCheckedChangeListener(null)
         h.b.active.isChecked = p.notifyBirth()
         h.b.active.setOnCheckedChangeListener { _, isChecked ->
@@ -44,11 +44,11 @@ class BNtfCrushAdap(val c: Settings) : RecyclerView.Adapter<AnyViewHolder<ItemPe
             }
         }
 
-        // Name
+        // name
         h.b.name.text = "${i + 1}. ${p.visName()}"
         h.b.sum.text = p.getSum(c.m).let { if (it != 0f) "{${it.show()}}" else "" }
 
-        // Clicks
+        // clicks
         h.b.root.setOnClickListener {
             c.mm.bNtfCrushes.getOrNull(h.layoutPosition)
                 ?.also { Identify.create<Settings>(c, it) }

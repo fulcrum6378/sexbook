@@ -3,8 +3,8 @@ package ir.mahdiparastesh.sexbook.list
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.show
@@ -33,26 +33,25 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
     override fun onBindViewHolder(h: AnyViewHolder<ItemPersonBinding>, i: Int) {
         val p = c.mm.visPeople.getOrNull(i)?.let { c.m.people[it] } ?: return
 
-        // Active
+        // is active?
         h.b.active.setOnCheckedChangeListener(null)
         h.b.active.isChecked = p.active()
         h.b.active.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked == p.active()) return@setOnCheckedChangeListener
             CoroutineScope(Dispatchers.IO).launch {
-                p.apply {
-                    status = if (isChecked) (status xor Crush.STAT_INACTIVE)
-                    else (status or Crush.STAT_INACTIVE)
-                }
+                p.status =
+                    if (isChecked) (p.status xor Crush.STAT_INACTIVE)
+                    else (p.status or Crush.STAT_INACTIVE)
                 c.m.dao.cUpdate(p)
                 withContext(Dispatchers.Main) { c.m.onCrushChanged(c, p.key, 1) }
             }
         }
 
-        // Name
+        // name
         h.b.name.text = "${i + 1}. ${p.visName()}"
         h.b.sum.text = p.getSum(c.m).let { if (it != 0f) "{${it.show()}}" else "" }
 
-        // Clicks
+        // clicks
         h.b.root.setOnClickListener {
             c.mm.visPeople.getOrNull(h.layoutPosition)?.also { Identify.create<People>(c, it) }
         }
@@ -61,21 +60,26 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
                 ?: return@setOnLongClickListener false
             val pc = c.m.people[pk] ?: return@setOnLongClickListener false
 
-            MaterialMenu(c, v, R.menu.person,
+            // REMOVE THIS if you wanna add more options
+            if (pc.insta.isNullOrBlank() || p.getSum(c.m) == 0f)
+                return@setOnLongClickListener false
+
+            MaterialMenu(
+                c, v, R.menu.person,
                 R.id.lcStatistics to {
                     c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, pk) }
                 },
                 R.id.lcInstagram to {
                     if (pc.insta != null && pc.insta != "") try {
                         c.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse(Fun.INSTA + pc.insta))
+                            Intent(Intent.ACTION_VIEW, (Fun.INSTA + pc.insta).toUri())
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         )
                     } catch (_: ActivityNotFoundException) {
                     }
                 }
             ).apply {
-                menu.findItem(R.id.lcInstagram).isVisible = pc.insta != null && pc.insta != ""
+                menu.findItem(R.id.lcInstagram).isVisible = !pc.insta.isNullOrBlank()
                 menu.findItem(R.id.lcStatistics).isVisible = p.getSum(c.m) > 0f
             }.show()
             true

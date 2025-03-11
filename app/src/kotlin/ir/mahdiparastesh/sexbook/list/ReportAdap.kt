@@ -65,7 +65,7 @@ class ReportAdap(
             AnyViewHolder<ItemReportBinding> {
         val b = ItemReportBinding.inflate(c.layoutInflater, parent, false)
 
-        // Date & Time
+        // date & time
         val pointHeight = clockHeight * perh(b.point)
         val hourHeight = clockHeight * perh(b.clockHour)
         val minuteHeight = clockHeight * perh(b.clockMin)
@@ -78,7 +78,7 @@ class ReportAdap(
             pivotY = minuteHeight - (pointHeight / 2f)
         }
 
-        // Name
+        // name
         b.name.setAdapter(crushSuggester)
         if (c.m.summary == null) b.name.setOnFocusChangeListener { view, bb ->
             if (c.m.summary != null)
@@ -86,12 +86,13 @@ class ReportAdap(
             else if (bb) c.summarize()
         }
 
-        // Type
+        // type
         b.type.adapter = TypeAdap(c)
 
         // Place
-        b.place.adapter = ArrayAdapter(c, R.layout.spinner_yellow, ArrayList(places.map { it.name })
-            .apply { add(0, if (places.isEmpty()) c.getString(R.string.placeHint) else "") }
+        b.place.adapter = ArrayAdapter(
+            c, R.layout.spinner_yellow, ArrayList(places.map { it.name })
+                .apply { add(0, if (places.isEmpty()) c.getString(R.string.placeHint) else "") }
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         b.place.onItemSelectedListener = OnPlaceSelectedListener()
 
@@ -104,7 +105,7 @@ class ReportAdap(
     override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
         val r = c.mm.visReports.getOrNull(i)?.let { c.m.reports[it] } ?: return
 
-        // Date & Time
+        // date & time
         h.b.date.text = compileDate(c, r.time)
         if (!r.guess) {
             val cal = r.time.calendar(c)
@@ -145,7 +146,7 @@ class ReportAdap(
         if (r.guess && c.night()) h.b.clock.background = h.b.clock.background
             .apply { colorFilter = c.themePdcf(com.google.android.material.R.attr.colorSecondary) }
 
-        // Name
+        // name
         h.b.name.setTextWatcher(null) // NEVER REMOVE THIS!!!
         h.b.name.setText(r.name)
         h.b.name.isEnabled = !r.guess
@@ -166,7 +167,7 @@ class ReportAdap(
             }
         } else null)
 
-        // Type
+        // type
         h.b.type.setSelection(r.type.toInt(), true)
         h.b.type.onItemSelectedListener =
             if (!r.guess) object : AdapterView.OnItemSelectedListener {
@@ -181,10 +182,10 @@ class ReportAdap(
             } else null
         h.b.type.isEnabled = !r.guess
 
-        // More
+        // more
         h.b.more.setOnClickListener { v -> more(v, h, r) }
 
-        // Overflow
+        // overflow
         if (!r.guess) {
             h.b.root.setOnClickListener { turnOverflow(h.layoutPosition, h.b) }
             turnOverflow(i, h.b, expansion[i])
@@ -193,7 +194,7 @@ class ReportAdap(
             h.b.desc.isVisible = false
         }
 
-        // Descriptions
+        // descriptions
         h.b.desc.setTextWatcher(null)
         h.b.desc.setText(if (!r.guess) r.desc else "")
         h.b.desc.setTextWatcher(if (!r.guess) object : TextWatcher {
@@ -224,7 +225,7 @@ class ReportAdap(
         if (r.guess) h.b.place.isVisible = true
         h.b.place.isEnabled = !r.guess
 
-        // Long Click
+        // long click
         val longClick =
             if (!r.guess) View.OnLongClickListener { v -> more(v, h, r); true } else null
         h.b.root.setOnLongClickListener(longClick)
@@ -247,7 +248,8 @@ class ReportAdap(
     }
 
     private fun more(v: View, h: AnyViewHolder<ItemReportBinding>, r: Report) {
-        MaterialMenu(c, v, R.menu.report,
+        MaterialMenu(
+            c, v, R.menu.report,
             R.id.lcExpand to {
                 turnOverflow(h.layoutPosition, h.b)
             },
@@ -307,7 +309,7 @@ class ReportAdap(
             // if "places" is empty, nothing ever can be selected, also onNothingSelected doesn't work!
 
             val pid = if (pos == 0) -1L else places[pos - 1].id
-            c.m.reports[c.mm.visReports[i!!]]?.apply {
+            c.mm.visReports.getOrNull(i!!).let { c.m.reports[it] }?.apply {
                 if (plac != pid) {
                     plac = pid
                     update(this.id)

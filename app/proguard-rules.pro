@@ -1,4 +1,4 @@
--keep class ir.mahdiparastesh.sexbook.data.Exporter$Exported { <fields>; }
+-keep class ir.mahdiparastesh.sexbook.ctrl.Exporter$Exported { <fields>; }
 -keep class ir.mahdiparastesh.sexbook.data.Report { <fields>; }
 -keep class ir.mahdiparastesh.sexbook.data.Crush { <fields>; }
 -keep class ir.mahdiparastesh.sexbook.data.Place { <fields>; }

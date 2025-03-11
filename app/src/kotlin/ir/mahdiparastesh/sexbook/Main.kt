@@ -23,7 +23,6 @@ import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -151,7 +150,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             }
         })
 
-        // Load all data from the database
+        // load all data from the database
         if (!m.dbLoaded) CoroutineScope(Dispatchers.IO).launch {
             //Log.println(Log.ASSERT, "ZOEY", "Began reading the database...")
 
@@ -257,7 +256,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             }
         }
 
-        // Miscellaneous
+        // miscellaneous
         if (mm.navOpen) b.root.openDrawer(drawerGravity)
         intent.check(true)
         addOnNewIntentListener { it.check() }
@@ -338,10 +337,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             }
             else -> Fun.sort(item.itemId)?.also { value ->
                 item.isChecked = true
-                sp.edit {
+                sp.edit().apply {
                     if (value is Int) putInt(Settings.spPageLoveSortBy, value)
                     else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)
-                }
+                }.apply()
                 pageLove()?.prepareList()
             }
         }
@@ -505,6 +504,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 }
 
 /* TODO:
+  * Remove [Report.frtn]
+  * -
   * Extension:
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular

@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toolbar
 import androidx.activity.viewModels
-import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import com.google.android.material.badge.BadgeDrawable
@@ -77,10 +76,10 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
             else -> {
                 Fun.sort(item.itemId)?.also { value ->
                     item.isChecked = true
-                    sp.edit {
+                    sp.edit().apply {
                         if (value is Int) putInt(Settings.spPeopleSortBy, value)
                         else if (value is Boolean) putBoolean(Settings.spPeopleSortAsc, value)
-                    }
+                    }.apply()
                     arrangeList()
                 }
             }
@@ -92,7 +91,8 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     fun arrangeList() {
         val hideUnsafe = sp.getBoolean(Settings.spHideUnsafePeople, true) && m.unsafe.isNotEmpty()
         val filters = m.screening
-        mm.visPeople = ArrayList(when {
+        mm.visPeople = ArrayList(
+            when {
             filters?.any() == true -> m.people.filter { p ->
 
                 // Crush::status

@@ -41,16 +41,17 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
         /* As soon as I applied this null safety feature, IndexOutOfBoundsException:
         "Inconsistency detected" exception appeared for the first time in the history of Sexbook! */
 
-        // Labels
+        // labels
         b.sincLabel.text = b.sincLabel.text.toString() + "*"
         b.tillLabel.text = b.tillLabel.text.toString() + "*"
         b.freqLabel.text = b.freqLabel.text.toString() + "*"
 
-        // Type
+        // type
         b.type.adapter = TypeAdap(c)
 
         // Place
-        b.place.adapter = ArrayAdapter(c, R.layout.spinner_yellow,
+        b.place.adapter = ArrayAdapter(
+            c, R.layout.spinner_yellow,
             ArrayList(places.map { it.name }).apply { add(0, "") })
             .apply { setDropDownViewResource(R.layout.spinner_dd) }
 
@@ -79,7 +80,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             }
         })
 
-        // Since
+        // since
         if (g.sinc > -1L)
             h.b.sinc.text = g.sinc.defCalendar(c).fullDate()
         else h.b.sinc.setText(R.string.etDateHint)
@@ -100,7 +101,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             }, oldSinc).defaultOptions().show(c.supportFragmentManager, "sinc")
         }
 
-        // Until
+        // until
         if (g.till > -1L)
             h.b.till.text = g.till.defCalendar(c).fullDate()
         else h.b.till.setText(R.string.etDateHint)
@@ -121,7 +122,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             }, oldTill).defaultOptions().show(c.supportFragmentManager, "till")
         }
 
-        // Frequency
+        // frequency
         h.b.freq.setTextWatcher(null)
         h.b.freq.setText(g.freq.toString())
         h.b.freq.setTextWatcher(object : TextWatcher {
@@ -139,7 +140,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             }
         })
 
-        // Type
+        // type
         h.b.type.setSelection(g.type.toInt(), true)
         h.b.type.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -152,7 +153,7 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             }
         }
 
-        // Descriptions
+        // descriptions
         h.b.desc.setTextWatcher(null)
         h.b.desc.setText(g.desc)
         h.b.desc.setTextWatcher(object : TextWatcher {
@@ -189,11 +190,12 @@ class GuessAdap(val c: Estimation) : RecyclerView.Adapter<AnyViewHolder<ItemGues
             true
         )
 
-        // Long Click
+        // long click
         val longClick = View.OnLongClickListener { v ->
             val gu = c.m.guesses.getOrNull(h.layoutPosition) ?: return@OnLongClickListener false
 
-            MaterialMenu(c, v, R.menu.guess,
+            MaterialMenu(
+                c, v, R.menu.guess,
                 R.id.glSuspend to {
                     c.m.guesses.getOrNull(h.layoutPosition)?.apply {
                         able = !able

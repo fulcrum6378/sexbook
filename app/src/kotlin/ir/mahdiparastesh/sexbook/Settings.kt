@@ -56,7 +56,7 @@ class Settings : BaseActivity() {
         const val notifyBirthAfterLastTime = 3600000L * 12L
         const val B_NTF_CRUSHES_TAG = "b_ntf_crushes"
 
-        // Via Settings
+        // via Settings
         const val spCalType = "calendarType" // Int, def 0
         const val spStatSinceCb = "statisticiseSinceCb" // Boolean, def false
         const val spStatSince = "statisticiseSince" // Long
@@ -72,14 +72,14 @@ class Settings : BaseActivity() {
         const val spNotifyBirthDaysBefore = "notifyBirthDaysBefore" // Int
         const val spNotifyBirthDaysBeforeDef = 3
 
-        // Via other places
+        // via other places
         const val spDefPlace = "defaultPlace" // Long
         const val spPageLoveSortBy = "page_love_sort_by" // Int, def 0
         const val spPageLoveSortAsc = "page_love_sort_ascending" // Boolean, def true
         const val spPeopleSortBy = "people_sort_by" // Int, def 0
         const val spPeopleSortAsc = "people_sort_ascending" // Boolean, def true
 
-        // Automatic and hidden
+        // automatic and hidden
         const val spPrefersOrgType = "prefersOrgType" // Int
         const val spLastNotifiedBirthAt = "lastNotifiedBirthAt" // Long
     }

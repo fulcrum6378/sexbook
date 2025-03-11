@@ -88,7 +88,7 @@ interface Dao {
     suspend fun gGetAll(): List<Guess>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun gInsert(item: Guess): Long
+    suspend fun gInsert(item: Guess): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun gReplaceAll(list: List<Guess>)

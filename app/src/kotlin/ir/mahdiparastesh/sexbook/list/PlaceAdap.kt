@@ -30,7 +30,7 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
 
     override fun onBindViewHolder(h: AnyViewHolder<ItemPlaceBinding>, i: Int) {
 
-        // Name
+        // name
         h.b.name.setTextWatcher(null)
         h.b.name.setText(c.m.places[i].name)
         h.b.name.setTextWatcher(object : TextWatcher {
@@ -47,13 +47,13 @@ class PlaceAdap(val c: Places) : RecyclerView.Adapter<AnyViewHolder<ItemPlaceBin
             }
         })
 
-        // Sum
+        // sum
         (c.m.places[i].sum >= 0L).apply {
             h.b.sum.isVisible = this
             h.b.sum.text = if (this) "{${c.m.places[i].sum}}" else ""
         }
 
-        // Click
+        // click
         val longClick = View.OnLongClickListener { v ->
             if (c.m.places.size <= h.layoutPosition) return@OnLongClickListener true
 

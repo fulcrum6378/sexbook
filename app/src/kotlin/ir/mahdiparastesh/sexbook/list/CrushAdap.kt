@@ -2,8 +2,8 @@ package ir.mahdiparastesh.sexbook.list
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.show
@@ -30,17 +30,18 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
     override fun onBindViewHolder(h: AnyViewHolder<ItemCrushBinding>, i: Int) {
         val cr = c.m.people[c.m.liefde[i]] ?: return
 
-        // Texts
+        // texts
         h.b.name.text = cr.visName()
         h.b.sum.text = cr.getSum(c.m).let { if (it != 0f) "{${it.show()}}" else "" }
 
-        // Clicks
+        // clicks
         h.b.root.setOnClickListener { v ->
             if (!c.summarize(true)) return@setOnClickListener
             val crk = c.m.liefde.getOrNull(h.layoutPosition) ?: return@setOnClickListener
             val crc = c.m.people[crk] ?: return@setOnClickListener
 
-            MaterialMenu(c, v, R.menu.crush,
+            MaterialMenu(
+                c, v, R.menu.crush,
                 R.id.lcIdentify to { Identify.create<Main>(c, crk) },
                 R.id.lcStatistics to {
                     c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, crk) }
@@ -48,7 +49,7 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                 R.id.lcInstagram to {
                     if (crc.insta != null && crc.insta != "") try {
                         c.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse(Fun.INSTA + crc.insta))
+                            Intent(Intent.ACTION_VIEW, (Fun.INSTA + crc.insta).toUri())
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         )
                     } catch (_: ActivityNotFoundException) {
