@@ -5,7 +5,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.Settings
-import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.data.Report
 import java.io.Serializable
 
@@ -42,14 +42,14 @@ class Summary(
         this[key] = arrayListOf(value)
     }
 
-    fun classify(c: BaseActivity) {
+    fun classify(c: Sexbook) {
         if (classification != null) return
 
         // filtering criteria
         val statOnlyCrushes =
-            c.sp.getBoolean(Settings.spStatOnlyCrushes, false) && c.m.liefde.isNotEmpty()
+            c.sp.getBoolean(Settings.spStatOnlyCrushes, false) && c.liefde.isNotEmpty()
         val hideUnsafe =
-            c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.m.unsafe.isNotEmpty()
+            c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.unsafe.isNotEmpty()
 
         var results = HashMap<Float, ArrayList<String>>()
         var key: String
@@ -59,9 +59,9 @@ class Summary(
             sum = crush.value.sumOf { it.value }
 
             // filters
-            if (statOnlyCrushes && key !in c.m.liefde) {
+            if (statOnlyCrushes && key !in c.liefde) {
                 nonCrush += sum; continue; }
-            if (hideUnsafe && key in c.m.unsafe) {
+            if (hideUnsafe && key in c.unsafe) {
                 unsafe += sum; continue; }
 
             if (!results.containsKey(sum)) results[sum] = arrayListOf()

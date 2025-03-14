@@ -25,7 +25,7 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (night()) b.identifyIV.colorFilter = themePdcf()
+        if (c.night()) b.identifyIV.colorFilter = themePdcf()
 
         b.title.text = mm.crushKey
         b.identify.setOnClickListener { Identify.create<Singular>(this@Singular, mm.crushKey!!) }
@@ -33,13 +33,13 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override fun requirements(): Boolean {
         mm.crushKey = intent.getStringExtra(EXTRA_CRUSH_KEY)
-        mm.history = m.summary?.scores?.get(mm.crushKey)
+        mm.history = c.summary?.scores?.get(mm.crushKey)
         return super.requirements() && mm.crushKey != null && mm.history != null
     }
 
     override suspend fun draw(): AbstractChartData {
         val data = ArrayList<Pair<String, Float>>()
-        sinceTheBeginning(this, m.reports.values.filter {
+        sinceTheBeginning(this, c.reports.values.filter {
             if (it.analysis == null) it.analyse()
             mm.crushKey in it.analysis!!
         }).forEach { data.add(Pair(it, calcHistory(this, mm.history!!, it))) }

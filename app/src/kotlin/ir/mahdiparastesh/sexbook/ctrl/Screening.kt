@@ -23,7 +23,7 @@ class Screening : BaseDialog<People>() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         b = ScreeningBinding.inflate(c.layoutInflater)
 
-        prepareSpinner(b.gender, R.array.genders, c.m.screening?.gender) { i ->
+        prepareSpinner(b.gender, R.array.genders, c.c.screening?.gender) { i ->
             val bb = i == 1 || i == 3
             b.bodyBreasts.isVisible = bb
             b.bodyPenis.isVisible = bb
@@ -37,31 +37,31 @@ class Screening : BaseDialog<People>() {
                 getString(R.string.isFictional),
                 getString(R.string.realPerson),
                 getString(R.string.fictionalCharacter),
-            ), c.m.screening?.fiction
+            ), c.c.screening?.fiction
         )
         prepareSpinner(
             b.safety, arrayOf(
                 getString(R.string.isUnsafePerson),
                 getString(R.string.safePerson),
                 getString(R.string.unsafePerson),
-            ), c.m.screening?.safety
+            ), c.c.screening?.safety
         )
-        prepareSpinner(b.bodySkinColour, R.array.bodySkinColour, c.m.screening?.bodySkinColour)
-        prepareSpinner(b.bodyHairColour, R.array.bodyHairColour, c.m.screening?.bodyHairColour)
-        prepareSpinner(b.bodyEyeColour, R.array.bodyEyeColour, c.m.screening?.bodyEyeColour)
-        prepareSpinner(b.bodyEyeShape, R.array.bodyEyeShape, c.m.screening?.bodyEyeShape)
-        prepareSpinner(b.bodyFaceShape, R.array.bodyFaceShape, c.m.screening?.bodyFaceShape)
-        prepareSpinner(b.bodyFat, R.array.bodyFat, c.m.screening?.bodyFat)
-        prepareSpinner(b.bodyBreasts, R.array.bodyBreasts, c.m.screening?.bodyBreasts)
-        prepareSpinner(b.bodyPenis, R.array.bodyPenis, c.m.screening?.bodyPenis)
-        prepareSpinner(b.bodyMuscle, R.array.bodyMuscle, c.m.screening?.bodyMuscle)
-        prepareSpinner(b.bodySexuality, R.array.bodySexuality, c.m.screening?.bodySexuality)
+        prepareSpinner(b.bodySkinColour, R.array.bodySkinColour, c.c.screening?.bodySkinColour)
+        prepareSpinner(b.bodyHairColour, R.array.bodyHairColour, c.c.screening?.bodyHairColour)
+        prepareSpinner(b.bodyEyeColour, R.array.bodyEyeColour, c.c.screening?.bodyEyeColour)
+        prepareSpinner(b.bodyEyeShape, R.array.bodyEyeShape, c.c.screening?.bodyEyeShape)
+        prepareSpinner(b.bodyFaceShape, R.array.bodyFaceShape, c.c.screening?.bodyFaceShape)
+        prepareSpinner(b.bodyFat, R.array.bodyFat, c.c.screening?.bodyFat)
+        prepareSpinner(b.bodyBreasts, R.array.bodyBreasts, c.c.screening?.bodyBreasts)
+        prepareSpinner(b.bodyPenis, R.array.bodyPenis, c.c.screening?.bodyPenis)
+        prepareSpinner(b.bodyMuscle, R.array.bodyMuscle, c.c.screening?.bodyMuscle)
+        prepareSpinner(b.bodySexuality, R.array.bodySexuality, c.c.screening?.bodySexuality)
 
         return MaterialAlertDialogBuilder(c).apply {
             setTitle(R.string.filter)
             setView(b.root)
             setPositiveButton(R.string.apply) { _, _ ->
-                c.m.screening = Filters(
+                c.c.screening = Filters(
                     b.gender.selectedItemPosition,
                     b.fiction.selectedItemPosition,
                     b.safety.selectedItemPosition,
@@ -75,7 +75,7 @@ class Screening : BaseDialog<People>() {
                 c.updateFilterIcon()
             }
             setNeutralButton(R.string.clear) { _, _ ->
-                c.m.screening = null
+                c.c.screening = null
                 c.arrangeList()
                 c.updateFilterIcon()
             }

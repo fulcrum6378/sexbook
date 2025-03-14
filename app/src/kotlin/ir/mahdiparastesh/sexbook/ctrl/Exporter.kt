@@ -31,7 +31,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-class Exporter(val c: BaseActivity) {
+class Exporter(private val c: BaseActivity) {
     private var exported: Exported? = null
     private val EXPORT_NAME = "sexbook.json"
     private val mime =
@@ -117,12 +117,12 @@ class Exporter(val c: BaseActivity) {
 
     private fun export(): Boolean {
         exported = Exported(
-            c.m.reports.values.filter { !it.guess }.sortedBy { it.time }.toTypedArray(),
-            c.m.people.values.sortedBy { it.key }.sortedBy { it.getFirstOrgasm(c.m) }
+            c.c.reports.values.filter { !it.guess }.sortedBy { it.time }.toTypedArray(),
+            c.c.people.values.sortedBy { it.key }.sortedBy { it.getFirstOrgasm(c.c) }
                 .toTypedArray(),
-            c.m.places.sortedBy { it.name }.toTypedArray(),
-            c.m.guesses.sortedBy { it.crsh }.sortedWith(Guess.Sort()).toTypedArray(),
-            c.sp.all.toSortedMap()
+            c.c.places.sortedBy { it.name }.toTypedArray(),
+            c.c.guesses.sortedBy { it.crsh }.sortedWith(Guess.Sort()).toTypedArray(),
+            c.c.sp.all.toSortedMap()
         )
         val emp = exported!!.isEmpty()
         if (emp) Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show()
@@ -164,16 +164,16 @@ class Exporter(val c: BaseActivity) {
 
     private fun replace(c: BaseActivity, imported: Exported) {
         CoroutineScope(Dispatchers.IO).launch {
-            c.m.dao.rDeleteAll()
-            imported.reports?.toList()?.also { c.m.dao.rReplaceAll(it) }
-            c.m.dao.cDeleteAll()
-            imported.crushes?.toList()?.also { c.m.dao.cReplaceAll(it) }
-            c.m.dao.pDeleteAll()
-            imported.places?.toList()?.also { c.m.dao.pReplaceAll(it) }
-            c.m.dao.gDeleteAll()
-            imported.guesses?.toList()?.also { c.m.dao.gReplaceAll(it) }
+            c.c.dao.rDeleteAll()
+            imported.reports?.toList()?.also { c.c.dao.rReplaceAll(it) }
+            c.c.dao.cDeleteAll()
+            imported.crushes?.toList()?.also { c.c.dao.cReplaceAll(it) }
+            c.c.dao.pDeleteAll()
+            imported.places?.toList()?.also { c.c.dao.pReplaceAll(it) }
+            c.c.dao.gDeleteAll()
+            imported.guesses?.toList()?.also { c.c.dao.gReplaceAll(it) }
 
-            if (imported.settings != null) c.sp.edit().apply {
+            if (imported.settings != null) c.c.sp.edit().apply {
                 imported.settings.forEach { (k, v) ->
                     when (v) {
                         is Boolean -> putBoolean(k, v)
@@ -189,7 +189,7 @@ class Exporter(val c: BaseActivity) {
                     }
                 }
             }.apply()
-            LastOrgasm.updateAll(c)
+            LastOrgasm.updateAll(c.c)
 
             withContext(Dispatchers.Main) {
                 Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()

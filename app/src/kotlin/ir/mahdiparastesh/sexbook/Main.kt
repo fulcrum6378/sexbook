@@ -37,7 +37,6 @@ import ir.mahdiparastesh.sexbook.Fun.possessiveDeterminer
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.ctrl.Exporter
 import ir.mahdiparastesh.sexbook.data.Crush
-import ir.mahdiparastesh.sexbook.data.Database
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
@@ -77,6 +76,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     companion object {
         /** when set to true, [Main] will [recreate] in [onResume]. */
+        @Volatile
         var changed = false
     }
 
@@ -87,8 +87,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         var visReports = arrayListOf<Long>()
         var navOpen = false
 
-        fun sortVisReports(m: Model) {
-            visReports.sortBy { m.reports[it]?.time ?: 0L }
+        fun sortVisReports(c: Sexbook) {
+            visReports.sortBy { c.reports[it]?.time ?: 0L }
         }
     }
 
@@ -96,14 +96,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         super.onCreate(savedInstanceState)
         setContentView(b.root)
         toolbar(b.toolbar, R.string.app_name)
-        m.db = Database.Builder(c).build()
-        m.dao = m.db.dao()
 
-        // Loading
+        // loading
         if (mm.loaded) b.body.removeView(b.load)
-        else if (night()) b.loadIV.colorFilter = themePdcf()
+        else if (c.night()) b.loadIV.colorFilter = themePdcf()
 
-        // Navigation
+        // navigation
         object : ActionBarDrawerToggle(
             this, b.root, b.toolbar, R.string.sOpen, R.string.close
         ) {
@@ -124,7 +122,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         b.nav.setNavigationItemSelectedListener(this)
         b.toolbar.navigationIcon?.colorFilter = themePdcf()
 
-        // Pager
+        // ViewPager2
         b.pager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int = 2
             override fun createFragment(i: Int): Fragment = if (i == 0) PageSex() else PageLove()
@@ -147,37 +145,37 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 b.toolbar.inflateMenu(menus[i])
                 onPrepareOptionsMenu(b.toolbar.menu)
                 mm.currentPage = i
-                count(if (i == 0) null else m.liefde.size)
+                count(if (i == 0) null else c.liefde.size)
             }
         })
 
         // load all data from the database
-        if (!m.dbLoaded) CoroutineScope(Dispatchers.IO).launch {
+        if (!c.dbLoaded) CoroutineScope(Dispatchers.IO).launch {
             //Log.println(Log.ASSERT, "ZOEY", "Began reading the database...")
 
             // Report
-            for (r in m.dao.rGetAll()) m.reports[r.id] = r
+            for (r in c.dao.rGetAll()) c.reports[r.id] = r
 
             // Crush
-            for (p in m.dao.cGetAll()) m.people[p.key] = p
-            m.liefde.addAll(m.people.filter {
+            for (p in c.dao.cGetAll()) c.people[p.key] = p
+            c.liefde.addAll(c.people.filter {
                 (it.value.status and Crush.STAT_INACTIVE) == 0.toByte()
             }.map { it.key })
-            m.unsafe.addAll(m.people.filter { it.value.unsafe() }.map { it.key })
-            if (CalendarManager.checkPerm(this@Main)) CalendarManager.initialise(this@Main)
-            if (!sp.contains("dbDateTimeDotSlashReplaced")) {
-                for (updated in m.people.values) {
+            c.unsafe.addAll(c.people.filter { it.value.unsafe() }.map { it.key })
+            if (CalendarManager.checkPerm(c)) CalendarManager.initialise(this@Main)
+            if (!c.sp.contains("dbDateTimeDotSlashReplaced")) {
+                for (updated in c.people.values) {
                     if (updated.birth == null && updated.first == null) continue
                     if (updated.birth != null)
                         updated.birth = updated.birth!!.replace(".", "/")
                     if (updated.first != null)
                         updated.first = updated.first!!.replace(".", "/")
-                    m.dao.cUpdate(updated)
+                    c.dao.cUpdate(updated)
                 }
-                sp.edit().putBoolean("dbDateTimeDotSlashReplaced", true).apply()
+                c.sp.edit().putBoolean("dbDateTimeDotSlashReplaced", true).apply()
             }
-            if (!sp.contains("dbLightBrownAdded")) {
-                for (updated in m.people.values) {
+            if (!c.sp.contains("dbLightBrownAdded")) {
+                for (updated in c.people.values) {
                     val mask = Crush.BODY_EYE_COLOUR.first.inv()
                     val cleared = updated.body and mask
                     val pos = when ((updated.body and Crush.BODY_EYE_COLOUR.first)
@@ -191,48 +189,48 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         else -> throw IllegalStateException("Unrecognised eye colour!")
                     }
                     updated.body = cleared or (pos shl Crush.BODY_EYE_COLOUR.second)
-                    m.dao.cUpdate(updated)
+                    c.dao.cUpdate(updated)
                 }
-                sp.edit().putBoolean("dbLightBrownAdded", true).apply()
+                c.sp.edit().putBoolean("dbLightBrownAdded", true).apply()
             }
 
             // Place
-            for (p in m.dao.pGetAll()) {
-                m.places.add(p)
+            for (p in c.dao.pGetAll()) {
+                c.places.add(p)
                 var sum = 0L
-                for (r in m.reports.values)
+                for (r in c.reports.values)
                     if (r.plac == p.id)
                         sum++
                 p.sum = sum
             }
-            m.places.sortWith(Place.Sort(Place.Sort.NAME))
-            if (m.reports.isNotEmpty()) m.places.sortWith(Place.Sort(Place.Sort.SUM))
+            c.places.sortWith(Place.Sort(Place.Sort.NAME))
+            if (c.reports.isNotEmpty()) c.places.sortWith(Place.Sort(Place.Sort.SUM))
 
             // Guess
             var grId = -1L
-            for (g in m.dao.gGetAll()) {
-                m.guesses.add(g)
+            for (g in c.dao.gGetAll()) {
+                c.guesses.add(g)
                 if (!g.checkValid()) continue
                 var curTime = g.sinc
                 val share = (86400000.0 / g.freq).toLong()
 
                 while (curTime <= g.till) {
-                    m.reports[grId] = Report(grId, curTime, g.crsh ?: "", g.type, g.plac)
+                    c.reports[grId] = Report(grId, curTime, g.crsh ?: "", g.type, g.plac)
                     curTime += share
                     grId--
                 }
             }
-            m.guesses.sortWith(Guess.Sort())
+            c.guesses.sortWith(Guess.Sort())
 
 
             //Log.println(Log.ASSERT, "ZOEY", "Finished reading the database...")
-            m.dbLoaded = true
+            c.dbLoaded = true
             withContext(Dispatchers.Main) {
                 // notify if any birthday is around
-                if ((Fun.now() - sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
+                if ((Fun.now() - c.sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                             ) >= Settings.notifyBirthAfterLastTime &&
-                    !sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
-                ) for (p in m.people.values) if (p.notifyBirth()) p.birthTime?.also { birthTime ->
+                    !c.sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
+                ) for (p in c.people.values) if (p.notifyBirth()) p.birthTime?.also { birthTime ->
                     val now: Calendar = GregorianCalendar()
                     val bir: Calendar = GregorianCalendar()
                     // do NOT alter the "birth" instance!
@@ -241,7 +239,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         this[Calendar.YEAR] = now[Calendar.YEAR]
                     }.timeInMillis
                     if (dist in
-                        -(sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * Fun.A_DAY)
+                        -(c.sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * Fun.A_DAY)
                         ..Fun.A_DAY
                     ) notifyBirth(p, dist)
                 }
@@ -261,8 +259,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (mm.navOpen) b.root.openDrawer(drawerGravity)
         intent.check(true)
         addOnNewIntentListener { it.check() }
-        if (sp.contains("useGregorianForBirthdays"))
-            sp.edit().remove("useGregorianForBirthdays").apply()
+        if (c.sp.contains("useGregorianForBirthdays"))
+            c.sp.edit().remove("useGregorianForBirthdays").apply()
     }
 
     override fun onResume() {
@@ -284,7 +282,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             arrayOf(R.id.momPpl, R.id.momImport, R.id.momExport, R.id.momSend)
         )
             summarize()
-        else if (item.itemId == R.id.momInt && m.reports.size <= 1) {
+        else if (item.itemId == R.id.momInt && c.reports.size <= 1) {
             uiToast(R.string.noRecords); return true
         }
 
@@ -318,10 +316,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(Fun.findSortMenuItemId(sp.getInt(Settings.spPageLoveSortBy, 0)))
+        menu?.findItem(Fun.findSortMenuItemId(c.sp.getInt(Settings.spPageLoveSortBy, 0)))
             ?.isChecked = true
         menu?.findItem(
-            if (sp.getBoolean(Settings.spPageLoveSortAsc, true))
+            if (c.sp.getBoolean(Settings.spPageLoveSortAsc, true))
                 R.id.sortAsc else R.id.sortDsc
         )?.isChecked = true
         return super.onPrepareOptionsMenu(menu)
@@ -333,13 +331,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
 
             // PageLove (R.menu.page_love):
-            R.id.chart -> if (m.liefde.isNotEmpty()) CrushesStat().apply {
+            R.id.chart -> if (c.liefde.isNotEmpty()) CrushesStat().apply {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 1) }
                 show(supportFragmentManager, CrushesStat.TAG)
             }
             else -> Fun.sort(item.itemId)?.also { value ->
                 item.isChecked = true
-                sp.edit().apply {
+                c.sp.edit().apply {
                     if (value is Int) putInt(Settings.spPageLoveSortBy, value)
                     else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)
                 }.apply()
@@ -372,7 +370,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onDestroy() {
-        m.db.close()
+        c.db.close()
         super.onDestroy()
     }
 
@@ -427,16 +425,16 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
      * @return true if statisticisation was possible
      */
     fun summarize(ignoreIfItsLessThanAMonth: Boolean = false): Boolean {
-        if (m.reports.isEmpty()) return false
+        if (c.reports.isEmpty()) return false
         var nExcluded = 0
-        var filtered: List<Report> = m.reports.values.toList()
+        var filtered: List<Report> = c.reports.values.toList()
 
         // Filter by time
-        if (sp.getBoolean(Settings.spStatSinceCb, false))
-            filtered = filtered.filter { it.time >= sp.getLong(Settings.spStatSince, 0) }
+        if (c.sp.getBoolean(Settings.spStatSinceCb, false))
+            filtered = filtered.filter { it.time >= c.sp.getLong(Settings.spStatSince, 0) }
                 .also { nExcluded += filtered.size - it.size }
-        if (sp.getBoolean(Settings.spStatUntilCb, false))
-            filtered = filtered.filter { it.time < sp.getLong(Settings.spStatUntil, 0) }
+        if (c.sp.getBoolean(Settings.spStatUntilCb, false))
+            filtered = filtered.filter { it.time < c.sp.getLong(Settings.spStatUntil, 0) }
                 .also { nExcluded += filtered.size - it.size }
 
         // Check if it can draw any visual charts;
@@ -448,17 +446,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         ) return false
 
         // Filter by type
-        val allowedTypes = Fun.allowedSexTypes(sp)
+        val allowedTypes = Fun.allowedSexTypes(c.sp)
         if (allowedTypes.size < Fun.sexTypesCount)
             filtered = filtered.filter { it.type in allowedTypes }
                 .also { nExcluded += filtered.size - it.size }
 
         // Filter non-orgasm sex records if enabled
-        if (!sp.getBoolean(Settings.spStatNonOrgasm, true))
+        if (!c.sp.getBoolean(Settings.spStatNonOrgasm, true))
             filtered = filtered.filter { it.ogsm }
                 .also { nExcluded += filtered.size - it.size }
 
-        m.summary = Summary(filtered, nExcluded, m.reports.size, m.people.keys)
+        c.summary = Summary(filtered, nExcluded, c.reports.size, c.people.keys)
         (pageSex()?.b?.rv?.adapter as? ReportAdap)?.crushSuggester?.update()
         return true
     }
@@ -494,12 +492,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         else NotificationCompat.PRIORITY_LOW
                 }.build()
             )
-            sp.edit().putLong(Settings.spLastNotifiedBirthAt, Fun.now()).apply()
+            c.sp.edit().putLong(Settings.spLastNotifiedBirthAt, Fun.now()).apply()
         }
     }
 
     fun onDataChanged() {
-        m.resetData()
+        c.resetData()
         mm.listFilter = -1
         recreate()
     }
@@ -510,18 +508,3 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         VIEW("${Main::class.java.`package`!!.name}.ACTION_VIEW"),
     }
 }
-
-/* TODO:
-  * Remove [Report.frtn]
-  * -
-  * Extension:
-  * Search for People through their names, locations and IG accounts
-  * DotsIndicator
-  * Progressive diagrams for Taste
-  * "Reactivate Crush" for Singular
-  * "Turn off notifications for this Crush" on the notification
-  * Fictionality, first met/orgasm year for Taste and CrushesStat
-  * Menu selector for Taste and CrushesStat
-  * -
-  * Will the current signing key work?
-  */

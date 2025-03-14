@@ -27,7 +27,6 @@ import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
-import ir.mahdiparastesh.sexbook.base.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
@@ -49,13 +48,13 @@ class ReportAdap(
 
     private var clockHeight = c.resources.getDimension(R.dimen.clockSize)
     private var expansion = arExpansion()
-    val places = c.m.places
+    val places = c.c.places
         .sortedWith(Place.Sort(Place.Sort.NAME))
         .filter { it.name?.isNotBlank() == true } // throws NullPointerException when empty!
     private val clockBg: Drawable by lazy { ContextCompat.getDrawable(c, R.drawable.clock_bg)!! }
     private val etIcon: Drawable by lazy {
         ContextCompat.getDrawable(c, R.drawable.estimation)!!.mutate().apply {
-            if (c.night()) colorFilter =
+            if (c.c.night()) colorFilter =
                 c.themePdcf(com.google.android.material.R.attr.colorSecondary)
         }
     }
@@ -80,8 +79,8 @@ class ReportAdap(
 
         // name
         b.name.setAdapter(crushSuggester)
-        if (c.m.summary == null) b.name.setOnFocusChangeListener { view, bb ->
-            if (c.m.summary != null)
+        if (c.c.summary == null) b.name.setOnFocusChangeListener { view, bb ->
+            if (c.c.summary != null)
                 (view as TextView).onFocusChangeListener = null
             else if (bb) c.summarize()
         }
@@ -103,7 +102,7 @@ class ReportAdap(
      * all EditTexts, then set their texts, then re-implement new listeners. */
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
-        val r = c.mm.visReports.getOrNull(i)?.let { c.m.reports[it] } ?: return
+        val r = c.mm.visReports.getOrNull(i)?.let { c.c.reports[it] } ?: return
 
         // date & time
         h.b.date.text = compileDate(c, r.time)
@@ -143,7 +142,7 @@ class ReportAdap(
         for (tim in arrayOf(h.b.clockHour, h.b.clockMin, h.b.point, h.b.ampm))
             tim.isVisible = !r.guess
         h.b.clock.background = if (!r.guess) clockBg else etIcon
-        if (r.guess && c.night()) h.b.clock.background = h.b.clock.background
+        if (r.guess && c.c.night()) h.b.clock.background = h.b.clock.background
             .apply { colorFilter = c.themePdcf(com.google.android.material.R.attr.colorSecondary) }
 
         // name
@@ -157,7 +156,7 @@ class ReportAdap(
                 val dbValue = h.b.name.dbValue()
                 if (r.name != dbValue) {
                     if (!Crush.statsCleared) {
-                        c.m.people.values.forEach { it.resetStats() }
+                        c.c.people.values.forEach { it.resetStats() }
                         Crush.statsCleared = true
                     }
                     r.analysis = null
@@ -177,7 +176,7 @@ class ReportAdap(
                         r.type = i.toByte()
                         update(r.id)
                     }
-                    c.sp.edit().putInt(Settings.spPrefersOrgType, i).apply()
+                    c.c.sp.edit().putInt(Settings.spPrefersOrgType, i).apply()
                 }
             } else null
         h.b.type.isEnabled = !r.guess
@@ -239,11 +238,11 @@ class ReportAdap(
     override fun getItemCount() = c.mm.visReports.size
 
     inner class CrushSuggester : ArrayAdapter<String>(
-        c, android.R.layout.simple_dropdown_item_1line, c.m.summaryCrushes(c)
+        c, android.R.layout.simple_dropdown_item_1line, c.c.summaryCrushes()
     ) {
         fun update() {
             clear()
-            addAll(c.m.summaryCrushes(c))
+            addAll(c.c.summaryCrushes())
         }
     }
 
@@ -267,17 +266,17 @@ class ReportAdap(
             },
             R.id.lcDelete to {
                 CoroutineScope(Dispatchers.IO).launch {
-                    c.m.dao.rDelete(r)
-                    c.m.reports.remove(r.id)
-                    if (c.m.reports.isNotEmpty()) c.mm.visReports.remove(r.id)
-                    LastOrgasm.updateAll(c)
+                    c.c.dao.rDelete(r)
+                    c.c.reports.remove(r.id)
+                    if (c.c.reports.isNotEmpty()) c.mm.visReports.remove(r.id)
+                    LastOrgasm.updateAll(c.c)
 
                     withContext(Dispatchers.Main) {
                         val ii = h.layoutPosition
                         notifyAnyChange(false)
                         notifyItemRemoved(ii)
                         notifyItemRangeChanged(ii, itemCount - ii)
-                        if (c.m.reports.isEmpty()) f.reset()
+                        if (c.c.reports.isEmpty()) f.reset()
                         f.updateFilterSpinner()
                     }
                 }
@@ -309,7 +308,7 @@ class ReportAdap(
             // if "places" is empty, nothing ever can be selected, also onNothingSelected doesn't work!
 
             val pid = if (pos == 0) -1L else places[pos - 1].id
-            c.mm.visReports.getOrNull(i!!).let { c.m.reports[it] }?.apply {
+            c.mm.visReports.getOrNull(i!!).let { c.c.reports[it] }?.apply {
                 if (plac != pid) {
                     plac = pid
                     update(this.id)
@@ -321,17 +320,17 @@ class ReportAdap(
     /** Writes changes to the database. */
     private fun update(id: Long, dateTimeChanged: Boolean = false) {
         CoroutineScope(Dispatchers.IO).launch {
-            c.m.dao.rUpdate(c.m.reports[id]!!)
-            LastOrgasm.doUpdateAll(c)
+            c.c.dao.rUpdate(c.c.reports[id]!!)
+            LastOrgasm.doUpdateAll(c.c)
 
             // ONLY if date or time have been changed...
             if (dateTimeChanged) withContext(Dispatchers.Main) {
                 val oldPos = c.mm.visReports.indexOf(id)
-                val ym = c.m.reports[id]!!.time.calendar(c).createFilterYm()
+                val ym = c.c.reports[id]!!.time.calendar(c).createFilterYm()
                 if (f.filters.getOrNull(c.mm.listFilter)
                         ?.let { ym.first == it.year && ym.second == it.month } == true
                 ) { // report is still in this month
-                    c.mm.sortVisReports(c.m)
+                    c.mm.sortVisReports(c.c)
                     val newPos = c.mm.visReports.indexOf(id)
                     if (oldPos != newPos) {
                         notifyItemMoved(oldPos, newPos)

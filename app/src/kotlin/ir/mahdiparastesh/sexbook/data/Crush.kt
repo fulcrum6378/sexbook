@@ -9,8 +9,7 @@ import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.sumOf
-import ir.mahdiparastesh.sexbook.Model
-import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.Sexbook
 import java.util.Locale
 import kotlin.experimental.and
 
@@ -130,11 +129,11 @@ class Crush(
     @Transient
     private var sum_: Float? = null
 
-    private fun sum(m: Model): Float? =
-        m.summary?.scores?.get(key)?.sumOf { it.value }
+    private fun sum(c: Sexbook): Float? =
+        c.summary?.scores?.get(key)?.sumOf { it.value }
 
-    fun getSum(m: Model): Float {
-        if (sum_ == null) sum(m)?.also {
+    fun getSum(c: Sexbook): Float {
+        if (sum_ == null) sum(c)?.also {
             sum_ = it
             statsCleared = false
         }
@@ -146,11 +145,11 @@ class Crush(
     @Transient
     private var lastOrgasm_: Long? = null
 
-    private fun lastOrgasm(m: Model): Long? =
-        m.summary?.scores?.get(key)?.maxOf { it.time }
+    private fun lastOrgasm(c: Sexbook): Long? =
+        c.summary?.scores?.get(key)?.maxOf { it.time }
 
-    fun getLastOrgasm(m: Model): Long {
-        if (lastOrgasm_ == null) lastOrgasm(m)?.also {
+    fun getLastOrgasm(c: Sexbook): Long {
+        if (lastOrgasm_ == null) lastOrgasm(c)?.also {
             lastOrgasm_ = it
             statsCleared = false
         }
@@ -162,11 +161,11 @@ class Crush(
     @Transient
     private var firstOrgasm_: Long? = null
 
-    private fun firstOrgasm(m: Model): Long? =
-        m.summary?.scores?.get(key)?.minOf { it.time }
+    private fun firstOrgasm(c: Sexbook): Long? =
+        c.summary?.scores?.get(key)?.minOf { it.time }
 
-    fun getFirstOrgasm(m: Model): Long {
-        if (firstOrgasm_ == null) firstOrgasm(m)?.also {
+    fun getFirstOrgasm(c: Sexbook): Long {
+        if (firstOrgasm_ == null) firstOrgasm(c)?.also {
             firstOrgasm_ = it
             statsCleared = false
         }
@@ -181,30 +180,30 @@ class Crush(
     }
 
     class Sort(
-        private val c: BaseActivity, private val by: Int, private val asc: Boolean
+        private val c: Sexbook, private val by: Int, private val asc: Boolean
     ) : Comparator<String> {
 
-        constructor(c: BaseActivity, spByKey: String, spAscKey: String) :
+        constructor(c: Sexbook, spByKey: String, spAscKey: String) :
                 this(c, c.sp.getInt(spByKey, 0), c.sp.getBoolean(spAscKey, true))
 
         override fun compare(aa: String, bb: String): Int {
             val a = if (asc) aa else bb
             val b = if (asc) bb else aa
             return when (by) {
-                Fun.SORT_BY_NAME -> c.m.people[a]!!.visName().lowercase(Locale.getDefault())
-                    .compareTo(c.m.people[b]!!.visName().lowercase(Locale.getDefault()))
-                Fun.SORT_BY_SUM -> c.m.people[a]!!.getSum(c.m)
-                    .compareTo(c.m.people[b]!!.getSum(c.m))
-                Fun.SORT_BY_AGE -> (c.m.people[b]!!.birthTime ?: 0L)
-                    .compareTo(c.m.people[a]!!.birthTime ?: 0L)
-                Fun.SORT_BY_HEIGHT -> c.m.people[a]!!.height
-                    .compareTo(c.m.people[b]!!.height)
-                Fun.SORT_BY_BEGINNING -> (c.m.people[a]!!.firstTime ?: 0L)
-                    .compareTo(c.m.people[b]!!.firstTime ?: 0L)
-                Fun.SORT_BY_LAST -> c.m.people[a]!!.getLastOrgasm(c.m)
-                    .compareTo(c.m.people[b]!!.getLastOrgasm(c.m))
-                Fun.SORT_BY_FIRST -> c.m.people[a]!!.getFirstOrgasm(c.m)
-                    .compareTo(c.m.people[b]!!.getFirstOrgasm(c.m))
+                Fun.SORT_BY_NAME -> c.people[a]!!.visName().lowercase(Locale.getDefault())
+                    .compareTo(c.people[b]!!.visName().lowercase(Locale.getDefault()))
+                Fun.SORT_BY_SUM -> c.people[a]!!.getSum(c)
+                    .compareTo(c.people[b]!!.getSum(c))
+                Fun.SORT_BY_AGE -> (c.people[b]!!.birthTime ?: 0L)
+                    .compareTo(c.people[a]!!.birthTime ?: 0L)
+                Fun.SORT_BY_HEIGHT -> c.people[a]!!.height
+                    .compareTo(c.people[b]!!.height)
+                Fun.SORT_BY_BEGINNING -> (c.people[a]!!.firstTime ?: 0L)
+                    .compareTo(c.people[b]!!.firstTime ?: 0L)
+                Fun.SORT_BY_LAST -> c.people[a]!!.getLastOrgasm(c)
+                    .compareTo(c.people[b]!!.getLastOrgasm(c))
+                Fun.SORT_BY_FIRST -> c.people[a]!!.getFirstOrgasm(c)
+                    .compareTo(c.people[b]!!.getFirstOrgasm(c))
                 else -> throw IllegalArgumentException("Invalid sorting method!")
             }
         }

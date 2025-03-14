@@ -3,6 +3,7 @@ package ir.mahdiparastesh.sexbook.misc
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.Context
 import android.content.pm.PackageManager
 import android.icu.util.TimeZone
 import android.net.Uri
@@ -14,6 +15,7 @@ import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
+import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +34,7 @@ object CalendarManager {
     var id: Long? = null
     private var alteredOnce = false
 
-    fun checkPerm(c: BaseActivity) = ActivityCompat.checkSelfPermission(
+    fun checkPerm(c: Context) = ActivityCompat.checkSelfPermission(
         c, Manifest.permission.READ_CALENDAR
     ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
         c, Manifest.permission.WRITE_CALENDAR
@@ -51,7 +53,7 @@ object CalendarManager {
         //Log.println(Log.ASSERT, "ZOEY", "initialise")
         if (alteredOnce) return
         val canCreateCalendar = // implicitly `alterCode != 2`
-            c.sp.getBoolean(Settings.spCalOutput, false)
+            c.c.sp.getBoolean(Settings.spCalOutput, false)
         val cache = AlterationCache()
         val cacheExists = cache.exists()
         if (!canCreateCalendar && !cacheExists) return
@@ -70,8 +72,8 @@ object CalendarManager {
         }
         if (id != null && id != -1L) {
             when (alterCode) {
-                1 -> update(c)
-                2 -> destroy(c)
+                1 -> update(c.c)
+                2 -> destroy(c.c)
             }
             return
         }
@@ -94,7 +96,7 @@ object CalendarManager {
                         CCC.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL
                     ).build(), this
             )?.also { id = it.getId() }
-            insertEvents(c)
+            insertEvents(c.c)
             //Log.println(Log.ASSERT, "ZOEY", "calendar was created with ID: $id")
         }
     }
@@ -102,12 +104,12 @@ object CalendarManager {
     private fun Uri.getId() =
         toString().substringAfterLast("/").substringBefore("?").toLong()
 
-    private suspend fun insertEvents(c: BaseActivity) {
-        if (c.m.liefde.isEmpty()) return
+    private suspend fun insertEvents(c: Sexbook) {
+        if (c.liefde.isEmpty()) return
 
         val thisTz = TimeZone.getTimeZone(tz)
-        for (crush in c.m.liefde) {
-            val cr = c.m.people[crush] ?: return
+        for (crush in c.liefde) {
+            val cr = c.people[crush] ?: return
             val birthTime = cr.birth?.replace(".", "/")
                 ?.let { Fun.compDateTimeToCalendar(it, thisTz).timeInMillis } ?: return
             ContentValues().apply {
@@ -124,7 +126,7 @@ object CalendarManager {
         alteredOnce = true
     }
 
-    suspend fun update(c: BaseActivity) {
+    suspend fun update(c: Sexbook) {
         //Log.println(Log.ASSERT, "ZOEY", "update (id: $id)")
         if (id == null) return
         if (alteredOnce) {
@@ -136,12 +138,12 @@ object CalendarManager {
         insertEvents(c)
     }
 
-    private suspend fun deleteEvents(c: BaseActivity) {
+    private suspend fun deleteEvents(c: Sexbook) {
         c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
         alteredOnce = true
     }
 
-    fun destroy(c: BaseActivity) {
+    fun destroy(c: Sexbook) {
         //Log.println(Log.ASSERT, "ZOEY", "destory (id: $id)")
         if (id == null) return
         if (alteredOnce) {

@@ -9,27 +9,27 @@ import android.content.Intent
 import android.widget.RemoteViews
 import ir.mahdiparastesh.sexbook.Fun.now
 import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.data.Database
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/** An app widget that counts hours since the user's latest orgasm! */
+/** An app widget that counts hours since the user's latest orgasm time! */
 class LastOrgasm : AppWidgetProvider() {
-    override fun onUpdate(c: Context, manager: AppWidgetManager, ids: IntArray) {
+    override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         CoroutineScope(Dispatchers.IO).launch {
-            Widget(c).render { rv -> ids.forEach { id -> manager.updateAppWidget(id, rv) } }
+            Widget(context.applicationContext as Sexbook)
+                .render { rv -> ids.forEach { id -> manager.updateAppWidget(id, rv) } }
         }
     }
 
-    private class Widget(private val c: Context) {
+    private class Widget(private val c: Sexbook) {
         suspend fun render(then: (rv: RemoteViews) -> Unit) {
             var number: Long? = null
-            val m = Model.Factory.hashMapViewModel.getOrElse("Model") { null } as? Model
-            if (m?.dbLoaded == true) number = m.dao.whenWasTheLastTime()
+            if (c.dbLoaded == true) number = c.dao.whenWasTheLastTime()
             if (number == null) {
                 val db = Database.Builder(c).build()
                 number = db.dao().whenWasTheLastTime()
@@ -56,7 +56,7 @@ class LastOrgasm : AppWidgetProvider() {
     }
 
     companion object {
-        suspend fun updateAll(c: Context) {
+        suspend fun updateAll(c: Sexbook) {
             Widget(c).render { rv ->
                 AppWidgetManager.getInstance(c).updateAppWidget(
                     ComponentName(c, LastOrgasm::class.java.name), rv
@@ -64,7 +64,7 @@ class LastOrgasm : AppWidgetProvider() {
             }
         }
 
-        fun doUpdateAll(c: Context) {
+        fun doUpdateAll(c: Sexbook) {
             CoroutineScope(Dispatchers.IO).launch { updateAll(c) }
         }
     }

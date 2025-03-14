@@ -23,7 +23,8 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.or
 import kotlin.experimental.xor
 
-class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonBinding>>() {
+class PersonAdap(private val c: People) :
+    RecyclerView.Adapter<AnyViewHolder<ItemPersonBinding>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             AnyViewHolder<ItemPersonBinding> =
@@ -31,7 +32,7 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<ItemPersonBinding>, i: Int) {
-        val p = c.mm.visPeople.getOrNull(i)?.let { c.m.people[it] } ?: return
+        val p = c.mm.visPeople.getOrNull(i)?.let { c.c.people[it] } ?: return
 
         // is active?
         h.b.active.setOnCheckedChangeListener(null)
@@ -42,14 +43,14 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
                 p.status =
                     if (isChecked) (p.status xor Crush.STAT_INACTIVE)
                     else (p.status or Crush.STAT_INACTIVE)
-                c.m.dao.cUpdate(p)
-                withContext(Dispatchers.Main) { c.m.onCrushChanged(c, p.key, 1) }
+                c.c.dao.cUpdate(p)
+                withContext(Dispatchers.Main) { c.c.onCrushChanged(c, p.key, 1) }
             }
         }
 
         // name
         h.b.name.text = "${i + 1}. ${p.visName()}"
-        h.b.sum.text = p.getSum(c.m).let { if (it != 0f) "{${it.show()}}" else "" }
+        h.b.sum.text = p.getSum(c.c).let { if (it != 0f) "{${it.show()}}" else "" }
 
         // clicks
         h.b.root.setOnClickListener {
@@ -58,10 +59,10 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
         h.b.root.setOnLongClickListener { v ->
             val pk = c.mm.visPeople.getOrNull(h.layoutPosition)
                 ?: return@setOnLongClickListener false
-            val pc = c.m.people[pk] ?: return@setOnLongClickListener false
+            val pc = c.c.people[pk] ?: return@setOnLongClickListener false
 
             // REMOVE THIS if you wanna add more options
-            if (pc.insta.isNullOrBlank() || p.getSum(c.m) == 0f)
+            if (pc.insta.isNullOrBlank() || p.getSum(c.c) == 0f)
                 return@setOnLongClickListener false
 
             MaterialMenu(
@@ -80,7 +81,7 @@ class PersonAdap(val c: People) : RecyclerView.Adapter<AnyViewHolder<ItemPersonB
                 }
             ).apply {
                 menu.findItem(R.id.lcInstagram).isVisible = !pc.insta.isNullOrBlank()
-                menu.findItem(R.id.lcStatistics).isVisible = p.getSum(c.m) > 0f
+                menu.findItem(R.id.lcStatistics).isVisible = p.getSum(c.c) > 0f
             }.show()
             true
         }

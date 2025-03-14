@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
-import ir.mahdiparastesh.sexbook.base.BaseActivity.Companion.night
 import ir.mahdiparastesh.sexbook.base.BasePage
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
@@ -49,10 +48,10 @@ class PageSex : BasePage() {
         }
 
         // "Add" button
-        if (c.night()) b.addIV.colorFilter = c.themePdcf()
+        if (c.c.night()) b.addIV.colorFilter = c.themePdcf()
         b.add.setOnClickListener { add() }
 
-        if (c.m.dbLoaded) prepareList()
+        if (c.c.dbLoaded) prepareList()
     }
 
     override fun prepareList() {
@@ -61,8 +60,8 @@ class PageSex : BasePage() {
         reset(c.intentViewId)
         c.intentViewId = null
 
-        b.empty.isVisible = c.m.reports.isEmpty()
-        if (c.m.reports.isEmpty()) anGrowShrinkForAdd = AnimatorSet().apply {
+        b.empty.isVisible = c.c.reports.isEmpty()
+        if (c.c.reports.isEmpty()) anGrowShrinkForAdd = AnimatorSet().apply {
             duration = 1000L
             playTogether(
                 ObjectAnimator.ofFloat(b.add, View.SCALE_X, 1f, growShrinkScale).apply {
@@ -86,8 +85,8 @@ class PageSex : BasePage() {
 
         // which month to show?
         var curFilter = if (c.mm.listFilter == -1) (filters.size - 1) else c.mm.listFilter
-        if (scrollToId != null && scrollToId in c.m.reports) {
-            val toFilter = c.m.reports[scrollToId]!!.time.calendar(c).createFilterYm()
+        if (scrollToId != null && scrollToId in c.c.reports) {
+            val toFilter = c.c.reports[scrollToId]!!.time.calendar(c).createFilterYm()
             val fIndex =
                 filters.indexOfFirst { it.year == toFilter.first && it.month == toFilter.second }
             if (fIndex != -1) curFilter = fIndex
@@ -106,7 +105,7 @@ class PageSex : BasePage() {
 
     private fun createFilters(): List<Report.Filter> {
         val filters = arrayListOf<Report.Filter>()
-        for ((id, r) in c.m.reports) {
+        for ((id, r) in c.c.reports) {
             val ym = r.time.calendar(c).createFilterYm()
             var filterExists = false
             for (f in filters.indices)
@@ -127,7 +126,7 @@ class PageSex : BasePage() {
         c.mm.visReports =
             if (filters.isNotEmpty()) filters[c.mm.listFilter].map
             else arrayListOf()
-        c.mm.sortVisReports(c.m)
+        c.mm.sortVisReports(c.c)
 
         // update the adapter
         if (b.rv.adapter == null) b.rv.adapter = ReportAdap(c, this) else {
@@ -153,9 +152,9 @@ class PageSex : BasePage() {
 
             // detect a regularly repeated monoamorous crush
             var name: String? = null
-            val total = c.m.reports.size
+            val total = c.c.reports.size
             if (total >= prevRecordsRequiredToUseTheSameName) {
-                val reportsList = c.m.reports.values.toList()
+                val reportsList = c.c.reports.values.toList()
                 name = reportsList[total - 1].name
                 if (name != null)
                     for (r in (total - 2) downTo (total - prevRecordsRequiredToUseTheSameName))
@@ -166,12 +165,12 @@ class PageSex : BasePage() {
             }
 
             val newOne = Report(
-                Fun.now(), name, c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
-                null, true, c.sp.getLong(Settings.spDefPlace, -1L), true, -127
+                Fun.now(), name, c.c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
+                null, true, c.c.sp.getLong(Settings.spDefPlace, -1L), true, -127
             )
-            newOne.id = c.m.dao.rInsert(newOne)
-            LastOrgasm.updateAll(c)
-            c.m.reports[newOne.id] = newOne
+            newOne.id = c.c.dao.rInsert(newOne)
+            LastOrgasm.updateAll(c.c)
+            c.c.reports[newOne.id] = newOne
 
             withContext(Dispatchers.Main) {
                 val ym = newOne.time.calendar(c).createFilterYm()
@@ -179,7 +178,7 @@ class PageSex : BasePage() {
                     filters.indexOfFirst { it.year == ym.first && it.month == ym.second } == c.mm.listFilter
                 ) { // add to the bottom of the recycler view
                     c.mm.visReports.add(newOne.id)
-                    c.mm.sortVisReports(c.m)
+                    c.mm.sortVisReports(c.c)
                     (b.rv.adapter as ReportAdap?)?.apply {
                         notifyAnyChange(false)
                         notifyItemInserted(c.mm.visReports.indexOf(newOne.id))

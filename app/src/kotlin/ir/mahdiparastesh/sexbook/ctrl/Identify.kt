@@ -44,7 +44,7 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
         var crush: Crush? = null
 
         fun <Parent> create(c: BaseActivity, crush: String) where Parent : BaseActivity {
-            Companion.crush = c.m.people[crush]
+            Companion.crush = c.c.people[crush]
             Identify<Parent>().apply {
                 arguments = Bundle().apply { putString(BUNDLE_CRUSH_KEY, crush) }
                 show(c.supportFragmentManager, TAG)
@@ -215,15 +215,15 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
                 )
                 CoroutineScope(Dispatchers.IO).launch {
                     if (inserted.key != crushKey) {  // if Crush key is changed...
-                        c.m.dao.cUpdateKey(crushKey, inserted.key)
-                        c.m.people.remove(crushKey)
-                        c.m.liefde.indexOf(crushKey).also { pos ->
+                        c.c.dao.cUpdateKey(crushKey, inserted.key)
+                        c.c.people.remove(crushKey)
+                        c.c.liefde.indexOf(crushKey).also { pos ->
                             if (pos == -1) return@also
-                            c.m.liefde[pos] = inserted.key
+                            c.c.liefde[pos] = inserted.key
                         }
-                        if (crushKey in c.m.unsafe) {
-                            c.m.unsafe.remove(crushKey)
-                            c.m.unsafe.add(inserted.key)
+                        if (crushKey in c.c.unsafe) {
+                            c.c.unsafe.remove(crushKey)
+                            c.c.unsafe.add(inserted.key)
                         }
                         if (c is People) (c as People).mm.visPeople.indexOf(crushKey).also { pos ->
                             if (pos == -1) return@also
@@ -235,11 +235,11 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
                                 (c as Settings).mm.bNtfCrushes[pos] = inserted.key
                             }
                     }
-                    if (crush == null) c.m.dao.cInsert(inserted)
-                    else c.m.dao.cUpdate(inserted)
-                    c.m.people[inserted.key] = inserted
+                    if (crush == null) c.c.dao.cInsert(inserted)
+                    else c.c.dao.cUpdate(inserted)
+                    c.c.people[inserted.key] = inserted
                     withContext(Dispatchers.Main) {
-                        c.m.onCrushChanged(c, inserted.key, if (crush == null) 0 else 1)
+                        c.c.onCrushChanged(c, inserted.key, if (crush == null) 0 else 1)
                         if (c is Singular && inserted.key != crushKey) c.finish()
                     }
                 }
@@ -253,10 +253,10 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
                     setMessage(R.string.crushClearSure)
                     setPositiveButton(R.string.yes) { _, _ ->
                         CoroutineScope(Dispatchers.IO).launch {
-                            c.m.dao.cDelete(crush!!)
-                            c.m.people.remove(crush!!.key)
+                            c.c.dao.cDelete(crush!!)
+                            c.c.people.remove(crush!!.key)
                             withContext(Dispatchers.Main) {
-                                c.m.onCrushChanged(c, crush!!.key, 2)
+                                c.c.onCrushChanged(c, crush!!.key, 2)
                             }
                         }
                         c.shake()

@@ -1,15 +1,11 @@
 package ir.mahdiparastesh.sexbook.base
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.icu.util.GregorianCalendar
 import android.icu.util.IndianCalendar
 import android.os.Build
-import android.os.Bundle
 import android.os.SystemClock
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -25,35 +21,20 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.Fun.vib
 import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.Model
 import ir.mahdiparastesh.sexbook.Settings
+import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.misc.HumanistIranianCalendar
 import java.util.Locale
 import kotlin.reflect.KClass
 
 /** Abstract class for all Activity instances in this app and it extends FragmentActivity. */
 abstract class BaseActivity : FragmentActivity() {
-    val c: Context get() = applicationContext
-    lateinit var m: Model
-    lateinit var sp: SharedPreferences
+    val c: Sexbook by lazy { applicationContext as Sexbook }
     var tbTitle: TextView? = null
     val dm: DisplayMetrics by lazy { resources.displayMetrics }
     private var lastToast = -1L
-
-    companion object {
-        /** @return true if the night mode is on */
-        fun Context.night(): Boolean = resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        m = ViewModelProvider(this, Model.Factory())["Model", Model::class.java]
-        sp = getSharedPreferences(Settings.spName, MODE_PRIVATE)
-    }
 
     /** Applies custom styles and actions on the Toolbar. */
     fun toolbar(tb: Toolbar, @StringRes title: Int) {
@@ -97,7 +78,7 @@ abstract class BaseActivity : FragmentActivity() {
         GregorianCalendar::class.java,
         HumanistIranianCalendar::class.java,
         IndianCalendar::class.java
-    )[sp.getInt(
+    )[c.sp.getInt(
         Settings.spCalType, when (Locale.getDefault().country) {
             "IR" -> 1; "IN" -> 2; else -> 0
         }
@@ -125,7 +106,7 @@ abstract class BaseActivity : FragmentActivity() {
     /** Proper implementation of Vibration in across different supported APIs. */
     @Suppress("DEPRECATION")
     fun shake(dur: Long = 48L) {
-        if (vib == null) vib = sp.getBoolean(Settings.spVibration, true)
+        if (vib == null) vib = c.sp.getBoolean(Settings.spVibration, true)
         if (!vib!!) return
         val vib = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
             (getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator

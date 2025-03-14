@@ -30,22 +30,22 @@ class Places : BaseActivity(), Lister {
         // List
         if (b.list.adapter == null) b.list.adapter = PlaceAdap(this)
         else b.list.adapter?.notifyDataSetChanged()
-        b.empty.isVisible = m.places.isEmpty()
-        Delay(100L) { count(m.places.size) }
+        b.empty.isVisible = c.places.isEmpty()
+        Delay(100L) { count(c.places.size) }
 
         // "Add" button
-        if (night()) b.addIV.colorFilter = themePdcf()
+        if (c.night()) b.addIV.colorFilter = themePdcf()
         b.add.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val newPlace = Place()
-                newPlace.id = m.dao.pInsert(newPlace)
-                m.places.add(newPlace)
+                newPlace.id = c.dao.pInsert(newPlace)
+                c.places.add(newPlace)
                 Main.changed = true
 
                 withContext(Dispatchers.Main) {
-                    b.list.adapter!!.notifyItemInserted(m.places.size - 1)
+                    b.list.adapter!!.notifyItemInserted(c.places.size - 1)
                     explosionEffect(b.add)
-                    count(m.places.size)
+                    count(c.places.size)
                     b.empty.isVisible = false
                 }
             }

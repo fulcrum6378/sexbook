@@ -39,7 +39,7 @@ class SummaryDialog : BaseDialog<Main>() {
     private var pager: ViewPager2? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        c.m.summary!!.classify(c)
+        c.c.summary!!.classify(c.c)
         pager = ViewPager2(c).apply {
             layoutParams = ViewGroup.LayoutParams(-1, -1)
             adapter = SumAdapter()
@@ -47,7 +47,7 @@ class SummaryDialog : BaseDialog<Main>() {
         dialogue = MaterialAlertDialogBuilder(c).apply {
             setTitle(
                 "${getString(R.string.summary)} " +
-                        "(${c.m.summary!!.apparent.show()} / ${c.m.reports.size})"
+                        "(${c.c.summary!!.apparent.show()} / ${c.c.reports.size})"
             )
             setView(ConstraintLayout(c).apply {
                 layoutParams = ViewGroup.LayoutParams(-1, -1)
@@ -116,9 +116,9 @@ class SummaryDialog : BaseDialog<Main>() {
             })
             lookingFor?.also { b.find.setText(it) }
 
-            if (c.m.summary?.classification == null) return
+            if (c.c.summary?.classification == null) return
             b.list.adapter = StatSumAdap(
-                c, c.m.summary!!.classification!!.calculations.entries.toList(), this@SumChips
+                c, c.c.summary!!.classification!!.calculations.entries.toList(), this@SumChips
             )
 
             val pluses = LinearLayout(c).apply {
@@ -128,22 +128,22 @@ class SummaryDialog : BaseDialog<Main>() {
                 orientation = LinearLayout.VERTICAL
                 resources.getDimension(R.dimen.ssPadH).toInt().also { setPadding(it, 0, it, 0) }
             }
-            c.m.summary?.nExcluded?.also {
+            c.c.summary?.nExcluded?.also {
                 if (it > 0f) pluses.addView(
                     plus(b.root.context, getString(R.string.excStat, it.toString()))
                 )
             }
-            c.m.summary?.unknown?.also {
+            c.c.summary?.unknown?.also {
                 if (it > 0f) pluses.addView(
                     plus(b.root.context, getString(R.string.unknown, it.show()))
                 )
             }
-            c.m.summary?.nonCrush?.also {
+            c.c.summary?.nonCrush?.also {
                 if (it > 0f) pluses.addView(
                     plus(b.root.context, getString(R.string.nonCrush, it.show()))
                 )
             }
-            c.m.summary?.unsafe?.also {
+            c.c.summary?.unsafe?.also {
                 if (it > 0f) pluses.addView(
                     plus(b.root.context, getString(R.string.plusUnsafe, it.show()))
                 )
@@ -176,13 +176,13 @@ class SummaryDialog : BaseDialog<Main>() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
             val hideUnsafe =
-                c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.m.unsafe.isNotEmpty()
+                c.c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.c.unsafe.isNotEmpty()
 
             val data = arrayListOf<SliceValue>()
-            c.m.summary?.scores?.entries?.sortedBy {
+            c.c.summary?.scores?.entries?.sortedBy {
                 it.value.sumOf { s -> s.value }
             }?.forEach {
-                if (hideUnsafe && it.key in c.m.unsafe) return@forEach
+                if (hideUnsafe && it.key in c.c.unsafe) return@forEach
 
                 val score = it.value.sumOf { s -> s.value }
                 data.add(

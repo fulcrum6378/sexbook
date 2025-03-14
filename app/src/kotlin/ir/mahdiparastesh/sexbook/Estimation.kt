@@ -30,22 +30,22 @@ class Estimation : BaseActivity(), Lister {
         // List
         if (b.list.adapter == null) b.list.adapter = GuessAdap(this)
         else b.list.adapter?.notifyDataSetChanged()
-        b.empty.isVisible = m.guesses.isEmpty()
-        Delay(100L) { count(m.guesses.size) }
+        b.empty.isVisible = c.guesses.isEmpty()
+        Delay(100L) { count(c.guesses.size) }
 
         // "Add" button
-        if (night()) b.addIV.colorFilter = themePdcf()
+        if (c.night()) b.addIV.colorFilter = themePdcf()
         b.add.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val newGuess = Guess()
-                newGuess.id = m.dao.gInsert(newGuess)
-                m.guesses.add(newGuess)
+                newGuess.id = c.dao.gInsert(newGuess)
+                c.guesses.add(newGuess)
                 Main.changed = true
 
                 withContext(Dispatchers.Main) {
-                    b.list.adapter!!.notifyItemInserted(m.guesses.size - 1)
+                    b.list.adapter!!.notifyItemInserted(c.guesses.size - 1)
                     explosionEffect(b.add)
-                    count(m.places.size)
+                    count(c.places.size)
                     b.empty.isVisible = false
                 }
             }

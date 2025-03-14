@@ -17,6 +17,7 @@
         android:label="modify the Sexbook database" />
 
     <application
+        android:name=".Sexbook"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/new_backup"
         android:fullBackupContent="@xml/old_backup"

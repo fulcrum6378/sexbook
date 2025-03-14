@@ -31,7 +31,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(b.root)
-        if (night())
+        if (c.night())
             window.decorView.setBackgroundColor(themeColor(com.google.android.material.R.attr.colorPrimary))
         if (!requirements()) {
             onBackPressed(); return; }
@@ -46,7 +46,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
         }
     }
 
-    open fun requirements() = m.reports.isNotEmpty() && m.summary != null
+    open fun requirements() = c.reports.isNotEmpty() && c.summary != null
 
     abstract suspend fun draw(): AbstractChartData
 
@@ -61,21 +61,21 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
 
     /** Creates a list of months of the recorded sexual history. */
     fun sinceTheBeginning(
-        c: BaseActivity, history: Iterable<Report> = c.m.reports.values
+        c: BaseActivity, history: Iterable<Report> = c.c.reports.values
     ): List<String> {
         // Find the ending
         var end = c.calType().getDeclaredConstructor().newInstance()
         var oldest = end.timeInMillis
-        if (c.sp.getBoolean(Settings.spStatUntilCb, false)) {
-            val statTill = c.sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
+        if (c.c.sp.getBoolean(Settings.spStatUntilCb, false)) {
+            val statTill = c.c.sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
             var newest = 0L
             for (h in history) if (h.time in (newest + 1)..statTill) newest = h.time
             if (newest != 0L) end = newest.calendar(c)
         }
 
         // Find the beginning
-        if (c.sp.getBoolean(Settings.spStatSinceCb, false)) {
-            val statSinc = c.sp.getLong(Settings.spStatSince, Long.MIN_VALUE)
+        if (c.c.sp.getBoolean(Settings.spStatSinceCb, false)) {
+            val statSinc = c.c.sp.getLong(Settings.spStatSince, Long.MIN_VALUE)
             for (h in history) if (h.time in statSinc until oldest) oldest = h.time
         } else for (h in history) if (h.time < oldest) oldest = h.time
 
@@ -124,7 +124,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
                 SubColumnValue(it.second)
                     .setLabel("${it.first} (${it.second})")
                     .setColor(
-                        if (!c.night()) c.themeColor(com.google.android.material.R.attr.colorPrimary)
+                        if (!c.c.night()) c.themeColor(com.google.android.material.R.attr.colorPrimary)
                         else c.color(ir.mahdiparastesh.sexbook.R.color.CPV_LIGHT)
                     )
             )

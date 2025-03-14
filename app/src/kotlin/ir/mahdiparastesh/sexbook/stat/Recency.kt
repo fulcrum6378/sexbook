@@ -33,10 +33,10 @@ class Recency : BaseDialog<Main>(), BaseDialog.SearchableStat {
     /** Uses Summary to compute recency of crushes. */
     private fun compute() {
         val hideUnsafe =
-            c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.m.unsafe.isNotEmpty()
+            c.c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.c.unsafe.isNotEmpty()
 
-        c.m.summary!!.scores.forEach { (key, orgasms) ->
-            if (hideUnsafe && key in c.m.unsafe) return@forEach
+        c.c.summary!!.scores.forEach { (key, orgasms) ->
+            if (hideUnsafe && key in c.c.unsafe) return@forEach
 
             var mostRecent = 0L
             for (e in orgasms) if (e.time > mostRecent) mostRecent = e.time

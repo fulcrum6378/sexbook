@@ -12,12 +12,12 @@ class Growth : ChartActivity<GrowthBinding>() {
 
     override suspend fun draw(): AbstractChartData {
         val hideUnsafe =
-            sp.getBoolean(Settings.spHideUnsafePeople, true) && m.unsafe.isNotEmpty()
+            c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.unsafe.isNotEmpty()
 
         val stb = sinceTheBeginning(this)
         val stars = ArrayList<Star>()
-        for (x in m.summary!!.scores) {
-            if (hideUnsafe && x.key in m.unsafe) continue
+        for (x in c.summary!!.scores) {
+            if (hideUnsafe && x.key in c.unsafe) continue
 
             val frames = ArrayList<Star.Frame>()
             for (month in stb)

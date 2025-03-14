@@ -39,16 +39,16 @@ class Taste : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(pager)
-        if (night())
+        if (c.night())
             window.decorView.setBackgroundColor(themeColor(com.google.android.material.R.attr.colorPrimary))
-        if (m.summary == null) {
+        if (c.summary == null) {
             onBackPressed(); return; }
 
         CoroutineScope(Dispatchers.IO).launch {
             var orgasms: ArrayList<Summary.Orgasm>
             var sum: Float
-            for (p in m.people.values) {
-                orgasms = m.summary!!.scores[p.key] ?: continue
+            for (p in c.people.values) {
+                orgasms = c.summary!!.scores[p.key] ?: continue
                 sum = orgasms.sumOf { it.value }
                 index.add(p to sum)
             }
@@ -97,8 +97,8 @@ class Taste : BaseActivity() {
 
             // prepare the diagram
             myJob = CoroutineScope(Dispatchers.IO).launch {
-                sumOfAll += c.m.summary!!.unknown
-                counts[0] = c.m.summary!!.unknown
+                sumOfAll += c.c.summary!!.unknown
+                counts[0] = c.c.summary!!.unknown
                 val data = statisticise()
 
                 withContext(Dispatchers.Main) {

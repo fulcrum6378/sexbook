@@ -23,7 +23,7 @@ class PageLove : BasePage() {
 
     override fun onResume() {
         super.onResume()
-        if (c.m.dbLoaded) {
+        if (c.c.dbLoaded) {
             c.summarize(true)
             prepareList()
             if (changed) changed = false
@@ -33,9 +33,9 @@ class PageLove : BasePage() {
     @SuppressLint("NotifyDataSetChanged")
     override fun prepareList() {
         super.prepareList()
-        c.m.liefde.sortWith(Crush.Sort(c, Settings.spPageLoveSortBy, Settings.spPageLoveSortAsc))
-        c.count(c.m.liefde.size)
-        b.empty.isVisible = c.m.liefde.isEmpty()
+        c.c.liefde.sortWith(Crush.Sort(c.c, Settings.spPageLoveSortBy, Settings.spPageLoveSortAsc))
+        c.count(c.c.liefde.size)
+        b.empty.isVisible = c.c.liefde.isEmpty()
         if (b.rv.adapter == null) b.rv.adapter = CrushAdap(c)
         else b.rv.adapter?.notifyDataSetChanged()
     }

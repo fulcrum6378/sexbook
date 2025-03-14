@@ -77,7 +77,7 @@ class CrushesStat : BaseDialog<BaseActivity>() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
             val whichList = requireArguments().getInt(BUNDLE_WHICH_LIST)
-            val list = if (whichList == 0) (c as People).mm.visPeople else c.m.liefde
+            val list = if (whichList == 0) (c as People).mm.visPeople else c.c.liefde
 
             // set the title and miscellaneous stuff
             preAnalysis()
@@ -122,7 +122,7 @@ class CrushesStat : BaseDialog<BaseActivity>() {
         override suspend fun statisticise(list: MutableList<String>): ArrayList<SliceValue> {
             for (mode in arModes.indices) counts[mode.toShort()] = 0
             for (person in list) {
-                val p = c.m.people[person]!!
+                val p = c.c.people[person]!!
                 if (isFiltered && !crushFilter(p)) continue
                 val mode = crushProperty(p)
                 counts[mode] = counts[mode]!! + 1
@@ -214,7 +214,7 @@ class CrushesStat : BaseDialog<BaseActivity>() {
 
         override suspend fun statisticise(list: MutableList<String>): ArrayList<SliceValue> {
             for (person in list) {
-                val p = c.m.people[person]!!
+                val p = c.c.people[person]!!
                 val div = crushProperty(p)
                 if (div !in counts) counts[div] = 1
                 else counts[div] = counts[div]!! + 1

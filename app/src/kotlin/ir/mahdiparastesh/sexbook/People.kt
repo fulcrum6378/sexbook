@@ -51,15 +51,15 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     fun updateFilterIcon() {
         b.toolbar.menu.findItem(R.id.filter)?.setIcon(
-            if (m.screening?.any() == true) R.drawable.filtered else R.drawable.filter
+            if (c.screening?.any() == true) R.drawable.filtered else R.drawable.filter
         )
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(Fun.findSortMenuItemId(sp.getInt(Settings.spPeopleSortBy, 0)))
+        menu?.findItem(Fun.findSortMenuItemId(c.sp.getInt(Settings.spPeopleSortBy, 0)))
             ?.isChecked = true
         menu?.findItem(
-            if (sp.getBoolean(Settings.spPeopleSortAsc, true))
+            if (c.sp.getBoolean(Settings.spPeopleSortAsc, true))
                 R.id.sortAsc else R.id.sortDsc
         )?.isChecked = true
         return super.onPrepareOptionsMenu(menu)
@@ -67,16 +67,16 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.chart -> if (m.people.isNotEmpty()) CrushesStat().apply {
+            R.id.chart -> if (c.people.isNotEmpty()) CrushesStat().apply {
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 0) }
                 show(supportFragmentManager, CrushesStat.TAG)
             }
-            R.id.filter -> if (m.people.isNotEmpty())
+            R.id.filter -> if (c.people.isNotEmpty())
                 Screening().show(supportFragmentManager, "screening")
             else -> {
                 Fun.sort(item.itemId)?.also { value ->
                     item.isChecked = true
-                    sp.edit().apply {
+                    c.sp.edit().apply {
                         if (value is Int) putInt(Settings.spPeopleSortBy, value)
                         else if (value is Boolean) putBoolean(Settings.spPeopleSortAsc, value)
                     }.apply()
@@ -89,62 +89,62 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     @SuppressLint("NotifyDataSetChanged")
     fun arrangeList() {
-        val hideUnsafe = sp.getBoolean(Settings.spHideUnsafePeople, true) && m.unsafe.isNotEmpty()
-        val filters = m.screening
+        val hideUnsafe = c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.unsafe.isNotEmpty()
+        val filters = c.screening
         mm.visPeople = ArrayList(
             when {
-            filters?.any() == true -> m.people.filter { p ->
+                filters?.any() == true -> c.people.filter { p ->
 
-                // Crush::status
-                if (filters.gender != 0 &&
-                    filters.gender != (p.value.status and Crush.STAT_GENDER).toInt()
-                ) return@filter false
-                if (filters.fiction != 0 &&
-                    (filters.fiction - 1) != (p.value.status and Crush.STAT_FICTION).toInt() shr 3
-                ) return@filter false
-                if (filters.safety != 0 &&
-                    (filters.safety - 1) != (p.value.status and Crush.STAT_UNSAFE_PERSON).toInt() shr 5
-                ) return@filter false
+                    // Crush::status
+                    if (filters.gender != 0 &&
+                        filters.gender != (p.value.status and Crush.STAT_GENDER).toInt()
+                    ) return@filter false
+                    if (filters.fiction != 0 &&
+                        (filters.fiction - 1) != (p.value.status and Crush.STAT_FICTION).toInt() shr 3
+                    ) return@filter false
+                    if (filters.safety != 0 &&
+                        (filters.safety - 1) != (p.value.status and Crush.STAT_UNSAFE_PERSON).toInt() shr 5
+                    ) return@filter false
 
-                // Crush::body
-                val body = p.value.body
-                if (filters.bodySkinColour != 0 && filters.bodySkinColour !=
-                    (body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second
-                ) return@filter false
-                if (filters.bodyHairColour != 0 && filters.bodyHairColour !=
-                    (body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second
-                ) return@filter false
-                if (filters.bodyEyeColour != 0 && filters.bodyEyeColour !=
-                    (body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second
-                ) return@filter false
-                if (filters.bodyEyeShape != 0 && filters.bodyEyeShape !=
-                    (body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second
-                ) return@filter false
-                if (filters.bodyFaceShape != 0 && filters.bodyFaceShape !=
-                    (body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second
-                ) return@filter false
-                if (filters.bodyFat != 0 && filters.bodyFat !=
-                    (body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second
-                ) return@filter false
-                if (filters.bodyMuscle != 0 && filters.bodyMuscle !=
-                    (body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second
-                ) return@filter false
-                if (filters.bodyBreasts != 0 && filters.bodyBreasts !=
-                    (body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second
-                ) return@filter false
-                if (filters.bodyPenis != 0 && filters.bodyPenis !=
-                    (body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second
-                ) return@filter false
-                if (filters.bodySexuality != 0 && filters.bodySexuality !=
-                    (body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second
-                ) return@filter false
+                    // Crush::body
+                    val body = p.value.body
+                    if (filters.bodySkinColour != 0 && filters.bodySkinColour !=
+                        (body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second
+                    ) return@filter false
+                    if (filters.bodyHairColour != 0 && filters.bodyHairColour !=
+                        (body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second
+                    ) return@filter false
+                    if (filters.bodyEyeColour != 0 && filters.bodyEyeColour !=
+                        (body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second
+                    ) return@filter false
+                    if (filters.bodyEyeShape != 0 && filters.bodyEyeShape !=
+                        (body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second
+                    ) return@filter false
+                    if (filters.bodyFaceShape != 0 && filters.bodyFaceShape !=
+                        (body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second
+                    ) return@filter false
+                    if (filters.bodyFat != 0 && filters.bodyFat !=
+                        (body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second
+                    ) return@filter false
+                    if (filters.bodyMuscle != 0 && filters.bodyMuscle !=
+                        (body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second
+                    ) return@filter false
+                    if (filters.bodyBreasts != 0 && filters.bodyBreasts !=
+                        (body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second
+                    ) return@filter false
+                    if (filters.bodyPenis != 0 && filters.bodyPenis !=
+                        (body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second
+                    ) return@filter false
+                    if (filters.bodySexuality != 0 && filters.bodySexuality !=
+                        (body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second
+                    ) return@filter false
 
-                return@filter true
-            }
-            hideUnsafe -> m.people.filter { p -> !p.value.unsafe() }
-            else -> m.people
-        }.keys)
-        mm.visPeople.sortWith(Crush.Sort(this, Settings.spPeopleSortBy, Settings.spPeopleSortAsc))
+                    return@filter true
+                }
+                hideUnsafe -> c.people.filter { p -> !p.value.unsafe() }
+                else -> c.people
+            }.keys)
+        mm.visPeople.sortWith(Crush.Sort(c, Settings.spPeopleSortBy, Settings.spPeopleSortAsc))
 
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()

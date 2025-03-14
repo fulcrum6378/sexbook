@@ -87,7 +87,7 @@ class Settings : BaseActivity() {
     class MyModel : ViewModel() {
         lateinit var bNtfCrushes: ArrayList<String>
 
-        fun sortBNtfCrushes(c: Settings) {
+        fun sortBNtfCrushes(c: Sexbook) {
             bNtfCrushes.sortWith(Crush.Sort(c, spPeopleSortBy, spPeopleSortAsc))
         }
     }
@@ -103,45 +103,45 @@ class Settings : BaseActivity() {
         b.stCalendarType.adapter =
             ArrayAdapter(this@Settings, R.layout.spinner_yellow, calendarTypes.toList())
                 .apply { setDropDownViewResource(R.layout.spinner_dd) }
-        b.stCalendarType.setSelection(sp.getInt(spCalType, 0))
+        b.stCalendarType.setSelection(c.sp.getInt(spCalType, 0))
         b.stCalendarType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                if (sp.getInt(spCalType, 0) == i) return
-                sp.edit().putInt(spCalType, i).apply()
+                if (c.sp.getInt(spCalType, 0) == i) return
+                c.sp.edit().putInt(spCalType, i).apply()
                 shake()
                 Main.changed = true
             }
         }
 
         // Statisticise Since
-        if (sp.contains(spStatSince)) {
+        if (c.sp.contains(spStatSince)) {
             b.stStatSinceDateCb.isEnabled = true
-            b.stStatSinceDateCb.isChecked = sp.getBoolean(spStatSinceCb, false)
+            b.stStatSinceDateCb.isChecked = c.sp.getBoolean(spStatSinceCb, false)
         }
         b.stStatSinceDateCb.setOnCheckedChangeListener { _, isChecked ->
-            sp.edit().putBoolean(spStatSinceCb, isChecked).apply()
+            c.sp.edit().putBoolean(spStatSinceCb, isChecked).apply()
             shake()
         }
         b.stStatSinceDate.text =
-            if (!sp.contains(spStatSince)) emptyDate
-            else sp.getLong(spStatSince, 0).calendar(this).fullDate()
+            if (!c.sp.contains(spStatSince)) emptyDate
+            else c.sp.getLong(spStatSince, 0).calendar(this).fullDate()
         b.stStatSince.setOnClickListener {
-            var cal = sp.getLong(spStatSince, Fun.now()).calendar(this)
+            var cal = c.sp.getLong(spStatSince, Fun.now()).calendar(this)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
                 cal.set(Calendar.DAY_OF_MONTH, day)
                 cal = McdtpUtils.trimToMidnight(cal)
-                if (sp.contains(spStatUntil) && cal.timeInMillis >
-                    sp.getLong(spStatUntil, 0/*IMPOSSIBLE*/)
+                if (c.sp.contains(spStatUntil) && cal.timeInMillis >
+                    c.sp.getLong(spStatUntil, 0/*IMPOSSIBLE*/)
                 ) {
                     Toast.makeText(
                         c, R.string.statSinceIllogical, Toast.LENGTH_LONG
                     ).show()
                     return@newInstance; }
                 b.stStatSinceDate.text = cal.fullDate()
-                sp.edit()
+                c.sp.edit()
                     .putLong(spStatSince, cal.timeInMillis)
                     .putBoolean(spStatSinceCb, true)
                     .apply()
@@ -151,33 +151,33 @@ class Settings : BaseActivity() {
         }
 
         // Statisticise Until
-        if (sp.contains(spStatUntil)) {
+        if (c.sp.contains(spStatUntil)) {
             b.stStatUntilDateCb.isEnabled = true
-            b.stStatUntilDateCb.isChecked = sp.getBoolean(spStatUntilCb, false)
+            b.stStatUntilDateCb.isChecked = c.sp.getBoolean(spStatUntilCb, false)
         }
         b.stStatUntilDateCb.setOnCheckedChangeListener { _, isChecked ->
-            sp.edit().putBoolean(spStatUntilCb, isChecked).apply()
+            c.sp.edit().putBoolean(spStatUntilCb, isChecked).apply()
             shake()
         }
         b.stStatUntilDate.text =
-            if (!sp.contains(spStatUntil)) emptyDate
-            else sp.getLong(spStatUntil, 0).calendar(this).fullDate()
+            if (!c.sp.contains(spStatUntil)) emptyDate
+            else c.sp.getLong(spStatUntil, 0).calendar(this).fullDate()
         b.stStatUntil.setOnClickListener {
-            var cal = sp.getLong(spStatUntil, Fun.now()).calendar(this)
+            var cal = c.sp.getLong(spStatUntil, Fun.now()).calendar(this)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
                 cal.set(Calendar.DAY_OF_MONTH, day)
                 cal = McdtpUtils.trimToMidnight(cal)
-                if (sp.contains(spStatSince) && cal.timeInMillis <
-                    sp.getLong(spStatSince, 0/*IMPOSSIBLE*/)
+                if (c.sp.contains(spStatSince) && cal.timeInMillis <
+                    c.sp.getLong(spStatSince, 0/*IMPOSSIBLE*/)
                 ) {
                     Toast.makeText(
                         c, R.string.statUntilIllogical, Toast.LENGTH_LONG
                     ).show()
                     return@newInstance; }
                 b.stStatUntilDate.text = cal.fullDate()
-                sp.edit()
+                c.sp.edit()
                     .putLong(spStatUntil, cal.timeInMillis)
                     .putBoolean(spStatUntilCb, true)
                     .apply()
@@ -188,15 +188,16 @@ class Settings : BaseActivity() {
 
         // Statisticise Range: Long Click
         View.OnLongClickListener { v ->
-            MaterialMenu(this, v, R.menu.clear_date,
+            MaterialMenu(
+                this, v, R.menu.clear_date,
                 R.id.clearDate to {
                     if (v == b.stStatSince) {
-                        sp.edit().remove(spStatSince).putBoolean(spStatSinceCb, false).apply()
+                        c.sp.edit().remove(spStatSince).putBoolean(spStatSinceCb, false).apply()
                         b.stStatSinceDateCb.isChecked = false
                         b.stStatSinceDateCb.isEnabled = false
                         b.stStatSinceDate.text = emptyDate
                     } else {
-                        sp.edit().remove(spStatUntil).putBoolean(spStatUntilCb, false).apply()
+                        c.sp.edit().remove(spStatUntil).putBoolean(spStatUntilCb, false).apply()
                         b.stStatUntilDateCb.isChecked = false
                         b.stStatUntilDateCb.isEnabled = false
                         b.stStatUntilDate.text = emptyDate
@@ -239,9 +240,9 @@ class Settings : BaseActivity() {
                     resources.getDimension(R.dimen.stItemPadH).toInt(), 0, 0, 0
                 )
                 id = cbId
-                isChecked = sp.getBoolean(spStatInclude + s, true)
+                isChecked = c.sp.getBoolean(spStatInclude + s, true)
                 setOnCheckedChangeListener { _, bb ->
-                    sp.edit().putBoolean(spStatInclude + s, bb).apply()
+                    c.sp.edit().putBoolean(spStatInclude + s, bb).apply()
                     shake()
                 }
             }, ConstraintLayout.LayoutParams(0, -2).apply {
@@ -253,47 +254,47 @@ class Settings : BaseActivity() {
         }
 
         // Other statistical tweaks
-        b.stStatOnlyCrushes.isChecked = sp.getBoolean(spStatOnlyCrushes, false)
+        b.stStatOnlyCrushes.isChecked = c.sp.getBoolean(spStatOnlyCrushes, false)
         b.stStatOnlyCrushes.setOnCheckedChangeListener { _, isChecked ->
-            sp.edit().putBoolean(spStatOnlyCrushes, isChecked).apply()
+            c.sp.edit().putBoolean(spStatOnlyCrushes, isChecked).apply()
             shake()
         }
-        b.stStatNonOrgasm.isChecked = sp.getBoolean(spStatNonOrgasm, true)
+        b.stStatNonOrgasm.isChecked = c.sp.getBoolean(spStatNonOrgasm, true)
         b.stStatNonOrgasm.setOnCheckedChangeListener { _, isChecked ->
-            sp.edit().putBoolean(spStatNonOrgasm, isChecked).apply()
+            c.sp.edit().putBoolean(spStatNonOrgasm, isChecked).apply()
             shake()
         }
 
         // Vibration
-        b.stHideUnsafePeople.isChecked = sp.getBoolean(spHideUnsafePeople, true)
+        b.stHideUnsafePeople.isChecked = c.sp.getBoolean(spHideUnsafePeople, true)
         b.stHideUnsafePeople.setOnCheckedChangeListener { _, isChecked ->
-            sp.edit().putBoolean(spHideUnsafePeople, isChecked).apply()
+            c.sp.edit().putBoolean(spHideUnsafePeople, isChecked).apply()
             shake()
         }
-        b.stVibration.isChecked = sp.getBoolean(spVibration, true)
+        b.stVibration.isChecked = c.sp.getBoolean(spVibration, true)
         b.stVibration.setOnCheckedChangeListener { _, isChecked ->
             Fun.vib = isChecked
-            sp.edit().putBoolean(spVibration, isChecked).apply()
+            c.sp.edit().putBoolean(spVibration, isChecked).apply()
             shake()
         }
 
         // Birthdays
-        b.stCalOutput.isChecked = sp.getBoolean(spCalOutput, false)
+        b.stCalOutput.isChecked = c.sp.getBoolean(spCalOutput, false)
         b.stCalOutput.setOnCheckedChangeListener { _, isChecked ->
-            if (!CalendarManager.checkPerm(this))
+            if (!CalendarManager.checkPerm(c))
                 CalendarManager.askPerm(this)
             else turnCalendar(isChecked)
             shake()
         }
-        b.stPauseBirthdaysNtf.isChecked = sp.getBoolean(spPauseBirthdaysNtf, false)
+        b.stPauseBirthdaysNtf.isChecked = c.sp.getBoolean(spPauseBirthdaysNtf, false)
         b.stPauseBirthdaysNtf.setOnCheckedChangeListener { _, isChecked ->
-            sp.edit().putBoolean(spPauseBirthdaysNtf, isChecked).apply()
+            c.sp.edit().putBoolean(spPauseBirthdaysNtf, isChecked).apply()
             shake()
         }
         b.stNotifyBirthDaysBefore
-            .setText(sp.getInt(spNotifyBirthDaysBefore, spNotifyBirthDaysBeforeDef).toString())
+            .setText(c.sp.getInt(spNotifyBirthDaysBefore, spNotifyBirthDaysBeforeDef).toString())
         b.stNotifyBirthDaysBefore.addTextChangedListener {
-            sp.edit().putInt(
+            c.sp.edit().putInt(
                 spNotifyBirthDaysBefore, try {
                     it.toString().toInt()
                 } catch (_: NumberFormatException) {
@@ -303,9 +304,9 @@ class Settings : BaseActivity() {
         }
         CoroutineScope(Dispatchers.IO).launch {
             mm.bNtfCrushes = ArrayList(
-                m.people.values.filter { it.notifyBirth() }.map { it.key }
+                c.people.values.filter { it.notifyBirth() }.map { it.key }
             )
-            mm.sortBNtfCrushes(this@Settings)
+            mm.sortBNtfCrushes(c)
             withContext(Dispatchers.Main) {
                 b.stBNtfCrushes.setOnClickListener {
                     BNtfCrushes().show(supportFragmentManager, B_NTF_CRUSHES_TAG)
@@ -319,9 +320,9 @@ class Settings : BaseActivity() {
                 setTitle(R.string.stReset)
                 setMessage(R.string.stResetSure)
                 setPositiveButton(R.string.yes) { _, _ ->
-                    sp.edit().apply { for (k in sp.all.keys) remove(k) }.apply()
+                    c.sp.edit().apply { for (k in c.sp.all.keys) remove(k) }.apply()
                     // spinners and checkboxes saved their instance and after recreation and setting
-                    // their values, they saved their values into SP. After assigning their
+                    // their values, they saved their values into c.sp. After assigning their
                     // "saveEnabled" to "false", it worked like a charm!
                     shake()
                     recreate()
@@ -364,10 +365,10 @@ class Settings : BaseActivity() {
 
     /** In the both cases, requires WRITE_CALENDAR permission. */
     private fun turnCalendar(on: Boolean) {
-        sp.edit().putBoolean(spCalOutput, on).apply()
+        c.sp.edit().putBoolean(spCalOutput, on).apply()
         CoroutineScope(Dispatchers.IO).launch {
             if (on) CalendarManager.initialise(this@Settings)
-            else CalendarManager.destroy(this@Settings)
+            else CalendarManager.destroy(c)
         }
     }
 

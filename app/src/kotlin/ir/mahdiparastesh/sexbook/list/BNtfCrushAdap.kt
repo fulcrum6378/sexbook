@@ -17,7 +17,8 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.or
 import kotlin.experimental.xor
 
-class BNtfCrushAdap(val c: Settings) : RecyclerView.Adapter<AnyViewHolder<ItemPersonBinding>>() {
+class BNtfCrushAdap(private val c: Settings) :
+    RecyclerView.Adapter<AnyViewHolder<ItemPersonBinding>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             AnyViewHolder<ItemPersonBinding> =
@@ -25,7 +26,7 @@ class BNtfCrushAdap(val c: Settings) : RecyclerView.Adapter<AnyViewHolder<ItemPe
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<ItemPersonBinding>, i: Int) {
-        val p = c.m.people[c.mm.bNtfCrushes[i]] ?: return
+        val p = c.c.people[c.mm.bNtfCrushes[i]] ?: return
 
         // is active?
         h.b.active.setOnCheckedChangeListener(null)
@@ -37,16 +38,16 @@ class BNtfCrushAdap(val c: Settings) : RecyclerView.Adapter<AnyViewHolder<ItemPe
                     status = if (isChecked) (status or Crush.STAT_NOTIFY_BIRTH)
                     else (status xor Crush.STAT_NOTIFY_BIRTH)
                 }
-                c.m.dao.cUpdate(p)
+                c.c.dao.cUpdate(p)
                 withContext(Dispatchers.Main) {
-                    c.m.onCrushChanged(c, p.key, 1)
+                    c.c.onCrushChanged(c, p.key, 1)
                 }
             }
         }
 
         // name
         h.b.name.text = "${i + 1}. ${p.visName()}"
-        h.b.sum.text = p.getSum(c.m).let { if (it != 0f) "{${it.show()}}" else "" }
+        h.b.sum.text = p.getSum(c.c).let { if (it != 0f) "{${it.show()}}" else "" }
 
         // clicks
         h.b.root.setOnClickListener {

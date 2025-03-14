@@ -21,24 +21,25 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.experimental.or
 
-class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBinding>>() {
+class CrushAdap(private val c: Main) :
+    RecyclerView.Adapter<AnyViewHolder<ItemCrushBinding>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             AnyViewHolder<ItemCrushBinding> =
         AnyViewHolder(ItemCrushBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<ItemCrushBinding>, i: Int) {
-        val cr = c.m.people[c.m.liefde[i]] ?: return
+        val cr = c.c.people[c.c.liefde[i]] ?: return
 
         // texts
         h.b.name.text = cr.visName()
-        h.b.sum.text = cr.getSum(c.m).let { if (it != 0f) "{${it.show()}}" else "" }
+        h.b.sum.text = cr.getSum(c.c).let { if (it != 0f) "{${it.show()}}" else "" }
 
         // clicks
         h.b.root.setOnClickListener { v ->
             if (!c.summarize(true)) return@setOnClickListener
-            val crk = c.m.liefde.getOrNull(h.layoutPosition) ?: return@setOnClickListener
-            val crc = c.m.people[crk] ?: return@setOnClickListener
+            val crk = c.c.liefde.getOrNull(h.layoutPosition) ?: return@setOnClickListener
+            val crc = c.c.people[crk] ?: return@setOnClickListener
 
             MaterialMenu(
                 c, v, R.menu.crush,
@@ -58,20 +59,20 @@ class CrushAdap(val c: Main) : RecyclerView.Adapter<AnyViewHolder<ItemCrushBindi
                 R.id.lcDeactivate to {
                     crc.status = crc.status or Crush.STAT_INACTIVE
                     CoroutineScope(Dispatchers.IO).launch {
-                        c.m.dao.cUpdate(crc)
-                        withContext(Dispatchers.Main) { c.m.onCrushChanged(c, crk, 1) }
+                        c.c.dao.cUpdate(crc)
+                        withContext(Dispatchers.Main) { c.c.onCrushChanged(c, crk, 1) }
                     }
                     c.shake()
                 }
             ).apply {
                 menu.findItem(R.id.lcInstagram).isVisible = crc.insta != null && crc.insta != ""
-                menu.findItem(R.id.lcStatistics).isVisible = cr.getSum(c.m) > 0.0
+                menu.findItem(R.id.lcStatistics).isVisible = cr.getSum(c.c) > 0.0
             }.show()
         }
         h.b.root.setOnLongClickListener {
-            c.m.liefde.getOrNull(h.layoutPosition)?.also { Identify.create<Main>(c, it) }; true
+            c.c.liefde.getOrNull(h.layoutPosition)?.also { Identify.create<Main>(c, it) }; true
         }
     }
 
-    override fun getItemCount() = c.m.liefde.size
+    override fun getItemCount() = c.c.liefde.size
 }

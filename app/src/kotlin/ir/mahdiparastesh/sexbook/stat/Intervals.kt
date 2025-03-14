@@ -23,13 +23,13 @@ class Intervals : ChartActivity<IntervalsBinding>() {
         var prev: Long? = null
         var i = -1f
         val minima: Long =
-            if (!sp.getBoolean(Settings.spStatSinceCb, false)) Long.MIN_VALUE
-            else sp.getLong(Settings.spStatSince, Long.MIN_VALUE)
+            if (!c.sp.getBoolean(Settings.spStatSinceCb, false)) Long.MIN_VALUE
+            else c.sp.getLong(Settings.spStatSince, Long.MIN_VALUE)
         val maxima: Long =
-            if (!sp.getBoolean(Settings.spStatUntilCb, false)) Long.MAX_VALUE
-            else sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
-        allowedSexTypes = Fun.allowedSexTypes(sp)
-        for (org in m.reports.values.sortedBy { it.time }) {
+            if (!c.sp.getBoolean(Settings.spStatUntilCb, false)) Long.MAX_VALUE
+            else c.sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
+        allowedSexTypes = Fun.allowedSexTypes(c.sp)
+        for (org in c.reports.values.sortedBy { it.time }) {
             if (!org.ogsm) continue
             if (prev == null || org.time < minima || org.time > maxima || org.type !in allowedSexTypes) {
                 prev = org.time
@@ -48,7 +48,7 @@ class Intervals : ChartActivity<IntervalsBinding>() {
         }
         val line = Line(points)
             .setColor(
-                if (!night()) themeColor(com.google.android.material.R.attr.colorPrimary)
+                if (!c.night()) themeColor(com.google.android.material.R.attr.colorPrimary)
                 else color(R.color.CPV_LIGHT)
             )
             .setHasLabelsOnlyForSelected(true)
@@ -61,5 +61,5 @@ class Intervals : ChartActivity<IntervalsBinding>() {
         b.main.isViewportCalculationEnabled = false
     }
 
-    override fun requirements() = m.reports.isNotEmpty()
+    override fun requirements() = c.reports.isNotEmpty()
 }

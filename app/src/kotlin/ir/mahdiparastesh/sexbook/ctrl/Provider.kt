@@ -2,21 +2,20 @@ package ir.mahdiparastesh.sexbook.ctrl
 
 import android.content.ContentProvider
 import android.content.ContentValues
-import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
-import ir.mahdiparastesh.sexbook.data.Database
+import ir.mahdiparastesh.sexbook.Sexbook
 
-/** API (ContentProvider) for other apps to read and/or write data in Sexbook. */
+/**
+ * An API ([ContentProvider]) for other apps to read and/or write data in [Sexbook].
+ */
 class Provider : ContentProvider() {
-    private lateinit var c: Context
-    private lateinit var db: Database
+    private lateinit var c: Sexbook
 
     override fun onCreate(): Boolean {
-        c = context ?: return false
-        db = Database.Builder(c).build()
+        c = context as Sexbook? ?: return false
         return true
     }
 
@@ -26,7 +25,7 @@ class Provider : ContentProvider() {
         selection: String?,
         selectionArgs: Array<out String>?,
         sortOrder: String?
-    ): Cursor = db.query(
+    ): Cursor = c.db.query(
         SupportSQLiteQueryBuilder.builder(table(uri))
             .columns(projection)
             .selection(selection, selectionArgs)
@@ -38,19 +37,19 @@ class Provider : ContentProvider() {
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         if (values == null) return null
-        db.openHelper.writableDatabase.insert(table(uri), SQLiteDatabase.CONFLICT_ABORT, values)
+        c.db.openHelper.writableDatabase.insert(table(uri), SQLiteDatabase.CONFLICT_ABORT, values)
         return uri
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int =
-        db.openHelper.writableDatabase.delete(table(uri), selection, selectionArgs)
+        c.db.openHelper.writableDatabase.delete(table(uri), selection, selectionArgs)
 
     override fun update(
         uri: Uri,
         values: ContentValues?,
         selection: String?,
         selectionArgs: Array<out String>?
-    ): Int = db.openHelper.writableDatabase.update(
+    ): Int = c.db.openHelper.writableDatabase.update(
         table(uri),
         SQLiteDatabase.CONFLICT_ABORT,
         values ?: ContentValues(),
@@ -61,7 +60,7 @@ class Provider : ContentProvider() {
     private fun table(uri: Uri) = uri.pathSegments[0]
 
     override fun shutdown() {
-        db.close()
+        c.db.close()
         super.shutdown()
     }
 }

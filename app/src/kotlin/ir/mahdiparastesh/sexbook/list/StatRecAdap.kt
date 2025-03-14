@@ -18,8 +18,10 @@ import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 
-class StatRecAdap(private val r: Recency) : RecyclerView.Adapter<AnyViewHolder<RecencyBinding>>() {
-    private val statOnlyCrushes = r.c.sp.getBoolean(Settings.spStatOnlyCrushes, false)
+class StatRecAdap(private val r: Recency) :
+    RecyclerView.Adapter<AnyViewHolder<RecencyBinding>>() {
+
+    private val statOnlyCrushes = r.c.c.sp.getBoolean(Settings.spStatOnlyCrushes, false)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             AnyViewHolder<RecencyBinding> =
@@ -29,8 +31,8 @@ class StatRecAdap(private val r: Recency) : RecyclerView.Adapter<AnyViewHolder<R
     override fun onBindViewHolder(h: AnyViewHolder<RecencyBinding>, i: Int) {
         val crushKey = r.items[i].name
         h.b.name.text = "${i + 1}. $crushKey" +
-                (if (!statOnlyCrushes && crushKey in r.c.m.liefde) "*" else "") +
-                (r.c.m.summary!!.scores[crushKey]?.sumOf { it.value }
+                (if (!statOnlyCrushes && crushKey in r.c.c.liefde) "*" else "") +
+                (r.c.c.summary!!.scores[crushKey]?.sumOf { it.value }
                     ?.show()?.let { " {$it}" } ?: "")
         val lm = r.items[i].time.calendar(r.c)
         h.b.date.text = "${lm.fullDate()} - " +

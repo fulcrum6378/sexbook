@@ -1,10 +1,11 @@
 package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
+import android.app.Application
+import android.content.SharedPreferences
+import android.content.res.Configuration
 import androidx.annotation.MainThread
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.ctrl.Screening
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -21,11 +22,15 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.CopyOnWriteArraySet
 
-/** Static ViewModel available for all BaseActivity instances. */
-class Model : ViewModel() {
-    lateinit var db: Database
-    lateinit var dao: Dao
+class Sexbook : Application() {
+
+    val db: Database by lazy { Database.Builder(this).build() }
+    val dao: Dao by lazy { db.dao() }
     var dbLoaded = false
+
+    val sp: SharedPreferences by lazy {
+        getSharedPreferences(Settings.spName, MODE_PRIVATE)
+    }
 
     /* --- Database Models --- */
     val reports = hashMapOf<Long, Report>()
@@ -80,7 +85,7 @@ class Model : ViewModel() {
             }
             if (c is People && crush in c.mm.visPeople) c.arrangeList()
             if (c is Settings) {
-                c.mm.sortBNtfCrushes(c)
+                c.mm.sortBNtfCrushes(this)
                 c.bNtfCrushAdap?.notifyDataSetChanged()
             }
             if (cr.unsafe())
@@ -124,39 +129,35 @@ class Model : ViewModel() {
             if (c is People) c.count(c.mm.visPeople.size)
         }
         if (CalendarManager.id != null)
-            CoroutineScope(Dispatchers.IO).launch { CalendarManager.update(c) }
+            CoroutineScope(Dispatchers.IO).launch { CalendarManager.update(this@Sexbook) }
     }
 
-    fun summaryCrushes(c: BaseActivity): ArrayList<String> =
+    fun summaryCrushes(): ArrayList<String> =
         summary?.let { summary ->
             var all = ArrayList(summary.scores.keys)
-            if (c.sp.getBoolean(Settings.spHideUnsafePeople, true) && unsafe.isNotEmpty())
+            if (sp.getBoolean(Settings.spHideUnsafePeople, true) && unsafe.isNotEmpty())
                 ArrayList(all.filter { it !in unsafe })
             else all
         } ?: arrayListOf()
     // it must necessarily return a mutable collection, otherwise CrushSuggester::update() will error!
 
-
-    @Suppress("UNCHECKED_CAST")
-    class Factory : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (!modelClass.isAssignableFrom(Model::class.java))
-                throw IllegalArgumentException("Unknown Model class")
-            val key = "Model"
-            return if (hashMapViewModel.containsKey(key)) getViewModel(key) as T
-            else {
-                addViewModel(key, Model())
-                getViewModel(key) as T
-            }
-        }
-
-        companion object {
-            val hashMapViewModel = HashMap<String, ViewModel>()
-
-            fun addViewModel(key: String, viewModel: ViewModel) =
-                hashMapViewModel.put(key, viewModel)
-
-            fun getViewModel(key: String): ViewModel? = hashMapViewModel[key]
-        }
-    }
+    /** @return true if the night mode is on */
+    fun night(): Boolean = resources.configuration.uiMode and
+            Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 }
+
+/* TODO:
+  * Remove [Report.frtn]
+  * -
+  * Extension:
+  * Search for People through their names, locations and IG accounts
+  * DotsIndicator
+  * Progressive diagrams for Taste
+  * "Reactivate Crush" for Singular
+  * "Turn off notifications for this Crush" on the notification
+  * Fictionality, first met/orgasm year for Taste and CrushesStat
+  * Menu selector for Taste and CrushesStat
+  * -
+  * Will the current signing key work?
+  * When LastOrgasm doesn't show anything, it might mean it's crashed in the background!!
+  */
