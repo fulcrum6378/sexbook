@@ -35,7 +35,7 @@ import java.util.Locale
 import kotlin.reflect.KClass
 
 /** Abstract class for all Activity instances in this app and it extends FragmentActivity. */
-abstract class BaseActivity : FragmentActivity()/*, OnInitializationCompleteListener*/ {
+abstract class BaseActivity : FragmentActivity() {
     val c: Context get() = applicationContext
     lateinit var m: Model
     lateinit var sp: SharedPreferences

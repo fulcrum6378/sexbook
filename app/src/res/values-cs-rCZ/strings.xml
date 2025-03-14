@@ -259,20 +259,4 @@
     <string name="sBirthday">narozeniny %s</string>
     <string name="lastOrgasmHours">hodin od posledního.</string>
     <string name="lastOrgasmDesc">Ukazuje hodiny uplynulé od vašeho posledního orgasmu.</string>
-
-    <!-- URGENT -->
-    <string name="importantNotice">DŮLEŽITÉ OZNÁMENÍ</string>
-    <string name="googlePlayRemoval">
-        Bohužel tato aplikace již brzy nebude k dispozici na Google Play,
-        protože Google Play již neumožňuje neověřeným vývojářům publikovat.
-        A jelikož žiji v embargované zemi, není pro mě možné ověřit svou identitu.
-
-        \n\nNicméně budu tuto aplikaci nadále vyvíjet v alternativních obchodech s aplikacemi,
-        slibuji opravy chyb a zůstávám otevřený vašim návrhům.
-
-        \n\nSeznam alternativních obchodů s aplikacemi najdete na mém webu:
-    </string>
-    <string name="checkWebsiteList">Zkontrolovat</string>
-    <string name="doNotShowAgain">Nezobrazovat znovu</string>
-    <string name="areYouSure">Jste si jistý?</string>
 </resources>

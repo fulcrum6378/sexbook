@@ -270,20 +270,4 @@
     <string name="permWriteDb" translatable="false">
         Allows the app to add, change or remove data from the Sexbook database.
     </string>
-
-    <!-- URGENT -->
-    <string name="importantNotice">IMPORTANT NOTICE</string>
-    <string name="googlePlayRemoval">
-        Unfortunately, this app will soon no longer be available on Google Play
-        because Google Play no longer allows unverified developers.
-        Since I live in an embargoed country, it\'s impossible for me to verify my identity.
-
-        \n\nHowever, I will continue developing this app in alternative app stores,
-        fix issues, and remain open to your suggestions.
-
-        \n\nYou can find a list of alternative app stores on my website:
-    </string>
-    <string name="checkWebsiteList">Check</string>
-    <string name="doNotShowAgain">Don\'t show this again</string>
-    <string name="areYouSure">Are you sure?</string>
 </resources>

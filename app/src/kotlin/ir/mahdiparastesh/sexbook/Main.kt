@@ -30,7 +30,6 @@ import androidx.lifecycle.ViewModel
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
@@ -264,26 +263,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         addOnNewIntentListener { it.check() }
         if (sp.contains("useGregorianForBirthdays"))
             sp.edit().remove("useGregorianForBirthdays").apply()
-
-        val googlePlayRemovalKey = "do_not_show_google_play_removal"
-        if (!sp.contains(googlePlayRemovalKey)) MaterialAlertDialogBuilder(this).apply {
-            setTitle(R.string.importantNotice)
-            setMessage(R.string.googlePlayRemoval)
-            setCancelable(true)
-            setPositiveButton(R.string.checkWebsiteList) { _, _ ->
-                checkForUpdates()
-            }
-            setNeutralButton(R.string.doNotShowAgain) { _, _ ->
-                MaterialAlertDialogBuilder(this@Main).apply {
-                    setTitle(R.string.app_name)
-                    setMessage(R.string.areYouSure)
-                    setPositiveButton(R.string.yes) { _, _ ->
-                        sp.edit().putBoolean(googlePlayRemovalKey, true).apply()
-                    }
-                    setNegativeButton(R.string.no, null)
-                }.show()
-            }
-        }.show()
     }
 
     override fun onResume() {
@@ -536,9 +515,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
   * Remove [Report.frtn]
   * -
   * Extension:
+  * Search for People through their names, locations and IG accounts
+  * DotsIndicator
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular
   * "Turn off notifications for this Crush" on the notification
   * Fictionality, first met/orgasm year for Taste and CrushesStat
   * Menu selector for Taste and CrushesStat
+  * -
+  * Will the current signing key work?
   */

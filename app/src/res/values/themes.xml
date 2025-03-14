@@ -59,10 +59,10 @@
         <item name="buttonTint">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
     </style>
 
-    <style name="Theme.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox"><!--unused-->
+    <!--<style name="Theme.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox">
         <item name="buttonTint">?colorOnSecondary</item>
         <item name="buttonIconTint">?colorSurfaceContainer</item>
-    </style>
+    </style>-->
 
     <style name="Theme.Sexbook.Chip" parent="Widget.Material3.Chip.Suggestion">
         <item name="android:textColor">@color/chip_text</item>
