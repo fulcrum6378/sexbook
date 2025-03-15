@@ -62,7 +62,7 @@ class PersonAdap(private val c: People) :
             val pc = c.c.people[pk] ?: return@setOnLongClickListener false
 
             // REMOVE THIS if you wanna add more options
-            if (pc.insta.isNullOrBlank() || p.getSum(c.c) == 0f)
+            if (pc.insta.isNullOrBlank() && p.getSum(c.c) == 0f)
                 return@setOnLongClickListener false
 
             MaterialMenu(

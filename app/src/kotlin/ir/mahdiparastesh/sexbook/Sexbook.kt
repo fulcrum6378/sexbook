@@ -151,10 +151,10 @@ class Sexbook : Application() {
   * -
   * Extension:
   * Search for People through their names, locations and IG accounts
-  * DotsIndicator
+  * Search for Reports in their names and descriptions
+  * DotsIndicator for Taste and CrushesStat
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular
   * "Turn off notifications for this Crush" on the notification
-  * Fictionality, first met/orgasm year for Taste and CrushesStat
-  * Menu selector for Taste and CrushesStat
+  * Fictionality, first met / first orgasm year for Taste and CrushesStat
   */
