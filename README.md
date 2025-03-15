@@ -3,9 +3,9 @@
 A fun Android app for recording one's sexual activities. One can note their orgasm just in time
 or later than that using a date picker. It has a yellow theme with a banana icon.
 
-This app uses the [Multi-Calendar Date Time Picker](https://github.com/fulcrum6378/mcdtp);
+This app uses [Multi-Calendar Date Time Picker](https://github.com/fulcrum6378/mcdtp);
 meaning you can record your sexual activities in the Gregorian calendar or any other one,
-but the app currently supports only Persian and Indian calendars.
+but this app currently supports only Gregorian, Persian and Indian calendars.
 The default calendar can be easily changed in *Settings*.
 
 ### Main Activity

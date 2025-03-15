@@ -157,7 +157,4 @@ class Sexbook : Application() {
   * "Turn off notifications for this Crush" on the notification
   * Fictionality, first met/orgasm year for Taste and CrushesStat
   * Menu selector for Taste and CrushesStat
-  * -
-  * Will the current signing key work?
-  * When LastOrgasm doesn't show anything, it might mean it's crashed in the background!!
   */
