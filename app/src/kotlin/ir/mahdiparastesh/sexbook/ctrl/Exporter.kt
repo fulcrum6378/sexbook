@@ -174,10 +174,11 @@ class Exporter(private val c: BaseActivity) {
             imported.guesses?.toList()?.also { c.c.dao.gReplaceAll(it) }
 
             if (imported.settings != null) c.c.sp.edit().apply {
+                clear()
                 imported.settings.forEach { (k, v) ->
                     when (v) {
                         is Boolean -> putBoolean(k, v)
-                        is Double -> when (k) { // all numbers become Double in SP.
+                        is Double -> when (k) { // all numbers become Double because of Gson
                             Settings.spCalType, Settings.spNotifyBirthDaysBefore,
                             Settings.spPageLoveSortBy, Settings.spPrefersOrgType ->
                                 putInt(k, v.toInt())

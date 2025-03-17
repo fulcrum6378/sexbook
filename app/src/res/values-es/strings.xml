@@ -55,6 +55,7 @@
     <plurals name="hour">
         <item quantity="one">%d hora</item>
         <item quantity="many">%d horas</item>
+        <item quantity="other">%d horas</item>
     </plurals>
     <string name="apply">Aplicar</string>
 

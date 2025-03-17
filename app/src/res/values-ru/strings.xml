@@ -57,6 +57,7 @@
         <item quantity="one">%d час</item>
         <item quantity="few">%d часа</item>
         <item quantity="many">%d часов</item>
+        <item quantity="other">%d часов</item>
     </plurals>
     <string name="apply">Применять</string>
 

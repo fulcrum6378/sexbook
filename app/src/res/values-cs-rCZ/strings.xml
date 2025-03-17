@@ -56,6 +56,7 @@
         <item quantity="one">%d hodina</item>
         <item quantity="few">%d hodiny</item>
         <item quantity="many">%d hodin</item>
+        <item quantity="other">%d hodin</item>
     </plurals>
     <string name="apply">Použít</string>
 

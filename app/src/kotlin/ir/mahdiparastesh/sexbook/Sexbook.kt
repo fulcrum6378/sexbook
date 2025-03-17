@@ -148,8 +148,6 @@ class Sexbook : Application() {
 
 /* TODO:
   * Remove [Report.frtn]
-  * -
-  * Extension:
   * Search for People through their names, locations and IG accounts
   * Search for Reports in their names and descriptions
   * DotsIndicator for Taste and CrushesStat

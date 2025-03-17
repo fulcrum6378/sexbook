@@ -56,6 +56,7 @@
     <string name="their">their</string>
     <string name="after">&#160;after&#160;</string>
     <plurals name="hour">
+        <item quantity="zero">%d hour</item>
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plurals>

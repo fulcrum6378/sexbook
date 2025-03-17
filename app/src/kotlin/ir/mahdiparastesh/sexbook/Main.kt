@@ -259,8 +259,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (mm.navOpen) b.root.openDrawer(drawerGravity)
         intent.check(true)
         addOnNewIntentListener { it.check() }
-        if (c.sp.contains("useGregorianForBirthdays"))
-            c.sp.edit().remove("useGregorianForBirthdays").apply()
+        if (c.sp.contains("do_not_show_google_play_removal"))
+            c.sp.edit().remove("do_not_show_google_play_removal").apply()
     }
 
     override fun onResume() {
