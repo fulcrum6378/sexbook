@@ -16,18 +16,21 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
    which list sex records and their data, including date, time, name of the sexual partner,
    the place where the sexual intercourse happened and description.
 
-   It uses the [**Report.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Report.kt) database model.
+   It uses the [**Report.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Report.kt) database
+   model.
    Keywords like *"and"*, *"&"* and *"+"* can be used for multiple sexual partners in masturbations
    or triple sexual intercourses.
-   Sexual intercourses have types with specific icons, ranging from a simple Wet Dream to Vaginal Sex,
-   including Masturbation, Oral Sex and Anal Sex.
+   Sexual intercourses have types with specific icons, ranging from a simple Wet Dream to
+   Vaginal Sex, including Masturbation, Oral Sex and Anal Sex.
+
 2. [**PageLove.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/PageLove.kt) :
    which lists sexual partners, there is an *Identification* section for each,
    and all fields are quite optional. The fields are first, middle and last names, male/female,
    height, birth date, location, Instagram address and a switch button for notifying the user
    of their birthdate.
 
-   It uses the [**Crush.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Crush.kt) database model.
+   It uses the [**Crush.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Crush.kt) database
+   model.
 
 ### Subpackages
 
@@ -36,20 +39,23 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
 - [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : everything related to database
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters
 - [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/misc) : miscellaneous utilities
-- [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) : everything related to statistics (as mentioned above)
+- [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) :
+  everything related to statistics (as mentioned above)
 - [**view**](app/src/kotlin/ir/mahdiparastesh/sexbook/view) : View-related utilities
 
 ### Statistics
 
 The statistics are accessible via the navigation menu in Main or PageLove.
 The related codes are in the subpackage [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat).
-Statistics can be easily filtered in [**Settings**](app/src/kotlin/ir/mahdiparastesh/sexbook/Settings.kt).
-The statistical charts are provided by [**HelloCharts**](https://github.com/fulcrum6378/HelloCharts).
+Statistics can be easily filtered in
+[**Settings**](app/src/kotlin/ir/mahdiparastesh/sexbook/Settings.kt).
+The statistical charts are provided by
+[**HelloCharts**](https://github.com/fulcrum6378/HelloCharts).
 
 - [**Summary**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Summary.kt) :
-  shows a summary of one's sexual partners (crushes) and number of times they had sexual intercourses.
-  when clicked on a partner, their [**Singular**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Singular.kt)
-  line chart will pop up.
+  shows a summary of one's sexual partners (crushes) and number of times they had sexual
+  intercourses. When clicked on a partner, their
+  [**Singular**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Singular.kt) line chart will pop up.
 - [**Recency**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Recency.kt) :
   lists sexual partners by the last time they've had a sexual intercourse.
   The clicking behaviour is the same as the Summary list.
@@ -69,7 +75,8 @@ The statistical charts are provided by [**HelloCharts**](https://github.com/fulc
 ### Other Activities
 
 - [**Estimation.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Estimation.kt) :
-  this activity lets you estimate your sexual history with specific sexual partners, date ranges and places.
+  this activity lets you estimate your sexual history with specific sexual partners,
+  date ranges and places.
 
   It uses the [**Guess.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Guess.kt) database model.
 
@@ -77,8 +84,8 @@ The statistical charts are provided by [**HelloCharts**](https://github.com/fulc
   this activity records places in which sexual intercourses happened.
 
   It uses the [**Place.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Place.kt) database model.
-  It can be linked to several rows in Report table. (It was designed to take latitude and longitude columns too,
-  but since it didn't seem to be a good idea, I didn't implement anything for them.)
+  It can be linked to several rows in Report table. (It was designed to take latitude and longitude
+  columns too, but since it didn't seem to be a good idea, I didn't implement anything for them.)
 
 - [**Settings.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Settings.kt) :
   this activity controls settings and stores them as shared preferences.
@@ -86,7 +93,8 @@ The statistical charts are provided by [**HelloCharts**](https://github.com/fulc
 ### JSON Data Export/Import
 
 Databases can be exported a **sexbook.json** file, and be sent everywhere by the user.
-Therefore, the four database model classes should be exempted from [obfuscation](app/proguard-rules.pro).
+Therefore, the four database model classes should be exempted from
+[obfuscation](app/proguard-rules.pro).
 The navigation menu in *Main* has these 3 options:
 
 - Export to Json
@@ -95,26 +103,10 @@ The navigation menu in *Main* has these 3 options:
 
 ### Other Features
 
-- [*Last Orgasm*](app/src/kotlin/ir/mahdiparastesh/sexbook/more/LastOrgasm.kt) is an app widget which shows
-  the number of hours past since one's last orgasm!
+- [*Last Orgasm*](app/src/kotlin/ir/mahdiparastesh/sexbook/misc/LastOrgasm.kt) is an app widget
+  which shows the number of hours past since one's last orgasm!
 - Putting crush birthdays in the system calendar, which can be tweaked in *Settings*.
 - An [*app shortcut*](app/src/res/xml/shortcuts.xml) for recording an orgasm right away!
-
-### Publishing
-
-Using this [privacy policy](https://mahdiparastesh.ir/welcome/privacy/sexbook.html),
-Sexbook is now available for free and without ads on
-[Google Play](https://play.google.com/store/apps/details?id=ir.mahdiparastesh.sexbook)
-with 277 active users as of 2025/03/09,
-and supports the following languages:
-
-| Language        | Active Users       |
-|:----------------|:-------------------|
-| English (en-GB) | 110(US), 31+29(GB) |
-| Czech (cz)      | 7                  |
-| German (de)     | 20+3               |
-| Spanish (es)    | 1+7                |
-| Russian (ru)    | 18+1               |
 
 ### License
 

@@ -147,6 +147,7 @@ class Sexbook : Application() {
 }
 
 /* TODO:
+  * Trim memory on Main destoryed
   * Remove [Report.frtn]
   * Search for People through their names, locations and IG accounts
   * Search for Reports in their names and descriptions
