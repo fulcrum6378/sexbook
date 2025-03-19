@@ -24,6 +24,10 @@ import java.util.concurrent.CopyOnWriteArraySet
 
 class Sexbook : Application() {
 
+    /**
+     * A database to rule them all
+     * We better never close this database!
+     */
     val db: Database by lazy { Database.Builder(this).build() }
     val dao: Dao by lazy { db.dao() }
     var dbLoaded = false

@@ -369,16 +369,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         exitProcess(0)
     }
 
-    override fun onDestroy() {
-        c.db.close()
-        super.onDestroy()
-    }
 
-
-    /**
-     * Should you attach another ViewPager2 directly to Main, this function may return null,
-     * unless you override FragmentStateAdapter (+FragmentViewHolder).
-     */
     private fun pageSex(): PageSex? =
         supportFragmentManager.findFragmentByTag("f${b.pager.adapter?.getItemId(0)}") as? PageSex
 

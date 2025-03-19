@@ -33,7 +33,6 @@ class LastOrgasm : AppWidgetProvider() {
             if (number == null) {
                 val db = Database.Builder(c).build()
                 number = db.dao().whenWasTheLastTime()
-                db.close()
             }
 
             withContext(Dispatchers.Main) {
