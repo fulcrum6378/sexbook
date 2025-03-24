@@ -216,6 +216,7 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
                 CoroutineScope(Dispatchers.IO).launch {
                     if (inserted.key != crushKey) {  // if Crush key is changed...
                         c.c.dao.cUpdateKey(crushKey, inserted.key)
+                        // FIXME throws SQLiteConstraintException if there's another Crush with this key!
                         c.c.people.remove(crushKey)
                         c.c.liefde.indexOf(crushKey).also { pos ->
                             if (pos == -1) return@also

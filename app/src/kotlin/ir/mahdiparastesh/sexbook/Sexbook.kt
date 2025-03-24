@@ -151,6 +151,8 @@ class Sexbook : Application() {
 }
 
 /* TODO:
+  * Closing the database
+  * Duplicate Crush exception
   * Trim memory on Main destoryed
   * Remove [Report.frtn]
   * Search for People through their names, locations and IG accounts
