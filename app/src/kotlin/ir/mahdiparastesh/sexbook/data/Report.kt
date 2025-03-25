@@ -11,6 +11,8 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 
 @Entity
 class Report(
+    @PrimaryKey(autoGenerate = true)
+    var id: Long,
     var time: Long,
     var name: String?,
     var type: Byte,
@@ -20,10 +22,17 @@ class Report(
     /** Mixture, Intervals and whenWasTheLastTime() require this.
      * Main::summarize() requires this if "spStatNonOrgasm" is checked in Settings. */
     var ogsm: Boolean,
-    var frtn: Byte, // fortuna
 ) {
-    @PrimaryKey(autoGenerate = true)
-    var id = 0L
+
+    constructor(
+        time: Long,
+        name: String?,
+        type: Byte,
+        desc: String?,
+        accu: Boolean,
+        plac: Long,
+        ogsm: Boolean
+    ) : this(0L, time, name, type, desc, accu, plac, ogsm)
 
     @delegate:Ignore
     @delegate:Transient
@@ -35,12 +44,10 @@ class Report(
 
     @Ignore // for estimation
     constructor(id: Long, time: Long, name: String, type: Byte, plac: Long)
-            : this(time, name, type, null, false, plac, true, -127) {
-        this.id = id
-    }
+            : this(id, time, name, type, null, false, plac, true)
 
     @Ignore // for GsonAdapter
-    constructor() : this(0L, null, 0, null, true, -1L, true, -127)
+    constructor() : this(0L, null, 0, null, true, -1L, true)
 
     override fun equals(other: Any?): Boolean = if (other !is Report) false else id == other.id
     override fun hashCode(): Int = id.hashCode()
@@ -89,7 +96,6 @@ class Report(
             if (!o.accu) w.name("accu").value(false)
             if (o.plac != -1L) w.name("plac").value(o.plac)
             if (!o.ogsm) w.name("ogsm").value(false)
-            if (o.frtn != (-127).toByte()) w.name("frtn").value(o.frtn)
             w.endObject()
         }
 
@@ -105,7 +111,6 @@ class Report(
                 "accu" -> o.accu = r.nextBoolean()
                 "plac" -> o.plac = r.nextLong()
                 "ogsm" -> o.ogsm = r.nextBoolean()
-                "frtn" -> o.frtn = r.nextInt().toByte()
             }
             r.endObject()
             return o

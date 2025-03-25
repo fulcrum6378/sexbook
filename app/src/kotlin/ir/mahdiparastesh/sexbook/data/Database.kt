@@ -12,7 +12,7 @@ import java.io.File
 
 @androidx.room.Database(
     entities = [Report::class, Crush::class, Place::class, Guess::class],
-    version = 6, exportSchema = false
+    version = 7, exportSchema = false
 )
 abstract class Database : RoomDatabase() {
     abstract fun dao(): Dao
@@ -86,6 +86,26 @@ abstract class Database : RoomDatabase() {
 
                     db.execSQL("ALTER TABLE Report ADD COLUMN ogsm INTEGER NOT NULL DEFAULT 1")
                     db.execSQL("ALTER TABLE Report ADD COLUMN frtn INTEGER NOT NULL DEFAULT -127")
+                }
+            }, object : Migration(6, 7) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL("ALTER TABLE Report RENAME TO Report_old")
+                    db.execSQL(
+                        "CREATE TABLE `Report` (" +
+                                "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                                "`time` INTEGER NOT NULL, " +
+                                "`name` TEXT, " +
+                                "`type` INTEGER NOT NULL, " +
+                                "`desc` TEXT, " +
+                                "`accu` INTEGER NOT NULL, " +
+                                "`plac` INTEGER NOT NULL, " +
+                                "`ogsm` INTEGER NOT NULL)"
+                    )
+                    db.execSQL(
+                        "INSERT INTO Report (id, time, name, type, desc, accu, plac, ogsm) " +
+                                "SELECT id, time, name, type, desc, accu, plac, ogsm FROM Report_old"
+                    )
+                    db.execSQL("DROP TABLE Report_old")
                 }
             })
 

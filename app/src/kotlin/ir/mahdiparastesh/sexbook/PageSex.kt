@@ -166,7 +166,7 @@ class PageSex : BasePage() {
 
             val newOne = Report(
                 Fun.now(), name, c.c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
-                null, true, c.c.sp.getLong(Settings.spDefPlace, -1L), true, -127
+                null, true, c.c.sp.getLong(Settings.spDefPlace, -1L), true
             )
             newOne.id = c.c.dao.rInsert(newOne)
             LastOrgasm.updateAll(c.c)
