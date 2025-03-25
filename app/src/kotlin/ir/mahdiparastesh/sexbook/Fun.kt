@@ -18,7 +18,7 @@ import java.text.DecimalFormat
 
 /** Static fields and methods used everywhere. */
 object Fun {
-    // Latin + Cyrillic Font: Balsamiq Sans
+    // Latin + Cyrillic font: Balsamiq Sans
 
     const val DATABASE = "sexbook.db"
     const val INSTA = "https://www.instagram.com/"

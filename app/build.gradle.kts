@@ -24,14 +24,22 @@ android {
         targetSdk = 36
         versionCode = 51
         versionName = "28.1.9"
-        signingConfig = signingConfigs.getByName("main")
+        signingConfig = signingConfigs.getByName("main") // not applied on debug
+
+        testApplicationId = "ir.mahdiparastesh.sexbook.test"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
     sourceSets.getByName("main") {
         manifest.srcFile("src/AndroidManifest.xml")
         java.setSrcDirs(listOf("src/java"))
         kotlin.setSrcDirs(listOf("src/kotlin"))
         res.setSrcDirs(listOf("src/res"))
     }
+    sourceSets.getByName("androidTest") {
+        kotlin.setSrcDirs(listOf("srcTestAndroid"))
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_23
         targetCompatibility = JavaVersion.VERSION_23
@@ -43,9 +51,12 @@ android {
         viewBinding = true
     }
     buildTypes {
-        create("debuggee") {
+        debug {
+            applicationIdSuffix = ".debug"
+        }
+        create("mahdi") {
             isDebuggable = true
-            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("main")
         }
         release {
             isMinifyEnabled = true
@@ -53,12 +64,9 @@ android {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("main")
         }
     }
-}
-androidComponents.beforeVariants { variantBuilder ->
-    if (variantBuilder.buildType in listOf("debug", "androidTest"))
-        variantBuilder.enable = false
 }
 
 dependencies {
@@ -71,4 +79,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.hellocharts)
     implementation(libs.mcdtp)
+
+    androidTestImplementation(libs.junit.android)
+    androidTestImplementation(libs.espresso.core)
 }
