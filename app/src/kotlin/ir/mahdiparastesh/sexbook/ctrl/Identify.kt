@@ -35,17 +35,18 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.and
 import kotlin.experimental.or
 
-/** A Dialog for filling data for a Crush. */
-class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent : BaseActivity {
+/** A Dialog for filling data for a [Crush]. */
+class Identify<Activity> private constructor() :
+    BaseDialog<Activity>() where Activity : BaseActivity {
 
     companion object {
         private const val TAG = "identify"
         const val BUNDLE_CRUSH_KEY = "crush_key"
         var crush: Crush? = null
 
-        fun <Parent> create(c: BaseActivity, crush: String) where Parent : BaseActivity {
+        fun <Activity> create(c: BaseActivity, crush: String) where Activity : BaseActivity {
             Companion.crush = c.c.people[crush]
-            Identify<Parent>().apply {
+            Identify<Activity>().apply {
                 arguments = Bundle().apply { putString(BUNDLE_CRUSH_KEY, crush) }
                 show(c.supportFragmentManager, TAG)
             }
@@ -68,7 +69,7 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
             .also { b.notifyBirth.trackTintList = it }
         b.root.scrollTo(0, 0)
 
-        // Gender
+        // gender
         b.gender.adapter = ArrayAdapter(
             c, R.layout.spinner_white, c.resources.getStringArray(R.array.genders)
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
@@ -97,7 +98,7 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
             }
         })
 
-        // Body Attributes
+        // body characteristics
         b.bodySkinColour.adapter = bodyAttrSpinnerAdapter(R.array.bodySkinColour)
         b.bodyHairColour.adapter = bodyAttrSpinnerAdapter(R.array.bodyHairColour)
         b.bodyEyeColour.adapter = bodyAttrSpinnerAdapter(R.array.bodyEyeColour)
@@ -109,7 +110,7 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
         b.bodyMuscle.adapter = bodyAttrSpinnerAdapter(R.array.bodyMuscle)
         b.bodySexuality.adapter = bodyAttrSpinnerAdapter(R.array.bodySexuality)
 
-        // Default Values
+        // default values
         val crushKey = crush?.key ?: requireArguments().getString(BUNDLE_CRUSH_KEY)!!
         b.key.setText(crushKey)
         crush?.apply {
@@ -157,10 +158,10 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
         b.birth.setText(Fun.validateDateTime(crush?.birth ?: ""))
         b.firstMet.setText(Fun.validateDateTime(crush?.first ?: ""))
 
-        // Fiction
+        // fictionality
         b.fiction.setOnCheckedChangeListener { _, isChecked -> onFictionChanged(isChecked) }
 
-        // Date-time Fields
+        // date-time Fields
         b.birth.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) b.birth.setText(Fun.validateDateTime(b.birth.text.toString()))
         }
@@ -168,7 +169,7 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
             if (!hasFocus) b.firstMet.setText(Fun.validateDateTime(b.firstMet.text.toString()))
         }
 
-        // Notify Birth
+        // should send birthday notifications?
         val needsNtfPerm = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                 ActivityCompat.checkSelfPermission(
                     c, Manifest.permission.POST_NOTIFICATIONS
@@ -186,19 +187,31 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
             setTitle(R.string.identify)
             setView(b.root)
             setPositiveButton(R.string.save) { _, _ ->
+
+                // insert input data in a Crush object
                 val inserted = Crush(
                     b.key.text.toString().ifBlank { crushKey },
+
+                    // full name
                     b.fName.text.toString().ifBlank { null },
                     b.mName.text.toString().ifBlank { null },
                     b.lName.text.toString().ifBlank { null },
+
+                    // gender
                     b.gender.selectedItemPosition.toByte() or
                             (if (b.fiction.isChecked) Crush.STAT_FICTION else 0) or
                             (if (b.notifyBirth.isChecked) Crush.STAT_NOTIFY_BIRTH else 0) or
                             (if (b.unsafe.isChecked) Crush.STAT_UNSAFE_PERSON else 0) or
                             (crush?.let { it.status and Crush.STAT_INACTIVE } ?: 0),
+
+                    // birthday
                     Fun.compressDateTime(Fun.validateDateTime(b.birth.text.toString())),
+
+                    // height
                     if (b.height.text.toString() != "")
                         b.height.text.toString().toFloat() else -1f,
+
+                    // body characteristics
                     (b.bodySkinColour.selectedItemPosition shl Crush.BODY_SKIN_COLOUR.second) or
                             (b.bodyHairColour.selectedItemPosition shl Crush.BODY_HAIR_COLOUR.second) or
                             (b.bodyEyeColour.selectedItemPosition shl Crush.BODY_EYE_COLOUR.second) or
@@ -209,12 +222,17 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
                             (b.bodyBreasts.selectedItemPosition shl Crush.BODY_BREASTS.second) or
                             (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second) or
                             (b.bodySexuality.selectedItemPosition shl Crush.BODY_SEXUALITY.second),
+
+                    // addresses & special dates
                     b.address.text.toString().ifBlank { null },
                     Fun.compressDateTime(Fun.validateDateTime(b.firstMet.text.toString())),
                     b.instagram.text.toString().ifBlank { null },
                 )
+
                 CoroutineScope(Dispatchers.IO).launch {
-                    if (inserted.key != crushKey) {  // if Crush key is changed...
+
+                    // if the Crush key is changed...
+                    if (inserted.key != crushKey) {
                         c.c.dao.cUpdateKey(crushKey, inserted.key)
                         // FIXME throws SQLiteConstraintException if there's another Crush with this key!
                         c.c.people.remove(crushKey)
@@ -236,9 +254,13 @@ class Identify<Parent> private constructor() : BaseDialog<Parent>() where Parent
                                 (c as Settings).mm.bNtfCrushes[pos] = inserted.key
                             }
                     }
+
+                    // insert the Crush object
                     if (crush == null) c.c.dao.cInsert(inserted)
                     else c.c.dao.cUpdate(inserted)
                     c.c.people[inserted.key] = inserted
+
+                    // handle the UI
                     withContext(Dispatchers.Main) {
                         c.c.onCrushChanged(c, inserted.key, if (crush == null) 0 else 1)
                         if (c is Singular && inserted.key != crushKey) c.finish()

@@ -3,9 +3,9 @@ package ir.mahdiparastesh.sexbook.base
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 
-abstract class BaseDialog<Parent> : DialogFragment() where Parent : FragmentActivity {
+abstract class BaseDialog<Activity> : DialogFragment() where Activity : FragmentActivity {
     @Suppress("UNCHECKED_CAST")
-    val c: Parent by lazy { activity as Parent }
+    val c: Activity by lazy { activity as Activity }
 
     interface SearchableStat {
         var lookingFor: String?
