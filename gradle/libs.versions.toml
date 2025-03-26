@@ -5,8 +5,6 @@ ksp = "2.1.20-1.0.31"
 activityKtx = "1.10.1"
 room = "2.6.1"
 sqliteKtx = "2.4.0"
-espresso = "3.6.1"
-junitAndroid = "1.2.1"
 material = "1.12.0"
 gson = "2.11.0"
 helloCharts = "2.8.5"
@@ -23,8 +21,6 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 sqlite-ktx = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sqliteKtx" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
-junit-android = { group = "androidx.test.ext", name = "junit", version.ref = "junitAndroid" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 hellocharts = { group = "ir.mahdiparastesh", name = "hellocharts", version.ref = "helloCharts" }

@@ -23,11 +23,8 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 51
-        versionName = "28.1.9"
+        versionName = "28.2.0"
         signingConfig = signingConfigs.getByName("main") // not applied on debug
-
-        testApplicationId = "ir.mahdiparastesh.sexbook.test"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     sourceSets.getByName("main") {
@@ -35,9 +32,6 @@ android {
         java.setSrcDirs(listOf("src/java"))
         kotlin.setSrcDirs(listOf("src/kotlin"))
         res.setSrcDirs(listOf("src/res"))
-    }
-    sourceSets.getByName("androidTest") {
-        kotlin.setSrcDirs(listOf("srcTestAndroid"))
     }
 
     compileOptions {
@@ -47,16 +41,16 @@ android {
     kotlinOptions { jvmTarget = "23" }
 
     buildFeatures {
-        buildConfig = true
+        buildConfig = false
         viewBinding = true
     }
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
+            resValue("string", "app_name", "Sexbook (debug)")
         }
         create("mahdi") {
             isDebuggable = true
-            signingConfig = signingConfigs.getByName("main")
         }
         release {
             isMinifyEnabled = true
@@ -64,7 +58,6 @@ android {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("main")
         }
     }
 }
@@ -79,7 +72,4 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.hellocharts)
     implementation(libs.mcdtp)
-
-    androidTestImplementation(libs.junit.android)
-    androidTestImplementation(libs.espresso.core)
 }

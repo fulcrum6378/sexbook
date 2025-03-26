@@ -5,5 +5,9 @@ plugins {
 }
 
 tasks.register("clean", Delete::class) {
-    delete("$rootDir/build", "$rootDir/app/build")
+    delete(
+        "$rootDir/build",
+        "$rootDir/app/build",
+        "$rootDir/.kotlin",
+    )
 }

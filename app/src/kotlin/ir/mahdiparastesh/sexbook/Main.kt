@@ -69,7 +69,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     val mm: MyModel by viewModels()
     private val exporter = Exporter(this)
     private var exiting = false
-    private val drawerGravity = GravityCompat.START
     private val menus = arrayOf(R.menu.page_sex, R.menu.page_love)
 
     override var countBadge: BadgeDrawable? = null
@@ -256,7 +255,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
 
         // miscellaneous
-        if (mm.navOpen) b.root.openDrawer(drawerGravity)
+        if (mm.navOpen) b.root.openDrawer(GravityCompat.START)
         intent.check(true)
         addOnNewIntentListener { it.check() }
         if (c.sp.contains("do_not_show_google_play_removal"))
@@ -356,8 +355,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     @SuppressLint("MissingSuperCall")
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
-        if (b.root.isDrawerOpen(drawerGravity)) {
-            b.root.closeDrawer(drawerGravity); return; }
+        if (b.root.isDrawerOpen(GravityCompat.START)) {
+            b.root.closeDrawer(GravityCompat.START); return; }
         if (!exiting) {
             exiting = true
             Delay(4000) { exiting = false }
