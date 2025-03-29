@@ -23,7 +23,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 51
-        versionName = "28.2.0"
+        versionName = "28.4.0"
         signingConfig = signingConfigs.getByName("main") // not applied on debug
     }
 
@@ -64,6 +64,9 @@ android {
 
 dependencies {
     implementation(libs.activity.ktx)
+    implementation(libs.constraintlayout)
+    implementation(libs.drawerlayout)
+    implementation(libs.recyclerview)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)

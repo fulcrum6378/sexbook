@@ -176,7 +176,8 @@ class PageSex : BasePage() {
                 val ym = newOne.time.calendar(c).createFilterYm()
                 if (c.mm.listFilter >= 0 &&
                     filters.indexOfFirst { it.year == ym.first && it.month == ym.second } == c.mm.listFilter
-                ) { // add to the bottom of the recycler view
+                ) {
+                    // add to the bottom of the RecyclerView
                     c.mm.visReports.add(newOne.id)
                     c.mm.sortVisReports(c.c)
                     (b.rv.adapter as ReportAdap?)?.apply {
@@ -184,8 +185,10 @@ class PageSex : BasePage() {
                         notifyItemInserted(c.mm.visReports.indexOf(newOne.id))
                     }
                     updateFilterSpinner()
-                } else // go to/create a new month
+                } else {
+                    // go to/create a new month
                     reset(newOne.id)
+                }
 
                 c.explosionEffect(b.add)
                 b.empty.isVisible = false

@@ -3,6 +3,9 @@ agp = "8.9.1"
 kotlin = "2.1.20"
 ksp = "2.1.20-1.0.31"
 activityKtx = "1.10.1"
+constraintLayout = "2.2.1"
+drawerLayout = "1.2.0"
+recyclerView = "1.4.0"
 room = "2.6.1"
 sqliteKtx = "2.4.0"
 material = "1.12.0"
@@ -17,6 +20,9 @@ kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [libraries]
 activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintLayout" }
+drawerlayout = { group = "androidx.drawerlayout", name = "drawerlayout", version.ref = "drawerLayout" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerView" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
@@ -25,3 +31,5 @@ material = { group = "com.google.android.material", name = "material", version.r
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 hellocharts = { group = "ir.mahdiparastesh", name = "hellocharts", version.ref = "helloCharts" }
 mcdtp = { group = "ir.mahdiparastesh", name = "mcdtp", version.ref = "mcdtp" }
+
+# never rely on the material library to include the libraries you need.

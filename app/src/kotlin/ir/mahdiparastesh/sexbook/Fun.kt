@@ -6,6 +6,7 @@ import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.icu.util.TimeZone
 import android.os.CountDownTimer
+import android.text.Editable
 import android.view.View
 import android.widget.EditText
 import androidx.annotation.DrawableRes
@@ -266,6 +267,8 @@ object Fun {
     }
 
     fun EditText.dbValue(): String? = text.ifBlank { null }?.toString()
+
+    fun Editable.dbValue(): String? = ifBlank { null }?.toString()
 
     /**
      * Data class that indicates a sex type.

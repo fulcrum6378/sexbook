@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.icu.util.Calendar
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -45,6 +46,10 @@ import java.text.DateFormatSymbols
 class ReportAdap(
     private val c: Main, private val f: PageSex, private val autoExpand: Boolean = false
 ) : RecyclerView.Adapter<AnyViewHolder<ItemReportBinding>>() {
+
+    /*init {
+        setHasStableIds(true)
+    }*/
 
     private var clockHeight = c.resources.getDimension(R.dimen.clockSize)
     private var expansion = arExpansion()
@@ -87,6 +92,7 @@ class ReportAdap(
 
         // type
         b.type.adapter = TypeAdap(c)
+        b.type.onItemSelectedListener = OnTypeSelectedListener()
 
         // Place
         b.place.adapter = ArrayAdapter(
@@ -98,10 +104,13 @@ class ReportAdap(
         return AnyViewHolder(b)
     }
 
-    /** In order to avoid data from jumping into other items, remove all TextWatchers from
-     * all EditTexts, then set their texts, then re-implement new listeners. */
+    /**
+     * In order to avoid data from jumping into other items, remove all [TextWatcher]s from
+     * all EditTexts, then set their texts, then re-implement new listeners.
+     */
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
+        Log.d("ESPINELA", "$i")
         val r = c.mm.visReports.getOrNull(i)?.let { c.c.reports[it] } ?: return
 
         // date & time
@@ -110,14 +119,14 @@ class ReportAdap(
             val cal = r.time.calendar(c)
             h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
             h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
-            h.b.clock.setOnClickListener {
+            h.b.clock.setOnClickListener { // TODO move to inner class?
                 TimePickerDialog.newInstance({ _, hourOfDay, minute, second ->
                     val calc = r.time.calendar(c)
                     calc[Calendar.HOUR_OF_DAY] = hourOfDay
                     calc[Calendar.MINUTE] = minute
                     calc[Calendar.SECOND] = second
                     r.time = calc.timeInMillis
-                    update(r.id, true)
+                    update(r.id, dateTimeChanged = true)
                 }, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], cal[Calendar.SECOND])
                     .defaultOptions()
                     .show(c.supportFragmentManager, "timepicker")
@@ -128,7 +137,7 @@ class ReportAdap(
                     cal.set(Calendar.MONTH, month)
                     cal.set(Calendar.DAY_OF_MONTH, day)
                     r.time = cal.timeInMillis
-                    update(r.id, true)
+                    update(r.id, dateTimeChanged = true)
                 }, cal)
                     .defaultOptions()
                     .show(c.supportFragmentManager, "datepicker")
@@ -168,17 +177,8 @@ class ReportAdap(
 
         // type
         h.b.type.setSelection(r.type.toInt(), true)
-        h.b.type.onItemSelectedListener =
-            if (!r.guess) object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-                override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                    if (r.type != i.toByte()) {
-                        r.type = i.toByte()
-                        update(r.id)
-                    }
-                    c.c.sp.edit().putInt(Settings.spPrefersOrgType, i).apply()
-                }
-            } else null
+        (h.b.type.onItemSelectedListener as? OnTypeSelectedListener)?.o =
+            if (!r.guess) r else null
         h.b.type.isEnabled = !r.guess
 
         // more
@@ -212,8 +212,8 @@ class ReportAdap(
         h.b.descIcon.isVisible = !r.guess && !r.desc.isNullOrBlank()
 
         // Place
-        (h.b.place.onItemSelectedListener as? OnPlaceSelectedListener)?.i =
-            if (!r.guess) i else null
+        (h.b.place.onItemSelectedListener as? OnPlaceSelectedListener)?.o =
+            if (!r.guess) r else null
         if (!r.guess && places.isEmpty())
             h.b.place.setOnTouchListener { _, _ -> c.goTo(Places::class); false }
         else h.b.place.setOnTouchListener(null)
@@ -236,6 +236,9 @@ class ReportAdap(
     }
 
     override fun getItemCount() = c.mm.visReports.size
+
+    /*override fun getItemId(i: Int): Long =
+        c.mm.visReports.getOrNull(i)?.let { c.c.reports[it]?.id } ?: RecyclerView.NO_ID*/
 
     inner class CrushSuggester : ArrayAdapter<String>(
         c, android.R.layout.simple_dropdown_item_1line, c.c.summaryCrushes()
@@ -261,7 +264,7 @@ class ReportAdap(
             R.id.lcOrgasmed to {
                 if (r.ogsm != !it.isChecked) {
                     r.ogsm = !it.isChecked
-                    update(r.id)
+                    update(r.id, orgasmChanged = true)
                 }
             },
             R.id.lcDelete to {
@@ -275,7 +278,6 @@ class ReportAdap(
                         val ii = h.layoutPosition
                         notifyAnyChange(false)
                         notifyItemRemoved(ii)
-                        notifyItemRangeChanged(ii, itemCount - ii)
                         if (c.c.reports.isEmpty()) f.reset()
                         f.updateFilterSpinner()
                     }
@@ -296,32 +298,53 @@ class ReportAdap(
         b.place.isVisible = expand
     }
 
+
+    inner class OnTypeSelectedListener : AdapterView.OnItemSelectedListener,
+        RecyclerViewItemEvent<Report> {
+        override var o: Report? = null
+
+        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        override fun onItemSelected(a: AdapterView<*>?, v: View?, pos: Int, l: Long) {
+            val r = o ?: return
+            if (r.type != pos.toByte()) {
+                r.type = pos.toByte()
+                update(r.id)
+            }
+            c.c.sp.edit().putInt(Settings.spPrefersOrgType, pos).apply()
+            // TODO determine regarding the type of the latest orgasm
+        }
+    }
+
     inner class OnPlaceSelectedListener : AdapterView.OnItemSelectedListener,
-        RecyclerViewItemEvent {
+        RecyclerViewItemEvent<Report> {
+        override var o: Report? = null
         private var firstSelect = true
-        override var i: Int? = null
+
         override fun onNothingSelected(av: AdapterView<*>?) {}
         override fun onItemSelected(av: AdapterView<*>?, v: View?, pos: Int, l: Long) {
-            if (i == null) return
+            val r = o ?: return
             if (firstSelect) {
                 firstSelect = false; return; }
             // if "places" is empty, nothing ever can be selected, also onNothingSelected doesn't work!
 
             val pid = if (pos == 0) -1L else places[pos - 1].id
-            c.mm.visReports.getOrNull(i!!).let { c.c.reports[it] }?.apply {
-                if (plac != pid) {
-                    plac = pid
-                    update(this.id)
-                }
+            if (r.plac != pid) {
+                r.plac = pid
+                update(r.id)
             }
         }
     }
 
     /** Writes changes to the database. */
-    private fun update(id: Long, dateTimeChanged: Boolean = false) {
+    private fun update(
+        id: Long,
+        dateTimeChanged: Boolean = false,
+        orgasmChanged: Boolean = false
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
             c.c.dao.rUpdate(c.c.reports[id]!!)
-            LastOrgasm.doUpdateAll(c.c)
+
+            if (dateTimeChanged || orgasmChanged) LastOrgasm.doUpdateAll(c.c)
 
             // ONLY if date or time have been changed...
             if (dateTimeChanged) withContext(Dispatchers.Main) {
@@ -329,7 +352,8 @@ class ReportAdap(
                 val ym = c.c.reports[id]!!.time.calendar(c).createFilterYm()
                 if (f.filters.getOrNull(c.mm.listFilter)
                         ?.let { ym.first == it.year && ym.second == it.month } == true
-                ) { // report is still in this month
+                ) {
+                    // Report is still in this month
                     c.mm.sortVisReports(c.c)
                     val newPos = c.mm.visReports.indexOf(id)
                     if (oldPos != newPos) {
@@ -337,9 +361,9 @@ class ReportAdap(
                         f.b.rv.smoothScrollToPosition(newPos)
                     }
                     notifyItemChanged(newPos)
-                } else { // report moved to another month or is missing
+                } else {
+                    // Report is moved to another month or is missing
                     notifyItemRemoved(oldPos)
-                    notifyItemRangeChanged(oldPos, itemCount - oldPos)
                     f.reset(id)
                 }
             }

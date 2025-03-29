@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -34,7 +35,6 @@ import ir.mahdiparastesh.sexbook.list.BNtfCrushAdap
 import ir.mahdiparastesh.sexbook.misc.CalendarManager
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
 import ir.mahdiparastesh.sexbook.view.MaterialMenu
-import ir.mahdiparastesh.sexbook.view.SafeLinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -378,7 +378,7 @@ class Settings : BaseActivity() {
             return MaterialAlertDialogBuilder(c).apply {
                 setTitle(resources.getString(R.string.stBNtfCrushes))
                 setView(RecyclerView(c).apply {
-                    layoutManager = SafeLinearLayoutManager(c)
+                    layoutManager = LinearLayoutManager(c)
                     setPadding(0, c.dp(12), 0, 0)
                     c.bNtfCrushAdap = BNtfCrushAdap(c)
                     adapter = c.bNtfCrushAdap
