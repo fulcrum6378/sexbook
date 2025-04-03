@@ -13,10 +13,11 @@
         <item name="android:background">@drawable/shadow</item>
     </style>
 
-    <style name="body">
+    <style name="body"><!-- overridden in values-v28 -->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layoutDirection">ltr</item>
+        <item name="android:background">?android:windowBackground</item>
     </style>
 
     <style name="toolbar">

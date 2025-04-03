@@ -1,4 +1,5 @@
 <resources>
+
     <!-- Main -->
     <style name="loadIV" parent="parentConstraint">
         <item name="android:layout_width">0dp</item>
