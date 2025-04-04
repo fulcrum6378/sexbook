@@ -13,7 +13,7 @@
         <item name="android:background">@drawable/shadow</item>
     </style>
 
-    <style name="body"><!-- overridden in values-v28 -->
+    <style name="body"><!-- overridden in values-v29 -->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layoutDirection">ltr</item>

@@ -156,7 +156,7 @@ class Sexbook : Application() {
   * An option for exporting the SQLite database itself?
   * Closing the database
   * Duplicate Crush exception
-  * Trim memory on Main destoryed
+  * Trim memory on Main destroyed
   * Search for People through their names, locations and IG accounts
   * Search for Reports in their names and descriptions
   * DotsIndicator for Taste and CrushesStat
