@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.annotation.ArrayRes
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -28,6 +29,7 @@ import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
+import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,7 +37,7 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.and
 import kotlin.experimental.or
 
-/** A Dialog for filling data for a [Crush]. */
+/** A Dialog for filling data for a [Crush] */
 class Identify<Activity> private constructor() :
     BaseDialog<Activity>() where Activity : BaseActivity {
 
@@ -81,6 +83,7 @@ class Identify<Activity> private constructor() :
                 b.bodyPenis.isVisible = i == 2 || i == 3
             }
         }
+        b.gender.setOnTouchListener(SpinnerTouchListener())
 
         // Instagram
         b.instagram.filters = arrayOf(object : InputFilter {
@@ -99,16 +102,16 @@ class Identify<Activity> private constructor() :
         })
 
         // body characteristics
-        b.bodySkinColour.adapter = bodyAttrSpinnerAdapter(R.array.bodySkinColour)
-        b.bodyHairColour.adapter = bodyAttrSpinnerAdapter(R.array.bodyHairColour)
-        b.bodyEyeColour.adapter = bodyAttrSpinnerAdapter(R.array.bodyEyeColour)
-        b.bodyEyeShape.adapter = bodyAttrSpinnerAdapter(R.array.bodyEyeShape)
-        b.bodyFaceShape.adapter = bodyAttrSpinnerAdapter(R.array.bodyFaceShape)
-        b.bodyFat.adapter = bodyAttrSpinnerAdapter(R.array.bodyFat)
-        b.bodyBreasts.adapter = bodyAttrSpinnerAdapter(R.array.bodyBreasts)
-        b.bodyPenis.adapter = bodyAttrSpinnerAdapter(R.array.bodyPenis)
-        b.bodyMuscle.adapter = bodyAttrSpinnerAdapter(R.array.bodyMuscle)
-        b.bodySexuality.adapter = bodyAttrSpinnerAdapter(R.array.bodySexuality)
+        prepareBodyAttrSpinner(b.bodySkinColour, R.array.bodySkinColour)
+        prepareBodyAttrSpinner(b.bodyHairColour, R.array.bodyHairColour)
+        prepareBodyAttrSpinner(b.bodyEyeColour, R.array.bodyEyeColour)
+        prepareBodyAttrSpinner(b.bodyEyeShape, R.array.bodyEyeShape)
+        prepareBodyAttrSpinner(b.bodyFaceShape, R.array.bodyFaceShape)
+        prepareBodyAttrSpinner(b.bodyFat, R.array.bodyFat)
+        prepareBodyAttrSpinner(b.bodyBreasts, R.array.bodyBreasts)
+        prepareBodyAttrSpinner(b.bodyPenis, R.array.bodyPenis)
+        prepareBodyAttrSpinner(b.bodyMuscle, R.array.bodyMuscle)
+        prepareBodyAttrSpinner(b.bodySexuality, R.array.bodySexuality)
 
         // default values
         val crushKey = crush?.key ?: requireArguments().getString(BUNDLE_CRUSH_KEY)!!
@@ -306,7 +309,10 @@ class Identify<Activity> private constructor() :
         b.birthIL.hint = if (bb) getString(R.string.creationDate) else getString(R.string.birth)
     }
 
-    private fun bodyAttrSpinnerAdapter(@ArrayRes arr: Int) = ArrayAdapter(
-        c, R.layout.spinner_white_small, c.resources.getStringArray(arr)
-    ).apply { setDropDownViewResource(R.layout.spinner_dd) }
+    private fun prepareBodyAttrSpinner(spinner: Spinner, @ArrayRes arr: Int) {
+        spinner.adapter = ArrayAdapter(
+            c, R.layout.spinner_white_small, c.resources.getStringArray(arr)
+        ).apply { setDropDownViewResource(R.layout.spinner_dd) }
+        spinner.setOnTouchListener(SpinnerTouchListener())
+    }
 }

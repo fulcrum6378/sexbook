@@ -2,7 +2,6 @@ package ir.mahdiparastesh.sexbook.list
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -34,7 +33,7 @@ class StatSumAdap(
 
         for (crush in arr[i].value.indices) (if (h.b.root.childCount < crush + 2) Chip(c).apply {
             layoutParams = ChipGroup.LayoutParams(-2, -2)
-            typeface = ResourcesCompat.getFont(c, R.font.normal)!!
+            typeface = resources.getFont(R.font.normal)
             h.b.root.addView(this)
         } else h.b.root.getChildAt(crush + 1) as Chip
                 ).apply {

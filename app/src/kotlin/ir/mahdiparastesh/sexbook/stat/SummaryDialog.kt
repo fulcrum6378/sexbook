@@ -14,7 +14,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -163,7 +162,7 @@ class SummaryDialog : BaseDialog<Main>() {
             text = s
             textSize = c.resources.getDimension(R.dimen.plusesFont) / this@SumChips.c.dm.density
             alpha = .8f
-            typeface = ResourcesCompat.getFont(c, R.font.normal)!!
+            typeface = resources.getFont(R.font.normal)
         }
     }
 

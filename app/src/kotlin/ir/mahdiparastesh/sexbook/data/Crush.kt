@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.data
 
+import androidx.annotation.IdRes
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -9,6 +10,7 @@ import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.sumOf
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
 import java.util.Locale
 import kotlin.experimental.and
@@ -97,6 +99,7 @@ class Crush(
         var statsCleared = true
     }
 
+
     fun visName(): String =
         if (fName.isNullOrEmpty() || lName.isNullOrEmpty()) when {
             !fName.isNullOrEmpty() -> fName!!
@@ -179,6 +182,7 @@ class Crush(
         firstOrgasm_ = null
     }
 
+
     class Sort(
         private val c: Sexbook, private val by: Int, private val asc: Boolean
     ) : Comparator<String> {
@@ -190,26 +194,62 @@ class Crush(
             val a = if (asc) aa else bb
             val b = if (asc) bb else aa
             return when (by) {
-                Fun.SORT_BY_NAME -> c.people[a]!!.visName().lowercase(Locale.getDefault())
+                SORT_BY_NAME -> c.people[a]!!.visName().lowercase(Locale.getDefault())
                     .compareTo(c.people[b]!!.visName().lowercase(Locale.getDefault()))
-                Fun.SORT_BY_SUM -> c.people[a]!!.getSum(c)
+                SORT_BY_SUM -> c.people[a]!!.getSum(c)
                     .compareTo(c.people[b]!!.getSum(c))
-                Fun.SORT_BY_AGE -> (c.people[b]!!.birthTime ?: 0L)
+                SORT_BY_AGE -> (c.people[b]!!.birthTime ?: 0L)
                     .compareTo(c.people[a]!!.birthTime ?: 0L)
-                Fun.SORT_BY_HEIGHT -> c.people[a]!!.height
+                SORT_BY_HEIGHT -> c.people[a]!!.height
                     .compareTo(c.people[b]!!.height)
-                Fun.SORT_BY_BEGINNING -> (c.people[a]!!.firstTime ?: 0L)
+                SORT_BY_BEGINNING -> (c.people[a]!!.firstTime ?: 0L)
                     .compareTo(c.people[b]!!.firstTime ?: 0L)
-                Fun.SORT_BY_LAST -> c.people[a]!!.getLastOrgasm(c)
+                SORT_BY_LAST -> c.people[a]!!.getLastOrgasm(c)
                     .compareTo(c.people[b]!!.getLastOrgasm(c))
-                Fun.SORT_BY_FIRST -> c.people[a]!!.getFirstOrgasm(c)
+                SORT_BY_FIRST -> c.people[a]!!.getFirstOrgasm(c)
                     .compareTo(c.people[b]!!.getFirstOrgasm(c))
+                else -> throw IllegalArgumentException("Invalid sorting method!")
+            }
+        }
+
+        companion object {
+            const val SORT_BY_NAME = 0
+            const val SORT_BY_SUM = 1
+            const val SORT_BY_AGE = 2
+            const val SORT_BY_HEIGHT = 3
+            const val SORT_BY_BEGINNING = 4
+            const val SORT_BY_LAST = 5
+            const val SORT_BY_FIRST = 6
+
+            fun sort(@IdRes menuItemId: Int): Any? = when (menuItemId) {
+                R.id.sortByName -> SORT_BY_NAME
+                R.id.sortBySum -> SORT_BY_SUM
+                R.id.sortByAge -> SORT_BY_AGE
+                R.id.sortByHeight -> SORT_BY_HEIGHT
+                R.id.sortByBeginning -> SORT_BY_BEGINNING
+                R.id.sortByLast -> SORT_BY_LAST
+                R.id.sortByFirst -> SORT_BY_FIRST
+                R.id.sortAsc -> true
+                R.id.sortDsc -> false
+                else -> null
+            }
+
+            fun findSortMenuItemId(sortBy: Int) = when (sortBy) {
+                SORT_BY_NAME -> R.id.sortByName
+                SORT_BY_SUM -> R.id.sortBySum
+                SORT_BY_AGE -> R.id.sortByAge
+                SORT_BY_HEIGHT -> R.id.sortByHeight
+                SORT_BY_BEGINNING -> R.id.sortByBeginning
+                SORT_BY_LAST -> R.id.sortByLast
+                SORT_BY_FIRST -> R.id.sortByFirst
                 else -> throw IllegalArgumentException("Invalid sorting method!")
             }
         }
     }
 
+
     class GsonAdapter : TypeAdapter<Crush>() {
+
         override fun write(w: JsonWriter, o: Crush) {
             w.beginObject()
             w.name("key").value(o.key)

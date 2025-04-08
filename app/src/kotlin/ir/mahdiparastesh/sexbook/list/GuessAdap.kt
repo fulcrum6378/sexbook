@@ -24,8 +24,10 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
 import ir.mahdiparastesh.sexbook.misc.Delay
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
+import ir.mahdiparastesh.sexbook.view.CustomSpinnerTouchListener
 import ir.mahdiparastesh.sexbook.view.MaterialMenu
-import ir.mahdiparastesh.sexbook.view.TypeAdap
+import ir.mahdiparastesh.sexbook.view.SexType
+import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,8 +50,9 @@ class GuessAdap(private val c: Estimation) :
         b.tillLabel.text = b.tillLabel.text.toString() + "*"
         b.freqLabel.text = b.freqLabel.text.toString() + "*"
 
-        // type
-        b.type.adapter = TypeAdap(c)
+        // SexType
+        b.type.adapter = SexType.Adapter(c)
+        b.type.setOnTouchListener(SpinnerTouchListener())
 
         // Place
         b.place.adapter = ArrayAdapter(
@@ -142,7 +145,7 @@ class GuessAdap(private val c: Estimation) :
             }
         })
 
-        // type
+        // SexType
         h.b.type.setSelection(g.type.toInt(), true)
         h.b.type.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -173,7 +176,7 @@ class GuessAdap(private val c: Estimation) :
 
         // Place
         var placeTouched = false
-        h.b.place.setOnTouchListener { _, _ -> placeTouched = true; false }
+        h.b.place.setOnTouchListener(CustomSpinnerTouchListener { placeTouched = true })
         h.b.place.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(av: AdapterView<*>?) {}
             override fun onItemSelected(av: AdapterView<*>?, v: View?, i: Int, l: Long) {

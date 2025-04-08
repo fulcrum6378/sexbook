@@ -1,15 +1,12 @@
 package ir.mahdiparastesh.sexbook
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.icu.util.TimeZone
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.EditText
-import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.base.BaseActivity
@@ -22,13 +19,6 @@ object Fun {
 
     const val DATABASE = "sexbook.db"
     const val INSTA = "https://www.instagram.com/"
-    const val SORT_BY_NAME = 0
-    const val SORT_BY_SUM = 1
-    const val SORT_BY_AGE = 2
-    const val SORT_BY_HEIGHT = 3
-    const val SORT_BY_BEGINNING = 4
-    const val SORT_BY_LAST = 5
-    const val SORT_BY_FIRST = 6
     const val MAX_BADGE_CHAR = 6
     const val A_DAY = 86400000L
     const val DISABLED_ALPHA = 0.7f
@@ -36,9 +26,6 @@ object Fun {
 
     /** Specifies if vibration is enabled. */
     var vib: Boolean? = null
-
-    /** The number of all the available sex types. */
-    const val sexTypesCount = 5
 
     /** @return the current timestamp */
     fun now() = System.currentTimeMillis()
@@ -94,26 +81,6 @@ object Fun {
         return this
     }
 
-    /** @return an Array of all the available sex types */
-    fun sexTypes(c: Context): Array<SexType> {
-        val names = c.resources.getStringArray(R.array.types)
-        return arrayOf(
-            SexType(names[0], R.drawable.wet_dream),
-            SexType(names[1], R.drawable.masturbation),
-            SexType(names[2], R.drawable.oral_sex),
-            SexType(names[3], R.drawable.anal_sex),
-            SexType(names[4], R.drawable.vaginal_sex),
-        )
-    }
-
-    /** @return an ArrayList of the IDs of the allowed sex types based on shared preferences */
-    fun allowedSexTypes(sp: SharedPreferences) = arrayListOf<Byte>().apply {
-        for (s in 0 until sexTypesCount)
-            if (sp.getBoolean(Settings.spStatInclude + s, true))
-                add(s.toByte())
-        if (isEmpty()) addAll((0 until sexTypesCount).map { it.toByte() })
-    }
-
     /** Listens for the time when a View is completely loaded and then executes "func". */
     fun View.onLoad(func: () -> Unit) {
         object : CountDownTimer(5000, 50) {
@@ -124,30 +91,6 @@ object Fun {
                 func()
             }
         }.start()
-    }
-
-    fun sort(@IdRes menuItemId: Int): Any? = when (menuItemId) {
-        R.id.sortByName -> SORT_BY_NAME
-        R.id.sortBySum -> SORT_BY_SUM
-        R.id.sortByAge -> SORT_BY_AGE
-        R.id.sortByHeight -> SORT_BY_HEIGHT
-        R.id.sortByBeginning -> SORT_BY_BEGINNING
-        R.id.sortByLast -> SORT_BY_LAST
-        R.id.sortByFirst -> SORT_BY_FIRST
-        R.id.sortAsc -> true
-        R.id.sortDsc -> false
-        else -> null
-    }
-
-    fun findSortMenuItemId(sortBy: Int) = when (sortBy) {
-        SORT_BY_NAME -> R.id.sortByName
-        SORT_BY_SUM -> R.id.sortBySum
-        SORT_BY_AGE -> R.id.sortByAge
-        SORT_BY_HEIGHT -> R.id.sortByHeight
-        SORT_BY_BEGINNING -> R.id.sortByBeginning
-        SORT_BY_LAST -> R.id.sortByLast
-        SORT_BY_FIRST -> R.id.sortByFirst
-        else -> throw IllegalArgumentException("Invalid sorting method!")
     }
 
     fun Float.show(): String =
@@ -266,11 +209,4 @@ object Fun {
     }
 
     fun EditText.dbValue(): String? = text.ifBlank { null }?.toString()
-
-    /**
-     * Data class that indicates a sex type.
-     * @param name visible name
-     * @param icon visible icon from drawable resources
-     */
-    data class SexType(val name: String, @DrawableRes val icon: Int)
 }

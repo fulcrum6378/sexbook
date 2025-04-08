@@ -55,6 +55,7 @@ import ir.mahdiparastesh.sexbook.stat.SummaryDialog
 import ir.mahdiparastesh.sexbook.stat.Taste
 import ir.mahdiparastesh.sexbook.view.ActionBarDrawerToggle
 import ir.mahdiparastesh.sexbook.view.Lister
+import ir.mahdiparastesh.sexbook.view.SexType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -315,7 +316,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(Fun.findSortMenuItemId(c.sp.getInt(Settings.spPageLoveSortBy, 0)))
+        menu?.findItem(Crush.Sort.findSortMenuItemId(c.sp.getInt(Settings.spPageLoveSortBy, 0)))
             ?.isChecked = true
         menu?.findItem(
             if (c.sp.getBoolean(Settings.spPageLoveSortAsc, true))
@@ -326,6 +327,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
+
             // PageSex (R.menu.page_sex):
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
 
@@ -334,7 +336,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 1) }
                 show(supportFragmentManager, CrushesStat.TAG)
             }
-            else -> Fun.sort(item.itemId)?.also { value ->
+            else -> Crush.Sort.sort(item.itemId)?.also { value ->
                 item.isChecked = true
                 c.sp.edit().apply {
                     if (value is Int) putInt(Settings.spPageLoveSortBy, value)
@@ -406,7 +408,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     /**
-     * Summarises the sex records for statistics.
+     * Summarises sex records for statistics.
      *
      * This operation doesn't take so much time, generating the views for statistics takes that long!
      *
@@ -419,7 +421,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         var nExcluded = 0
         var filtered: List<Report> = c.reports.values.toList()
 
-        // Filter by time
+        // filter by time
         if (c.sp.getBoolean(Settings.spStatSinceCb, false))
             filtered = filtered.filter { it.time >= c.sp.getLong(Settings.spStatSince, 0) }
                 .also { nExcluded += filtered.size - it.size }
@@ -427,7 +429,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             filtered = filtered.filter { it.time < c.sp.getLong(Settings.spStatUntil, 0) }
                 .also { nExcluded += filtered.size - it.size }
 
-        // Check if it can draw any visual charts;
+        // check if it can draw any visual charts;
         // this is possible only if the range of the sex records exceeds one month.
         if (filtered.isEmpty()) return false
         else if (!ignoreIfItsLessThanAMonth && // if it's empty, minOf will throw NoSuchElementException!
@@ -435,13 +437,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             filtered.maxOf { it.time }.calendar(this).createFilterYm().toString()
         ) return false
 
-        // Filter by type
-        val allowedTypes = Fun.allowedSexTypes(c.sp)
-        if (allowedTypes.size < Fun.sexTypesCount)
+        // filter by type
+        val allowedTypes = SexType.allowedOnes(c.sp)
+        if (allowedTypes.size < SexType.count)
             filtered = filtered.filter { it.type in allowedTypes }
                 .also { nExcluded += filtered.size - it.size }
 
-        // Filter non-orgasm sex records if enabled
+        // filter non-orgasm sex records if enabled
         if (!c.sp.getBoolean(Settings.spStatNonOrgasm, true))
             filtered = filtered.filter { it.ogsm }
                 .also { nExcluded += filtered.size - it.size }

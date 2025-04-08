@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.Dimension
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +34,7 @@ import ir.mahdiparastesh.sexbook.list.BNtfCrushAdap
 import ir.mahdiparastesh.sexbook.misc.CalendarManager
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
 import ir.mahdiparastesh.sexbook.view.MaterialMenu
+import ir.mahdiparastesh.sexbook.view.SexType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -209,9 +209,9 @@ class Settings : BaseActivity() {
             b.stStatUntil.setOnLongClickListener(it)
         }
 
-        // Sex Type Exclusion
+        // filtering by sex type
         var prevLlId: Int? = null
-        val sexTypes = Fun.sexTypes(c)
+        val sexTypes = SexType.all(c)
         for (s in sexTypes.indices) {
             val sex = sexTypes[s]
             val cbId = View.generateViewId()
@@ -234,7 +234,7 @@ class Settings : BaseActivity() {
             b.sexTypes.addView(MaterialCheckBox(this@Settings).apply {
                 text = getString(R.string.stSexTypeInclude, sex.name)
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                typeface = ResourcesCompat.getFont(c, R.font.normal)
+                typeface = resources.getFont(R.font.normal)
                 setTextSize(Dimension.SP, 16f)
                 setPaddingRelative(
                     resources.getDimension(R.dimen.stItemPadH).toInt(), 0, 0, 0

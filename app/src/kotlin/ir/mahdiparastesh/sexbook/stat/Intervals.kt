@@ -5,12 +5,12 @@ import ir.mahdiparastesh.hellocharts.model.Line
 import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.model.PointValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
-import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.IntervalsBinding
+import ir.mahdiparastesh.sexbook.view.SexType
 
 class Intervals : ChartActivity<IntervalsBinding>() {
     private lateinit var allowedSexTypes: List<Byte>
@@ -28,7 +28,7 @@ class Intervals : ChartActivity<IntervalsBinding>() {
         val maxima: Long =
             if (!c.sp.getBoolean(Settings.spStatUntilCb, false)) Long.MAX_VALUE
             else c.sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
-        allowedSexTypes = Fun.allowedSexTypes(c.sp)
+        allowedSexTypes = SexType.allowedOnes(c.sp)
         for (org in c.reports.values.sortedBy { it.time }) {
             if (!org.ogsm) continue
             if (prev == null || org.time < minima || org.time > maxima || org.type !in allowedSexTypes) {

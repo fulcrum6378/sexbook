@@ -56,7 +56,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(Fun.findSortMenuItemId(c.sp.getInt(Settings.spPeopleSortBy, 0)))
+        menu?.findItem(Crush.Sort.findSortMenuItemId(c.sp.getInt(Settings.spPeopleSortBy, 0)))
             ?.isChecked = true
         menu?.findItem(
             if (c.sp.getBoolean(Settings.spPeopleSortAsc, true))
@@ -74,7 +74,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
             R.id.filter -> if (c.people.isNotEmpty())
                 Screening().show(supportFragmentManager, "screening")
             else -> {
-                Fun.sort(item.itemId)?.also { value ->
+                Crush.Sort.sort(item.itemId)?.also { value ->
                     item.isChecked = true
                     c.sp.edit().apply {
                         if (value is Int) putInt(Settings.spPeopleSortBy, value)

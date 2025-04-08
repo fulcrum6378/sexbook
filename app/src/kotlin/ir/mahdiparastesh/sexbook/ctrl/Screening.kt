@@ -15,8 +15,9 @@ import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.ScreeningBinding
+import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
 
-/** An advanced interface for filtering people. */
+/** An advanced interface for filtering people */
 class Screening : BaseDialog<People>() {
     private lateinit var b: ScreeningBinding
 
@@ -109,6 +110,7 @@ class Screening : BaseDialog<People>() {
                 onItemSelected?.let { it(i) }
             }
         }
+        spinner.setOnTouchListener(SpinnerTouchListener())
     }
 
     data class Filters(

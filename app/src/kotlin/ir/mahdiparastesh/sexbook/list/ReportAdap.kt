@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.icu.util.Calendar
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -34,9 +33,11 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
+import ir.mahdiparastesh.sexbook.view.CustomSpinnerTouchListener
 import ir.mahdiparastesh.sexbook.view.MaterialMenu
 import ir.mahdiparastesh.sexbook.view.RecyclerViewItemEvent
-import ir.mahdiparastesh.sexbook.view.TypeAdap
+import ir.mahdiparastesh.sexbook.view.SexType
+import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -55,7 +56,7 @@ class ReportAdap(
     private var expansion = arExpansion()
     val places = c.c.places
         .sortedWith(Place.Sort(Place.Sort.NAME))
-        .filter { it.name?.isNotBlank() == true } // throws NullPointerException when empty!
+        .filter { it.name?.isNotBlank() == true }  // throws NullPointerException when empty!
     private val clockBg: Drawable by lazy { ContextCompat.getDrawable(c, R.drawable.clock_bg)!! }
     private val etIcon: Drawable by lazy {
         ContextCompat.getDrawable(c, R.drawable.estimation)!!.mutate().apply {
@@ -90,9 +91,10 @@ class ReportAdap(
             else if (bb) c.summarize()
         }
 
-        // type
-        b.type.adapter = TypeAdap(c)
+        // SexType
+        b.type.adapter = SexType.Adapter(c)
         b.type.onItemSelectedListener = OnTypeSelectedListener()
+        b.type.setOnTouchListener(SpinnerTouchListener())
 
         // Place
         b.place.adapter = ArrayAdapter(
@@ -110,7 +112,7 @@ class ReportAdap(
      */
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
-        Log.d("ESPINELA", "$i")
+        //Log.d("ESPINELA", "$i")
         val r = c.mm.visReports.getOrNull(i)?.let { c.c.reports[it] } ?: return
 
         // date & time
@@ -214,9 +216,12 @@ class ReportAdap(
         // Place
         (h.b.place.onItemSelectedListener as? OnPlaceSelectedListener)?.o =
             if (!r.guess) r else null
-        if (!r.guess && places.isEmpty())
-            h.b.place.setOnTouchListener { _, _ -> c.goTo(Places::class); false }
-        else h.b.place.setOnTouchListener(null)
+        h.b.place.setOnTouchListener(
+            if (!r.guess && places.isEmpty())
+                CustomSpinnerTouchListener { c.goTo(Places::class) }
+            else
+                SpinnerTouchListener()
+        )
         h.b.place.setSelection(
             if (r.plac == -1L || places.isEmpty()) 0
             else placePos(r.plac, places) + 1, true
