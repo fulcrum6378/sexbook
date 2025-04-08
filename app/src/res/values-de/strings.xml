@@ -57,6 +57,7 @@
         <item quantity="other">%d Stunden</item>
     </plurals>
     <string name="apply">Anwenden</string>
+    <string name="minSum">Mindestanzahl an Berichten:</string>
 
     <!-- Main -->
     <string name="momImport">Import aus Json</string>

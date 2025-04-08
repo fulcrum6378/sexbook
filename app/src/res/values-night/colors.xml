@@ -1,4 +1,5 @@
 <resources>
+
     <color name="transformer">?colorOnPrimary</color>
     <color name="divider">#444</color>
     <color name="ripple">#20FFFFFF</color>

@@ -47,6 +47,7 @@ class Screening : BaseDialog<People>() {
                 getString(R.string.unsafePerson),
             ), c.c.screening?.safety
         )
+        b.minSum.setText(c.c.screening?.minSum?.toString())
         prepareSpinner(b.bodySkinColour, R.array.bodySkinColour, c.c.screening?.bodySkinColour)
         prepareSpinner(b.bodyHairColour, R.array.bodyHairColour, c.c.screening?.bodyHairColour)
         prepareSpinner(b.bodyEyeColour, R.array.bodyEyeColour, c.c.screening?.bodyEyeColour)
@@ -66,6 +67,7 @@ class Screening : BaseDialog<People>() {
                     b.gender.selectedItemPosition,
                     b.fiction.selectedItemPosition,
                     b.safety.selectedItemPosition,
+                    b.minSum.text.toString().toIntOrNull() ?: 0,
                     b.bodySkinColour.selectedItemPosition, b.bodyHairColour.selectedItemPosition,
                     b.bodyEyeColour.selectedItemPosition, b.bodyEyeShape.selectedItemPosition,
                     b.bodyFaceShape.selectedItemPosition, b.bodyFat.selectedItemPosition,
@@ -117,13 +119,14 @@ class Screening : BaseDialog<People>() {
         val gender: Int,
         val fiction: Int,
         val safety: Int,
+        val minSum: Int,
         val bodySkinColour: Int, val bodyHairColour: Int,
         val bodyEyeColour: Int, val bodyEyeShape: Int,
         val bodyFaceShape: Int, val bodyFat: Int,
         val bodyBreasts: Int, val bodyPenis: Int,
         val bodyMuscle: Int, val bodySexuality: Int,
     ) {
-        fun any() = gender != 0 || fiction != 0 || safety != 0 ||
+        fun any() = gender != 0 || fiction != 0 || safety != 0 || minSum > 0 ||
                 bodySkinColour != 0 || bodyHairColour != 0 ||
                 bodyEyeColour != 0 || bodyEyeShape != 0 ||
                 bodyFaceShape != 0 || bodyFat != 0 ||

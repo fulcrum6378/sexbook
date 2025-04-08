@@ -218,7 +218,7 @@ class ReportAdap(
             if (!r.guess) r else null
         h.b.place.setOnTouchListener(
             if (!r.guess && places.isEmpty())
-                CustomSpinnerTouchListener { c.goTo(Places::class) }
+                CustomSpinnerTouchListener(onClick = { c.goTo(Places::class) })
             else
                 SpinnerTouchListener()
         )

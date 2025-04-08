@@ -106,6 +106,11 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
                         (filters.safety - 1) != (p.value.status and Crush.STAT_UNSAFE_PERSON).toInt() shr 5
                     ) return@filter false
 
+                    // sum of assigned Reports
+                    if (filters.minSum > 0 &&
+                        p.value.getSum(c) < filters.minSum
+                    ) return@filter false
+
                     // Crush::body
                     val body = p.value.body
                     if (filters.bodySkinColour != 0 && filters.bodySkinColour !=

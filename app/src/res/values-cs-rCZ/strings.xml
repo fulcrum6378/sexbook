@@ -59,6 +59,7 @@
         <item quantity="other">%d hodin</item>
     </plurals>
     <string name="apply">Použít</string>
+    <string name="minSum">Minimální počet hlášení:</string>
 
     <!-- Main -->
     <string name="momImport">Import z Json</string>

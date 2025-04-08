@@ -60,6 +60,7 @@
         <item quantity="other">%d часов</item>
     </plurals>
     <string name="apply">Применять</string>
+    <string name="minSum">Минимальное количество отчетов:</string>
 
     <!-- Main -->
     <string name="momImport">Импорт из Json</string>
