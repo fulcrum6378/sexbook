@@ -39,8 +39,9 @@ class Taste : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(pager)
-        if (c.night())
-            window.decorView.setBackgroundColor(themeColor(com.google.android.material.R.attr.colorPrimary))
+        if (night) window.decorView.setBackgroundColor(
+            themeColor(com.google.android.material.R.attr.colorPrimary)
+        )
         if (c.summary == null) {
             onBackPressed(); return; }
 

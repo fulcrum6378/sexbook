@@ -59,7 +59,7 @@ class ReportAdap(
     private val clockBg: Drawable by lazy { ContextCompat.getDrawable(c, R.drawable.clock_bg)!! }
     private val etIcon: Drawable by lazy {
         ContextCompat.getDrawable(c, R.drawable.estimation)!!.mutate().apply {
-            if (c.c.night()) colorFilter =
+            if (c.night) colorFilter =
                 c.themePdcf(com.google.android.material.R.attr.colorSecondary)
         }
     }
@@ -151,7 +151,7 @@ class ReportAdap(
         for (tim in arrayOf(h.b.clockHour, h.b.clockMin, h.b.point, h.b.ampm))
             tim.isVisible = !r.guess
         h.b.clock.background = if (!r.guess) clockBg else etIcon
-        if (r.guess && c.c.night()) h.b.clock.background = h.b.clock.background
+        if (r.guess && c.night) h.b.clock.background = h.b.clock.background
             .apply { colorFilter = c.themePdcf(com.google.android.material.R.attr.colorSecondary) }
 
         // name

@@ -14,6 +14,7 @@ import ir.mahdiparastesh.hellocharts.model.SubColumnValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.sexbook.Fun.calendar
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Report
@@ -31,8 +32,9 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(b.root)
-        if (c.night())
-            window.decorView.setBackgroundColor(themeColor(com.google.android.material.R.attr.colorPrimary))
+        if (night) window.decorView.setBackgroundColor(
+            themeColor(com.google.android.material.R.attr.colorPrimary)
+        )
         if (!requirements()) {
             onBackPressed(); return; }
 
@@ -124,8 +126,8 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
                 SubColumnValue(it.second)
                     .setLabel("${it.first} (${it.second})")
                     .setColor(
-                        if (!c.c.night()) c.themeColor(com.google.android.material.R.attr.colorPrimary)
-                        else c.color(ir.mahdiparastesh.sexbook.R.color.CPV_LIGHT)
+                        if (!c.night) c.themeColor(com.google.android.material.R.attr.colorPrimary)
+                        else c.color(R.color.CPV_LIGHT)
                     )
             )
         )

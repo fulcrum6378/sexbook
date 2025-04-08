@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.base
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.icu.util.GregorianCalendar
@@ -29,11 +30,15 @@ import ir.mahdiparastesh.sexbook.misc.HumanistIranianCalendar
 import java.util.Locale
 import kotlin.reflect.KClass
 
-/** Abstract class for all Activity instances in this app and it extends FragmentActivity. */
+/** Abstract class for all Activity instances in this app and it extends [FragmentActivity] */
 abstract class BaseActivity : FragmentActivity() {
     val c: Sexbook by lazy { applicationContext as Sexbook }
     var tbTitle: TextView? = null
     val dm: DisplayMetrics by lazy { resources.displayMetrics }
+    val night: Boolean by lazy {
+        resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    }
     private var lastToast = -1L
 
     /** Applies custom styles and actions on the Toolbar. */

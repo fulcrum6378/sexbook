@@ -85,20 +85,20 @@
     <style name="statChart">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:visibility">invisible</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingTop">40sp</item>
         <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:visibility">invisible</item>
     </style>
 
     <style name="statTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/stat_title</item>
+        <item name="android:fontFamily">@font/bold</item>
         <item name="android:paddingHorizontal">11sp</item>
         <item name="android:paddingVertical">6sp</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:fontFamily">@font/bold</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
@@ -116,8 +116,8 @@
         <item name="android:layout_height">0dp</item>
         <item name="android:clipToPadding">false</item>
         <item name="android:paddingHorizontal">@dimen/ybListPadH</item>
-        <item name="android:scrollbarSize">@dimen/scrollbarSize</item>
         <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarSize">@dimen/scrollbarSize</item>
     </style>
 
 
@@ -153,9 +153,9 @@
     </style>
 
     <style name="identifyInputLayout" parent="identifyField">
-        <item name="android:paddingVertical">0dp</item>
         <item name="android:layout_marginVertical">2dp</item>
         <!-- padding visually works just like margin for TIL, but not in hover ripple. -->
+        <item name="android:paddingVertical">0dp</item>
         <item name="android:textColorHint">?android:textColorHint</item>
         <item name="boxStrokeColor">@color/input_layout</item>
         <item name="hintTextColor">?colorSecondaryVariant</item><!--collapsed/focused-->
@@ -179,10 +179,10 @@
     </style>
 
     <style name="identifyBodyAttr" parent="identifyField">
-        <item name="android:paddingVertical">2dp</item>
         <!--https://stackoverflow.com/questions/36167187/android-spinner-arrow-always-above-other-views/
             68789834#68789834-->
         <item name="android:layerType">software</item>
+        <item name="android:paddingVertical">2dp</item>
     </style>
 
 
@@ -196,8 +196,8 @@
     <style name="etLabel">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/normal</item>
         <item name="android:layout_marginStart">@dimen/etPadH</item>
+        <item name="android:fontFamily">@font/normal</item>
         <item name="android:textAlignment">viewStart</item>
         <item name="android:textSize">@dimen/etLabel</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
@@ -217,11 +217,11 @@
 
     <style name="etDateButton" parent="etField">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/button_rectangle</item>
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_marginStart">10dp</item>
         <item name="android:layout_marginEnd">@dimen/etPadH</item>
+        <item name="android:background">@drawable/button_rectangle</item>
         <item name="android:paddingVertical">7dp</item>
         <item name="android:text">@string/etDateHint</item>
         <item name="android:textAlignment">center</item>
@@ -234,9 +234,9 @@
     <style name="stItemContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/yellow_box</item>
         <item name="android:layout_marginHorizontal">@dimen/itemMarH</item>
         <item name="android:layout_marginVertical">7dp</item>
+        <item name="android:background">@drawable/yellow_box</item>
         <item name="android:paddingHorizontal">@dimen/stItemPadH</item>
         <item name="android:paddingVertical">@dimen/stItemPadV</item>
     </style>
@@ -248,8 +248,8 @@
     <style name="stItemTV">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/normal</item>
         <item name="android:layout_marginVertical">0dp</item>
+        <item name="android:fontFamily">@font/normal</item>
         <item name="android:paddingHorizontal">7sp</item>
         <item name="android:textSize">@dimen/stItemTVFont</item>
         <item name="layout_constraintTop_toTopOf">parent</item>

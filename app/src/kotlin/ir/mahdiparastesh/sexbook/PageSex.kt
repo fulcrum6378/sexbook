@@ -48,7 +48,7 @@ class PageSex : BasePage() {
         }
 
         // "Add" button
-        if (c.c.night()) b.addIV.colorFilter = c.themePdcf()
+        if (c.night) b.addIV.colorFilter = c.themePdcf()
         b.add.setOnClickListener { add() }
 
         if (c.c.dbLoaded) prepareList()

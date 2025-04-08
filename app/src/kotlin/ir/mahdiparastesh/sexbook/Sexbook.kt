@@ -3,7 +3,6 @@ package ir.mahdiparastesh.sexbook
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import androidx.annotation.MainThread
 import androidx.core.view.isVisible
 import ir.mahdiparastesh.sexbook.base.BaseActivity
@@ -144,10 +143,6 @@ class Sexbook : Application() {
             else all
         } ?: arrayListOf()
     // it must necessarily return a mutable collection, otherwise CrushSuggester::update() will error!
-
-    /** @return true if the night mode is on */
-    fun night(): Boolean = resources.configuration.uiMode and
-            Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 }
 
 /* TODO:

@@ -25,7 +25,7 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (c.night()) b.identifyIV.colorFilter = themePdcf()
+        if (night) b.identifyIV.colorFilter = themePdcf()
 
         b.title.text = mm.crushKey
         b.identify.setOnClickListener { Identify.create<Singular>(this@Singular, mm.crushKey!!) }

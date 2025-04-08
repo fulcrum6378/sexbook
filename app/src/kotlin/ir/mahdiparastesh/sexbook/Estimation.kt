@@ -34,7 +34,7 @@ class Estimation : BaseActivity(), Lister {
         Delay(100L) { count(c.guesses.size) }
 
         // "Add" button
-        if (c.night()) b.addIV.colorFilter = themePdcf()
+        if (night) b.addIV.colorFilter = themePdcf()
         b.add.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val newGuess = Guess()
