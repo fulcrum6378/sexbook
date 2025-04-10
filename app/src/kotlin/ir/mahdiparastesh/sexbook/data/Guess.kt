@@ -19,7 +19,7 @@ class Guess @Ignore constructor(
     var able: Boolean,
 ) {
     @PrimaryKey(autoGenerate = true)
-    var id = 0L
+    var id = 0L  // TODO take it up there (requires migrating the database)
 
     constructor() : this(null, -1L, -1L, 0f, 1, null, -1L, true)
 
@@ -32,7 +32,6 @@ class Guess @Ignore constructor(
     class GsonAdapter : TypeAdapter<Guess>() {
         override fun write(w: JsonWriter, o: Guess) {
             w.beginObject()
-            w.name("id").value(o.id)
             if (!o.crsh.isNullOrBlank()) w.name("crsh").value(o.crsh)
             if (o.sinc != -1L) w.name("sinc").value(o.sinc)
             if (o.till != -1L) w.name("till").value(o.till)
@@ -48,7 +47,6 @@ class Guess @Ignore constructor(
             val o = Guess()
             r.beginObject()
             while (r.hasNext()) when (r.nextName()) {
-                "id" -> o.id = r.nextLong()
                 "crsh" -> o.crsh = r.nextString()
                 "sinc" -> o.sinc = r.nextLong()
                 "till" -> o.till = r.nextLong()
@@ -57,6 +55,7 @@ class Guess @Ignore constructor(
                 "desc" -> o.desc = r.nextString()
                 "plac" -> o.plac = r.nextLong()
                 "able" -> o.able = r.nextBoolean()
+                else -> r.skipValue()
             }
             r.endObject()
             return o

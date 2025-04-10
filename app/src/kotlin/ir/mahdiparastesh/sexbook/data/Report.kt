@@ -87,9 +87,9 @@ class Report(
     }
 
     class GsonAdapter : TypeAdapter<Report>() {
+
         override fun write(w: JsonWriter, o: Report) {
             w.beginObject()
-            w.name("id").value(o.id)
             w.name("time").value(o.time)
             if (!o.name.isNullOrBlank()) w.name("name").value(o.name)
             w.name("type").value(o.type)
@@ -104,7 +104,6 @@ class Report(
             val o = Report()
             r.beginObject()
             while (r.hasNext()) when (r.nextName()) {
-                "id" -> o.id = r.nextLong()
                 "time" -> o.time = r.nextLong()
                 "name" -> o.name = r.nextString()
                 "type" -> o.type = r.nextInt().toByte()
@@ -112,6 +111,7 @@ class Report(
                 "accu" -> o.accu = r.nextBoolean()
                 "plac" -> o.plac = r.nextLong()
                 "ogsm" -> o.ogsm = r.nextBoolean()
+                else -> r.skipValue()
             }
             r.endObject()
             return o

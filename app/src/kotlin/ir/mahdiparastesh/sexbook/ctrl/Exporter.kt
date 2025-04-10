@@ -14,6 +14,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.TypeAdapterFactory
 import com.google.gson.reflect.TypeToken
+import ir.mahdiparastesh.sexbook.BuildConfig
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -32,13 +33,27 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
+/**
+ * Handles exporting and importing the contents of Sexbook.
+ * An instance of this class must be injected as a dependency of the [Main] Activity.
+ */
 class Exporter(private val c: BaseActivity) {
+
+    /** Date model of the JSON file being exported */
     private var exported: Exported? = null
+
+    /** Name of the file being exported */
     private val EXPORT_NAME = "sexbook.json"
+
+    /** MIME type of a JSON file */
     private val mime =
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
         else "application/json"
 
+    /**
+     * Used by [launchExport]
+     * This field must be initialised as soon as [Main] is instantiated.
+     */
     private val exportLauncher: ActivityResultLauncher<Intent> =
         c.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
@@ -51,6 +66,8 @@ class Exporter(private val c: BaseActivity) {
                         }
                     }
                 }.onSuccess { bExp = true }
+                exported = null
+
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         c, if (bExp) R.string.exportDone else R.string.exportUndone,
@@ -60,6 +77,10 @@ class Exporter(private val c: BaseActivity) {
             }
         }
 
+    /**
+     * Used by [launchImport]
+     * This field must be initialised as soon as [Main] is instantiated.
+     */
     private val importLauncher: ActivityResultLauncher<Intent> =
         c.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
@@ -78,6 +99,7 @@ class Exporter(private val c: BaseActivity) {
             }
     }
 
+    /** Launches a file manager in order to choose a place in the storage for exporting. */
     fun launchExport() {
         if (!export()) return
         exportLauncher.launch(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
@@ -87,6 +109,7 @@ class Exporter(private val c: BaseActivity) {
         })
     }
 
+    /** Launches a file manager in order to pick a file for importing. */
     fun launchImport(): Boolean {
         importLauncher.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -95,6 +118,10 @@ class Exporter(private val c: BaseActivity) {
         return true
     }
 
+    /**
+     * Exports the entire Database plus SharedPreferences into a cache JSON file,
+     * then shares that cache file as a [FileProvider].
+     */
     fun send() {
         if (!export()) return
         val cache = File(c.cacheDir, EXPORT_NAME)
@@ -113,9 +140,11 @@ class Exporter(private val c: BaseActivity) {
                     }.also { c.startActivity(it) }
                 }
             }
+            exported = null
         }
     }
 
+    /** Exports the entire Database plus SharedPreferences into a JSON file. */
     private fun export(): Boolean {
         exported = Exported(
             c.c.reports.filter<Report> { !it.guess }.sortedBy { it.time }.toTypedArray(),
@@ -130,6 +159,10 @@ class Exporter(private val c: BaseActivity) {
         return !emp
     }
 
+    /**
+     * Imports data from a JSON file in order to be replaced with
+     * the contents of Database and SharedPreferences.
+     */
     fun import(c: BaseActivity, uri: Uri) {
         var data: String? = null
         try {
@@ -138,7 +171,8 @@ class Exporter(private val c: BaseActivity) {
                     .toString(Charsets.UTF_8)
             }
             data!!
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            if (BuildConfig.DEBUG) throw e
             Toast.makeText(
                 c, R.string.importOpenError, Toast.LENGTH_LONG
             ).show()
@@ -148,7 +182,8 @@ class Exporter(private val c: BaseActivity) {
         try {
             imported = GsonBuilder().registerTypeAdapterFactory(typeAdapterFactory).create()
                 .fromJson(data, Exported::class.java)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            if (BuildConfig.DEBUG) throw e
             Toast.makeText(
                 c, R.string.importReadError, Toast.LENGTH_LONG
             ).show()
@@ -163,16 +198,35 @@ class Exporter(private val c: BaseActivity) {
         }.show()
     }
 
+    /**
+     * Replaces contents of an [Exported] with contents of the Database and SharedPreferences.
+     */
     private fun replace(c: BaseActivity, imported: Exported) {
         CoroutineScope(Dispatchers.IO).launch {
+            var id = 1L
+
             c.c.dao.rDeleteAll()
-            imported.reports?.toList()?.also { c.c.dao.rReplaceAll(it) }
+            imported.reports?.toList()
+                ?.sortedBy { it.time }
+                ?.onEach { it.id = id++ }
+                ?.also { c.c.dao.rReplaceAll(it) }
+
             c.c.dao.cDeleteAll()
-            imported.crushes?.toList()?.also { c.c.dao.cReplaceAll(it) }
+            imported.crushes?.toList()
+                ?.sortedBy { it.key }
+                ?.also { c.c.dao.cReplaceAll(it) }
+
             c.c.dao.pDeleteAll()
-            imported.places?.toList()?.also { c.c.dao.pReplaceAll(it) }
+            imported.places?.toList()
+                ?.sortedBy { it.name }
+                ?.also { c.c.dao.pReplaceAll(it) }
+
+            id = 1L
             c.c.dao.gDeleteAll()
-            imported.guesses?.toList()?.also { c.c.dao.gReplaceAll(it) }
+            imported.guesses?.toList()
+                ?.sortedBy { it.crsh }?.sortedWith(Guess.Sort())
+                ?.onEach { it.id = id++ }
+                ?.also { c.c.dao.gReplaceAll(it) }
 
             if (imported.settings != null) c.c.sp.edit().apply {
                 clear()
@@ -191,8 +245,8 @@ class Exporter(private val c: BaseActivity) {
                     }
                 }
             }.apply()
-            LastOrgasm.updateAll(c.c)
 
+            LastOrgasm.updateAll(c.c)
             withContext(Dispatchers.Main) {
                 Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
                 if (c is Main) c.onDataChanged()
@@ -201,6 +255,7 @@ class Exporter(private val c: BaseActivity) {
         }
     }
 
+    /** Date model of the JSON file being exported */
     inner class Exported(
         val reports: Array<Report>?,
         val crushes: Array<Crush>?,

@@ -285,6 +285,7 @@ class Crush(
                 "address" -> o.address = r.nextString()
                 "first_met", "first" -> o.first = r.nextString()
                 "instagram", "insta" -> o.insta = r.nextString()
+                else -> r.skipValue()
             }
             r.endObject()
             return o

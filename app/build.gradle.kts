@@ -23,7 +23,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 52
-        versionName = "28.7.7"
+        versionName = "28.8.2"
         signingConfig = signingConfigs.getByName("main")  // not applied on debug
     }
 
@@ -41,7 +41,7 @@ android {
     kotlinOptions { jvmTarget = "23" }
 
     buildFeatures {
-        buildConfig = false
+        buildConfig = true
         viewBinding = true
     }
     buildTypes {

@@ -37,7 +37,7 @@ class Place @Ignore constructor(
     class GsonAdapter : TypeAdapter<Place>() {
         override fun write(w: JsonWriter, o: Place) {
             w.beginObject()
-            w.name("id").value(o.id)
+            w.name("id").value(o.id)  // MUST NECESSARILY BE EXPORTED
             w.name("name").value(o.name ?: "")
             if (o.latitude != -1.0 && o.longitude != -1.0)
                 w.name("location").value("${o.latitude},${o.longitude}")
@@ -54,8 +54,7 @@ class Place @Ignore constructor(
                     o.latitude = it[0].toDouble()
                     o.longitude = it[1].toDouble()
                 }
-                "latitude" -> o.latitude = r.nextDouble() // compatibility
-                "longitude" -> o.longitude = r.nextDouble() // compatibility
+                else -> r.skipValue()
             }
             r.endObject()
             return o

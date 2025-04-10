@@ -147,7 +147,6 @@ class Sexbook : Application() {
 }
 
 /* TODO:
-  * Sort Reports and eradicate IDs on an export and re-enumerate on an import
   * An option for exporting the SQLite database itself?
   * Closing the database
   * Duplicate Crush exception
