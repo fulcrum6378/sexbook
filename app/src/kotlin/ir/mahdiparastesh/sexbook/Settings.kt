@@ -82,7 +82,6 @@ class Settings : BaseActivity() {
         const val spPeopleSortAsc = "people_sort_ascending" // Boolean, def true
 
         // automatic and hidden
-        const val spPrefersOrgType = "prefersOrgType" // Int
         const val spLastNotifiedBirthAt = "lastNotifiedBirthAt" // Long
     }
 

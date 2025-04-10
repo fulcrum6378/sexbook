@@ -259,14 +259,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     }
                 }
             }
+
+            if (c.sp.contains("do_not_show_google_play_removal"))
+                c.sp.edit().remove("do_not_show_google_play_removal").apply()
+            if (c.sp.contains("prefersOrgType"))
+                c.sp.edit().remove("prefersOrgType").apply()
         }
 
         // miscellaneous
         if (mm.navOpen) b.root.openDrawer(GravityCompat.START)
         intent.check(true)
         addOnNewIntentListener { it.check() }
-        if (c.sp.contains("do_not_show_google_play_removal"))
-            c.sp.edit().remove("do_not_show_google_play_removal").apply()
     }
 
     override fun onResume() {

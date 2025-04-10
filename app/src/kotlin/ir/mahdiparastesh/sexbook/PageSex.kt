@@ -20,7 +20,6 @@ import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.iterator
-import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.createFilterYm
@@ -28,13 +27,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.max
 
 class PageSex : BasePage() {
     lateinit var b: PageSexBinding
     var filters: List<Report.Filter> = listOf()
+    private var spnFilterTouched = false
     private var anGrowShrinkForAdd: AnimatorSet? = null
     private val growShrinkScale = 1.5f
-    private val prevRecordsRequiredToUseTheSameName = 5
 
     override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
         PageSexBinding.inflate(layoutInflater, parent, false).also { b = it }.root
@@ -85,7 +85,7 @@ class PageSex : BasePage() {
         if (!c.mm.loaded) c.load()
     }
 
-    var spnFilterTouched = false
+    /** Resets the filters, reloads a list and scrolls to an item if necessary. */
     fun reset(scrollToId: Long? = null) {
         filters = createFilters()
 
@@ -109,6 +109,7 @@ class PageSex : BasePage() {
         }
     }
 
+    /** Creates monthly filters for [Report] instances. */
     private fun createFilters(): List<Report.Filter> {
         val filters = arrayListOf<Report.Filter>()
         for ((id, r) in c.c.reports.iterator()) {
@@ -125,6 +126,10 @@ class PageSex : BasePage() {
         return filters.sortedBy { (it.year * 100) + it.month }
     }
 
+    /**
+     * Chooses a monthly Filter and applies it to the current page,
+     * so that this page displays only one month of all [Report] instances.
+     */
     @SuppressLint("NotifyDataSetChanged")
     fun applyFilter(i: Int, causedByResetAllReports: Boolean, willScrollToItem: Boolean = false) {
         if (c.mm.listFilter == i && c.mm.listFilter > -1 && !causedByResetAllReports) return
@@ -144,6 +149,7 @@ class PageSex : BasePage() {
         if (!willScrollToItem) b.rv.scrollToPosition(c.mm.visReports.size - 1)
     }
 
+    /** Updates the bottom spinner according to the current monthly Filter. */
     fun updateFilterSpinner() {
         b.spnFilter.adapter = ArrayAdapter(
             c, R.layout.spinner_yellow,
@@ -153,27 +159,51 @@ class PageSex : BasePage() {
         b.spnFilter.setSelection(c.mm.listFilter, true)
     }
 
+    /** Adds a new [Report] instance and performs subsequent necessary actions. */
     fun add() {
         CoroutineScope(Dispatchers.IO).launch {
 
-            // detect a regularly repeated monoamorous crush
+            // determine default values based on previous Report instances
             var name: String? = null
-            val total = c.c.reports.size()
-            if (total >= prevRecordsRequiredToUseTheSameName) {
-                val reportsList = c.c.reports.toArrayList()
-                name = reportsList[total - 1].name
-                if (name != null)
-                    for (r in (total - 2) downTo (total - prevRecordsRequiredToUseTheSameName))
-                        if (!name.equals(reportsList[r].name, true)) {  // don't use ".."
-                            name = null
-                            break
-                        }
+            var type: Byte? = null
+            var plac: Long? = null
+            val lastIndex = c.c.reports.size() - 1
+            for (r in lastIndex downTo max(0, lastIndex - 3)) {
+                val report = c.c.reports.valueAt(r)
+
+                // one-time definitions
+                if (r == lastIndex) {
+                    type = report.type
+                    plac = report.plac
+                }
+
+                // detect a regularly repeated monoamorous crush (3^: 5th after 4 repetitions)
+                if (name == null) {
+                    if (report.name.isNullOrBlank())
+                        break  // the last Report has no name; so it's useless.
+
+                    name = report.name
+                    // remember the name of the last Report.
+                } else {
+                    if (!name.equals(report.name, true)) {
+                        name = null
+                        break
+                        // forget the one-time or inadequately-repeated name and break the loop.
+                    }
+                    // the name has been repeated, so continue looping.
+                    // (do not copy older Strings which might have different character cases.)
+                }
             }
 
             // create a Report instance and insert it in the ViewModel and the Database
             val newOne = Report(
-                NumberUtils.now(), name, c.c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
-                null, true, c.c.sp.getLong(Settings.spDefPlace, -1L), true
+                time = NumberUtils.now(),
+                name = name,
+                type = type ?: 1.toByte(),
+                desc = null,
+                accu = true,
+                plac = plac ?: -1L,
+                ogsm = true
             )
             newOne.id = c.c.dao.rInsert(newOne)
             LastOrgasm.updateAll(c.c)

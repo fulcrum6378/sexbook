@@ -181,7 +181,7 @@ class Exporter(private val c: BaseActivity) {
                         is Boolean -> putBoolean(k, v)
                         is Double -> when (k) { // all numbers become Double because of Gson
                             Settings.spCalType, Settings.spNotifyBirthDaysBefore,
-                            Settings.spPageLoveSortBy, Settings.spPrefersOrgType ->
+                            Settings.spPageLoveSortBy ->
                                 putInt(k, v.toInt())
                             Settings.spStatSince, Settings.spStatUntil, Settings.spDefPlace,
                             Settings.spLastNotifiedBirthAt ->

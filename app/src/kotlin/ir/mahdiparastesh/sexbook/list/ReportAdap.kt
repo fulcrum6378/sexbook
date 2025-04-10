@@ -319,8 +319,6 @@ class ReportAdap(
                 r.type = pos.toByte()
                 update(r.id)
             }
-            c.c.sp.edit().putInt(Settings.spPrefersOrgType, pos).apply()
-            // TODO determine regarding the type of the latest orgasm
         }
     }
 

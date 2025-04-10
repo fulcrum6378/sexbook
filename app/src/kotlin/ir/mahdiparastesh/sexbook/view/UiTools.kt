@@ -20,6 +20,7 @@ object UiTools {
     val materialTheme = R.style.Theme_MaterialComponents_DayNight
 
     /** Specifies if vibration is enabled. */
+    @Volatile
     var vib: Boolean? = null
 
 
