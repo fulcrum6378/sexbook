@@ -7,8 +7,8 @@ import android.widget.PopupMenu
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 
-/** Helper class for making PopupMenus more quickly. */
-class MaterialMenu(
+/** Helper class for creating [PopupMenu]s more quickly */
+class EasyPopupMenu(
     c: BaseActivity, v: View, res: Int, vararg actions: Pair<Int, (item: MenuItem) -> Unit>
 ) : PopupMenu(ContextThemeWrapper(c, R.style.Theme_Sexbook_Popup), v) {
 

@@ -158,12 +158,13 @@ class PageSex : BasePage() {
                 name = reportsList[total - 1].name
                 if (name != null)
                     for (r in (total - 2) downTo (total - prevRecordsRequiredToUseTheSameName))
-                        if (!name.equals(reportsList[r].name, true)) { // don't use ".."
+                        if (!name.equals(reportsList[r].name, true)) {  // don't use ".."
                             name = null
                             break
                         }
             }
 
+            // create a Report instance and insert it in the ViewModel and the Database
             val newOne = Report(
                 Fun.now(), name, c.c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
                 null, true, c.c.sp.getLong(Settings.spDefPlace, -1L), true

@@ -14,7 +14,7 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
-import ir.mahdiparastesh.sexbook.view.MaterialMenu
+import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,7 +41,7 @@ class CrushAdap(private val c: Main) :
             val crk = c.c.liefde.getOrNull(h.layoutPosition) ?: return@setOnClickListener
             val crc = c.c.people[crk] ?: return@setOnClickListener
 
-            MaterialMenu(
+            EasyPopupMenu(
                 c, v, R.menu.crush,
                 R.id.lcIdentify to { Identify.create<Main>(c, crk) },
                 R.id.lcStatistics to {

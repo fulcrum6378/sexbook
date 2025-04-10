@@ -121,19 +121,9 @@
         android:layout_height="@dimen/typeSize"
         android:layout_marginEnd="@dimen/reportButtonMarEnd"
         android:background="@drawable/button_mask_round"
+        app:layout_constraintBottom_toBottomOf="@id/clock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/clock" />
-
-    <ImageView
-        android:id="@+id/more"
-        android:layout_width="@dimen/moreSize"
-        android:layout_height="@dimen/moreSize"
-        android:layout_marginEnd="@dimen/reportButtonMarEnd"
-        android:background="@drawable/button_mask_round"
-        android:src="@drawable/more_horiz"
-        android:translationY="3dp"
-        app:layout_constraintBottom_toBottomOf="@id/clock"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <ir.mahdiparastesh.sexbook.view.LiveEditText
         android:id="@+id/desc"

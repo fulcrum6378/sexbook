@@ -34,7 +34,7 @@ import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.CustomSpinnerTouchListener
-import ir.mahdiparastesh.sexbook.view.MaterialMenu
+import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import ir.mahdiparastesh.sexbook.view.RecyclerViewItemEvent
 import ir.mahdiparastesh.sexbook.view.SexType
 import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
@@ -121,7 +121,7 @@ class ReportAdap(
             val cal = r.time.calendar(c)
             h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
             h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
-            h.b.clock.setOnClickListener { // TODO move to inner class?
+            h.b.clock.setOnClickListener {
                 TimePickerDialog.newInstance({ _, hourOfDay, minute, second ->
                     val calc = r.time.calendar(c)
                     calc[Calendar.HOUR_OF_DAY] = hourOfDay
@@ -157,7 +157,7 @@ class ReportAdap(
             .apply { colorFilter = c.themePdcf(com.google.android.material.R.attr.colorSecondary) }
 
         // name
-        h.b.name.setTextWatcher(null) // NEVER REMOVE THIS!!!
+        h.b.name.setTextWatcher(null)  // NEVER REMOVE THIS
         h.b.name.setText(r.name)
         h.b.name.isEnabled = !r.guess
         h.b.name.setTextWatcher(if (!r.guess) object : TextWatcher {
@@ -176,15 +176,17 @@ class ReportAdap(
                 }
             }
         } else null)
+        h.b.name.onFocusChangeListener = if (!r.guess)
+            View.OnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) turnOverflow(i, h.b, true)
+            }
+        else null
 
         // type
         h.b.type.setSelection(r.type.toInt(), true)
         (h.b.type.onItemSelectedListener as? OnTypeSelectedListener)?.o =
             if (!r.guess) r else null
         h.b.type.isEnabled = !r.guess
-
-        // more
-        h.b.more.setOnClickListener { v -> more(v, h, r) }
 
         // overflow
         if (!r.guess) {
@@ -255,7 +257,7 @@ class ReportAdap(
     }
 
     private fun more(v: View, h: AnyViewHolder<ItemReportBinding>, r: Report) {
-        MaterialMenu(
+        EasyPopupMenu(
             c, v, R.menu.report,
             R.id.lcExpand to {
                 turnOverflow(h.layoutPosition, h.b)
@@ -296,7 +298,7 @@ class ReportAdap(
         }.show()
     }
 
-    /** Opens or closes overflow part of a Report item, containing descriptions and Place. */
+    /** Opens or closes overflow part of an item, containing descriptions and [Place]. */
     private fun turnOverflow(i: Int, b: ItemReportBinding, expand: Boolean = !expansion[i]) {
         expansion[i] = expand
         b.desc.isVisible = expand

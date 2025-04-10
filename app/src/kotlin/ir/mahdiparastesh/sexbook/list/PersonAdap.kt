@@ -15,7 +15,7 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.ItemPersonBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
-import ir.mahdiparastesh.sexbook.view.MaterialMenu
+import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -65,7 +65,7 @@ class PersonAdap(private val c: People) :
             if (pc.insta.isNullOrBlank() && p.getSum(c.c) == 0f)
                 return@setOnLongClickListener false
 
-            MaterialMenu(
+            EasyPopupMenu(
                 c, v, R.menu.person,
                 R.id.lcStatistics to {
                     c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, pk) }

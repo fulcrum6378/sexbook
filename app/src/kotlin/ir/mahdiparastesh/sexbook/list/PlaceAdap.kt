@@ -16,7 +16,7 @@ import ir.mahdiparastesh.sexbook.Settings.Companion.spDefPlace
 import ir.mahdiparastesh.sexbook.databinding.ItemPlaceBinding
 import ir.mahdiparastesh.sexbook.databinding.MigratePlaceBinding
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
-import ir.mahdiparastesh.sexbook.view.MaterialMenu
+import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -58,7 +58,7 @@ class PlaceAdap(private val c: Places) :
         val longClick = View.OnLongClickListener { v ->
             if (c.c.places.size <= h.layoutPosition) return@OnLongClickListener true
 
-            MaterialMenu(
+            EasyPopupMenu(
                 c, v, R.menu.place,
                 R.id.plDefPlace to {
                     c.c.sp.edit().apply {

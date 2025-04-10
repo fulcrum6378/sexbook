@@ -25,7 +25,7 @@ import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
 import ir.mahdiparastesh.sexbook.misc.Delay
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.CustomSpinnerTouchListener
-import ir.mahdiparastesh.sexbook.view.MaterialMenu
+import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import ir.mahdiparastesh.sexbook.view.SexType
 import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
 import kotlinx.coroutines.CoroutineScope
@@ -199,7 +199,7 @@ class GuessAdap(private val c: Estimation) :
         val longClick = View.OnLongClickListener { v ->
             val gu = c.c.guesses.getOrNull(h.layoutPosition) ?: return@OnLongClickListener false
 
-            MaterialMenu(
+            EasyPopupMenu(
                 c, v, R.menu.guess,
                 R.id.glSuspend to {
                     c.c.guesses.getOrNull(h.layoutPosition)?.apply {
