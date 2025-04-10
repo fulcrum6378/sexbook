@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.util.isEmpty
+import androidx.core.util.isNotEmpty
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.mcdtp.McdtpUtils

@@ -14,6 +14,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.TypeAdapterFactory
 import com.google.gson.reflect.TypeToken
+import ir.mahdiparastesh.sexbook.Fun.filter
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -117,7 +118,7 @@ class Exporter(private val c: BaseActivity) {
 
     private fun export(): Boolean {
         exported = Exported(
-            c.c.reports.values.filter { !it.guess }.sortedBy { it.time }.toTypedArray(),
+            c.c.reports.filter<Report> { !it.guess }.sortedBy { it.time }.toTypedArray(),
             c.c.people.values.sortedBy { it.key }.sortedBy { it.getFirstOrgasm(c.c) }
                 .toTypedArray(),
             c.c.places.sortedBy { it.name }.toTypedArray(),

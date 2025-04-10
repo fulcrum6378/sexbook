@@ -10,9 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.util.contains
+import androidx.core.util.isEmpty
+import androidx.core.util.set
 import androidx.core.view.isVisible
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
+import ir.mahdiparastesh.sexbook.Fun.iterator
+import ir.mahdiparastesh.sexbook.Fun.toArrayList
 import ir.mahdiparastesh.sexbook.base.BasePage
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
@@ -105,7 +110,7 @@ class PageSex : BasePage() {
 
     private fun createFilters(): List<Report.Filter> {
         val filters = arrayListOf<Report.Filter>()
-        for ((id, r) in c.c.reports) {
+        for ((id, r) in c.c.reports.iterator()) {
             val ym = r.time.calendar(c).createFilterYm()
             var filterExists = false
             for (f in filters.indices)
@@ -152,9 +157,9 @@ class PageSex : BasePage() {
 
             // detect a regularly repeated monoamorous crush
             var name: String? = null
-            val total = c.c.reports.size
+            val total = c.c.reports.size()
             if (total >= prevRecordsRequiredToUseTheSameName) {
-                val reportsList = c.c.reports.values.toList()
+                val reportsList = c.c.reports.toArrayList()
                 name = reportsList[total - 1].name
                 if (name != null)
                     for (r in (total - 2) downTo (total - prevRecordsRequiredToUseTheSameName))

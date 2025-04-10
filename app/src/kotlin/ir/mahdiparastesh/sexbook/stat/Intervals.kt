@@ -1,5 +1,7 @@
 package ir.mahdiparastesh.sexbook.stat
 
+import androidx.core.util.isNotEmpty
+import androidx.core.util.valueIterator
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.Line
 import ir.mahdiparastesh.hellocharts.model.LineChartData
@@ -29,7 +31,7 @@ class Intervals : ChartActivity<IntervalsBinding>() {
             if (!c.sp.getBoolean(Settings.spStatUntilCb, false)) Long.MAX_VALUE
             else c.sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
         allowedSexTypes = SexType.allowedOnes(c.sp)
-        for (org in c.reports.values.sortedBy { it.time }) {
+        for (org in c.reports.valueIterator()) {
             if (!org.ogsm) continue
             if (prev == null || org.time < minima || org.time > maxima || org.type !in allowedSexTypes) {
                 prev = org.time

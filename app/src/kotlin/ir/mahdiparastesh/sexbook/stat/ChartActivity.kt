@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.annotation.MainThread
+import androidx.core.util.isNotEmpty
 import androidx.core.view.isInvisible
 import androidx.viewbinding.ViewBinding
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
@@ -14,6 +15,7 @@ import ir.mahdiparastesh.hellocharts.model.SubColumnValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.sexbook.Fun.calendar
+import ir.mahdiparastesh.sexbook.Fun.toArrayList
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
@@ -63,7 +65,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
 
     /** Creates a list of months of the recorded sexual history. */
     fun sinceTheBeginning(
-        c: BaseActivity, history: Iterable<Report> = c.c.reports.values
+        c: BaseActivity, history: Iterable<Report> = c.c.reports.toArrayList()
     ): List<String> {
         // Find the ending
         var end = c.calType().getDeclaredConstructor().newInstance()

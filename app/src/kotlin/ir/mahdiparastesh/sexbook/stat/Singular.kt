@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.ColumnChartData
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
+import ir.mahdiparastesh.sexbook.Fun.filter
 import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 
@@ -39,7 +40,7 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override suspend fun draw(): AbstractChartData {
         val data = ArrayList<Pair<String, Float>>()
-        sinceTheBeginning(this, c.reports.values.filter {
+        sinceTheBeginning(this, c.reports.filter {
             if (it.analysis == null) it.analyse()
             mm.crushKey in it.analysis!!
         }).forEach { data.add(Pair(it, calcHistory(this, mm.history!!, it))) }

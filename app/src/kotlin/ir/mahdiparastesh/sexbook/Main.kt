@@ -24,6 +24,10 @@ import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.util.isEmpty
+import androidx.core.util.isNotEmpty
+import androidx.core.util.set
+import androidx.core.util.valueIterator
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -34,6 +38,7 @@ import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.Fun.calendar
 import ir.mahdiparastesh.sexbook.Fun.createFilterYm
 import ir.mahdiparastesh.sexbook.Fun.possessiveDeterminer
+import ir.mahdiparastesh.sexbook.Fun.toArrayList
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.ctrl.Exporter
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -198,7 +203,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             for (p in c.dao.pGetAll()) {
                 c.places.add(p)
                 var sum = 0L
-                for (r in c.reports.values)
+                for (r in c.reports.valueIterator())
                     if (r.plac == p.id)
                         sum++
                 p.sum = sum
@@ -282,7 +287,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             arrayOf(R.id.momPpl, R.id.momImport, R.id.momExport, R.id.momSend)
         )
             summarize()
-        else if (item.itemId == R.id.momInt && c.reports.size <= 1) {
+        else if (item.itemId == R.id.momInt && c.reports.size() <= 1) {
             uiToast(R.string.noRecords); return true
         }
 
@@ -419,7 +424,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     fun summarize(ignoreIfItsLessThanAMonth: Boolean = false): Boolean {
         if (c.reports.isEmpty()) return false
         var nExcluded = 0
-        var filtered: List<Report> = c.reports.values.toList()
+        var filtered: List<Report> = c.reports.toArrayList()
 
         // filter by time
         if (c.sp.getBoolean(Settings.spStatSinceCb, false))
@@ -448,7 +453,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             filtered = filtered.filter { it.ogsm }
                 .also { nExcluded += filtered.size - it.size }
 
-        c.summary = Summary(filtered, nExcluded, c.reports.size, c.people.keys)
+        c.summary = Summary(filtered, nExcluded, c.reports.size(), c.people.keys)
         (pageSex()?.b?.rv?.adapter as? ReportAdap)?.crushSuggester?.update()
         return true
     }

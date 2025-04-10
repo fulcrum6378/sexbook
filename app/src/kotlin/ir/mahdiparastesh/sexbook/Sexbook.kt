@@ -3,6 +3,7 @@ package ir.mahdiparastesh.sexbook
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.SharedPreferences
+import android.util.LongSparseArray
 import androidx.annotation.MainThread
 import androidx.core.view.isVisible
 import ir.mahdiparastesh.sexbook.base.BaseActivity
@@ -36,7 +37,7 @@ class Sexbook : Application() {
     }
 
     /* --- Database Models --- */
-    val reports = hashMapOf<Long, Report>()
+    val reports: LongSparseArray<Report> = LongSparseArray<Report>()
     val people = hashMapOf<String, Crush>()
     val places = arrayListOf<Place>()
     val guesses = arrayListOf<Guess>()
