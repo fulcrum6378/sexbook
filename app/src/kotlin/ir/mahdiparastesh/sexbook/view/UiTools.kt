@@ -1,85 +1,46 @@
-package ir.mahdiparastesh.sexbook
+package ir.mahdiparastesh.sexbook.view
 
 import android.content.Context
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.icu.util.TimeZone
 import android.os.CountDownTimer
-import android.util.LongSparseArray
 import android.view.View
 import android.widget.EditText
-import androidx.core.util.valueIterator
+import com.google.android.material.R
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
-import ir.mahdiparastesh.sexbook.base.BaseActivity
-import ir.mahdiparastesh.sexbook.misc.HumanistIranianCalendar
-import java.text.DecimalFormat
+import ir.mahdiparastesh.sexbook.util.HumanistIranianCalendar
 
-/** Static fields and methods used everywhere */
-object Fun {
+/** Static UI-related utilities used everywhere */
+object UiTools {
     // Latin + Cyrillic font: Balsamiq Sans
 
-    const val DATABASE = "sexbook.db"
-    const val INSTA = "https://www.instagram.com/"
     const val MAX_BADGE_CHAR = 6
-    const val A_DAY = 86400000L
-    const val DISABLED_ALPHA = 0.7f
-    val materialTheme = com.google.android.material.R.style.Theme_MaterialComponents_DayNight
+    val materialTheme = R.style.Theme_MaterialComponents_DayNight
 
     /** Specifies if vibration is enabled. */
     var vib: Boolean? = null
 
-    /** @return the current timestamp */
-    fun now() = System.currentTimeMillis()
 
-    /**
-     * Fills a String with a number and zeroes before it.
-     * E.g. 2 -> "02"
-     *
-     * @param n number
-     */
-    fun z(n: Int): String {
-        val s = n.toString()
-        return if (s.length == 1) "0$s" else s
-    }
-
-    /** @return human-readable date from this Calendar */
-    fun Calendar.fullDate() = "${z(this[Calendar.YEAR])}.${z(this[Calendar.MONTH] + 1)}" +
-            ".${z(this[Calendar.DAY_OF_MONTH])}"
-
-    /** @return a Calendar set on this timestamp */
-    fun Long.calendar(c: BaseActivity): Calendar =
-        c.calType().getDeclaredConstructor().newInstance().apply { timeInMillis = this@calendar }
-
-    fun Calendar.createFilterYm() = Pair(this[Calendar.YEAR], this[Calendar.MONTH])
-
-    fun Long.defCalendar(c: BaseActivity): Calendar =
-        c.calType().getDeclaredConstructor().newInstance().apply {
-            timeInMillis = this@defCalendar
-            this[Calendar.HOUR_OF_DAY] = 0
-            this[Calendar.MINUTE] = 0
-            this[Calendar.SECOND] = 0
-            this[Calendar.MILLISECOND] = 0
-        }
-
-    /** Sets the options specific to Sexbook on this DatePickerDialog. */
+    /** Sets the options specific to Sexbook on this [ir.mahdiparastesh.mcdtp.date.DatePickerDialog]. */
     fun DatePickerDialog<*>.defaultOptions(): DatePickerDialog<*> {
         version = DatePickerDialog.Version.VERSION_1
         firstDayOfWeek = if (calendarType == HumanistIranianCalendar::class.java)
             Calendar.SATURDAY else Calendar.MONDAY
         doVibrate(vib == true)
-        boldFont = R.font.bold
-        normalFont = R.font.normal
+        boldFont = ir.mahdiparastesh.sexbook.R.font.bold
+        normalFont = ir.mahdiparastesh.sexbook.R.font.normal
         return this
     }
 
-    /** Sets the options specific to Sexbook on this TimePickerDialog. */
+    /** Sets the options specific to Sexbook on this [ir.mahdiparastesh.mcdtp.time.TimePickerDialog]. */
     fun TimePickerDialog.defaultOptions(): TimePickerDialog {
         version = TimePickerDialog.Version.VERSION_2
         enableSeconds(true)
         doVibrate(vib == true)
-        boldFont = R.font.bold
-        normalFont = R.font.normal
+        boldFont = ir.mahdiparastesh.sexbook.R.font.bold
+        normalFont = ir.mahdiparastesh.sexbook.R.font.normal
         return this
     }
 
@@ -95,19 +56,10 @@ object Fun {
         }.start()
     }
 
-    fun Float.show(): String =
-        if (this % 1 > 0) DecimalFormat("#.##").format(this) else toInt().toString()
-
-    inline fun <T> Iterable<T>.sumOf(selector: (T) -> Float): Float {
-        var sum = 0f
-        for (element in this) sum += selector(element)
-        return sum
-    }
-
     fun Context.possessiveDeterminer(gender: Int): String = when (gender) {
-        1 -> getString(R.string.her)
-        2 -> getString(R.string.his)
-        else -> getString(R.string.their)
+        1 -> getString(ir.mahdiparastesh.sexbook.R.string.her)
+        2 -> getString(ir.mahdiparastesh.sexbook.R.string.his)
+        else -> getString(ir.mahdiparastesh.sexbook.R.string.their)
     }
 
     /** 1=>year / 2=>month / 3=>day   4=>hour : 5=>minute : 6=>second */
@@ -211,32 +163,4 @@ object Fun {
     }
 
     fun EditText.dbValue(): String? = text.ifBlank { null }?.toString()
-
-    inline fun <T> LongSparseArray<T>.filter(predicate: (T) -> Boolean): ArrayList<T> {
-        val al = arrayListOf<T>()
-        for (item in valueIterator())
-            if (predicate(item))
-                al.add(item)
-        return al
-    }
-
-    fun <T> LongSparseArray<T>.toArrayList(): ArrayList<T> {
-        val al = arrayListOf<T>()
-        for (item in valueIterator()) al.add(item)
-        return al
-    }
-
-    fun <T> LongSparseArray<T>.iterator(): Iterator<Pair<Long, T>> =
-        object : Iterator<Pair<Long, T>> {
-            var index = 0
-
-            override fun hasNext(): Boolean =
-                index < size()
-
-            override fun next(): Pair<Long, T> {
-                val ret = Pair(keyAt(index), valueAt(index))
-                index++
-                return ret
-            }
-        }
 }

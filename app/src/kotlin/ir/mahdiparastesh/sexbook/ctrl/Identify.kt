@@ -20,7 +20,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -29,7 +28,9 @@ import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.IdentifyBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
+import ir.mahdiparastesh.sexbook.util.NumberUtils.DISABLED_ALPHA
 import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
+import ir.mahdiparastesh.sexbook.view.UiTools
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,7 +63,7 @@ class Identify<Activity> private constructor() :
             isCancelable = false
         }
     }
-    private val accFromUrl = arrayOf(Fun.INSTA, "https://instagram.com/")
+    private val accFromUrl = arrayOf(Crush.INSTA, "https://instagram.com/")
 
     @SuppressLint("NewApi", "SetTextI18n")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -78,7 +79,7 @@ class Identify<Activity> private constructor() :
         b.gender.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                b.gender.alpha = if (i == 0) Fun.DISABLED_ALPHA else 1f
+                b.gender.alpha = if (i == 0) DISABLED_ALPHA else 1f
                 b.bodyBreasts.isVisible = i == 1 || i == 3
                 b.bodyPenis.isVisible = i == 2 || i == 3
             }
@@ -158,18 +159,18 @@ class Identify<Activity> private constructor() :
                 (body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second
             )
         }
-        b.birth.setText(Fun.validateDateTime(crush?.birth ?: ""))
-        b.firstMet.setText(Fun.validateDateTime(crush?.first ?: ""))
+        b.birth.setText(UiTools.validateDateTime(crush?.birth ?: ""))
+        b.firstMet.setText(UiTools.validateDateTime(crush?.first ?: ""))
 
         // fictionality
         b.fiction.setOnCheckedChangeListener { _, isChecked -> onFictionChanged(isChecked) }
 
         // date-time Fields
         b.birth.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) b.birth.setText(Fun.validateDateTime(b.birth.text.toString()))
+            if (!hasFocus) b.birth.setText(UiTools.validateDateTime(b.birth.text.toString()))
         }
         b.firstMet.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) b.firstMet.setText(Fun.validateDateTime(b.firstMet.text.toString()))
+            if (!hasFocus) b.firstMet.setText(UiTools.validateDateTime(b.firstMet.text.toString()))
         }
 
         // should send birthday notifications?
@@ -180,9 +181,9 @@ class Identify<Activity> private constructor() :
         if (needsNtfPerm && crush?.notifyBirth() == true) reqNotificationPerm(c)
         b.notifyBirth.setOnCheckedChangeListener { _, isChecked ->
             if (!needsNtfPerm && isChecked) reqNotificationPerm(c)
-            b.notifyBirth.alpha = if (isChecked) 1f else Fun.DISABLED_ALPHA
+            b.notifyBirth.alpha = if (isChecked) 1f else DISABLED_ALPHA
         } // changing isChecked programmatically won't invoke the listener!
-        b.notifyBirth.alpha = if (b.notifyBirth.isChecked) 1f else Fun.DISABLED_ALPHA
+        b.notifyBirth.alpha = if (b.notifyBirth.isChecked) 1f else DISABLED_ALPHA
 
         isCancelable = true
         cancellability.start()
@@ -208,7 +209,7 @@ class Identify<Activity> private constructor() :
                             (crush?.let { it.status and Crush.STAT_INACTIVE } ?: 0),
 
                     // birthday
-                    Fun.compressDateTime(Fun.validateDateTime(b.birth.text.toString())),
+                    UiTools.compressDateTime(UiTools.validateDateTime(b.birth.text.toString())),
 
                     // height
                     if (b.height.text.toString() != "")
@@ -228,7 +229,7 @@ class Identify<Activity> private constructor() :
 
                     // addresses & special dates
                     b.address.text.toString().ifBlank { null },
-                    Fun.compressDateTime(Fun.validateDateTime(b.firstMet.text.toString())),
+                    UiTools.compressDateTime(UiTools.validateDateTime(b.firstMet.text.toString())),
                     b.instagram.text.toString().ifBlank { null },
                 )
 

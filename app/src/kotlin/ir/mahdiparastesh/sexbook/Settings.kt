@@ -22,9 +22,6 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
-import ir.mahdiparastesh.sexbook.Fun.calendar
-import ir.mahdiparastesh.sexbook.Fun.defaultOptions
-import ir.mahdiparastesh.sexbook.Fun.fullDate
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -33,8 +30,13 @@ import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
 import ir.mahdiparastesh.sexbook.list.BNtfCrushAdap
 import ir.mahdiparastesh.sexbook.misc.CalendarManager
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
+import ir.mahdiparastesh.sexbook.util.NumberUtils
+import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
+import ir.mahdiparastesh.sexbook.util.NumberUtils.fullDate
 import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import ir.mahdiparastesh.sexbook.view.SexType
+import ir.mahdiparastesh.sexbook.view.UiTools
+import ir.mahdiparastesh.sexbook.view.UiTools.defaultOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -127,7 +129,7 @@ class Settings : BaseActivity() {
             if (!c.sp.contains(spStatSince)) emptyDate
             else c.sp.getLong(spStatSince, 0).calendar(this).fullDate()
         b.stStatSince.setOnClickListener {
-            var cal = c.sp.getLong(spStatSince, Fun.now()).calendar(this)
+            var cal = c.sp.getLong(spStatSince, NumberUtils.now()).calendar(this)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
@@ -163,7 +165,7 @@ class Settings : BaseActivity() {
             if (!c.sp.contains(spStatUntil)) emptyDate
             else c.sp.getLong(spStatUntil, 0).calendar(this).fullDate()
         b.stStatUntil.setOnClickListener {
-            var cal = c.sp.getLong(spStatUntil, Fun.now()).calendar(this)
+            var cal = c.sp.getLong(spStatUntil, NumberUtils.now()).calendar(this)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
@@ -273,7 +275,7 @@ class Settings : BaseActivity() {
         }
         b.stVibration.isChecked = c.sp.getBoolean(spVibration, true)
         b.stVibration.setOnCheckedChangeListener { _, isChecked ->
-            Fun.vib = isChecked
+            UiTools.vib = isChecked
             c.sp.edit().putBoolean(spVibration, isChecked).apply()
             shake()
         }

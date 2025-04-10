@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import ir.mahdiparastesh.sexbook.Fun.dbValue
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
@@ -17,6 +16,7 @@ import ir.mahdiparastesh.sexbook.databinding.ItemPlaceBinding
 import ir.mahdiparastesh.sexbook.databinding.MigratePlaceBinding
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
+import ir.mahdiparastesh.sexbook.view.UiTools.dbValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

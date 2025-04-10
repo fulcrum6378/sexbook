@@ -21,9 +21,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
-import ir.mahdiparastesh.sexbook.Fun.onLoad
-import ir.mahdiparastesh.sexbook.Fun.show
-import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
@@ -32,6 +29,9 @@ import ir.mahdiparastesh.sexbook.base.BaseFragment
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.databinding.SumPieBinding
 import ir.mahdiparastesh.sexbook.list.StatSumAdap
+import ir.mahdiparastesh.sexbook.util.NumberUtils.show
+import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
+import ir.mahdiparastesh.sexbook.view.UiTools.onLoad
 
 class SummaryDialog : BaseDialog<Main>() {
     private var dialogue: AlertDialog? = null

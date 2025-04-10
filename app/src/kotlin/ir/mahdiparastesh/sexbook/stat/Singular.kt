@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.ColumnChartData
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
-import ir.mahdiparastesh.sexbook.Fun.filter
 import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
+import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
 
 class Singular : ChartActivity<SingularBinding>() {
     override val b by lazy { SingularBinding.inflate(layoutInflater) }

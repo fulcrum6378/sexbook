@@ -12,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
-import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 
@@ -25,12 +24,12 @@ interface Lister {
         val c = this as BaseActivity
         BadgeUtils.detachBadgeDrawable(countBadge, c.tbTitle!!)
         if (n != null && n > 0) BadgeUtils.attachBadgeDrawable(
-            BadgeDrawable.create(ContextThemeWrapper(c, Fun.materialTheme)).apply {
+            BadgeDrawable.create(ContextThemeWrapper(c, UiTools.materialTheme)).apply {
                 number = n
                 backgroundColor = c.themeColor(android.R.attr.colorAccent)
                 badgeTextColor = c.themeColor(android.R.attr.colorPrimary)
                 countBadge = this
-                maxCharacterCount = Fun.MAX_BADGE_CHAR
+                maxCharacterCount = UiTools.MAX_BADGE_CHAR
             }, c.tbTitle!!
         )
     }

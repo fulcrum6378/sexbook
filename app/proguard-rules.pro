@@ -3,4 +3,4 @@
 -keep class ir.mahdiparastesh.sexbook.data.Crush { <fields>; }
 -keep class ir.mahdiparastesh.sexbook.data.Place { <fields>; }
 -keep class ir.mahdiparastesh.sexbook.data.Guess { <fields>; }
--keep class ir.mahdiparastesh.sexbook.misc.HumanistIranianCalendar
+-keep class ir.mahdiparastesh.sexbook.util.HumanistIranianCalendar

@@ -11,12 +11,12 @@ import android.provider.CalendarContract
 import androidx.annotation.MainThread
 import androidx.core.app.ActivityCompat
 import androidx.core.database.getLongOrNull
-import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.view.UiTools
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -111,7 +111,7 @@ object CalendarManager {
         for (crush in c.liefde) {
             val cr = c.people[crush] ?: return
             val birthTime = cr.birth?.replace(".", "/")
-                ?.let { Fun.compDateTimeToCalendar(it, thisTz).timeInMillis } ?: return
+                ?.let { UiTools.compDateTimeToCalendar(it, thisTz).timeInMillis } ?: return
             ContentValues().apply {
                 put(CCE.CALENDAR_ID, id)
                 put(CCE.TITLE, c.getString(R.string.sBirthday, cr.visName()))

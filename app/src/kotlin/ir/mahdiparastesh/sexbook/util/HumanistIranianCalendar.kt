@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.misc
+package ir.mahdiparastesh.sexbook.util
 
 import android.icu.util.Calendar
 import android.icu.util.TimeZone

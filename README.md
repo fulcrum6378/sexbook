@@ -38,10 +38,11 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
 - [**ctrl**](app/src/kotlin/ir/mahdiparastesh/sexbook/ctrl) : responsible for controlling data
 - [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : everything related to database
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters
-- [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/misc) : miscellaneous utilities
+- [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/misc) : miscellaneous
 - [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) :
   everything related to statistics (as mentioned above)
-- [**view**](app/src/kotlin/ir/mahdiparastesh/sexbook/view) : View-related utilities
+- [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/misc) : UX-related utilities
+- [**view**](app/src/kotlin/ir/mahdiparastesh/sexbook/view) : UI-related utilities
 
 ### Statistics
 

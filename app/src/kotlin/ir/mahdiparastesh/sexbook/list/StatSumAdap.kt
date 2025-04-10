@@ -6,13 +6,13 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.SumChipGroupBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
+import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 
 class StatSumAdap(

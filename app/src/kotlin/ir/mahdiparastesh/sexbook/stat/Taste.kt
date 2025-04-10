@@ -15,12 +15,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
-import ir.mahdiparastesh.sexbook.Fun.show
-import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.ChartPieFragmentBinding
+import ir.mahdiparastesh.sexbook.util.NumberUtils.show
+import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

@@ -22,11 +22,11 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import ir.mahdiparastesh.sexbook.Fun.vib
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
-import ir.mahdiparastesh.sexbook.misc.HumanistIranianCalendar
+import ir.mahdiparastesh.sexbook.util.HumanistIranianCalendar
+import ir.mahdiparastesh.sexbook.view.UiTools.vib
 import java.util.Locale
 import kotlin.reflect.KClass
 

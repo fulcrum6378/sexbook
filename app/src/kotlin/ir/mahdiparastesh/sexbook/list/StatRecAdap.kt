@@ -6,16 +6,16 @@ import android.icu.util.Calendar
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.calendar
-import ir.mahdiparastesh.sexbook.Fun.fullDate
-import ir.mahdiparastesh.sexbook.Fun.show
-import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.RecencyBinding
 import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Singular
+import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
+import ir.mahdiparastesh.sexbook.util.NumberUtils.fullDate
+import ir.mahdiparastesh.sexbook.util.NumberUtils.show
+import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
+import ir.mahdiparastesh.sexbook.util.NumberUtils.z
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 
 class StatRecAdap(private val r: Recency) :
@@ -35,8 +35,8 @@ class StatRecAdap(private val r: Recency) :
                 (r.c.c.summary!!.scores[crushKey]?.sumOf { it.value }
                     ?.show()?.let { " {$it}" } ?: "")
         val lm = r.items[i].time.calendar(r.c)
-        h.b.date.text = "${lm.fullDate()} - " +
-                "${Fun.z(lm[Calendar.HOUR_OF_DAY])}:${Fun.z(lm[Calendar.MINUTE])}"
+        h.b.date.text =
+            "${lm.fullDate()} - ${z(lm[Calendar.HOUR_OF_DAY])}:${z(lm[Calendar.MINUTE])}"
         h.b.sep.isVisible = i != r.items.size - 1
         h.b.root.setOnClickListener {
             if (!r.c.summarize(true)) return@setOnClickListener

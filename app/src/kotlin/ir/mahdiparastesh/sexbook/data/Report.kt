@@ -64,8 +64,9 @@ class Report(
                 .onEach { it.trim() }
     }
 
-    /** Helper class for filtering sex records by month. */
+    /** Helper class for filtering sex records by month */
     class Filter(val year: Int, val month: Int, var map: ArrayList<Long>) {
+
         fun put(item: Long) {
             map.add(item)
         }

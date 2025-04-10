@@ -8,10 +8,10 @@ import androidx.room.PrimaryKey
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
-import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
+import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
+import ir.mahdiparastesh.sexbook.view.UiTools
 import java.util.Locale
 import kotlin.experimental.and
 
@@ -35,6 +35,7 @@ class Crush(
     )
 
     companion object {
+
         /** `status` offset 0; 3 bits; their gender (0..4)
          * 0=>unspecified, 1=>female, 2=>male, 3=>bigender, 4=>agender, (5,6,7) */
         const val STAT_GENDER = 0b111.toByte() // 7
@@ -96,6 +97,9 @@ class Crush(
          * 0=>unspecified, 1=>heterosexual, 2=>homosexual, 3=>bisexual, 4=>asexual, 5=>other, (6,7) */
         val BODY_SEXUALITY = (0b111 shl 22) to 22
 
+
+        const val INSTA = "https://www.instagram.com/"
+
         var statsCleared = true
     }
 
@@ -121,11 +125,11 @@ class Crush(
 
     @delegate:Ignore
     @delegate:Transient
-    val birthTime: Long? by lazy { birth?.let { Fun.compDateTimeToCalendar(it).timeInMillis } }
+    val birthTime: Long? by lazy { birth?.let { UiTools.compDateTimeToCalendar(it).timeInMillis } }
 
     @delegate:Ignore
     @delegate:Transient
-    val firstTime: Long? by lazy { first?.let { Fun.compDateTimeToCalendar(it).timeInMillis } }
+    val firstTime: Long? by lazy { first?.let { UiTools.compDateTimeToCalendar(it).timeInMillis } }
 
 
     @Ignore

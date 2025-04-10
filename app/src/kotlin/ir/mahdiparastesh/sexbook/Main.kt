@@ -35,10 +35,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.navigation.NavigationView
-import ir.mahdiparastesh.sexbook.Fun.calendar
-import ir.mahdiparastesh.sexbook.Fun.createFilterYm
-import ir.mahdiparastesh.sexbook.Fun.possessiveDeterminer
-import ir.mahdiparastesh.sexbook.Fun.toArrayList
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.ctrl.Exporter
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -48,7 +44,6 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.misc.CalendarManager
-import ir.mahdiparastesh.sexbook.misc.Delay
 import ir.mahdiparastesh.sexbook.stat.Adorability
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
 import ir.mahdiparastesh.sexbook.stat.Growth
@@ -58,9 +53,15 @@ import ir.mahdiparastesh.sexbook.stat.Recency
 import ir.mahdiparastesh.sexbook.stat.Summary
 import ir.mahdiparastesh.sexbook.stat.SummaryDialog
 import ir.mahdiparastesh.sexbook.stat.Taste
+import ir.mahdiparastesh.sexbook.util.Delay
+import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
+import ir.mahdiparastesh.sexbook.util.NumberUtils
+import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
+import ir.mahdiparastesh.sexbook.util.NumberUtils.createFilterYm
 import ir.mahdiparastesh.sexbook.view.ActionBarDrawerToggle
 import ir.mahdiparastesh.sexbook.view.Lister
 import ir.mahdiparastesh.sexbook.view.SexType
+import ir.mahdiparastesh.sexbook.view.UiTools.possessiveDeterminer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -232,7 +233,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             c.dbLoaded = true
             withContext(Dispatchers.Main) {
                 // notify if any birthday is around
-                if ((Fun.now() - c.sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
+                if ((NumberUtils.now() - c.sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                             ) >= Settings.notifyBirthAfterLastTime &&
                     !c.sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
                 ) for (p in c.people.values) if (p.notifyBirth()) p.birthTime?.also { birthTime ->
@@ -244,8 +245,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         this[Calendar.YEAR] = now[Calendar.YEAR]
                     }.timeInMillis
                     if (dist in
-                        -(c.sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * Fun.A_DAY)
-                        ..Fun.A_DAY
+                        -(c.sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * NumberUtils.A_DAY)
+                        ..NumberUtils.A_DAY
                     ) notifyBirth(p, dist)
                 }
 
@@ -489,7 +490,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         else NotificationCompat.PRIORITY_LOW
                 }.build()
             )
-            c.sp.edit().putLong(Settings.spLastNotifiedBirthAt, Fun.now()).apply()
+            c.sp.edit().putLong(Settings.spLastNotifiedBirthAt, NumberUtils.now()).apply()
         }
     }
 

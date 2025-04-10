@@ -3,10 +3,10 @@ package ir.mahdiparastesh.sexbook.stat
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
-import ir.mahdiparastesh.sexbook.Fun.sumOf
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
 import java.io.Serializable
 
 class Summary(

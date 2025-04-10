@@ -7,11 +7,11 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import ir.mahdiparastesh.sexbook.Fun.now
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.data.Database
+import ir.mahdiparastesh.sexbook.util.NumberUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,9 +45,8 @@ class LastOrgasm : AppWidgetProvider() {
                     )
                     setTextViewText(
                         R.id.number,
-                        number?.let { ((now() - it) / 3600000L).toInt().toString() } ?: c.getString(
-                            R.string.none
-                        )
+                        number?.let { ((NumberUtils.now() - it) / 3600000L).toInt().toString() }
+                            ?: c.getString(R.string.none)
                     )
                 })
             }

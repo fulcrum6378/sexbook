@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.Main
 import java.io.File
 
@@ -18,7 +17,7 @@ abstract class Database : RoomDatabase() {
     abstract fun dao(): Dao
 
     class Builder(c: Context) {
-        private val room = Room.databaseBuilder(c, Database::class.java, Fun.DATABASE)
+        private val room = Room.databaseBuilder(c, Database::class.java, DATABASE)
             .addMigrations(object : Migration(4, 5) {
                 override fun migrate(db: SupportSQLiteDatabase) {
                     db.execSQL("ALTER TABLE Crush RENAME TO Crush_old")
@@ -118,11 +117,15 @@ abstract class Database : RoomDatabase() {
     /** Resolves the path to databases. */
     @SuppressLint("SdCardPath")
     class DbFile(which: Triple = Triple.MAIN) : File(
-        "/data/data/" + Main::class.java.`package`!!.name + "/databases/" + Fun.DATABASE + which.s
+        "/data/data/" + Main::class.java.`package`!!.name + "/databases/" + DATABASE + which.s
     ) {
         /** Helps resolve the file names of the triple SQLite database files. */
         enum class Triple(val s: String) {
             MAIN(""), SHARED_MEMORY("-shm"), WRITE_AHEAD_LOG("-wal")
         }
+    }
+
+    companion object {
+        const val DATABASE = "sexbook.db"
     }
 }

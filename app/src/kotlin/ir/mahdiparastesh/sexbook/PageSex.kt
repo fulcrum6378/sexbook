@@ -14,15 +14,16 @@ import androidx.core.util.contains
 import androidx.core.util.isEmpty
 import androidx.core.util.set
 import androidx.core.view.isVisible
-import ir.mahdiparastesh.sexbook.Fun.calendar
-import ir.mahdiparastesh.sexbook.Fun.createFilterYm
-import ir.mahdiparastesh.sexbook.Fun.iterator
-import ir.mahdiparastesh.sexbook.Fun.toArrayList
 import ir.mahdiparastesh.sexbook.base.BasePage
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.PageSexBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
+import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.iterator
+import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
+import ir.mahdiparastesh.sexbook.util.NumberUtils
+import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
+import ir.mahdiparastesh.sexbook.util.NumberUtils.createFilterYm
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -171,7 +172,7 @@ class PageSex : BasePage() {
 
             // create a Report instance and insert it in the ViewModel and the Database
             val newOne = Report(
-                Fun.now(), name, c.c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
+                NumberUtils.now(), name, c.c.sp.getInt(Settings.spPrefersOrgType, 1).toByte(),
                 null, true, c.c.sp.getLong(Settings.spDefPlace, -1L), true
             )
             newOne.id = c.c.dao.rInsert(newOne)

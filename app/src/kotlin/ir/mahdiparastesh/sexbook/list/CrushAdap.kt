@@ -5,14 +5,13 @@ import android.content.Intent
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import ir.mahdiparastesh.sexbook.Fun
-import ir.mahdiparastesh.sexbook.Fun.show
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
+import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import kotlinx.coroutines.CoroutineScope
@@ -50,7 +49,7 @@ class CrushAdap(private val c: Main) :
                 R.id.lcInstagram to {
                     if (crc.insta != null && crc.insta != "") try {
                         c.startActivity(
-                            Intent(Intent.ACTION_VIEW, (Fun.INSTA + crc.insta).toUri())
+                            Intent(Intent.ACTION_VIEW, (Crush.INSTA + crc.insta).toUri())
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         )
                     } catch (_: ActivityNotFoundException) {

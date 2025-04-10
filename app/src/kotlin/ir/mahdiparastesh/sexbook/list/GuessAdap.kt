@@ -13,21 +13,21 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Estimation
-import ir.mahdiparastesh.sexbook.Fun.dbValue
-import ir.mahdiparastesh.sexbook.Fun.defCalendar
-import ir.mahdiparastesh.sexbook.Fun.defaultOptions
-import ir.mahdiparastesh.sexbook.Fun.fullDate
-import ir.mahdiparastesh.sexbook.Fun.now
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
-import ir.mahdiparastesh.sexbook.misc.Delay
+import ir.mahdiparastesh.sexbook.util.Delay
+import ir.mahdiparastesh.sexbook.util.NumberUtils
+import ir.mahdiparastesh.sexbook.util.NumberUtils.defCalendar
+import ir.mahdiparastesh.sexbook.util.NumberUtils.fullDate
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.CustomSpinnerTouchListener
 import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import ir.mahdiparastesh.sexbook.view.SexType
 import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
+import ir.mahdiparastesh.sexbook.view.UiTools.dbValue
+import ir.mahdiparastesh.sexbook.view.UiTools.defaultOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -92,7 +92,7 @@ class GuessAdap(private val c: Estimation) :
         h.b.sinc.setOnClickListener {
             val gu = c.c.guesses.getOrNull(h.layoutPosition) ?: return@setOnClickListener
             val oldTime = gu.sinc
-            var oldSinc = (if (oldTime > -1L) oldTime else now()).defCalendar(c)
+            var oldSinc = (if (oldTime > -1L) oldTime else NumberUtils.now()).defCalendar(c)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 oldSinc.set(Calendar.YEAR, year)
                 oldSinc.set(Calendar.MONTH, month)
@@ -113,7 +113,7 @@ class GuessAdap(private val c: Estimation) :
         h.b.till.setOnClickListener {
             val gu = c.c.guesses.getOrNull(h.layoutPosition) ?: return@setOnClickListener
             val oldTime = gu.till
-            var oldTill = (if (oldTime > -1L) oldTime else now()).defCalendar(c)
+            var oldTill = (if (oldTime > -1L) oldTime else NumberUtils.now()).defCalendar(c)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 oldTill.set(Calendar.YEAR, year)
                 oldTill.set(Calendar.MONTH, month)

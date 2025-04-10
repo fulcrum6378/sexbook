@@ -19,10 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
-import ir.mahdiparastesh.sexbook.Fun.calendar
-import ir.mahdiparastesh.sexbook.Fun.createFilterYm
-import ir.mahdiparastesh.sexbook.Fun.dbValue
-import ir.mahdiparastesh.sexbook.Fun.defaultOptions
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageSex
 import ir.mahdiparastesh.sexbook.Places
@@ -34,12 +30,16 @@ import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
 import ir.mahdiparastesh.sexbook.misc.LastOrgasm
+import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
+import ir.mahdiparastesh.sexbook.util.NumberUtils.createFilterYm
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.CustomSpinnerTouchListener
 import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import ir.mahdiparastesh.sexbook.view.RecyclerViewItemEvent
 import ir.mahdiparastesh.sexbook.view.SexType
 import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
+import ir.mahdiparastesh.sexbook.view.UiTools.dbValue
+import ir.mahdiparastesh.sexbook.view.UiTools.defaultOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -14,8 +14,8 @@ import ir.mahdiparastesh.sexbook.ctrl.Screening
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
 import ir.mahdiparastesh.sexbook.list.PersonAdap
-import ir.mahdiparastesh.sexbook.misc.Delay
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
+import ir.mahdiparastesh.sexbook.util.Delay
 import ir.mahdiparastesh.sexbook.view.Lister
 import kotlin.experimental.and
 

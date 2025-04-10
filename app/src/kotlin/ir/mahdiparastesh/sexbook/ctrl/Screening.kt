@@ -10,11 +10,11 @@ import android.widget.Spinner
 import androidx.annotation.ArrayRes
 import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import ir.mahdiparastesh.sexbook.Fun
 import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.ScreeningBinding
+import ir.mahdiparastesh.sexbook.util.NumberUtils.DISABLED_ALPHA
 import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
 
 /** An advanced interface for filtering people */
@@ -108,7 +108,7 @@ class Screening : BaseDialog<People>() {
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                spinner.alpha = if (i == 0) Fun.DISABLED_ALPHA else 1f
+                spinner.alpha = if (i == 0) DISABLED_ALPHA else 1f
                 onItemSelected?.let { it(i) }
             }
         }
