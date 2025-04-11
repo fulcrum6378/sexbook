@@ -22,6 +22,11 @@ class Estimation : BaseActivity(), Lister {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (!c.dbLoaded) {
+            @Suppress("DEPRECATION")
+            onBackPressed()
+            return; }
+
         super.onCreate(savedInstanceState)
         b = EstimationBinding.inflate(layoutInflater)
         setContentView(b.root)

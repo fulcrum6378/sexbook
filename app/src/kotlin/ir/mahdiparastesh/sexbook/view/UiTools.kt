@@ -4,8 +4,6 @@ import android.content.Context
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.icu.util.TimeZone
-import android.os.CountDownTimer
-import android.view.View
 import android.widget.EditText
 import com.google.android.material.R
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
@@ -43,18 +41,6 @@ object UiTools {
         boldFont = ir.mahdiparastesh.sexbook.R.font.bold
         normalFont = ir.mahdiparastesh.sexbook.R.font.normal
         return this
-    }
-
-    /** Listens for the time when a View is completely loaded and then executes "func". */
-    fun View.onLoad(func: () -> Unit) {
-        object : CountDownTimer(5000, 50) {
-            override fun onFinish() {}
-            override fun onTick(millisUntilFinished: Long) {
-                if (height == 0) return
-                cancel()
-                func()
-            }
-        }.start()
     }
 
     fun Context.possessiveDeterminer(gender: Int): String = when (gender) {

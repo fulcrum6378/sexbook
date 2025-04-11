@@ -127,6 +127,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
         b.nav.setNavigationItemSelectedListener(this)
         b.toolbar.navigationIcon?.colorFilter = themePdcf()
+        @Suppress("KotlinConstantConditions")
+        if (BuildConfig.BUILD_TYPE == "mahdi")
+            b.nav.menu.findItem(R.id.momCheckUpdates)?.isVisible = false
 
         // ViewPager2
         b.pager.adapter = object : FragmentStateAdapter(this) {
@@ -367,7 +370,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         if (b.root.isDrawerOpen(GravityCompat.START)) {
-            b.root.closeDrawer(GravityCompat.START); return; }
+            b.root.closeDrawer(GravityCompat.START)
+            return
+        }
         if (!exiting) {
             exiting = true
             Delay(4000) { exiting = false }

@@ -17,6 +17,7 @@
         <item name="android:textColorHighlight">@color/textHighlight</item>
         <item name="android:textColorHint">#AF9A7C00</item>
         <item name="android:windowBackground">?colorSecondary</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
         <item name="buttonTint">@android:color/transparent</item><!--for mcdtp-->
         <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox</item>
         <item name="chipStyle">@style/Theme.Sexbook.Chip</item>
@@ -53,9 +54,9 @@
 
 
     <style name="Theme.Sexbook.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
-        <item name="android:textColor">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
+        <item name="android:textColor">?colorOnPrimary</item><!--avoid ?android:textColor-->
         <item name="buttonIconTint">?colorPrimary</item><!--avoid transparent-->
-        <item name="buttonTint">?colorOnPrimary</item><!--avoid ?android:attr/textColor-->
+        <item name="buttonTint">?colorOnPrimary</item><!--avoid ?android:textColor-->
     </style>
 
     <!--<style name="Theme.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox">
@@ -72,8 +73,8 @@
     </style>
 
     <style name="Theme.Sexbook.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
-        <item name="android:textColor">?android:attr/textColor</item>
-        <item name="buttonTint">?android:attr/textColor</item>
+        <item name="android:textColor">?android:textColor</item>
+        <item name="buttonTint">?android:textColor</item>
     </style>
 
 
@@ -103,7 +104,7 @@
 
     <style name="Widget.Sexbook.OverflowButton" parent="@android:style/Widget.Material.ActionButton.Overflow">
         <!--<item name="android:src">@drawable/sort</item>-->
-        <item name="android:tint">?android:attr/textColor</item>
+        <item name="android:tint">?android:textColor</item>
     </style>
 
 

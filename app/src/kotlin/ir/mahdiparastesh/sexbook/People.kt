@@ -30,6 +30,11 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (!c.dbLoaded) {
+            @Suppress("DEPRECATION")
+            onBackPressed()
+            return; }
+
         super.onCreate(savedInstanceState)
         b = PeopleBinding.inflate(layoutInflater)
         setContentView(b.root)

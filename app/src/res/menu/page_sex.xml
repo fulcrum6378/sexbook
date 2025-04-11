@@ -5,7 +5,7 @@
     <item
         android:id="@+id/mtCrush"
         android:icon="@drawable/crush"
-        android:iconTint="?android:attr/textColor"
+        android:iconTint="?android:textColor"
         android:showAsAction="always"
         android:title="@string/crushes" />
 </menu>

@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -31,7 +32,6 @@ import ir.mahdiparastesh.sexbook.databinding.SumPieBinding
 import ir.mahdiparastesh.sexbook.list.StatSumAdap
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
-import ir.mahdiparastesh.sexbook.view.UiTools.onLoad
 
 class SummaryDialog : BaseDialog<Main>() {
     private var dialogue: AlertDialog? = null
@@ -148,12 +148,16 @@ class SummaryDialog : BaseDialog<Main>() {
                 )
             }
             b.root.addView(pluses)
-            pluses.onLoad {
-                b.list.setPaddingRelative(
-                    b.list.paddingStart, b.list.paddingTop, b.list.paddingEnd,
-                    b.list.paddingBottom + pluses.height
-                )
-            }
+            pluses.viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {  // like an onLoaded listener
+                    pluses.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    b.list.setPaddingRelative(
+                        b.list.paddingStart, b.list.paddingTop, b.list.paddingEnd,
+                        b.list.paddingBottom + pluses.height
+                    )
+                }
+            })
         }
 
         fun plus(c: Context, s: String) = TextView(c).apply {

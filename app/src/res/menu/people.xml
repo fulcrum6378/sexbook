@@ -5,13 +5,13 @@
     <item
         android:id="@+id/chart"
         android:icon="@drawable/chart_pie"
-        android:iconTint="?android:attr/textColor"
+        android:iconTint="?android:textColor"
         android:showAsAction="ifRoom"
         android:title="@string/chart" />
 
     <item
         android:icon="@drawable/sort"
-        android:iconTint="?android:attr/textColor"
+        android:iconTint="?android:textColor"
         android:showAsAction="ifRoom"
         android:title="@string/sort">
 
@@ -58,7 +58,7 @@
 
     <item
         android:id="@+id/filter"
-        android:iconTint="?android:attr/textColor"
+        android:iconTint="?android:textColor"
         android:showAsAction="ifRoom"
         android:title="@string/filter" />
     <!-- android:icon="@drawable/filter" will be set inside the activity. -->
@@ -66,7 +66,7 @@
     <!--<item
         android:id="@+id/search"
         android:icon="@drawable/search"
-        android:iconTint="?android:attr/textColor"
+        android:iconTint="?android:textColor"
         android:showAsAction="ifRoom"
         android:title="@string/search" />-->
 </menu>
