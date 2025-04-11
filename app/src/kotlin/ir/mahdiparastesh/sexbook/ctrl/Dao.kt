@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.data
+package ir.mahdiparastesh.sexbook.ctrl
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,6 +6,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import ir.mahdiparastesh.sexbook.data.Crush
+import ir.mahdiparastesh.sexbook.data.Guess
+import ir.mahdiparastesh.sexbook.data.Place
+import ir.mahdiparastesh.sexbook.data.Report
 
 @Dao
 interface Dao {

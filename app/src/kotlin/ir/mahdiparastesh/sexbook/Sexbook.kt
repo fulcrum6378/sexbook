@@ -7,10 +7,10 @@ import android.util.LongSparseArray
 import androidx.annotation.MainThread
 import androidx.core.view.isVisible
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.ctrl.Dao
+import ir.mahdiparastesh.sexbook.ctrl.Database
 import ir.mahdiparastesh.sexbook.ctrl.Screening
 import ir.mahdiparastesh.sexbook.data.Crush
-import ir.mahdiparastesh.sexbook.data.Dao
-import ir.mahdiparastesh.sexbook.data.Database
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
@@ -147,15 +147,16 @@ class Sexbook : Application() {
 }
 
 /* TODO:
+  * On duplicate Crush do not close the dialog
+  * "Turn off notifications for this Crush" on the notification
+  * -
+  * Make the loading screen clickable
+  * Diagrams are too light in night mode
   * What to do with the splash screen on Android 12+?
-  * An option for exporting the SQLite database itself?
-  * Closing the database
-  * Duplicate Crush exception
   * Search for People through their names, locations and IG accounts
   * Search for Reports in their names and descriptions
   * DotsIndicator for Taste and CrushesStat
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular
-  * "Turn off notifications for this Crush" on the notification
   * Fictionality, first met / first orgasm year for Taste and CrushesStat
   */

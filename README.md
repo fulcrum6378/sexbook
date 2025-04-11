@@ -35,8 +35,8 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
 ### Subpackages
 
 - [**base**](app/src/kotlin/ir/mahdiparastesh/sexbook/base) : abstract classes
-- [**ctrl**](app/src/kotlin/ir/mahdiparastesh/sexbook/ctrl) : responsible for controlling data
-- [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : everything related to database
+- [**ctrl**](app/src/kotlin/ir/mahdiparastesh/sexbook/ctrl) : responsible for controlling data (controller of MVC)
+- [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : data models of the database (model of MVC)
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters
 - [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/misc) : miscellaneous
 - [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) :

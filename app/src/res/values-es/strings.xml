@@ -207,6 +207,9 @@
         <item>Asexual</item>
         <item>Otro/otra</item>
     </string-array>
+    <string name="duplicateCrush">
+        Ya existe otra persona con este identificador; asegúrese de que el identificador sea único.
+    </string>
 
     <!-- People -->
     <string name="people">Gente</string>

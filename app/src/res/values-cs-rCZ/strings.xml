@@ -205,6 +205,9 @@
         <item>Nepohlavní</item>
         <item>jiný</item>
     </string-array>
+    <string name="duplicateCrush">
+        Další crush s tímto identifikátorem již existuje; ujistěte se, že je identifikátor jedinečný.
+    </string>
 
     <!-- People -->
     <string name="people">Lidé</string>

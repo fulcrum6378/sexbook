@@ -267,6 +267,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 c.sp.edit().remove("do_not_show_google_play_removal").apply()
             if (c.sp.contains("prefersOrgType"))
                 c.sp.edit().remove("prefersOrgType").apply()
+
+            //TODO notifyBirth(c.people["Toni"]!!, 100000L)
         }
 
         // miscellaneous

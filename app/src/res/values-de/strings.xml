@@ -204,6 +204,10 @@
         <item>Asexuell</item>
         <item>Andere</item>
     </string-array>
+    <string name="duplicateCrush">
+        Es gibt bereits einen anderen Crush mit dieser Kennung.
+        Bitte stellen Sie sicher, dass die Kennung eindeutig ist.
+    </string>
 
     <!-- People -->
     <string name="people">Menschen</string>

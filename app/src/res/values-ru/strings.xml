@@ -206,6 +206,9 @@
         <item>Бесполый</item>
         <item>Другой</item>
     </string-array>
+    <string name="duplicateCrush">
+        Другая любовь с таким идентификатором уже существует; убедитесь, что идентификатор уникален.
+    </string>
 
     <!-- People -->
     <string name="people">Люди</string>

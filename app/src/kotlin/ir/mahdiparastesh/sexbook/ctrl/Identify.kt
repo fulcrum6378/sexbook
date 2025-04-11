@@ -14,6 +14,7 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.annotation.ArrayRes
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -38,7 +39,7 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.and
 import kotlin.experimental.or
 
-/** A Dialog for filling data for a [Crush] */
+/** An AlertDialog for filling data for a [Crush] */
 class Identify<Activity> private constructor() :
     BaseDialog<Activity>() where Activity : BaseActivity {
 
@@ -233,12 +234,16 @@ class Identify<Activity> private constructor() :
                     b.instagram.text.toString().ifBlank { null },
                 )
 
+                if (inserted.key in c.c.people) {
+                    Toast.makeText(c, R.string.duplicateCrush, Toast.LENGTH_LONG).show()
+                    return@setPositiveButton  // TODO DO NOT CLOSE THE DIALOG
+                }
+
                 CoroutineScope(Dispatchers.IO).launch {
 
                     // if the Crush key is changed...
                     if (inserted.key != crushKey) {
                         c.c.dao.cUpdateKey(crushKey, inserted.key)
-                        // FIXME throws SQLiteConstraintException if there's another Crush with this key!
                         c.c.people.remove(crushKey)
                         c.c.liefde.indexOf(crushKey).also { pos ->
                             if (pos == -1) return@also

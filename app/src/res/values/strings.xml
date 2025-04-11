@@ -208,6 +208,9 @@
         <item>Asexual</item>
         <item>Other</item>
     </string-array>
+    <string name="duplicateCrush">
+        Another crush with this identifier already exists; please make sure the identifier is unique.
+    </string>
 
     <!-- People -->
     <string name="people">People</string>
@@ -259,6 +262,8 @@
     <string name="bHappyTitle">Happy %s\'s Birthday!</string>
     <string name="bHappyBef">%1$s remaining to %2$s birthday&#8230;</string>
     <string name="bHappyAft">%1$s past since %2$s birthday&#8230;</string>
+    <string name="bHappyMuteThis">Mute for this crush</string>
+    <string name="bHappyMuteAll">Mute all</string>
     <string name="birthDateNtf">Birthday Notification</string>
 
     <!-- #External -->

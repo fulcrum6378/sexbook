@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.data
+package ir.mahdiparastesh.sexbook.ctrl
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,6 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.data.Crush
+import ir.mahdiparastesh.sexbook.data.Guess
+import ir.mahdiparastesh.sexbook.data.Place
+import ir.mahdiparastesh.sexbook.data.Report
 import java.io.File
 
 @androidx.room.Database(
