@@ -64,7 +64,6 @@ class CrushesStat : BaseDialog<BaseActivity>() {
     abstract class CrshStatFragment : Fragment() {
         protected val c: BaseActivity by lazy { activity as BaseActivity }
         protected lateinit var b: ChartPieFragmentBinding
-        private val pieColour by lazy { c.color(R.color.CPV_LIGHT) }
         protected val counts = hashMapOf<Short, Int>()
 
         abstract fun crushProperty(cr: Crush): Short
@@ -97,7 +96,7 @@ class CrushesStat : BaseDialog<BaseActivity>() {
         abstract suspend fun statisticise(list: MutableList<String>): ArrayList<SliceValue>
 
         protected fun createSliceValue(score: Int, division: String, total: Int): SliceValue =
-            SliceValue(score.toFloat(), pieColour).setLabel(
+            SliceValue(score.toFloat(), c.chartColour).setLabel(
                 "$division: $score (${((100f / total) * score).roundToInt()}%)"
             )
     }

@@ -26,7 +26,7 @@
         <item>Иранский</item>
         <item>Индийский</item>
     </string-array>
-    <string name="shrAdd">Добавить новую запись</string>
+    <string name="addNewRecord">Добавить новую запись</string>
     <string name="delete">Удалить</string>
     <string name="expand">Расширять</string>
     <string name="collapse">Крах</string>

@@ -49,10 +49,7 @@ class Intervals : ChartActivity<IntervalsBinding>() {
             prev = org.time
         }
         val line = Line(points)
-            .setColor(
-                if (!night) themeColor(com.google.android.material.R.attr.colorPrimary)
-                else color(R.color.CPV_LIGHT)
-            )
+            .setColor(chartColour)
             .setHasLabelsOnlyForSelected(true)
         return LineChartData().setLines(listOf(line))
     }

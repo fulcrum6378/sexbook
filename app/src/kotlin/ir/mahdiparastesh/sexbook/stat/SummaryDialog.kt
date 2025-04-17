@@ -189,7 +189,7 @@ class SummaryDialog : BaseDialog<Main>() {
 
                 val score = it.value.sumOf { s -> s.value }
                 data.add(
-                    SliceValue(score, c.color(R.color.CPV_LIGHT))
+                    SliceValue(score, c.chartColour)
                         .apply { setLabel("${it.key} {${score.show()}}") })
             }
             b.root.pieChartData = PieChartData(data).apply {

@@ -25,7 +25,7 @@
         <item>Iraní</item>
         <item>Indio</item>
     </string-array>
-    <string name="shrAdd">Añadir nuevo registro</string>
+    <string name="addNewRecord">Añadir nuevo registro</string>
     <string name="delete">Borrar</string>
     <string name="expand">Expandir</string>
     <string name="collapse">Colapsar</string>

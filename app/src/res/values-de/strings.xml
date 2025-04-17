@@ -25,7 +25,7 @@
         <item>Iranisch</item>
         <item>Indischer</item>
     </string-array>
-    <string name="shrAdd">Neuen Datensatz hinzufügen</string>
+    <string name="addNewRecord">Neuen Datensatz hinzufügen</string>
     <string name="delete">Löschen</string>
     <string name="expand">Erweitern</string>
     <string name="collapse">Zusammenbruch</string>

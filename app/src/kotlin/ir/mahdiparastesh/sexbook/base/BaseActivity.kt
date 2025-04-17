@@ -23,6 +23,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.util.HumanistIranianCalendar
@@ -66,15 +67,21 @@ abstract class BaseActivity : FragmentActivity() {
     @ColorInt
     fun color(@ColorRes res: Int) = ContextCompat.getColor(c, res)
 
-    /** @return the colour value of this attribute resource from the theme. */
+    /** @return the colour value of this attribute resource from the theme */
     @ColorInt
     fun themeColor(@AttrRes attr: Int) = TypedValue().apply {
         theme.resolveAttribute(attr, this, true)
     }.data
 
-    /** Helper function for making a colour filter for the color resource. */
+    /** Helper function for making a colour filter for the color resource */
     fun themePdcf(@AttrRes res: Int = com.google.android.material.R.attr.colorOnPrimary) =
         PorterDuffColorFilter(themeColor(res), PorterDuff.Mode.SRC_IN)
+
+    /** A predetermined colour for all charts in this application */
+    val chartColour: Int by lazy {
+        if (!night) color(R.color.CPV_LIGHT)
+        else themeColor(com.google.android.material.R.attr.colorOnPrimary)
+    }
 
     /**
      * @return the chosen calendar type, if no choice made, chooses it using their default Locale
@@ -89,7 +96,7 @@ abstract class BaseActivity : FragmentActivity() {
         }
     )]
 
-    /** Helper function for starting an Activity. */
+    /** Helper function for starting an Activity */
     fun goTo(
         activity: KClass<*>, finish: Boolean = false, onIntent: (Intent.() -> Unit)? = null
     ): Boolean {
@@ -108,7 +115,7 @@ abstract class BaseActivity : FragmentActivity() {
         lastToast = SystemClock.elapsedRealtime()
     }
 
-    /** Proper implementation of Vibration in across different supported APIs. */
+    /** Proper implementation of simple vibrations across different Android APIs */
     @Suppress("DEPRECATION")
     fun shake(dur: Long = 48L) {
         if (vib == null) vib = c.sp.getBoolean(Settings.spVibration, true)

@@ -7,7 +7,7 @@
     android:layout_marginVertical="@dimen/itemMarV"
     android:background="@drawable/yellow_box"
     android:paddingVertical="@dimen/etPadV"
-    tools:ignore="ContentDescription,LabelFor,MissingConstraints">
+    tools:ignore="MissingConstraints">
 
     <TextView
         android:id="@+id/crshLabel"

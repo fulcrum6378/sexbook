@@ -28,7 +28,7 @@
         <item>Iranian</item>
         <item>Indian</item>
     </string-array>
-    <string name="shrAdd">Add New Record</string>
+    <string name="addNewRecord">Add a new record</string>
     <string name="delete">Delete</string>
     <string name="expand">Expand</string>
     <string name="collapse">Collapse</string>

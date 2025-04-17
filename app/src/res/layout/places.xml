@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/body"
     tools:context=".Places"
-    tools:ignore="MissingConstraints,ContentDescription">
+    tools:ignore="MissingConstraints">
 
     <android.widget.Toolbar
         android:id="@+id/toolbar"
@@ -31,7 +31,9 @@
         <ImageView
             android:id="@+id/addIV"
             style="@style/addIV"
-            android:src="@drawable/add" />
+            android:contentDescription="@string/addNewRecord"
+            android:src="@drawable/add"
+            android:tooltipText="@string/addNewRecord" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View style="@style/tbShadow" />

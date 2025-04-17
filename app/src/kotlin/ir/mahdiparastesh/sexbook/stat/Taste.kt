@@ -34,7 +34,6 @@ class Taste : BaseActivity() {
     private val jobs: ArrayList<Job> = arrayListOf()
 
     val index = arrayListOf<Pair<Crush, Float>>()
-    val pieColour by lazy { color(R.color.CPV_LIGHT) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +116,7 @@ class Taste : BaseActivity() {
         abstract suspend fun statisticise(): ArrayList<SliceValue>
 
         protected fun createSliceValue(score: Float, division: String): SliceValue =
-            SliceValue(score, c.pieColour).setLabel(
+            SliceValue(score, c.chartColour).setLabel(
                 "$division: ${score.show()} (${((100f / sumOfAll) * score).roundToInt()}%)"
             )
     }

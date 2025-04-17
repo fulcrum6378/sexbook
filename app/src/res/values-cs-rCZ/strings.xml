@@ -25,7 +25,7 @@
         <item>íránský</item>
         <item>Indický</item>
     </string-array>
-    <string name="shrAdd">Přidat Nový Záznam</string>
+    <string name="addNewRecord">Přidat nový záznam</string>
     <string name="delete">Vymazat</string>
     <string name="expand">Rozšířit</string>
     <string name="collapse">Kolaps</string>

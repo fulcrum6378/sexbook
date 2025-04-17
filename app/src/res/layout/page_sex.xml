@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="MissingConstraints,ContentDescription">
+    tools:ignore="MissingConstraints">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
@@ -27,7 +27,9 @@
         <ImageView
             android:id="@+id/addIV"
             style="@style/addIV"
-            android:src="@drawable/add" />
+            android:contentDescription="@string/addNewRecord"
+            android:src="@drawable/add"
+            android:tooltipText="@string/addNewRecord" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Spinner

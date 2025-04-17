@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <shortcut
         android:icon="@drawable/add_yellow"
-        android:shortcutId="shrAdd"
-        android:shortcutShortLabel="@string/shrAdd"
+        android:shortcutId="addNewRecord"
+        android:shortcutShortLabel="@string/addNewRecord"
         tools:ignore="UnusedAttribute">
 
         <intent

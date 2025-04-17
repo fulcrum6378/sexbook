@@ -14,7 +14,6 @@ import ir.mahdiparastesh.hellocharts.model.PointValue
 import ir.mahdiparastesh.hellocharts.model.SubColumnValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.mcdtp.McdtpUtils
-import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Report
@@ -127,10 +126,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
             listOf(
                 SubColumnValue(it.second)
                     .setLabel("${it.first} (${it.second})")
-                    .setColor(
-                        if (!c.night) c.themeColor(com.google.android.material.R.attr.colorPrimary)
-                        else c.color(R.color.CPV_LIGHT)
-                    )
+                    .setColor(c.chartColour)
             )
         )
             .setHasLabels(true)

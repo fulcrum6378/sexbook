@@ -150,8 +150,6 @@ class Sexbook : Application() {
   * On duplicate Crush do not close the dialog
   * "Turn off notifications for this Crush" on the notification
   * -
-  * Make the loading screen clickable
-  * Diagrams are too light in night mode
   * What to do with the splash screen on Android 12+?
   * Search for People through their names, locations and IG accounts
   * Search for Reports in their names and descriptions
@@ -159,4 +157,5 @@ class Sexbook : Application() {
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular
   * Fictionality, first met / first orgasm year for Taste and CrushesStat
+  * Test on a wide-screen tablet
   */

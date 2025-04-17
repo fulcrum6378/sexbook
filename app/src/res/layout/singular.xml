@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/body"
     tools:context=".stat.Singular"
-    tools:ignore="MissingConstraints,ContentDescription">
+    tools:ignore="MissingConstraints">
 
     <ir.mahdiparastesh.hellocharts.view.ColumnChartView
         android:id="@+id/main"
@@ -28,7 +28,9 @@
             style="@style/parentConstraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/addNewRecord"
             android:src="@drawable/default_user_person"
+            android:tooltipText="@string/addNewRecord"
             app:layout_constraintHeight_percent=".6"
             app:layout_constraintWidth_percent=".6" />
     </androidx.constraintlayout.widget.ConstraintLayout>
