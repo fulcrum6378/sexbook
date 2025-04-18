@@ -22,14 +22,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/add"
         style="@style/add"
+        android:tooltipText="@string/addNewRecord"
         app:layout_constraintBottom_toTopOf="@id/spnFilter">
 
         <ImageView
             android:id="@+id/addIV"
             style="@style/addIV"
             android:contentDescription="@string/addNewRecord"
-            android:src="@drawable/add"
-            android:tooltipText="@string/addNewRecord" />
+            android:src="@drawable/add" />
+
+        <!-- never set tooltipText for a wrapped ImageView! -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Spinner

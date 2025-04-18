@@ -20,6 +20,7 @@
         android:layout_height="48dp"
         android:layout_margin="10dp"
         android:background="@drawable/button_light"
+        android:tooltipText="@string/addNewRecord"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -30,7 +31,6 @@
             android:layout_height="0dp"
             android:contentDescription="@string/addNewRecord"
             android:src="@drawable/default_user_person"
-            android:tooltipText="@string/addNewRecord"
             app:layout_constraintHeight_percent=".6"
             app:layout_constraintWidth_percent=".6" />
     </androidx.constraintlayout.widget.ConstraintLayout>

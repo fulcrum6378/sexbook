@@ -26,14 +26,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/add"
-        style="@style/add">
+        style="@style/add"
+        android:tooltipText="@string/addNewRecord">
 
         <ImageView
             android:id="@+id/addIV"
             style="@style/addIV"
             android:contentDescription="@string/addNewRecord"
-            android:src="@drawable/add"
-            android:tooltipText="@string/addNewRecord" />
+            android:src="@drawable/add" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View style="@style/tbShadow" />
