@@ -109,7 +109,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // navigation
         object : ActionBarDrawerToggle(
-            this, b.root, b.toolbar, R.string.sOpen, R.string.close
+            this, b.root, b.toolbar, R.string.openMenu, R.string.closeMenu
         ) {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)

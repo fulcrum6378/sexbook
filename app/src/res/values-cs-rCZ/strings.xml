@@ -2,9 +2,6 @@
     <string name="app_name">Sexbook</string>
 
     <!-- GLOBAL -->
-    <string name="sOpen">Otevři</string>
-    <string name="close">Zavři</string>
-    <string name="toExit">Dvojitým klepnutím ukončíte&#8230;</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
     <string name="save">Uložit</string>
@@ -62,6 +59,9 @@
     <string name="minSum">Minimální počet hlášení:</string>
 
     <!-- Main -->
+    <string name="openMenu">Otevřít nabídku</string>
+    <string name="closeMenu">Zavřít nabídku</string>
+    <string name="toExit">Dvojitým klepnutím ukončíte&#8230;</string>
     <string name="momImport">Import z Json</string>
     <string name="momExport">Export do Json</string>
     <string name="momSend">Pošlete Json na</string>

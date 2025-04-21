@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.ctrl
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Build
@@ -186,120 +187,139 @@ class Identify<Activity> private constructor() :
         } // changing isChecked programmatically won't invoke the listener!
         b.notifyBirth.alpha = if (b.notifyBirth.isChecked) 1f else DISABLED_ALPHA
 
-        isCancelable = true
-        cancellability.start()
-        return MaterialAlertDialogBuilder(c).apply {
+        // create the dialog
+        val dialog = MaterialAlertDialogBuilder(c).apply {
             setTitle(R.string.identify)
             setView(b.root)
-            setPositiveButton(R.string.save) { _, _ ->
-
-                // insert input data in a Crush object
-                val inserted = Crush(
-                    b.key.text.toString().ifBlank { crushKey },
-
-                    // full name
-                    b.fName.text.toString().ifBlank { null },
-                    b.mName.text.toString().ifBlank { null },
-                    b.lName.text.toString().ifBlank { null },
-
-                    // gender
-                    b.gender.selectedItemPosition.toByte() or
-                            (if (b.fiction.isChecked) Crush.STAT_FICTION else 0) or
-                            (if (b.notifyBirth.isChecked) Crush.STAT_NOTIFY_BIRTH else 0) or
-                            (if (b.unsafe.isChecked) Crush.STAT_UNSAFE_PERSON else 0) or
-                            (crush?.let { it.status and Crush.STAT_INACTIVE } ?: 0),
-
-                    // birthday
-                    UiTools.compressDateTime(UiTools.validateDateTime(b.birth.text.toString())),
-
-                    // height
-                    if (b.height.text.toString() != "")
-                        b.height.text.toString().toFloat() else -1f,
-
-                    // body characteristics
-                    (b.bodySkinColour.selectedItemPosition shl Crush.BODY_SKIN_COLOUR.second) or
-                            (b.bodyHairColour.selectedItemPosition shl Crush.BODY_HAIR_COLOUR.second) or
-                            (b.bodyEyeColour.selectedItemPosition shl Crush.BODY_EYE_COLOUR.second) or
-                            (b.bodyEyeShape.selectedItemPosition shl Crush.BODY_EYE_SHAPE.second) or
-                            (b.bodyFaceShape.selectedItemPosition shl Crush.BODY_FACE_SHAPE.second) or
-                            (b.bodyFat.selectedItemPosition shl Crush.BODY_FAT.second) or
-                            (b.bodyMuscle.selectedItemPosition shl Crush.BODY_MUSCLE.second) or
-                            (b.bodyBreasts.selectedItemPosition shl Crush.BODY_BREASTS.second) or
-                            (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second) or
-                            (b.bodySexuality.selectedItemPosition shl Crush.BODY_SEXUALITY.second),
-
-                    // addresses & special dates
-                    b.address.text.toString().ifBlank { null },
-                    UiTools.compressDateTime(UiTools.validateDateTime(b.firstMet.text.toString())),
-                    b.instagram.text.toString().ifBlank { null },
-                )
-
-                if (inserted.key in c.c.people) {
-                    Toast.makeText(c, R.string.duplicateCrush, Toast.LENGTH_LONG).show()
-                    return@setPositiveButton  // TODO DO NOT CLOSE THE DIALOG
-                }
-
-                CoroutineScope(Dispatchers.IO).launch {
-
-                    // if the Crush key is changed...
-                    if (inserted.key != crushKey) {
-                        c.c.dao.cUpdateKey(crushKey, inserted.key)
-                        c.c.people.remove(crushKey)
-                        c.c.liefde.indexOf(crushKey).also { pos ->
-                            if (pos == -1) return@also
-                            c.c.liefde[pos] = inserted.key
-                        }
-                        if (crushKey in c.c.unsafe) {
-                            c.c.unsafe.remove(crushKey)
-                            c.c.unsafe.add(inserted.key)
-                        }
-                        if (c is People) (c as People).mm.visPeople.indexOf(crushKey).also { pos ->
-                            if (pos == -1) return@also
-                            (c as People).mm.visPeople[pos] = inserted.key
-                        }
-                        if (c is Settings) (c as Settings).mm.bNtfCrushes.indexOf(crushKey)
-                            .also { pos ->
-                                if (pos == -1) return@also
-                                (c as Settings).mm.bNtfCrushes[pos] = inserted.key
-                            }
-                    }
-
-                    // insert the Crush object
-                    if (crush == null) c.c.dao.cInsert(inserted)
-                    else c.c.dao.cUpdate(inserted)
-                    c.c.people[inserted.key] = inserted
-
-                    // handle the UI
-                    withContext(Dispatchers.Main) {
-                        c.c.onCrushChanged(c, inserted.key, if (crush == null) 0 else 1)
-                        if (c is Singular && inserted.key != crushKey) c.finish()
-                    }
-                }
-                c.shake()
-            }
+            setPositiveButton(R.string.save, null)
             setNegativeButton(R.string.discard, null)
-            setNeutralButton(R.string.clear) { ad1, _ ->
-                if (crush == null) return@setNeutralButton
-                MaterialAlertDialogBuilder(c).apply {
-                    setTitle(c.getString(R.string.crushClear, crush!!.key))
-                    setMessage(R.string.crushClearSure)
-                    setPositiveButton(R.string.yes) { _, _ ->
-                        CoroutineScope(Dispatchers.IO).launch {
-                            c.c.dao.cDelete(crush!!)
-                            c.c.people.remove(crush!!.key)
-                            withContext(Dispatchers.Main) {
-                                c.c.onCrushChanged(c, crush!!.key, 2)
-                            }
-                        }
-                        c.shake()
-                        ad1.dismiss()
-                    }
-                    setNegativeButton(R.string.no, null)
-                }.show()
-                c.shake()
-            }
+            setNeutralButton(R.string.clear, null)
             setOnDismissListener { cancellability.cancel() }
         }.create()
+
+        // on click listener for the positive button
+        val positiveOnClick = View.OnClickListener {
+
+            // insert input data in a Crush object
+            val inserted = Crush(
+                b.key.text.toString().ifBlank { crushKey },
+
+                // full name
+                b.fName.text.toString().ifBlank { null },
+                b.mName.text.toString().ifBlank { null },
+                b.lName.text.toString().ifBlank { null },
+
+                // gender
+                b.gender.selectedItemPosition.toByte() or
+                        (if (b.fiction.isChecked) Crush.STAT_FICTION else 0) or
+                        (if (b.notifyBirth.isChecked) Crush.STAT_NOTIFY_BIRTH else 0) or
+                        (if (b.unsafe.isChecked) Crush.STAT_UNSAFE_PERSON else 0) or
+                        (crush?.let { it.status and Crush.STAT_INACTIVE } ?: 0),
+
+                // birthday
+                UiTools.compressDateTime(UiTools.validateDateTime(b.birth.text.toString())),
+
+                // height
+                if (b.height.text.toString() != "")
+                    b.height.text.toString().toFloat() else -1f,
+
+                // body characteristics
+                (b.bodySkinColour.selectedItemPosition shl Crush.BODY_SKIN_COLOUR.second) or
+                        (b.bodyHairColour.selectedItemPosition shl Crush.BODY_HAIR_COLOUR.second) or
+                        (b.bodyEyeColour.selectedItemPosition shl Crush.BODY_EYE_COLOUR.second) or
+                        (b.bodyEyeShape.selectedItemPosition shl Crush.BODY_EYE_SHAPE.second) or
+                        (b.bodyFaceShape.selectedItemPosition shl Crush.BODY_FACE_SHAPE.second) or
+                        (b.bodyFat.selectedItemPosition shl Crush.BODY_FAT.second) or
+                        (b.bodyMuscle.selectedItemPosition shl Crush.BODY_MUSCLE.second) or
+                        (b.bodyBreasts.selectedItemPosition shl Crush.BODY_BREASTS.second) or
+                        (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second) or
+                        (b.bodySexuality.selectedItemPosition shl Crush.BODY_SEXUALITY.second),
+
+                // addresses & special dates
+                b.address.text.toString().ifBlank { null },
+                UiTools.compressDateTime(UiTools.validateDateTime(b.firstMet.text.toString())),
+                b.instagram.text.toString().ifBlank { null },
+            )
+
+            // check if a newly assigned key doesn't already exist in the database
+            if (inserted.key != crushKey && inserted.key in c.c.people) {
+                Toast.makeText(
+                    c, R.string.duplicateCrush, Toast.LENGTH_SHORT
+                ).show()
+                return@OnClickListener
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // if the Crush key is changed...
+                if (inserted.key != crushKey) {
+                    c.c.dao.cUpdateKey(crushKey, inserted.key)
+                    c.c.people.remove(crushKey)
+                    c.c.liefde.indexOf(crushKey).also { pos ->
+                        if (pos == -1) return@also
+                        c.c.liefde[pos] = inserted.key
+                    }
+                    if (crushKey in c.c.unsafe) {
+                        c.c.unsafe.remove(crushKey)
+                        c.c.unsafe.add(inserted.key)
+                    }
+                    if (c is People) (c as People).mm.visPeople.indexOf(crushKey).also { pos ->
+                        if (pos == -1) return@also
+                        (c as People).mm.visPeople[pos] = inserted.key
+                    }
+                    if (c is Settings) (c as Settings).mm.bNtfCrushes.indexOf(crushKey)
+                        .also { pos ->
+                            if (pos == -1) return@also
+                            (c as Settings).mm.bNtfCrushes[pos] = inserted.key
+                        }
+                }
+
+                // insert the Crush object
+                if (crush == null) c.c.dao.cInsert(inserted)
+                else c.c.dao.cUpdate(inserted)
+                c.c.people[inserted.key] = inserted
+
+                // handle the UI
+                withContext(Dispatchers.Main) {
+                    c.c.onCrushChanged(c, inserted.key, if (crush == null) 0 else 1)
+                    if (c is Singular && inserted.key != crushKey) c.finish()
+                }
+            }
+            c.shake()
+            dialog.dismiss()
+        }
+
+        // on click listener for the neutral button
+        val neutralOnClick = View.OnClickListener {
+            if (crush == null) return@OnClickListener
+            MaterialAlertDialogBuilder(c).apply {
+                setTitle(c.getString(R.string.crushClear, crush!!.key))
+                setMessage(R.string.crushClearSure)
+                setPositiveButton(R.string.yes) { _, _ ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        c.c.dao.cDelete(crush!!)
+                        c.c.people.remove(crush!!.key)
+                        withContext(Dispatchers.Main) {
+                            c.c.onCrushChanged(c, crush!!.key, 2)
+                        }
+                    }
+                    c.shake()
+                    dialog.dismiss()
+                }
+                setNegativeButton(R.string.no, null)
+            }.show()
+            c.shake()
+        }
+
+        // set the on click listeners when the dialog is ready
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(positiveOnClick)
+            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(neutralOnClick)
+        }
+
+        isCancelable = true
+        cancellability.start()
+        return dialog
     }
 
     @RequiresApi(33)

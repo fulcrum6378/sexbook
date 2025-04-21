@@ -2,9 +2,6 @@
     <string name="app_name">Sexbuch</string>
 
     <!-- GLOBAL -->
-    <string name="sOpen">Öffne</string>
-    <string name="close">Schließe</string>
-    <string name="toExit">Zum Beenden doppeltippen&#8230;</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="save">Speichern</string>
@@ -60,6 +57,9 @@
     <string name="minSum">Mindestanzahl an Berichten:</string>
 
     <!-- Main -->
+    <string name="openMenu">Menü öffnen</string>
+    <string name="closeMenu">Menü schließen</string>
+    <string name="toExit">Zum Beenden doppeltippen&#8230;</string>
     <string name="momImport">Import aus Json</string>
     <string name="momExport">Export nach Json</string>
     <string name="momSend">Senden Sie Json an</string>

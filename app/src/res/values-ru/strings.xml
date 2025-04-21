@@ -2,9 +2,6 @@
     <string name="app_name">Сексбук</string>
 
     <!-- GLOBAL -->
-    <string name="sOpen">Открой</string>
-    <string name="close">Закрой</string>
-    <string name="toExit">Нажмите дважды, чтобы выйти&#8230;</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="save">Сохранять</string>
@@ -63,6 +60,9 @@
     <string name="minSum">Минимальное количество отчетов:</string>
 
     <!-- Main -->
+    <string name="openMenu">Открыть меню</string>
+    <string name="closeMenu">Закрыть меню</string>
+    <string name="toExit">Нажмите дважды, чтобы выйти&#8230;</string>
     <string name="momImport">Импорт из Json</string>
     <string name="momExport">Экспорт в Json</string>
     <string name="momSend">Отправить Json в</string>
