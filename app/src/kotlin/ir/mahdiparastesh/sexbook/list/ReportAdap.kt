@@ -23,7 +23,6 @@ import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageSex
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Place
