@@ -147,15 +147,19 @@ class Sexbook : Application() {
 }
 
 /* TODO:
+  * Fixes:
   * On duplicate Crush do not close the dialog
   * "Turn off notifications for this Crush" on the notification
   * -
-  * What to do with the splash screen on Android 12+?
-  * Search for People through their names, locations and IG accounts
-  * Search for Reports in their names and descriptions
+  * Improvements:
+  * Test on a wide-screen tablet
+  * What to do with the splash screen on Android 12+? (the icon over there has become invisible!)
   * DotsIndicator for Taste and CrushesStat
   * Progressive diagrams for Taste
   * "Reactivate Crush" for Singular
   * Fictionality, first met / first orgasm year for Taste and CrushesStat
-  * Test on a wide-screen tablet
+  * -
+  * Discouraged:
+  * Search for People through their names, locations and IG accounts
+  * Search for Reports in their names and descriptions
   */
