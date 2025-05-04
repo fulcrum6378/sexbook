@@ -257,7 +257,8 @@
     <string name="bHappyTitle">Všechno nejlepší k narozeninám %s!</string>
     <string name="bHappyBef">Do %2$s narozenin zbývá %1$s&#8230;</string>
     <string name="bHappyAft">%1$s uplynulo od %2$s narozenin&#8230;</string>
-    <string name="birthDateNtf">Oznámení o narozeninách</string>
+    <string name="bHappyTurnOff">Vypnout</string>
+    <string name="bHappyChannel">Oznámení o narozeninách</string>
 
     <!-- #External -->
     <string name="sBirthday">narozeniny %s</string>

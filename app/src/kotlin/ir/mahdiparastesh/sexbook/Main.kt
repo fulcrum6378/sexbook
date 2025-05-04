@@ -5,8 +5,10 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
@@ -23,7 +25,7 @@ import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
+import androidx.core.net.toUri
 import androidx.core.util.isEmpty
 import androidx.core.util.isNotEmpty
 import androidx.core.util.set
@@ -44,6 +46,7 @@ import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.misc.CalendarManager
+import ir.mahdiparastesh.sexbook.misc.NotificationActions
 import ir.mahdiparastesh.sexbook.stat.Adorability
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
 import ir.mahdiparastesh.sexbook.stat.Growth
@@ -61,6 +64,7 @@ import ir.mahdiparastesh.sexbook.util.NumberUtils.createFilterYm
 import ir.mahdiparastesh.sexbook.view.ActionBarDrawerToggle
 import ir.mahdiparastesh.sexbook.view.Lister
 import ir.mahdiparastesh.sexbook.view.SexType
+import ir.mahdiparastesh.sexbook.view.UiTools
 import ir.mahdiparastesh.sexbook.view.UiTools.possessiveDeterminer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -267,8 +271,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 c.sp.edit().remove("do_not_show_google_play_removal").apply()
             if (c.sp.contains("prefersOrgType"))
                 c.sp.edit().remove("prefersOrgType").apply()
-
-            //TODO notifyBirth(c.people["Toni"]!!, 100000L)
         }
 
         // miscellaneous
@@ -477,14 +479,15 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             val channelBirth = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
             nm.createNotificationChannel(
                 NotificationChannel(
-                    channelBirth, getString(R.string.birthDateNtf),
-                    NotificationManager.IMPORTANCE_HIGH
+                    channelBirth, getString(R.string.bHappyChannel),
+                    if (crush.active()) NotificationManager.IMPORTANCE_HIGH
+                    else NotificationManager.IMPORTANCE_LOW
                 )
             )
             val hours = abs(dist / 3600000L).toInt()
             nm.notify(
                 crush.key.length + crush.visName().length,
-                NotificationCompat.Builder(this@Main, channelBirth).apply {
+                Notification.Builder(this@Main, channelBirth).apply {
                     setSmallIcon(R.drawable.notification)
                     setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
                     setContentText(
@@ -495,9 +498,27 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                             possessiveDeterminer((crush.status and Crush.STAT_GENDER).toInt())
                         )
                     )
-                    priority =
-                        if (crush.active()) NotificationCompat.PRIORITY_HIGH
-                        else NotificationCompat.PRIORITY_LOW
+                    if (!crush.insta.isNullOrBlank()) addAction(
+                        Notification.Action.Builder(
+                            null, getString(R.string.instagram),
+                            PendingIntent.getActivity(
+                                c, 0,
+                                Intent(Intent.ACTION_VIEW, (Crush.INSTA + crush.insta).toUri()),
+                                UiTools.ntfMutability(true)
+                            )
+                        ).build()
+                    )
+                    addAction(
+                        Notification.Action.Builder(
+                            null, getString(R.string.bHappyTurnOff),
+                            PendingIntent.getBroadcast(
+                                c, 0, Intent(c, NotificationActions::class.java)
+                                    .setAction(NotificationActions.ACTION_TURN_OFF_BIRTHDAY_NOTIFICATION)
+                                    .putExtra(NotificationActions.EXTRA_CRUSH_KEY, crush.key),
+                                UiTools.ntfMutability(true)
+                            )
+                        ).build()
+                    )
                 }.build()
             )
             c.sp.edit().putLong(Settings.spLastNotifiedBirthAt, NumberUtils.now()).apply()

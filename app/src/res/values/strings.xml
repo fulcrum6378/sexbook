@@ -262,9 +262,8 @@
     <string name="bHappyTitle">Happy %s\'s Birthday!</string>
     <string name="bHappyBef">%1$s remaining to %2$s birthday&#8230;</string>
     <string name="bHappyAft">%1$s past since %2$s birthday&#8230;</string>
-    <string name="bHappyMuteThis">Mute for this crush</string>
-    <string name="bHappyMuteAll">Mute all</string>
-    <string name="birthDateNtf">Birthday Notification</string>
+    <string name="bHappyTurnOff">Turn off</string>
+    <string name="bHappyChannel">Birthday Notification</string>
 
     <!-- #External -->
     <string name="sBirthday">%s\'s birthday</string>

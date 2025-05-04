@@ -47,7 +47,7 @@ class CrushAdap(private val c: Main) :
                     c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, crk) }
                 },
                 R.id.lcInstagram to {
-                    if (crc.insta != null && crc.insta != "") try {
+                    if (!crc.insta.isNullOrBlank()) try {
                         c.startActivity(
                             Intent(Intent.ACTION_VIEW, (Crush.INSTA + crc.insta).toUri())
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

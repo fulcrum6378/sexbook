@@ -1,9 +1,11 @@
 package ir.mahdiparastesh.sexbook.view
 
+import android.app.PendingIntent
 import android.content.Context
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.icu.util.TimeZone
+import android.os.Build
 import android.widget.EditText
 import com.google.android.material.R
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
@@ -150,4 +152,11 @@ object UiTools {
     }
 
     fun EditText.dbValue(): String? = text.ifBlank { null }?.toString()
+
+    fun ntfMutability(bb: Boolean = true): Int = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
+            if (bb) PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_IMMUTABLE
+        else ->
+            if (bb) PendingIntent.FLAG_UPDATE_CURRENT else PendingIntent.FLAG_IMMUTABLE
+    }
 }

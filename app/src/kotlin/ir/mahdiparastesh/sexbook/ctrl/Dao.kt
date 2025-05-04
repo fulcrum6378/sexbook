@@ -58,6 +58,9 @@ interface Dao {
     @Update
     suspend fun cUpdate(item: Crush)
 
+    @Query("UPDATE OR ABORT Crush SET `status` = `status` & (~ (1 << 4)) WHERE `key` = :key")
+    suspend fun cTurnOffBNtf(key: String): Int
+
     @Delete
     suspend fun cDelete(item: Crush)
 

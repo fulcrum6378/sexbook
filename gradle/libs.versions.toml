@@ -1,13 +1,14 @@
 [versions]
-agp = "8.9.1"
+agp = "8.9.2"
 kotlin = "2.1.20"
 ksp = "2.1.20-1.0.31"
 activityKtx = "1.10.1"
 constraintLayout = "2.2.1"
 drawerLayout = "1.2.0"
 recyclerView = "1.4.0"
-room = "2.7.0"
+room = "2.7.1"
 sqliteKtx = "2.5.0"
+viewPager2 = "1.1.0"
 material = "1.12.0"
 gson = "2.11.0"
 helloCharts = "2.8.5"
@@ -27,6 +28,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 sqlite-ktx = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sqliteKtx" }
+viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewPager2" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 hellocharts = { group = "ir.mahdiparastesh", name = "hellocharts", version.ref = "helloCharts" }

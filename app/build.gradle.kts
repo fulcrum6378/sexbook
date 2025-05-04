@@ -23,7 +23,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 53
-        versionName = "29.1.0"
+        versionName = "29.1.8"
         signingConfig = signingConfigs.getByName("main")  // not applied on debug
     }
 
@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     implementation(libs.sqlite.ktx)
+    implementation(libs.viewpager2)
     implementation(libs.material)
     implementation(libs.gson)
     implementation(libs.hellocharts)

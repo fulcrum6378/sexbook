@@ -259,7 +259,8 @@
     <string name="bHappyTitle">С Днем Рождения %s!</string>
     <string name="bHappyBef">До дня рождения осталось %1$s&#8230;%2$s</string>
     <string name="bHappyAft">Прошло %1$s с момента их дня рождения&#8230;%2$s</string>
-    <string name="birthDateNtf">Уведомление о дне рождения</string>
+    <string name="bHappyTurnOff">Выключать</string>
+    <string name="bHappyChannel">Уведомление о дне рождения</string>
 
     <!-- #External -->
     <string name="sBirthday">День рождения %s</string>

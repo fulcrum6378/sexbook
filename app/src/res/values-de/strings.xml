@@ -260,7 +260,8 @@
     <string name="bHappyTitle">Alles Gute zum Geburtstag von %s!</string>
     <string name="bHappyBef">Noch %1$s bis zu %2$s Geburtstag&#8230;</string>
     <string name="bHappyAft">%1$s sind seit %2$s Geburtstag vergangen&#8230;</string>
-    <string name="birthDateNtf">Geburtstagsbenachrichtigung</string>
+    <string name="bHappyTurnOff">Ausschalten</string>
+    <string name="bHappyChannel">Geburtstagsbenachrichtigung</string>
 
     <!-- #External -->
     <string name="sBirthday">%ss Geburtstag</string>

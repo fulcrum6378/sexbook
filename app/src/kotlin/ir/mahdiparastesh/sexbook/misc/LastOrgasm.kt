@@ -10,7 +10,6 @@ import android.widget.RemoteViews
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
-import ir.mahdiparastesh.sexbook.ctrl.Database
 import ir.mahdiparastesh.sexbook.util.NumberUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +18,7 @@ import kotlinx.coroutines.withContext
 
 /** An app widget that counts hours since the user's latest orgasm time! */
 class LastOrgasm : AppWidgetProvider() {
+
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         CoroutineScope(Dispatchers.IO).launch {
             Widget(context.applicationContext as Sexbook)
@@ -28,12 +28,8 @@ class LastOrgasm : AppWidgetProvider() {
 
     private class Widget(private val c: Sexbook) {
         suspend fun render(then: (rv: RemoteViews) -> Unit) {
-            var number: Long? = null
-            if (c.dbLoaded == true) number = c.dao.whenWasTheLastTime()
-            if (number == null) {
-                val db = Database.Builder(c).build()
-                number = db.dao().whenWasTheLastTime()
-            }
+
+            val number = c.dao.whenWasTheLastTime()
 
             withContext(Dispatchers.Main) {
                 then(RemoteViews(c.packageName, R.layout.last_orgasm).apply {
