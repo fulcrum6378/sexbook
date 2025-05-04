@@ -23,7 +23,6 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
-import ir.mahdiparastesh.sexbook.misc.LastOrgasm
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

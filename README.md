@@ -38,7 +38,6 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
 - [**ctrl**](app/src/kotlin/ir/mahdiparastesh/sexbook/ctrl) : responsible for controlling data (controller of MVC)
 - [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : data models of the database (model of MVC)
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters
-- [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/misc) : miscellaneous
 - [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) :
   everything related to statistics (as mentioned above)
 - [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/misc) : UX-related utilities
@@ -104,7 +103,7 @@ The navigation menu in *Main* has these 3 options:
 
 ### Other Features
 
-- [*Last Orgasm*](app/src/kotlin/ir/mahdiparastesh/sexbook/misc/LastOrgasm.kt) is an app widget
+- [*Last Orgasm*](app/src/kotlin/ir/mahdiparastesh/sexbook/ctrl/LastOrgasm.kt) is an app widget
   which shows the number of hours past since one's last orgasm!
 - Putting crush birthdays in the system calendar, which can be tweaked in *Settings*.
 - An [*app shortcut*](app/src/res/xml/shortcuts.xml) for recording an orgasm right away!

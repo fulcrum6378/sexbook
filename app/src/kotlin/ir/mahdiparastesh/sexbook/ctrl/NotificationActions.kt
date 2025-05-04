@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.misc
+package ir.mahdiparastesh.sexbook.ctrl
 
 import android.content.BroadcastReceiver
 import android.content.Context
