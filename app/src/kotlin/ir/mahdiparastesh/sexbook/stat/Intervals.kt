@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import androidx.core.util.isNotEmpty
-import androidx.core.util.valueIterator
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.Line
 import ir.mahdiparastesh.hellocharts.model.LineChartData
@@ -10,6 +9,7 @@ import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.IntervalsBinding
+import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.fullDate
 import ir.mahdiparastesh.sexbook.view.SexType
@@ -31,7 +31,7 @@ class Intervals : ChartActivity<IntervalsBinding>() {
             if (!c.sp.getBoolean(Settings.spStatUntilCb, false)) Long.MAX_VALUE
             else c.sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
         allowedSexTypes = SexType.allowedOnes(c.sp)
-        for (org in c.reports.valueIterator()) {
+        for (org in c.reports.toArrayList().sortedBy { it.time }) {
             if (!org.ogsm) continue
             if (prev == null || org.time < minima || org.time > maxima || org.type !in allowedSexTypes) {
                 prev = org.time

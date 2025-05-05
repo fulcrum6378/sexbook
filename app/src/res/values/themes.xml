@@ -21,7 +21,7 @@
         <item name="buttonTint">@android:color/transparent</item><!--for mcdtp-->
         <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox</item>
         <item name="chipStyle">@style/Theme.Sexbook.Chip</item>
-        <item name="colorAccent">?android:textColor</item><!--#656D78-->
+        <item name="colorAccent">?android:textColor</item><!--different than android:colorAccent-->
         <item name="colorControlNormal">?colorOnPrimary</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Sexbook.Dialogue</item>
         <item name="navigationViewStyle">@style/Widget.Sexbook.Nav</item>
@@ -110,8 +110,8 @@
 
     <!-- Dialogue -->
     <style name="Theme.Sexbook.Dialogue.Layout" parent="Theme.Sexbook">
-        <item name="android:textColor">?colorOnSecondary</item>
         <item name="android:editTextColor">?colorOnSecondary</item>
+        <item name="android:textColor">?colorOnSecondary</item>
         <item name="android:textColorHint">@color/dialogHint</item>
         <item name="colorControlNormal">?colorOnSecondary</item>
     </style>

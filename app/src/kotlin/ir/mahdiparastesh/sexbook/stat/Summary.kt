@@ -24,8 +24,12 @@ class Summary(
             if (r.analysis == null) r.analyse()
             if (r.analysis!!.isEmpty())
                 unknown++
-            else for (key in r.analysis!!)
-                scores.insert(key, Orgasm(r.time, 1f / r.analysis!!.size))
+            else for (key in r.analysis!!) {
+                if (key.isNotEmpty())
+                    scores.insert(key, Orgasm(r.time, 1f / r.analysis!!.size))
+                else
+                    unknown += 1f / r.analysis!!.size
+            }
         }
         apparent -= unknown
     }

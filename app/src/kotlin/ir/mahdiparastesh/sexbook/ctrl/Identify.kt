@@ -40,9 +40,8 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.and
 import kotlin.experimental.or
 
-/** An AlertDialog for filling data for a [Crush] */
-class Identify<Activity> private constructor() :
-    BaseDialog<Activity>() where Activity : BaseActivity {
+/** An [AlertDialog] for filling data for a [Crush] */
+class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity {
 
     companion object {
         private const val TAG = "identify"

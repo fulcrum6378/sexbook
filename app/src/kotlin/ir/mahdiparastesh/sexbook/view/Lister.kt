@@ -26,7 +26,7 @@ interface Lister {
         if (n != null && n > 0) BadgeUtils.attachBadgeDrawable(
             BadgeDrawable.create(ContextThemeWrapper(c, UiTools.materialTheme)).apply {
                 number = n
-                backgroundColor = c.themeColor(android.R.attr.colorAccent)
+                backgroundColor = c.themeColor(android.R.attr.textColor)
                 badgeTextColor = c.themeColor(android.R.attr.colorPrimary)
                 countBadge = this
                 maxCharacterCount = UiTools.MAX_BADGE_CHAR

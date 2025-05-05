@@ -148,6 +148,7 @@ class Sexbook : Application() {
 
 /* TODO:
   * Improvements:
+  * Random Crush suggestion
   * Test on a wide-screen tablet
   * Put a menu button in the overflow portion of ReportAdap
   * What to do with the splash screen on Android 12+? (the icon over there has become invisible!)
