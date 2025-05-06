@@ -24,8 +24,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item><!--?actionBarSize-->
         <item name="android:background">?colorPrimary</item>
-        <item name="android:paddingBottom">@dimen/tbPadBottom</item>
-        <!--paddingTop deforms it-->
+        <item name="android:paddingBottom">@dimen/toolbarPadB</item>
+        <item name="android:paddingTop">@dimen/toolbarPadT</item>
         <item name="android:titleMarginStart">0dp</item>
         <item name="android:titleTextAppearance">@style/TextAppearance.Sexbook.Toolbar</item>
         <item name="android:titleTextColor">?titleTextColor</item>
@@ -111,13 +111,17 @@
         <item name="android:textSize">@dimen/spnFont</item>
     </style>
 
-    <style name="yellowBoxList">
+    <style name="baseYellowBoxList">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:clipToPadding">false</item>
         <item name="android:paddingHorizontal">@dimen/ybListPadH</item>
         <item name="android:scrollbars">vertical</item>
         <item name="android:scrollbarSize">@dimen/scrollbarSize</item>
+    </style>
+
+    <style name="yellowBoxList" parent="baseYellowBoxList">
+        <item name="layoutManager">LinearLayoutManager</item>
     </style>
 
 
@@ -205,7 +209,7 @@
     </style>
 
     <style name="etDateLabel" parent="etLabel">
-        <item name="android:layout_width">50sp</item>
+        <item name="android:layout_width">@dimen/etDateLabelW</item>
         <item name="layout_constraintWidth_percent">1</item>
     </style>
 
@@ -235,14 +239,14 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginHorizontal">@dimen/itemMarH</item>
-        <item name="android:layout_marginVertical">7dp</item>
+        <item name="android:layout_marginVertical">@dimen/stItemMarV</item>
         <item name="android:background">@drawable/yellow_box</item>
         <item name="android:paddingHorizontal">@dimen/stItemPadH</item>
         <item name="android:paddingVertical">@dimen/stItemPadV</item>
     </style>
 
     <style name="stItemThinContainer" parent="@style/stItemContainer">
-        <item name="android:paddingVertical">5dp</item>
+        <item name="android:paddingVertical">@dimen/stItemThinContainerPadV</item>
     </style>
 
     <style name="stItemTV">
@@ -274,7 +278,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/normal</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/stGroupTitleFont</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>

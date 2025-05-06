@@ -1,0 +1,6 @@
+<resources>
+
+    <!-- #YellowBoxList -->
+    <dimen name="ybListPadH">25dp</dimen>
+    <dimen name="itemMarH">15dp</dimen>
+</resources>

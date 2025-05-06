@@ -115,6 +115,7 @@ class PlaceAdap(private val c: Places) :
     }
 
     fun delete(i: Int, migrateToId: Long) {
+        // TODO set up a progress indicator for this
         CoroutineScope(Dispatchers.IO).launch {
             c.c.dao.pDelete(c.c.places[i])
             for (mig in c.c.dao.rGetByPlace(c.c.places[i].id))
@@ -123,7 +124,7 @@ class PlaceAdap(private val c: Places) :
             Main.changed = true
             withContext(Dispatchers.Main) {
                 notifyItemRemoved(i)
-                notifyItemRangeChanged(i, itemCount - i)
+                //notifyItemRangeChanged(i, itemCount - i)
                 c.count(c.c.places.size)
             }
         }

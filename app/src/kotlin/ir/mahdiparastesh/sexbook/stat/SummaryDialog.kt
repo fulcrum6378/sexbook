@@ -2,7 +2,6 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -25,6 +24,7 @@ import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.base.BaseFragment
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
@@ -117,7 +117,7 @@ class SummaryDialog : BaseDialog<Main>() {
 
             if (c.c.summary?.classification == null) return
             b.list.adapter = StatSumAdap(
-                c, c.c.summary!!.classification!!.calculations.entries.toList(), this@SumChips
+                c, c.c.summary!!.classification!!.calculations.entries.toList(), this
             )
 
             val pluses = LinearLayout(c).apply {
@@ -129,22 +129,22 @@ class SummaryDialog : BaseDialog<Main>() {
             }
             c.c.summary?.nExcluded?.also {
                 if (it > 0f) pluses.addView(
-                    plus(b.root.context, getString(R.string.excStat, it.toString()))
+                    plus(c, getString(R.string.excStat, it.toString()))
                 )
             }
             c.c.summary?.unknown?.also {
                 if (it > 0f) pluses.addView(
-                    plus(b.root.context, getString(R.string.unknown, it.show()))
+                    plus(c, getString(R.string.unknown, it.show()))
                 )
             }
             c.c.summary?.nonCrush?.also {
                 if (it > 0f) pluses.addView(
-                    plus(b.root.context, getString(R.string.nonCrush, it.show()))
+                    plus(c, getString(R.string.nonCrush, it.show()))
                 )
             }
             c.c.summary?.unsafe?.also {
                 if (it > 0f) pluses.addView(
-                    plus(b.root.context, getString(R.string.plusUnsafe, it.show()))
+                    plus(c, getString(R.string.plusUnsafe, it.show()))
                 )
             }
             b.root.addView(pluses)
@@ -160,11 +160,11 @@ class SummaryDialog : BaseDialog<Main>() {
             })
         }
 
-        fun plus(c: Context, s: String) = TextView(c).apply {
+        fun plus(c: BaseActivity, s: String) = TextView(c).apply {
             layoutParams = LinearLayout.LayoutParams(-2, -2)
-            setPadding(0, this@SumChips.c.dp(5), 0, this@SumChips.c.dp(2))
+            setPadding(0, c.dp(5), 0, c.dp(2))
             text = s
-            textSize = c.resources.getDimension(R.dimen.plusesFont) / this@SumChips.c.dm.density
+            textSize = c.resources.getDimension(R.dimen.plusesFont) / c.dm.density
             alpha = .8f
             typeface = resources.getFont(R.font.normal)
         }

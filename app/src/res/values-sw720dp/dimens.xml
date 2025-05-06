@@ -1,15 +1,16 @@
 <resources>
 
     <dimen name="statusBarSize">24dp</dimen>
-    <dimen name="tbTitle">23.5sp</dimen>
-    <dimen name="tbPadBottom">8dp</dimen>
+    <dimen name="tbTitle">24sp</dimen>
+    <dimen name="toolbarPadT">6dp</dimen>
     <dimen name="nameFont">18.5sp</dimen>
     <dimen name="descFont">16.5sp</dimen>
     <dimen name="descPadV">12sp</dimen>
     <dimen name="menuFont">16sp</dimen>
     <dimen name="spnFont">18sp</dimen>
     <dimen name="spnFontSmall">16sp</dimen>
-    <dimen name="itemMarH">13dp</dimen>
+
+    <!-- #YellowBoxList -->
     <dimen name="itemMarV">10dp</dimen>
     <dimen name="itemPadH">23dp</dimen>
     <dimen name="itemPadV">20dp</dimen>
@@ -33,10 +34,14 @@
     <dimen name="etPadH">24dp</dimen>
     <dimen name="etPadV">15dp</dimen>
     <dimen name="etLabel">17sp</dimen>
+    <dimen name="etDateLabelW">60sp</dimen>
     <dimen name="etDateButton">20sp</dimen>
 
     <!-- Settings -->
-    <dimen name="stItemTVFont">19sp</dimen>
-    <dimen name="stItemPadH">13dp</dimen>
-    <dimen name="stItemPadV">18dp</dimen>
+    <dimen name="stItemTVFont">19.5sp</dimen>
+    <dimen name="stGroupTitleFont">17.5sp</dimen>
+    <dimen name="stItemMarV">10dp</dimen>
+    <dimen name="stItemPadH">22dp</dimen>
+    <dimen name="stItemPadV">21dp</dimen>
+    <dimen name="stItemThinContainerPadV">12dp</dimen>
 </resources>

@@ -12,7 +12,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.Dimension
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
@@ -26,6 +25,7 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.ctrl.CalendarManager
 import ir.mahdiparastesh.sexbook.ctrl.Database.DbFile
+import ir.mahdiparastesh.sexbook.ctrl.Exporter
 import ir.mahdiparastesh.sexbook.ctrl.LastOrgasm
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.SettingsBinding
@@ -45,13 +45,14 @@ import kotlinx.coroutines.withContext
 class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
     val mm: MyModel by viewModels()
-    private val calendarTypes: Array<String> by lazy { resources.getStringArray(R.array.calendarTypes) }
+    private val calendarTypes: Array<String> by lazy {
+        resources.getStringArray(R.array.calendarTypes)
+    }
     private val emptyDate: String by lazy { getString(R.string.emptyDate) }
     var bNtfCrushAdap: BNtfCrushAdap? = null
 
     /**
-     * Beware of the numerical fields;
-     * Go to [ir.mahdiparastesh.sexbook.ctrl.Exporter.replace] for modifications.
+     * Beware of the numerical fields; go to [Exporter.replace] for modifications.
      */
     companion object {
         const val spName = "settings"
@@ -236,7 +237,9 @@ class Settings : BaseActivity() {
                 text = getString(R.string.stSexTypeInclude, sex.name)
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 typeface = resources.getFont(R.font.normal)
-                setTextSize(Dimension.SP, 16f)
+                @Suppress("DEPRECATION")
+                textSize = c.resources.getDimensionPixelSize(R.dimen.stItemTVFont)
+                    .toFloat() / dm.scaledDensity
                 setPaddingRelative(
                     resources.getDimension(R.dimen.stItemPadH).toInt(), 0, 0, 0
                 )

@@ -9,7 +9,6 @@
         style="@style/yellowBoxList"
         android:layout_width="0dp"
         android:paddingVertical="@dimen/ybListPadV"
-        app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

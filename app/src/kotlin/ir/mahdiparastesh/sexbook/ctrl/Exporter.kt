@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.ctrl
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
@@ -118,7 +119,7 @@ class Exporter(private val c: BaseActivity) {
     }
 
     /**
-     * Exports the entire Database plus SharedPreferences into a cache JSON file,
+     * Exports the entire [Database] plus [SharedPreferences] into a cache JSON file,
      * then shares that cache file as a [FileProvider].
      */
     fun send() {
@@ -143,7 +144,7 @@ class Exporter(private val c: BaseActivity) {
         }
     }
 
-    /** Exports the entire Database plus SharedPreferences into a JSON file. */
+    /** Exports the entire [Database] plus [SharedPreferences] into a JSON file. */
     private fun export(): Boolean {
         exported = Exported(
             c.c.reports.filter<Report> { !it.guess }.sortedBy { it.time }.toTypedArray(),
@@ -160,7 +161,7 @@ class Exporter(private val c: BaseActivity) {
 
     /**
      * Imports data from a JSON file in order to be replaced with
-     * the contents of Database and SharedPreferences.
+     * the contents of [Database] and [SharedPreferences].
      */
     fun import(c: BaseActivity, uri: Uri) {
         var data: String? = null
@@ -198,7 +199,7 @@ class Exporter(private val c: BaseActivity) {
     }
 
     /**
-     * Replaces contents of an [Exported] with contents of the Database and SharedPreferences.
+     * Replaces contents of an [Exported] with contents of the [Database] and [SharedPreferences].
      */
     private fun replace(c: BaseActivity, imported: Exported) {
         CoroutineScope(Dispatchers.IO).launch {

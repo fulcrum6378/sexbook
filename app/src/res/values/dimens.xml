@@ -2,8 +2,9 @@
 
     <dimen name="statusBarSize">24dp</dimen>
     <dimen name="tbTitle">21sp</dimen>
-    <dimen name="tbPadBottom">6dp</dimen>
-    <dimen name="nameFont">14sp</dimen>
+    <dimen name="toolbarPadT">0dp</dimen><!--paddingTop deforms it-->
+    <dimen name="toolbarPadB">6dp</dimen>
+    <dimen name="nameFont">14sp</dimen><!--overridden in sw400dp-->
     <dimen name="descFont">14.5sp</dimen>
     <dimen name="descPadV">10sp</dimen>
     <dimen name="menuFont">14sp</dimen>
@@ -29,7 +30,7 @@
     <dimen name="reportPadH">10dp</dimen>
     <dimen name="clockSize">41dp</dimen>
     <dimen name="ampmFont">11dp</dimen>
-    <dimen name="dateFont">17dp</dimen>
+    <dimen name="dateFont">17dp</dimen><!--overridden in sw400dp-->
     <dimen name="typeSize">28dp</dimen>
     <dimen name="reportButtonMarEnd">17dp</dimen>
     <dimen name="spnFilterPadV">16dp</dimen>
@@ -43,12 +44,16 @@
     <dimen name="etPadH">20dp</dimen>
     <dimen name="etPadV">12dp</dimen>
     <dimen name="etLabel">15sp</dimen>
+    <dimen name="etDateLabelW">50sp</dimen>
     <dimen name="etDateButton">18sp</dimen>
 
     <!-- Settings -->
     <dimen name="stItemTVFont">16sp</dimen>
-    <dimen name="stItemPadH">11dp</dimen>
+    <dimen name="stGroupTitleFont">14sp</dimen>
+    <dimen name="stItemMarV">7dp</dimen>
+    <dimen name="stItemPadH">15dp</dimen>
     <dimen name="stItemPadV">15dp</dimen>
+    <dimen name="stItemThinContainerPadV">6dp</dimen>
 
     <!-- #Statistics -->
     <dimen name="ssPadH">24dp</dimen>

@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="yellowBoxList" parent="baseYellowBoxList">
+        <item name="layoutManager">GridLayoutManager</item>
+        <item name="spanCount">2</item>
+    </style>
+</resources>

@@ -1,0 +1,5 @@
+<resources>
+
+    <!-- #YellowBoxList -->
+    <dimen name="itemMarH">40dp</dimen>
+</resources>

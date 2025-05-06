@@ -176,17 +176,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             }.map { it.key })
             c.unsafe.addAll(c.people.filter { it.value.unsafe() }.map { it.key })
             if (CalendarManager.checkPerm(c)) CalendarManager.initialise(this@Main)
-            if (!c.sp.contains("dbDateTimeDotSlashReplaced")) {
-                for (updated in c.people.values) {
-                    if (updated.birth == null && updated.first == null) continue
-                    if (updated.birth != null)
-                        updated.birth = updated.birth!!.replace(".", "/")
-                    if (updated.first != null)
-                        updated.first = updated.first!!.replace(".", "/")
-                    c.dao.cUpdate(updated)
-                }
-                c.sp.edit().putBoolean("dbDateTimeDotSlashReplaced", true).apply()
-            }
             if (!c.sp.contains("dbLightBrownAdded")) {
                 for (updated in c.people.values) {
                     val mask = Crush.BODY_EYE_COLOUR.first.inv()
@@ -199,7 +188,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         3 -> 5
                         4 -> 4
                         5 -> 6
-                        else -> throw IllegalStateException("Unrecognised eye colour!")
+                        else ->
+                            if (BuildConfig.DEBUG)
+                                throw IllegalStateException("Unrecognised eye colour!")
+                            else continue
                     }
                     updated.body = cleared or (pos shl Crush.BODY_EYE_COLOUR.second)
                     c.dao.cUpdate(updated)
@@ -271,6 +263,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 c.sp.edit().remove("do_not_show_google_play_removal").apply()
             if (c.sp.contains("prefersOrgType"))
                 c.sp.edit().remove("prefersOrgType").apply()
+            if (c.sp.contains("dbDateTimeDotSlashReplaced"))
+                c.sp.edit().remove("dbDateTimeDotSlashReplaced").apply()
         }
 
         // miscellaneous
