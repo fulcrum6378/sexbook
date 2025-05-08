@@ -87,12 +87,12 @@ class GuessAdap(private val c: Estimation) :
 
         // since
         if (g.sinc > -1L)
-            h.b.sinc.text = g.sinc.defCalendar(c).fullDate()
+            h.b.sinc.text = g.sinc.defCalendar(c.c).fullDate()
         else h.b.sinc.setText(R.string.etDateHint)
         h.b.sinc.setOnClickListener {
             val gu = c.c.guesses.getOrNull(h.layoutPosition) ?: return@setOnClickListener
             val oldTime = gu.sinc
-            var oldSinc = (if (oldTime > -1L) oldTime else NumberUtils.now()).defCalendar(c)
+            var oldSinc = (if (oldTime > -1L) oldTime else NumberUtils.now()).defCalendar(c.c)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 oldSinc.set(Calendar.YEAR, year)
                 oldSinc.set(Calendar.MONTH, month)
@@ -108,12 +108,12 @@ class GuessAdap(private val c: Estimation) :
 
         // until
         if (g.till > -1L)
-            h.b.till.text = g.till.defCalendar(c).fullDate()
+            h.b.till.text = g.till.defCalendar(c.c).fullDate()
         else h.b.till.setText(R.string.etDateHint)
         h.b.till.setOnClickListener {
             val gu = c.c.guesses.getOrNull(h.layoutPosition) ?: return@setOnClickListener
             val oldTime = gu.till
-            var oldTill = (if (oldTime > -1L) oldTime else NumberUtils.now()).defCalendar(c)
+            var oldTill = (if (oldTime > -1L) oldTime else NumberUtils.now()).defCalendar(c.c)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 oldTill.set(Calendar.YEAR, year)
                 oldTill.set(Calendar.MONTH, month)

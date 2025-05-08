@@ -15,6 +15,7 @@ import ir.mahdiparastesh.hellocharts.model.SubColumnValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.sexbook.Settings
+import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
@@ -64,21 +65,21 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
 
     /** Creates a list of months of the recorded sexual history. */
     fun sinceTheBeginning(
-        c: BaseActivity, history: Iterable<Report> = c.c.reports.toArrayList()
+        c: Sexbook, history: Iterable<Report> = c.reports.toArrayList()
     ): List<String> {
         // Find the ending
         var end = c.calType().getDeclaredConstructor().newInstance()
         var oldest = end.timeInMillis
-        if (c.c.sp.getBoolean(Settings.spStatUntilCb, false)) {
-            val statTill = c.c.sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
+        if (c.sp.getBoolean(Settings.spStatUntilCb, false)) {
+            val statTill = c.sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
             var newest = 0L
             for (h in history) if (h.time in (newest + 1)..statTill) newest = h.time
             if (newest != 0L) end = newest.calendar(c)
         }
 
         // Find the beginning
-        if (c.c.sp.getBoolean(Settings.spStatSinceCb, false)) {
-            val statSinc = c.c.sp.getLong(Settings.spStatSince, Long.MIN_VALUE)
+        if (c.sp.getBoolean(Settings.spStatSinceCb, false)) {
+            val statSinc = c.sp.getLong(Settings.spStatSince, Long.MIN_VALUE)
             for (h in history) if (h.time in statSinc until oldest) oldest = h.time
         } else for (h in history) if (h.time < oldest) oldest = h.time
 
@@ -91,7 +92,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
             if (y == 0) start = beg[Calendar.MONTH]
             if (y == yDist) finish = end[Calendar.MONTH]
             for (m in start..finish) list.add(
-                "${McdtpUtils.localSymbols(c.c, c.calType()).shortMonths[m]} " +
+                "${McdtpUtils.localSymbols(c, c.calType()).shortMonths[m]} " +
                         "${beg[Calendar.YEAR] + y}"
             )
         }
@@ -100,7 +101,7 @@ abstract class ChartActivity<L> : BaseActivity() where L : ViewBinding {
 
     /** Filters a month of sex records out of a list. */
     fun calcHistory(
-        c: BaseActivity, list: ArrayList<Summary.Orgasm>, month: String,
+        c: Sexbook, list: ArrayList<Summary.Orgasm>, month: String,
         growing: Boolean = false
     ): Float {
         var value = 0f

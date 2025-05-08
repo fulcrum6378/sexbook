@@ -40,10 +40,10 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override suspend fun draw(): AbstractChartData {
         val data = ArrayList<Pair<String, Float>>()
-        sinceTheBeginning(this, c.reports.filter {
+        sinceTheBeginning(c, c.reports.filter {
             if (it.analysis == null) it.analyse()
             mm.crushKey in it.analysis!!
-        }).forEach { data.add(Pair(it, calcHistory(this, mm.history!!, it))) }
+        }).forEach { data.add(Pair(it, calcHistory(c, mm.history!!, it))) }
         return ColumnChartData().setColumns(ColumnFactory(this, data))
     }
 

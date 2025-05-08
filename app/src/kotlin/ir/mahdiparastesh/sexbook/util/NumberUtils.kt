@@ -1,7 +1,7 @@
 package ir.mahdiparastesh.sexbook.util
 
 import android.icu.util.Calendar
-import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.Sexbook
 import java.text.DecimalFormat
 
 /** Static number-related utilities used everywhere */
@@ -29,12 +29,12 @@ object NumberUtils {
             ".${z(this[Calendar.DAY_OF_MONTH])}"
 
     /** @return a [Calendar] set on this timestamp */
-    fun Long.calendar(c: BaseActivity): Calendar =
+    fun Long.calendar(c: Sexbook): Calendar =
         c.calType().getDeclaredConstructor().newInstance().apply { timeInMillis = this@calendar }
 
     fun Calendar.createFilterYm() = Pair(this[Calendar.YEAR], this[Calendar.MONTH])
 
-    fun Long.defCalendar(c: BaseActivity): Calendar =
+    fun Long.defCalendar(c: Sexbook): Calendar =
         c.calType().getDeclaredConstructor().newInstance().apply {
             timeInMillis = this@defCalendar
             this[Calendar.HOUR_OF_DAY] = 0

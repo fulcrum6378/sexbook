@@ -34,7 +34,7 @@ class StatRecAdap(private val r: Recency) :
                 (if (!statOnlyCrushes && crushKey in r.c.c.liefde) "*" else "") +
                 (r.c.c.summary!!.scores[crushKey]?.sumOf { it.value }
                     ?.show()?.let { " {$it}" } ?: "")
-        val lm = r.items[i].time.calendar(r.c)
+        val lm = r.items[i].time.calendar(r.c.c)
         h.b.date.text =
             "${lm.fullDate()} - ${z(lm[Calendar.HOUR_OF_DAY])}:${z(lm[Calendar.MINUTE])}"
         h.b.sep.isVisible = i != r.items.size - 1

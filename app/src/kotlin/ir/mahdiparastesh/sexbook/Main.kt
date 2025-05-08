@@ -164,7 +164,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // load all data from the database
         if (!c.dbLoaded) CoroutineScope(Dispatchers.IO).launch {
-            //Log.println(Log.ASSERT, "ZOEY", "Began reading the database...")
+            //Log.d("ZOEY", "Began reading the database...")
 
             // Report
             for (r in c.dao.rGetAll()) c.reports[r.id] = r
@@ -175,7 +175,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 (it.value.status and Crush.STAT_INACTIVE) == 0.toByte()
             }.map { it.key })
             c.unsafe.addAll(c.people.filter { it.value.unsafe() }.map { it.key })
-            if (CalendarManager.checkPerm(c)) CalendarManager.initialise(this@Main)
+            if (CalendarManager.checkPerm(c)) CalendarManager.initialise(c)
             if (!c.sp.contains("dbLightBrownAdded")) {
                 for (updated in c.people.values) {
                     val mask = Crush.BODY_EYE_COLOUR.first.inv()
@@ -228,9 +228,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             c.guesses.sortWith(Guess.Sort())
 
 
-            //Log.println(Log.ASSERT, "ZOEY", "Finished reading the database...")
+            //Log.d("ZOEY", "Finished reading the database...")
             c.dbLoaded = true
             withContext(Dispatchers.Main) {
+
                 // notify if any birthday is around
                 if ((NumberUtils.now() - c.sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                             ) >= Settings.notifyBirthAfterLastTime &&
@@ -445,8 +446,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         // this is possible only if the range of the sex records exceeds one month.
         if (filtered.isEmpty()) return false
         else if (!ignoreIfItsLessThanAMonth && // if it's empty, minOf will throw NoSuchElementException!
-            filtered.minOf { it.time }.calendar(this).createFilterYm().toString() ==
-            filtered.maxOf { it.time }.calendar(this).createFilterYm().toString()
+            filtered.minOf { it.time }.calendar(c).createFilterYm().toString() ==
+            filtered.maxOf { it.time }.calendar(c).createFilterYm().toString()
         ) return false
 
         // filter by type
@@ -470,7 +471,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
             == PackageManager.PERMISSION_GRANTED
         ) (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).also { nm ->
-            val channelBirth = Main::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
+            val channelBirth = Sexbook::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
             nm.createNotificationChannel(
                 NotificationChannel(
                     channelBirth, getString(R.string.bHappyChannel),
@@ -527,7 +528,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 
     enum class Action(val s: String) {
-        ADD("${Main::class.java.`package`!!.name}.ACTION_ADD"),
-        VIEW("${Main::class.java.`package`!!.name}.ACTION_VIEW"),
+        ADD("${Sexbook::class.java.`package`!!.name}.ACTION_ADD"),
+        VIEW("${Sexbook::class.java.`package`!!.name}.ACTION_VIEW"),
     }
 }

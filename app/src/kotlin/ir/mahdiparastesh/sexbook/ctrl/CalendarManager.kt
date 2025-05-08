@@ -8,14 +8,15 @@ import android.content.pm.PackageManager
 import android.icu.util.TimeZone
 import android.net.Uri
 import android.provider.CalendarContract
+import android.util.Log
 import androidx.annotation.MainThread
 import androidx.core.app.ActivityCompat
 import androidx.core.database.getLongOrNull
-import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.view.UiTools
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +25,7 @@ import java.io.File
 import android.provider.CalendarContract.Calendars as CCC
 import android.provider.CalendarContract.Events as CCE
 
-/** API for maintaining Sexbook data in the system calendar. */
-@Suppress("RedundantSuspendModifier")
+/** An interface for managing Sexbook data in the system calendar */
 object CalendarManager {
     private const val accName = "sexbook"
     private const val tz = "GMT"
@@ -49,11 +49,11 @@ object CalendarManager {
     }
 
     /** Creates the calendar if it doesn't exist, if it does, retrieves its ID. */
-    suspend fun initialise(c: BaseActivity) {
-        //Log.println(Log.ASSERT, "ZOEY", "initialise")
+    suspend fun initialise(c: Sexbook) {
+        //Log.d("ZOEY", "CalendarManager: initialise")
         if (alteredOnce) return
         val canCreateCalendar = // implicitly `alterCode != 2`
-            c.c.sp.getBoolean(Settings.spCalOutput, false)
+            c.sp.getBoolean(Settings.spCalOutput, false)
         val cache = AlterationCache()
         val cacheExists = cache.exists()
         if (!canCreateCalendar && !cacheExists) return
@@ -72,8 +72,8 @@ object CalendarManager {
         }
         if (id != null && id != -1L) {
             when (alterCode) {
-                1 -> update(c.c)
-                2 -> destroy(c.c)
+                1 -> update(c)
+                2 -> destroy(c)
             }
             return
         }
@@ -84,7 +84,7 @@ object CalendarManager {
             put(CCC.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL)
             put(CCC.NAME, "Sexbook")
             put(CCC.CALENDAR_DISPLAY_NAME, c.getString(R.string.app_name))
-            put(CCC.CALENDAR_COLOR, c.color(R.color.CP_LIGHT))
+            put(CCC.CALENDAR_COLOR, c.resources.getColor(R.color.CP_LIGHT, c.theme))
             put(CCC.CALENDAR_ACCESS_LEVEL, CCC.CAL_ACCESS_READ)
             put(CCC.SYNC_EVENTS, 0)
             put(CCC.CALENDAR_TIME_ZONE, tz)
@@ -96,25 +96,35 @@ object CalendarManager {
                         CCC.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL
                     ).build(), this
             )?.also { id = it.getId() }
-            insertEvents(c.c)
-            //Log.println(Log.ASSERT, "ZOEY", "calendar was created with ID: $id")
+            Log.d("ZOEY", "CalendarManager: a calendar was created with ID: $id")
+            insertEvents(c)
         }
     }
 
     private fun Uri.getId() =
         toString().substringAfterLast("/").substringBefore("?").toLong()
 
+    @Suppress("RedundantSuspendModifier")
     private suspend fun insertEvents(c: Sexbook) {
-        if (c.liefde.isEmpty()) return
+        //Log.d("ZOEY", "CalendarManager: insertEvents")
 
+        // prepare a list of people whose birthdays are important
+        val bdList = hashSetOf<Crush>()
+        for (crush in c.liefde) c.people[crush]?.also { bdList.add(it) }
+        for (person in c.people.values) if (person.notifyBirth()) bdList.add(person)
+        if (bdList.isEmpty()) return
+
+        // add their birthdays one by one into the system calendar
         val thisTz = TimeZone.getTimeZone(tz)
-        for (crush in c.liefde) {
-            val cr = c.people[crush] ?: return
-            val birthTime = cr.birth?.replace(".", "/")
-                ?.let { UiTools.compDateTimeToCalendar(it, thisTz).timeInMillis } ?: return
+        for (crush in bdList) {
+            val birthTime = crush.birth
+                ?.replace(".", "/")
+                ?.let { UiTools.compDateTimeToCalendar(it, thisTz).timeInMillis }
+                ?: continue
+            //Log.d("ZOEY", "CalendarManager: $crush in c.liefde")
             ContentValues().apply {
                 put(CCE.CALENDAR_ID, id)
-                put(CCE.TITLE, c.getString(R.string.sBirthday, cr.visName()))
+                put(CCE.TITLE, c.getString(R.string.sBirthday, crush.visName()))
                 put(CCE.DTSTART, birthTime)
                 put(CCE.RRULE, "FREQ=YEARLY")
                 put(CCE.DURATION, "P1D")
@@ -127,29 +137,30 @@ object CalendarManager {
     }
 
     suspend fun update(c: Sexbook) {
-        //Log.println(Log.ASSERT, "ZOEY", "update (id: $id)")
+        //Log.d("ZOEY", "CalendarManager: update (id: $id)")
         if (id == null) return
         if (alteredOnce) {
             AlterationCache().writeCode(1)
             return; }
-        //Log.println(Log.ASSERT, "ZOEY", "updating")
+        //Log.d("ZOEY", "CalendarManager: updating")
 
         deleteEvents(c)
         insertEvents(c)
     }
 
+    @Suppress("RedundantSuspendModifier")
     private suspend fun deleteEvents(c: Sexbook) {
         c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
         alteredOnce = true
     }
 
     fun destroy(c: Sexbook) {
-        //Log.println(Log.ASSERT, "ZOEY", "destory (id: $id)")
+        //Log.d("ZOEY", "CalendarManager: destory (id: $id)")
         if (id == null) return
         if (alteredOnce) {
             AlterationCache().writeCode(2)
             return; }
-        //Log.println(Log.ASSERT, "ZOEY", "destorying")
+        //Log.d("ZOEY", "CalendarManager: destorying")
 
         CoroutineScope(Dispatchers.IO).launch {
             deleteEvents(c)
@@ -160,7 +171,7 @@ object CalendarManager {
 
     @SuppressLint("SdCardPath")
     class AlterationCache : File(
-        "/data/data/" + Main::class.java.`package`!!.name + "/cache/alter_calendar"
+        "/data/data/" + Sexbook::class.java.`package`!!.name + "/cache/alter_calendar"
     ) {
         fun writeCode(code: Int) {
             outputStream().use { it.write(code) }

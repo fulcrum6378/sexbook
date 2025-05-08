@@ -4,8 +4,6 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.icu.util.GregorianCalendar
-import android.icu.util.IndianCalendar
 import android.os.Build
 import android.os.SystemClock
 import android.os.VibrationEffect
@@ -20,15 +18,12 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
-import ir.mahdiparastesh.sexbook.util.HumanistIranianCalendar
 import ir.mahdiparastesh.sexbook.view.UiTools.vib
-import java.util.Locale
 import kotlin.reflect.KClass
 
 /** Abstract class for all Activity instances in this app and it extends [FragmentActivity] */
@@ -65,7 +60,7 @@ abstract class BaseActivity : FragmentActivity() {
 
     /** Helper function for getting a colour from resources. */
     @ColorInt
-    fun color(@ColorRes res: Int) = ContextCompat.getColor(c, res)
+    fun color(@ColorRes res: Int) = resources.getColor(res, theme)
 
     /** @return the colour value of this attribute resource from the theme */
     @ColorInt
@@ -82,19 +77,6 @@ abstract class BaseActivity : FragmentActivity() {
         if (!night) color(R.color.CPV_LIGHT)
         else themeColor(com.google.android.material.R.attr.colorOnPrimary)
     }
-
-    /**
-     * @return the chosen calendar type, if no choice made, chooses it using their default Locale
-     */
-    fun calType() = arrayOf(
-        GregorianCalendar::class.java,
-        HumanistIranianCalendar::class.java,
-        IndianCalendar::class.java
-    )[c.sp.getInt(
-        Settings.spCalType, when (Locale.getDefault().country) {
-            "IR" -> 1; "IN" -> 2; else -> 0
-        }
-    )]
 
     /** Helper function for starting an Activity */
     fun goTo(

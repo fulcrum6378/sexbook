@@ -3,6 +3,8 @@ package ir.mahdiparastesh.sexbook
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.SharedPreferences
+import android.icu.util.GregorianCalendar
+import android.icu.util.IndianCalendar
 import android.util.LongSparseArray
 import androidx.annotation.MainThread
 import androidx.core.view.isVisible
@@ -16,9 +18,11 @@ import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.stat.Summary
+import ir.mahdiparastesh.sexbook.util.HumanistIranianCalendar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Locale
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.CopyOnWriteArraySet
 
@@ -65,6 +69,21 @@ class Sexbook : Application() {
         liefde.clear()
         unsafe.clear()
     }
+
+    /**
+     * @return the chosen calendar type, if no choice made, chooses it using their default Locale
+     */
+    fun calType() = arrayOf(
+        GregorianCalendar::class.java,
+        HumanistIranianCalendar::class.java,
+        IndianCalendar::class.java
+    )[sp.getInt(
+        Settings.spCalType, when (Locale.getDefault().country) {
+            "IR" -> 1
+            "IN" -> 2
+            else -> 0
+        }
+    )]
 
     /** @param changeType 0=>insert, 1=>update, 2=>delete */
     @SuppressLint("NotifyDataSetChanged")

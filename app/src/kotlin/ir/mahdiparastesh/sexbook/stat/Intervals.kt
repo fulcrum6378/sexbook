@@ -41,7 +41,7 @@ class Intervals : ChartActivity<IntervalsBinding>() {
             val iDelay = delay.toInt()
             points.add(
                 PointValue(i, delay).setLabel(
-                    org.time.calendar(this).fullDate() +
+                    org.time.calendar(c).fullDate() +
                             getString(R.string.after) +
                             resources.getQuantityString(R.plurals.hour, iDelay, iDelay)
                 )

@@ -42,7 +42,7 @@ class PageSex : BasePage() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //Log.println(Log.ASSERT, "ZOEY", "PageSex::onViewCreated")
+        //Log.d("ZOEY", "PageSex::onViewCreated")
 
         // Spinner of filters
         b.spnFilter.setOnTouchListener { _, _ -> spnFilterTouched = true; false }
@@ -62,7 +62,7 @@ class PageSex : BasePage() {
 
     override fun prepareList() {
         super.prepareList()
-        //Log.println(Log.ASSERT, "ZOEY", "PageSex::prepareList()")
+        //Log.d("ZOEY", "PageSex::prepareList()")
         reset(c.intentViewId)
         c.intentViewId = null
 
@@ -92,7 +92,7 @@ class PageSex : BasePage() {
         // which month to show?
         var curFilter = if (c.mm.listFilter == -1) (filters.size - 1) else c.mm.listFilter
         if (scrollToId != null && scrollToId in c.c.reports) {
-            val toFilter = c.c.reports[scrollToId]!!.time.calendar(c).createFilterYm()
+            val toFilter = c.c.reports[scrollToId]!!.time.calendar(c.c).createFilterYm()
             val fIndex =
                 filters.indexOfFirst { it.year == toFilter.first && it.month == toFilter.second }
             if (fIndex != -1) curFilter = fIndex
@@ -113,7 +113,7 @@ class PageSex : BasePage() {
     private fun createFilters(): List<Report.Filter> {
         val filters = arrayListOf<Report.Filter>()
         for ((id, r) in c.c.reports.iterator()) {
-            val ym = r.time.calendar(c).createFilterYm()
+            val ym = r.time.calendar(c.c).createFilterYm()
             var filterExists = false
             for (f in filters.indices)
                 if (filters[f].year == ym.first && filters[f].month == ym.second) {
@@ -153,7 +153,7 @@ class PageSex : BasePage() {
     fun updateFilterSpinner() {
         b.spnFilter.adapter = ArrayAdapter(
             c, R.layout.spinner_yellow,
-            List(filters.size) { f -> "${f + 1}. ${filters[f].title(c)}" }
+            List(filters.size) { f -> "${f + 1}. ${filters[f].title(c.c)}" }
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         spnFilterTouched = false
         b.spnFilter.setSelection(c.mm.listFilter, true)
@@ -210,7 +210,7 @@ class PageSex : BasePage() {
             c.c.reports[newOne.id] = newOne
 
             withContext(Dispatchers.Main) {
-                val ym = newOne.time.calendar(c).createFilterYm()
+                val ym = newOne.time.calendar(c.c).createFilterYm()
                 if (c.mm.listFilter >= 0 &&
                     filters.indexOfFirst { it.year == ym.first && it.month == ym.second } == c.mm.listFilter
                 ) {

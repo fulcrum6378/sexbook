@@ -23,7 +23,7 @@ import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.PageSex
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.ctrl.LastOrgasm
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Place
@@ -117,14 +117,14 @@ class ReportAdap(
         val r = c.mm.visReports.getOrNull(i)?.let { c.c.reports[it] } ?: return
 
         // date & time
-        h.b.date.text = compileDate(c, r.time)
+        h.b.date.text = compileDate(c.c, r.time)
         if (!r.guess) {
-            val cal = r.time.calendar(c)
+            val cal = r.time.calendar(c.c)
             h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
             h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
             h.b.clock.setOnClickListener {
                 TimePickerDialog.newInstance({ _, hourOfDay, minute, second ->
-                    val calc = r.time.calendar(c)
+                    val calc = r.time.calendar(c.c)
                     calc[Calendar.HOUR_OF_DAY] = hourOfDay
                     calc[Calendar.MINUTE] = minute
                     calc[Calendar.SECOND] = second
@@ -355,7 +355,7 @@ class ReportAdap(
             // ONLY if date or time have been changed...
             if (dateTimeChanged) withContext(Dispatchers.Main) {
                 val oldPos = c.mm.visReports.indexOf(id)
-                val ym = c.c.reports[id]!!.time.calendar(c).createFilterYm()
+                val ym = c.c.reports[id]!!.time.calendar(c.c).createFilterYm()
                 if (f.filters.getOrNull(c.mm.listFilter)
                         ?.let { ym.first == it.year && ym.second == it.month } == true
                 ) {
@@ -392,10 +392,10 @@ class ReportAdap(
     companion object {
         const val estimatedAlpha = 0.75f
 
-        fun compileDate(c: BaseActivity, time: Long): String {
+        fun compileDate(c: Sexbook, time: Long): String {
             val calType = c.calType()
             val lm = calType.getDeclaredConstructor().newInstance().apply { timeInMillis = time }
-            return "${McdtpUtils.localSymbols(c.c, calType).shortMonths[lm.get(Calendar.MONTH)]} " +
+            return "${McdtpUtils.localSymbols(c, calType).shortMonths[lm.get(Calendar.MONTH)]} " +
                     "${lm.get(Calendar.DAY_OF_MONTH)}"
         }
 

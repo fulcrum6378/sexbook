@@ -187,6 +187,15 @@ class Crush(
     }
 
 
+    override fun hashCode(): Int = key.hashCode()
+    override fun toString(): String = key
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        return key == (other as Crush).key
+    }
+
+
     class Sort(
         private val c: Sexbook, private val by: Int, private val asc: Boolean
     ) : Comparator<String> {

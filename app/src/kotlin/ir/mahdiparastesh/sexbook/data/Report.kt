@@ -7,7 +7,7 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import ir.mahdiparastesh.mcdtp.McdtpUtils
-import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.Sexbook
 
 @Entity
 class Report(
@@ -71,7 +71,7 @@ class Report(
             map.add(item)
         }
 
-        fun title(c: BaseActivity) =
+        fun title(c: Sexbook) =
             "${McdtpUtils.localSymbols(c, c.calType()).months[month]} $year : {${map.size}}"
 
         override operator fun equals(other: Any?): Boolean {

@@ -127,9 +127,9 @@ class Settings : BaseActivity() {
         }
         b.stStatSinceDate.text =
             if (!c.sp.contains(spStatSince)) emptyDate
-            else c.sp.getLong(spStatSince, 0).calendar(this).fullDate()
+            else c.sp.getLong(spStatSince, 0).calendar(c).fullDate()
         b.stStatSince.setOnClickListener {
-            var cal = c.sp.getLong(spStatSince, NumberUtils.now()).calendar(this)
+            var cal = c.sp.getLong(spStatSince, NumberUtils.now()).calendar(c)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
@@ -163,9 +163,9 @@ class Settings : BaseActivity() {
         }
         b.stStatUntilDate.text =
             if (!c.sp.contains(spStatUntil)) emptyDate
-            else c.sp.getLong(spStatUntil, 0).calendar(this).fullDate()
+            else c.sp.getLong(spStatUntil, 0).calendar(c).fullDate()
         b.stStatUntil.setOnClickListener {
-            var cal = c.sp.getLong(spStatUntil, NumberUtils.now()).calendar(this)
+            var cal = c.sp.getLong(spStatUntil, NumberUtils.now()).calendar(c)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
@@ -371,7 +371,7 @@ class Settings : BaseActivity() {
     private fun turnCalendar(on: Boolean) {
         c.sp.edit().putBoolean(spCalOutput, on).apply()
         CoroutineScope(Dispatchers.IO).launch {
-            if (on) CalendarManager.initialise(this@Settings)
+            if (on) CalendarManager.initialise(c)
             else CalendarManager.destroy(c)
         }
     }
