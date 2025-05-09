@@ -164,20 +164,3 @@ class Sexbook : Application() {
         } ?: arrayListOf()
     // it must necessarily return a mutable collection, otherwise CrushSuggester::update() will error!
 }
-
-/* TODO:
-  * Improvements:
-  * A better icon for birthday notifications
-  * Progress indicator for Place-Report migrations and statistics
-  * Random Crush suggestion
-  * Put a menu button in the overflow portion of ReportAdap
-  * What to do with the splash screen on Android 12+? (the icon over there has become invisible!)
-  * DotsIndicator for Taste and CrushesStat
-  * Progressive diagrams for Taste
-  * "Reactivate Crush" for Singular
-  * Fictionality, first met / first orgasm year for Taste and CrushesStat
-  * -
-  * Discouraged:
-  * Search for People through their names, locations and IG accounts
-  * Search for Reports in their names and descriptions
-  */
