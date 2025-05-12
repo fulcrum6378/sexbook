@@ -2,7 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/body"
     tools:context=".stat.Intervals"
-    tools:ignore="MissingConstraints">
+    tools:ignore="MissingConstraints"
+    tools:viewBindingIgnore="true">
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="@style/statLoading" />
 
     <ir.mahdiparastesh.hellocharts.view.LineChartView
         android:id="@+id/main"

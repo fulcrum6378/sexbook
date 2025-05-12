@@ -5,20 +5,16 @@ import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.Line
 import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.model.PointValue
-import ir.mahdiparastesh.hellocharts.view.AbstractChartView
+import ir.mahdiparastesh.hellocharts.view.LineChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
-import ir.mahdiparastesh.sexbook.databinding.IntervalsBinding
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.fullDate
 import ir.mahdiparastesh.sexbook.view.SexType
 
-class Intervals : ChartActivity<IntervalsBinding>() {
+class Intervals : ChartActivity<LineChartView>(R.layout.intervals) {
     private lateinit var allowedSexTypes: List<Byte>
-
-    override val b by lazy { IntervalsBinding.inflate(layoutInflater) }
-    override val chartView: AbstractChartView get() = b.main
 
     override suspend fun draw(): AbstractChartData {
         val points = arrayListOf<PointValue>()
@@ -55,9 +51,9 @@ class Intervals : ChartActivity<IntervalsBinding>() {
     }
 
     override suspend fun render(data: AbstractChartData) {
-        b.main.setLabelOffset(dp(20))
-        b.main.lineChartData = data as LineChartData
-        b.main.isViewportCalculationEnabled = false
+        chartView.setLabelOffset(dp(20))
+        chartView.lineChartData = data as LineChartData
+        chartView.isViewportCalculationEnabled = false
     }
 
     override fun requirements() = c.reports.isNotEmpty()

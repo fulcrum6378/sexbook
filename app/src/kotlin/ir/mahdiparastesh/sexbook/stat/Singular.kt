@@ -1,18 +1,20 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModel
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.ColumnChartData
-import ir.mahdiparastesh.hellocharts.view.AbstractChartView
+import ir.mahdiparastesh.hellocharts.view.ColumnChartView
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.ctrl.Identify
-import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
 
-class Singular : ChartActivity<SingularBinding>() {
-    override val b by lazy { SingularBinding.inflate(layoutInflater) }
-    override val chartView: AbstractChartView get() = b.main
+class Singular : ChartActivity<ColumnChartView>(R.layout.singular) {
+
     val mm: MyModel by viewModels()
 
     companion object {
@@ -26,10 +28,12 @@ class Singular : ChartActivity<SingularBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (night) b.identifyIV.colorFilter = themePdcf()
+        if (night) findViewById<ImageView>(R.id.identifyIV).colorFilter = themePdcf()
 
-        b.title.text = mm.crushKey
-        b.identify.setOnClickListener { Identify.create<Singular>(this@Singular, mm.crushKey!!) }
+        findViewById<TextView>(R.id.title).text = mm.crushKey
+        findViewById<ConstraintLayout>(R.id.identify).setOnClickListener {
+            Identify.create<Singular>(this@Singular, mm.crushKey!!)
+        }
     }
 
     override fun requirements(): Boolean {
@@ -48,6 +52,6 @@ class Singular : ChartActivity<SingularBinding>() {
     }
 
     override suspend fun render(data: AbstractChartData) {
-        b.main.columnChartData = data as ColumnChartData
+        chartView.columnChartData = data as ColumnChartData
     }
 }

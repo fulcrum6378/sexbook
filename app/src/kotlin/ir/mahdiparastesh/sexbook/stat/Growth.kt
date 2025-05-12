@@ -2,13 +2,11 @@ package ir.mahdiparastesh.sexbook.stat
 
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.LineChartData
-import ir.mahdiparastesh.hellocharts.view.AbstractChartView
+import ir.mahdiparastesh.hellocharts.view.LineChartView
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
-import ir.mahdiparastesh.sexbook.databinding.GrowthBinding
 
-class Growth : ChartActivity<GrowthBinding>() {
-    override val b by lazy { GrowthBinding.inflate(layoutInflater) }
-    override val chartView: AbstractChartView get() = b.main
+class Growth : ChartActivity<LineChartView>(R.layout.growth) {
 
     override suspend fun draw(): AbstractChartData {
         val hideUnsafe =
@@ -30,7 +28,7 @@ class Growth : ChartActivity<GrowthBinding>() {
     }
 
     override suspend fun render(data: AbstractChartData) {
-        b.main.setLabelOffset(dp(20))
-        b.main.lineChartData = data as LineChartData
+        chartView.setLabelOffset(dp(20))
+        chartView.lineChartData = data as LineChartData
     }
 }

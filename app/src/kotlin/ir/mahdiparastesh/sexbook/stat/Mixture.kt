@@ -3,14 +3,12 @@ package ir.mahdiparastesh.sexbook.stat
 import androidx.core.util.isNotEmpty
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.ColumnChartData
-import ir.mahdiparastesh.hellocharts.view.AbstractChartView
-import ir.mahdiparastesh.sexbook.databinding.MixtureBinding
+import ir.mahdiparastesh.hellocharts.view.ColumnChartView
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
 import ir.mahdiparastesh.sexbook.view.SexType
 
-class Mixture : ChartActivity<MixtureBinding>() {
-    override val b by lazy { MixtureBinding.inflate(layoutInflater) }
-    override val chartView: AbstractChartView get() = b.main
+class Mixture : ChartActivity<ColumnChartView>(R.layout.mixture) {
 
     override fun requirements() = c.reports.isNotEmpty()
 
@@ -29,6 +27,6 @@ class Mixture : ChartActivity<MixtureBinding>() {
     }
 
     override suspend fun render(data: AbstractChartData) {
-        b.main.columnChartData = data as ColumnChartData
+        chartView.columnChartData = data as ColumnChartData
     }
 }

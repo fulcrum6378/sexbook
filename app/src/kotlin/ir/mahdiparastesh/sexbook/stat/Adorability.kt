@@ -2,13 +2,11 @@ package ir.mahdiparastesh.sexbook.stat
 
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.LineChartData
-import ir.mahdiparastesh.hellocharts.view.AbstractChartView
+import ir.mahdiparastesh.hellocharts.view.LineChartView
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
-import ir.mahdiparastesh.sexbook.databinding.AdorabilityBinding
 
-class Adorability : ChartActivity<AdorabilityBinding>() {
-    override val b by lazy { AdorabilityBinding.inflate(layoutInflater) }
-    override val chartView: AbstractChartView get() = b.main
+class Adorability : ChartActivity<LineChartView>(R.layout.adorability) {
 
     override suspend fun draw(): AbstractChartData {
         val hideUnsafe =
@@ -31,9 +29,9 @@ class Adorability : ChartActivity<AdorabilityBinding>() {
     }
 
     override suspend fun render(data: AbstractChartData) {
-        b.main.setLabelOffset(dp(20))
-        b.main.lineChartData = data as LineChartData
-        b.main.isViewportCalculationEnabled = false // never do it before setLineChatData
+        chartView.setLabelOffset(dp(20))
+        chartView.lineChartData = data as LineChartData
+        chartView.isViewportCalculationEnabled = false // never do it before setLineChatData
         // it cannot be zoomed out.
     }
 }
