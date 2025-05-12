@@ -258,6 +258,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         prepareList()
                     }
                 }
+
+                //notifyBirth(c.people["Zoey"]!!, 1000)
             }
 
             if (c.sp.contains("do_not_show_google_play_removal"))
@@ -467,57 +469,59 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun notifyBirth(crush: Crush, dist: Long) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU ||
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
             ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-            == PackageManager.PERMISSION_GRANTED
-        ) (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).also { nm ->
-            val channelBirth = Sexbook::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
-            nm.createNotificationChannel(
-                NotificationChannel(
-                    channelBirth, getString(R.string.bHappyChannel),
-                    if (crush.active()) NotificationManager.IMPORTANCE_HIGH
-                    else NotificationManager.IMPORTANCE_LOW
+            != PackageManager.PERMISSION_GRANTED
+        ) return
+
+        val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val channelBirth = Sexbook::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
+        nm.createNotificationChannel(
+            NotificationChannel(
+                channelBirth, getString(R.string.bHappyChannel),
+                if (crush.active()) NotificationManager.IMPORTANCE_HIGH
+                else NotificationManager.IMPORTANCE_LOW
+            )
+        )
+        val ntf = Notification.Builder(this@Main, channelBirth).apply {
+            setSmallIcon(R.drawable.birthday)
+            setColor(color(R.color.CPV_LIGHT))
+
+            setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
+            val hours = abs(dist / 3600000L).toInt()
+            setContentText(
+                getString(
+                    if (dist < 0L) R.string.bHappyBef
+                    else R.string.bHappyAft,
+                    resources.getQuantityString(R.plurals.hour, hours, hours),
+                    possessiveDeterminer((crush.status and Crush.STAT_GENDER).toInt())
                 )
             )
-            val hours = abs(dist / 3600000L).toInt()
-            nm.notify(
-                crush.key.length + crush.visName().length,
-                Notification.Builder(this@Main, channelBirth).apply {
-                    setSmallIcon(R.drawable.notification)
-                    setContentTitle(getString(R.string.bHappyTitle, crush.visName()))
-                    setContentText(
-                        getString(
-                            if (dist < 0L) R.string.bHappyBef
-                            else R.string.bHappyAft,
-                            resources.getQuantityString(R.plurals.hour, hours, hours),
-                            possessiveDeterminer((crush.status and Crush.STAT_GENDER).toInt())
-                        )
+
+            if (!crush.insta.isNullOrBlank()) addAction(
+                Notification.Action.Builder(
+                    null, getString(R.string.instagram),
+                    PendingIntent.getActivity(
+                        c, 0,
+                        Intent(Intent.ACTION_VIEW, (Crush.INSTA + crush.insta).toUri()),
+                        UiTools.ntfMutability(true)
                     )
-                    if (!crush.insta.isNullOrBlank()) addAction(
-                        Notification.Action.Builder(
-                            null, getString(R.string.instagram),
-                            PendingIntent.getActivity(
-                                c, 0,
-                                Intent(Intent.ACTION_VIEW, (Crush.INSTA + crush.insta).toUri()),
-                                UiTools.ntfMutability(true)
-                            )
-                        ).build()
-                    )
-                    addAction(
-                        Notification.Action.Builder(
-                            null, getString(R.string.bHappyTurnOff),
-                            PendingIntent.getBroadcast(
-                                c, 0, Intent(c, NotificationActions::class.java)
-                                    .setAction(NotificationActions.ACTION_TURN_OFF_BIRTHDAY_NOTIFICATION)
-                                    .putExtra(NotificationActions.EXTRA_CRUSH_KEY, crush.key),
-                                UiTools.ntfMutability(true)
-                            )
-                        ).build()
-                    )
-                }.build()
+                ).build()
             )
-            c.sp.edit().putLong(Settings.spLastNotifiedBirthAt, NumberUtils.now()).apply()
-        }
+            addAction(
+                Notification.Action.Builder(
+                    null, getString(R.string.bHappyTurnOff),
+                    PendingIntent.getBroadcast(
+                        c, 0, Intent(c, NotificationActions::class.java)
+                            .setAction(NotificationActions.ACTION_TURN_OFF_BIRTHDAY_NOTIFICATION)
+                            .putExtra(NotificationActions.EXTRA_CRUSH_KEY, crush.key),
+                        UiTools.ntfMutability(true)
+                    )
+                ).build()
+            )
+        }.build()
+        nm.notify(crush.key.length + crush.visName().length, ntf)
+        c.sp.edit().putLong(Settings.spLastNotifiedBirthAt, NumberUtils.now()).apply()
     }
 
     fun onDataChanged() {

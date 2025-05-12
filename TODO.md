@@ -2,7 +2,6 @@
 
 ### Improvements
 
-* A better icon for birthday notifications
 * A ProgressBar for `Place`-`Report` migrations and statistics
 * Random `Crush` suggestion in `PageLove`
 * Put a menu button in the overflow portion of `ReportAdap`
