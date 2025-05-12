@@ -13,30 +13,42 @@
     <ir.mahdiparastesh.hellocharts.view.ColumnChartView
         android:id="@+id/main"
         style="@style/statChart"
-        android:paddingTop="68dp" />
-
-    <TextView
-        android:id="@+id/title"
-        style="@style/statTitle" />
+        android:paddingTop="58dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/identify"
-        android:layout_width="48dp"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/button_light"
-        android:tooltipText="@string/addNewRecord"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_container"
+        android:elevation="5dp"
+        android:tooltipText="@string/identify"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/identifyIV"
-            style="@style/parentConstraint"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="@string/addNewRecord"
-            android:src="@drawable/default_user_person"
-            app:layout_constraintHeight_percent=".6"
-            app:layout_constraintWidth_percent=".6" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/identify"
+            android:padding="13dp"
+            android:src="@drawable/person"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bold"
+            android:paddingStart="10dp"
+            android:paddingEnd="25dp"
+            android:textColor="?textColorPrimaryContainer"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/identifyIV"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

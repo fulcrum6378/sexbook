@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Bundle
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +27,6 @@ class Singular : ChartActivity<ColumnChartView>(R.layout.singular) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (night) findViewById<ImageView>(R.id.identifyIV).colorFilter = themePdcf()
 
         findViewById<TextView>(R.id.title).text = mm.crushKey
         findViewById<ConstraintLayout>(R.id.identify).setOnClickListener {

@@ -3,7 +3,7 @@
 ### Improvements
 
 * A better icon for birthday notifications
-* Progress indicator for `Place`-`Report` migrations and statistics
+* A ProgressBar for `Place`-`Report` migrations and statistics
 * Random `Crush` suggestion in `PageLove`
 * Put a menu button in the overflow portion of `ReportAdap`
 * What to do with the splash screen on Android 12+? (the icon over there has become invisible!)

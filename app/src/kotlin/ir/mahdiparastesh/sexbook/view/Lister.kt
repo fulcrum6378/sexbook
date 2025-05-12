@@ -9,7 +9,6 @@ import android.view.ContextThemeWrapper
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import ir.mahdiparastesh.sexbook.R
@@ -35,6 +34,7 @@ interface Lister {
     }
 
     /** Creates and executes an explosion effect on this View. */
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun explosionEffect(
         v: View, dur: Long = 522, @DrawableRes src: Int = R.drawable.button_light,
         alpha: Float = 1f, max: Float = 4f
@@ -42,7 +42,7 @@ interface Lister {
         if (v.parent !is ConstraintLayout) return
         val parent = v.parent as ConstraintLayout
         val ex = View(this as BaseActivity).apply {
-            background = ContextCompat.getDrawable(this@Lister as BaseActivity, src)
+            background = getDrawable(src)
             this.alpha = alpha
         }
         parent.addView(

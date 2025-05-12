@@ -35,7 +35,8 @@
         <item name="colorPrimaryVariant">@color/CPV_LIGHT</item>
         <item name="colorPrimaryContainer">?colorPrimary</item>
         <item name="colorSecondary">#FFFBFF</item>
-        <item name="colorOnSecondary">#6F5900</item>
+        <item name="colorOnSecondary">@color/COS_LIGHT</item>
+        <item name="textColorPrimaryContainer">?colorOnPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
 
@@ -51,6 +52,8 @@
         <item name="colorSurfaceDim">#FF0</item>
         <item name="colorSurfaceBright">#0FF</item>-->
     </style>
+
+    <attr name="textColorPrimaryContainer" format="reference|color" />
 
 
     <style name="Theme.Sexbook.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
