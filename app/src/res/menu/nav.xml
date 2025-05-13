@@ -15,11 +15,11 @@
             android:title="@string/adorability" />
         <item
             android:id="@+id/momGrw"
-            android:icon="@drawable/chart_growth"
+            android:icon="@drawable/growth"
             android:title="@string/growth" />
         <item
             android:id="@+id/momMix"
-            android:icon="@drawable/sum"
+            android:icon="@drawable/mixture"
             android:title="@string/mixture" />
         <item
             android:id="@+id/momInt"
@@ -27,7 +27,7 @@
             android:title="@string/intervals" />
         <item
             android:id="@+id/momTst"
-            android:icon="@drawable/chart_pie"
+            android:icon="@drawable/taste"
             android:title="@string/taste" />
     </group>
 
@@ -38,7 +38,7 @@
             android:title="@string/people" />
         <item
             android:id="@+id/momPlc"
-            android:icon="@drawable/places"
+            android:icon="@drawable/place"
             android:title="@string/places" />
         <item
             android:id="@+id/momEst"

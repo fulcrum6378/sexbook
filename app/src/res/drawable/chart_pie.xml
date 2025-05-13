@@ -2,9 +2,12 @@
     android:width="24dp"
     android:height="24dp"
     android:autoMirrored="true"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:viewportWidth="16"
+    android:viewportHeight="16">
     <path
-        android:fillColor="@android:color/white"
-        android:pathData="M11,2v20c-5.07,-0.5 -9,-4.79 -9,-10s3.93,-9.5 9,-10zM13.03,2v8.99L22,10.99c-0.47,-4.74 -4.24,-8.52 -8.97,-8.99zM13.03,13.01L13.03,22c4.74,-0.47 8.5,-4.25 8.97,-8.99h-8.97z" />
+        android:fillColor="#000"
+        android:pathData="M7,0.062V9H15.938C15.446,12.946 12.08,16 8,16C3.582,16 0,12.418 0,8C0,3.92 3.054,0.554 7,0.062Z" />
+    <path
+        android:fillColor="#000"
+        android:pathData="M9,0.062V7H15.938C15.487,3.381 12.619,0.513 9,0.062Z" />
 </vector>

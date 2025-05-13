@@ -1,0 +1,35 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="52"
+    android:viewportHeight="52">
+    <!--https://www.svgrepo.com/svg/375166/summarydetail-->
+    <path
+        android:fillColor="#000"
+        android:pathData="M48.5,2h-45C2.7,2 2,2.7 2,3.5v5C2,9.3 2.7,10 3.5,10h45c0.8,0 1.5,-0.7 1.5,-1.5v-5C50,2.7 49.3,2 48.5,2z" />
+    <path
+        android:fillColor="#000"
+        android:pathData="M20.5,14h-7c-0.8,0 -1.5,0.7 -1.5,1.5v3c0,0.8 0.7,1.5 1.5,1.5h7c0.8,0 1.5,-0.7 1.5,-1.5v-3C22,14.7 21.3,14 20.5,14z" />
+    <path
+        android:fillColor="#000"
+        android:pathData="M34.5,14h-7c-0.8,0 -1.5,0.7 -1.5,1.5v3c0,0.8 0.7,1.5 1.5,1.5h7c0.8,0 1.5,-0.7 1.5,-1.5v-3C36,14.7 35.3,14 34.5,14z" />
+    <path
+        android:fillColor="#000"
+        android:pathData="M48.5,14h-7c-0.8,0 -1.5,0.7 -1.5,1.5v3c0,0.8 0.7,1.5 1.5,1.5h7c0.8,0 1.5,-0.7 1.5,-1.5v-3C50,14.7 49.3,14 48.5,14z" />
+    <path
+        android:fillColor="#000"
+        android:pathData="M20.5,34h-7c-0.8,0 -1.5,0.7 -1.5,1.5v3c0,0.8 0.7,1.5 1.5,1.5h7c0.8,0 1.5,-0.7 1.5,-1.5v-3C22,34.7 21.3,34 20.5,34z" />
+    <path
+        android:fillColor="#000"
+        android:pathData="M34.5,34h-7c-0.8,0 -1.5,0.7 -1.5,1.5v3c0,0.8 0.7,1.5 1.5,1.5h7c0.8,0 1.5,-0.7 1.5,-1.5v-3C36,34.7 35.3,34 34.5,34z" />
+    <path
+        android:fillColor="#000"
+        android:pathData="M48.5,34h-7c-0.8,0 -1.5,0.7 -1.5,1.5v3c0,0.8 0.7,1.5 1.5,1.5h7c0.8,0 1.5,-0.7 1.5,-1.5v-3C50,34.7 49.3,34 48.5,34z" />
+    <path
+        android:fillColor="#000"
+        android:pathData="M48.5,44h-39C8.7,44 8,43.3 8,42.5v-7C8,34.7 7.3,34 6.5,34h-3C2.7,34 2,34.7 2,35.5v13C2,49.3 2.7,50 3.5,50h3H8h40.5c0.8,0 1.5,-0.7 1.5,-1.5v-3C50,44.7 49.3,44 48.5,44z" />
+    <path
+        android:fillColor="#000"
+        android:pathData="M48.5,24h-39C8.7,24 8,23.3 8,22.5v-7C8,14.7 7.3,14 6.5,14h-3C2.7,14 2,14.7 2,15.5v13C2,29.3 2.7,30 3.5,30h2H8h40.5c0.8,0 1.5,-0.7 1.5,-1.5v-3C50,24.7 49.3,24 48.5,24z" />
+</vector>
