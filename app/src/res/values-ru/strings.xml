@@ -99,6 +99,10 @@
     <string name="mixture">Смесь</string>
     <string name="intervals">Интервалы</string>
     <string name="taste">Твой Вкус</string>
+    <string-array name="tasteChartTypes">
+        <item>Композиционный</item>
+        <item>Временной ряд</item>
+    </string-array>
     <string name="statistics">Статистика</string>
     <string name="noStat">Диапазон ваших записей должен превышать один месяц!</string>
     <string name="crushesStat">Статистика сокрушений</string>

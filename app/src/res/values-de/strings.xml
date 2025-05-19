@@ -96,6 +96,10 @@
     <string name="mixture">Mischung</string>
     <string name="intervals">Intervalle</string>
     <string name="taste">Dein Geschmack</string>
+    <string-array name="tasteChartTypes">
+        <item>Komposition</item>
+        <item>Zeitreihenanalyse</item>
+    </string-array>
     <string name="statistics">Statistiken</string>
     <string name="noStat">Der Umfang Ihrer Datensätze muss einen Monat überschreiten!</string>
     <string name="crushesStat">Statistiken der Crushes</string>

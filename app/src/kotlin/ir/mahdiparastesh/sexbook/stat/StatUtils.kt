@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.graphics.Color
 import android.icu.util.Calendar
+import androidx.annotation.ColorInt
 import ir.mahdiparastesh.hellocharts.model.Column
 import ir.mahdiparastesh.hellocharts.model.Line
 import ir.mahdiparastesh.hellocharts.model.PointValue
@@ -17,7 +18,7 @@ import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 object StatUtils {
 
     /** Creates a list of months of the recorded sexual history. */
-    fun sinceTheBeginning(
+    fun timeSeries(
         c: Sexbook, history: Iterable<Report> = c.reports.toArrayList()
     ): List<String> {
 
@@ -54,7 +55,7 @@ object StatUtils {
     }
 
     /** Filters a month of sex records out of a list. */
-    fun calcHistory(
+    fun sumTimeFrame(
         c: Sexbook, list: ArrayList<Summary.Orgasm>, month: String,
         growing: Boolean = false
     ): Float {
@@ -75,33 +76,44 @@ object StatUtils {
 }
 
 class ColumnFactory(
-    c: BaseActivity, list: ArrayList<Pair<String, Float>>,
+    c: BaseActivity,
+    list: ArrayList<Pair<String, Float>>,
     hasLabelsOnlyForSelected: Boolean = false
-) : ArrayList<Column>(list.map {
-    Column(
-        listOf(
-            SubColumnValue(it.second)
-                .setLabel("${it.first} (${it.second})")
-                .setColor(c.chartColour)
+) : ArrayList<Column>(
+    list.map {
+        Column(
+            listOf(
+                SubColumnValue(it.second)
+                    .setLabel("${it.first} (${it.second})")
+                    .setColor(c.chartColour)
+            )
         )
-    )
-        .setHasLabels(true)
-        .setHasLabelsOnlyForSelected(hasLabelsOnlyForSelected)
-})
+            .setHasLabels(true)
+            .setHasLabelsOnlyForSelected(hasLabelsOnlyForSelected)
+    }
+)
 
-class LineFactory(stars: List<Star>) : ArrayList<Line>(stars.map {
-    Line(it.frames.mapIndexed { i, frame ->
-        PointValue(i.toFloat(), frame.score)
-            .setLabel("${it.name} : ${frame.month} (${frame.score})")
-    })
-        .setColor(
-            Color.HSVToColor(255, floatArrayOf((0..359).random().toFloat(), 1f, 1f))
-        )
-        .setCubic(true)
-        .setHasLabelsOnlyForSelected(true)
-})
+class LineFactory(stars: List<Star>) : ArrayList<Line>(
+    stars.map {
+        Line(it.frames.mapIndexed { i, frame ->
+            PointValue(i.toFloat(), frame.score)
+                .setLabel("${it.name} : ${frame.month} (${frame.score})")
+        })
+            .setColor(
+                it.colour
+                    ?: Color.HSVToColor(255, floatArrayOf((0..359).random().toFloat(), 1f, 1f))
+            )
+            .setCubic(true)
+            .setHasLabelsOnlyForSelected(true)
+    }
+)
 
-class Star(val name: String, val frames: Array<Frame>) {
+class Star(
+    val name: String,
+    val frames: List<Frame>,
+    @ColorInt val colour: Int? = null
+) {
+
     class Sort(private val by: Int = 0) : Comparator<Star> {
         override fun compare(a: Star, b: Star) = when (by) {
             1 -> a.name.compareTo(b.name)

@@ -98,6 +98,10 @@
     <string name="mixture">Směs</string>
     <string name="intervals">Intervaly</string>
     <string name="taste">Váš Vkus</string>
+    <string-array name="tasteChartTypes">
+        <item>Kompoziční</item>
+        <item>Časová řada</item>
+    </string-array>
     <string name="statistics">Statistika</string>
     <string name="noStat">Rozsah vašich záznamů musí přesáhnout jeden měsíc!</string>
     <string name="crushesStat">Crushesova statistika</string>

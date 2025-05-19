@@ -2,6 +2,9 @@
 
 ### Improvements
 
+* Progressive charts for `QuantitativeTasteFragment`
+* Chart modes for `Taste`; column, line, pie, donut?, bubble
+* Save `Taste`'s states (in SP not VM)
 * Can you make hellocharts columns round-cornered?
 * Yearly line/column charts?
 * Merge `SumPie` and `Growth` into `Adorability`
@@ -11,7 +14,6 @@
 * Put a menu button in the overflow portion of `ReportAdap`
 * What to do with the splash screen on Android 12+? (the icon over there has become invisible!)
 * DotsIndicator for `Taste` and `CrushesStat` (with caution)
-* Progressive diagrams for `Taste`
 * "Reactivate Crush" for `Singular`
 * Fictionality, first met / first orgasm year for `Taste` and `CrushesStat`
 

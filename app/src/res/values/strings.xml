@@ -101,8 +101,8 @@
     <string name="intervals">Intervals</string>
     <string name="taste">Your Taste</string>
     <string-array name="tasteChartTypes">
-        <item>Pie Chart</item>
-        <item>Line Chart</item><!--FIXME?-->
+        <item>Compositional</item>
+        <item>Time Series</item>
     </string-array>
     <string name="statistics">Statistics</string>
     <string name="noStat">The range of your records must exceed one month!</string>

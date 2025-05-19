@@ -99,6 +99,10 @@
     <string name="mixture">Mezcla</string>
     <string name="intervals">Intervalos</string>
     <string name="taste">Tu Gusto</string>
+    <string-array name="tasteChartTypes">
+        <item>Composicional</item>
+        <item>Serie temporal</item>
+    </string-array>
     <string name="statistics">Estadísticas</string>
     <string name="noStat">¡El rango de sus registros debe exceder un mes!</string>
     <string name="crushesStat">Estadísticas de Crushes</string>
