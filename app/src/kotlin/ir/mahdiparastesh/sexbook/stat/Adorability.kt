@@ -12,14 +12,14 @@ class Adorability : ChartActivity<LineChartView>(R.layout.adorability) {
         val hideUnsafe =
             c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.unsafe.isNotEmpty()
 
-        val stb = sinceTheBeginning(c)
+        val stb = StatUtils.sinceTheBeginning(c)
         val stars = ArrayList<Star>()
         for (x in c.summary!!.scores) {
             if (hideUnsafe && x.key in c.unsafe) continue
 
             val scores = ArrayList<Star.Frame>()
             for (month in stb)
-                scores.add(Star.Frame(calcHistory(c, x.value, month), month))
+                scores.add(Star.Frame(StatUtils.calcHistory(c, x.value, month), month))
             stars.add(Star(x.key, scores.toTypedArray()))
         }
         // empty columns should not be removed or all the points will jump to the beginning!

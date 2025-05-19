@@ -32,7 +32,7 @@ class Places : BaseActivity(), Lister {
         setContentView(b.root)
         toolbar(b.toolbar, R.string.places)
 
-        // List
+        // list
         if (b.list.adapter == null) b.list.adapter = PlaceAdap(this)
         else b.list.adapter?.notifyDataSetChanged()
         b.empty.isVisible = c.places.isEmpty()

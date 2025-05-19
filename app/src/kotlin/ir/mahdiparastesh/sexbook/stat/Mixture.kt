@@ -21,8 +21,8 @@ class Mixture : ChartActivity<ColumnChartView>(R.layout.mixture) {
                 it.filter { r -> r.type in allowedTypes && r.ogsm }
             else it.filter { r -> r.ogsm } // do not simplify
         }) history.add(Summary.Orgasm(o.time, 1f))
-        sinceTheBeginning(c)
-            .forEach { data.add(Pair(it, calcHistory(c, history, it))) }
+        StatUtils.sinceTheBeginning(c)
+            .forEach { data.add(Pair(it, StatUtils.calcHistory(c, history, it))) }
         return ColumnChartData().setColumns(ColumnFactory(this, data, true))
     }
 

@@ -42,10 +42,10 @@ class Singular : ChartActivity<ColumnChartView>(R.layout.singular) {
 
     override suspend fun draw(): AbstractChartData {
         val data = ArrayList<Pair<String, Float>>()
-        sinceTheBeginning(c, c.reports.filter {
+        StatUtils.sinceTheBeginning(c, c.reports.filter {
             if (it.analysis == null) it.analyse()
             mm.crushKey in it.analysis!!
-        }).forEach { data.add(Pair(it, calcHistory(c, mm.history!!, it))) }
+        }).forEach { data.add(Pair(it, StatUtils.calcHistory(c, mm.history!!, it))) }
         return ColumnChartData().setColumns(ColumnFactory(this, data))
     }
 

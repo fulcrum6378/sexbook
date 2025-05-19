@@ -12,14 +12,14 @@ class Growth : ChartActivity<LineChartView>(R.layout.growth) {
         val hideUnsafe =
             c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.unsafe.isNotEmpty()
 
-        val stb = sinceTheBeginning(c)
+        val stb = StatUtils.sinceTheBeginning(c)
         val stars = ArrayList<Star>()
         for (x in c.summary!!.scores) {
             if (hideUnsafe && x.key in c.unsafe) continue
 
             val frames = ArrayList<Star.Frame>()
             for (month in stb)
-                frames.add(Star.Frame(calcHistory(c, x.value, month, true), month))
+                frames.add(Star.Frame(StatUtils.calcHistory(c, x.value, month, true), month))
             stars.add(Star(x.key, frames.toTypedArray()))
         }
         stars.sortWith(Star.Sort(1))

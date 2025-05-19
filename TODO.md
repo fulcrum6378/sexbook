@@ -2,6 +2,9 @@
 
 ### Improvements
 
+* Can you make hellocharts columns round-cornered?
+* Yearly line/column charts?
+* Merge `SumPie` and `Growth` into `Adorability`
 * Enlarge `json_export.xml` and `json_import.xml`
 * A ProgressBar for `Place`-`Report` migrations and statistics
 * Random `Crush` suggestion in `PageLove`
