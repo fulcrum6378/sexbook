@@ -47,6 +47,7 @@ class Intervals : ChartActivity<LineChartView>(R.layout.intervals) {
         val line = Line(points)
             .setColor(chartColour)
             .setHasLabelsOnlyForSelected(true)
+        //.setHasLines(false)
         return LineChartData().setLines(listOf(line))
     }
 

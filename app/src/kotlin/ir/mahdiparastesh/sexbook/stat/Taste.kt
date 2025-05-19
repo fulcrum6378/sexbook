@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
@@ -39,7 +40,7 @@ import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 
 class Taste : BaseActivity() {
-    private lateinit var b: TasteBinding
+    lateinit var b: TasteBinding
     private val jobs: ArrayList<Job> = arrayListOf()
     var chartType: Int = 0
     val crushSumIndex = hashMapOf<Crush, Float>()
@@ -117,10 +118,14 @@ class Taste : BaseActivity() {
     abstract class TasteFragment : Fragment() {
         protected val c: Taste by lazy { activity as Taste }
         protected lateinit var b: StatFragmentBinding
+        private lateinit var chartView: AbstractChartView
         private var myJob: Job? = null
         protected val counts = hashMapOf<Short, Float>()
         protected val progress = hashMapOf<Short, ArrayList<Summary.Orgasm>>()
         protected var sumOfAll = 0f
+        protected val unspecifiedQualityColour: Int by lazy {
+            if (!c.night) Color.BLACK else Color.WHITE
+        }
 
         abstract fun crushProperty(cr: Crush): Short
 
@@ -132,25 +137,34 @@ class Taste : BaseActivity() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
+            // create and add the chart view
+            chartView = ChartType.entries[c.chartType].view.java
+                .constructors.find { it.parameterCount == 1 }!!
+                .newInstance(ContextThemeWrapper(c, R.style.statChart)) as AbstractChartView
+            b.root.addView(chartView, 1)
+            chartView.setViewportChangeListener {
+                c.b.pager.isUserInputEnabled = chartView.zoomLevel == 1f
+            }
+
             // set the title and miscellaneous stuff
             preAnalysis()
 
             // prepare the diagram
             myJob = CoroutineScope(Dispatchers.IO).launch {
-                sumOfAll += c.c.summary!!.unknown
-                counts[0] = c.c.summary!!.unknown
+                if (c.chartType == ChartType.COMPOSITIONAL.ordinal) {
+                    sumOfAll += c.c.summary!!.unknown
+                    counts[0] = c.c.summary!!.unknown
+                }
                 val data = statisticise()
 
                 withContext(Dispatchers.Main) {
-                    val chartView = ChartType.entries[c.chartType].view.java
-                        .constructors.find { it.parameterCount == 1 }!!
-                        .newInstance(ContextThemeWrapper(c, R.style.statChart)) as AbstractChartView
-                    b.root.addView(chartView, 1)
                     when (c.chartType) {
                         ChartType.COMPOSITIONAL.ordinal ->
                             (chartView as PieChartView).pieChartData = data as PieChartData
-                        ChartType.TIME_SERIES.ordinal ->
+                        ChartType.TIME_SERIES.ordinal -> {
                             (chartView as LineChartView).lineChartData = data as LineChartData
+                            chartView.setLabelOffset(c.dp(20))
+                        }
                     }
                     b.loading.isVisible = false
                     chartView.isInvisible = false
@@ -232,12 +246,7 @@ class Taste : BaseActivity() {
                                 month
                             )
                         )
-                        stars.add(
-                            Star(
-                                arModes[mode], frames, preferredColour(mode.toInt())
-                                    ?: c.chartColour
-                            )
-                        )
+                        stars.add(Star(arModes[mode], frames, preferredColour(mode.toInt())))
                     }
                     stars.sortWith(Star.Sort(1))
                     stars.sortWith(Star.Sort())
@@ -255,12 +264,12 @@ class Taste : BaseActivity() {
             (cr.status and Crush.STAT_GENDER).toShort()
 
         override fun preferredColour(mode: Int): Int? = when (mode) {
-            0 -> 0xFF808080
+            0 -> unspecifiedQualityColour
             1 -> 0xFFFF0037
             2 -> 0xFF0095FF
             3 -> 0xFF7300FF
             4 -> 0xFFDDFF00
-            else -> throw IllegalArgumentException("Specify a colour for this gender code: $mode")
+            else -> throw IllegalArgumentException("Unknown gender code: $mode")
         }.toInt()
     }
 
@@ -268,18 +277,50 @@ class Taste : BaseActivity() {
         override val modes: Int = R.array.bodySkinColour
         override fun crushProperty(cr: Crush): Short =
             ((cr.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second).toShort()
+
+        override fun preferredColour(mode: Int): Int? = when (mode) {
+            0 -> 0xFF777777
+            1 -> 0xFF633F37
+            2 -> 0xFFAB7A5F
+            3 -> 0xFFC0A07A
+            4 -> 0xFFE5C3AE
+            5 -> 0xFFF7E1D6
+            6 -> 0xFFF1C9CD
+            else -> throw IllegalArgumentException("Unknown skin colour code: $mode")
+        }.toInt()
     }
 
     class HairColourTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.bodyHairColour
         override fun crushProperty(cr: Crush): Short =
             ((cr.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second).toShort()
+
+        override fun preferredColour(mode: Int): Int? = when (mode) {
+            0 -> 0xFF777777
+            1 -> 0xFF000000
+            2 -> 0xFF6D4730
+            3 -> 0xFFFBE7A1
+            4 -> 0xFFC66531
+            5 -> 0xFF052F9F
+            else -> throw IllegalArgumentException("Unknown hair colour code: $mode")
+        }.toInt()
     }
 
     class EyeColourTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.bodyEyeColour
         override fun crushProperty(cr: Crush): Short =
             ((cr.body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second).toShort()
+
+        override fun preferredColour(mode: Int): Int? = when (mode) {
+            0 -> unspecifiedQualityColour
+            1 -> 0xFF5D301D
+            2 -> 0xFF8F5929
+            3 -> 0xFF947B3E
+            4 -> 0xFF868254
+            5 -> 0xFF798FB0
+            6 -> 0xFF54427A
+            else -> throw IllegalArgumentException("Unknown eye colour code: $mode")
+        }.toInt()
     }
 
     class EyeShapeTaste : QualitativeTasteFragment() {

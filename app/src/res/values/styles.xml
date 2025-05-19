@@ -98,6 +98,7 @@
         <item name="android:fontFamily">@font/bold</item>
         <item name="android:paddingHorizontal">11sp</item>
         <item name="android:paddingVertical">6sp</item>
+        <item name="android:textColor">?textColorPrimaryContainer</item>
         <item name="android:textSize">18sp</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>

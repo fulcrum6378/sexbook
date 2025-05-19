@@ -2,11 +2,12 @@
 
 ### Improvements
 
+* Remove statTitle's background?
+* Make `Taste`'s spinner have transparent background and yellow text in night mode
+* Optimise `StatUtils`
 * Progressive charts for `QuantitativeTasteFragment`
-* Chart modes for `Taste`; column, line, pie, donut?, bubble
 * Save `Taste`'s states (in SP not VM)
-* Can you make hellocharts columns round-cornered?
-* Yearly line/column charts?
+* Yearly and weekly time series
 * Merge `SumPie` and `Growth` into `Adorability`
 * Enlarge `json_export.xml` and `json_import.xml`
 * A ProgressBar for `Place`-`Report` migrations and statistics
