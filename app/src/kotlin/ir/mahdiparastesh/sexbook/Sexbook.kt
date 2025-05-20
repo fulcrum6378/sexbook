@@ -158,9 +158,11 @@ class Sexbook : Application() {
     fun summaryCrushes(): ArrayList<String> =
         summary?.let { summary ->
             var all = ArrayList(summary.scores.keys)
-            if (sp.getBoolean(Settings.spHideUnsafePeople, true) && unsafe.isNotEmpty())
-                ArrayList(all.filter { it !in unsafe })
-            else all
+            if (hideUnsafe()) ArrayList(all.filter { it !in unsafe }) else all
         } ?: arrayListOf()
     // it must necessarily return a mutable collection, otherwise CrushSuggester::update() will error!
+
+    /** Should unsafe people be not shown? */
+    fun hideUnsafe() =
+        sp.getBoolean(Settings.spHideUnsafePeople, true) && unsafe.isNotEmpty()
 }

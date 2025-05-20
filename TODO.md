@@ -2,6 +2,7 @@
 
 ### Improvements
 
+* More documentations
 * Preferred colours for `CrushesStat`
 * Growth for Taste?
 * Preferred colours for crushes?
@@ -9,7 +10,7 @@
 * Make `Taste`'s spinner have transparent background and yellow text in night mode
 * Progressive charts for `QuantitativeTasteFragment`
 * Yearly and weekly time series
-* Merge `SumPie` and `Growth` into `Adorability`
+* Merge `Growth` into `Adorability`
 * Enlarge `json_export.xml` and `json_import.xml`
 * A ProgressBar for `Place`-`Report` migrations and statistics
 * Random `Crush` suggestion in `PageLove`

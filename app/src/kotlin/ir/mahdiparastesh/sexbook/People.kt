@@ -94,7 +94,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     @SuppressLint("NotifyDataSetChanged")
     fun arrangeList() {
-        val hideUnsafe = c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.unsafe.isNotEmpty()
+        val hideUnsafe = c.hideUnsafe()
         val filters = c.screening
         vm.visPeople = ArrayList(
             when {

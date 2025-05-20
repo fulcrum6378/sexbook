@@ -29,6 +29,7 @@ import kotlin.experimental.and
 import kotlin.math.roundToInt
 
 class CrushesStat : BaseDialog<BaseActivity>() {
+
     companion object {
         const val BUNDLE_WHICH_LIST = "which_list"
         const val TAG = "crushes_stat"
@@ -63,14 +64,14 @@ class CrushesStat : BaseDialog<BaseActivity>() {
 
     abstract class CrshStatFragment : Fragment() {
         protected val c: BaseActivity by lazy { activity as BaseActivity }
-        protected lateinit var b: ChartPieFragmentBinding
+        protected lateinit var b: CrshStatFragmentBinding
         protected val counts = hashMapOf<Short, Int>()
 
         abstract fun crushProperty(cr: Crush): Short
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-        ): View = ChartPieFragmentBinding.inflate(layoutInflater, container, false)
+        ): View = CrshStatFragmentBinding.inflate(layoutInflater, container, false)
             .also { b = it }.root
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

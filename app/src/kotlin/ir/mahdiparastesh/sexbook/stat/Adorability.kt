@@ -12,12 +12,14 @@ import androidx.lifecycle.ViewModel
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.model.PieChartData
+import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.hellocharts.view.LineChartView
 import ir.mahdiparastesh.hellocharts.view.PieChartView
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.AdorabilityBinding
+import ir.mahdiparastesh.sexbook.util.NumberUtils.show
+import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -45,6 +47,7 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
     override val chartType: Spinner get() = b.chartType
 
     override fun createNewChart() {
+        b.loading.isVisible = true
 
         // create and add/replace the chart view
         if (::chartView.isInitialized) b.root.removeView(chartView)
@@ -69,15 +72,39 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
     }
 
     override suspend fun prepareData(): AbstractChartData {
-        val lines = ArrayList<Timeline>()
-        val frames = StatUtils.timeSeries(c)
-        val hideUnsafe =
-            c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.unsafe.isNotEmpty()
-        for (x in c.summary!!.scores) {
-            if (hideUnsafe && x.key in c.unsafe) continue
-            lines.add(Timeline(x.key, StatUtils.sumTimeFrames(c, x.value, frames)))
+        when (vm.chartType) {
+
+            ChartType.COMPOSITIONAL.ordinal -> {
+                val data = arrayListOf<SliceValue>()
+                val hideUnsafe = c.hideUnsafe()
+                c.summary?.scores?.entries?.sortedBy {
+                    it.value.sumOf { s -> s.value }
+                }?.forEach {
+                    if (hideUnsafe && it.key in c.unsafe) return@forEach
+
+                    val score = it.value.sumOf { s -> s.value }
+                    data.add(
+                        SliceValue(score, chartColour)
+                            .apply { setLabel("${it.key} {${score.show()}}") })
+                }
+                return PieChartData(data).apply {
+                    setHasLabelsOnlyForSelected(true)  // setHasLabels(true)
+                }
+            }
+
+            ChartType.TIME_SERIES.ordinal -> {
+                val lines = ArrayList<Timeline>()
+                val frames = StatUtils.timeSeries(c)
+                val hideUnsafe = c.hideUnsafe()
+                for (x in c.summary!!.scores) {
+                    if (hideUnsafe && x.key in c.unsafe) continue
+                    lines.add(Timeline(x.key, StatUtils.sumTimeFrames(c, x.value, frames)))
+                }
+                return LineChartData().setLines(LineFactory(lines))
+            }
+
+            else -> throw IllegalArgumentException("ChartType not implemented!")
         }
-        return LineChartData().setLines(LineFactory(lines))
     }
 
     override suspend fun drawChart(data: AbstractChartData) {

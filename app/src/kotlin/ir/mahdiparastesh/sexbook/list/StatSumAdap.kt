@@ -31,24 +31,28 @@ class StatSumAdap(
     override fun onBindViewHolder(h: AnyViewHolder<SumChipGroupBinding>, i: Int) {
         h.b.count.text = arr[i].key.show().plus(": ")
 
-        for (crush in arr[i].value.indices) (if (h.b.root.childCount < crush + 2) Chip(c).apply {
-            layoutParams = ChipGroup.LayoutParams(-2, -2)
-            typeface = resources.getFont(R.font.normal)
-            h.b.root.addView(this)
-        } else h.b.root.getChildAt(crush + 1) as Chip
-                ).apply {
-                val crushKey = arr[i].value[crush]
-                text = crushKey +
-                        (if (!statOnlyCrushes && crushKey in c.c.liefde) "*" else "")
-                val bb = searchable.lookForIt(text.toString())
-                setOnClickListener {
-                    c.goTo(Singular::class) {
-                        putExtra(Singular.EXTRA_CRUSH_KEY, arr[h.layoutPosition].value[crush])
-                    }
+        for (crush in arr[i].value.indices) {
+            val chip = (if (h.b.root.childCount < crush + 2)
+                Chip(c).apply {
+                    layoutParams = ChipGroup.LayoutParams(-2, -2)
+                    typeface = resources.getFont(R.font.normal)
+                    h.b.root.addView(this)
                 }
-                isActivated = bb
-                isVisible = true
+            else
+                h.b.root.getChildAt(crush + 1) as Chip
+                    )
+            val crushKey = arr[i].value[crush]
+            chip.text = crushKey +
+                    (if (!statOnlyCrushes && crushKey in c.c.liefde) "*" else "")
+            val bb = searchable.lookForIt(chip.text.toString())
+            chip.setOnClickListener {
+                c.goTo(Singular::class) {
+                    putExtra(Singular.EXTRA_CRUSH_KEY, arr[h.layoutPosition].value[crush])
+                }
             }
+            chip.isActivated = bb
+            chip.isVisible = true
+        }
         for (hide in arr[i].value.size + 1 until h.b.root.childCount)
             h.b.root.getChildAt(hide).isVisible = false
     }

@@ -5,7 +5,6 @@ import androidx.core.util.isNotEmpty
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.view.LineChartView
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.GrowthBinding
 
 class Growth : OneChartActivity<LineChartView>() {
@@ -17,8 +16,7 @@ class Growth : OneChartActivity<LineChartView>() {
     override suspend fun prepareData(): AbstractChartData {
         val lines = ArrayList<Timeline>()
         val frames = StatUtils.timeSeries(c)
-        val hideUnsafe =
-            c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.unsafe.isNotEmpty()
+        val hideUnsafe = c.hideUnsafe()
         for (x in c.summary!!.scores) {
             if (hideUnsafe && x.key in c.unsafe) continue
             lines.add(Timeline(x.key, StatUtils.sumTimeFrames(c, x.value, frames, true)))

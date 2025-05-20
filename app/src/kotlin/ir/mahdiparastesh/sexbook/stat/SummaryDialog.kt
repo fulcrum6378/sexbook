@@ -5,196 +5,121 @@ import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isInvisible
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import ir.mahdiparastesh.hellocharts.model.PieChartData
-import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
-import ir.mahdiparastesh.sexbook.base.BaseFragment
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
-import ir.mahdiparastesh.sexbook.databinding.SumPieBinding
 import ir.mahdiparastesh.sexbook.list.StatSumAdap
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
-import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
 
-class SummaryDialog : BaseDialog<Main>() {
-    private var dialogue: AlertDialog? = null
-    private var pager: ViewPager2? = null
+class SummaryDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
+    override var lookingFor: String? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         c.c.summary!!.classify(c.c)
-        pager = ViewPager2(c).apply {
-            layoutParams = ViewGroup.LayoutParams(-1, -1)
-            adapter = SumAdapter()
+        val b = SearchableStatBinding.inflate(c.layoutInflater)
+
+        b.find.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun afterTextChanged(s: Editable?) {
+                lookingFor = s.toString()
+                b.notFound.isInvisible = true
+                (b.list.adapter as? StatSumAdap)?.also {
+                    it.notifyDataSetChanged()
+
+                    var firstGroup: Int? = null
+                    if (!lookingFor.isNullOrEmpty()) for (group in it.arr.indices) {
+                        for (chip in it.arr[group].value)
+                            if (lookForIt(chip)) {
+                                firstGroup = group
+                                break; }
+                        if (firstGroup != null) break
+                    }
+                    if (firstGroup != null) b.list.smoothScrollToPosition(firstGroup)
+                    b.notFound.isInvisible =
+                        firstGroup != null || lookingFor.isNullOrEmpty()
+                }
+            }
+        })
+        lookingFor?.also { b.find.setText(it) }
+
+        b.list.adapter = StatSumAdap(
+            c, c.c.summary!!.classification!!.calculations.entries.toList(), this
+        )
+
+        val pluses = LinearLayout(c).apply {
+            id = R.id.pluses
+            layoutParams = ConstraintLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+            }
+            orientation = LinearLayout.VERTICAL
+            val padH = resources.getDimension(R.dimen.ssPadH).toInt()
+            setPadding(padH, (padH * 0.1f).toInt(), padH, (padH * 0.6f).toInt())
         }
-        dialogue = MaterialAlertDialogBuilder(c).apply {
+        c.c.summary?.nExcluded?.also {
+            if (it > 0f) pluses.addView(
+                plus(c, getString(R.string.excStat, it.toString()))
+            )
+        }
+        c.c.summary?.unknown?.also {
+            if (it > 0f) pluses.addView(
+                plus(c, getString(R.string.unknown, it.show()))
+            )
+        }
+        c.c.summary?.nonCrush?.also {
+            if (it > 0f) pluses.addView(
+                plus(c, getString(R.string.nonCrush, it.show()))
+            )
+        }
+        c.c.summary?.unsafe?.also {
+            if (it > 0f) pluses.addView(
+                plus(c, getString(R.string.plusUnsafe, it.show()))
+            )
+        }
+        b.root.addView(pluses)
+        pluses.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {  // like an onLoaded listener
+                pluses.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                b.list.setPaddingRelative(
+                    b.list.paddingStart, b.list.paddingTop, b.list.paddingEnd,
+                    b.list.paddingBottom + pluses.height
+                )
+            }
+        })
+
+        isCancelable = true
+        return MaterialAlertDialogBuilder(c).apply {
             setTitle(
                 "${getString(R.string.summary)} " +
                         "(${c.c.summary!!.apparent.show()} / ${c.c.reports.size()})"
             )
-            setView(ConstraintLayout(c).apply {
-                layoutParams = ViewGroup.LayoutParams(-1, -1)
-                addView(pager)
-                // The EditText below improves the EditText focus issue when you put
-                // a Fragment inside a Dialog with a ViewPager in the middle!
-                addView(EditText(c).apply {
-                    layoutParams = ViewGroup.LayoutParams(-1, -2)
-                    visibility = View.GONE
-                })
-            })
-            setPositiveButton(android.R.string.ok, null)
-            setNeutralButton(R.string.chart, null)
-            setCancelable(true)
+            setView(b.root)
         }.create()
-        return dialogue!!
     }
 
-    override fun onResume() {
-        super.onResume()
-        dialogue?.getButton(AlertDialog.BUTTON_NEUTRAL)
-            ?.setOnClickListener { pager?.currentItem = 1 }
-    }
-
-    private inner class SumAdapter : FragmentStateAdapter(this) {
-        override fun getItemCount(): Int = 2
-        override fun createFragment(i: Int): Fragment = when (i) {
-            1 -> SumPie()
-            else -> SumChips()
-        }
-    }
-
-    class SumChips : BaseFragment(), SearchableStat {
-        private lateinit var b: SearchableStatBinding
-        override var lookingFor: String? = null
-
-        override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
-            SearchableStatBinding.inflate(inf, parent, false).also { b = it }.root
-
-        @SuppressLint("NotifyDataSetChanged")
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
-
-            b.find.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                override fun afterTextChanged(s: Editable?) {
-                    lookingFor = s.toString()
-                    b.notFound.isInvisible = true
-                    (b.list.adapter as? StatSumAdap)?.also {
-                        it.notifyDataSetChanged()
-
-                        var firstGroup: Int? = null
-                        if (!lookingFor.isNullOrEmpty()) for (group in it.arr.indices) {
-                            for (chip in it.arr[group].value)
-                                if (lookForIt(chip)) {
-                                    firstGroup = group
-                                    break; }
-                            if (firstGroup != null) break
-                        }
-                        if (firstGroup != null) b.list.smoothScrollToPosition(firstGroup)
-                        b.notFound.isInvisible =
-                            firstGroup != null || lookingFor.isNullOrEmpty()
-                    }
-                }
-            })
-            lookingFor?.also { b.find.setText(it) }
-
-            if (c.c.summary?.classification == null) return
-            b.list.adapter = StatSumAdap(
-                c, c.c.summary!!.classification!!.calculations.entries.toList(), this
-            )
-
-            val pluses = LinearLayout(c).apply {
-                id = R.id.pluses
-                layoutParams = ConstraintLayout.LayoutParams(-1, -2)
-                    .apply { bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID }
-                orientation = LinearLayout.VERTICAL
-                resources.getDimension(R.dimen.ssPadH).toInt().also { setPadding(it, 0, it, 0) }
-            }
-            c.c.summary?.nExcluded?.also {
-                if (it > 0f) pluses.addView(
-                    plus(c, getString(R.string.excStat, it.toString()))
-                )
-            }
-            c.c.summary?.unknown?.also {
-                if (it > 0f) pluses.addView(
-                    plus(c, getString(R.string.unknown, it.show()))
-                )
-            }
-            c.c.summary?.nonCrush?.also {
-                if (it > 0f) pluses.addView(
-                    plus(c, getString(R.string.nonCrush, it.show()))
-                )
-            }
-            c.c.summary?.unsafe?.also {
-                if (it > 0f) pluses.addView(
-                    plus(c, getString(R.string.plusUnsafe, it.show()))
-                )
-            }
-            b.root.addView(pluses)
-            pluses.viewTreeObserver.addOnGlobalLayoutListener(object :
-                ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {  // like an onLoaded listener
-                    pluses.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    b.list.setPaddingRelative(
-                        b.list.paddingStart, b.list.paddingTop, b.list.paddingEnd,
-                        b.list.paddingBottom + pluses.height
-                    )
-                }
-            })
-        }
-
-        fun plus(c: BaseActivity, s: String) = TextView(c).apply {
-            layoutParams = LinearLayout.LayoutParams(-2, -2)
-            setPadding(0, c.dp(5), 0, c.dp(2))
-            text = s
-            textSize = c.resources.getDimension(R.dimen.plusesFont) / c.dm.density
-            alpha = .8f
-            typeface = resources.getFont(R.font.normal)
-        }
-    }
-
-    class SumPie : BaseFragment() {
-        private lateinit var b: SumPieBinding
-
-        override fun onCreateView(inf: LayoutInflater, parent: ViewGroup?, state: Bundle?): View =
-            SumPieBinding.inflate(layoutInflater, parent, false).also { b = it }.root
-
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
-            val hideUnsafe =
-                c.c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.c.unsafe.isNotEmpty()
-
-            val data = arrayListOf<SliceValue>()
-            c.c.summary?.scores?.entries?.sortedBy {
-                it.value.sumOf { s -> s.value }
-            }?.forEach {
-                if (hideUnsafe && it.key in c.c.unsafe) return@forEach
-
-                val score = it.value.sumOf { s -> s.value }
-                data.add(
-                    SliceValue(score, c.chartColour)
-                        .apply { setLabel("${it.key} {${score.show()}}") })
-            }
-            b.root.pieChartData = PieChartData(data).apply {
-                setHasLabelsOnlyForSelected(true) // setHasLabels(true)
-            }
-        }
+    private fun plus(c: BaseActivity, s: String) = TextView(c).apply {
+        layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        setPadding(0, c.dp(5), 0, c.dp(2))
+        text = s
+        setTextColor(c.themeColor(com.google.android.material.R.attr.colorOnSecondary))
+        textSize = c.resources.getDimension(R.dimen.plusesFont) / c.dm.density
+        alpha = .8f
+        typeface = resources.getFont(R.font.normal)
     }
 }

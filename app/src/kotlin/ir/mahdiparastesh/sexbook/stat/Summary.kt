@@ -52,8 +52,7 @@ class Summary(
         // filtering criteria
         val statOnlyCrushes =
             c.sp.getBoolean(Settings.spStatOnlyCrushes, false) && c.liefde.isNotEmpty()
-        val hideUnsafe =
-            c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.unsafe.isNotEmpty()
+        val hideUnsafe = c.hideUnsafe()
 
         var results = HashMap<Float, ArrayList<String>>()
         var key: String
