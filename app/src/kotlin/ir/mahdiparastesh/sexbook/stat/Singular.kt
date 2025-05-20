@@ -41,12 +41,18 @@ class Singular : ChartActivity<ColumnChartView>(R.layout.singular) {
     }
 
     override suspend fun draw(): AbstractChartData {
-        val data = ArrayList<Pair<String, Float>>()
-        StatUtils.timeSeries(c, c.reports.filter {
-            if (it.analysis == null) it.analyse()
-            vm.crushKey in it.analysis!!
-        }).forEach { data.add(Pair(it, StatUtils.sumTimeFrame(c, vm.history!!, it))) }
-        return ColumnChartData().setColumns(ColumnFactory(this, data))
+        return ColumnChartData().setColumns(
+            ColumnFactory(
+                this, StatUtils.sumTimeFrames(
+                    c, vm.history!!, StatUtils.timeSeries(
+                        c, c.reports.filter {
+                            if (it.analysis == null) it.analyse()
+                            vm.crushKey in it.analysis!!
+                        }
+                    )
+                )
+            )
+        )
     }
 
     override suspend fun render(data: AbstractChartData) {

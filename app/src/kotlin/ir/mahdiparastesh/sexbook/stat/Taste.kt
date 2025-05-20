@@ -194,7 +194,7 @@ class Taste : BaseActivity() {
                             (chartView as PieChartView).pieChartData = data as PieChartData
                         ChartType.TIME_SERIES.ordinal -> {
                             (chartView as LineChartView).lineChartData = data as LineChartData
-                            chartView.setLabelOffset(c.dp(20))
+                            chartView.setLabelOffset(c.dp(StatUtils.POINT_LABEL_OFFSET_IN_DP))
                         }
                     }
                     b.loading.isVisible = false
@@ -268,21 +268,20 @@ class Taste : BaseActivity() {
                         if (modeCode !in progress) progress[modeCode] = arrayListOf()
                         progress[modeCode]!!.addAll(orgasms)
                     }
-                    val stars = ArrayList<Star>()
+                    val lines = ArrayList<Timeline>()
                     for (mode in arModes.indices) {
                         if (mode.toShort() !in progress) continue
-                        val frames = ArrayList<Star.Frame>()
-                        for (month in c.vm.timeSeries!!) frames.add(
-                            Star.Frame(
-                                StatUtils.sumTimeFrame(c.c, progress[mode.toShort()]!!, month),
-                                month
+                        lines.add(
+                            Timeline(
+                                arModes[mode],
+                                StatUtils.sumTimeFrames(
+                                    c.c, progress[mode.toShort()]!!, c.vm.timeSeries!!
+                                ),
+                                preferredColour(mode.toInt())
                             )
                         )
-                        stars.add(Star(arModes[mode], frames, preferredColour(mode.toInt())))
                     }
-                    stars.sortWith(Star.Sort(1))
-                    stars.sortWith(Star.Sort())
-                    return LineChartData().setLines(LineFactory(stars))
+                    return LineChartData().setLines(LineFactory(lines))
                 }
 
                 else -> throw IllegalArgumentException("ChartType not implemented!")

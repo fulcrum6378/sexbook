@@ -52,7 +52,7 @@ class Intervals : ChartActivity<LineChartView>(R.layout.intervals) {
     }
 
     override suspend fun render(data: AbstractChartData) {
-        chartView.setLabelOffset(dp(20))
+        chartView.setLabelOffset(dp(StatUtils.POINT_LABEL_OFFSET_IN_DP))
         chartView.lineChartData = data as LineChartData
         chartView.isViewportCalculationEnabled = false
     }

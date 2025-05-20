@@ -2,9 +2,10 @@
 
 ### Improvements
 
+* Growth for Taste?
+* Preferred colours for crushes?
 * Remove statTitle's background?
 * Make `Taste`'s spinner have transparent background and yellow text in night mode
-* Optimise `StatUtils`
 * Progressive charts for `QuantitativeTasteFragment`
 * Yearly and weekly time series
 * Merge `SumPie` and `Growth` into `Adorability`
