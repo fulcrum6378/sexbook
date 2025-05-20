@@ -1,14 +1,20 @@
 package ir.mahdiparastesh.sexbook.stat
 
+import android.view.View
+import androidx.core.util.isNotEmpty
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.view.LineChartView
-import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
+import ir.mahdiparastesh.sexbook.databinding.GrowthBinding
 
-class Growth : ChartActivity<LineChartView>(R.layout.growth) {
+class Growth : OneChartActivity<LineChartView>() {
+    private val b: GrowthBinding by lazy { GrowthBinding.inflate(layoutInflater) }
 
-    override suspend fun draw(): AbstractChartData {
+    override fun requirements(): Boolean = c.reports.isNotEmpty() && c.summary != null
+    override fun getRootView(): View = b.root
+
+    override suspend fun prepareData(): AbstractChartData {
         val lines = ArrayList<Timeline>()
         val frames = StatUtils.timeSeries(c)
         val hideUnsafe =
@@ -20,7 +26,7 @@ class Growth : ChartActivity<LineChartView>(R.layout.growth) {
         return LineChartData().setLines(LineFactory(lines))
     }
 
-    override suspend fun render(data: AbstractChartData) {
+    override suspend fun drawChart(data: AbstractChartData) {
         chartView.setLabelOffset(dp(StatUtils.POINT_LABEL_OFFSET_IN_DP))
         chartView.lineChartData = data as LineChartData
     }

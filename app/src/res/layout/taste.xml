@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/body"
-    tools:context=".stat.Taste">
+    tools:context=".stat.Taste"
+    tools:ignore="MissingConstraints">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
@@ -12,14 +13,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/chartType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/spinner"
-        android:paddingVertical="@dimen/spnFilterPadV"
-        android:paddingStart="26dp"
-        android:paddingEnd="42dp"
-        android:saveEnabled="false"
-        android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:id="@id/chartType"
+        style="@style/bottomSpinnerStat"
+        android:background="@drawable/spinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

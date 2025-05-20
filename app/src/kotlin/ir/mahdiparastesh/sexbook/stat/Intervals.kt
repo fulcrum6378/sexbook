@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.stat
 
+import android.view.View
 import androidx.core.util.isNotEmpty
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.Line
@@ -8,15 +9,20 @@ import ir.mahdiparastesh.hellocharts.model.PointValue
 import ir.mahdiparastesh.hellocharts.view.LineChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
+import ir.mahdiparastesh.sexbook.databinding.IntervalsBinding
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.fullDate
 import ir.mahdiparastesh.sexbook.view.SexType
 
-class Intervals : ChartActivity<LineChartView>(R.layout.intervals) {
+class Intervals : OneChartActivity<LineChartView>() {
+    val b: IntervalsBinding by lazy { IntervalsBinding.inflate(layoutInflater) }
     private lateinit var allowedSexTypes: List<Byte>
 
-    override suspend fun draw(): AbstractChartData {
+    override fun requirements() = c.reports.isNotEmpty()
+    override fun getRootView(): View = b.root
+
+    override suspend fun prepareData(): AbstractChartData {
         val points = arrayListOf<PointValue>()
         var prev: Long? = null
         var i = -1f
@@ -51,11 +57,9 @@ class Intervals : ChartActivity<LineChartView>(R.layout.intervals) {
         return LineChartData().setLines(listOf(line))
     }
 
-    override suspend fun render(data: AbstractChartData) {
+    override suspend fun drawChart(data: AbstractChartData) {
         chartView.setLabelOffset(dp(StatUtils.POINT_LABEL_OFFSET_IN_DP))
         chartView.lineChartData = data as LineChartData
         chartView.isViewportCalculationEnabled = false
     }
-
-    override fun requirements() = c.reports.isNotEmpty()
 }

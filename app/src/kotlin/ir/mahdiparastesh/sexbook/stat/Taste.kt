@@ -3,16 +3,15 @@ package ir.mahdiparastesh.sexbook.stat
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.activity.viewModels
 import androidx.annotation.ArrayRes
 import androidx.annotation.MainThread
 import androidx.annotation.StringRes
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -27,7 +26,6 @@ import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.hellocharts.view.LineChartView
 import ir.mahdiparastesh.hellocharts.view.PieChartView
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.StatFragmentBinding
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
@@ -40,13 +38,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.experimental.and
 import kotlin.math.roundToInt
-import kotlin.reflect.KClass
 
-class Taste : BaseActivity() {
-    lateinit var b: TasteBinding
-    private val jobs: ArrayList<Job> = arrayListOf()
+class Taste : MultiChartActivity() {
+    val b: TasteBinding by lazy { TasteBinding.inflate(layoutInflater) }
     val vm: Model by viewModels()
-    private var spnChartTypeTouched = false
+    private val jobs: ArrayList<Job> = arrayListOf()
 
     class Model : ViewModel() {
         var currentPage: Int? = null
@@ -55,55 +51,20 @@ class Taste : BaseActivity() {
         var timeSeries: List<String>? = null
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (c.summary == null) {
-            onBackPressed(); return; }
-
-        b = TasteBinding.inflate(layoutInflater)
-        setContentView(b.root)
-        if (night) window.decorView.setBackgroundColor(
-            themeColor(com.google.android.material.R.attr.colorPrimary)
-        )
-        b.pager.registerOnPageChangeCallback(onPageChanged)
-
-        // chart types
-        b.chartType.adapter = ArrayAdapter(
-            c, R.layout.spinner_yellow, resources.getStringArray(R.array.tasteChartTypes)
-        ).apply { setDropDownViewResource(R.layout.spinner_dd) }
-        b.chartType.setSelection(vm.chartType)
-        b.chartType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onItemSelected(
-                parent: AdapterView<*>?, view: View?, position: Int, id: Long
-            ) {
-                if (!spnChartTypeTouched) {
-                    spnChartTypeTouched = true
-                    return; }
-
-                vm.chartType = position
-                loadPages()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+    override var vmChartType: Int
+        get() = vm.chartType
+        set(value) {
+            vm.chartType = value
         }
 
-        // prepare initial data and then load the pages
-        if (vm.crushSumIndex == null) CoroutineScope(Dispatchers.IO).launch {
-            vm.crushSumIndex = hashMapOf()
-            var orgasms: ArrayList<Summary.Orgasm>
-            var sum: Float
-            for (p in c.people.values) {
-                orgasms = c.summary!!.scores[p.key] ?: continue
-                sum = orgasms.sumOf { it.value }
-                if (sum == 0f) continue
-                vm.crushSumIndex!![p] = sum
-            }
-
-            withContext(Dispatchers.Main) { loadPages() }
-        } else loadPages()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        b.pager.registerOnPageChangeCallback(onPageChanged)
     }
+
+    override fun requirements() = c.summary != null
+    override fun getRootView(): View = b.root
+    override val chartType: Spinner get() = b.chartType
 
     private val onPageChanged = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -111,7 +72,7 @@ class Taste : BaseActivity() {
         }
     }
 
-    private fun loadPages() {
+    override fun createNewChart() {
         b.pager.adapter = TasteAdapter()
         if (vm.currentPage != null) b.pager.setCurrentItem(vm.currentPage!!, false)
     }
@@ -169,10 +130,13 @@ class Taste : BaseActivity() {
             super.onViewCreated(view, savedInstanceState)
 
             // create and add the chart view
-            chartView = ChartType.entries[c.vm.chartType].view.java
-                .constructors.find { it.parameterCount == 1 }!!
-                .newInstance(ContextThemeWrapper(c, R.style.statChart)) as AbstractChartView
-            b.root.addView(chartView, 1)
+            chartView = c.createChartView()
+            b.root.addView(
+                chartView, 1,
+                ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0).apply {
+                    topToBottom = R.id.title
+                    bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                })
             chartView.setViewportChangeListener {
                 c.b.pager.isUserInputEnabled = chartView.zoomLevel == 1f
             }
@@ -193,8 +157,9 @@ class Taste : BaseActivity() {
                         ChartType.COMPOSITIONAL.ordinal ->
                             (chartView as PieChartView).pieChartData = data as PieChartData
                         ChartType.TIME_SERIES.ordinal -> {
-                            (chartView as LineChartView).lineChartData = data as LineChartData
                             chartView.setLabelOffset(c.dp(StatUtils.POINT_LABEL_OFFSET_IN_DP))
+                            (chartView as LineChartView).lineChartData = data as LineChartData
+                            chartView.isViewportCalculationEnabled = false
                         }
                     }
                     b.loading.isVisible = false
@@ -208,7 +173,22 @@ class Taste : BaseActivity() {
 
         @MainThread
         abstract fun preAnalysis()
+
         abstract suspend fun statisticise(): AbstractChartData
+
+        fun indexCrushSums() {
+            if (c.vm.crushSumIndex != null) return
+            else c.vm.crushSumIndex = hashMapOf()
+
+            var orgasms: ArrayList<Summary.Orgasm>
+            var sum: Float
+            for (p in c.c.people.values) {
+                orgasms = c.c.summary!!.scores[p.key] ?: continue
+                sum = orgasms.sumOf { it.value }
+                if (sum == 0f) continue
+                c.vm.crushSumIndex!![p] = sum
+            }
+        }
 
         protected fun createSliceValue(score: Float, mode: Int, division: String): SliceValue =
             SliceValue(score, preferredColour(mode) ?: c.chartColour).setLabel(
@@ -242,6 +222,7 @@ class Taste : BaseActivity() {
             when (c.vm.chartType) {
 
                 ChartType.COMPOSITIONAL.ordinal -> {
+                    indexCrushSums()
                     for (p in c.vm.crushSumIndex!!.entries) {
                         if (isFiltered && !crushFilter(p.key)) continue
                         val mode = crushProperty(p.key)
@@ -409,6 +390,7 @@ class Taste : BaseActivity() {
             when (c.vm.chartType) {
 
                 ChartType.COMPOSITIONAL.ordinal -> {
+                    indexCrushSums()
                     for (p in c.vm.crushSumIndex!!.entries) {
                         val div = crushProperty(p.key)
                         if (div !in counts)
@@ -457,10 +439,5 @@ class Taste : BaseActivity() {
             if (year.isEmpty()) return 0.toShort()
             return (year.toInt() / 10).toShort()
         }
-    }
-
-    enum class ChartType(val view: KClass<out AbstractChartView>) {
-        COMPOSITIONAL(PieChartView::class),
-        TIME_SERIES(LineChartView::class)
     }
 }

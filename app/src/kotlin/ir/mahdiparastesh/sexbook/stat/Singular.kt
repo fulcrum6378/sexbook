@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -10,9 +11,13 @@ import ir.mahdiparastesh.hellocharts.model.ColumnChartData
 import ir.mahdiparastesh.hellocharts.view.ColumnChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.ctrl.Identify
+import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
 
-class Singular : ChartActivity<ColumnChartView>(R.layout.singular) {
+class Singular : OneChartActivity<ColumnChartView>() {
+    val b: SingularBinding by lazy { SingularBinding.inflate(layoutInflater) }
+
+    override fun getRootView(): View = b.root
 
     val vm: Model by viewModels()
 
@@ -37,10 +42,10 @@ class Singular : ChartActivity<ColumnChartView>(R.layout.singular) {
     override fun requirements(): Boolean {
         vm.crushKey = intent.getStringExtra(EXTRA_CRUSH_KEY)
         vm.history = c.summary?.scores?.get(vm.crushKey)
-        return super.requirements() && vm.crushKey != null && vm.history != null
+        return vm.crushKey != null && vm.history != null
     }
 
-    override suspend fun draw(): AbstractChartData {
+    override suspend fun prepareData(): AbstractChartData {
         return ColumnChartData().setColumns(
             ColumnFactory(
                 this, StatUtils.sumTimeFrames(
@@ -55,7 +60,7 @@ class Singular : ChartActivity<ColumnChartView>(R.layout.singular) {
         )
     }
 
-    override suspend fun render(data: AbstractChartData) {
+    override suspend fun drawChart(data: AbstractChartData) {
         chartView.columnChartData = data as ColumnChartData
     }
 }

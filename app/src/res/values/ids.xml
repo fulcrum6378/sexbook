@@ -1,4 +1,11 @@
 <resources>
+
+    <!-- Summary -->
     <item name="pluses" type="id" />
-    <!--<item name="adBanner" type="id" />-->
+
+    <!-- #ChartActivities -->
+    <item name="title" type="id" />
+    <item name="loading" type="id" />
+    <item name="main" type="id" />
+    <item name="chartType" type="id" />
 </resources>

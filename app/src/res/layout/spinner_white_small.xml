@@ -1,6 +1,6 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/spinner"
+    style="@style/spinnerSelection"
     android:textColor="?colorOnSecondary"
     android:textSize="@dimen/spnFontSmall"
     tools:viewBindingIgnore="true" />

@@ -5,10 +5,10 @@
     tools:ignore="MissingConstraints">
 
     <ProgressBar
-        android:id="@+id/loading"
+        android:id="@id/loading"
         style="@style/statLoading" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@id/title"
         style="@style/statTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

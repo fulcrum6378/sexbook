@@ -2,6 +2,7 @@
 
 ### Improvements
 
+* Preferred colours for `CrushesStat`
 * Growth for Taste?
 * Preferred colours for crushes?
 * Remove statTitle's background?

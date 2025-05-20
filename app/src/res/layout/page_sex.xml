@@ -35,13 +35,7 @@
 
     <Spinner
         android:id="@+id/spnFilter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/bottomSpinner"
         android:background="@drawable/spinner"
-        android:paddingVertical="@dimen/spnFilterPadV"
-        android:paddingStart="26dp"
-        android:paddingEnd="42dp"
-        android:saveEnabled="false"
-        android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:saveEnabled="false" />
 </androidx.constraintlayout.widget.ConstraintLayout>
