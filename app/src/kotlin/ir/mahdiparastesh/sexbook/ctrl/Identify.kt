@@ -262,14 +262,14 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
                         c.c.unsafe.remove(crushKey)
                         c.c.unsafe.add(inserted.key)
                     }
-                    if (c is People) (c as People).mm.visPeople.indexOf(crushKey).also { pos ->
+                    if (c is People) (c as People).vm.visPeople.indexOf(crushKey).also { pos ->
                         if (pos == -1) return@also
-                        (c as People).mm.visPeople[pos] = inserted.key
+                        (c as People).vm.visPeople[pos] = inserted.key
                     }
-                    if (c is Settings) (c as Settings).mm.bNtfCrushes.indexOf(crushKey)
+                    if (c is Settings) (c as Settings).vm.bNtfCrushes.indexOf(crushKey)
                         .also { pos ->
                             if (pos == -1) return@also
-                            (c as Settings).mm.bNtfCrushes[pos] = inserted.key
+                            (c as Settings).vm.bNtfCrushes[pos] = inserted.key
                         }
                 }
 

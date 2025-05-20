@@ -31,7 +31,7 @@ class PersonAdap(private val c: People) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<ItemPersonBinding>, i: Int) {
-        val p = c.mm.visPeople.getOrNull(i)?.let { c.c.people[it] } ?: return
+        val p = c.vm.visPeople.getOrNull(i)?.let { c.c.people[it] } ?: return
 
         // is active?
         h.b.active.setOnCheckedChangeListener(null)
@@ -53,10 +53,10 @@ class PersonAdap(private val c: People) :
 
         // clicks
         h.b.root.setOnClickListener {
-            c.mm.visPeople.getOrNull(h.layoutPosition)?.also { Identify.create<People>(c, it) }
+            c.vm.visPeople.getOrNull(h.layoutPosition)?.also { Identify.create<People>(c, it) }
         }
         h.b.root.setOnLongClickListener { v ->
-            val pk = c.mm.visPeople.getOrNull(h.layoutPosition)
+            val pk = c.vm.visPeople.getOrNull(h.layoutPosition)
                 ?: return@setOnLongClickListener false
             val pc = c.c.people[pk] ?: return@setOnLongClickListener false
 
@@ -86,5 +86,5 @@ class PersonAdap(private val c: People) :
         }
     }
 
-    override fun getItemCount() = c.mm.visPeople.size
+    override fun getItemCount() = c.vm.visPeople.size
 }

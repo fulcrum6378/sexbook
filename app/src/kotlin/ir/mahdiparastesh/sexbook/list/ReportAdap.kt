@@ -114,7 +114,7 @@ class ReportAdap(
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
         //Log.d("ESPINELA", "$i")
-        val r = c.mm.visReports.getOrNull(i)?.let { c.c.reports[it] } ?: return
+        val r = c.vm.visReports.getOrNull(i)?.let { c.c.reports[it] } ?: return
 
         // date & time
         h.b.date.text = compileDate(c.c, r.time)
@@ -243,10 +243,10 @@ class ReportAdap(
         h.b.root.alpha = if (!r.guess) 1f else estimatedAlpha
     }
 
-    override fun getItemCount() = c.mm.visReports.size
+    override fun getItemCount() = c.vm.visReports.size
 
     /*override fun getItemId(i: Int): Long =
-        c.mm.visReports.getOrNull(i)?.let { c.c.reports[it]?.id } ?: RecyclerView.NO_ID*/
+        c.vm.visReports.getOrNull(i)?.let { c.c.reports[it]?.id } ?: RecyclerView.NO_ID*/
 
     inner class CrushSuggester : ArrayAdapter<String>(
         c, android.R.layout.simple_dropdown_item_1line, c.c.summaryCrushes()
@@ -279,7 +279,7 @@ class ReportAdap(
                 CoroutineScope(Dispatchers.IO).launch {
                     c.c.dao.rDelete(r)
                     c.c.reports.remove(r.id)
-                    if (c.c.reports.isNotEmpty()) c.mm.visReports.remove(r.id)
+                    if (c.c.reports.isNotEmpty()) c.vm.visReports.remove(r.id)
                     LastOrgasm.updateAll(c.c)
 
                     withContext(Dispatchers.Main) {
@@ -354,14 +354,14 @@ class ReportAdap(
 
             // ONLY if date or time have been changed...
             if (dateTimeChanged) withContext(Dispatchers.Main) {
-                val oldPos = c.mm.visReports.indexOf(id)
+                val oldPos = c.vm.visReports.indexOf(id)
                 val ym = c.c.reports[id]!!.time.calendar(c.c).createFilterYm()
-                if (f.filters.getOrNull(c.mm.listFilter)
+                if (f.filters.getOrNull(c.vm.listFilter)
                         ?.let { ym.first == it.year && ym.second == it.month } == true
                 ) {
                     // Report is still in this month
-                    c.mm.sortVisReports(c.c)
-                    val newPos = c.mm.visReports.indexOf(id)
+                    c.vm.sortVisReports(c.c)
+                    val newPos = c.vm.visReports.indexOf(id)
                     if (oldPos != newPos) {
                         notifyItemMoved(oldPos, newPos)
                         f.b.rv.smoothScrollToPosition(newPos)

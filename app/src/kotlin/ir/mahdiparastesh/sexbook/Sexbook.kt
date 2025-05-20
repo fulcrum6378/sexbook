@@ -106,9 +106,9 @@ class Sexbook : Application() {
                     b.empty.isVisible = liefde.isEmpty()
                 }
             }
-            if (c is People && crush in c.mm.visPeople) c.arrangeList()
+            if (c is People && crush in c.vm.visPeople) c.arrangeList()
             if (c is Settings) {
-                c.mm.sortBNtfCrushes(this)
+                c.vm.sortBNtfCrushes(this)
                 c.bNtfCrushAdap?.notifyDataSetChanged()
             }
             if (cr.unsafe())
@@ -126,9 +126,9 @@ class Sexbook : Application() {
                     b.empty.isVisible = liefde.isEmpty()
                 }
             }
-            if (c is People && crush in c.mm.visPeople) {
-                val vpPos = c.mm.visPeople.indexOf(crush)
-                c.mm.visPeople.remove(crush)
+            if (c is People && crush in c.vm.visPeople) {
+                val vpPos = c.vm.visPeople.indexOf(crush)
+                c.vm.visPeople.remove(crush)
                 c.b.list.adapter?.notifyItemRemoved(vpPos)
                 if (people.isNotEmpty()) c.b.list.adapter?.notifyItemRangeChanged(
                     vpPos, c.b.list.adapter!!.itemCount - vpPos
@@ -136,10 +136,10 @@ class Sexbook : Application() {
                 c.b.empty.isVisible = people.isEmpty()
             }
             if (c is Settings) {
-                val bnPos = c.mm.bNtfCrushes.indexOf(crush)
-                c.mm.bNtfCrushes.remove(crush)
+                val bnPos = c.vm.bNtfCrushes.indexOf(crush)
+                c.vm.bNtfCrushes.remove(crush)
                 c.bNtfCrushAdap?.notifyItemRemoved(bnPos)
-                if (c.mm.bNtfCrushes.isNotEmpty()) c.bNtfCrushAdap?.notifyItemRangeChanged(
+                if (c.vm.bNtfCrushes.isNotEmpty()) c.bNtfCrushAdap?.notifyItemRangeChanged(
                     bnPos, c.bNtfCrushAdap!!.itemCount - bnPos
                 )
             }
@@ -149,7 +149,7 @@ class Sexbook : Application() {
             c.count(liefde.size)
         else {
             PageLove.changed = true
-            if (c is People) c.count(c.mm.visPeople.size)
+            if (c is People) c.count(c.vm.visPeople.size)
         }
         if (CalendarManager.id != null)
             CoroutineScope(Dispatchers.IO).launch { CalendarManager.update(this@Sexbook) }

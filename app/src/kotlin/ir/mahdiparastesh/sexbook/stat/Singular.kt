@@ -14,13 +14,13 @@ import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
 
 class Singular : ChartActivity<ColumnChartView>(R.layout.singular) {
 
-    val mm: MyModel by viewModels()
+    val vm: Model by viewModels()
 
     companion object {
         const val EXTRA_CRUSH_KEY = "crush_key"
     }
 
-    class MyModel : ViewModel() {
+    class Model : ViewModel() {
         var crushKey: String? = null
         var history: ArrayList<Summary.Orgasm>? = null
     }
@@ -28,24 +28,24 @@ class Singular : ChartActivity<ColumnChartView>(R.layout.singular) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        findViewById<TextView>(R.id.title).text = mm.crushKey
+        findViewById<TextView>(R.id.title).text = vm.crushKey
         findViewById<ConstraintLayout>(R.id.identify).setOnClickListener {
-            Identify.create<Singular>(this@Singular, mm.crushKey!!)
+            Identify.create<Singular>(this@Singular, vm.crushKey!!)
         }
     }
 
     override fun requirements(): Boolean {
-        mm.crushKey = intent.getStringExtra(EXTRA_CRUSH_KEY)
-        mm.history = c.summary?.scores?.get(mm.crushKey)
-        return super.requirements() && mm.crushKey != null && mm.history != null
+        vm.crushKey = intent.getStringExtra(EXTRA_CRUSH_KEY)
+        vm.history = c.summary?.scores?.get(vm.crushKey)
+        return super.requirements() && vm.crushKey != null && vm.history != null
     }
 
     override suspend fun draw(): AbstractChartData {
         val data = ArrayList<Pair<String, Float>>()
         StatUtils.timeSeries(c, c.reports.filter {
             if (it.analysis == null) it.analyse()
-            mm.crushKey in it.analysis!!
-        }).forEach { data.add(Pair(it, StatUtils.sumTimeFrame(c, mm.history!!, it))) }
+            vm.crushKey in it.analysis!!
+        }).forEach { data.add(Pair(it, StatUtils.sumTimeFrame(c, vm.history!!, it))) }
         return ColumnChartData().setColumns(ColumnFactory(this, data))
     }
 

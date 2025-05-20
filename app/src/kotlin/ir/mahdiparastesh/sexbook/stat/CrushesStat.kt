@@ -76,7 +76,7 @@ class CrushesStat : BaseDialog<BaseActivity>() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
             val whichList = requireArguments().getInt(BUNDLE_WHICH_LIST)
-            val list = if (whichList == 0) (c as People).mm.visPeople else c.c.liefde
+            val list = if (whichList == 0) (c as People).vm.visPeople else c.c.liefde
 
             // set the title and miscellaneous stuff
             preAnalysis()

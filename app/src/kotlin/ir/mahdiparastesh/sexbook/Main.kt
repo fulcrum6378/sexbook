@@ -77,7 +77,7 @@ import kotlin.system.exitProcess
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener, Lister {
     private val b: MainBinding by lazy { MainBinding.inflate(layoutInflater) }
-    val mm: MyModel by viewModels()
+    val vm: Model by viewModels()
     private val exporter = Exporter(this)
     private var exiting = false
     private val menus = arrayOf(R.menu.page_sex, R.menu.page_love)
@@ -90,7 +90,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         var changed = false
     }
 
-    class MyModel : ViewModel() {
+    class Model : ViewModel() {
         var loaded = false
         var currentPage = 0
         var listFilter = -1
@@ -108,7 +108,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         toolbar(b.toolbar, R.string.app_name)
 
         // loading
-        if (mm.loaded) b.body.removeView(b.load)
+        if (vm.loaded) b.body.removeView(b.load)
         else if (night) b.loadIV.colorFilter = themePdcf()
 
         // navigation
@@ -117,12 +117,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         ) {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
-                mm.navOpen = true
+                vm.navOpen = true
             }
 
             override fun onDrawerClosed(drawerView: View) {
                 super.onDrawerClosed(drawerView)
-                mm.navOpen = false
+                vm.navOpen = false
             }
         }.apply {
             b.root.addDrawerListener(this@apply)
@@ -157,7 +157,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 b.toolbar.menu.clear()
                 b.toolbar.inflateMenu(menus[i])
                 onPrepareOptionsMenu(b.toolbar.menu)
-                mm.currentPage = i
+                vm.currentPage = i
                 count(if (i == 0) null else c.liefde.size)
             }
         })
@@ -271,7 +271,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
 
         // miscellaneous
-        if (mm.navOpen) b.root.openDrawer(GravityCompat.START)
+        if (vm.navOpen) b.root.openDrawer(GravityCompat.START)
         intent.check(true)
         addOnNewIntentListener { it.check() }
     }
@@ -323,7 +323,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        b.toolbar.inflateMenu(menus[mm.currentPage])
+        b.toolbar.inflateMenu(menus[vm.currentPage])
         b.toolbar.setOnMenuItemClickListener(this)
         return true
     }
@@ -415,7 +415,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     b.body.removeView(b.load)
-                    mm.loaded = true
+                    vm.loaded = true
                 }
             })
             start()
@@ -526,7 +526,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     fun onDataChanged() {
         c.resetData()
-        mm.listFilter = -1
+        vm.listFilter = -1
         recreate()
     }
 

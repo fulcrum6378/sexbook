@@ -6,7 +6,6 @@
 * Make `Taste`'s spinner have transparent background and yellow text in night mode
 * Optimise `StatUtils`
 * Progressive charts for `QuantitativeTasteFragment`
-* Save `Taste`'s states (in SP not VM)
 * Yearly and weekly time series
 * Merge `SumPie` and `Growth` into `Adorability`
 * Enlarge `json_export.xml` and `json_import.xml`

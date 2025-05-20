@@ -82,7 +82,7 @@ class PageSex : BasePage() {
             start()
         }
 
-        if (!c.mm.loaded) c.load()
+        if (!c.vm.loaded) c.load()
     }
 
     /** Resets the filters, reloads a list and scrolls to an item if necessary. */
@@ -90,7 +90,7 @@ class PageSex : BasePage() {
         filters = createFilters()
 
         // which month to show?
-        var curFilter = if (c.mm.listFilter == -1) (filters.size - 1) else c.mm.listFilter
+        var curFilter = if (c.vm.listFilter == -1) (filters.size - 1) else c.vm.listFilter
         if (scrollToId != null && scrollToId in c.c.reports) {
             val toFilter = c.c.reports[scrollToId]!!.time.calendar(c.c).createFilterYm()
             val fIndex =
@@ -104,7 +104,7 @@ class PageSex : BasePage() {
 
         // scroll to the edited item position...
         if (scrollToId != null) {
-            val pos = c.mm.visReports.indexOf(scrollToId)
+            val pos = c.vm.visReports.indexOf(scrollToId)
             if (pos != -1) b.rv.smoothScrollToPosition(pos)
         }
     }
@@ -132,12 +132,12 @@ class PageSex : BasePage() {
      */
     @SuppressLint("NotifyDataSetChanged")
     fun applyFilter(i: Int, causedByResetAllReports: Boolean, willScrollToItem: Boolean = false) {
-        if (c.mm.listFilter == i && c.mm.listFilter > -1 && !causedByResetAllReports) return
-        c.mm.listFilter = i
-        c.mm.visReports =
-            if (filters.isNotEmpty()) filters[c.mm.listFilter].map
+        if (c.vm.listFilter == i && c.vm.listFilter > -1 && !causedByResetAllReports) return
+        c.vm.listFilter = i
+        c.vm.visReports =
+            if (filters.isNotEmpty()) filters[c.vm.listFilter].map
             else arrayListOf()
-        c.mm.sortVisReports(c.c)
+        c.vm.sortVisReports(c.c)
 
         // update the adapter
         if (b.rv.adapter == null) b.rv.adapter = ReportAdap(c, this) else {
@@ -146,7 +146,7 @@ class PageSex : BasePage() {
         }
 
         // scroll to position
-        if (!willScrollToItem) b.rv.scrollToPosition(c.mm.visReports.size - 1)
+        if (!willScrollToItem) b.rv.scrollToPosition(c.vm.visReports.size - 1)
     }
 
     /** Updates the bottom spinner according to the current monthly Filter. */
@@ -156,7 +156,7 @@ class PageSex : BasePage() {
             List(filters.size) { f -> "${f + 1}. ${filters[f].title(c.c)}" }
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         spnFilterTouched = false
-        b.spnFilter.setSelection(c.mm.listFilter, true)
+        b.spnFilter.setSelection(c.vm.listFilter, true)
     }
 
     /** Adds a new [Report] instance and performs subsequent necessary actions. */
@@ -211,15 +211,15 @@ class PageSex : BasePage() {
 
             withContext(Dispatchers.Main) {
                 val ym = newOne.time.calendar(c.c).createFilterYm()
-                if (c.mm.listFilter >= 0 &&
-                    filters.indexOfFirst { it.year == ym.first && it.month == ym.second } == c.mm.listFilter
+                if (c.vm.listFilter >= 0 &&
+                    filters.indexOfFirst { it.year == ym.first && it.month == ym.second } == c.vm.listFilter
                 ) {
                     // add to the bottom of the RecyclerView
-                    c.mm.visReports.add(newOne.id)
-                    c.mm.sortVisReports(c.c)
+                    c.vm.visReports.add(newOne.id)
+                    c.vm.sortVisReports(c.c)
                     (b.rv.adapter as ReportAdap?)?.apply {
                         notifyAnyChange(false)
-                        notifyItemInserted(c.mm.visReports.indexOf(newOne.id))
+                        notifyItemInserted(c.vm.visReports.indexOf(newOne.id))
                     }
                     updateFilterSpinner()
                 } else {

@@ -21,11 +21,11 @@ import kotlin.experimental.and
 
 class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     lateinit var b: PeopleBinding
-    val mm: MyModel by viewModels()
+    val vm: Model by viewModels()
 
     override var countBadge: BadgeDrawable? = null
 
-    class MyModel : ViewModel() {
+    class Model : ViewModel() {
         lateinit var visPeople: ArrayList<String>
     }
 
@@ -96,7 +96,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     fun arrangeList() {
         val hideUnsafe = c.sp.getBoolean(Settings.spHideUnsafePeople, true) && c.unsafe.isNotEmpty()
         val filters = c.screening
-        mm.visPeople = ArrayList(
+        vm.visPeople = ArrayList(
             when {
                 filters?.any() == true -> c.people.filter { p ->
 
@@ -154,11 +154,11 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
                 hideUnsafe -> c.people.filter { p -> !p.value.unsafe() }
                 else -> c.people
             }.keys)
-        mm.visPeople.sortWith(Crush.Sort(c, Settings.spPeopleSortBy, Settings.spPeopleSortAsc))
+        vm.visPeople.sortWith(Crush.Sort(c, Settings.spPeopleSortBy, Settings.spPeopleSortAsc))
 
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()
-        b.empty.isVisible = mm.visPeople.isEmpty()
-        Delay(100L) { count(mm.visPeople.size) }
+        b.empty.isVisible = vm.visPeople.isEmpty()
+        Delay(100L) { count(vm.visPeople.size) }
     }
 }

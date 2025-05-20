@@ -44,7 +44,7 @@ import kotlinx.coroutines.withContext
 
 class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
-    val mm: MyModel by viewModels()
+    val vm: Model by viewModels()
     private val calendarTypes: Array<String> by lazy {
         resources.getStringArray(R.array.calendarTypes)
     }
@@ -86,7 +86,7 @@ class Settings : BaseActivity() {
         const val spLastNotifiedBirthAt = "lastNotifiedBirthAt" // Long
     }
 
-    class MyModel : ViewModel() {
+    class Model : ViewModel() {
         lateinit var bNtfCrushes: ArrayList<String>
 
         fun sortBNtfCrushes(c: Sexbook) {
@@ -307,10 +307,10 @@ class Settings : BaseActivity() {
             ).apply()
         }
         CoroutineScope(Dispatchers.IO).launch {
-            mm.bNtfCrushes = ArrayList(
+            vm.bNtfCrushes = ArrayList(
                 c.people.values.filter { it.notifyBirth() }.map { it.key }
             )
-            mm.sortBNtfCrushes(c)
+            vm.sortBNtfCrushes(c)
             withContext(Dispatchers.Main) {
                 b.stBNtfCrushes.setOnClickListener {
                     BNtfCrushes().show(supportFragmentManager, B_NTF_CRUSHES_TAG)

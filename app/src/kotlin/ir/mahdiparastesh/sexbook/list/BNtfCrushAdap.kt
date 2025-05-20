@@ -26,7 +26,7 @@ class BNtfCrushAdap(private val c: Settings) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<ItemPersonBinding>, i: Int) {
-        val p = c.c.people[c.mm.bNtfCrushes[i]] ?: return
+        val p = c.c.people[c.vm.bNtfCrushes[i]] ?: return
 
         // is active?
         h.b.active.setOnCheckedChangeListener(null)
@@ -51,15 +51,15 @@ class BNtfCrushAdap(private val c: Settings) :
 
         // clicks
         h.b.root.setOnClickListener {
-            c.mm.bNtfCrushes.getOrNull(h.layoutPosition)
+            c.vm.bNtfCrushes.getOrNull(h.layoutPosition)
                 ?.also { Identify.create<Settings>(c, it) }
         }
         h.b.root.setOnLongClickListener {
-            c.mm.bNtfCrushes.getOrNull(h.layoutPosition)?.also {
+            c.vm.bNtfCrushes.getOrNull(h.layoutPosition)?.also {
                 c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, it) }
             }; true
         }
     }
 
-    override fun getItemCount() = c.mm.bNtfCrushes.size
+    override fun getItemCount() = c.vm.bNtfCrushes.size
 }

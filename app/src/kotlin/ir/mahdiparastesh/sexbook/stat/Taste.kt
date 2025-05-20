@@ -9,13 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.viewModels
 import androidx.annotation.ArrayRes
 import androidx.annotation.MainThread
 import androidx.annotation.StringRes
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.model.PieChartData
@@ -42,15 +45,17 @@ import kotlin.reflect.KClass
 class Taste : BaseActivity() {
     lateinit var b: TasteBinding
     private val jobs: ArrayList<Job> = arrayListOf()
-    var chartType: Int = 0
-    val crushSumIndex = hashMapOf<Crush, Float>()
-    val timeSeries: List<String> by lazy { StatUtils.timeSeries(c) }
+    val vm: Model by viewModels()
+    private var spnChartTypeTouched = false
 
-    enum class ChartType(val view: KClass<out AbstractChartView>) {
-        COMPOSITIONAL(PieChartView::class),
-        TIME_SERIES(LineChartView::class)
+    class Model : ViewModel() {
+        var currentPage: Int? = null
+        var chartType: Int = 0
+        var crushSumIndex: HashMap<Crush, Float>? = null
+        var timeSeries: List<String>? = null
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (c.summary == null) {
@@ -61,40 +66,54 @@ class Taste : BaseActivity() {
         if (night) window.decorView.setBackgroundColor(
             themeColor(com.google.android.material.R.attr.colorPrimary)
         )
+        b.pager.registerOnPageChangeCallback(onPageChanged)
 
         // chart types
         b.chartType.adapter = ArrayAdapter(
             c, R.layout.spinner_yellow, resources.getStringArray(R.array.tasteChartTypes)
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
+        b.chartType.setSelection(vm.chartType)
         b.chartType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @SuppressLint("NotifyDataSetChanged")
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                chartType = position
-                val prevPos = b.pager.currentItem
-                b.pager.adapter = TasteAdapter()
-                b.pager.setCurrentItem(prevPos, false)
+                if (!spnChartTypeTouched) {
+                    spnChartTypeTouched = true
+                    return; }
+
+                vm.chartType = position
+                loadPages()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // prepare initial data
-        CoroutineScope(Dispatchers.IO).launch {
+        // prepare initial data and then load the pages
+        if (vm.crushSumIndex == null) CoroutineScope(Dispatchers.IO).launch {
+            vm.crushSumIndex = hashMapOf()
             var orgasms: ArrayList<Summary.Orgasm>
             var sum: Float
             for (p in c.people.values) {
                 orgasms = c.summary!!.scores[p.key] ?: continue
                 sum = orgasms.sumOf { it.value }
                 if (sum == 0f) continue
-                crushSumIndex[p] = sum
+                vm.crushSumIndex!![p] = sum
             }
 
-            withContext(Dispatchers.Main) {
-                b.pager.adapter = TasteAdapter()
-            }
+            withContext(Dispatchers.Main) { loadPages() }
+        } else loadPages()
+    }
+
+    private val onPageChanged = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            vm.currentPage = position
         }
+    }
+
+    private fun loadPages() {
+        b.pager.adapter = TasteAdapter()
+        if (vm.currentPage != null) b.pager.setCurrentItem(vm.currentPage!!, false)
     }
 
     inner class TasteAdapter : FragmentStateAdapter(this@Taste) {
@@ -114,6 +133,18 @@ class Taste : BaseActivity() {
             else -> GenderTaste()
         }
     }
+
+    override fun onDestroy() {
+        b.pager.unregisterOnPageChangeCallback(onPageChanged)
+        super.onDestroy()
+    }
+
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun onBackPressed() {
+        for (job in jobs) job.cancel()
+        @Suppress("DEPRECATION") super.onBackPressed()
+    }
+
 
     abstract class TasteFragment : Fragment() {
         protected val c: Taste by lazy { activity as Taste }
@@ -138,7 +169,7 @@ class Taste : BaseActivity() {
             super.onViewCreated(view, savedInstanceState)
 
             // create and add the chart view
-            chartView = ChartType.entries[c.chartType].view.java
+            chartView = ChartType.entries[c.vm.chartType].view.java
                 .constructors.find { it.parameterCount == 1 }!!
                 .newInstance(ContextThemeWrapper(c, R.style.statChart)) as AbstractChartView
             b.root.addView(chartView, 1)
@@ -151,14 +182,14 @@ class Taste : BaseActivity() {
 
             // prepare the diagram
             myJob = CoroutineScope(Dispatchers.IO).launch {
-                if (c.chartType == ChartType.COMPOSITIONAL.ordinal) {
+                if (c.vm.chartType == ChartType.COMPOSITIONAL.ordinal) {
                     sumOfAll += c.c.summary!!.unknown
                     counts[0] = c.c.summary!!.unknown
                 }
                 val data = statisticise()
 
                 withContext(Dispatchers.Main) {
-                    when (c.chartType) {
+                    when (c.vm.chartType) {
                         ChartType.COMPOSITIONAL.ordinal ->
                             (chartView as PieChartView).pieChartData = data as PieChartData
                         ChartType.TIME_SERIES.ordinal -> {
@@ -208,10 +239,10 @@ class Taste : BaseActivity() {
         }
 
         override suspend fun statisticise(): AbstractChartData {
-            when (c.chartType) {
+            when (c.vm.chartType) {
 
                 ChartType.COMPOSITIONAL.ordinal -> {
-                    for (p in c.crushSumIndex.entries) {
+                    for (p in c.vm.crushSumIndex!!.entries) {
                         if (isFiltered && !crushFilter(p.key)) continue
                         val mode = crushProperty(p.key)
                         counts[mode] = counts[mode]!! + p.value
@@ -228,6 +259,7 @@ class Taste : BaseActivity() {
                 }
 
                 ChartType.TIME_SERIES.ordinal -> {
+                    if (c.vm.timeSeries == null) c.vm.timeSeries = StatUtils.timeSeries(c.c)
                     var cr: Crush? = null
                     var modeCode: Short
                     for ((crushKey, orgasms) in c.c.summary!!.scores.entries) {
@@ -240,7 +272,7 @@ class Taste : BaseActivity() {
                     for (mode in arModes.indices) {
                         if (mode.toShort() !in progress) continue
                         val frames = ArrayList<Star.Frame>()
-                        for (month in c.timeSeries) frames.add(
+                        for (month in c.vm.timeSeries!!) frames.add(
                             Star.Frame(
                                 StatUtils.sumTimeFrame(c.c, progress[mode.toShort()]!!, month),
                                 month
@@ -375,10 +407,10 @@ class Taste : BaseActivity() {
         }
 
         override suspend fun statisticise(): AbstractChartData {
-            when (c.chartType) {
+            when (c.vm.chartType) {
 
                 ChartType.COMPOSITIONAL.ordinal -> {
-                    for (p in c.crushSumIndex.entries) {
+                    for (p in c.vm.crushSumIndex!!.entries) {
                         val div = crushProperty(p.key)
                         if (div !in counts)
                             counts[div] = p.value
@@ -428,10 +460,8 @@ class Taste : BaseActivity() {
         }
     }
 
-
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onBackPressed() {
-        for (job in jobs) job.cancel()
-        @Suppress("DEPRECATION") super.onBackPressed()
+    enum class ChartType(val view: KClass<out AbstractChartView>) {
+        COMPOSITIONAL(PieChartView::class),
+        TIME_SERIES(LineChartView::class)
     }
 }
