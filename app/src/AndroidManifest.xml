@@ -81,11 +81,6 @@
             android:launchMode="singleTop" />
 
         <activity
-            android:name=".stat.Growth"
-            android:exported="false"
-            android:launchMode="singleTop" />
-
-        <activity
             android:name=".stat.Mixture"
             android:exported="false"
             android:launchMode="singleTop" />

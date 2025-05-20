@@ -49,7 +49,6 @@ import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.stat.Adorability
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
-import ir.mahdiparastesh.sexbook.stat.Growth
 import ir.mahdiparastesh.sexbook.stat.Intervals
 import ir.mahdiparastesh.sexbook.stat.Mixture
 import ir.mahdiparastesh.sexbook.stat.Recency
@@ -289,7 +288,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             && !summarize(true)
         ) {
             uiToast(R.string.noRecords); return true
-        } else if (item.itemId in arrayOf(R.id.momPop, R.id.momGrw, R.id.momTst) && !summarize()) {
+        } else if (item.itemId in arrayOf(R.id.momPop, R.id.momTst) && !summarize()) {
             uiToast(R.string.noStat); return true
         } else if (item.itemId in
             arrayOf(R.id.momPpl, R.id.momImport, R.id.momExport, R.id.momSend)
@@ -303,7 +302,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momSum -> SummaryDialog().show(supportFragmentManager, "summary")
             R.id.momRec -> Recency().show(supportFragmentManager, "recency")
             R.id.momPop -> goTo(Adorability::class)
-            R.id.momGrw -> goTo(Growth::class)
             R.id.momMix -> goTo(Mixture::class)
             R.id.momInt -> goTo(Intervals::class)
             R.id.momTst -> goTo(Taste::class)

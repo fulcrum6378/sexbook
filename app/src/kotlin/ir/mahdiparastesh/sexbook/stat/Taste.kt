@@ -23,8 +23,6 @@ import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
-import ir.mahdiparastesh.hellocharts.view.LineChartView
-import ir.mahdiparastesh.hellocharts.view.PieChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.StatFragmentBinding
@@ -153,15 +151,7 @@ class Taste : MultiChartActivity() {
                 val data = statisticise()
 
                 withContext(Dispatchers.Main) {
-                    when (c.vm.chartType) {
-                        ChartType.COMPOSITIONAL.ordinal ->
-                            (chartView as PieChartView).pieChartData = data as PieChartData
-                        ChartType.TIME_SERIES.ordinal -> {
-                            chartView.setLabelOffset(c.dp(StatUtils.POINT_LABEL_OFFSET_IN_DP))
-                            (chartView as LineChartView).lineChartData = data as LineChartData
-                            chartView.isViewportCalculationEnabled = false
-                        }
-                    }
+                    c.passDataToChartView(chartView, data)
                     b.loading.isVisible = false
                     chartView.isInvisible = false
                 }
@@ -239,7 +229,7 @@ class Taste : MultiChartActivity() {
                     return PieChartData(data).setHasLabels(true)
                 }
 
-                ChartType.TIME_SERIES.ordinal -> {
+                ChartType.TIME_SERIES.ordinal, ChartType.CUMULATIVE_TIME_SERIES.ordinal -> {
                     if (c.vm.timeSeries == null) c.vm.timeSeries = StatUtils.timeSeries(c.c)
                     var cr: Crush? = null
                     var modeCode: Short
@@ -250,13 +240,14 @@ class Taste : MultiChartActivity() {
                         progress[modeCode]!!.addAll(orgasms)
                     }
                     val lines = ArrayList<Timeline>()
+                    val cumulative = c.vm.chartType == ChartType.CUMULATIVE_TIME_SERIES.ordinal
                     for (mode in arModes.indices) {
                         if (mode.toShort() !in progress) continue
                         lines.add(
                             Timeline(
                                 arModes[mode],
                                 StatUtils.sumTimeFrames(
-                                    c.c, progress[mode.toShort()]!!, c.vm.timeSeries!!
+                                    c.c, progress[mode.toShort()]!!, c.vm.timeSeries!!, cumulative
                                 ),
                                 preferredColour(mode.toInt())
                             )

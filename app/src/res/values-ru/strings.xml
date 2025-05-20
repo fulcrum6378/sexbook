@@ -95,13 +95,13 @@
     <string name="summary">Краткое Содержание</string>
     <string name="recency">Новизна</string>
     <string name="adorability">Прелесть</string>
-    <string name="growth">Рост</string>
     <string name="mixture">Смесь</string>
     <string name="intervals">Интервалы</string>
     <string name="taste">Твой Вкус</string>
     <string-array name="tasteChartTypes">
         <item>Композиционный</item>
         <item>Временной ряд</item>
+        <item>Кумулятивный временной ряд</item>
     </string-array>
     <string name="statistics">Статистика</string>
     <string name="noStat">Диапазон ваших записей должен превышать один месяц!</string>

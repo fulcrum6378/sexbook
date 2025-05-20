@@ -40,7 +40,7 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters
 - [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) :
   everything related to statistics (as mentioned above)
-- [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/misc) : UX-related utilities
+- [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/util) : UX-related utilities
 - [**view**](app/src/kotlin/ir/mahdiparastesh/sexbook/view) : UI-related utilities
 
 ### Statistics
@@ -61,8 +61,6 @@ The statistical charts are provided by
   The clicking behaviour is the same as the Summary list.
 - [**Adorability**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Adorability.kt) :
   makes a line chart of sexual partners using the number of sexual intercourses in each month.
-- [**Growth**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Growth.kt) :
-  same as Adorability, but this one shows the numbers additively.
 - [**Mixture**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Mixture.kt) :
   shows months by the number of total sexual intercourses, regardless of sexual partners.
 - [**Intervals**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Intervals.kt) :

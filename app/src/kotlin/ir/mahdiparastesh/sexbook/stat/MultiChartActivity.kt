@@ -8,6 +8,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.MainThread
+import ir.mahdiparastesh.hellocharts.model.AbstractChartData
+import ir.mahdiparastesh.hellocharts.model.LineChartData
+import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.hellocharts.view.LineChartView
 import ir.mahdiparastesh.hellocharts.view.PieChartView
@@ -56,9 +59,23 @@ abstract class MultiChartActivity : ChartActivity() {
         .constructors.find { it.parameterCount == 1 }!!
         .newInstance(ContextThemeWrapper(c, R.style.statChart)) as AbstractChartView
 
+    fun passDataToChartView(chartView: AbstractChartView, data: AbstractChartData) {
+        when (vmChartType) {
+            ChartType.COMPOSITIONAL.ordinal ->
+                (chartView as PieChartView).pieChartData = data as PieChartData
+            ChartType.TIME_SERIES.ordinal, ChartType.CUMULATIVE_TIME_SERIES.ordinal -> {
+                chartView.setLabelOffset(dp(StatUtils.POINT_LABEL_OFFSET_IN_DP))
+                (chartView as LineChartView).lineChartData = data as LineChartData
+                chartView.isViewportCalculationEnabled = false // never do it before setLineChatData
+                // it cannot be zoomed out.
+            }
+        }
+    }
+
 
     enum class ChartType(val view: KClass<out AbstractChartView>) {
         COMPOSITIONAL(PieChartView::class),
-        TIME_SERIES(LineChartView::class)
+        TIME_SERIES(LineChartView::class),
+        CUMULATIVE_TIME_SERIES(LineChartView::class),
     }
 }

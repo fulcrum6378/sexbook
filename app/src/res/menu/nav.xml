@@ -14,10 +14,6 @@
             android:icon="@drawable/adorability"
             android:title="@string/adorability" />
         <item
-            android:id="@+id/momGrw"
-            android:icon="@drawable/growth"
-            android:title="@string/growth" />
-        <item
             android:id="@+id/momMix"
             android:icon="@drawable/mixture"
             android:title="@string/mixture" />

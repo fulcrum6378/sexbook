@@ -14,6 +14,7 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
+import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 
 object StatUtils {
 
@@ -63,7 +64,7 @@ object StatUtils {
         c: Sexbook,
         orgasms: ArrayList<Summary.Orgasm>,
         frames: List<String>,
-        growing: Boolean = false
+        cumulative: Boolean = false
     ): LinkedHashMap<String, Float> {
 
         val map = LinkedHashMap<String, Float>()
@@ -76,7 +77,7 @@ object StatUtils {
             val monthKey = monthKey(monthNames[mon], yea)
             map[monthKey] = map[monthKey]!! + orgasm.value
         }
-        if (growing) {
+        if (cumulative) {
             var prev = 0f
             for (key in map.keys) {
                 map[key] = map[key]!! + prev
@@ -98,7 +99,7 @@ class ColumnFactory(
         Column(
             listOf(
                 SubColumnValue(it.value)
-                    .setLabel("${it.key} (${it.value})")
+                    .setLabel("${it.key} (${it.value.show()})")
                     .setColor(c.chartColour)
             )
         )
@@ -113,7 +114,7 @@ class LineFactory(stars: List<Timeline>) : ArrayList<Line>(
         Line(star.line.map { line ->
             i++
             PointValue(i.toFloat(), line.value)
-                .setLabel("${star.name} : ${line.key} (${line.value})")
+                .setLabel("${star.name} : ${line.key} (${line.value.show()})")
         })
             .setColor(
                 star.colour

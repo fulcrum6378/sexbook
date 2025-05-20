@@ -5,11 +5,12 @@
     tools:ignore="MissingConstraints">
 
     <ir.mahdiparastesh.hellocharts.view.PieChartView
-        android:id="@+id/main"
+        android:id="@id/main"
         style="@style/statChart"
+        android:layout_height="match_parent"
         android:visibility="visible" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@id/title"
         style="@style/statTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

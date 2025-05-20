@@ -95,13 +95,13 @@
     <string name="summary">Resumen</string>
     <string name="recency">Frescura</string>
     <string name="adorability">Adorabilidad</string>
-    <string name="growth">Crecimiento</string>
     <string name="mixture">Mezcla</string>
     <string name="intervals">Intervalos</string>
     <string name="taste">Tu Gusto</string>
     <string-array name="tasteChartTypes">
         <item>Composicional</item>
         <item>Serie temporal</item>
+        <item>Series de tiempo acumuladas</item>
     </string-array>
     <string name="statistics">Estadísticas</string>
     <string name="noStat">¡El rango de sus registros debe exceder un mes!</string>

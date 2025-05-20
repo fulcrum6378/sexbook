@@ -14,8 +14,6 @@ import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
-import ir.mahdiparastesh.hellocharts.view.LineChartView
-import ir.mahdiparastesh.hellocharts.view.PieChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.databinding.AdorabilityBinding
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
@@ -92,13 +90,16 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
                 }
             }
 
-            ChartType.TIME_SERIES.ordinal -> {
+            ChartType.TIME_SERIES.ordinal, ChartType.CUMULATIVE_TIME_SERIES.ordinal -> {
                 val lines = ArrayList<Timeline>()
                 val frames = StatUtils.timeSeries(c)
                 val hideUnsafe = c.hideUnsafe()
+                val cumulative = vm.chartType == ChartType.CUMULATIVE_TIME_SERIES.ordinal
                 for (x in c.summary!!.scores) {
                     if (hideUnsafe && x.key in c.unsafe) continue
-                    lines.add(Timeline(x.key, StatUtils.sumTimeFrames(c, x.value, frames)))
+                    lines.add(
+                        Timeline(x.key, StatUtils.sumTimeFrames(c, x.value, frames, cumulative))
+                    )
                 }
                 return LineChartData().setLines(LineFactory(lines))
             }
@@ -108,15 +109,6 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
     }
 
     override suspend fun drawChart(data: AbstractChartData) {
-        when (vm.chartType) {
-            ChartType.COMPOSITIONAL.ordinal ->
-                (chartView as PieChartView).pieChartData = data as PieChartData
-            ChartType.TIME_SERIES.ordinal -> {
-                chartView.setLabelOffset(dp(StatUtils.POINT_LABEL_OFFSET_IN_DP))
-                (chartView as LineChartView).lineChartData = data as LineChartData
-                chartView.isViewportCalculationEnabled = false // never do it before setLineChatData
-                // it cannot be zoomed out.
-            }
-        }
+        passDataToChartView(chartView, data)
     }
 }

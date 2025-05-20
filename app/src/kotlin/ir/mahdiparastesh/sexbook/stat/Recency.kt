@@ -25,7 +25,6 @@ class Recency : BaseDialog<Main>(), BaseDialog.SearchableStat {
         return MaterialAlertDialogBuilder(c).apply {
             setTitle(resources.getString(R.string.recency))
             setView(draw())
-            setPositiveButton(android.R.string.ok, null)
         }.create()
     }
 

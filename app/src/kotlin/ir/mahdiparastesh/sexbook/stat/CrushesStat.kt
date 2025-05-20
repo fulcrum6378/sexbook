@@ -20,7 +20,7 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.data.Crush
-import ir.mahdiparastesh.sexbook.databinding.ChartPieFragmentBinding
+import ir.mahdiparastesh.sexbook.databinding.CrshStatFragmentBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
