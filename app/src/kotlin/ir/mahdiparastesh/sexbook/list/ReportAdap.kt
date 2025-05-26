@@ -45,6 +45,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.DateFormatSymbols
 
+/** Used in [PageSex] listing [Report]s */
 class ReportAdap(
     private val c: Main, private val f: PageSex, private val autoExpand: Boolean = false
 ) : RecyclerView.Adapter<AnyViewHolder<ItemReportBinding>>() {

@@ -15,6 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * This Activity lists and controls the [Guess] table in the database.
+ */
 class Estimation : BaseActivity(), Lister {
     private lateinit var b: EstimationBinding
 
@@ -32,7 +35,7 @@ class Estimation : BaseActivity(), Lister {
         setContentView(b.root)
         toolbar(b.toolbar, R.string.estimation)
 
-        // List
+        // list
         if (b.list.adapter == null) b.list.adapter = GuessAdap(this)
         else b.list.adapter?.notifyDataSetChanged()
         b.empty.isVisible = c.guesses.isEmpty()

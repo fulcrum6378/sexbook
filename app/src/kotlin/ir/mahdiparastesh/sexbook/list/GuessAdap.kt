@@ -15,6 +15,7 @@ import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.sexbook.Estimation
 import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.ItemGuessBinding
 import ir.mahdiparastesh.sexbook.util.Delay
@@ -33,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/** Used in [Estimation] listing [Guess]es */
 class GuessAdap(private val c: Estimation) :
     RecyclerView.Adapter<AnyViewHolder<ItemGuessBinding>>() {
 

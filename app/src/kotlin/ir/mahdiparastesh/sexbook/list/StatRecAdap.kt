@@ -18,6 +18,7 @@ import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
 import ir.mahdiparastesh.sexbook.util.NumberUtils.z
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 
+/** Used in [Recency] */
 class StatRecAdap(private val r: Recency) :
     RecyclerView.Adapter<AnyViewHolder<RecencyBinding>>() {
 

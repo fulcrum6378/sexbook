@@ -22,6 +22,7 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.or
 import kotlin.experimental.xor
 
+/** Used in [People] listing [Crush]es */
 class PersonAdap(private val c: People) :
     RecyclerView.Adapter<AnyViewHolder<ItemPersonBinding>>() {
 

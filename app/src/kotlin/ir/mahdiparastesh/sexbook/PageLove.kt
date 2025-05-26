@@ -11,6 +11,13 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.PageLoveBinding
 import ir.mahdiparastesh.sexbook.list.CrushAdap
 
+/**
+ * This Fragment lists and controls the [Crush] table in the database, filtering only an "enabled"
+ * portion of [Crush] instances for ease of use.
+ *
+ * The [People] Activity is in charge of handling the complete list of [Crush] instances with more
+ * advanced filtering features.
+ */
 class PageLove : BasePage() {
     lateinit var b: PageLoveBinding
 

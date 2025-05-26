@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.Main
+import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.experimental.or
 
+/** Used in [PageLove] listing [Crush]es */
 class CrushAdap(private val c: Main) :
     RecyclerView.Adapter<AnyViewHolder<ItemCrushBinding>>() {
 

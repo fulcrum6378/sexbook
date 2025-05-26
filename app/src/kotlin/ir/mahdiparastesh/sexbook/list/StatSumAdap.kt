@@ -12,9 +12,11 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.SumChipGroupBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
+import ir.mahdiparastesh.sexbook.stat.SummaryDialog
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 
+/** Used in [SummaryDialog] */
 class StatSumAdap(
     private val c: BaseActivity,
     val arr: List<MutableMap.MutableEntry<Float, ArrayList<String>>>,

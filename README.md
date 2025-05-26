@@ -1,7 +1,8 @@
 # Sexbook
 
-A fun Android app for recording one's sexual activities. One can note their orgasm just in time
-or later than that using a date picker. It has a yellow theme with a banana icon.
+A fun Android app for recording data about one's sexual activities.
+A user can note their orgasm just in time or later than that using a date picker.
+This app has a yellow theme with a banana icon.
 
 This app uses [Multi-Calendar Date Time Picker](https://github.com/fulcrum6378/mcdtp);
 meaning you can record your sexual activities in the Gregorian calendar or any other one,
@@ -49,24 +50,26 @@ The statistics are accessible via the navigation menu in Main or PageLove.
 The related codes are in the subpackage [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat).
 Statistics can be easily filtered in
 [**Settings**](app/src/kotlin/ir/mahdiparastesh/sexbook/Settings.kt).
-The statistical charts are provided by
+The statistical charts are provided by the forked library
 [**HelloCharts**](https://github.com/fulcrum6378/HelloCharts).
 
 - [**Summary**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Summary.kt) :
-  shows a summary of one's sexual partners (crushes) and number of times they had sexual
-  intercourses. When clicked on a partner, their
-  [**Singular**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Singular.kt) line chart will pop up.
+  shows a summary of one's sexual partners (crushes) and the number of times they had sexual
+  intercourses. When clicked on a partner, their monthly statistics will pop up as a line chart.
 - [**Recency**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Recency.kt) :
   lists sexual partners by the last time they've had a sexual intercourse.
   The clicking behaviour is the same as the Summary list.
 - [**Adorability**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Adorability.kt) :
-  makes a line chart of sexual partners using the number of sexual intercourses in each month.
+  makes a multiple charts of sexual partners measuring their numbers of sexual intercourses in
+  each month.
 - [**Mixture**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Mixture.kt) :
   shows months by the number of total sexual intercourses, regardless of sexual partners.
 - [**Intervals**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Intervals.kt) :
   statisticises delays between orgasms in terms of hours.
 - [**Taste**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Taste.kt) :
-  creates charts suggesting your sexual taste.
+  creates numerous charts suggesting the user's sexual taste.
+- [**Singular**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Singular.kt) :
+  creates a line chart singularly for a specific sexual partner.
 - [**CrushesStat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/CrushesStat.kt) :
   statisticises the features of people; like gender, body characteristics, height and age.
 
@@ -87,6 +90,7 @@ The statistical charts are provided by
 
 - [**Settings.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Settings.kt) :
   this activity controls settings and stores them as shared preferences.
+  It also can wipe out the database and/or shared preferences.
 
 ### JSON Data Export/Import
 

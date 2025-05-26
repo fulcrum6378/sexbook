@@ -12,6 +12,7 @@ import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings.Companion.spDefPlace
+import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.ItemPlaceBinding
 import ir.mahdiparastesh.sexbook.databinding.MigratePlaceBinding
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
@@ -22,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/** Used in [Places] listing [Place]s */
 class PlaceAdap(private val c: Places) :
     RecyclerView.Adapter<AnyViewHolder<ItemPlaceBinding>>() {
 

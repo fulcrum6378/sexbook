@@ -26,6 +26,10 @@ import java.util.Locale
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.CopyOnWriteArraySet
 
+/**
+ * The [Application] subclass of this app
+ * It is in charge of maintaining necessary data,
+ */
 class Sexbook : Application() {
 
     /**
@@ -36,6 +40,7 @@ class Sexbook : Application() {
     val dao: Dao by lazy { db.dao() }
     var dbLoaded = false
 
+    /** User preferences */
     val sp: SharedPreferences by lazy {
         getSharedPreferences(Settings.spName, MODE_PRIVATE)
     }
@@ -52,9 +57,10 @@ class Sexbook : Application() {
     /** A list of active Crushes. */
     var liefde = CopyOnWriteArrayList<String>()
 
-    /** A list of Crushes marked as "unsafe". */
+    /** A list of [Crush]es marked as "unsafe". */
     var unsafe = CopyOnWriteArraySet<String>()
 
+    /** A list of filters which will be applied to [People]. */
     var screening: Screening.Filters? = null
 
 
@@ -71,7 +77,8 @@ class Sexbook : Application() {
     }
 
     /**
-     * @return the chosen calendar type, if no choice made, chooses it using their default Locale
+     * @return the chosen calendar type, if no choice has benn made, chooses one of them according
+     * to the default [Locale] of this device
      */
     fun calType() = arrayOf(
         GregorianCalendar::class.java,
@@ -85,18 +92,22 @@ class Sexbook : Application() {
         }
     )]
 
-    /** @param changeType 0=>insert, 1=>update, 2=>delete */
+    /**
+     * Performs some complex necessary action after a [Crush] data model is altered.
+     *
+     * @param changeType 0=>insert, 1=>update, 2=>delete
+     */
     @SuppressLint("NotifyDataSetChanged")
     @MainThread
     fun onCrushChanged(c: BaseActivity, crush: String, changeType: Int) {
         val pageLove = if (c is Main) c.pageLove() else null
         val cr = people[crush]
         val lfPos = liefde.indexOf(crush)
-        if (changeType != 2) { // insert, update
+        if (changeType != 2) {  // insert, update
             if (cr!!.active()) {
                 if (lfPos == -1) liefde.add(crush)
                 pageLove?.prepareList()
-            } else if (lfPos != -1) { // deactivated
+            } else if (lfPos != -1) {  // deactivated
                 liefde.remove(crush)
                 pageLove?.apply {
                     b.rv.adapter?.notifyItemRemoved(lfPos)
@@ -115,7 +126,7 @@ class Sexbook : Application() {
                 unsafe.add(crush)
             else
                 unsafe.remove(crush)
-        } else { // delete
+        } else {  // delete
             if (lfPos != -1) {
                 liefde.removeAt(lfPos)
                 pageLove?.apply {
@@ -155,12 +166,18 @@ class Sexbook : Application() {
             CoroutineScope(Dispatchers.IO).launch { CalendarManager.update(this@Sexbook) }
     }
 
+    /**
+     * Prepares a list of people mentioned in [Summary] regardless of their presence in the
+     * [Crush] table in the [Database].
+     *
+     * It must necessarily return a mutable collection;
+     * otherwise CrushSuggester::update() will error!
+     */
     fun summaryCrushes(): ArrayList<String> =
         summary?.let { summary ->
             var all = ArrayList(summary.scores.keys)
             if (hideUnsafe()) ArrayList(all.filter { it !in unsafe }) else all
         } ?: arrayListOf()
-    // it must necessarily return a mutable collection, otherwise CrushSuggester::update() will error!
 
     /** Should unsafe people be not shown? */
     fun hideUnsafe() =

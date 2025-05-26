@@ -34,11 +34,13 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.ctrl.CalendarManager
+import ir.mahdiparastesh.sexbook.ctrl.Database
 import ir.mahdiparastesh.sexbook.ctrl.Exporter
 import ir.mahdiparastesh.sexbook.ctrl.NotificationActions
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -73,6 +75,15 @@ import kotlin.experimental.and
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
+/**
+ * This is the main Activity of this app.
+ *
+ * - Completely loads all the [Database] into the RAM (data stored in [Sexbook])
+ *   (unfortunately we need all the database on startup, although our database isn't that heavy).
+ * - Creates and displays the two primary Fragments [PageSex] and [PageLove] via a [ViewPager2].
+ * - Provides navigation to other activities via a [NavigationView] as a drawer.
+ * - Sends birthday notifications for the user if applicable.
+ */
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener, Lister {
     private val b: MainBinding by lazy { MainBinding.inflate(layoutInflater) }

@@ -29,6 +29,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.max
 
+/**
+ * This Fragment lists and controls the [Report] table in the database.
+ * It classifies [Report]s by their months and lets the user jump between months via a Spinner
+ * called `spnFilter`.
+ */
 class PageSex : BasePage() {
     lateinit var b: PageSexBinding
     var filters: List<Report.Filter> = listOf()

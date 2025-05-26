@@ -2,7 +2,7 @@
 
 ### Improvements
 
-* More documentations
+* Documentations for HelloCharts
 * Preferred colours for `CrushesStat`
 * Preferred colours for crushes?
 * Remove statTitle's background?

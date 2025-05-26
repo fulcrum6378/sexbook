@@ -42,6 +42,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * This Activity is in charge of controlling user settings and user data.
+ */
 class Settings : BaseActivity() {
     private lateinit var b: SettingsBinding
     val vm: Model by viewModels()

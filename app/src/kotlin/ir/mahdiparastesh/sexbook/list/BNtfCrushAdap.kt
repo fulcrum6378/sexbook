@@ -17,6 +17,7 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.or
 import kotlin.experimental.xor
 
+/** Used in [Settings] listing [Crush]es */
 class BNtfCrushAdap(private val c: Settings) :
     RecyclerView.Adapter<AnyViewHolder<ItemPersonBinding>>() {
 

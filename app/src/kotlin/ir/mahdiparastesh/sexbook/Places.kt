@@ -15,6 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * This Activity lists and controls the [Place] table in the database.
+ */
 class Places : BaseActivity(), Lister {
     private lateinit var b: PlacesBinding
 

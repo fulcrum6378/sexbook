@@ -14,6 +14,7 @@ import com.google.android.material.badge.BadgeUtils
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 
+/** Any kind of page that lists database rows */
 interface Lister {
     var countBadge: BadgeDrawable?
 

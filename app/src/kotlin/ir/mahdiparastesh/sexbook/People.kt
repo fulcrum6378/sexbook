@@ -19,6 +19,9 @@ import ir.mahdiparastesh.sexbook.util.Delay
 import ir.mahdiparastesh.sexbook.view.Lister
 import kotlin.experimental.and
 
+/**
+ * This Activity lists and controls the [Crush] table in the database.
+ */
 class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     lateinit var b: PeopleBinding
     val vm: Model by viewModels()
