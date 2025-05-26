@@ -212,6 +212,16 @@
         <item>Asexual</item>
         <item>Other</item>
     </string-array>
+    <string-array name="fictionality" translatable="false">
+        <item>@string/isFictional</item>
+        <item>@string/realPerson</item>
+        <item>@string/fictionalCharacter</item>
+    </string-array>
+    <string-array name="unsafeness" translatable="false">
+        <item>@string/isUnsafePerson</item>
+        <item>@string/safePerson</item>
+        <item>@string/unsafePerson</item>
+    </string-array>
     <string name="duplicateCrush">
         Another crush with this identifier already exists; please make sure the identifier is unique.
     </string>

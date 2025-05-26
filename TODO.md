@@ -2,6 +2,7 @@
 
 ### Improvements
 
+* Line chart for `Place`s?
 * Documentations for HelloCharts
 * Preferred colours for `CrushesStat`
 * Preferred colours for crushes?
@@ -15,7 +16,6 @@
 * What to do with the splash screen on Android 12+? (the icon over there has become invisible!)
 * DotsIndicator for `Taste` and `CrushesStat` (with caution)
 * "Reactivate Crush" for `Singular`
-* Fictionality, first met / first orgasm year for `Taste` and `CrushesStat`
 
 ### Bad Ideas
 

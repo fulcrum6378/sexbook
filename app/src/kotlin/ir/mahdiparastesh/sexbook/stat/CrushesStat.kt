@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.app.Dialog
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.CrshStatFragmentBinding
+import ir.mahdiparastesh.sexbook.view.UiTools
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,7 +40,7 @@ class CrushesStat : BaseDialog<BaseActivity>() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val pager = ViewPager2(c)
         pager.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount(): Int = 12
+            override fun getItemCount(): Int = 14
             override fun createFragment(i: Int): Fragment = when (i) {
                 1 -> SkinColourStat()
                 2 -> HairColourStat()
@@ -51,6 +53,8 @@ class CrushesStat : BaseDialog<BaseActivity>() {
                 9 -> PenisStat()
                 10 -> HeightStat()
                 11 -> AgeStat()
+                12 -> FirstMetStat()
+                13 -> FictionalityStat()
                 else -> GenderStat()
             }.apply { arguments = this@CrushesStat.requireArguments() }
         }
@@ -61,6 +65,8 @@ class CrushesStat : BaseDialog<BaseActivity>() {
             setView(pager)
         }.create()
     }
+
+    /* ------------------------------------------------------ */
 
     abstract class CrshStatFragment : Fragment() {
         protected val c: BaseActivity by lazy { activity as BaseActivity }
@@ -101,6 +107,8 @@ class CrushesStat : BaseDialog<BaseActivity>() {
                 "$division: $score (${((100f / total) * score).roundToInt()}%)"
             )
     }
+
+    /* ------------------------------------------------------ */
 
     abstract class QualitativeStat : CrshStatFragment() {
         private lateinit var arModes: Array<String>
@@ -208,6 +216,14 @@ class CrushesStat : BaseDialog<BaseActivity>() {
             ((cr.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second).toShort()
     }
 
+    class FictionalityStat : QualitativeStat() {
+        override val modes: Int = R.array.fictionality
+        override fun crushProperty(cr: Crush): Short =
+            (((cr.status and Crush.STAT_FICTION).toInt() shr 3) + 1).toShort()
+    }
+
+    /* ------------------------------------------------------ */
+
     abstract class QuantitativeStat : CrshStatFragment() {
         @get:StringRes
         abstract val topic: Int
@@ -227,27 +243,42 @@ class CrushesStat : BaseDialog<BaseActivity>() {
             val data = arrayListOf<SliceValue>()
             for ((div, score) in counts.toSortedMap()) data.add(
                 createSliceValue(
-                    score, if (div != 0.toShort()) "${div.toInt() * 10}s"
+                    score, if (div != 0.toShort()) divisionName(div.toInt())
                     else getString(R.string.unspecified), list.size
                 )
             )
             return data
         }
+
+        abstract fun divisionName(division: Int): String
     }
 
     class HeightStat : QuantitativeStat() {
         override val topic: Int = R.string.height
+        override fun divisionName(division: Int): String = "${division * 10}s"
         override fun crushProperty(cr: Crush): Short =
             (if (cr.height == -1f) 0 else (cr.height / 10f).toInt()).toShort()
     }
 
     class AgeStat : QuantitativeStat() {
         override val topic: Int = R.string.age
+        override fun divisionName(division: Int): String = "${division * 10}s"
         override fun crushProperty(cr: Crush): Short {
             if (cr.birth.isNullOrBlank()) return 0.toShort()
             val year = cr.birth!!.split("/")[0]
             if (year.isEmpty()) return 0.toShort()
             return (year.toInt() / 10).toShort()
+        }
+    }
+
+    class FirstMetStat : QuantitativeStat() {
+        override val topic: Int = R.string.firstMet
+        override fun divisionName(division: Int): String = "$division"
+        override fun crushProperty(cr: Crush): Short {
+            if (cr.first == null) return 0.toShort()
+            val year = UiTools.compDateTimeToCalendar(cr.first!!)[Calendar.YEAR]
+            if (year == 1970) return 0.toShort()
+            return year.toShort()
         }
     }
 }

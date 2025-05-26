@@ -2,6 +2,7 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,7 @@ import ir.mahdiparastesh.sexbook.databinding.StatFragmentBinding
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
 import ir.mahdiparastesh.sexbook.stat.base.MultiChartActivity
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
+import ir.mahdiparastesh.sexbook.view.UiTools
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -76,7 +78,7 @@ class Taste : MultiChartActivity() {
     }
 
     inner class TasteAdapter : FragmentStateAdapter(this@Taste) {
-        override fun getItemCount(): Int = 12
+        override fun getItemCount(): Int = 14
         override fun createFragment(i: Int): Fragment = when (i) {
             1 -> SkinColourTaste()
             2 -> HairColourTaste()
@@ -89,6 +91,8 @@ class Taste : MultiChartActivity() {
             9 -> PenisTaste()
             10 -> HeightTaste()
             11 -> AgeTaste()
+            12 -> FirstMetTaste()
+            13 -> FictionalityTaste()
             else -> GenderTaste()
         }
     }
@@ -104,6 +108,7 @@ class Taste : MultiChartActivity() {
         @Suppress("DEPRECATION") super.onBackPressed()
     }
 
+    /* ------------------------------------------------------ */
 
     abstract class TasteFragment : Fragment() {
         protected val c: Taste by lazy { activity as Taste }
@@ -204,6 +209,8 @@ class Taste : MultiChartActivity() {
 
         open fun preferredColour(mode: Int): Int? = null
     }
+
+    /* ------------------------------------------------------ */
 
     abstract class QualitativeTasteFragment : TasteFragment() {
         private lateinit var arModes: Array<String>
@@ -373,6 +380,14 @@ class Taste : MultiChartActivity() {
             ((cr.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second).toShort()
     }
 
+    class FictionalityTaste : QualitativeTasteFragment() {
+        override val modes: Int = R.array.fictionality
+        override fun crushProperty(cr: Crush): Short =
+            (((cr.status and Crush.STAT_FICTION).toInt() shr 3) + 1).toShort()
+    }
+
+    /* ------------------------------------------------------ */
+
     abstract class QuantitativeTasteFragment : TasteFragment() {
         @get:StringRes
         abstract val topic: Int
@@ -401,7 +416,7 @@ class Taste : MultiChartActivity() {
                         createSliceValue(
                             score,
                             div.toInt(),
-                            if (div != 0.toShort()) "${div.toInt() * 10}s"
+                            if (div != 0.toShort()) divisionName(div.toInt())
                             else getString(R.string.unspecified)
                         )
                     )
@@ -414,7 +429,7 @@ class Taste : MultiChartActivity() {
                     val cumulative = c.vm.chartType == ChartType.CUMULATIVE_TIME_SERIES.ordinal
                     for ((div, orgasms) in records) lines.add(
                         Timeline(
-                            if (div != 0.toShort()) "${div.toInt() * 10}s"
+                            if (div != 0.toShort()) divisionName(div.toInt())
                             else getString(R.string.unspecified),
                             StatUtils.sumTimeFrames(c.c, orgasms, c.vm.timeSeries!!, cumulative),
                             preferredColour(div.toInt())
@@ -426,21 +441,36 @@ class Taste : MultiChartActivity() {
                 else -> throw IllegalArgumentException("ChartType not implemented!")
             }
         }
+
+        abstract fun divisionName(division: Int): String
     }
 
     class HeightTaste : QuantitativeTasteFragment() {
         override val topic: Int = R.string.height
+        override fun divisionName(division: Int): String = "${division * 10}s"
         override fun crushProperty(cr: Crush): Short =
             (if (cr.height == -1f) 0 else (cr.height / 10f).toInt()).toShort()
     }
 
     class AgeTaste : QuantitativeTasteFragment() {
         override val topic: Int = R.string.age
+        override fun divisionName(division: Int): String = "${division * 10}s"
         override fun crushProperty(cr: Crush): Short {
             if (cr.birth.isNullOrBlank()) return 0.toShort()
             val year = cr.birth!!.split("/")[0]
             if (year.isEmpty()) return 0.toShort()
             return (year.toInt() / 10).toShort()
+        }
+    }
+
+    class FirstMetTaste : QuantitativeTasteFragment() {
+        override val topic: Int = R.string.firstMet
+        override fun divisionName(division: Int): String = "$division"
+        override fun crushProperty(cr: Crush): Short {
+            if (cr.first == null) return 0.toShort()
+            val year = UiTools.compDateTimeToCalendar(cr.first!!)[Calendar.YEAR]
+            if (year == 1970) return 0.toShort()
+            return year.toShort()
         }
     }
 }

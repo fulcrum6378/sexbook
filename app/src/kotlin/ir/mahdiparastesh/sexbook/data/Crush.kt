@@ -122,10 +122,12 @@ class Crush(
     fun body(field: Pair<Int, Int>): Int = (body and field.first) shr field.second
 
 
+    /** Birthday as a timestamp */
     @delegate:Ignore
     @delegate:Transient
     val birthTime: Long? by lazy { birth?.let { UiTools.compDateTimeToCalendar(it).timeInMillis } }
 
+    /** First met as a timestamp */
     @delegate:Ignore
     @delegate:Transient
     val firstTime: Long? by lazy { first?.let { UiTools.compDateTimeToCalendar(it).timeInMillis } }

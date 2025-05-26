@@ -33,20 +33,8 @@ class Screening : BaseDialog<People>() {
                 b.bodyPenis.setSelection(0)
             }
         }
-        prepareSpinner(
-            b.fiction, arrayOf(
-                getString(R.string.isFictional),
-                getString(R.string.realPerson),
-                getString(R.string.fictionalCharacter),
-            ), c.c.screening?.fiction
-        )
-        prepareSpinner(
-            b.safety, arrayOf(
-                getString(R.string.isUnsafePerson),
-                getString(R.string.safePerson),
-                getString(R.string.unsafePerson),
-            ), c.c.screening?.safety
-        )
+        prepareSpinner(b.fiction, R.array.fictionality, c.c.screening?.fiction)
+        prepareSpinner(b.safety, R.array.unsafeness, c.c.screening?.safety)
         b.minSum.setText(c.c.screening?.minSum?.toString())
         prepareSpinner(b.bodySkinColour, R.array.bodySkinColour, c.c.screening?.bodySkinColour)
         prepareSpinner(b.bodyHairColour, R.array.bodyHairColour, c.c.screening?.bodyHairColour)
@@ -91,19 +79,9 @@ class Screening : BaseDialog<People>() {
         defaultPos: Int?,
         onItemSelected: ((i: Int) -> Unit)? = null
     ) {
-        prepareSpinner(
-            spinner, spinner.context.resources.getStringArray(arrayRes), defaultPos, onItemSelected
-        )
-    }
-
-    private fun prepareSpinner(
-        spinner: Spinner,
-        array: Array<String>,
-        defaultPos: Int?,
-        onItemSelected: ((i: Int) -> Unit)? = null
-    ) {
-        spinner.adapter = ArrayAdapter(c, R.layout.spinner_white, array)
-            .apply { setDropDownViewResource(R.layout.spinner_dd) }
+        spinner.adapter = ArrayAdapter(
+            c, R.layout.spinner_white, spinner.context.resources.getStringArray(arrayRes)
+        ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         spinner.setSelection(defaultPos ?: 0)
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
