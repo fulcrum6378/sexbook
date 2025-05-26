@@ -27,6 +27,7 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.StatFragmentBinding
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
+import ir.mahdiparastesh.sexbook.stat.base.MultiChartActivity
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
 import kotlinx.coroutines.CoroutineScope

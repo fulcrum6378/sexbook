@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.stat
+package ir.mahdiparastesh.sexbook.stat.base
 
 import android.os.Bundle
 import android.view.View

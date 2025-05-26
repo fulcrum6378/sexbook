@@ -12,6 +12,7 @@ import ir.mahdiparastesh.hellocharts.view.ColumnChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
+import ir.mahdiparastesh.sexbook.stat.base.OneChartActivity
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
 
 class Singular : OneChartActivity<ColumnChartView>() {

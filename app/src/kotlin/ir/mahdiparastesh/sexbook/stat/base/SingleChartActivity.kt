@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.stat
+package ir.mahdiparastesh.sexbook.stat.base
 
 import androidx.annotation.MainThread
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData

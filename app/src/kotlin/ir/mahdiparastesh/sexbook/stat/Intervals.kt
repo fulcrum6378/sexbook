@@ -10,6 +10,7 @@ import ir.mahdiparastesh.hellocharts.view.LineChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.IntervalsBinding
+import ir.mahdiparastesh.sexbook.stat.base.OneChartActivity
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.fullDate

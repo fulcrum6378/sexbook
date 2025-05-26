@@ -57,9 +57,9 @@ class Summary(
         var results = HashMap<Float, ArrayList<String>>()
         var key: String
         var sum: Float
-        for (crush in scores) {
-            key = crush.key
-            sum = crush.value.sumOf { it.value }
+        for ((crush, orgasms) in scores) {
+            key = crush
+            sum = orgasms.sumOf { it.value }
 
             // filters
             if (statOnlyCrushes && key !in c.liefde) {
@@ -75,7 +75,6 @@ class Summary(
 
         classification = Result(
             results.toSortedMap(reverseOrder()).toMutableMap() as HashMap<Float, ArrayList<String>>
-            /*, scores*/
         )
     }
 

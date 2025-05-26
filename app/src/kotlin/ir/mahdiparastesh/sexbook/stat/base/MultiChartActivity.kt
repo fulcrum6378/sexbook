@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.stat
+package ir.mahdiparastesh.sexbook.stat.base
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -16,6 +16,7 @@ import ir.mahdiparastesh.hellocharts.view.LineChartView
 import ir.mahdiparastesh.hellocharts.view.PieChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.stat.StatUtils
 import kotlin.reflect.KClass
 
 /** Subclass of [BaseActivity] that contains multiple [ChartType]s. */

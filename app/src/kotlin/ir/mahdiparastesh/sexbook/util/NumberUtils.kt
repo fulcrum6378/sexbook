@@ -10,7 +10,7 @@ object NumberUtils {
     const val A_DAY = 86400000L
     const val DISABLED_ALPHA = 0.7f
 
-    /** @return the current timestamp */
+    /** @return current timestamp in milliseconds */
     fun now() = System.currentTimeMillis()
 
     /**

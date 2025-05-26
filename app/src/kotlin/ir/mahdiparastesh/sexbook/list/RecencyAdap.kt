@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.RecencyBinding
-import ir.mahdiparastesh.sexbook.stat.Recency
+import ir.mahdiparastesh.sexbook.stat.RecencyDialog
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.fullDate
@@ -18,8 +18,8 @@ import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
 import ir.mahdiparastesh.sexbook.util.NumberUtils.z
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 
-/** Used in [Recency] */
-class StatRecAdap(private val r: Recency) :
+/** Used in [RecencyDialog] */
+class RecencyAdap(private val r: RecencyDialog) :
     RecyclerView.Adapter<AnyViewHolder<RecencyBinding>>() {
 
     private val statOnlyCrushes = r.c.c.sp.getBoolean(Settings.spStatOnlyCrushes, false)

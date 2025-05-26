@@ -17,7 +17,7 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
-import ir.mahdiparastesh.sexbook.list.StatSumAdap
+import ir.mahdiparastesh.sexbook.list.SummaryAdap
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 
 class SummaryDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
@@ -35,7 +35,7 @@ class SummaryDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
             override fun afterTextChanged(s: Editable?) {
                 lookingFor = s.toString()
                 b.notFound.isInvisible = true
-                (b.list.adapter as? StatSumAdap)?.also {
+                (b.list.adapter as? SummaryAdap)?.also {
                     it.notifyDataSetChanged()
 
                     var firstGroup: Int? = null
@@ -54,7 +54,7 @@ class SummaryDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
         })
         lookingFor?.also { b.find.setText(it) }
 
-        b.list.adapter = StatSumAdap(
+        b.list.adapter = SummaryAdap(
             c, c.c.summary!!.classification!!.calculations.entries.toList(), this
         )
 

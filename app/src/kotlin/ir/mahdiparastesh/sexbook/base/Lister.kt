@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.view
+package ir.mahdiparastesh.sexbook.base
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.view.UiTools
 
 /** Any kind of page that lists database rows */
 interface Lister {

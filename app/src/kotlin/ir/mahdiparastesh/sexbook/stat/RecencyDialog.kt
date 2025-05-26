@@ -11,9 +11,9 @@ import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
-import ir.mahdiparastesh.sexbook.list.StatRecAdap
+import ir.mahdiparastesh.sexbook.list.RecencyAdap
 
-class Recency : BaseDialog<Main>(), BaseDialog.SearchableStat {
+class RecencyDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
     val items: ArrayList<Item> = ArrayList()
     override var lookingFor: String? = null
 
@@ -60,7 +60,7 @@ class Recency : BaseDialog<Main>(), BaseDialog.SearchableStat {
                 notFound.isInvisible = firstOccur != null || lookingFor.isNullOrEmpty()
             }
         })
-        list.adapter = StatRecAdap(this@Recency)
+        list.adapter = RecencyAdap(this@RecencyDialog)
         list.clipToPadding = false
     }.root
 }

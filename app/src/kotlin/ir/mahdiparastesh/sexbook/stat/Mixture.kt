@@ -6,6 +6,7 @@ import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.ColumnChartData
 import ir.mahdiparastesh.hellocharts.view.ColumnChartView
 import ir.mahdiparastesh.sexbook.databinding.MixtureBinding
+import ir.mahdiparastesh.sexbook.stat.base.OneChartActivity
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
 import ir.mahdiparastesh.sexbook.view.SexType
 

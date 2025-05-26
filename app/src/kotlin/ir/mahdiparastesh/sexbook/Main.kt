@@ -39,6 +39,7 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.navigation.NavigationView
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.base.Lister
 import ir.mahdiparastesh.sexbook.ctrl.CalendarManager
 import ir.mahdiparastesh.sexbook.ctrl.Database
 import ir.mahdiparastesh.sexbook.ctrl.Exporter
@@ -53,7 +54,7 @@ import ir.mahdiparastesh.sexbook.stat.Adorability
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
 import ir.mahdiparastesh.sexbook.stat.Intervals
 import ir.mahdiparastesh.sexbook.stat.Mixture
-import ir.mahdiparastesh.sexbook.stat.Recency
+import ir.mahdiparastesh.sexbook.stat.RecencyDialog
 import ir.mahdiparastesh.sexbook.stat.Summary
 import ir.mahdiparastesh.sexbook.stat.SummaryDialog
 import ir.mahdiparastesh.sexbook.stat.Taste
@@ -63,7 +64,6 @@ import ir.mahdiparastesh.sexbook.util.NumberUtils
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.createFilterYm
 import ir.mahdiparastesh.sexbook.view.ActionBarDrawerToggle
-import ir.mahdiparastesh.sexbook.view.Lister
 import ir.mahdiparastesh.sexbook.view.SexType
 import ir.mahdiparastesh.sexbook.view.UiTools
 import ir.mahdiparastesh.sexbook.view.UiTools.possessiveDeterminer
@@ -311,7 +311,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         when (item.itemId) {
             R.id.momSum -> SummaryDialog().show(supportFragmentManager, "summary")
-            R.id.momRec -> Recency().show(supportFragmentManager, "recency")
+            R.id.momRec -> RecencyDialog().show(supportFragmentManager, "recency")
             R.id.momPop -> goTo(Adorability::class)
             R.id.momMix -> goTo(Mixture::class)
             R.id.momInt -> goTo(Intervals::class)

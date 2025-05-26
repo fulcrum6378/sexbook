@@ -17,7 +17,7 @@ import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 
 /** Used in [SummaryDialog] */
-class StatSumAdap(
+class SummaryAdap(
     private val c: BaseActivity,
     val arr: List<MutableMap.MutableEntry<Float, ArrayList<String>>>,
     private val searchable: BaseDialog.SearchableStat,

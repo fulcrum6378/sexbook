@@ -5,11 +5,11 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import com.google.android.material.badge.BadgeDrawable
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.base.Lister
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.PlacesBinding
 import ir.mahdiparastesh.sexbook.list.PlaceAdap
 import ir.mahdiparastesh.sexbook.util.Delay
-import ir.mahdiparastesh.sexbook.view.Lister
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
