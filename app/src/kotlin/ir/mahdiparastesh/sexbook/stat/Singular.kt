@@ -42,7 +42,7 @@ class Singular : OneChartActivity<ColumnChartView>() {
 
     override fun requirements(): Boolean {
         vm.crushKey = intent.getStringExtra(EXTRA_CRUSH_KEY)
-        vm.history = c.summary?.scores?.get(vm.crushKey)
+        vm.history = c.summary?.scores?.get(vm.crushKey)?.orgasms
         return vm.crushKey != null && vm.history != null
     }
 

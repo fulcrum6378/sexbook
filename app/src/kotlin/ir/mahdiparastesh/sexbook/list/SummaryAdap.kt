@@ -13,13 +13,12 @@ import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.SumChipGroupBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.stat.SummaryDialog
-import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 
 /** Used in [SummaryDialog] */
 class SummaryAdap(
     private val c: BaseActivity,
-    val arr: List<MutableMap.MutableEntry<Float, ArrayList<String>>>,
+    val list: List<MutableMap.MutableEntry<Float, ArrayList<String>>>,
     private val searchable: BaseDialog.SearchableStat,
 ) : RecyclerView.Adapter<AnyViewHolder<SumChipGroupBinding>>() {
 
@@ -31,9 +30,9 @@ class SummaryAdap(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<SumChipGroupBinding>, i: Int) {
-        h.b.count.text = arr[i].key.show().plus(": ")
+        h.b.count.text = list[i].key.toString()/*.show()*/.plus(": ")
 
-        for (crush in arr[i].value.indices) {
+        for (crush in list[i].value.indices) {
             val chip = (if (h.b.root.childCount < crush + 2)
                 Chip(c).apply {
                     layoutParams = ChipGroup.LayoutParams(-2, -2)
@@ -43,21 +42,21 @@ class SummaryAdap(
             else
                 h.b.root.getChildAt(crush + 1) as Chip
                     )
-            val crushKey = arr[i].value[crush]
+            val crushKey = list[i].value[crush]
             chip.text = crushKey +
                     (if (!statOnlyCrushes && crushKey in c.c.liefde) "*" else "")
             val bb = searchable.lookForIt(chip.text.toString())
             chip.setOnClickListener {
                 c.goTo(Singular::class) {
-                    putExtra(Singular.EXTRA_CRUSH_KEY, arr[h.layoutPosition].value[crush])
+                    putExtra(Singular.EXTRA_CRUSH_KEY, list[h.layoutPosition].value[crush])
                 }
             }
             chip.isActivated = bb
             chip.isVisible = true
         }
-        for (hide in arr[i].value.size + 1 until h.b.root.childCount)
+        for (hide in list[i].value.size + 1 until h.b.root.childCount)
             h.b.root.getChildAt(hide).isVisible = false
     }
 
-    override fun getItemCount() = arr.size
+    override fun getItemCount() = list.size
 }

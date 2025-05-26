@@ -14,7 +14,6 @@ import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.fullDate
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
-import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
 import ir.mahdiparastesh.sexbook.util.NumberUtils.z
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 
@@ -33,8 +32,7 @@ class RecencyAdap(private val r: RecencyDialog) :
         val crushKey = r.items[i].name
         h.b.name.text = "${i + 1}. $crushKey" +
                 (if (!statOnlyCrushes && crushKey in r.c.c.liefde) "*" else "") +
-                (r.c.c.summary!!.scores[crushKey]?.sumOf { it.value }
-                    ?.show()?.let { " {$it}" } ?: "")
+                (r.c.c.summary!!.scores[crushKey]?.sum?.show()?.let { " {$it}" } ?: "")
         val lm = r.items[i].time.calendar(r.c.c)
         h.b.date.text =
             "${lm.fullDate()} - ${z(lm[Calendar.HOUR_OF_DAY])}:${z(lm[Calendar.MINUTE])}"

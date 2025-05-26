@@ -10,7 +10,6 @@ import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
-import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
 import ir.mahdiparastesh.sexbook.view.UiTools
 import java.util.Locale
 import kotlin.experimental.and
@@ -137,7 +136,7 @@ class Crush(
     private var sum_: Float? = null
 
     private fun sum(c: Sexbook): Float? =
-        c.summary?.scores?.get(key)?.sumOf { it.value }
+        c.summary?.scores?.get(key)?.sum
 
     fun getSum(c: Sexbook): Float {
         if (sum_ == null) sum(c)?.also {
@@ -153,7 +152,7 @@ class Crush(
     private var lastOrgasm_: Long? = null
 
     private fun lastOrgasm(c: Sexbook): Long? =
-        c.summary?.scores?.get(key)?.maxOf { it.time }
+        c.summary?.scores?.get(key)?.lastTime
 
     fun getLastOrgasm(c: Sexbook): Long {
         if (lastOrgasm_ == null) lastOrgasm(c)?.also {
@@ -169,7 +168,7 @@ class Crush(
     private var firstOrgasm_: Long? = null
 
     private fun firstOrgasm(c: Sexbook): Long? =
-        c.summary?.scores?.get(key)?.minOf { it.time }
+        c.summary?.scores?.get(key)?.firstTime
 
     fun getFirstOrgasm(c: Sexbook): Long {
         if (firstOrgasm_ == null) firstOrgasm(c)?.also {

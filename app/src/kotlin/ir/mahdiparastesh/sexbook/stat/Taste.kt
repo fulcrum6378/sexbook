@@ -29,7 +29,6 @@ import ir.mahdiparastesh.sexbook.databinding.StatFragmentBinding
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
 import ir.mahdiparastesh.sexbook.stat.base.MultiChartActivity
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
-import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -171,11 +170,9 @@ class Taste : MultiChartActivity() {
             if (c.vm.crushSumIndex != null) return
             else c.vm.crushSumIndex = hashMapOf()
 
-            var orgasms: ArrayList<Summary.Orgasm>
             var sum: Float
             for (p in c.c.people.values) {
-                orgasms = c.c.summary!!.scores[p.key] ?: continue
-                sum = orgasms.sumOf { it.value }
+                sum = c.c.summary!!.scores[p.key]?.sum ?: continue
                 if (sum == 0f) continue
                 c.vm.crushSumIndex!![p] = sum
             }
@@ -234,11 +231,11 @@ class Taste : MultiChartActivity() {
                     if (c.vm.timeSeries == null) c.vm.timeSeries = StatUtils.timeSeries(c.c)
                     var cr: Crush? = null
                     var modeCode: Short
-                    for ((crushKey, orgasms) in c.c.summary!!.scores.entries) {
+                    for ((crushKey, score) in c.c.summary!!.scores.entries) {
                         cr = c.c.people[crushKey] ?: continue
                         modeCode = crushProperty(cr)
                         if (modeCode !in progress) progress[modeCode] = arrayListOf()
-                        progress[modeCode]!!.addAll(orgasms)
+                        progress[modeCode]!!.addAll(score.orgasms)
                     }
                     val lines = ArrayList<Timeline>()
                     val cumulative = c.vm.chartType == ChartType.CUMULATIVE_TIME_SERIES.ordinal

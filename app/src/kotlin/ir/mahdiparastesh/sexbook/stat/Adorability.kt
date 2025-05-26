@@ -19,7 +19,6 @@ import ir.mahdiparastesh.sexbook.databinding.AdorabilityBinding
 import ir.mahdiparastesh.sexbook.stat.base.MultiChartActivity
 import ir.mahdiparastesh.sexbook.stat.base.SingleChartActivity
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
-import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -77,12 +76,10 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
             ChartType.COMPOSITIONAL.ordinal -> {
                 val data = arrayListOf<SliceValue>()
                 val hideUnsafe = c.hideUnsafe()
-                c.summary?.scores?.entries?.sortedBy {
-                    it.value.sumOf { s -> s.value }
-                }?.forEach {
+                c.summary?.scores?.entries?.sortedBy { it.value.sum }?.forEach {
                     if (hideUnsafe && it.key in c.unsafe) return@forEach
 
-                    val score = it.value.sumOf { s -> s.value }
+                    val score = it.value.sum
                     data.add(
                         SliceValue(score, chartColour)
                             .apply { setLabel("${it.key} {${score.show()}}") })
@@ -100,7 +97,9 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
                 for (x in c.summary!!.scores) {
                     if (hideUnsafe && x.key in c.unsafe) continue
                     lines.add(
-                        Timeline(x.key, StatUtils.sumTimeFrames(c, x.value, frames, cumulative))
+                        Timeline(
+                            x.key, StatUtils.sumTimeFrames(c, x.value.orgasms, frames, cumulative)
+                        )
                     )
                 }
                 return LineChartData().setLines(LineFactory(lines))

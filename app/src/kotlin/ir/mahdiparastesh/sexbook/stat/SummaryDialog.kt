@@ -39,8 +39,8 @@ class SummaryDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
                     it.notifyDataSetChanged()
 
                     var firstGroup: Int? = null
-                    if (!lookingFor.isNullOrEmpty()) for (group in it.arr.indices) {
-                        for (chip in it.arr[group].value)
+                    if (!lookingFor.isNullOrEmpty()) for (group in it.list.indices) {
+                        for (chip in it.list[group].value)
                             if (lookForIt(chip)) {
                                 firstGroup = group
                                 break; }
@@ -54,9 +54,8 @@ class SummaryDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
         })
         lookingFor?.also { b.find.setText(it) }
 
-        b.list.adapter = SummaryAdap(
-            c, c.c.summary!!.classification!!.calculations.entries.toList(), this
-        )
+        b.list.adapter =
+            SummaryAdap(c, c.c.summary!!.classification!!.entries.toList(), this)
 
         val pluses = LinearLayout(c).apply {
             id = R.id.pluses
