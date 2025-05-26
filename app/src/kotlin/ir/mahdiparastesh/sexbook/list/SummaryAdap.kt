@@ -13,6 +13,7 @@ import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.SumChipGroupBinding
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.stat.SummaryDialog
+import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 
 /** Used in [SummaryDialog] */
@@ -30,7 +31,7 @@ class SummaryAdap(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<SumChipGroupBinding>, i: Int) {
-        h.b.count.text = list[i].key.toString()/*.show()*/.plus(": ")
+        h.b.count.text = list[i].key.show().plus(": ")
 
         for (crush in list[i].value.indices) {
             val chip = (if (h.b.root.childCount < crush + 2)

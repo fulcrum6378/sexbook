@@ -152,7 +152,7 @@ class Crush(
     private var lastOrgasm_: Long? = null
 
     private fun lastOrgasm(c: Sexbook): Long? =
-        c.summary?.scores?.get(key)?.lastTime
+        c.summary?.scores?.get(key)?.lastOrgasm
 
     fun getLastOrgasm(c: Sexbook): Long {
         if (lastOrgasm_ == null) lastOrgasm(c)?.also {
@@ -168,7 +168,7 @@ class Crush(
     private var firstOrgasm_: Long? = null
 
     private fun firstOrgasm(c: Sexbook): Long? =
-        c.summary?.scores?.get(key)?.firstTime
+        c.summary?.scores?.get(key)?.firstOrgasm
 
     fun getFirstOrgasm(c: Sexbook): Long {
         if (firstOrgasm_ == null) firstOrgasm(c)?.also {

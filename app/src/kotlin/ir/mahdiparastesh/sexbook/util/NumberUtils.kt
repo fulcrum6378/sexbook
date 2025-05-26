@@ -2,7 +2,6 @@ package ir.mahdiparastesh.sexbook.util
 
 import android.icu.util.Calendar
 import ir.mahdiparastesh.sexbook.Sexbook
-import java.text.DecimalFormat
 
 /** Static number-related utilities used everywhere */
 object NumberUtils {
@@ -43,12 +42,11 @@ object NumberUtils {
             this[Calendar.MILLISECOND] = 0
         }
 
-    fun Float.show(): String =
-        if (this % 1 > 0) DecimalFormat("#.##").format(this) else toInt().toString()
+    @Suppress("ReplaceJavaStaticMethodWithKotlinAnalog")
+    fun Float.roundToNearestHundredth() =
+        Math.round(this * 100f).toFloat() / 100f
 
-    inline fun <T> Iterable<T>.sumOf(selector: (T) -> Float): Float {
-        var sum = 0f
-        for (element in this) sum += selector(element)
-        return sum
-    }
+    fun Float.show(): String =
+        if (this % 1 > 0) toString() else toInt().toString()
+    // DecimalFormat("#.##").format(this)
 }

@@ -3,7 +3,7 @@ package ir.mahdiparastesh.sexbook.stat
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.data.Report
-import ir.mahdiparastesh.sexbook.util.NumberUtils.sumOf
+import ir.mahdiparastesh.sexbook.util.NumberUtils.roundToNearestHundredth
 import java.io.Serializable
 
 /**
@@ -35,6 +35,7 @@ class Summary(
                     unknown += 1f / r.analysis!!.size
             }
         }
+        unknown = unknown.roundToNearestHundredth()
         apparent -= unknown
     }
 
@@ -71,6 +72,8 @@ class Summary(
             results[target.sum]!!.add(key)
         }
         for (k in results.keys) results[k]!!.sort()
+        nonCrush = nonCrush.roundToNearestHundredth()
+        unsafe = unsafe.roundToNearestHundredth()
         apparent -= nonCrush + unsafe  // will double if results() is called twice, but it doesn't.
 
         classification =
@@ -80,11 +83,13 @@ class Summary(
     class Score(val orgasms: ArrayList<Orgasm>) {
 
         val sum: Float by lazy {
-            orgasms.sumOf { it.value }  // TODO
+            var sum = 0f
+            for (orgasm in orgasms) sum += orgasm.value
+            sum.roundToNearestHundredth()
         }
 
-        val firstTime: Long by lazy { orgasms.minOf { it.time } }
-        val lastTime: Long by lazy { orgasms.maxOf { it.time } }
+        val firstOrgasm: Long by lazy { orgasms.minOf { it.time } }
+        val lastOrgasm: Long by lazy { orgasms.maxOf { it.time } }
     }
 
     data class Orgasm(val time: Long, val value: Float) : Serializable
