@@ -1,14 +1,11 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.app.Dialog
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.ArrayRes
 import androidx.annotation.MainThread
-import androidx.annotation.StringRes
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -20,14 +17,28 @@ import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
-import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.CrshStatFragmentBinding
-import ir.mahdiparastesh.sexbook.view.UiTools
+import ir.mahdiparastesh.sexbook.stat.base.CrushAgeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushBreastsChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushEyeColourChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushEyeShapeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushFaceShapeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushFatChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushFictionalityChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushFirstMetChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushGenderChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushHairColourChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushHeightChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushMuscleChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushPenisChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushQualitativeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushQuantitativeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushSkinColourChart
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.experimental.and
 import kotlin.math.roundToInt
 
 class CrushesStat : BaseDialog<BaseActivity>() {
@@ -68,12 +79,10 @@ class CrushesStat : BaseDialog<BaseActivity>() {
 
     /* ------------------------------------------------------ */
 
-    abstract class CrshStatFragment : Fragment() {
+    abstract class CrshStatFragment : Fragment(), CrushChart {
         protected val c: BaseActivity by lazy { activity as BaseActivity }
         protected lateinit var b: CrshStatFragmentBinding
         protected val counts = hashMapOf<Short, Int>()
-
-        abstract fun crushProperty(cr: Crush): Short
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -108,16 +117,9 @@ class CrushesStat : BaseDialog<BaseActivity>() {
             )
     }
 
-    /* ------------------------------------------------------ */
 
-    abstract class QualitativeStat : CrshStatFragment() {
+    abstract class QualitativeStat : CrshStatFragment(), CrushQualitativeChart {
         private lateinit var arModes: Array<String>
-
-        @get:ArrayRes
-        abstract val modes: Int
-
-        open val isFiltered: Boolean = false
-        open fun crushFilter(cr: Crush): Boolean = true
 
         override fun preAnalysis() {
             arModes = resources.getStringArray(modes)
@@ -146,87 +148,30 @@ class CrushesStat : BaseDialog<BaseActivity>() {
         }
     }
 
-    class GenderStat : QualitativeStat() {
-        override val modes: Int = R.array.genders
-        override fun crushProperty(cr: Crush): Short =
-            (cr.status and Crush.STAT_GENDER).toShort()
-    }
+    class GenderStat : QualitativeStat(), CrushGenderChart
 
-    class SkinColourStat : QualitativeStat() {
-        override val modes: Int = R.array.bodySkinColour
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second).toShort()
-    }
+    class SkinColourStat : QualitativeStat(), CrushSkinColourChart
 
-    class HairColourStat : QualitativeStat() {
-        override val modes: Int = R.array.bodyHairColour
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second).toShort()
-    }
+    class HairColourStat : QualitativeStat(), CrushHairColourChart
 
-    class EyeColourStat : QualitativeStat() {
-        override val modes: Int = R.array.bodyEyeColour
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second).toShort()
-    }
+    class EyeColourStat : QualitativeStat(), CrushEyeColourChart
 
-    class EyeShapeStat : QualitativeStat() {
-        override val modes: Int = R.array.bodyEyeShape
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second).toShort()
-    }
+    class EyeShapeStat : QualitativeStat(), CrushEyeShapeChart
 
-    class FaceShapeStat : QualitativeStat() {
-        override val modes: Int = R.array.bodyFaceShape
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second).toShort()
-    }
+    class FaceShapeStat : QualitativeStat(), CrushFaceShapeChart
 
-    class FatStat : QualitativeStat() {
-        override val modes: Int = R.array.bodyFat
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second).toShort()
-    }
+    class FatStat : QualitativeStat(), CrushFatChart
 
-    class MuscleStat : QualitativeStat() {
-        override val modes: Int = R.array.bodyMuscle
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second).toShort()
-    }
+    class MuscleStat : QualitativeStat(), CrushMuscleChart
 
-    class BreastsStat : QualitativeStat() {
-        override val modes: Int = R.array.bodyBreasts
-        override val isFiltered: Boolean = true
+    class BreastsStat : QualitativeStat(), CrushBreastsChart
 
-        override fun crushFilter(cr: Crush): Boolean =
-            (cr.status and Crush.STAT_GENDER).let { it != 2.toByte() && it != 4.toByte() }
+    class PenisStat : QualitativeStat(), CrushPenisChart
 
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second).toShort()
-    }
+    class FictionalityStat : QualitativeStat(), CrushFictionalityChart
 
-    class PenisStat : QualitativeStat() {
-        override val modes: Int = R.array.bodyPenis
-        override val isFiltered: Boolean = true
 
-        override fun crushFilter(cr: Crush): Boolean =
-            (cr.status and Crush.STAT_GENDER).let { it != 1.toByte() && it != 4.toByte() }
-
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second).toShort()
-    }
-
-    class FictionalityStat : QualitativeStat() {
-        override val modes: Int = R.array.fictionality
-        override fun crushProperty(cr: Crush): Short =
-            (((cr.status and Crush.STAT_FICTION).toInt() shr 3) + 1).toShort()
-    }
-
-    /* ------------------------------------------------------ */
-
-    abstract class QuantitativeStat : CrshStatFragment() {
-        @get:StringRes
-        abstract val topic: Int
+    abstract class QuantitativeStat : CrshStatFragment(), CrushQuantitativeChart {
 
         override fun preAnalysis() {
             b.title.text = getString(topic)
@@ -249,36 +194,11 @@ class CrushesStat : BaseDialog<BaseActivity>() {
             )
             return data
         }
-
-        abstract fun divisionName(division: Int): String
     }
 
-    class HeightStat : QuantitativeStat() {
-        override val topic: Int = R.string.height
-        override fun divisionName(division: Int): String = "${division * 10}s"
-        override fun crushProperty(cr: Crush): Short =
-            (if (cr.height == -1f) 0 else (cr.height / 10f).toInt()).toShort()
-    }
+    class HeightStat : QuantitativeStat(), CrushHeightChart
 
-    class AgeStat : QuantitativeStat() {
-        override val topic: Int = R.string.age
-        override fun divisionName(division: Int): String = "${division * 10}s"
-        override fun crushProperty(cr: Crush): Short {
-            if (cr.birth.isNullOrBlank()) return 0.toShort()
-            val year = cr.birth!!.split("/")[0]
-            if (year.isEmpty()) return 0.toShort()
-            return (year.toInt() / 10).toShort()
-        }
-    }
+    class AgeStat : QuantitativeStat(), CrushAgeChart
 
-    class FirstMetStat : QuantitativeStat() {
-        override val topic: Int = R.string.firstMet
-        override fun divisionName(division: Int): String = "$division"
-        override fun crushProperty(cr: Crush): Short {
-            if (cr.first == null) return 0.toShort()
-            val year = UiTools.compDateTimeToCalendar(cr.first!!)[Calendar.YEAR]
-            if (year == 1970) return 0.toShort()
-            return year.toShort()
-        }
-    }
+    class FirstMetStat : QuantitativeStat(), CrushFirstMetChart
 }

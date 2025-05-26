@@ -2,16 +2,13 @@ package ir.mahdiparastesh.sexbook.stat
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Spinner
 import androidx.activity.viewModels
-import androidx.annotation.ArrayRes
 import androidx.annotation.MainThread
-import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -28,15 +25,30 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.StatFragmentBinding
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
+import ir.mahdiparastesh.sexbook.stat.base.CrushAgeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushBreastsChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushEyeColourChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushEyeShapeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushFaceShapeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushFatChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushFictionalityChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushFirstMetChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushGenderChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushHairColourChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushHeightChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushMuscleChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushPenisChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushQualitativeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushQuantitativeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushSkinColourChart
 import ir.mahdiparastesh.sexbook.stat.base.MultiChartActivity
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
-import ir.mahdiparastesh.sexbook.view.UiTools
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.experimental.and
 import kotlin.math.roundToInt
 
 class Taste : MultiChartActivity() {
@@ -97,6 +109,19 @@ class Taste : MultiChartActivity() {
         }
     }
 
+    /** Only used for [ChartType.COMPOSITIONAL] */
+    fun indexCrushSums() {
+        if (vm.crushSumIndex != null) return
+        else vm.crushSumIndex = hashMapOf()
+
+        var sum: Float
+        for (p in c.people.values) {
+            sum = c.summary!!.scores[p.key]?.sum ?: continue
+            if (sum == 0f) continue
+            vm.crushSumIndex!![p] = sum
+        }
+    }
+
     override fun onDestroy() {
         b.pager.unregisterOnPageChangeCallback(onPageChanged)
         super.onDestroy()
@@ -108,9 +133,8 @@ class Taste : MultiChartActivity() {
         @Suppress("DEPRECATION") super.onBackPressed()
     }
 
-    /* ------------------------------------------------------ */
 
-    abstract class TasteFragment : Fragment() {
+    abstract class TasteFragment : Fragment(), CrushChart {
         protected val c: Taste by lazy { activity as Taste }
         protected lateinit var b: StatFragmentBinding
         private lateinit var chartView: AbstractChartView
@@ -126,8 +150,6 @@ class Taste : MultiChartActivity() {
         protected val unspecifiedQualityColour: Int by lazy {
             if (!c.night) Color.BLACK else Color.WHITE
         }
-
-        abstract fun crushProperty(cr: Crush): Short
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -176,19 +198,6 @@ class Taste : MultiChartActivity() {
 
         abstract suspend fun statisticise(): AbstractChartData
 
-        /** Only used for [ChartType.COMPOSITIONAL] */
-        fun indexCrushSums() {
-            if (c.vm.crushSumIndex != null) return
-            else c.vm.crushSumIndex = hashMapOf()
-
-            var sum: Float
-            for (p in c.c.people.values) {
-                sum = c.c.summary!!.scores[p.key]?.sum ?: continue
-                if (sum == 0f) continue
-                c.vm.crushSumIndex!![p] = sum
-            }
-        }
-
         /** Only used for [ChartType.TIME_SERIES] and [ChartType.CUMULATIVE_TIME_SERIES] */
         fun indexRecords() {
             if (c.vm.timeSeries == null) c.vm.timeSeries = StatUtils.timeSeries(c.c)
@@ -196,6 +205,7 @@ class Taste : MultiChartActivity() {
             var propertyValue: Short
             for ((crushKey, score) in c.c.summary!!.scores.entries) {
                 cr = c.c.people[crushKey] ?: continue
+                if (isFiltered && !crushFilter(cr)) continue
                 propertyValue = crushProperty(cr)
                 if (propertyValue !in records) records[propertyValue] = arrayListOf()
                 records[propertyValue]!!.addAll(score.orgasms)
@@ -210,16 +220,9 @@ class Taste : MultiChartActivity() {
         open fun preferredColour(mode: Int): Int? = null
     }
 
-    /* ------------------------------------------------------ */
 
-    abstract class QualitativeTasteFragment : TasteFragment() {
+    abstract class QualitativeTasteFragment : TasteFragment(), CrushQualitativeChart {
         private lateinit var arModes: Array<String>
-
-        @get:ArrayRes
-        abstract val modes: Int
-
-        open val isFiltered: Boolean = false
-        open fun crushFilter(cr: Crush): Boolean = true
 
         @SuppressLint("SetTextI18n")
         override fun preAnalysis() {
@@ -236,12 +239,12 @@ class Taste : MultiChartActivity() {
             when (c.vm.chartType) {
 
                 ChartType.COMPOSITIONAL.ordinal -> {
-                    indexCrushSums()
-                    for (p in c.vm.crushSumIndex!!.entries) {
-                        if (isFiltered && !crushFilter(p.key)) continue
-                        val mode = crushProperty(p.key)
-                        counts[mode] = counts[mode]!! + p.value
-                        sumOfAll += p.value
+                    c.indexCrushSums()
+                    for ((crush, score) in c.vm.crushSumIndex!!) {
+                        if (isFiltered && !crushFilter(crush)) continue
+                        val mode = crushProperty(crush)
+                        counts[mode] = counts[mode]!! + score
+                        sumOfAll += score
                     }
 
                     val data = arrayListOf<SliceValue>()
@@ -269,11 +272,7 @@ class Taste : MultiChartActivity() {
         }
     }
 
-    class GenderTaste : QualitativeTasteFragment() {
-        override val modes: Int = R.array.genders
-        override fun crushProperty(cr: Crush): Short =
-            (cr.status and Crush.STAT_GENDER).toShort()
-
+    class GenderTaste : QualitativeTasteFragment(), CrushGenderChart {
         override fun preferredColour(mode: Int): Int? = when (mode) {
             0 -> unspecifiedQualityColour
             1 -> 0xFFFF0037
@@ -284,11 +283,7 @@ class Taste : MultiChartActivity() {
         }.toInt()
     }
 
-    class SkinColourTaste : QualitativeTasteFragment() {
-        override val modes: Int = R.array.bodySkinColour
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second).toShort()
-
+    class SkinColourTaste : QualitativeTasteFragment(), CrushSkinColourChart {
         override fun preferredColour(mode: Int): Int? = when (mode) {
             0 -> 0xFF777777
             1 -> 0xFF633F37
@@ -301,11 +296,7 @@ class Taste : MultiChartActivity() {
         }.toInt()
     }
 
-    class HairColourTaste : QualitativeTasteFragment() {
-        override val modes: Int = R.array.bodyHairColour
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_HAIR_COLOUR.first) shr Crush.BODY_HAIR_COLOUR.second).toShort()
-
+    class HairColourTaste : QualitativeTasteFragment(), CrushHairColourChart {
         override fun preferredColour(mode: Int): Int? = when (mode) {
             0 -> 0xFF777777
             1 -> 0xFF000000
@@ -317,11 +308,7 @@ class Taste : MultiChartActivity() {
         }.toInt()
     }
 
-    class EyeColourTaste : QualitativeTasteFragment() {
-        override val modes: Int = R.array.bodyEyeColour
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_EYE_COLOUR.first) shr Crush.BODY_EYE_COLOUR.second).toShort()
-
+    class EyeColourTaste : QualitativeTasteFragment(), CrushEyeColourChart {
         override fun preferredColour(mode: Int): Int? = when (mode) {
             0 -> unspecifiedQualityColour
             1 -> 0xFF5D301D
@@ -334,63 +321,22 @@ class Taste : MultiChartActivity() {
         }.toInt()
     }
 
-    class EyeShapeTaste : QualitativeTasteFragment() {
-        override val modes: Int = R.array.bodyEyeShape
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_EYE_SHAPE.first) shr Crush.BODY_EYE_SHAPE.second).toShort()
-    }
+    class EyeShapeTaste : QualitativeTasteFragment(), CrushEyeShapeChart
 
-    class FaceShapeTaste : QualitativeTasteFragment() {
-        override val modes: Int = R.array.bodyFaceShape
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_FACE_SHAPE.first) shr Crush.BODY_FACE_SHAPE.second).toShort()
-    }
+    class FaceShapeTaste : QualitativeTasteFragment(), CrushFaceShapeChart
 
-    class FatTaste : QualitativeTasteFragment() {
-        override val modes: Int = R.array.bodyFat
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_FAT.first) shr Crush.BODY_FAT.second).toShort()
-    }
+    class FatTaste : QualitativeTasteFragment(), CrushFatChart
 
-    class MuscleTaste : QualitativeTasteFragment() {
-        override val modes: Int = R.array.bodyMuscle
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second).toShort()
-    }
+    class MuscleTaste : QualitativeTasteFragment(), CrushMuscleChart
 
-    class BreastsTaste : QualitativeTasteFragment() {
-        override val modes: Int = R.array.bodyBreasts
-        override val isFiltered: Boolean = true
+    class BreastsTaste : QualitativeTasteFragment(), CrushBreastsChart
 
-        override fun crushFilter(cr: Crush): Boolean =
-            (cr.status and Crush.STAT_GENDER).let { it != 2.toByte() && it != 4.toByte() }
+    class PenisTaste : QualitativeTasteFragment(), CrushPenisChart
 
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second).toShort()
-    }
+    class FictionalityTaste : QualitativeTasteFragment(), CrushFictionalityChart
 
-    class PenisTaste : QualitativeTasteFragment() {
-        override val modes: Int = R.array.bodyPenis
-        override val isFiltered: Boolean = true
 
-        override fun crushFilter(cr: Crush): Boolean =
-            (cr.status and Crush.STAT_GENDER).let { it != 1.toByte() && it != 4.toByte() }
-
-        override fun crushProperty(cr: Crush): Short =
-            ((cr.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second).toShort()
-    }
-
-    class FictionalityTaste : QualitativeTasteFragment() {
-        override val modes: Int = R.array.fictionality
-        override fun crushProperty(cr: Crush): Short =
-            (((cr.status and Crush.STAT_FICTION).toInt() shr 3) + 1).toShort()
-    }
-
-    /* ------------------------------------------------------ */
-
-    abstract class QuantitativeTasteFragment : TasteFragment() {
-        @get:StringRes
-        abstract val topic: Int
+    abstract class QuantitativeTasteFragment : TasteFragment(), CrushQuantitativeChart {
 
         @SuppressLint("SetTextI18n")
         override fun preAnalysis() {
@@ -401,14 +347,15 @@ class Taste : MultiChartActivity() {
             when (c.vm.chartType) {
 
                 ChartType.COMPOSITIONAL.ordinal -> {
-                    indexCrushSums()
-                    for (p in c.vm.crushSumIndex!!.entries) {
-                        val div = crushProperty(p.key)
+                    c.indexCrushSums()
+                    for ((crush, score) in c.vm.crushSumIndex!!) {
+                        if (isFiltered && !crushFilter(crush)) continue
+                        val div = crushProperty(crush)
                         if (div !in counts)
-                            counts[div] = p.value
+                            counts[div] = score
                         else
-                            counts[div] = counts[div]!! + p.value
-                        sumOfAll += p.value
+                            counts[div] = counts[div]!! + score
+                        sumOfAll += score
                     }
 
                     val data = arrayListOf<SliceValue>()
@@ -423,7 +370,7 @@ class Taste : MultiChartActivity() {
                     return PieChartData(data).setHasLabels(true)
                 }
 
-                ChartType.TIME_SERIES.ordinal -> {
+                ChartType.TIME_SERIES.ordinal, ChartType.CUMULATIVE_TIME_SERIES.ordinal -> {
                     indexRecords()
                     val lines = ArrayList<Timeline>()
                     val cumulative = c.vm.chartType == ChartType.CUMULATIVE_TIME_SERIES.ordinal
@@ -441,36 +388,11 @@ class Taste : MultiChartActivity() {
                 else -> throw IllegalArgumentException("ChartType not implemented!")
             }
         }
-
-        abstract fun divisionName(division: Int): String
     }
 
-    class HeightTaste : QuantitativeTasteFragment() {
-        override val topic: Int = R.string.height
-        override fun divisionName(division: Int): String = "${division * 10}s"
-        override fun crushProperty(cr: Crush): Short =
-            (if (cr.height == -1f) 0 else (cr.height / 10f).toInt()).toShort()
-    }
+    class HeightTaste : QuantitativeTasteFragment(), CrushHeightChart
 
-    class AgeTaste : QuantitativeTasteFragment() {
-        override val topic: Int = R.string.age
-        override fun divisionName(division: Int): String = "${division * 10}s"
-        override fun crushProperty(cr: Crush): Short {
-            if (cr.birth.isNullOrBlank()) return 0.toShort()
-            val year = cr.birth!!.split("/")[0]
-            if (year.isEmpty()) return 0.toShort()
-            return (year.toInt() / 10).toShort()
-        }
-    }
+    class AgeTaste : QuantitativeTasteFragment(), CrushAgeChart
 
-    class FirstMetTaste : QuantitativeTasteFragment() {
-        override val topic: Int = R.string.firstMet
-        override fun divisionName(division: Int): String = "$division"
-        override fun crushProperty(cr: Crush): Short {
-            if (cr.first == null) return 0.toShort()
-            val year = UiTools.compDateTimeToCalendar(cr.first!!)[Calendar.YEAR]
-            if (year == 1970) return 0.toShort()
-            return year.toShort()
-        }
-    }
+    class FirstMetTaste : QuantitativeTasteFragment(), CrushFirstMetChart
 }

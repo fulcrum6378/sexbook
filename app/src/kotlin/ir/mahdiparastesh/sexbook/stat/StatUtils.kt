@@ -14,6 +14,7 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
+import ir.mahdiparastesh.sexbook.util.NumberUtils.roundToNearestHundredth
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 
 object StatUtils {
@@ -78,10 +79,12 @@ object StatUtils {
             map[monthKey] = map[monthKey]!! + orgasm.value
         }
         if (cumulative) {
-            var prev = 0f
+            var previous = 0f
+            var current = 0f
             for (key in map.keys) {
-                map[key] = map[key]!! + prev
-                prev = map[key]!!
+                current = map[key]!! + previous
+                map[key] = current.roundToNearestHundredth()
+                previous = current
             }
         }
         return map
