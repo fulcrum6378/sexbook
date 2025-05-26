@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,8 +20,8 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.CrshStatFragmentBinding
 import ir.mahdiparastesh.sexbook.stat.base.CrushAgeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushAttrChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushBreastsChart
-import ir.mahdiparastesh.sexbook.stat.base.CrushChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushEyeColourChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushEyeShapeChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushFaceShapeChart
@@ -79,10 +80,14 @@ class CrushesStat : BaseDialog<BaseActivity>() {
 
     /* ------------------------------------------------------ */
 
-    abstract class CrshStatFragment : Fragment(), CrushChart {
+    abstract class CrshStatFragment : Fragment(), CrushAttrChart {
         protected val c: BaseActivity by lazy { activity as BaseActivity }
         protected lateinit var b: CrshStatFragmentBinding
         protected val counts = hashMapOf<Short, Int>()
+
+        override val unspecifiedQualityColour: Int by lazy {
+            if (!c.night) Color.BLACK else Color.WHITE
+        }
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -111,10 +116,10 @@ class CrushesStat : BaseDialog<BaseActivity>() {
         abstract fun preAnalysis()
         abstract suspend fun statisticise(list: MutableList<String>): ArrayList<SliceValue>
 
-        protected fun createSliceValue(score: Int, division: String, total: Int): SliceValue =
-            SliceValue(score.toFloat(), c.chartColour).setLabel(
-                "$division: $score (${((100f / total) * score).roundToInt()}%)"
-            )
+        protected fun createSliceValue(
+            score: Int, mode: Int, division: String, total: Int
+        ): SliceValue = SliceValue(score.toFloat(), preferredColour(mode) ?: c.chartColour)
+            .setLabel("$division: $score (${((100f / total) * score).roundToInt()}%)")
     }
 
 
@@ -142,7 +147,7 @@ class CrushesStat : BaseDialog<BaseActivity>() {
             for (mode in arModes.indices) {
                 val score = counts[mode.toShort()]!!
                 if (score == 0) continue
-                data.add(createSliceValue(score, arModes[mode], list.size))
+                data.add(createSliceValue(score, mode, arModes[mode], list.size))
             }
             return data
         }
@@ -188,7 +193,9 @@ class CrushesStat : BaseDialog<BaseActivity>() {
             val data = arrayListOf<SliceValue>()
             for ((div, score) in counts.toSortedMap()) data.add(
                 createSliceValue(
-                    score, if (div != 0.toShort()) divisionName(div.toInt())
+                    score,
+                    div.toInt(),
+                    if (div != 0.toShort()) divisionName(div.toInt())
                     else getString(R.string.unspecified), list.size
                 )
             )

@@ -26,8 +26,8 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.StatFragmentBinding
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
 import ir.mahdiparastesh.sexbook.stat.base.CrushAgeChart
+import ir.mahdiparastesh.sexbook.stat.base.CrushAttrChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushBreastsChart
-import ir.mahdiparastesh.sexbook.stat.base.CrushChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushEyeColourChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushEyeShapeChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushFaceShapeChart
@@ -106,7 +106,7 @@ class Taste : MultiChartActivity() {
             12 -> FirstMetTaste()
             13 -> FictionalityTaste()
             else -> GenderTaste()
-        }
+        }  // You cannot use anonymous objects here. Even if you could, it would be a bad idea.
     }
 
     /** Only used for [ChartType.COMPOSITIONAL] */
@@ -134,7 +134,7 @@ class Taste : MultiChartActivity() {
     }
 
 
-    abstract class TasteFragment : Fragment(), CrushChart {
+    abstract class TasteFragment : Fragment(), CrushAttrChart {
         protected val c: Taste by lazy { activity as Taste }
         protected lateinit var b: StatFragmentBinding
         private lateinit var chartView: AbstractChartView
@@ -147,7 +147,7 @@ class Taste : MultiChartActivity() {
         /** Only used for [ChartType.TIME_SERIES] and [ChartType.CUMULATIVE_TIME_SERIES] */
         protected val records = hashMapOf<Short, ArrayList<Summary.Orgasm>>()
 
-        protected val unspecifiedQualityColour: Int by lazy {
+        override val unspecifiedQualityColour: Int by lazy {
             if (!c.night) Color.BLACK else Color.WHITE
         }
 
@@ -216,8 +216,6 @@ class Taste : MultiChartActivity() {
             SliceValue(score, preferredColour(mode) ?: c.chartColour).setLabel(
                 "$division: ${score.show()} (${((100f / sumOfAll) * score).roundToInt()}%)"
             )
-
-        open fun preferredColour(mode: Int): Int? = null
     }
 
 
@@ -272,54 +270,13 @@ class Taste : MultiChartActivity() {
         }
     }
 
-    class GenderTaste : QualitativeTasteFragment(), CrushGenderChart {
-        override fun preferredColour(mode: Int): Int? = when (mode) {
-            0 -> unspecifiedQualityColour
-            1 -> 0xFFFF0037
-            2 -> 0xFF0095FF
-            3 -> 0xFF7300FF
-            4 -> 0xFFDDFF00
-            else -> throw IllegalArgumentException("Unknown gender code: $mode")
-        }.toInt()
-    }
+    class GenderTaste : QualitativeTasteFragment(), CrushGenderChart
 
-    class SkinColourTaste : QualitativeTasteFragment(), CrushSkinColourChart {
-        override fun preferredColour(mode: Int): Int? = when (mode) {
-            0 -> 0xFF777777
-            1 -> 0xFF633F37
-            2 -> 0xFFAB7A5F
-            3 -> 0xFFC0A07A
-            4 -> 0xFFE5C3AE
-            5 -> 0xFFF7E1D6
-            6 -> 0xFFF1C9CD
-            else -> throw IllegalArgumentException("Unknown skin colour code: $mode")
-        }.toInt()
-    }
+    class SkinColourTaste : QualitativeTasteFragment(), CrushSkinColourChart
 
-    class HairColourTaste : QualitativeTasteFragment(), CrushHairColourChart {
-        override fun preferredColour(mode: Int): Int? = when (mode) {
-            0 -> 0xFF777777
-            1 -> 0xFF000000
-            2 -> 0xFF6D4730
-            3 -> 0xFFFBE7A1
-            4 -> 0xFFC66531
-            5 -> 0xFF052F9F
-            else -> throw IllegalArgumentException("Unknown hair colour code: $mode")
-        }.toInt()
-    }
+    class HairColourTaste : QualitativeTasteFragment(), CrushHairColourChart
 
-    class EyeColourTaste : QualitativeTasteFragment(), CrushEyeColourChart {
-        override fun preferredColour(mode: Int): Int? = when (mode) {
-            0 -> unspecifiedQualityColour
-            1 -> 0xFF5D301D
-            2 -> 0xFF8F5929
-            3 -> 0xFF947B3E
-            4 -> 0xFF868254
-            5 -> 0xFF798FB0
-            6 -> 0xFF54427A
-            else -> throw IllegalArgumentException("Unknown eye colour code: $mode")
-        }.toInt()
-    }
+    class EyeColourTaste : QualitativeTasteFragment(), CrushEyeColourChart
 
     class EyeShapeTaste : QualitativeTasteFragment(), CrushEyeShapeChart
 
