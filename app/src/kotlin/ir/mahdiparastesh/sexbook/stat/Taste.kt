@@ -110,9 +110,14 @@ class Taste : MultiChartActivity() {
         protected lateinit var b: StatFragmentBinding
         private lateinit var chartView: AbstractChartView
         private var myJob: Job? = null
+
+        /** Only used for [ChartType.COMPOSITIONAL] */
         protected val counts = hashMapOf<Short, Float>()
-        protected val progress = hashMapOf<Short, ArrayList<Summary.Orgasm>>()
         protected var sumOfAll = 0f
+
+        /** Only used for [ChartType.TIME_SERIES] and [ChartType.CUMULATIVE_TIME_SERIES] */
+        protected val records = hashMapOf<Short, ArrayList<Summary.Orgasm>>()
+
         protected val unspecifiedQualityColour: Int by lazy {
             if (!c.night) Color.BLACK else Color.WHITE
         }
@@ -166,6 +171,7 @@ class Taste : MultiChartActivity() {
 
         abstract suspend fun statisticise(): AbstractChartData
 
+        /** Only used for [ChartType.COMPOSITIONAL] */
         fun indexCrushSums() {
             if (c.vm.crushSumIndex != null) return
             else c.vm.crushSumIndex = hashMapOf()
@@ -178,6 +184,19 @@ class Taste : MultiChartActivity() {
             }
         }
 
+        /** Only used for [ChartType.TIME_SERIES] and [ChartType.CUMULATIVE_TIME_SERIES] */
+        fun indexRecords() {
+            if (c.vm.timeSeries == null) c.vm.timeSeries = StatUtils.timeSeries(c.c)
+            var cr: Crush? = null
+            var propertyValue: Short
+            for ((crushKey, score) in c.c.summary!!.scores.entries) {
+                cr = c.c.people[crushKey] ?: continue
+                propertyValue = crushProperty(cr)
+                if (propertyValue !in records) records[propertyValue] = arrayListOf()
+                records[propertyValue]!!.addAll(score.orgasms)
+            }
+        }
+
         protected fun createSliceValue(score: Float, mode: Int, division: String): SliceValue =
             SliceValue(score, preferredColour(mode) ?: c.chartColour).setLabel(
                 "$division: ${score.show()} (${((100f / sumOfAll) * score).roundToInt()}%)"
@@ -186,13 +205,13 @@ class Taste : MultiChartActivity() {
         open fun preferredColour(mode: Int): Int? = null
     }
 
-    abstract class QualitativeTasteFragment(
-        private val isFiltered: Boolean = false
-    ) : TasteFragment() {
+    abstract class QualitativeTasteFragment : TasteFragment() {
         private lateinit var arModes: Array<String>
 
         @get:ArrayRes
         abstract val modes: Int
+
+        open val isFiltered: Boolean = false
         open fun crushFilter(cr: Crush): Boolean = true
 
         @SuppressLint("SetTextI18n")
@@ -219,38 +238,22 @@ class Taste : MultiChartActivity() {
                     }
 
                     val data = arrayListOf<SliceValue>()
-                    for (mode in arModes.indices) {
-                        val score = counts[mode.toShort()]!!
-                        if (score == 0f) continue
-                        data.add(createSliceValue(score, mode, arModes[mode]))
-                    }
+                    for ((mode, score) in counts) if (score > 0f)
+                        data.add(createSliceValue(score, mode.toInt(), arModes[mode.toInt()]))
                     return PieChartData(data).setHasLabels(true)
                 }
 
                 ChartType.TIME_SERIES.ordinal, ChartType.CUMULATIVE_TIME_SERIES.ordinal -> {
-                    if (c.vm.timeSeries == null) c.vm.timeSeries = StatUtils.timeSeries(c.c)
-                    var cr: Crush? = null
-                    var modeCode: Short
-                    for ((crushKey, score) in c.c.summary!!.scores.entries) {
-                        cr = c.c.people[crushKey] ?: continue
-                        modeCode = crushProperty(cr)
-                        if (modeCode !in progress) progress[modeCode] = arrayListOf()
-                        progress[modeCode]!!.addAll(score.orgasms)
-                    }
+                    indexRecords()
                     val lines = ArrayList<Timeline>()
                     val cumulative = c.vm.chartType == ChartType.CUMULATIVE_TIME_SERIES.ordinal
-                    for (mode in arModes.indices) {
-                        if (mode.toShort() !in progress) continue
-                        lines.add(
-                            Timeline(
-                                arModes[mode],
-                                StatUtils.sumTimeFrames(
-                                    c.c, progress[mode.toShort()]!!, c.vm.timeSeries!!, cumulative
-                                ),
-                                preferredColour(mode.toInt())
-                            )
+                    for ((div, orgasms) in records) lines.add(
+                        Timeline(
+                            arModes[div.toInt()],
+                            StatUtils.sumTimeFrames(c.c, orgasms, c.vm.timeSeries!!, cumulative),
+                            preferredColour(div.toInt())
                         )
-                    }
+                    )
                     return LineChartData().setLines(LineFactory(lines))
                 }
 
@@ -348,8 +351,10 @@ class Taste : MultiChartActivity() {
             ((cr.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second).toShort()
     }
 
-    class BreastsTaste : QualitativeTasteFragment(true) {
+    class BreastsTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.bodyBreasts
+        override val isFiltered: Boolean = true
+
         override fun crushFilter(cr: Crush): Boolean =
             (cr.status and Crush.STAT_GENDER).let { it != 2.toByte() && it != 4.toByte() }
 
@@ -357,8 +362,10 @@ class Taste : MultiChartActivity() {
             ((cr.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second).toShort()
     }
 
-    class PenisTaste : QualitativeTasteFragment(true) {
+    class PenisTaste : QualitativeTasteFragment() {
         override val modes: Int = R.array.bodyPenis
+        override val isFiltered: Boolean = true
+
         override fun crushFilter(cr: Crush): Boolean =
             (cr.status and Crush.STAT_GENDER).let { it != 1.toByte() && it != 4.toByte() }
 
@@ -390,23 +397,30 @@ class Taste : MultiChartActivity() {
                     }
 
                     val data = arrayListOf<SliceValue>()
-                    for ((div, score) in counts.toSortedMap()) {
-                        if (score == 0f) continue
-                        data.add(
-                            createSliceValue(
-                                score,
-                                div.toInt(),
-                                if (div != 0.toShort()) "${div.toInt() * 10}s"
-                                else getString(R.string.unspecified)
-                            )
+                    for ((div, score) in counts.toSortedMap()) data.add(
+                        createSliceValue(
+                            score,
+                            div.toInt(),
+                            if (div != 0.toShort()) "${div.toInt() * 10}s"
+                            else getString(R.string.unspecified)
                         )
-                    }
+                    )
                     return PieChartData(data).setHasLabels(true)
                 }
 
                 ChartType.TIME_SERIES.ordinal -> {
-                    // TODO
-                    return LineChartData.generateDummyData()
+                    indexRecords()
+                    val lines = ArrayList<Timeline>()
+                    val cumulative = c.vm.chartType == ChartType.CUMULATIVE_TIME_SERIES.ordinal
+                    for ((div, orgasms) in records) lines.add(
+                        Timeline(
+                            if (div != 0.toShort()) "${div.toInt() * 10}s"
+                            else getString(R.string.unspecified),
+                            StatUtils.sumTimeFrames(c.c, orgasms, c.vm.timeSeries!!, cumulative),
+                            preferredColour(div.toInt())
+                        )
+                    )
+                    return LineChartData().setLines(LineFactory(lines))
                 }
 
                 else -> throw IllegalArgumentException("ChartType not implemented!")

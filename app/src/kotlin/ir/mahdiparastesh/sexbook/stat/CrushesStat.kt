@@ -102,13 +102,13 @@ class CrushesStat : BaseDialog<BaseActivity>() {
             )
     }
 
-    abstract class QualitativeStat(
-        private val isFiltered: Boolean = false
-    ) : CrshStatFragment() {
+    abstract class QualitativeStat : CrshStatFragment() {
         private lateinit var arModes: Array<String>
 
         @get:ArrayRes
         abstract val modes: Int
+
+        open val isFiltered: Boolean = false
         open fun crushFilter(cr: Crush): Boolean = true
 
         override fun preAnalysis() {
@@ -186,8 +186,10 @@ class CrushesStat : BaseDialog<BaseActivity>() {
             ((cr.body and Crush.BODY_MUSCLE.first) shr Crush.BODY_MUSCLE.second).toShort()
     }
 
-    class BreastsStat : QualitativeStat(true) {
+    class BreastsStat : QualitativeStat() {
         override val modes: Int = R.array.bodyBreasts
+        override val isFiltered: Boolean = true
+
         override fun crushFilter(cr: Crush): Boolean =
             (cr.status and Crush.STAT_GENDER).let { it != 2.toByte() && it != 4.toByte() }
 
@@ -195,8 +197,10 @@ class CrushesStat : BaseDialog<BaseActivity>() {
             ((cr.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second).toShort()
     }
 
-    class PenisStat : QualitativeStat(true) {
+    class PenisStat : QualitativeStat() {
         override val modes: Int = R.array.bodyPenis
+        override val isFiltered: Boolean = true
+
         override fun crushFilter(cr: Crush): Boolean =
             (cr.status and Crush.STAT_GENDER).let { it != 1.toByte() && it != 4.toByte() }
 

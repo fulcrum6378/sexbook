@@ -167,17 +167,16 @@ class Sexbook : Application() {
     }
 
     /**
-     * Prepares a list of people mentioned in [Summary] regardless of their presence in the
-     * [Crush] table in the [Database].
+     * Prepares a list of [Crush]es' names.
      *
      * It must necessarily return a mutable collection;
      * otherwise CrushSuggester::update() will error!
      */
-    fun summaryCrushes(): ArrayList<String> =
+    fun summaryCrushes(): MutableList<String> =
         summary?.let { summary ->
             var all = ArrayList(summary.scores.keys)
             if (hideUnsafe()) ArrayList(all.filter { it !in unsafe }) else all
-        } ?: arrayListOf()
+        } ?: people.keys.toMutableList()
 
     /** Should unsafe people be not shown? */
     fun hideUnsafe() =

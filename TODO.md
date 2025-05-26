@@ -7,7 +7,6 @@
 * Preferred colours for crushes?
 * Remove statTitle's background?
 * Make `Taste`'s spinner have transparent background and yellow text in night mode
-* Progressive charts for `QuantitativeTasteFragment`
 * Yearly time series
 * Enlarge `json_export.xml` and `json_import.xml`
 * A ProgressBar for `Place`-`Report` migrations and statistics
