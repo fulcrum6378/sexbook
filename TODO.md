@@ -16,7 +16,6 @@
 * Random `Crush` suggestion in `PageLove`
 * Put a menu button in the overflow portion of `ReportAdap`
 * What to do with the splash screen on Android 12+? (the icon over there has become invisible!)
-* DotsIndicator for `Taste` and `CrushesStat` (with caution)
 
 ### Bad Ideas
 

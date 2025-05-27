@@ -72,6 +72,7 @@ class Taste : MultiChartActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b.pager.registerOnPageChangeCallback(onPageChanged)
+        b.indicator.attachTo(b.pager)
     }
 
     override fun requirements() = c.summary != null

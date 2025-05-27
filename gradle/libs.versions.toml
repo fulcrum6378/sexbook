@@ -11,6 +11,7 @@ sqliteKtx = "2.5.1"
 viewPager2 = "1.1.0"
 material = "1.12.0"
 gson = "2.11.0"
+dotsIndicator = "5.1.0"
 helloCharts = "2.8.5"
 mcdtp = "3.0"
 
@@ -31,6 +32,7 @@ sqlite-ktx = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sq
 viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewPager2" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+dotsindicator = { group = "com.tbuonomo", name = "dotsindicator", version.ref = "dotsIndicator" }
 hellocharts = { group = "ir.mahdiparastesh", name = "hellocharts", version.ref = "helloCharts" }
 mcdtp = { group = "ir.mahdiparastesh", name = "mcdtp", version.ref = "mcdtp" }
 

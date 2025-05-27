@@ -10,7 +10,6 @@ import androidx.annotation.MainThread
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
@@ -18,6 +17,7 @@ import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
+import ir.mahdiparastesh.sexbook.databinding.CrshStatBinding
 import ir.mahdiparastesh.sexbook.databinding.CrshStatFragmentBinding
 import ir.mahdiparastesh.sexbook.stat.base.CrushAgeChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushAttrChart
@@ -50,8 +50,9 @@ class CrushesStat : BaseDialog<BaseActivity>() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val pager = ViewPager2(c)
-        pager.adapter = object : FragmentStateAdapter(this) {
+        val b = CrshStatBinding.inflate(c.layoutInflater)
+
+        b.pager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int = 14
             override fun createFragment(i: Int): Fragment = when (i) {
                 1 -> SkinColourStat()
@@ -70,11 +71,12 @@ class CrushesStat : BaseDialog<BaseActivity>() {
                 else -> GenderStat()
             }.apply { arguments = this@CrushesStat.requireArguments() }
         }
+        b.indicator.attachTo(b.pager)
 
         isCancelable = true
         return MaterialAlertDialogBuilder(c).apply {
             setTitle(R.string.crushesStat)
-            setView(pager)
+            setView(b.root)
         }.create()
     }
 
