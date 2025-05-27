@@ -112,7 +112,7 @@ The navigation menu in *Main* has these 3 options:
 - Putting crush birthdays in the system calendar, which can be tweaked in *Settings*.
 - An [*app shortcut*](app/src/res/xml/shortcuts.xml) for tracking an orgasm right away!
 
-### License
+### [**Source-Available License**](https://github.com/fulcrum6378/sexbook/blob/master/LICENSE.md)
 
 ```
 Sexbook - a full-fledged sexual diary
