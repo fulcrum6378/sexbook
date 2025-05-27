@@ -1,11 +1,11 @@
 # Sexbook
 
-A fun Android app for recording data about one's sexual activities.
+A fun Android app for tracking data about one's sexual activities.
 A user can note their orgasm just in time or later than that using a date picker.
 This app has a yellow theme with a banana icon.
 
 This app uses [Multi-Calendar Date Time Picker](https://github.com/fulcrum6378/mcdtp);
-meaning you can record your sexual activities in the Gregorian calendar or any other one,
+meaning you can track your sexual activities in the Gregorian calendar or any other one,
 but this app currently supports only Gregorian, Persian and Indian calendars.
 The default calendar can be easily changed in *Settings*.
 
@@ -36,8 +36,10 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
 ### Subpackages
 
 - [**base**](app/src/kotlin/ir/mahdiparastesh/sexbook/base) : abstract classes
-- [**ctrl**](app/src/kotlin/ir/mahdiparastesh/sexbook/ctrl) : responsible for controlling data (controller of MVC)
-- [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : data models of the database (model of MVC)
+- [**ctrl**](app/src/kotlin/ir/mahdiparastesh/sexbook/ctrl) : responsible for controlling data (
+  controller of MVC)
+- [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : data models of the database (model of
+  MVC)
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters
 - [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) :
   everything related to statistics (as mentioned above)
@@ -82,7 +84,7 @@ The statistical charts are provided by the forked library
   It uses the [**Guess.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Guess.kt) database model.
 
 - [**Places.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Places.kt) :
-  this activity records places in which sexual intercourses happened.
+  this activity tracks places in which sexual intercourses happened.
 
   It uses the [**Place.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Place.kt) database model.
   It can be linked to several rows in Report table. (It was designed to take latitude and longitude
@@ -108,10 +110,17 @@ The navigation menu in *Main* has these 3 options:
 - [*Last Orgasm*](app/src/kotlin/ir/mahdiparastesh/sexbook/ctrl/LastOrgasm.kt) is an app widget
   which shows the number of hours past since one's last orgasm!
 - Putting crush birthdays in the system calendar, which can be tweaked in *Settings*.
-- An [*app shortcut*](app/src/res/xml/shortcuts.xml) for recording an orgasm right away!
+- An [*app shortcut*](app/src/res/xml/shortcuts.xml) for tracking an orgasm right away!
 
 ### License
 
 ```
-Copyright © Mahdi Parastesh - All Rights Reserved.
+Sexbook - a full-fledged sexual diary
+Written in 2020-2025 by Mahdi Parastesh <fulcrum1378@gmail.com>
+
+This source code is made available under the "Sexbook License"
+(a source-available, NON-open-source license).
+
+See the full text here:
+<https://github.com/fulcrum6378/sexbook/blob/master/LICENSE.md>
 ```

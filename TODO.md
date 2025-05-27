@@ -6,7 +6,6 @@
 * List pairs of a `Crush` with whom they have ever shared orgasms
 * Maintain the position of `CrushesStat`
 * Line chart for `Place`s?
-* Documentations for HelloCharts
 * Preferred colours for crushes?
 * Remove statTitle's background?
 * Make `Taste`'s spinner have transparent background and yellow text in night mode
