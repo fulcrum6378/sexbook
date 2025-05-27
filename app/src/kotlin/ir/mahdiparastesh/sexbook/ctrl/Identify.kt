@@ -40,7 +40,7 @@ import kotlinx.coroutines.withContext
 import kotlin.experimental.and
 import kotlin.experimental.or
 
-/** An [AlertDialog] for filling data for a [Crush] */
+/** An dialog box for controlling data of a [Crush] */
 class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity {
 
     companion object {
@@ -125,6 +125,7 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
             b.gender.setSelection((status and Crush.STAT_GENDER).toInt())
             b.fiction.isChecked = fiction().also { onFictionChanged(it) }
             b.unsafe.isChecked = unsafe()
+            b.active.isChecked = active()
             b.notifyBirth.isChecked = notifyBirth()
             if (height != -1f) b.height.setText(height.toString())
             b.address.setText(address)
@@ -208,12 +209,12 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
                 b.mName.text.toString().ifBlank { null },
                 b.lName.text.toString().ifBlank { null },
 
-                // gender
+                // status
                 b.gender.selectedItemPosition.toByte() or
                         (if (b.fiction.isChecked) Crush.STAT_FICTION else 0) or
                         (if (b.notifyBirth.isChecked) Crush.STAT_NOTIFY_BIRTH else 0) or
                         (if (b.unsafe.isChecked) Crush.STAT_UNSAFE_PERSON else 0) or
-                        (crush?.let { it.status and Crush.STAT_INACTIVE } ?: 0),
+                        (if (b.active.isChecked) 0 else Crush.STAT_INACTIVE),
 
                 // birthday
                 UiTools.compressDateTime(UiTools.validateDateTime(b.birth.text.toString())),

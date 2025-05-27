@@ -121,11 +121,21 @@
         <item>Agenda</item>
     </string-array>
     <string name="isFictional">¿Es un personaje ficticio?</string>
+    <string name="isFictionalDesc">
+        Personajes de ficción como personajes de películas o juegos, dibujos, imaginación, etc.
+    </string>
     <string name="realPerson">Persona real</string>
     <string name="fictionalCharacter">Personaje ficticio</string>
     <string name="isUnsafePerson">¿Es una personalidad insegura?</string>
+    <string name="isUnsafePersonDesc">
+        Personas con las que tienes problemas o ellas tienen problemas contigo.
+    </string>
     <string name="safePerson">Personalidad segura</string>
     <string name="unsafePerson">Personalidad insegura</string>
+    <string name="activeCrush">Activa</string>
+    <string name="activeCrushDesc">
+        Las personas activas aparecerán en la página principal y estarán marcadas en la página "Personas".
+    </string>
     <string name="birth">Cumpleaños</string>
     <string name="creationDate">Fecha de creación</string>
     <string name="heightInCM">Altura (cm)</string>

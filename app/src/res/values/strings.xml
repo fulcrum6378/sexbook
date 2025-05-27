@@ -122,11 +122,21 @@
         <item>Agender</item>
     </string-array>
     <string name="isFictional">Is a fictional character?</string>
+    <string name="isFictionalDesc">
+        Fictional characters like movie or game characters, drawings, imagination, etc.
+    </string>
     <string name="realPerson">Real person</string>
     <string name="fictionalCharacter">Fictional character</string>
     <string name="isUnsafePerson">Is an unsafe personality?</string>
+    <string name="isUnsafePersonDesc">
+        People who either you have problems with them or they have problems with you.
+    </string>
     <string name="safePerson">Safe personality</string>
     <string name="unsafePerson">Unsafe personality</string>
+    <string name="activeCrush">Active</string>
+    <string name="activeCrushDesc">
+        Active crushes will be listed in the main page and will be ticked in the `People` page.
+    </string>
     <string name="birth">Birthday</string>
     <string name="creationDate">Creation Date</string>
     <string name="heightInCM">Height (cm)</string>

@@ -56,7 +56,7 @@ The statistical charts are provided by the forked library
 - [**Summary**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Summary.kt) :
   shows a summary of one's sexual partners (crushes) and the number of times they had sexual
   intercourses. When clicked on a partner, their monthly statistics will pop up as a line chart.
-- [**Recency**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Recency.kt) :
+- [**Recency**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/RecencyDialog.kt) :
   lists sexual partners by the last time they've had a sexual intercourse.
   The clicking behaviour is the same as the Summary list.
 - [**Adorability**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Adorability.kt) :

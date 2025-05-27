@@ -78,13 +78,22 @@
             android:id="@+id/fiction"
             style="@style/identifyMaterialCheckBox"
             android:layout_height="28sp"
-            android:text="@string/isFictional" />
+            android:text="@string/isFictional"
+            android:tooltipText="@string/isFictionalDesc" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/unsafe"
             style="@style/identifyMaterialCheckBox"
             android:layout_height="32sp"
-            android:text="@string/unsafePerson" />
+            android:text="@string/unsafePerson"
+            android:tooltipText="@string/isUnsafePersonDesc" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/active"
+            style="@style/identifyMaterialCheckBox"
+            android:layout_height="28sp"
+            android:text="@string/activeCrush"
+            android:tooltipText="@string/activeCrushDesc" />
 
         <View
             android:layout_width="match_parent"

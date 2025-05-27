@@ -118,11 +118,21 @@
         <item>Agender</item>
     </string-array>
     <string name="isFictional">Ist eine fiktive Figur?</string>
+    <string name="isFictionalDesc">
+        Fiktive Charaktere wie Film- oder Spielfiguren, Zeichnungen, Fantasie usw.
+    </string>
     <string name="realPerson">Echte Person</string>
     <string name="fictionalCharacter">Fiktive Figur</string>
     <string name="isUnsafePerson">Ist eine unsichere Persönlichkeit?</string>
+    <string name="isUnsafePersonDesc">
+        Menschen, mit denen Sie entweder ein Problem haben oder die ein Problem mit Ihnen haben.
+    </string>
     <string name="safePerson">Sichere Persönlichkeit</string>
     <string name="unsafePerson">Unsichere Persönlichkeit</string>
+    <string name="activeCrush">Aktiv</string>
+    <string name="activeCrushDesc">
+        Aktive Personen werden auf der Hauptseite aufgelistet und auf der Seite „Menschen“ markiert.
+    </string>
     <string name="birth">Geburtstag</string>
     <string name="creationDate">Erstellungsdatum</string>
     <string name="heightInCM">Höhe (cm)</string>

@@ -120,11 +120,21 @@
         <item>Agender</item>
     </string-array>
     <string name="isFictional">Je fiktivní postava?</string>
+    <string name="isFictionalDesc">
+        Fiktivní postavy, jako například filmové nebo herní postavy, kresby, představivost atd.
+    </string>
     <string name="realPerson">Skutečná osoba</string>
     <string name="fictionalCharacter">Fiktivní postava</string>
     <string name="isUnsafePerson">Je nebezpečná osobnost?</string>
+    <string name="isUnsafePersonDesc">
+        Lidé, se kterými máte buď problém vy, nebo oni mají problém s vámi.
+    </string>
     <string name="safePerson">Bezpečná osobnost</string>
     <string name="unsafePerson">Nebezpečná osobnost</string>
+    <string name="activeCrush">Aktivní</string>
+    <string name="activeCrushDesc">
+        Aktivní lidé budou uvedeni na hlavní stránce a budou zaškrtnuti na stránce „Lidé“.
+    </string>
     <string name="birth">Narozeniny</string>
     <string name="creationDate">Datum vytvoření</string>
     <string name="heightInCM">Výška (cm)</string>

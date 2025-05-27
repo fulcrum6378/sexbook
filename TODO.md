@@ -2,6 +2,7 @@
 
 ### Improvements
 
+* Elevation shadows for the tops of `SummaryDialog` and `RecencyDialog`' lists and the bottom of the former
 * List pairs of a `Crush` with whom they have ever shared orgasms
 * Maintain the position of `CrushesStat`
 * Line chart for `Place`s?
@@ -16,7 +17,6 @@
 * Put a menu button in the overflow portion of `ReportAdap`
 * What to do with the splash screen on Android 12+? (the icon over there has become invisible!)
 * DotsIndicator for `Taste` and `CrushesStat` (with caution)
-* "Reactivate Crush" for `Singular`
 
 ### Bad Ideas
 

@@ -121,11 +121,21 @@
         <item>Агендер</item>
     </string-array>
     <string name="isFictional">Является ли вымышленный персонаж?</string>
+    <string name="isFictionalDesc">
+        Вымышленные персонажи, такие как персонажи фильмов или игр, рисунки, воображение и т. д.
+    </string>
     <string name="realPerson">Реальный человек</string>
     <string name="fictionalCharacter">Вымышленный персонаж</string>
     <string name="isUnsafePerson">Небезопасная личность?</string>
+    <string name="isUnsafePersonDesc">
+        Люди, с которыми либо у вас проблемы, либо у них проблемы с вами.
+    </string>
     <string name="safePerson">Safe personality</string>
     <string name="unsafePerson">Небезопасная личность</string>
+    <string name="activeCrush">Активный</string>
+    <string name="activeCrushDesc">
+        Активные поклонники будут перечислены на главной странице и отмечены галочкой на странице «Люди».
+    </string>
     <string name="birth">День рождения</string>
     <string name="creationDate">Дата создания</string>
     <string name="heightInCM">Рост (см)</string>
