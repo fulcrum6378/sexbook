@@ -85,14 +85,15 @@ class Taste : MultiChartActivity() {
         }
     }
 
-    override fun createNewChart() {
-        b.pager.adapter = TasteAdapter()
+    override fun createNewChart(reset: Boolean) {
+        if (b.pager.adapter == null || reset) b.pager.adapter = TasteAdapter()
         if (vm.currentPage != null) b.pager.setCurrentItem(vm.currentPage!!, false)
     }
 
     inner class TasteAdapter : FragmentStateAdapter(this@Taste) {
         override fun getItemCount(): Int = 14
         override fun createFragment(i: Int): Fragment = when (i) {
+            // qualities:
             1 -> SkinColourTaste()
             2 -> HairColourTaste()
             3 -> EyeColourTaste()
@@ -102,11 +103,12 @@ class Taste : MultiChartActivity() {
             7 -> MuscleTaste()
             8 -> BreastsTaste()
             9 -> PenisTaste()
+            // quantities:
             10 -> HeightTaste()
             11 -> AgeTaste()
             12 -> FirstMetTaste()
-            13 -> FictionalityTaste()
-            else -> GenderTaste()
+            13 -> FictionalityTaste()  // quality
+            else -> GenderTaste()  // quality
         }  // You cannot use anonymous objects here. Even if you could, it would be a bad idea.
     }
 

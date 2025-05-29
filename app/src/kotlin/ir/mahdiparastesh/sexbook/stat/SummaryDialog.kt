@@ -52,9 +52,8 @@ class SummaryDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
                 }
             }
         })
-        lookingFor?.also { b.find.setText(it) }
 
-        b.list.adapter =
+        if (b.list.adapter == null) b.list.adapter =
             SummaryAdap(c, c.c.summary!!.classification!!.entries.toList(), this)
 
         val pluses = LinearLayout(c).apply {

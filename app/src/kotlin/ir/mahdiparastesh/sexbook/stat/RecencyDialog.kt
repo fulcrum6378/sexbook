@@ -60,7 +60,7 @@ class RecencyDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
                 notFound.isInvisible = firstOccur != null || lookingFor.isNullOrEmpty()
             }
         })
-        list.adapter = RecencyAdap(this@RecencyDialog)
+        if (list.adapter == null) list.adapter = RecencyAdap(this@RecencyDialog)
         list.clipToPadding = false
     }.root
 }

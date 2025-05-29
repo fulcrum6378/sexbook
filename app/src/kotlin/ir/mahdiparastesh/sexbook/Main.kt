@@ -119,7 +119,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // loading
         if (vm.loaded) b.body.removeView(b.load)
-        else if (night) b.loadIV.colorFilter = themePdcf()
 
         // navigation
         object : ActionBarDrawerToggle(

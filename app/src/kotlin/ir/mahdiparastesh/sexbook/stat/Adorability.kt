@@ -45,7 +45,7 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
     override var job: Job? = null
     override val chartType: Spinner get() = b.chartType
 
-    override fun createNewChart() {
+    override fun createNewChart(reset: Boolean) {
         b.loading.isVisible = true
 
         // create and add/replace the chart view

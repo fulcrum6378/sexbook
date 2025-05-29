@@ -52,9 +52,10 @@ class CrushesStat : BaseDialog<BaseActivity>() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val b = CrshStatBinding.inflate(c.layoutInflater)
 
-        b.pager.adapter = object : FragmentStateAdapter(this) {
+        if (b.pager.adapter == null) b.pager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int = 14
             override fun createFragment(i: Int): Fragment = when (i) {
+                // qualities:
                 1 -> SkinColourStat()
                 2 -> HairColourStat()
                 3 -> EyeColourStat()
@@ -64,11 +65,12 @@ class CrushesStat : BaseDialog<BaseActivity>() {
                 7 -> MuscleStat()
                 8 -> BreastsStat()
                 9 -> PenisStat()
+                // quantities:
                 10 -> HeightStat()
                 11 -> AgeStat()
                 12 -> FirstMetStat()
-                13 -> FictionalityStat()
-                else -> GenderStat()
+                13 -> FictionalityStat()  // quality
+                else -> GenderStat()  // quality
             }.apply { arguments = this@CrushesStat.requireArguments() }
         }
         b.indicator.attachTo(b.pager)

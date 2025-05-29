@@ -18,6 +18,10 @@
         <item name="android:textColorHint">#AF9A7C00</item>
         <item name="android:windowBackground">?colorSecondary</item>
         <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">
+            @drawable/logo_splash
+        </item>
+        <item name="android:windowSplashScreenBackground" tools:targetApi="31">?colorPrimary</item>
         <item name="buttonTint">@android:color/transparent</item><!--for mcdtp-->
         <item name="checkboxStyle">@style/Theme.Sexbook.CheckBox</item>
         <item name="chipStyle">@style/Theme.Sexbook.Chip</item>
@@ -36,6 +40,7 @@
         <item name="colorPrimaryContainer">?colorPrimary</item>
         <item name="colorSecondary">#FFFBFF</item>
         <item name="colorOnSecondary">@color/COS_LIGHT</item>
+        <item name="colorLogo">?colorSecondary</item>
         <item name="textColorPrimaryContainer">?colorOnPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
@@ -53,6 +58,7 @@
         <item name="colorSurfaceBright">#0FF</item>-->
     </style>
 
+    <attr name="colorLogo" format="reference|color" />
     <attr name="textColorPrimaryContainer" format="reference|color" />
 
 

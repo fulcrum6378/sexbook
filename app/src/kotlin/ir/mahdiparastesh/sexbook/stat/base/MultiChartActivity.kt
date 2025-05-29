@@ -44,17 +44,18 @@ abstract class MultiChartActivity : ChartActivity() {
                     return; }
 
                 vmChartType = position
-                createNewChart()
+                createNewChart(true)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        createNewChart()
+        createNewChart(false)
     }
 
+    /** @param reset true if it is invoked by the user, false if it's invoked onCreate */
     @MainThread
-    abstract fun createNewChart()
+    abstract fun createNewChart(reset: Boolean)
 
     protected fun createChartView() = ChartType.entries[vmChartType].view.java
         .constructors.find { it.parameterCount == 1 }!!

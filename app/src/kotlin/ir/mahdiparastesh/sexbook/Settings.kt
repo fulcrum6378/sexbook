@@ -387,8 +387,11 @@ class Settings : BaseActivity() {
                 setView(RecyclerView(c).apply {
                     layoutManager = LinearLayoutManager(c)
                     setPadding(0, c.dp(12), 0, 0)
-                    c.bNtfCrushAdap = BNtfCrushAdap(c)
-                    adapter = c.bNtfCrushAdap
+                    if (adapter == null) {
+                        c.bNtfCrushAdap = BNtfCrushAdap(c)
+                        adapter = c.bNtfCrushAdap
+                    } else
+                        c.bNtfCrushAdap = adapter as BNtfCrushAdap
                 })
                 setOnDismissListener { c.bNtfCrushAdap = null }
             }.create()

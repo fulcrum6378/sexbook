@@ -6,6 +6,7 @@
         <item name="colorSecondary">#1C1B20</item>
         <item name="colorOnSecondary">@color/CP_LIGHT</item>
         <item name="colorPrimaryContainer">?colorSecondaryVariant</item>
+        <item name="colorLogo">?colorOnPrimary</item>
         <item name="textColorPrimaryContainer">@color/COS_LIGHT</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
