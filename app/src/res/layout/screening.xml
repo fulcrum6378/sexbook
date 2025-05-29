@@ -13,6 +13,18 @@
         android:layout_marginHorizontal="30dp"
         android:orientation="vertical">
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/identifyInputLayout"
+            android:hint="@string/search">
+
+            <ir.mahdiparastesh.sexbook.view.SoftEditText
+                android:id="@+id/search"
+                style="@style/identifyET"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingVertical="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Spinner
             android:id="@+id/gender"
             style="@style/screeningSpinner" />

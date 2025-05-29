@@ -103,6 +103,22 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
             when {
                 filters?.any() == true -> c.people.filter { p ->
 
+                    // search query
+                    if (filters.search.isNotBlank()) {
+                        val queriesPresence = arrayListOf<Boolean>()
+                        for (q in filters.search.trim().split(" ")) {
+                            val presenceInScopes = arrayListOf<Boolean>()
+                            presenceInScopes.add(p.value.key.contains(q, true))
+                            presenceInScopes.add(p.value.fName?.contains(q, true) == true)
+                            presenceInScopes.add(p.value.mName?.contains(q, true) == true)
+                            presenceInScopes.add(p.value.lName?.contains(q, true) == true)
+                            presenceInScopes.add(p.value.address?.contains(q, true) == true)
+                            presenceInScopes.add(p.value.insta?.contains(q, true) == true)
+                            queriesPresence.add(presenceInScopes.any { it })
+                        }
+                        if (!queriesPresence.all { it }) return@filter false
+                    }
+
                     // Crush::status
                     if (filters.gender != 0 &&
                         filters.gender != (p.value.status and Crush.STAT_GENDER).toInt()

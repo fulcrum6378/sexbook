@@ -1,11 +1,14 @@
 # Sexbook To-Do List
 
+* Filters for `Crush::birth`, `Crush::height` and `Crush::first` in `Screening` (build ranges also
+  for `Crush::getSum`)
+* More body attributes?
 * Tooltips for Nav
-* List pairs of a `Crush` in `Singular`; hide & show its button conditionally
-* Search for `People` through their names, locations and IG accounts via `Screening`
 * Fortuna's SearchDialog for searching through `Report`s in their names and descriptions
-* Elevation shadows for the tops of `SummaryDialog` and `RecencyDialog`' lists and the bottom of the former
-* List pairs of a `Crush` with whom they have ever shared orgasms
+* Elevation shadows for the tops of `SummaryDialog` and `RecencyDialog`' lists and the bottom of the
+  former
+* List pairs of a `Crush` with whom they have ever shared orgasms in `Singular`; hide & show its
+  button conditionally
 * Line chart for `Place`s?
 * Preferred colours for crushes?
 * Remove statTitle's background?

@@ -24,6 +24,7 @@ class Screening : BaseDialog<People>() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         b = ScreeningBinding.inflate(c.layoutInflater)
 
+        if (b.search.text.isEmpty()) b.search.setText(c.c.screening?.search)
         prepareSpinner(b.gender, R.array.genders, c.c.screening?.gender) { i ->
             val bb = i == 1 || i == 3
             b.bodyBreasts.isVisible = bb
@@ -52,6 +53,7 @@ class Screening : BaseDialog<People>() {
             setView(b.root)
             setPositiveButton(R.string.apply) { _, _ ->
                 c.c.screening = Filters(
+                    b.search.text.toString(),
                     b.gender.selectedItemPosition,
                     b.fiction.selectedItemPosition,
                     b.safety.selectedItemPosition,
@@ -94,6 +96,7 @@ class Screening : BaseDialog<People>() {
     }
 
     data class Filters(
+        val search: String,
         val gender: Int,
         val fiction: Int,
         val safety: Int,
@@ -104,7 +107,8 @@ class Screening : BaseDialog<People>() {
         val bodyBreasts: Int, val bodyPenis: Int,
         val bodyMuscle: Int, val bodySexuality: Int,
     ) {
-        fun any() = gender != 0 || fiction != 0 || safety != 0 || minSum > 0 ||
+        fun any() = search.isNotBlank() ||
+                gender != 0 || fiction != 0 || safety != 0 || minSum > 0 ||
                 bodySkinColour != 0 || bodyHairColour != 0 ||
                 bodyEyeColour != 0 || bodyEyeShape != 0 ||
                 bodyFaceShape != 0 || bodyFat != 0 ||
