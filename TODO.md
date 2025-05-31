@@ -1,5 +1,7 @@
 # Sexbook To-Do List
 
+* Better UI for random crush suggestion
+* Vectorise all other icons
 * Filters for `Crush::birth`, `Crush::height` and `Crush::first` in `Screening` (build ranges also
   for `Crush::getSum`)
 * More body attributes?
@@ -15,4 +17,3 @@
 * Make `Taste`'s spinner have transparent background and yellow text in night mode
 * Yearly time series
 * A ProgressBar for `Place`-`Report` migrations and statistics
-* Random `Crush` suggestion in `PageLove`

@@ -357,6 +357,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 1) }
                 show(supportFragmentManager, CrushesStat.TAG)
             }
+            R.id.randomCrush -> if (c.liefde.isNotEmpty()) {
+                Toast.makeText(c, c.liefde.random(), Toast.LENGTH_LONG).show()
+                // TODO a better UI
+                shake()
+            }
             else -> Crush.Sort.sort(item.itemId)?.also { value ->
                 item.isChecked = true
                 c.sp.edit().apply {

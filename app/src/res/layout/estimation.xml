@@ -14,7 +14,7 @@
         android:id="@+id/list"
         style="@style/yellowBoxList"
         android:paddingTop="@dimen/ybListPadV"
-        android:paddingBottom="@dimen/ybListPadBottomForAddButton"
+        android:paddingBottom="@dimen/ybListPadBForFloatingActionButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
@@ -25,12 +25,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/add"
-        style="@style/add"
+        style="@style/floatingActionButton"
         android:tooltipText="@string/addNewRecord">
 
         <ImageView
             android:id="@+id/addIV"
-            style="@style/addIV"
+            style="@style/floatingActionButtonImage"
             android:contentDescription="@string/addNewRecord"
             android:src="@drawable/add" />
     </androidx.constraintlayout.widget.ConstraintLayout>

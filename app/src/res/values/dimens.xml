@@ -18,7 +18,7 @@
     <!-- #YellowBoxList -->
     <dimen name="ybListPadH">7dp</dimen>
     <dimen name="ybListPadV">20dp</dimen>
-    <dimen name="ybListPadBottomForAddButton">88dp</dimen>
+    <dimen name="ybListPadBForFloatingActionButton">88dp</dimen>
     <dimen name="itemMarH">13dp</dimen>
     <dimen name="itemMarV">7dp</dimen>
     <dimen name="itemPadH">20dp</dimen>

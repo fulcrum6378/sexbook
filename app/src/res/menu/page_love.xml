@@ -5,7 +5,14 @@
         android:icon="@drawable/chart_pie"
         android:iconTint="?android:textColor"
         android:showAsAction="ifRoom"
-        android:title="@string/chart" />
+        android:title="@string/crushesStat" />
+
+    <item
+        android:id="@+id/randomCrush"
+        android:icon="@drawable/dice"
+        android:iconTint="?android:textColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/randomCrush" />
 
     <item
         android:icon="@drawable/sort"

@@ -77,6 +77,7 @@
     <string name="noRecords">You have no records yet!</string>
     <string name="askImport">Are you sure you want to replace all the app data?</string>
     <string name="findCrush">Find a crush&#8230;</string>
+    <string name="randomCrush">Suggest someone randomly&#8230;</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">Accurate?</string>

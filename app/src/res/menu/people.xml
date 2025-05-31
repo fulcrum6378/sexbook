@@ -5,7 +5,7 @@
         android:icon="@drawable/chart_pie"
         android:iconTint="?android:textColor"
         android:showAsAction="ifRoom"
-        android:title="@string/chart" />
+        android:title="@string/crushesStat" />
 
     <item
         android:id="@+id/filter"

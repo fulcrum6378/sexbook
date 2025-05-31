@@ -51,7 +51,7 @@
         <item name="layout_constraintWidth_percent">0.75</item>
     </style>
 
-    <style name="add">
+    <style name="floatingActionButton">
         <item name="android:layout_width">65dp</item>
         <item name="android:layout_height">65dp</item>
         <item name="android:layout_margin">15dp</item>
@@ -61,7 +61,7 @@
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 
-    <style name="addIV" parent="parentConstraint">
+    <style name="floatingActionButtonImage" parent="parentConstraint">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
         <item name="layout_constraintWidth_percent">0.6</item>
