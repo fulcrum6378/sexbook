@@ -76,6 +76,7 @@
     <string name="noRecords">У вас еще нет записей!</string>
     <string name="askImport">Вы уверены, что хотите заменить все данные приложения?</string>
     <string name="findCrush">Найди любовь&#8230;</string>
+    <string name="randomCrush">Предложить кого-то случайным образом&#8230;</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">Точный?</string>

@@ -73,6 +73,7 @@
     <string name="noRecords">Sie haben noch keine Aufzeichnungen!</string>
     <string name="askImport">Möchten Sie wirklich alle App-Daten ersetzen?</string>
     <string name="findCrush">Suche einen Crush&#8230;</string>
+    <string name="randomCrush">Schlagen Sie zufällig jemanden vor&#8230;</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">Präzise?</string>

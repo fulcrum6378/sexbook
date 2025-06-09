@@ -75,6 +75,7 @@
     <string name="noRecords">Zatím nemáte žádné záznamy!</string>
     <string name="askImport">Opravdu chcete nahradit všechna data aplikace?</string>
     <string name="findCrush">Najít zamilovanost&#8230;</string>
+    <string name="randomCrush">Navrhněte někoho náhodně&#8230;</string>
 
     <!-- Page Sex -->
     <string name="lcAccurate">Přesný?</string>

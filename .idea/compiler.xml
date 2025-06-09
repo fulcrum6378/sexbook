@@ -2,7 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="22">
-      <module name="Sexbook.app" target="23" />
+      <module name="Sexbook.app" target="24" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,6 +1,8 @@
 # Sexbook To-Do List
 
-* Better UI for random crush suggestion
+* dotsIndicator of `Taste` in landscape mode stick to the bottom of the screen
+* Handle the situation if someone puts a crazy frequency value in Guess
+* Better UI for random crush suggestion and disable the menu item after one suggestion
 * Vectorise all other icons
 * Filters for `Crush::birth`, `Crush::height` and `Crush::first` in `Screening` (build ranges also
   for `Crush::getSum`)
