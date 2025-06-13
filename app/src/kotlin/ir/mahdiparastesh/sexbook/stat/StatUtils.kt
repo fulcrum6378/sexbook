@@ -117,38 +117,20 @@ class ColumnFactory(
 
 class LineFactory(stars: List<Timeline>) : ArrayList<Line>(
     stars.let { stars ->
-        val usedHues = hashSetOf<Int>()
-        var hueLoop = 0
+        val firstColours = (0..35).map { it * 10 }.shuffled()
         var i: Int
-        var hue = 0  // 0 is unused
+        var hue: Int
         var colour: Int
 
-        fun onHueUsed() {
-            for (h in (hue - 5)..(hue + 4))
-                usedHues.add(h)
-        }
-
-        stars.map { star ->
+        stars.mapIndexed { s, star ->
             i = -1
             colour = if (star.colour != null)
                 star.colour
             else {
-                val memorySize = usedHues.size
-                if (memorySize < 120) {  // 20 first stars
-                    do {
-                        hue = randomHue()
-                    } while (hue in usedHues)
-                    onHueUsed()
-                } else if (memorySize < 360) {
-                    for (h in hueLoop..359)
-                        if (h !in usedHues) {
-                            hue = h
-                            hueLoop = h
-                            onHueUsed()
-                            break
-                        }
-                } else
-                    hue = randomHue()
+                hue = if (s < firstColours.size)  // 36 first stars
+                    firstColours[s]
+                else
+                    randomHue()
                 Color.HSVToColor(255, floatArrayOf(hue.toFloat(), 1f, 1f))
             }
 
