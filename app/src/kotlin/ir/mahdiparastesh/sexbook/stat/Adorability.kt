@@ -15,6 +15,7 @@ import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.AdorabilityBinding
 import ir.mahdiparastesh.sexbook.stat.base.MultiChartActivity
 import ir.mahdiparastesh.sexbook.stat.base.SingleChartActivity
@@ -71,18 +72,24 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
     }
 
     override suspend fun prepareData(): AbstractChartData {
+
+        // filters
+        val statOnlyCrushes =
+            c.sp.getBoolean(Settings.spStatOnlyCrushes, false) && c.liefde.isNotEmpty()
+        val hideUnsafe = c.hideUnsafe()
+
         when (vm.chartType) {
 
             ChartType.COMPOSITIONAL.ordinal -> {
                 val data = arrayListOf<SliceValue>()
-                val hideUnsafe = c.hideUnsafe()
-                c.summary?.scores?.entries?.sortedBy { it.value.sum }?.forEach {
-                    if (hideUnsafe && it.key in c.unsafe) return@forEach
+                c.summary?.scores?.entries?.sortedBy { it.value.sum }?.forEach { x ->
+                    if (hideUnsafe && x.key in c.unsafe) return@forEach
+                    if (statOnlyCrushes && x.key !in c.liefde) return@forEach
 
-                    val score = it.value.sum
+                    val score = x.value.sum
                     data.add(
                         SliceValue(score, chartColour)
-                            .apply { setLabel("${it.key} {${score.show()}}") })
+                            .apply { setLabel("${x.key} {${score.show()}}") })
                 }
                 return PieChartData(data).apply {
                     setHasLabelsOnlyForSelected(true)  // setHasLabels(true)
@@ -92,10 +99,11 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
             ChartType.TIME_SERIES.ordinal, ChartType.CUMULATIVE_TIME_SERIES.ordinal -> {
                 val lines = ArrayList<Timeline>()
                 val frames = StatUtils.timeSeries(c)
-                val hideUnsafe = c.hideUnsafe()
+
                 val cumulative = vm.chartType == ChartType.CUMULATIVE_TIME_SERIES.ordinal
                 for (x in c.summary!!.scores) {
                     if (hideUnsafe && x.key in c.unsafe) continue
+                    if (statOnlyCrushes && x.key !in c.liefde) continue
                     lines.add(
                         Timeline(
                             x.key, StatUtils.sumTimeFrames(c, x.value.orgasms, frames, cumulative)
