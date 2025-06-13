@@ -262,6 +262,7 @@ class Taste : MultiChartActivity() {
                         Timeline(
                             arModes[div.toInt()],
                             StatUtils.sumTimeFrames(c.c, orgasms, c.vm.timeSeries!!, cumulative),
+                            0f,  // no sorting here
                             preferredColour(div.toInt())
                         )
                     )
@@ -339,6 +340,7 @@ class Taste : MultiChartActivity() {
                             if (div != 0.toShort()) divisionName(div.toInt())
                             else getString(R.string.unspecified),
                             StatUtils.sumTimeFrames(c.c, orgasms, c.vm.timeSeries!!, cumulative),
+                            0f,  // no sorting here
                             preferredColour(div.toInt())
                         )
                     )

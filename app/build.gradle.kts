@@ -25,7 +25,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 54
-        versionName = "31.3.2"
+        versionName = "31.3.7"
         signingConfig = signingConfigs.getByName("main")  // not applied on debug
     }
 
@@ -44,6 +44,7 @@ android {
         target {
             compilerOptions {
                 jvmTarget.set(JvmTarget.JVM_24)
+                freeCompilerArgs.add("-Xannotation-default-target=param-property")
             }
         }
     }

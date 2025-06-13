@@ -106,10 +106,14 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
                     if (statOnlyCrushes && x.key !in c.liefde) continue
                     lines.add(
                         Timeline(
-                            x.key, StatUtils.sumTimeFrames(c, x.value.orgasms, frames, cumulative)
+                            x.key,
+                            StatUtils.sumTimeFrames(c, x.value.orgasms, frames, cumulative),
+                            x.value.sum
                         )
                     )
                 }
+                lines.sortByDescending { it.sum }
+                //Log.d("MARTINA", Gson().toJson(lines.map { it.name }))
                 return LineChartData().setLines(LineFactory(lines))
             }
 

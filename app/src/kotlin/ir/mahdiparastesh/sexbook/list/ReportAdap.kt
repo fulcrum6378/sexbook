@@ -114,7 +114,7 @@ class ReportAdap(
      */
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(h: AnyViewHolder<ItemReportBinding>, i: Int) {
-        //Log.d("ESPINELA", "$i")
+        //Log.d("ZOEY", "$i")
         val r = c.vm.visReports.getOrNull(i)?.let { c.c.reports[it] } ?: return
 
         // date & time

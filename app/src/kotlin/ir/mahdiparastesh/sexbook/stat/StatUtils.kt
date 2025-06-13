@@ -12,6 +12,7 @@ import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.stat.StatUtils.randomHue
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.roundToNearestHundredth
@@ -20,6 +21,7 @@ import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 object StatUtils {
 
     const val POINT_LABEL_OFFSET_IN_DP = 24
+    val hues: IntRange = 0..359
 
     /** Creates a list of months of the recorded sexual history. */
     fun timeSeries(
@@ -91,6 +93,8 @@ object StatUtils {
     }
 
     fun monthKey(shortMonth: String, year: Int) = "$shortMonth $year"
+
+    fun randomHue(): Int = hues.random()
 }
 
 class ColumnFactory(
@@ -112,24 +116,65 @@ class ColumnFactory(
 )
 
 class LineFactory(stars: List<Timeline>) : ArrayList<Line>(
-    stars.map { star ->
-        var i = -1
-        Line(star.line.map { line ->
-            i++
-            PointValue(i.toFloat(), line.value)
-                .setLabel("${star.name} : ${line.key} (${line.value.show()})")
-        })
-            .setColor(
+    stars.let { stars ->
+        val usedHues = hashSetOf<Int>()
+        var hueLoop = 0
+        var i: Int
+        var hue = 0  // 0 is unused
+        var colour: Int
+
+        fun onHueUsed() {
+            for (h in (hue - 5)..(hue + 4))
+                usedHues.add(h)
+        }
+
+        stars.map { star ->
+            i = -1
+            colour = if (star.colour != null)
                 star.colour
-                    ?: Color.HSVToColor(255, floatArrayOf((0..359).random().toFloat(), 1f, 1f))
-            )
-            .setCubic(true)
-            .setHasLabelsOnlyForSelected(true)
+            else {
+                val memorySize = usedHues.size
+                if (memorySize < 120) {  // 20 first stars
+                    do {
+                        hue = randomHue()
+                    } while (hue in usedHues)
+                    onHueUsed()
+                } else if (memorySize < 360) {
+                    for (h in hueLoop..359)
+                        if (h !in usedHues) {
+                            hue = h
+                            hueLoop = h
+                            onHueUsed()
+                            break
+                        }
+                } else
+                    hue = randomHue()
+                Color.HSVToColor(255, floatArrayOf(hue.toFloat(), 1f, 1f))
+            }
+
+            Line(star.line.map { line ->
+                i++
+                PointValue(i.toFloat(), line.value)
+                    .setLabel("${star.name} : ${line.key} (${line.value.show()})")
+            })
+                .setColor(colour)
+                .setCubic(true)
+                .setHasLabelsOnlyForSelected(true)
+        }
     }
 )
 
+/**
+ * A timeline of [Report]s with a specific person
+ *
+ * @param name of the person
+ * @param line points in the timeline
+ * @param sum total number of [Report]s
+ * @param colour a special colour for this person if exists
+ */
 data class Timeline(
     val name: String,
     val line: LinkedHashMap<String, Float>,
-    @ColorInt val colour: Int? = null
+    val sum: Float,
+    @ColorInt val colour: Int? = null,
 )
