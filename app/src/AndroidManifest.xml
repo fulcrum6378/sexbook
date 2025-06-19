@@ -72,7 +72,6 @@
         <activity
             android:name=".stat.Singular"
             android:exported="false"
-            android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
