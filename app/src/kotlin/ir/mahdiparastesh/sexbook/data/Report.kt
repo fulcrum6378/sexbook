@@ -61,7 +61,7 @@ class Report(
                 .replace(" & ", " + ")
                 .replace(", ", " + ")
                 .split(" + ")
-                .onEach { it.trim() }
+                .map { it.trim() }
     }
 
     /** Helper class for filtering sex records by month */

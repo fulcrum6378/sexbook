@@ -75,6 +75,7 @@ class Summary(
         nonCrush = nonCrush.roundToNearestHundredth()
         unsafe = unsafe.roundToNearestHundredth()
         apparent -= nonCrush + unsafe  // will double if results() is called twice, but it doesn't.
+        apparent = apparent.roundToNearestHundredth()
 
         classification =
             results.toSortedMap(reverseOrder()).toMutableMap() as HashMap<Float, ArrayList<String>>
