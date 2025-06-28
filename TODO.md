@@ -1,5 +1,6 @@
 # Sexbook To-Do List
 
+* Put the ID columns of `Guess` and `Place` at their beginning in the database
 * `Is attracted to men?` and `Is attracted to women?` instead of sexual orientation
 * dotsIndicator of `Taste` in landscape mode stick to the bottom of the screen
 * Handle the situation if someone puts a crazy frequency value in Guess

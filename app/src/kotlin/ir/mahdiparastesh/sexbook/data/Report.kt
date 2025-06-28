@@ -47,7 +47,9 @@ class Report(
             : this(id, time, name, type, null, false, plac, true)
 
     @Ignore // for GsonAdapter
-    constructor() : this(0L, null, 0, null, true, -1L, true)
+    constructor() : this(
+        0L, null, 0, null, true, -1L, true
+    )
 
     override fun equals(other: Any?): Boolean = if (other !is Report) false else id == other.id
     override fun hashCode(): Int = id.hashCode()

@@ -19,9 +19,11 @@ class Guess @Ignore constructor(
     var able: Boolean,
 ) {
     @PrimaryKey(autoGenerate = true)
-    var id = 0L  // TODO take it up there (requires migrating the database)
+    var id = 0L
 
-    constructor() : this(null, -1L, -1L, 0f, 1, null, -1L, true)
+    constructor() : this(
+        null, -1L, -1L, 0f, 1, null, -1L, true
+    )
 
     fun checkValid() = able && sinc > -1L && till > -1L && freq > 0 && till > sinc
 

@@ -359,7 +359,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             }
             R.id.randomCrush -> if (c.liefde.isNotEmpty()) {
                 Toast.makeText(c, c.liefde.random(), Toast.LENGTH_LONG).show()
-                // TODO a better UI
                 shake()
             }
             else -> Crush.Sort.sort(item.itemId)?.also { value ->
