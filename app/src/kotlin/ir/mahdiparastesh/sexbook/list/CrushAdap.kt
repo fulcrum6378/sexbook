@@ -61,7 +61,9 @@ class CrushAdap(private val c: Main) :
                     crc.status = crc.status or Crush.STAT_INACTIVE
                     CoroutineScope(Dispatchers.IO).launch {
                         c.c.dao.cUpdate(crc)
-                        withContext(Dispatchers.Main) { c.c.onCrushChanged(c, crk, 1) }
+                        withContext(Dispatchers.Main) {
+                            c.c.onCrushChanged(c, crk, 1)
+                        }
                     }
                     c.shake()
                 }

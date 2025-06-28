@@ -34,8 +34,7 @@ interface CrushQualitativeChart : CrushAttrChart {
 
 interface CrushGenderChart : CrushQualitativeChart {
     override val modes: Int get() = R.array.genders
-    override fun crushProperty(cr: Crush): Short =
-        (cr.status and Crush.STAT_GENDER).toShort()
+    override fun crushProperty(cr: Crush): Short = cr.status and Crush.STAT_GENDER
 
     override fun preferredColour(mode: Int): Int? = when (mode) {
         0 -> unspecifiedQualityColour
@@ -126,7 +125,7 @@ interface CrushBreastsChart : CrushQualitativeChart {
     override val isFiltered: Boolean get() = true
 
     override fun crushFilter(cr: Crush): Boolean =
-        (cr.status and Crush.STAT_GENDER).let { it != 2.toByte() && it != 4.toByte() }
+        (cr.status and Crush.STAT_GENDER).let { it != 2.toShort() && it != 4.toShort() }
 
     override fun crushProperty(cr: Crush): Short =
         ((cr.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second).toShort()
@@ -137,7 +136,7 @@ interface CrushPenisChart : CrushQualitativeChart {
     override val isFiltered: Boolean get() = true
 
     override fun crushFilter(cr: Crush): Boolean =
-        (cr.status and Crush.STAT_GENDER).let { it != 1.toByte() && it != 4.toByte() }
+        (cr.status and Crush.STAT_GENDER).let { it != 1.toShort() && it != 4.toShort() }
 
     override fun crushProperty(cr: Crush): Short =
         ((cr.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second).toShort()

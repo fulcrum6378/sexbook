@@ -27,7 +27,7 @@ class NotificationActions : BroadcastReceiver() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val rowsAffected = c.dao.cTurnOffBNtf(crushKey)
                     if (rowsAffected == 1) c.people[crushKey]?.apply {
-                        status = status and (1 shl 4).inv().toByte()
+                        status = status and (1 shl 4).inv().toShort()
                     }
                 }
             }

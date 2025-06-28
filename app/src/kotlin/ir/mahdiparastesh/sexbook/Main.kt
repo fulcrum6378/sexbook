@@ -181,7 +181,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             // Crush
             for (p in c.dao.cGetAll()) c.people[p.key] = p
             c.liefde.addAll(c.people.filter {
-                (it.value.status and Crush.STAT_INACTIVE) == 0.toByte()
+                (it.value.status and Crush.STAT_INACTIVE) == 0.toShort()
             }.map { it.key })
             c.unsafe.addAll(c.people.filter { it.value.unsafe() }.map { it.key })
             if (CalendarManager.checkPerm(c)) CalendarManager.initialise(c)
@@ -254,7 +254,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                         this[Calendar.YEAR] = now[Calendar.YEAR]
                     }.timeInMillis
                     if (dist in
-                        -(c.sp.getInt(Settings.spNotifyBirthDaysBefore, 3) * NumberUtils.A_DAY)
+                        -(c.sp.getInt(
+                            Settings.spNotifyBirthDaysBefore, 3
+                        ) * NumberUtils.A_DAY)
                         ..NumberUtils.A_DAY
                     ) notifyBirth(p, dist)
                 }
@@ -337,8 +339,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(Crush.Sort.findSortMenuItemId(c.sp.getInt(Settings.spPageLoveSortBy, 0)))
-            ?.isChecked = true
+        menu?.findItem(
+            Crush.Sort.findSortMenuItemId(
+                c.sp.getInt(Settings.spPageLoveSortBy, 0)
+            )
+        )?.isChecked = true
         menu?.findItem(
             if (c.sp.getBoolean(Settings.spPageLoveSortAsc, true))
                 R.id.sortAsc else R.id.sortDsc
@@ -398,11 +403,13 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
 
-    private fun pageSex(): PageSex? =
-        supportFragmentManager.findFragmentByTag("f${b.pager.adapter?.getItemId(0)}") as? PageSex
+    private fun pageSex(): PageSex? = supportFragmentManager.findFragmentByTag(
+        "f${b.pager.adapter?.getItemId(0)}"
+    ) as? PageSex
 
-    fun pageLove(): PageLove? =
-        supportFragmentManager.findFragmentByTag("f${b.pager.adapter?.getItemId(1)}") as? PageLove
+    fun pageLove(): PageLove? = supportFragmentManager.findFragmentByTag(
+        "f${b.pager.adapter?.getItemId(1)}"
+    ) as? PageLove
 
     var intentViewId: Long? = null
     private fun Intent.check(isOnCreate: Boolean = false) {
@@ -524,7 +531,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 Notification.Action.Builder(
                     null, getString(R.string.bHappyTurnOff),
                     PendingIntent.getBroadcast(
-                        c, 0, Intent(c, NotificationActions::class.java)
+                        c, 0,
+                        Intent(c, NotificationActions::class.java)
                             .setAction(NotificationActions.ACTION_TURN_OFF_BIRTHDAY_NOTIFICATION)
                             .putExtra(NotificationActions.EXTRA_CRUSH_KEY, crush.key),
                         UiTools.ntfMutability(true)

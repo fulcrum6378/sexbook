@@ -64,8 +64,11 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(Crush.Sort.findSortMenuItemId(c.sp.getInt(Settings.spPeopleSortBy, 0)))
-            ?.isChecked = true
+        menu?.findItem(
+            Crush.Sort.findSortMenuItemId(
+                c.sp.getInt(Settings.spPeopleSortBy, 0)
+            )
+        )?.isChecked = true
         menu?.findItem(
             if (c.sp.getBoolean(Settings.spPeopleSortAsc, true))
                 R.id.sortAsc else R.id.sortDsc
@@ -173,7 +176,11 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
                 hideUnsafe -> c.people.filter { p -> !p.value.unsafe() }
                 else -> c.people
             }.keys)
-        vm.visPeople.sortWith(Crush.Sort(c, Settings.spPeopleSortBy, Settings.spPeopleSortAsc))
+        vm.visPeople.sortWith(
+            Crush.Sort(
+                c, Settings.spPeopleSortBy, Settings.spPeopleSortAsc
+            )
+        )
 
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()

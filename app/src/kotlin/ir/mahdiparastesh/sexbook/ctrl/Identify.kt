@@ -58,7 +58,9 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
     }
 
     private lateinit var b: IdentifyBinding
-    private val cancellability: CountDownTimer = object : CountDownTimer(15000, 15000) {
+    private val cancellability: CountDownTimer = object : CountDownTimer(
+        15000, 15000
+    ) {
         override fun onTick(millisUntilFinished: Long) {}
         override fun onFinish() {
             isCancelable = false
@@ -75,7 +77,8 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
 
         // gender
         b.gender.adapter = ArrayAdapter(
-            c, R.layout.spinner_white, c.resources.getStringArray(R.array.genders)
+            c, R.layout.spinner_white,
+            c.resources.getStringArray(R.array.genders)
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         b.gender.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -210,7 +213,7 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
                 b.lName.text.toString().ifBlank { null },
 
                 // status
-                b.gender.selectedItemPosition.toByte() or
+                b.gender.selectedItemPosition.toShort() or
                         (if (b.fiction.isChecked) Crush.STAT_FICTION else 0) or
                         (if (b.notifyBirth.isChecked) Crush.STAT_NOTIFY_BIRTH else 0) or
                         (if (b.unsafe.isChecked) Crush.STAT_UNSAFE_PERSON else 0) or
@@ -244,7 +247,8 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
             // check if a newly assigned key doesn't already exist in the database
             if (inserted.key != crushKey && inserted.key in c.c.people) {
                 Toast.makeText(
-                    c, R.string.duplicateCrush, Toast.LENGTH_SHORT
+                    c, R.string.duplicateCrush,
+                    Toast.LENGTH_SHORT
                 ).show()
                 return@OnClickListener
             }
@@ -324,7 +328,9 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
 
     @RequiresApi(33)
     private fun reqNotificationPerm(c: BaseActivity) {
-        ActivityCompat.requestPermissions(c, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0)
+        ActivityCompat.requestPermissions(
+            c, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0
+        )
     }
 
     private fun onFictionChanged(bb: Boolean) {

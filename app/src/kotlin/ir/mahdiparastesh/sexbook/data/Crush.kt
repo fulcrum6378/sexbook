@@ -20,7 +20,7 @@ class Crush(
     @ColumnInfo(name = "first_name") var fName: String?,
     @ColumnInfo(name = "middle_name") var mName: String?,
     @ColumnInfo(name = "last_name") var lName: String?,
-    @ColumnInfo(name = "status") var status: Byte,
+    @ColumnInfo(name = "status") var status: Short,
     @ColumnInfo(name = "birth") var birth: String?,
     @ColumnInfo(name = "height") var height: Float,
     @ColumnInfo(name = "body") var body: Int,
@@ -38,21 +38,21 @@ class Crush(
 
         /** `status` offset 0; 3 bits; their gender (0..4)
          * 0=>unspecified, 1=>female, 2=>male, 3=>bigender, 4=>agender, (5,6,7) */
-        const val STAT_GENDER = 0b111.toByte() // 7
+        const val STAT_GENDER = 0b111.toShort() // 7
 
         /** `status` offset 3; 1 bit; whether or not they are a fictional character. */
-        const val STAT_FICTION = 0b1000.toByte() // 8
+        const val STAT_FICTION = 0b1000.toShort() // 8
 
         /** `status` offset 4; 1 bit; whether or not should the user be notified of their birthday. */
-        const val STAT_NOTIFY_BIRTH = 0b10000.toByte() // 16
+        const val STAT_NOTIFY_BIRTH = 0b10000.toShort() // 16
 
         /** `status` offset 5; 1 bit; whether or not they have an unsafe personality. */
-        const val STAT_UNSAFE_PERSON = 0b100000.toByte() // 32
+        const val STAT_UNSAFE_PERSON = 0b100000.toShort() // 32
 
         /** `status` offset 7; 1 bit; whether or not they are currently an active crush.
          * (sign bit, inactive oneswould be negative)
          * unassigned bits: 0b1000000 (64) */
-        const val STAT_INACTIVE = 0b10000000.toByte() // 128
+        const val STAT_INACTIVE = 0b10000000.toShort() // 128
 
 
         /** `body` offset  0; 3 bits; their skin colour (0..6)
@@ -112,13 +112,13 @@ class Crush(
             else -> key
         } else "$fName $lName"
 
-    fun active(): Boolean = (status and STAT_INACTIVE) == 0.toByte()
+    fun active(): Boolean = (status and STAT_INACTIVE) == 0.toShort()
 
-    fun fiction(): Boolean = (status and STAT_FICTION) != 0.toByte()
+    fun fiction(): Boolean = (status and STAT_FICTION) != 0.toShort()
 
-    fun notifyBirth(): Boolean = (status and STAT_NOTIFY_BIRTH) != 0.toByte()
+    fun notifyBirth(): Boolean = (status and STAT_NOTIFY_BIRTH) != 0.toShort()
 
-    fun unsafe(): Boolean = (status and STAT_UNSAFE_PERSON) != 0.toByte()
+    fun unsafe(): Boolean = (status and STAT_UNSAFE_PERSON) != 0.toShort()
 
     fun body(field: Pair<Int, Int>): Int = (body and field.first) shr field.second
 
@@ -126,12 +126,16 @@ class Crush(
     /** Birthday as a timestamp */
     @delegate:Ignore
     @delegate:Transient
-    val birthTime: Long? by lazy { birth?.let { UiTools.compDateTimeToCalendar(it).timeInMillis } }
+    val birthTime: Long? by lazy {
+        birth?.let { UiTools.compDateTimeToCalendar(it).timeInMillis }
+    }
 
     /** First met as a timestamp */
     @delegate:Ignore
     @delegate:Transient
-    val firstTime: Long? by lazy { first?.let { UiTools.compDateTimeToCalendar(it).timeInMillis } }
+    val firstTime: Long? by lazy {
+        first?.let { UiTools.compDateTimeToCalendar(it).timeInMillis }
+    }
 
 
     @Ignore
@@ -202,8 +206,9 @@ class Crush(
         private val c: Sexbook, private val by: Int, private val asc: Boolean
     ) : Comparator<String> {
 
-        constructor(c: Sexbook, spByKey: String, spAscKey: String) :
-                this(c, c.sp.getInt(spByKey, 0), c.sp.getBoolean(spAscKey, true))
+        constructor(c: Sexbook, spByKey: String, spAscKey: String) : this(
+            c, c.sp.getInt(spByKey, 0), c.sp.getBoolean(spAscKey, true)
+        )
 
         override fun compare(aa: String, bb: String): Int {
             val a = if (asc) aa else bb
@@ -271,7 +276,7 @@ class Crush(
             if (!o.fName.isNullOrBlank()) w.name("first_name").value(o.fName)
             if (!o.mName.isNullOrBlank()) w.name("middle_name").value(o.mName)
             if (!o.lName.isNullOrBlank()) w.name("last_name").value(o.lName)
-            if (o.status != 0.toByte()) w.name("status").value(o.status)
+            if (o.status != 0.toShort()) w.name("status").value(o.status)
             if (!o.birth.isNullOrBlank()) w.name("birth").value(o.birth)
             if (o.height != -1f) w.name("height").value(o.height)
             if (o.body != 0) w.name("body").value(o.body)
@@ -289,7 +294,7 @@ class Crush(
                 "first_name", "fName" -> o.fName = r.nextString()
                 "middle_name", "mName" -> o.mName = r.nextString()
                 "last_name", "lName" -> o.lName = r.nextString()
-                "status" -> o.status = r.nextInt().toByte()
+                "status" -> o.status = r.nextInt().toShort()
                 "birth" -> o.birth = r.nextString()
                 "height" -> o.height = r.nextDouble().toFloat()
                 "body" -> o.body = r.nextInt()
