@@ -14,25 +14,69 @@ import ir.mahdiparastesh.sexbook.view.UiTools
 import java.util.Locale
 import kotlin.experimental.and
 
+/**
+ * A `Crush` is a person who has ever engaged in any kind of sexual activity with the user.
+ * The user can optionally add various kinds of information about them, then Sexbook shall create
+ * various kinds of statistics based on them.
+ */
+@Suppress("PropertyName")
 @Entity
 class Crush(
-    @PrimaryKey var key: String,
-    @ColumnInfo(name = "first_name") var fName: String?,
-    @ColumnInfo(name = "middle_name") var mName: String?,
-    @ColumnInfo(name = "last_name") var lName: String?,
-    @ColumnInfo(name = "status") var status: Short,
-    @ColumnInfo(name = "birth") var birth: String?,
-    @ColumnInfo(name = "height") var height: Float,
-    @ColumnInfo(name = "body") var body: Int,
-    @ColumnInfo(name = "address") var address: String?,
-    @ColumnInfo(name = "first_met") var first: String?,
-    @ColumnInfo(name = "instagram") var insta: String?,
+
+    /** A unique identifier that can come exclusively or inclusively inside a [Report.name] string */
+    @PrimaryKey
+    var key: String,
+
+    var first_name: String? = null,
+    var middle_name: String? = null,
+    var last_name: String? = null,
+
+    /**
+     * An Short integer which stores multiple essential data about a person:
+     *
+     * - Gender
+     * - Are they a real person or a fictional character?
+     * - Should Sexbook notify their birthday to the user?
+     * - Do they have an unsafe personality?
+     * - Are they actively engaged?
+     */
+    @ColumnInfo(index = true, defaultValue = "0")
+    var status: Short = 0,
+
+    /**
+     * If real person => Their birthday
+     * If fictional character => Their creation date
+     *
+     * Pattern: `YYYY/MM/DD HH:MM:SS` (only Gregorian is allowed)
+     */
+    var birthday: String? = null,
+
+    @ColumnInfo(defaultValue = "-1.0")
+    var height: Float = -1f,
+
+    /** A Long integer which stores multiple characteristics of a person's body */
+    @ColumnInfo(defaultValue = "0")
+    var body: Int = 0,
+
+    /**
+     * If real person => Their address
+     * If fictional character => Their creator
+     */
+    var address: String? = null,
+
+    /**
+     * The date the user saw them for the first time
+     *
+     * Pattern: `YYYY/MM/DD HH:MM:SS` (only Gregorian is allowed)
+     */
+    var first_met: String? = null,
+
+    /** Their Instagram username */
+    var instagram: String? = null,
+
+    /** A preferred hue number of the HSV color system for this person (0f..360f) */
+    var hue: Float? = null,
 ) {
-    constructor() : this(
-        "", null, null, null,
-        0, null, -1f, 0,
-        null, null, null
-    )
 
     companion object {
 
@@ -105,12 +149,12 @@ class Crush(
 
 
     fun visName(): String =
-        if (fName.isNullOrEmpty() || lName.isNullOrEmpty()) when {
-            !fName.isNullOrEmpty() -> fName!!
-            !lName.isNullOrEmpty() -> lName!!
-            !mName.isNullOrEmpty() -> mName!!
+        if (first_name.isNullOrEmpty() || last_name.isNullOrEmpty()) when {
+            !first_name.isNullOrEmpty() -> first_name!!
+            !last_name.isNullOrEmpty() -> last_name!!
+            !middle_name.isNullOrEmpty() -> middle_name!!
             else -> key
-        } else "$fName $lName"
+        } else "$first_name $last_name"
 
     fun active(): Boolean = (status and STAT_INACTIVE) == 0.toShort()
 
@@ -127,14 +171,14 @@ class Crush(
     @delegate:Ignore
     @delegate:Transient
     val birthTime: Long? by lazy {
-        birth?.let { UiTools.compDateTimeToCalendar(it).timeInMillis }
+        birthday?.let { UiTools.compDateTimeToCalendar(it).timeInMillis }
     }
 
     /** First met as a timestamp */
     @delegate:Ignore
     @delegate:Transient
     val firstTime: Long? by lazy {
-        first?.let { UiTools.compDateTimeToCalendar(it).timeInMillis }
+        first_met?.let { UiTools.compDateTimeToCalendar(it).timeInMillis }
     }
 
 
@@ -273,34 +317,36 @@ class Crush(
         override fun write(w: JsonWriter, o: Crush) {
             w.beginObject()
             w.name("key").value(o.key)
-            if (!o.fName.isNullOrBlank()) w.name("first_name").value(o.fName)
-            if (!o.mName.isNullOrBlank()) w.name("middle_name").value(o.mName)
-            if (!o.lName.isNullOrBlank()) w.name("last_name").value(o.lName)
+            if (!o.first_name.isNullOrBlank()) w.name("first_name").value(o.first_name)
+            if (!o.middle_name.isNullOrBlank()) w.name("middle_name").value(o.middle_name)
+            if (!o.last_name.isNullOrBlank()) w.name("last_name").value(o.last_name)
             if (o.status != 0.toShort()) w.name("status").value(o.status)
-            if (!o.birth.isNullOrBlank()) w.name("birth").value(o.birth)
+            if (!o.birthday.isNullOrBlank()) w.name("birthday").value(o.birthday)
             if (o.height != -1f) w.name("height").value(o.height)
             if (o.body != 0) w.name("body").value(o.body)
             if (!o.address.isNullOrBlank()) w.name("address").value(o.address)
-            if (!o.first.isNullOrBlank()) w.name("first_met").value(o.first)
-            if (!o.insta.isNullOrBlank()) w.name("instagram").value(o.insta)
+            if (!o.first_met.isNullOrBlank()) w.name("first_met").value(o.first_met)
+            if (!o.instagram.isNullOrBlank()) w.name("instagram").value(o.instagram)
+            if (o.hue != null) w.name("hue").value(o.hue)
             w.endObject()
         }
 
         override fun read(r: JsonReader): Crush {
-            val o = Crush()
+            val o = Crush("")
             r.beginObject()
             while (r.hasNext()) when (r.nextName()) {
                 "key" -> o.key = r.nextString()
-                "first_name", "fName" -> o.fName = r.nextString()
-                "middle_name", "mName" -> o.mName = r.nextString()
-                "last_name", "lName" -> o.lName = r.nextString()
+                "first_name", "fName" -> o.first_name = r.nextString()
+                "middle_name", "mName" -> o.middle_name = r.nextString()
+                "last_name", "lName" -> o.last_name = r.nextString()
                 "status" -> o.status = r.nextInt().toShort()
-                "birth" -> o.birth = r.nextString()
+                "birthday", "birth" -> o.birthday = r.nextString()
                 "height" -> o.height = r.nextDouble().toFloat()
                 "body" -> o.body = r.nextInt()
                 "address" -> o.address = r.nextString()
-                "first_met", "first" -> o.first = r.nextString()
-                "instagram", "insta" -> o.insta = r.nextString()
+                "first_met", "first" -> o.first_met = r.nextString()
+                "instagram", "insta" -> o.instagram = r.nextString()
+                "hue" -> o.hue = r.nextDouble().toFloat()
                 else -> r.skipValue()
             }
             r.endObject()

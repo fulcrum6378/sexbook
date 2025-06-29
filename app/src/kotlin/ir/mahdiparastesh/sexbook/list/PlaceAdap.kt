@@ -120,7 +120,7 @@ class PlaceAdap(private val c: Places) :
         CoroutineScope(Dispatchers.IO).launch {
             c.c.dao.pDelete(c.c.places[i])
             for (mig in c.c.dao.rGetByPlace(c.c.places[i].id))
-                c.c.dao.rUpdate(mig.apply { plac = migrateToId })
+                c.c.dao.rUpdate(mig.apply { place = migrateToId })
             c.c.places.removeAt(i)
             Main.changed = true
             withContext(Dispatchers.Main) {

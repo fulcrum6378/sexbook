@@ -62,7 +62,7 @@ class PersonAdap(private val c: People) :
             val pc = c.c.people[pk] ?: return@setOnLongClickListener false
 
             // REMOVE THIS if you wanna add more options
-            if (pc.insta.isNullOrBlank() && p.getSum(c.c) == 0f)
+            if (pc.instagram.isNullOrBlank() && p.getSum(c.c) == 0f)
                 return@setOnLongClickListener false
 
             EasyPopupMenu(
@@ -71,16 +71,16 @@ class PersonAdap(private val c: People) :
                     c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, pk) }
                 },
                 R.id.lcInstagram to {
-                    if (pc.insta != null && pc.insta != "") try {
+                    if (pc.instagram != null && pc.instagram != "") try {
                         c.startActivity(
-                            Intent(Intent.ACTION_VIEW, (Crush.INSTA + pc.insta).toUri())
+                            Intent(Intent.ACTION_VIEW, (Crush.INSTA + pc.instagram).toUri())
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         )
                     } catch (_: ActivityNotFoundException) {
                     }
                 }
             ).apply {
-                menu.findItem(R.id.lcInstagram).isVisible = !pc.insta.isNullOrBlank()
+                menu.findItem(R.id.lcInstagram).isVisible = !pc.instagram.isNullOrBlank()
                 menu.findItem(R.id.lcStatistics).isVisible = p.getSum(c.c) > 0f
             }.show()
             true

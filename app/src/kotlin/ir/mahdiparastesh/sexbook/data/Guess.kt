@@ -1,47 +1,76 @@
 package ir.mahdiparastesh.sexbook.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
+import ir.mahdiparastesh.sexbook.view.SexType
 
+/**
+ * A `Guess` demonstrate a timeframe where a specific kind of sexual activity happened
+ * over and over again with a specific amount of frequency.
+ *
+ * This feature is quite useful for creating statistics.
+ * It can create many repetitive [Report] instances which are NOT inserted in the database.
+ * Beware of the messes it can create!
+ */
 @Entity
-class Guess @Ignore constructor(
-    var crsh: String?,
-    var sinc: Long,
-    var till: Long,
-    var freq: Float,
-    var type: Byte,
-    var desc: String?,
-    var plac: Long,
-    var able: Boolean,
-) {
+class Guess(
+    /** A variable unimportant ID */
     @PrimaryKey(autoGenerate = true)
-    var id = 0L
+    var id: Long = 0L,
 
-    constructor() : this(
-        null, -1L, -1L, 0f, 1, null, -1L, true
-    )
+    /** Name(s) of other person(s) engaged; exactly like [Report.name] */
+    var name: String? = null,
 
-    fun checkValid() = able && sinc > -1L && till > -1L && freq > 0 && till > sinc
+    /** The beginning of the timeframe (a timestamp of milliseconds) */
+    @ColumnInfo(defaultValue = "-1")
+    var since: Long = -1L,
+
+    /** The ending of the timeframe (a timestamp of milliseconds) */
+    @ColumnInfo(defaultValue = "-1")
+    var until: Long = -1L,
+
+    /** The frequency of [Report] instances PER DAY */
+    @ColumnInfo(defaultValue = "0.0")
+    var frequency: Float = 0f,
+
+    /** Type of the sexual activity (an ID from [SexType]) */
+    @ColumnInfo(defaultValue = "1")
+    var type: Byte = 1,
+
+    /** The unique ID of the [Place] where the sexual activities occurred */
+    @ColumnInfo(defaultValue = "-1")
+    var place: Long = -1L,
+
+    /** Arbitrary descriptions */
+    var description: String? = null,
+
+    /** Should this [Guess] be applied? (the user can disable it) */
+    @ColumnInfo(defaultValue = "1")
+    var active: Boolean = true,
+) {
+
+    fun checkValid() = active && since > -1L && until > -1L && frequency > 0 && until > since
 
     class Sort : Comparator<Guess> {
-        override fun compare(a: Guess, b: Guess) = a.sinc.compareTo(b.sinc)
+        override fun compare(a: Guess, b: Guess) = a.since.compareTo(b.since)
     }
 
     class GsonAdapter : TypeAdapter<Guess>() {
         override fun write(w: JsonWriter, o: Guess) {
             w.beginObject()
-            if (!o.crsh.isNullOrBlank()) w.name("crsh").value(o.crsh)
-            if (o.sinc != -1L) w.name("sinc").value(o.sinc)
-            if (o.till != -1L) w.name("till").value(o.till)
-            if (o.freq != 0f) w.name("freq").value(o.freq)
+            if (!o.name.isNullOrBlank()) w.name("name").value(o.name)
+            if (o.since != -1L) w.name("since").value(o.since)
+            if (o.until != -1L) w.name("until").value(o.until)
+            if (o.frequency != 0f) w.name("frequency").value(o.frequency)
             w.name("type").value(o.type)
-            if (!o.desc.isNullOrBlank()) w.name("desc").value(o.desc)
-            if (o.plac != -1L) w.name("plac").value(o.plac)
-            if (!o.able) w.name("able").value(false)
+            if (o.place != -1L) w.name("place").value(o.place)
+            if (!o.description.isNullOrBlank())
+                w.name("description").value(o.description)
+            if (!o.active) w.name("active").value(false)
             w.endObject()
         }
 
@@ -49,14 +78,14 @@ class Guess @Ignore constructor(
             val o = Guess()
             r.beginObject()
             while (r.hasNext()) when (r.nextName()) {
-                "crsh" -> o.crsh = r.nextString()
-                "sinc" -> o.sinc = r.nextLong()
-                "till" -> o.till = r.nextLong()
-                "freq" -> o.freq = r.nextDouble().toFloat()
+                "name" -> o.name = r.nextString()
+                "since", "sinc" -> o.since = r.nextLong()
+                "until", "till" -> o.until = r.nextLong()
+                "frequency", "freq" -> o.frequency = r.nextDouble().toFloat()
                 "type" -> o.type = r.nextInt().toByte()
-                "desc" -> o.desc = r.nextString()
-                "plac" -> o.plac = r.nextLong()
-                "able" -> o.able = r.nextBoolean()
+                "place", "plac" -> o.place = r.nextLong()
+                "description", "desc" -> o.description = r.nextString()
+                "active", "able" -> o.active = r.nextBoolean()
                 else -> r.skipValue()
             }
             r.endObject()

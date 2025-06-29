@@ -151,7 +151,7 @@ class Exporter(private val c: BaseActivity) {
             c.c.people.values.sortedBy { it.key }.sortedBy { it.getFirstOrgasm(c.c) }
                 .toTypedArray(),
             c.c.places.sortedBy { it.name }.toTypedArray(),
-            c.c.guesses.sortedBy { it.crsh }.sortedWith(Guess.Sort()).toTypedArray(),
+            c.c.guesses.sortedBy { it.name }.sortedWith(Guess.Sort()).toTypedArray(),
             c.c.sp.all.toSortedMap()
         )
         val emp = exported!!.isEmpty()
@@ -224,7 +224,7 @@ class Exporter(private val c: BaseActivity) {
             id = 1L
             c.c.dao.gDeleteAll()
             imported.guesses?.toList()
-                ?.sortedBy { it.crsh }?.sortedWith(Guess.Sort())
+                ?.sortedBy { it.name }?.sortedWith(Guess.Sort())
                 ?.onEach { it.id = id++ }
                 ?.also { c.c.dao.gReplaceAll(it) }
 

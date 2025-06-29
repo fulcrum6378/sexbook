@@ -213,7 +213,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 c.places.add(p)
                 var sum = 0L
                 for (r in c.reports.valueIterator())
-                    if (r.plac == p.id)
+                    if (r.place == p.id)
                         sum++
                 p.sum = sum
             }
@@ -225,11 +225,11 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             for (g in c.dao.gGetAll()) {
                 c.guesses.add(g)
                 if (!g.checkValid()) continue
-                var curTime = g.sinc
-                val share = (86400000.0 / g.freq).toLong()
+                var curTime = g.since
+                val share = (86400000.0 / g.frequency).toLong()
 
-                while (curTime <= g.till) {
-                    c.reports[grId] = Report(grId, curTime, g.crsh ?: "", g.type, g.plac)
+                while (curTime <= g.until) {
+                    c.reports[grId] = Report(grId, curTime, g.name ?: "", g.type, g.place)
                     curTime += share
                     grId--
                 }
@@ -479,7 +479,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // filter non-orgasm sex records if enabled
         if (!c.sp.getBoolean(Settings.spStatNonOrgasm, true))
-            filtered = filtered.filter { it.ogsm }
+            filtered = filtered.filter { it.orgasmed }
                 .also { nExcluded += filtered.size - it.size }
 
         c.summary = Summary(filtered, nExcluded, c.reports.size(), c.people.keys)
@@ -517,12 +517,12 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 )
             )
 
-            if (!crush.insta.isNullOrBlank()) addAction(
+            if (!crush.instagram.isNullOrBlank()) addAction(
                 Notification.Action.Builder(
                     null, getString(R.string.instagram),
                     PendingIntent.getActivity(
                         c, 0,
-                        Intent(Intent.ACTION_VIEW, (Crush.INSTA + crush.insta).toUri()),
+                        Intent(Intent.ACTION_VIEW, (Crush.INSTA + crush.instagram).toUri()),
                         UiTools.ntfMutability(true)
                     )
                 ).build()

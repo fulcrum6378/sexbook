@@ -82,7 +82,7 @@ object StatUtils {
         }
         if (cumulative) {
             var previous = 0f
-            var current = 0f
+            var current: Float
             for (key in map.keys) {
                 current = map[key]!! + previous
                 map[key] = current.roundToNearestHundredth()

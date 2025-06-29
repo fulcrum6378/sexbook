@@ -10,14 +10,14 @@
     tools:ignore="MissingConstraints">
 
     <TextView
-        android:id="@+id/crshLabel"
+        android:id="@+id/nameLabel"
         style="@style/etLabel"
         android:text="@string/etCrsh"
-        app:layout_constraintBottom_toBottomOf="@id/crsh"
-        app:layout_constraintTop_toTopOf="@id/crsh" />
+        app:layout_constraintBottom_toBottomOf="@id/name"
+        app:layout_constraintTop_toTopOf="@id/name" />
 
     <ir.mahdiparastesh.sexbook.view.LiveAutoCompleteTextView
-        android:id="@+id/crsh"
+        android:id="@+id/name"
         style="@style/etField"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/etPadH"
@@ -27,7 +27,7 @@
         android:minLines="1"
         android:textIsSelectable="true"
         android:textSize="@dimen/nameFont"
-        app:layout_constraintStart_toEndOf="@id/crshLabel"
+        app:layout_constraintStart_toEndOf="@id/nameLabel"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -42,7 +42,7 @@
         style="@style/etDateButton"
         android:fontFamily="@font/normal"
         app:layout_constraintStart_toEndOf="@id/sincLabel"
-        app:layout_constraintTop_toBottomOf="@id/crsh" />
+        app:layout_constraintTop_toBottomOf="@id/name" />
 
     <TextView
         android:id="@+id/tillLabel"

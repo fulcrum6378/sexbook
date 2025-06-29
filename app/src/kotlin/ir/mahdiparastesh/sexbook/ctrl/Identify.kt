@@ -122,9 +122,9 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
         val crushKey = crush?.key ?: requireArguments().getString(BUNDLE_CRUSH_KEY)!!
         b.key.setText(crushKey)
         crush?.apply {
-            b.fName.setText(fName)
-            b.mName.setText(mName)
-            b.lName.setText(lName)
+            b.firstName.setText(first_name)
+            b.middleName.setText(middle_name)
+            b.lastName.setText(last_name)
             b.gender.setSelection((status and Crush.STAT_GENDER).toInt())
             b.fiction.isChecked = fiction().also { onFictionChanged(it) }
             b.unsafe.isChecked = unsafe()
@@ -132,7 +132,7 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
             b.notifyBirth.isChecked = notifyBirth()
             if (height != -1f) b.height.setText(height.toString())
             b.address.setText(address)
-            b.instagram.setText(insta)
+            b.instagram.setText(instagram)
             b.bodySkinColour.setSelection(
                 (body and Crush.BODY_SKIN_COLOUR.first) shr Crush.BODY_SKIN_COLOUR.second
             )
@@ -164,8 +164,8 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
                 (body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second
             )
         }
-        b.birth.setText(UiTools.validateDateTime(crush?.birth ?: ""))
-        b.firstMet.setText(UiTools.validateDateTime(crush?.first ?: ""))
+        b.birth.setText(UiTools.validateDateTime(crush?.birthday ?: ""))
+        b.firstMet.setText(UiTools.validateDateTime(crush?.first_met ?: ""))
 
         // fictionality
         b.fiction.setOnCheckedChangeListener { _, isChecked -> onFictionChanged(isChecked) }
@@ -208,9 +208,9 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
                 b.key.text.toString().ifBlank { crushKey },
 
                 // full name
-                b.fName.text.toString().ifBlank { null },
-                b.mName.text.toString().ifBlank { null },
-                b.lName.text.toString().ifBlank { null },
+                b.firstName.text.toString().ifBlank { null },
+                b.middleName.text.toString().ifBlank { null },
+                b.lastName.text.toString().ifBlank { null },
 
                 // status
                 b.gender.selectedItemPosition.toShort() or

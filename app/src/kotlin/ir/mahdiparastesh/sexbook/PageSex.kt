@@ -75,11 +75,15 @@ class PageSex : BasePage() {
         if (c.c.reports.isEmpty()) anGrowShrinkForAdd = AnimatorSet().apply {
             duration = 1000L
             playTogether(
-                ObjectAnimator.ofFloat(b.add, View.SCALE_X, 1f, growShrinkScale).apply {
+                ObjectAnimator.ofFloat(
+                    b.add, View.SCALE_X, 1f, growShrinkScale
+                ).apply {
                     repeatMode = ValueAnimator.REVERSE
                     repeatCount = ValueAnimator.INFINITE
                 },
-                ObjectAnimator.ofFloat(b.add, View.SCALE_Y, 1f, growShrinkScale).apply {
+                ObjectAnimator.ofFloat(
+                    b.add, View.SCALE_Y, 1f, growShrinkScale
+                ).apply {
                     repeatMode = ValueAnimator.REVERSE
                     repeatCount = ValueAnimator.INFINITE
                 }
@@ -179,7 +183,7 @@ class PageSex : BasePage() {
                 // one-time definitions
                 if (r == lastIndex) {
                     type = report.type
-                    plac = report.plac
+                    plac = report.place
                 }
 
                 // detect a regularly repeated monoamorous crush (3^: 5th after 4 repetitions)
@@ -205,10 +209,10 @@ class PageSex : BasePage() {
                 time = NumberUtils.now(),
                 name = name,
                 type = type ?: 1.toByte(),
-                desc = null,
-                accu = true,
-                plac = plac ?: -1L,
-                ogsm = true
+                description = null,
+                accurate = true,
+                place = plac ?: -1L,
+                orgasmed = true
             )
             newOne.id = c.c.dao.rInsert(newOne)
             LastOrgasm.updateAll(c.c)

@@ -21,8 +21,8 @@ class Mixture : OneChartActivity<ColumnChartView>() {
         val allowedTypes = SexType.allowedOnes(c.sp)
         for (o in c.reports.let {
             if (allowedTypes.size < SexType.count)
-                it.filter { r -> r.type in allowedTypes && r.ogsm }
-            else it.filter { r -> r.ogsm }  // do not simplify
+                it.filter { r -> r.type in allowedTypes && r.orgasmed }
+            else it.filter { r -> r.orgasmed }  // do not simplify
         }) history.add(Summary.Orgasm(o.time, 1f))
 
         return ColumnChartData().setColumns(

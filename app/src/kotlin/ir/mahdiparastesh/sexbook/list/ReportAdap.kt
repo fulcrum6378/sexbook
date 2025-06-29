@@ -201,21 +201,21 @@ class ReportAdap(
 
         // descriptions
         h.b.desc.setTextWatcher(null)
-        h.b.desc.setText(if (!r.guess) r.desc else "")
+        h.b.desc.setText(if (!r.guess) r.description else "")
         h.b.desc.setTextWatcher(if (!r.guess) object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val dbValue = h.b.desc.dbValue()
-                if (r.desc != dbValue) {
-                    r.desc = dbValue
+                if (r.description != dbValue) {
+                    r.description = dbValue
                     update(r.id)
                 }
                 h.b.descIcon.isVisible = dbValue != null
             }
         } else null)
         h.b.desc.isEnabled = !r.guess
-        h.b.descIcon.isVisible = !r.guess && !r.desc.isNullOrBlank()
+        h.b.descIcon.isVisible = !r.guess && !r.description.isNullOrBlank()
 
         // Place
         (h.b.place.onItemSelectedListener as? OnPlaceSelectedListener)?.o =
@@ -227,8 +227,8 @@ class ReportAdap(
                 SpinnerTouchListener()
         )
         h.b.place.setSelection(
-            if (r.plac == -1L || places.isEmpty()) 0
-            else placePos(r.plac, places) + 1, true
+            if (r.place == -1L || places.isEmpty()) 0
+            else placePos(r.place, places) + 1, true
         )
         if (r.guess) h.b.place.isVisible = true
         h.b.place.isEnabled = !r.guess
@@ -265,14 +265,14 @@ class ReportAdap(
                 turnOverflow(h.layoutPosition, h.b)
             },
             R.id.lcAccurate to {
-                if (r.accu != !it.isChecked) {
-                    r.accu = !it.isChecked
+                if (r.accurate != !it.isChecked) {
+                    r.accurate = !it.isChecked
                     update(r.id)
                 }
             },
             R.id.lcOrgasmed to {
-                if (r.ogsm != !it.isChecked) {
-                    r.ogsm = !it.isChecked
+                if (r.orgasmed != !it.isChecked) {
+                    r.orgasmed = !it.isChecked
                     update(r.id, orgasmChanged = true)
                 }
             },
@@ -293,8 +293,8 @@ class ReportAdap(
                 }
             }
         ).apply {
-            menu.findItem(R.id.lcAccurate).isChecked = r.accu
-            menu.findItem(R.id.lcOrgasmed).isChecked = r.ogsm
+            menu.findItem(R.id.lcAccurate).isChecked = r.accurate
+            menu.findItem(R.id.lcOrgasmed).isChecked = r.orgasmed
             if (expansion[h.layoutPosition]) menu.findItem(R.id.lcExpand).title =
                 c.resources.getString(R.string.collapse)
         }.show()
@@ -335,8 +335,8 @@ class ReportAdap(
             // if "places" is empty, nothing ever can be selected, also onNothingSelected doesn't work!
 
             val pid = if (pos == 0) -1L else places[pos - 1].id
-            if (r.plac != pid) {
-                r.plac = pid
+            if (r.place != pid) {
+                r.place = pid
                 update(r.id)
             }
         }

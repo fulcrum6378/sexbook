@@ -19,10 +19,10 @@ interface Dao {
     @Query("SELECT * FROM Report")
     suspend fun rGetAll(): List<Report>
 
-    @Query("SELECT * FROM Report WHERE `plac` == :place")
+    @Query("SELECT * FROM Report WHERE place == :place")
     suspend fun rGetByPlace(place: Long): List<Report>
 
-    @Query("SELECT MAX(time) FROM Report WHERE `ogsm` LIKE 1")
+    @Query("SELECT MAX(time) FROM Report WHERE `orgasmed` LIKE 1")
     suspend fun whenWasTheLastTime(): Long?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

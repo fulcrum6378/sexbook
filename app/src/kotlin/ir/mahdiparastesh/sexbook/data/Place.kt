@@ -7,20 +7,31 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 
+/**
+ * A `Place` is where some sexual activities have ever occurred and can have an arbitrary name.
+ *
+ * Later on, we can add a feature that displays these places on the map by assigning [latitude] and
+ * [longitude] numbers.
+ */
 @Entity
-class Place @Ignore constructor(
-    var name: String?,
-    var latitude: Double,
-    var longitude: Double,
-) {
+class Place(
+    /** A unique ID which must be synchronised with [Report.place] and [Guess.place] */
     @PrimaryKey(autoGenerate = true)
-    var id = 0L
+    var id: Long = 0L,
+
+    /** A unique name */
+    var name: String? = null,
+
+    /** Currently unused */
+    var latitude: Double? = null,
+
+    /** Currently unused */
+    var longitude: Double? = null,
+) {
 
     @Ignore
     @Transient
     var sum = -1L
-
-    constructor() : this(null, -1.0, -1.0)
 
     class Sort(var by: Byte) : Comparator<Place> {
         override fun compare(a: Place, b: Place): Int = when (by) {

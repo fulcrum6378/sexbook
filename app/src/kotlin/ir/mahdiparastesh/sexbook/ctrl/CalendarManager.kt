@@ -117,7 +117,7 @@ object CalendarManager {
         // add their birthdays one by one into the system calendar
         val thisTz = TimeZone.getTimeZone(tz)
         for (crush in bdList) {
-            val birthTime = crush.birth
+            val birthTime = crush.birthday
                 ?.replace(".", "/")
                 ?.let { UiTools.compDateTimeToCalendar(it, thisTz).timeInMillis }
                 ?: continue

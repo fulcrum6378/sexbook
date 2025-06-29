@@ -34,7 +34,7 @@
             android:hint="@string/firstName">
 
             <ir.mahdiparastesh.sexbook.view.SoftEditText
-                android:id="@+id/fName"
+                android:id="@+id/firstName"
                 style="@style/identifyET"
                 android:autofillHints="personGivenName"
                 android:inputType="text"
@@ -47,7 +47,7 @@
             android:hint="@string/middleName">
 
             <ir.mahdiparastesh.sexbook.view.SoftEditText
-                android:id="@+id/mName"
+                android:id="@+id/middleName"
                 style="@style/identifyET"
                 android:autofillHints="personMiddleName"
                 android:inputType="text"
@@ -60,7 +60,7 @@
             android:hint="@string/lastName">
 
             <ir.mahdiparastesh.sexbook.view.SoftEditText
-                android:id="@+id/lName"
+                android:id="@+id/lastName"
                 style="@style/identifyET"
                 android:autofillHints="personFamilyName"
                 android:inputType="text"

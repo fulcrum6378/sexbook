@@ -68,32 +68,32 @@ class GuessAdap(private val c: Estimation) :
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onBindViewHolder(h: AnyViewHolder<ItemGuessBinding>, i: Int) {
         val g = c.c.guesses.getOrNull(i) ?: return
-        if (g.able) h.b.root.alpha = 1f
+        if (g.active) h.b.root.alpha = 1f
         else Delay(350) { h.b.root.alpha = .7f }
 
         // Crush
-        h.b.crsh.setTextWatcher(null)
-        h.b.crsh.setText(g.crsh)
-        h.b.crsh.setTextWatcher(object : TextWatcher {
+        h.b.name.setTextWatcher(null)
+        h.b.name.setText(g.name)
+        h.b.name.setTextWatcher(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val gu = c.c.guesses.getOrNull(h.layoutPosition) ?: return
-                val dbValue = h.b.crsh.dbValue()
-                if (gu.crsh != dbValue) {
-                    gu.crsh = dbValue
+                val dbValue = h.b.name.dbValue()
+                if (gu.name != dbValue) {
+                    gu.name = dbValue
                     update(h.layoutPosition)
                 }
             }
         })
 
         // since
-        if (g.sinc > -1L)
-            h.b.sinc.text = g.sinc.defCalendar(c.c).fullDate()
+        if (g.since > -1L)
+            h.b.sinc.text = g.since.defCalendar(c.c).fullDate()
         else h.b.sinc.setText(R.string.etDateHint)
         h.b.sinc.setOnClickListener {
             val gu = c.c.guesses.getOrNull(h.layoutPosition) ?: return@setOnClickListener
-            val oldTime = gu.sinc
+            val oldTime = gu.since
             var oldSinc = (if (oldTime > -1L) oldTime else NumberUtils.now()).defCalendar(c.c)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 oldSinc.set(Calendar.YEAR, year)
@@ -101,20 +101,20 @@ class GuessAdap(private val c: Estimation) :
                 oldSinc.set(Calendar.DAY_OF_MONTH, day)
                 oldSinc = McdtpUtils.trimToMidnight(oldSinc)
                 h.b.sinc.text = oldSinc.fullDate()
-                if (gu.sinc != oldSinc.timeInMillis) {
-                    gu.sinc = oldSinc.timeInMillis
+                if (gu.since != oldSinc.timeInMillis) {
+                    gu.since = oldSinc.timeInMillis
                     update(h.layoutPosition)
                 }
             }, oldSinc).defaultOptions().show(c.supportFragmentManager, "sinc")
         }
 
         // until
-        if (g.till > -1L)
-            h.b.till.text = g.till.defCalendar(c.c).fullDate()
+        if (g.until > -1L)
+            h.b.till.text = g.until.defCalendar(c.c).fullDate()
         else h.b.till.setText(R.string.etDateHint)
         h.b.till.setOnClickListener {
             val gu = c.c.guesses.getOrNull(h.layoutPosition) ?: return@setOnClickListener
-            val oldTime = gu.till
+            val oldTime = gu.until
             var oldTill = (if (oldTime > -1L) oldTime else NumberUtils.now()).defCalendar(c.c)
             DatePickerDialog.newInstance({ _, year, month, day ->
                 oldTill.set(Calendar.YEAR, year)
@@ -122,8 +122,8 @@ class GuessAdap(private val c: Estimation) :
                 oldTill.set(Calendar.DAY_OF_MONTH, day)
                 oldTill = McdtpUtils.trimToMidnight(oldTill)
                 h.b.till.text = oldTill.fullDate()
-                if (gu.till != oldTill.timeInMillis) {
-                    gu.till = oldTill.timeInMillis
+                if (gu.until != oldTill.timeInMillis) {
+                    gu.until = oldTill.timeInMillis
                     update(h.layoutPosition)
                 }
             }, oldTill).defaultOptions().show(c.supportFragmentManager, "till")
@@ -131,15 +131,15 @@ class GuessAdap(private val c: Estimation) :
 
         // frequency
         h.b.freq.setTextWatcher(null)
-        h.b.freq.setText(g.freq.toString())
+        h.b.freq.setText(g.frequency.toString())
         h.b.freq.setTextWatcher(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val gu = c.c.guesses.getOrNull(h.layoutPosition) ?: return
                 try {
-                    if (gu.freq != h.b.freq.text.toString().toFloat()) {
-                        gu.freq = h.b.freq.text.toString().toFloat()
+                    if (gu.frequency != h.b.freq.text.toString().toFloat()) {
+                        gu.frequency = h.b.freq.text.toString().toFloat()
                         update(h.layoutPosition)
                     }
                 } catch (_: NumberFormatException) {
@@ -162,15 +162,15 @@ class GuessAdap(private val c: Estimation) :
 
         // descriptions
         h.b.desc.setTextWatcher(null)
-        h.b.desc.setText(g.desc)
+        h.b.desc.setText(g.description)
         h.b.desc.setTextWatcher(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val gu = c.c.guesses.getOrNull(h.layoutPosition) ?: return
                 val dbValue = h.b.desc.dbValue()
-                if (gu.desc != dbValue) {
-                    gu.desc = dbValue
+                if (gu.description != dbValue) {
+                    gu.description = dbValue
                     update(h.layoutPosition)
                 }
             }
@@ -185,15 +185,15 @@ class GuessAdap(private val c: Estimation) :
                 if (!placeTouched) return
                 val id = if (i == 0) -1L else places[i - 1].id
                 val gu = c.c.guesses.getOrNull(h.layoutPosition) ?: return
-                if (gu.plac != id) {
-                    gu.plac = id
+                if (gu.place != id) {
+                    gu.place = id
                     update(h.layoutPosition)
                 }
             }
         }
         h.b.place.setSelection(
-            if (g.plac == -1L) 0
-            else ReportAdap.placePos(g.plac, places) + 1,
+            if (g.place == -1L) 0
+            else ReportAdap.placePos(g.place, places) + 1,
             true
         )
 
@@ -205,7 +205,7 @@ class GuessAdap(private val c: Estimation) :
                 c, v, R.menu.guess,
                 R.id.glSuspend to {
                     c.c.guesses.getOrNull(h.layoutPosition)?.apply {
-                        able = !able
+                        active = !active
                         CoroutineScope(Dispatchers.IO).launch {
                             @Suppress("LABEL_NAME_CLASH") c.c.dao.gUpdate(this@apply)
                             Main.changed = true
@@ -235,7 +235,7 @@ class GuessAdap(private val c: Estimation) :
                     }.show()
                 }
             ).apply {
-                if (!gu.able) menu.findItem(R.id.glSuspend)?.isChecked = true
+                if (!gu.active) menu.findItem(R.id.glSuspend)?.isChecked = true
             }.show()
             true
         }

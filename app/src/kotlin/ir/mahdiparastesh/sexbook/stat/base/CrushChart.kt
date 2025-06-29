@@ -168,8 +168,8 @@ interface CrushAgeChart : CrushQuantitativeChart {
     override val topic: Int get() = R.string.age
     override fun divisionName(division: Int): String = "${division * 10}s"
     override fun crushProperty(cr: Crush): Short {
-        if (cr.birth.isNullOrBlank()) return 0.toShort()
-        val year = cr.birth!!.split("/")[0]
+        if (cr.birthday.isNullOrBlank()) return 0.toShort()
+        val year = cr.birthday!!.split("/")[0]
         if (year.isEmpty()) return 0.toShort()
         return (year.toInt() / 10).toShort()
     }
@@ -179,8 +179,8 @@ interface CrushFirstMetChart : CrushQuantitativeChart {
     override val topic: Int get() = R.string.firstMet
     override fun divisionName(division: Int): String = "$division"
     override fun crushProperty(cr: Crush): Short {
-        if (cr.first == null) return 0.toShort()
-        val year = UiTools.compDateTimeToCalendar(cr.first!!)[Calendar.YEAR]
+        if (cr.first_met == null) return 0.toShort()
+        val year = UiTools.compDateTimeToCalendar(cr.first_met!!)[Calendar.YEAR]
         if (year == 1970) return 0.toShort()
         return year.toShort()
     }
