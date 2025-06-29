@@ -69,17 +69,28 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
+            android:id="@+id/existence"
+            style="@style/identifyField"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="5dp" />
+
+        <Spinner
             android:id="@+id/gender"
             style="@style/identifyField"
             android:layout_marginTop="8dp"
             android:paddingHorizontal="5dp" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/fiction"
+            android:id="@+id/androphile"
             style="@style/identifyMaterialCheckBox"
             android:layout_height="28sp"
-            android:text="@string/isFictional"
-            android:tooltipText="@string/isFictionalDesc" />
+            android:text="@string/isAndrophile" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/gynephile"
+            style="@style/identifyMaterialCheckBox"
+            android:layout_height="28sp"
+            android:text="@string/isGynephile" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/unsafe"
@@ -101,12 +112,12 @@
         <!-- MaterialCheckBox can't get spacing at the bottom and birthIL can't get it at the top! -->
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/birthIL"
+            android:id="@+id/birthdayIL"
             style="@style/identifyInputLayout"
             android:hint="@string/birth">
 
             <EditText
-                android:id="@+id/birth"
+                android:id="@+id/birthday"
                 style="@style/identifyET"
                 android:inputType="text"
                 android:textAlignment="center"
@@ -235,10 +246,6 @@
 
                 <Spinner
                     android:id="@+id/bodyPenis"
-                    style="@style/identifyBodyAttr" />
-
-                <Spinner
-                    android:id="@+id/bodySexuality"
                     style="@style/identifyBodyAttr" />
             </LinearLayout>
         </LinearLayout>

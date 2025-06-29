@@ -25,7 +25,9 @@ class Screening : BaseDialog<People>() {
         b = ScreeningBinding.inflate(c.layoutInflater)
 
         if (b.search.text.isEmpty()) b.search.setText(c.c.screening?.search)
-        prepareSpinner(b.gender, R.array.genders, c.c.screening?.gender) { i ->
+        prepareSpinner(
+            b.gender, R.array.genders, c.c.screening?.gender
+        ) { i ->
             val bb = i == 1 || i == 3
             b.bodyBreasts.isVisible = bb
             b.bodyPenis.isVisible = bb
@@ -34,19 +36,51 @@ class Screening : BaseDialog<People>() {
                 b.bodyPenis.setSelection(0)
             }
         }
-        prepareSpinner(b.fiction, R.array.fictionality, c.c.screening?.fiction)
-        prepareSpinner(b.safety, R.array.unsafeness, c.c.screening?.safety)
+        prepareSpinner(
+            b.fiction, R.array.fictionality,
+            c.c.screening?.fiction
+        )
+        prepareSpinner(
+            b.safety, R.array.unsafeness,
+            c.c.screening?.safety
+        )
         b.minSum.setText(c.c.screening?.minSum?.toString())
-        prepareSpinner(b.bodySkinColour, R.array.bodySkinColour, c.c.screening?.bodySkinColour)
-        prepareSpinner(b.bodyHairColour, R.array.bodyHairColour, c.c.screening?.bodyHairColour)
-        prepareSpinner(b.bodyEyeColour, R.array.bodyEyeColour, c.c.screening?.bodyEyeColour)
-        prepareSpinner(b.bodyEyeShape, R.array.bodyEyeShape, c.c.screening?.bodyEyeShape)
-        prepareSpinner(b.bodyFaceShape, R.array.bodyFaceShape, c.c.screening?.bodyFaceShape)
-        prepareSpinner(b.bodyFat, R.array.bodyFat, c.c.screening?.bodyFat)
-        prepareSpinner(b.bodyBreasts, R.array.bodyBreasts, c.c.screening?.bodyBreasts)
-        prepareSpinner(b.bodyPenis, R.array.bodyPenis, c.c.screening?.bodyPenis)
-        prepareSpinner(b.bodyMuscle, R.array.bodyMuscle, c.c.screening?.bodyMuscle)
-        prepareSpinner(b.bodySexuality, R.array.bodySexuality, c.c.screening?.bodySexuality)
+        prepareSpinner(
+            b.bodySkinColour, R.array.bodySkinColour,
+            c.c.screening?.bodySkinColour
+        )
+        prepareSpinner(
+            b.bodyHairColour, R.array.bodyHairColour,
+            c.c.screening?.bodyHairColour
+        )
+        prepareSpinner(
+            b.bodyEyeColour, R.array.bodyEyeColour,
+            c.c.screening?.bodyEyeColour
+        )
+        prepareSpinner(
+            b.bodyEyeShape, R.array.bodyEyeShape,
+            c.c.screening?.bodyEyeShape
+        )
+        prepareSpinner(
+            b.bodyFaceShape, R.array.bodyFaceShape,
+            c.c.screening?.bodyFaceShape
+        )
+        prepareSpinner(
+            b.bodyFat, R.array.bodyFat,
+            c.c.screening?.bodyFat
+        )
+        prepareSpinner(
+            b.bodyBreasts, R.array.bodyBreasts,
+            c.c.screening?.bodyBreasts
+        )
+        prepareSpinner(
+            b.bodyPenis, R.array.bodyPenis,
+            c.c.screening?.bodyPenis
+        )
+        prepareSpinner(
+            b.bodyMuscle, R.array.bodyMuscle,
+            c.c.screening?.bodyMuscle
+        )
 
         return MaterialAlertDialogBuilder(c).apply {
             setTitle(R.string.filter)
@@ -58,11 +92,15 @@ class Screening : BaseDialog<People>() {
                     b.fiction.selectedItemPosition,
                     b.safety.selectedItemPosition,
                     b.minSum.text.toString().toIntOrNull() ?: 0,
-                    b.bodySkinColour.selectedItemPosition, b.bodyHairColour.selectedItemPosition,
-                    b.bodyEyeColour.selectedItemPosition, b.bodyEyeShape.selectedItemPosition,
-                    b.bodyFaceShape.selectedItemPosition, b.bodyFat.selectedItemPosition,
-                    b.bodyBreasts.selectedItemPosition, b.bodyPenis.selectedItemPosition,
-                    b.bodyMuscle.selectedItemPosition, b.bodySexuality.selectedItemPosition,
+                    b.bodySkinColour.selectedItemPosition,
+                    b.bodyHairColour.selectedItemPosition,
+                    b.bodyEyeColour.selectedItemPosition,
+                    b.bodyEyeShape.selectedItemPosition,
+                    b.bodyFaceShape.selectedItemPosition,
+                    b.bodyFat.selectedItemPosition,
+                    b.bodyBreasts.selectedItemPosition,
+                    b.bodyPenis.selectedItemPosition,
+                    b.bodyMuscle.selectedItemPosition,
                 )
                 c.arrangeList()
                 c.updateFilterIcon()
@@ -82,7 +120,8 @@ class Screening : BaseDialog<People>() {
         onItemSelected: ((i: Int) -> Unit)? = null
     ) {
         spinner.adapter = ArrayAdapter(
-            c, R.layout.spinner_white, spinner.context.resources.getStringArray(arrayRes)
+            c, R.layout.spinner_white,
+            spinner.context.resources.getStringArray(arrayRes)
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         spinner.setSelection(defaultPos ?: 0)
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
@@ -105,7 +144,7 @@ class Screening : BaseDialog<People>() {
         val bodyEyeColour: Int, val bodyEyeShape: Int,
         val bodyFaceShape: Int, val bodyFat: Int,
         val bodyBreasts: Int, val bodyPenis: Int,
-        val bodyMuscle: Int, val bodySexuality: Int,
+        val bodyMuscle: Int,
     ) {
         fun any() = search.isNotBlank() ||
                 gender != 0 || fiction != 0 || safety != 0 || minSum > 0 ||
@@ -113,6 +152,6 @@ class Screening : BaseDialog<People>() {
                 bodyEyeColour != 0 || bodyEyeShape != 0 ||
                 bodyFaceShape != 0 || bodyFat != 0 ||
                 bodyBreasts != 0 || bodyPenis != 0 ||
-                bodyMuscle != 0 || bodySexuality != 0
+                bodyMuscle != 0
     }
 }

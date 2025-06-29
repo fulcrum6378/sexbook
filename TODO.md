@@ -1,8 +1,7 @@
 # Sexbook To-Do List
 
-* `Is attracted to men?` and `Is attracted to women?` instead of sexual orientation
 * More body attributes?
-
+* Screening men+bigenders or blue+green-eyed people
 * UI for selecting `hue` for Crushes
 * Fix RV adapters: `Do not treat position as fixed; only use immediately and call 
   h.getAdapterPosition() to look it up later`

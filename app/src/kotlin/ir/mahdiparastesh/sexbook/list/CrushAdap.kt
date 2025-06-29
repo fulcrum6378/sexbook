@@ -46,13 +46,16 @@ class CrushAdap(private val c: Main) :
                 c, v, R.menu.crush,
                 R.id.lcIdentify to { Identify.create<Main>(c, crk) },
                 R.id.lcStatistics to {
-                    c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, crk) }
+                    c.goTo(Singular::class) {
+                        putExtra(Singular.EXTRA_CRUSH_KEY, crk)
+                    }
                 },
                 R.id.lcInstagram to {
                     if (!crc.instagram.isNullOrBlank()) try {
                         c.startActivity(
-                            Intent(Intent.ACTION_VIEW, (Crush.INSTA + crc.instagram).toUri())
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            Intent(
+                                Intent.ACTION_VIEW, (Crush.INSTA + crc.instagram).toUri()
+                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         )
                     } catch (_: ActivityNotFoundException) {
                     }
@@ -68,12 +71,16 @@ class CrushAdap(private val c: Main) :
                     c.shake()
                 }
             ).apply {
-                menu.findItem(R.id.lcInstagram).isVisible = crc.instagram != null && crc.instagram != ""
-                menu.findItem(R.id.lcStatistics).isVisible = cr.getSum(c.c) > 0.0
+                menu.findItem(R.id.lcInstagram)
+                    .isVisible = crc.instagram != null && crc.instagram != ""
+                menu.findItem(R.id.lcStatistics)
+                    .isVisible = cr.getSum(c.c) > 0.0
             }.show()
         }
         h.b.root.setOnLongClickListener {
-            c.c.liefde.getOrNull(h.layoutPosition)?.also { Identify.create<Main>(c, it) }; true
+            c.c.liefde.getOrNull(h.layoutPosition)
+                ?.also { Identify.create<Main>(c, it) }
+            true
         }
     }
 

@@ -8,7 +8,6 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
 import ir.mahdiparastesh.sexbook.stat.Taste
 import ir.mahdiparastesh.sexbook.view.UiTools
-import kotlin.experimental.and
 
 /**
  * Any page that draws charts based on an attribute of [Crush] instances
@@ -34,7 +33,7 @@ interface CrushQualitativeChart : CrushAttrChart {
 
 interface CrushGenderChart : CrushQualitativeChart {
     override val modes: Int get() = R.array.genders
-    override fun crushProperty(cr: Crush): Short = cr.status and Crush.STAT_GENDER
+    override fun crushProperty(cr: Crush): Short = cr.gender().toShort()
 
     override fun preferredColour(mode: Int): Int? = when (mode) {
         0 -> unspecifiedQualityColour
@@ -125,7 +124,7 @@ interface CrushBreastsChart : CrushQualitativeChart {
     override val isFiltered: Boolean get() = true
 
     override fun crushFilter(cr: Crush): Boolean =
-        (cr.status and Crush.STAT_GENDER).let { it != 2.toShort() && it != 4.toShort() }
+        cr.gender().let { it != 2 && it != 4 }
 
     override fun crushProperty(cr: Crush): Short =
         ((cr.body and Crush.BODY_BREASTS.first) shr Crush.BODY_BREASTS.second).toShort()
@@ -136,7 +135,7 @@ interface CrushPenisChart : CrushQualitativeChart {
     override val isFiltered: Boolean get() = true
 
     override fun crushFilter(cr: Crush): Boolean =
-        (cr.status and Crush.STAT_GENDER).let { it != 1.toShort() && it != 4.toShort() }
+        cr.gender().let { it != 1 && it != 4 }
 
     override fun crushProperty(cr: Crush): Short =
         ((cr.body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second).toShort()
@@ -144,8 +143,11 @@ interface CrushPenisChart : CrushQualitativeChart {
 
 interface CrushFictionalityChart : CrushQualitativeChart {
     override val modes: Int get() = R.array.fictionality
-    override fun crushProperty(cr: Crush): Short =
-        (((cr.status and Crush.STAT_FICTION).toInt() shr 3) + 1).toShort()
+    override fun crushProperty(cr: Crush): Short = when (cr.existence()) {
+        0 -> 0.toShort()
+        1 -> 2.toShort()
+        else -> 1.toShort()
+    }
 }
 
 

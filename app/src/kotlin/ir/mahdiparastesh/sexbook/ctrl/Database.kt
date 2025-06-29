@@ -15,7 +15,7 @@ import java.io.File
 
 @androidx.room.Database(
     entities = [Report::class, Crush::class, Place::class, Guess::class],
-    version = 8, exportSchema = false
+    version = 9, exportSchema = false
 )
 abstract class Database : RoomDatabase() {
     abstract fun dao(): Dao
@@ -129,6 +129,44 @@ abstract class Database : RoomDatabase() {
                                 "SELECT id, crsh, sinc, till, freq, type, plac, desc, able FROM Guess_old"
                     )
                     db.execSQL("DROP TABLE Guess_old")
+                }
+            }, object : Migration(8, 9) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL(
+                        """
+UPDATE Crush SET status = 
+    ((status & 8) >> 3) |  -- existence (fictionality)
+    ((status & 7) << 3) |  -- gender
+    (CASE
+        -- is a heterosexual or bisexual woman, so she likes men:
+        WHEN (status & 7) == 1 AND ((body & 29360128) >> 22) == 1 OR ((body & 29360128) >> 22) == 3
+            THEN 128
+        -- is a homosexual or bisexual man, so he likes men:
+        WHEN (status & 7) == 2 AND ((body & 29360128) >> 22) == 2 OR ((body & 29360128) >> 22) == 3
+            THEN 128
+        -- is a bisexual bigender, so they like men:
+        WHEN (status & 7) == 3 AND ((body & 29360128) >> 22) == 3
+            THEN 128
+        ELSE 0
+    END) |  -- androphilia
+    (CASE
+        -- is a homosexual or bisexual woman, so she likes women:
+        WHEN (status & 7) == 1 AND ((body & 29360128) >> 22) == 2 OR ((body & 29360128) >> 22) == 3
+            THEN 512
+        -- is a heterosexual or bisexual man, so he likes women:
+        WHEN (status & 7) == 2 AND ((body & 29360128) >> 22) == 1 OR ((body & 29360128) >> 22) == 3
+            THEN 512
+        -- is a bisexual bigender, so they like men:
+        WHEN (status & 7) == 3 AND ((body & 29360128) >> 22) == 3
+            THEN 512
+        ELSE 0
+    END) |  -- gynephilia
+    (((status & 32) >> 5) << 9) |  -- unsafety
+    (((status & 16) >> 4) << 10) |  -- notify birthday
+    (((status & 128) >> 7) << 15)  -- inactive
+"""
+                    )
+                    db.execSQL("UPDATE Crush SET body = body & 4194303")
                 }
             })
 

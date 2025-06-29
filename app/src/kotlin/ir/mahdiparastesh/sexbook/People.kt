@@ -17,7 +17,6 @@ import ir.mahdiparastesh.sexbook.databinding.PeopleBinding
 import ir.mahdiparastesh.sexbook.list.PersonAdap
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
 import ir.mahdiparastesh.sexbook.util.Delay
-import kotlin.experimental.and
 
 /**
  * This Activity lists and controls the [Crush] table in the database.
@@ -112,11 +111,26 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
                         for (q in filters.search.trim().split(" ")) {
                             val presenceInScopes = arrayListOf<Boolean>()
                             presenceInScopes.add(p.value.key.contains(q, true))
-                            presenceInScopes.add(p.value.first_name?.contains(q, true) == true)
-                            presenceInScopes.add(p.value.middle_name?.contains(q, true) == true)
-                            presenceInScopes.add(p.value.last_name?.contains(q, true) == true)
-                            presenceInScopes.add(p.value.address?.contains(q, true) == true)
-                            presenceInScopes.add(p.value.instagram?.contains(q, true) == true)
+                            presenceInScopes.add(
+                                p.value.first_name
+                                    ?.contains(q, true) == true
+                            )
+                            presenceInScopes.add(
+                                p.value.middle_name
+                                    ?.contains(q, true) == true
+                            )
+                            presenceInScopes.add(
+                                p.value.last_name
+                                    ?.contains(q, true) == true
+                            )
+                            presenceInScopes.add(
+                                p.value.address
+                                    ?.contains(q, true) == true
+                            )
+                            presenceInScopes.add(
+                                p.value.instagram
+                                    ?.contains(q, true) == true
+                            )
                             queriesPresence.add(presenceInScopes.any { it })
                         }
                         if (!queriesPresence.all { it }) return@filter false
@@ -124,13 +138,13 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
                     // Crush::status
                     if (filters.gender != 0 &&
-                        filters.gender != (p.value.status and Crush.STAT_GENDER).toInt()
+                        filters.gender != p.value.gender()
                     ) return@filter false
                     if (filters.fiction != 0 &&
-                        (filters.fiction - 1) != (p.value.status and Crush.STAT_FICTION).toInt() shr 3
+                        (filters.fiction - 1) != (if (p.value.fiction()) 1 else 0)
                     ) return@filter false
                     if (filters.safety != 0 &&
-                        (filters.safety - 1) != (p.value.status and Crush.STAT_UNSAFE_PERSON).toInt() shr 5
+                        (filters.safety - 1) != (if (p.value.unsafe()) 1 else 0)
                     ) return@filter false
 
                     // sum of assigned Reports
@@ -166,9 +180,6 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
                     ) return@filter false
                     if (filters.bodyPenis != 0 && filters.bodyPenis !=
                         (body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second
-                    ) return@filter false
-                    if (filters.bodySexuality != 0 && filters.bodySexuality !=
-                        (body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second
                     ) return@filter false
 
                     return@filter true

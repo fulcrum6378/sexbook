@@ -37,7 +37,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.experimental.and
 import kotlin.experimental.or
 
 /** An dialog box for controlling data of a [Crush] */
@@ -74,6 +73,19 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
         ContextCompat.getColorStateList(c, R.color.chip)
             .also { b.notifyBirth.trackTintList = it }
         b.root.scrollTo(0, 0)
+
+        // existence
+        b.existence.adapter = ArrayAdapter(
+            c, R.layout.spinner_white,
+            c.resources.getStringArray(R.array.existence)
+        ).apply { setDropDownViewResource(R.layout.spinner_dd) }
+        b.gender.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+            override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
+                onExistenceChanged(i)
+            }
+        }
+        b.gender.setOnTouchListener(SpinnerTouchListener())
 
         // gender
         b.gender.adapter = ArrayAdapter(
@@ -116,7 +128,6 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
         prepareBodyAttrSpinner(b.bodyBreasts, R.array.bodyBreasts)
         prepareBodyAttrSpinner(b.bodyPenis, R.array.bodyPenis)
         prepareBodyAttrSpinner(b.bodyMuscle, R.array.bodyMuscle)
-        prepareBodyAttrSpinner(b.bodySexuality, R.array.bodySexuality)
 
         // default values
         val crushKey = crush?.key ?: requireArguments().getString(BUNDLE_CRUSH_KEY)!!
@@ -125,8 +136,10 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
             b.firstName.setText(first_name)
             b.middleName.setText(middle_name)
             b.lastName.setText(last_name)
-            b.gender.setSelection((status and Crush.STAT_GENDER).toInt())
-            b.fiction.isChecked = fiction().also { onFictionChanged(it) }
+            b.existence.setSelection(existence().also { onExistenceChanged(it) })
+            b.gender.setSelection(gender())
+            b.androphile.isChecked = androphile()
+            b.gynephile.isChecked = gynephile()
             b.unsafe.isChecked = unsafe()
             b.active.isChecked = active()
             b.notifyBirth.isChecked = notifyBirth()
@@ -160,22 +173,18 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
             b.bodyPenis.setSelection(
                 (body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second
             )
-            b.bodySexuality.setSelection(
-                (body and Crush.BODY_SEXUALITY.first) shr Crush.BODY_SEXUALITY.second
-            )
         }
-        b.birth.setText(UiTools.validateDateTime(crush?.birthday ?: ""))
+        b.birthday.setText(UiTools.validateDateTime(crush?.birthday ?: ""))
         b.firstMet.setText(UiTools.validateDateTime(crush?.first_met ?: ""))
 
-        // fictionality
-        b.fiction.setOnCheckedChangeListener { _, isChecked -> onFictionChanged(isChecked) }
-
         // date-time Fields
-        b.birth.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) b.birth.setText(UiTools.validateDateTime(b.birth.text.toString()))
+        b.birthday.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus)
+                b.birthday.setText(UiTools.validateDateTime(b.birthday.text.toString()))
         }
         b.firstMet.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) b.firstMet.setText(UiTools.validateDateTime(b.firstMet.text.toString()))
+            if (!hasFocus)
+                b.firstMet.setText(UiTools.validateDateTime(b.firstMet.text.toString()))
         }
 
         // should send birthday notifications?
@@ -213,14 +222,18 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
                 b.lastName.text.toString().ifBlank { null },
 
                 // status
-                b.gender.selectedItemPosition.toShort() or
-                        (if (b.fiction.isChecked) Crush.STAT_FICTION else 0) or
+                b.existence.selectedItemPosition.toShort() or
+                        (b.gender.selectedItemPosition shl 3).toShort() or
+                        (if (b.androphile.isChecked) Crush.STAT_ANDROPHILIA else 0) or
+                        (if (b.gynephile.isChecked) Crush.STAT_GYNEPHILIA else 0) or
+                        (if (b.unsafe.isChecked) Crush.STAT_UNSAFETY else 0) or
                         (if (b.notifyBirth.isChecked) Crush.STAT_NOTIFY_BIRTH else 0) or
-                        (if (b.unsafe.isChecked) Crush.STAT_UNSAFE_PERSON else 0) or
                         (if (b.active.isChecked) 0 else Crush.STAT_INACTIVE),
 
                 // birthday
-                UiTools.compressDateTime(UiTools.validateDateTime(b.birth.text.toString())),
+                UiTools.compressDateTime(
+                    UiTools.validateDateTime(b.birthday.text.toString())
+                ),
 
                 // height
                 if (b.height.text.toString() != "")
@@ -235,12 +248,13 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
                         (b.bodyFat.selectedItemPosition shl Crush.BODY_FAT.second) or
                         (b.bodyMuscle.selectedItemPosition shl Crush.BODY_MUSCLE.second) or
                         (b.bodyBreasts.selectedItemPosition shl Crush.BODY_BREASTS.second) or
-                        (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second) or
-                        (b.bodySexuality.selectedItemPosition shl Crush.BODY_SEXUALITY.second),
+                        (b.bodyPenis.selectedItemPosition shl Crush.BODY_PENIS.second),
 
                 // addresses & special dates
                 b.address.text.toString().ifBlank { null },
-                UiTools.compressDateTime(UiTools.validateDateTime(b.firstMet.text.toString())),
+                UiTools.compressDateTime(
+                    UiTools.validateDateTime(b.firstMet.text.toString())
+                ),
                 b.instagram.text.toString().ifBlank { null },
             )
 
@@ -333,12 +347,14 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
         )
     }
 
-    private fun onFictionChanged(bb: Boolean) {
-        //b.unsafe.isVisible = !bb
-        b.notifyBirth.isVisible = !bb
-        b.instagramIL.isVisible = !bb
-        b.addressIL.hint = if (bb) getString(R.string.creator) else getString(R.string.address)
-        b.birthIL.hint = if (bb) getString(R.string.creationDate) else getString(R.string.birth)
+    private fun onExistenceChanged(existence: Int) {
+        val real = existence == 1
+        //b.unsafe.isVisible = real
+        b.notifyBirth.isVisible = real
+        b.instagramIL.isVisible = real
+        b.addressIL.hint = if (real) getString(R.string.address) else getString(R.string.creator)
+        b.birthdayIL.hint =
+            if (real) getString(R.string.birth) else getString(R.string.creationDate)
     }
 
     private fun prepareBodyAttrSpinner(spinner: Spinner, @ArrayRes arr: Int) {

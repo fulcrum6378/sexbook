@@ -115,6 +115,15 @@
     <string name="firstName">First Name</string>
     <string name="middleName">Middle Name</string>
     <string name="lastName">Last Name</string>
+    <string-array name="existence"><!--TODO-->
+        <item>What is their status?</item>
+        <item>@string/fictionalCharacter</item>
+        <item>Reachable</item>
+        <item>Contactable</item>
+        <item>Observable</item>
+        <item>Vanished</item>
+        <item>Dead</item>
+    </string-array>
     <string-array name="genders">
         <item>Specify their gender&#8230;</item>
         <item>Female</item>
@@ -122,8 +131,10 @@
         <item>Bigender</item>
         <item>Agender</item>
     </string-array>
+    <string name="isAndrophile">Likes men</string><!--TODO-->
+    <string name="isGynephile">Likes women</string><!--TODO-->
     <string name="isFictional">Is a fictional character?</string>
-    <string name="isFictionalDesc">
+    <string name="isFictionalDesc"><!--TODO what to do with this?-->
         Fictional characters like movie or game characters, drawings, imagination, etc.
     </string>
     <string name="realPerson">Real person</string>
@@ -134,9 +145,9 @@
     </string>
     <string name="safePerson">Safe personality</string>
     <string name="unsafePerson">Unsafe personality</string>
-    <string name="activeCrush">Active</string>
-    <string name="activeCrushDesc">
-        Active crushes will be listed in the main page and will be ticked in the `People` page.
+    <string name="activeCrush">Enabled</string><!--TODO-->
+    <string name="activeCrushDesc"><!--TODO-->
+        Enabled crushes will be listed in the main page and will be ticked in the `People` page.
     </string>
     <string name="birth">Birthday</string>
     <string name="creationDate">Creation Date</string>

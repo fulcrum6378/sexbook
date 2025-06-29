@@ -32,7 +32,7 @@ class Crush(
     var last_name: String? = null,
 
     /**
-     * An Short integer which stores multiple essential data about a person:
+     * A 16-bit integer which stores multiple essential data about a person:
      *
      * - Gender
      * - Are they a real person or a fictional character?
@@ -54,7 +54,7 @@ class Crush(
     @ColumnInfo(defaultValue = "-1.0")
     var height: Float = -1f,
 
-    /** A Long integer which stores multiple characteristics of a person's body */
+    /** A 32-bit integer which stores multiple characteristics of a person's body */
     @ColumnInfo(defaultValue = "0")
     var body: Int = 0,
 
@@ -80,23 +80,44 @@ class Crush(
 
     companion object {
 
-        /** `status` offset 0; 3 bits; their gender (0..4)
-         * 0=>unspecified, 1=>female, 2=>male, 3=>bigender, 4=>agender, (5,6,7) */
-        const val STAT_GENDER = 0b111.toShort() // 7
+        /**
+         * - 0 => Unspecified
+         * - 1 => Fictional character
+         * - 2 => Reachable (willing to meet in-person)
+         * - 3 => Contactable (willing to chat)
+         * - 4 => Observable (e.g. active in social media)
+         * - 5 => Vanished
+         * - 6 => Dead
+         * - (7): empty
+         */
+        private const val STAT_EXISTENCE = 0b111.toShort()  // 7
 
-        /** `status` offset 3; 1 bit; whether or not they are a fictional character. */
-        const val STAT_FICTION = 0b1000.toShort() // 8
+        /**
+         * - 0 => Unspecified
+         * - 1 => Female
+         * - 2 => Male
+         * - 3 => Bigender
+         * - 4 => Agender
+         * - (5,6,7): empty
+         */
+        private const val STAT_GENDER = (0b111 shl 3).toShort()  // 56
 
-        /** `status` offset 4; 1 bit; whether or not should the user be notified of their birthday. */
-        const val STAT_NOTIFY_BIRTH = 0b10000.toShort() // 16
+        /** Whether or not they like men */
+        const val STAT_ANDROPHILIA = (0b1 shl 7).toShort()  // 128
 
-        /** `status` offset 5; 1 bit; whether or not they have an unsafe personality. */
-        const val STAT_UNSAFE_PERSON = 0b100000.toShort() // 32
+        /** Whether or not they like women */
+        const val STAT_GYNEPHILIA = (0b1 shl 8).toShort()  // 256
 
-        /** `status` offset 7; 1 bit; whether or not they are currently an active crush.
-         * (sign bit, inactive oneswould be negative)
-         * unassigned bits: 0b1000000 (64) */
-        const val STAT_INACTIVE = 0b10000000.toShort() // 128
+        /** Whether or not they have an unsafe personality */
+        const val STAT_UNSAFETY = (0b1 shl 9).toShort()  // 512
+
+        /** Shall the user be notified of their birthday? */
+        const val STAT_NOTIFY_BIRTH = (0b1 shl 10).toShort()  // 1024
+
+        /** Whether or not they are currently an active crush
+         * (sign bit, inactive ones would be negative)
+         * 4 bits are unused before this */
+        const val STAT_INACTIVE = (0b1 shl 15).toShort()  // 32768
 
 
         /** `body` offset  0; 3 bits; their skin colour (0..6)
@@ -137,10 +158,6 @@ class Crush(
          * 0=>unspecified, 1=>short, 2=>medium, 3=>long */
         val BODY_PENIS = (0b11 shl 20) to 20
 
-        /** `body` offset 22; 3 bits; their sexual orientation (0..)
-         * 0=>unspecified, 1=>heterosexual, 2=>homosexual, 3=>bisexual, 4=>asexual, 5=>other, (6,7) */
-        val BODY_SEXUALITY = (0b111 shl 22) to 22
-
 
         const val INSTA = "https://www.instagram.com/"
 
@@ -156,13 +173,21 @@ class Crush(
             else -> key
         } else "$first_name $last_name"
 
-    fun active(): Boolean = (status and STAT_INACTIVE) == 0.toShort()
+    fun existence(): Int = (status and STAT_EXISTENCE).toInt()
 
-    fun fiction(): Boolean = (status and STAT_FICTION) != 0.toShort()
+    fun fiction(): Boolean = existence() == 1
+
+    fun gender(): Int = (status and STAT_GENDER).toInt() shr 3
+
+    fun androphile(): Boolean = (status and STAT_ANDROPHILIA) != 0.toShort()
+
+    fun gynephile(): Boolean = (status and STAT_GYNEPHILIA) != 0.toShort()
+
+    fun unsafe(): Boolean = (status and STAT_UNSAFETY) != 0.toShort()
 
     fun notifyBirth(): Boolean = (status and STAT_NOTIFY_BIRTH) != 0.toShort()
 
-    fun unsafe(): Boolean = (status and STAT_UNSAFE_PERSON) != 0.toShort()
+    fun active(): Boolean = (status and STAT_INACTIVE) == 0.toShort()
 
     fun body(field: Pair<Int, Int>): Int = (body and field.first) shr field.second
 

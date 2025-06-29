@@ -71,7 +71,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.experimental.and
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
@@ -180,9 +179,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
             // Crush
             for (p in c.dao.cGetAll()) c.people[p.key] = p
-            c.liefde.addAll(c.people.filter {
-                (it.value.status and Crush.STAT_INACTIVE) == 0.toShort()
-            }.map { it.key })
+            c.liefde.addAll(c.people.filter { it.value.active() }.map { it.key })
             c.unsafe.addAll(c.people.filter { it.value.unsafe() }.map { it.key })
             if (CalendarManager.checkPerm(c)) CalendarManager.initialise(c)
             if (!c.sp.contains("dbLightBrownAdded")) {
@@ -229,7 +226,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 val share = (86400000.0 / g.frequency).toLong()
 
                 while (curTime <= g.until) {
-                    c.reports[grId] = Report(grId, curTime, g.name ?: "", g.type, g.place)
+                    c.reports[grId] =
+                        Report(grId, curTime, g.name ?: "", g.type, g.place)
                     curTime += share
                     grId--
                 }
@@ -241,7 +239,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             c.dbLoaded = true
             withContext(Dispatchers.Main) {
 
-                // notify if any birthday is around
+                // notify if any birthday is near
                 if ((NumberUtils.now() - c.sp.getLong(Settings.spLastNotifiedBirthAt, 0L)
                             ) >= Settings.notifyBirthAfterLastTime &&
                     !c.sp.getBoolean(Settings.spPauseBirthdaysNtf, false)
@@ -512,8 +510,10 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 getString(
                     if (dist < 0L) R.string.bHappyBef
                     else R.string.bHappyAft,
-                    resources.getQuantityString(R.plurals.hour, hours, hours),
-                    possessiveDeterminer((crush.status and Crush.STAT_GENDER).toInt())
+                    resources.getQuantityString(
+                        R.plurals.hour, hours, hours
+                    ),
+                    possessiveDeterminer(crush.gender())
                 )
             )
 
