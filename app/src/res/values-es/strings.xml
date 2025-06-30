@@ -114,6 +114,17 @@
     <string name="firstName">Nombre de pila</string>
     <string name="middleName">Segundo nombre</string>
     <string name="lastName">Apellido</string>
+    <string-array name="presence">
+        <item>Especifica el tipo de presencia&#8230;</item>
+        <item>@string/fictionalCharacter</item>
+        <item>Contacto en persona</item>
+        <item>Contacto en línea</item>
+        <item>Visible (sin contacto)</item>
+        <item>Desaparecido/a</item>
+        <item>Fallecido/a</item>
+    </string-array>
+    <string name="fictionalCharacter">Personaje ficticio</string>
+    <string name="realPerson">Persona real</string>
     <string-array name="genders">
         <item>Especifique su género&#8230;</item>
         <item>Femenina</item>
@@ -121,21 +132,17 @@
         <item>Bigénero</item>
         <item>Agenda</item>
     </string-array>
-    <string name="isFictional">¿Es un personaje ficticio?</string>
-    <string name="isFictionalDesc">
-        Personajes de ficción como personajes de películas o juegos, dibujos, imaginación, etc.
-    </string>
-    <string name="realPerson">Persona real</string>
-    <string name="fictionalCharacter">Personaje ficticio</string>
+    <string name="isAndrophile">Le gustan los hombres</string>
+    <string name="isGynephile">Le gustan las mujeres</string>
     <string name="isUnsafePerson">¿Es una personalidad insegura?</string>
     <string name="isUnsafePersonDesc">
         Personas con las que tienes problemas o ellas tienen problemas contigo.
     </string>
     <string name="safePerson">Personalidad segura</string>
     <string name="unsafePerson">Personalidad insegura</string>
-    <string name="activeCrush">Activa</string>
+    <string name="activeCrush">Activado</string>
     <string name="activeCrushDesc">
-        Las personas activas aparecerán en la página principal y estarán marcadas en la página "Personas".
+        Los contactos activados aparecerán en la página principal y estarán marcados en la página `Personas`.
     </string>
     <string name="birth">Cumpleaños</string>
     <string name="creationDate">Fecha de creación</string>

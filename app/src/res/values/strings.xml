@@ -115,15 +115,22 @@
     <string name="firstName">First Name</string>
     <string name="middleName">Middle Name</string>
     <string name="lastName">Last Name</string>
-    <string-array name="presence"><!--TODO-->
-        <item>Specify the type of their presence&#8230;</item>
+    <string-array name="presence">
+        <item>Specify their presence type&#8230;</item>
         <item>@string/fictionalCharacter</item>
-        <item>Reachable</item>
-        <item>Contactable</item>
-        <item>Observable</item>
-        <item>Vanished</item>
-        <item>Dead</item>
+        <item>Real-world contact</item>
+        <item>Online contact</item>
+        <item>Observable (no contact)</item>
+        <item>Disappeared</item>
+        <item>Deceased</item>
     </string-array>
+    <string name="fictionalCharacter">Fictional character</string>
+    <string-array name="fictionality" translatable="false">
+        <item>@string/unknown</item>
+        <item>@string/realPerson</item>
+        <item>@string/fictionalCharacter</item>
+    </string-array>
+    <string name="realPerson">Real person</string>
     <string-array name="genders">
         <item>Specify their gender&#8230;</item>
         <item>Female</item>
@@ -131,22 +138,21 @@
         <item>Bigender</item>
         <item>Agender</item>
     </string-array>
-    <string name="isAndrophile">Likes men</string><!--TODO-->
-    <string name="isGynephile">Likes women</string><!--TODO-->
-    <string name="isFictional">Is a fictional character?</string>
-    <string name="isFictionalDesc"><!--TODO what to do with this?-->
-        Fictional characters like movie or game characters, drawings, imagination, etc.
-    </string>
-    <string name="realPerson">Real person</string>
-    <string name="fictionalCharacter">Fictional character</string>
+    <string name="isAndrophile">Likes men</string>
+    <string name="isGynephile">Likes women</string>
     <string name="isUnsafePerson">Is an unsafe personality?</string>
     <string name="isUnsafePersonDesc">
         People who either you have problems with them or they have problems with you.
     </string>
+    <string-array name="unsafeness" translatable="false">
+        <item>@string/isUnsafePerson</item>
+        <item>@string/safePerson</item>
+        <item>@string/unsafePerson</item>
+    </string-array>
     <string name="safePerson">Safe personality</string>
     <string name="unsafePerson">Unsafe personality</string>
-    <string name="activeCrush">Enabled</string><!--TODO-->
-    <string name="activeCrushDesc"><!--TODO-->
+    <string name="activeCrush">Enabled</string>
+    <string name="activeCrushDesc">
         Enabled crushes will be listed in the main page and will be ticked in the `People` page.
     </string>
     <string name="birth">Birthday</string>
@@ -233,16 +239,6 @@
         <item>Bisexual</item>
         <item>Asexual</item>
         <item>Other</item>
-    </string-array>
-    <string-array name="fictionality" translatable="false">
-        <item>@string/isFictional</item>
-        <item>@string/realPerson</item>
-        <item>@string/fictionalCharacter</item>
-    </string-array>
-    <string-array name="unsafeness" translatable="false">
-        <item>@string/isUnsafePerson</item>
-        <item>@string/safePerson</item>
-        <item>@string/unsafePerson</item>
     </string-array>
     <string name="duplicateCrush">
         Another crush with this identifier already exists; please make sure the identifier is unique.

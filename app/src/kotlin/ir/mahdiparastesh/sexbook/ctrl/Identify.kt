@@ -82,6 +82,7 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
         b.presence.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
+                b.presence.alpha = if (i == 0) DISABLED_ALPHA else 1f
                 onPresenceChanged(i)
             }
         }

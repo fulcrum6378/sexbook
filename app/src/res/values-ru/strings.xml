@@ -114,6 +114,17 @@
     <string name="firstName">Имя</string>
     <string name="middleName">Второе имя</string>
     <string name="lastName">Фамилия</string>
+    <string-array name="presence">
+        <item>Укажите тип присутствия&#8230;</item>
+        <item>@string/fictionalCharacter</item>
+        <item>Личный контакт</item>
+        <item>Онлайн-контакт</item>
+        <item>Видим (без контакта)</item>
+        <item>Исчез(ла)</item>
+        <item>Умер(ла)</item>
+    </string-array>
+    <string name="fictionalCharacter">Вымышленный персонаж</string>
+    <string name="realPerson">Реальный человек</string>
     <string-array name="genders">
         <item>Укажите их пол&#8230;</item>
         <item>Женский</item>
@@ -121,21 +132,17 @@
         <item>Бигендер</item>
         <item>Агендер</item>
     </string-array>
-    <string name="isFictional">Является ли вымышленный персонаж?</string>
-    <string name="isFictionalDesc">
-        Вымышленные персонажи, такие как персонажи фильмов или игр, рисунки, воображение и т. д.
-    </string>
-    <string name="realPerson">Реальный человек</string>
-    <string name="fictionalCharacter">Вымышленный персонаж</string>
+    <string name="isAndrophile">Нравятся мужчины</string>
+    <string name="isGynephile">Нравятся женщины</string>
     <string name="isUnsafePerson">Небезопасная личность?</string>
     <string name="isUnsafePersonDesc">
         Люди, с которыми либо у вас проблемы, либо у них проблемы с вами.
     </string>
     <string name="safePerson">Safe personality</string>
     <string name="unsafePerson">Небезопасная личность</string>
-    <string name="activeCrush">Активный</string>
+    <string name="activeCrush">Активен</string>
     <string name="activeCrushDesc">
-        Активные поклонники будут перечислены на главной странице и отмечены галочкой на странице «Люди».
+        Активные персоны будут отображаться на главной странице и отмечены на странице `Люди`.
     </string>
     <string name="birth">День рождения</string>
     <string name="creationDate">Дата создания</string>

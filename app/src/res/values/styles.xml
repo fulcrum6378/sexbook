@@ -220,6 +220,10 @@
         <item name="buttonTint">?colorOnSecondary</item>
     </style>
 
+    <style name="identifyLargeSpinner" parent="identifyField">
+        <item name="android:paddingHorizontal">5dp</item>
+    </style>
+
     <style name="identifyBodyAttr" parent="identifyField">
         <!--https://stackoverflow.com/questions/36167187/android-spinner-arrow-always-above-other-views/
             68789834#68789834-->

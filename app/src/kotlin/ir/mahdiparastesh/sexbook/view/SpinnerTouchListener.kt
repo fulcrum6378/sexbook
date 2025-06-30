@@ -3,7 +3,11 @@ package ir.mahdiparastesh.sexbook.view
 import android.view.MotionEvent
 import android.view.View
 
-/** A touch listener that doesn't regard scrolling touch events as clicks */
+/**
+ * A touch listener that doesn't regard scrolling touch events as clicks
+ *
+ * Note: this listener cannot handle tooltips.
+ */
 class SpinnerTouchListener : View.OnTouchListener {
 
     override fun onTouch(v: View, me: MotionEvent): Boolean {

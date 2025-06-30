@@ -111,6 +111,17 @@
     <string name="firstName">Vorname</string>
     <string name="middleName">Zweiter Vorname</string>
     <string name="lastName">Familienname</string>
+    <string-array name="presence">
+        <item>Gib an, wie die Person präsent ist&#8230;</item>
+        <item>@string/fictionalCharacter</item>
+        <item>Persönlicher Kontakt</item>
+        <item>Online-Kontakt</item>
+        <item>Sichtbar (kein Kontakt)</item>
+        <item>Verschwunden</item>
+        <item>Verstorben</item>
+    </string-array>
+    <string name="fictionalCharacter">Fiktive Figur</string>
+    <string name="realPerson">Echte Person</string>
     <string-array name="genders">
         <item>Geben Sie ihr Geschlecht an&#8230;</item>
         <item>Frau</item>
@@ -118,21 +129,17 @@
         <item>Bigender</item>
         <item>Agender</item>
     </string-array>
-    <string name="isFictional">Ist eine fiktive Figur?</string>
-    <string name="isFictionalDesc">
-        Fiktive Charaktere wie Film- oder Spielfiguren, Zeichnungen, Fantasie usw.
-    </string>
-    <string name="realPerson">Echte Person</string>
-    <string name="fictionalCharacter">Fiktive Figur</string>
+    <string name="isAndrophile">Mag Männer</string>
+    <string name="isGynephile">Mag Frauen</string>
     <string name="isUnsafePerson">Ist eine unsichere Persönlichkeit?</string>
     <string name="isUnsafePersonDesc">
         Menschen, mit denen Sie entweder ein Problem haben oder die ein Problem mit Ihnen haben.
     </string>
     <string name="safePerson">Sichere Persönlichkeit</string>
     <string name="unsafePerson">Unsichere Persönlichkeit</string>
-    <string name="activeCrush">Aktiv</string>
+    <string name="activeCrush">Aktiviert</string>
     <string name="activeCrushDesc">
-        Aktive Personen werden auf der Hauptseite aufgelistet und auf der Seite „Menschen“ markiert.
+        Aktivierte Personen erscheinen auf der Startseite und sind auf der Seite `Personen` ausgewählt.
     </string>
     <string name="birth">Geburtstag</string>
     <string name="creationDate">Erstellungsdatum</string>

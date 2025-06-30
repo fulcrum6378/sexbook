@@ -113,6 +113,17 @@
     <string name="firstName">Jméno</string>
     <string name="middleName">Prostřední jméno</string>
     <string name="lastName">Příjmení</string>
+    <string-array name="presence">
+        <item>Zadejte typ jejich přítomnosti&#8230;</item>
+        <item>@string/fictionalCharacter</item>
+        <item>Osobní kontakt</item>
+        <item>Online kontakt</item>
+        <item>Pozorovatelný (bez kontaktu)</item>
+        <item>Zmizelý/á</item>
+        <item>Zemřelý/á</item>
+    </string-array>
+    <string name="fictionalCharacter">Fiktivní postava</string>
+    <string name="realPerson">Skutečná osoba</string>
     <string-array name="genders">
         <item>Uveďte jejich pohlaví&#8230;</item>
         <item>Žena</item>
@@ -120,12 +131,8 @@
         <item>Bigender</item>
         <item>Agender</item>
     </string-array>
-    <string name="isFictional">Je fiktivní postava?</string>
-    <string name="isFictionalDesc">
-        Fiktivní postavy, jako například filmové nebo herní postavy, kresby, představivost atd.
-    </string>
-    <string name="realPerson">Skutečná osoba</string>
-    <string name="fictionalCharacter">Fiktivní postava</string>
+    <string name="isAndrophile">Přitahují ho muži</string>
+    <string name="isGynephile">Přitahují ho ženy</string>
     <string name="isUnsafePerson">Je nebezpečná osobnost?</string>
     <string name="isUnsafePersonDesc">
         Lidé, se kterými máte buď problém vy, nebo oni mají problém s vámi.
@@ -134,7 +141,7 @@
     <string name="unsafePerson">Nebezpečná osobnost</string>
     <string name="activeCrush">Aktivní</string>
     <string name="activeCrushDesc">
-        Aktivní lidé budou uvedeni na hlavní stránce a budou zaškrtnuti na stránce „Lidé“.
+        Aktivní osoby se zobrazí na hlavní stránce a budou zaškrtnuté na stránce `Lidé`.
     </string>
     <string name="birth">Narozeniny</string>
     <string name="creationDate">Datum vytvoření</string>
