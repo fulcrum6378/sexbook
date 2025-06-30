@@ -26,11 +26,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
-            android:id="@+id/gender"
+            android:id="@+id/presence"
             style="@style/screeningSpinner" />
 
         <Spinner
-            android:id="@+id/fiction"
+            android:id="@+id/gender"
             style="@style/screeningSpinner" />
 
         <Spinner

@@ -152,13 +152,13 @@ UPDATE Crush SET status =
     (CASE
         -- is a homosexual or bisexual woman, so she likes women:
         WHEN (status & 7) == 1 AND ((body & 29360128) >> 22) == 2 OR ((body & 29360128) >> 22) == 3
-            THEN 512
+            THEN 256
         -- is a heterosexual or bisexual man, so he likes women:
         WHEN (status & 7) == 2 AND ((body & 29360128) >> 22) == 1 OR ((body & 29360128) >> 22) == 3
-            THEN 512
+            THEN 256
         -- is a bisexual bigender, so they like men:
         WHEN (status & 7) == 3 AND ((body & 29360128) >> 22) == 3
-            THEN 512
+            THEN 256
         ELSE 0
     END) |  -- gynephilia
     (((status & 32) >> 5) << 9) |  -- unsafety

@@ -137,11 +137,11 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
                     }
 
                     // Crush::status
+                    if (filters.presence != 0 &&
+                        filters.presence != p.value.presence()
+                    ) return@filter false
                     if (filters.gender != 0 &&
                         filters.gender != p.value.gender()
-                    ) return@filter false
-                    if (filters.fiction != 0 &&
-                        (filters.fiction - 1) != (if (p.value.fiction()) 1 else 0)
                     ) return@filter false
                     if (filters.safety != 0 &&
                         (filters.safety - 1) != (if (p.value.unsafe()) 1 else 0)

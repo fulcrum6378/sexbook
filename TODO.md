@@ -1,10 +1,11 @@
 # Sexbook To-Do List
 
+* `First Orgasm` -> `First Report`, `Last Orgasm` -> `Last Report`
 * A TikTok field?
 * Organise the UI of `Settings`
 * Hide crushes with "Last Orgasm" older than...
 * More body attributes?
-* Screening men+bigenders or blue+green-eyed people
+* Screening using chackboxes rather than spinners
 * UI for selecting `hue` for Crushes
 * Fix RV adapters: `Do not treat position as fixed; only use immediately and call 
   h.getAdapterPosition() to look it up later`

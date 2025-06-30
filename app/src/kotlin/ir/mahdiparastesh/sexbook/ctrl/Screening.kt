@@ -25,6 +25,11 @@ class Screening : BaseDialog<People>() {
         b = ScreeningBinding.inflate(c.layoutInflater)
 
         if (b.search.text.isEmpty()) b.search.setText(c.c.screening?.search)
+
+        // status
+        prepareSpinner(
+            b.presence, R.array.presence, c.c.screening?.presence
+        )
         prepareSpinner(
             b.gender, R.array.genders, c.c.screening?.gender
         ) { i ->
@@ -37,14 +42,13 @@ class Screening : BaseDialog<People>() {
             if (!bp) b.bodyPenis.setSelection(0)
         }
         prepareSpinner(
-            b.fiction, R.array.fictionality,
-            c.c.screening?.fiction
+            b.safety, R.array.unsafeness, c.c.screening?.safety
         )
-        prepareSpinner(
-            b.safety, R.array.unsafeness,
-            c.c.screening?.safety
-        )
+
+        // reports
         b.minSum.setText(c.c.screening?.minSum?.toString())
+
+        // body attributes
         prepareSpinner(
             b.bodySkinColour, R.array.bodySkinColour,
             c.c.screening?.bodySkinColour
@@ -88,8 +92,8 @@ class Screening : BaseDialog<People>() {
             setPositiveButton(R.string.apply) { _, _ ->
                 c.c.screening = Filters(
                     b.search.text.toString(),
+                    b.presence.selectedItemPosition,
                     b.gender.selectedItemPosition,
-                    b.fiction.selectedItemPosition,
                     b.safety.selectedItemPosition,
                     b.minSum.text.toString().toIntOrNull() ?: 0,
                     b.bodySkinColour.selectedItemPosition,
@@ -136,8 +140,8 @@ class Screening : BaseDialog<People>() {
 
     data class Filters(
         val search: String,
+        val presence: Int,
         val gender: Int,
-        val fiction: Int,
         val safety: Int,
         val minSum: Int,
         val bodySkinColour: Int, val bodyHairColour: Int,
@@ -147,7 +151,8 @@ class Screening : BaseDialog<People>() {
         val bodyMuscle: Int,
     ) {
         fun any() = search.isNotBlank() ||
-                gender != 0 || fiction != 0 || safety != 0 || minSum > 0 ||
+                presence != 0 || gender != 0 || safety != 0 ||
+                minSum > 0 ||
                 bodySkinColour != 0 || bodyHairColour != 0 ||
                 bodyEyeColour != 0 || bodyEyeShape != 0 ||
                 bodyFaceShape != 0 || bodyFat != 0 ||
