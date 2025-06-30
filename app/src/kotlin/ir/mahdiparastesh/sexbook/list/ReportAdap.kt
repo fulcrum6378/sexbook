@@ -124,14 +124,19 @@ class ReportAdap(
             h.b.clockHour.rotation = rotateHour(cal[Calendar.HOUR_OF_DAY])
             h.b.clockMin.rotation = rotateMin(cal[Calendar.MINUTE])
             h.b.clock.setOnClickListener {
-                TimePickerDialog.newInstance({ _, hourOfDay, minute, second ->
-                    val calc = r.time.calendar(c.c)
-                    calc[Calendar.HOUR_OF_DAY] = hourOfDay
-                    calc[Calendar.MINUTE] = minute
-                    calc[Calendar.SECOND] = second
-                    r.time = calc.timeInMillis
-                    update(r.id, dateTimeChanged = true)
-                }, cal[Calendar.HOUR_OF_DAY], cal[Calendar.MINUTE], cal[Calendar.SECOND])
+                TimePickerDialog.newInstance(
+                    { _, hourOfDay, minute, second ->
+                        val calc = r.time.calendar(c.c)
+                        calc[Calendar.HOUR_OF_DAY] = hourOfDay
+                        calc[Calendar.MINUTE] = minute
+                        calc[Calendar.SECOND] = second
+                        r.time = calc.timeInMillis
+                        update(r.id, dateTimeChanged = true)
+                    },
+                    cal[Calendar.HOUR_OF_DAY],
+                    cal[Calendar.MINUTE],
+                    cal[Calendar.SECOND]
+                )
                     .defaultOptions()
                     .show(c.supportFragmentManager, "timepicker")
             }

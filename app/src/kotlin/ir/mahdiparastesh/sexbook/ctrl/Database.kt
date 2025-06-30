@@ -135,7 +135,7 @@ abstract class Database : RoomDatabase() {
                     db.execSQL(
                         """
 UPDATE Crush SET status = 
-    ((status & 8) >> 3) |  -- existence (fictionality)
+    ((status & 8) >> 3) |  -- presence (fictionality)
     ((status & 7) << 3) |  -- gender
     (CASE
         -- is a heterosexual or bisexual woman, so she likes men:

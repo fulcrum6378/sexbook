@@ -173,9 +173,9 @@ class Crush(
             else -> key
         } else "$first_name $last_name"
 
-    fun existence(): Int = (status and STAT_EXISTENCE).toInt()
+    fun presence(): Int = (status and STAT_EXISTENCE).toInt()
 
-    fun fiction(): Boolean = existence() == 1
+    fun fiction(): Boolean = presence() == 1
 
     fun gender(): Int = (status and STAT_GENDER).toInt() shr 3
 

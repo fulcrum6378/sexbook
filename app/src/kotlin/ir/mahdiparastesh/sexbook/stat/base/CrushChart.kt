@@ -143,7 +143,7 @@ interface CrushPenisChart : CrushQualitativeChart {
 
 interface CrushFictionalityChart : CrushQualitativeChart {
     override val modes: Int get() = R.array.fictionality
-    override fun crushProperty(cr: Crush): Short = when (cr.existence()) {
+    override fun crushProperty(cr: Crush): Short = when (cr.presence()) {
         0 -> 0.toShort()
         1 -> 2.toShort()
         else -> 1.toShort()

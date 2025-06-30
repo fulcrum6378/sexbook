@@ -74,18 +74,18 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
             .also { b.notifyBirth.trackTintList = it }
         b.root.scrollTo(0, 0)
 
-        // existence
-        b.existence.adapter = ArrayAdapter(
+        // presence
+        b.presence.adapter = ArrayAdapter(
             c, R.layout.spinner_white,
-            c.resources.getStringArray(R.array.existence)
+            c.resources.getStringArray(R.array.presence)
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
-        b.gender.onItemSelectedListener = object : OnItemSelectedListener {
+        b.presence.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             override fun onItemSelected(a: AdapterView<*>?, v: View?, i: Int, l: Long) {
-                onExistenceChanged(i)
+                onPresenceChanged(i)
             }
         }
-        b.gender.setOnTouchListener(SpinnerTouchListener())
+        b.presence.setOnTouchListener(SpinnerTouchListener())
 
         // gender
         b.gender.adapter = ArrayAdapter(
@@ -125,9 +125,9 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
         prepareBodyAttrSpinner(b.bodyEyeShape, R.array.bodyEyeShape)
         prepareBodyAttrSpinner(b.bodyFaceShape, R.array.bodyFaceShape)
         prepareBodyAttrSpinner(b.bodyFat, R.array.bodyFat)
+        prepareBodyAttrSpinner(b.bodyMuscle, R.array.bodyMuscle)
         prepareBodyAttrSpinner(b.bodyBreasts, R.array.bodyBreasts)
         prepareBodyAttrSpinner(b.bodyPenis, R.array.bodyPenis)
-        prepareBodyAttrSpinner(b.bodyMuscle, R.array.bodyMuscle)
 
         // default values
         val crushKey = crush?.key ?: requireArguments().getString(BUNDLE_CRUSH_KEY)!!
@@ -136,7 +136,7 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
             b.firstName.setText(first_name)
             b.middleName.setText(middle_name)
             b.lastName.setText(last_name)
-            b.existence.setSelection(existence().also { onExistenceChanged(it) })
+            b.presence.setSelection(presence().also { onPresenceChanged(it) })
             b.gender.setSelection(gender())
             b.androphile.isChecked = androphile()
             b.gynephile.isChecked = gynephile()
@@ -222,7 +222,7 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
                 b.lastName.text.toString().ifBlank { null },
 
                 // status
-                b.existence.selectedItemPosition.toShort() or
+                b.presence.selectedItemPosition.toShort() or
                         (b.gender.selectedItemPosition shl 3).toShort() or
                         (if (b.androphile.isChecked) Crush.STAT_ANDROPHILIA else 0) or
                         (if (b.gynephile.isChecked) Crush.STAT_GYNEPHILIA else 0) or
@@ -299,7 +299,9 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
 
                 // handle the UI
                 withContext(Dispatchers.Main) {
-                    c.c.onCrushChanged(c, inserted.key, if (crush == null) 0 else 1)
+                    c.c.onCrushChanged(
+                        c, inserted.key, if (crush == null) 0 else 1
+                    )
                     if (c is Singular && inserted.key != crushKey) c.finish()
                 }
             }
@@ -331,8 +333,10 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
 
         // set the on click listeners when the dialog is ready
         dialog.setOnShowListener {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(positiveOnClick)
-            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(neutralOnClick)
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener(positiveOnClick)
+            dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
+                .setOnClickListener(neutralOnClick)
         }
 
         isCancelable = true
@@ -347,14 +351,15 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
         )
     }
 
-    private fun onExistenceChanged(existence: Int) {
-        val real = existence == 1
-        //b.unsafe.isVisible = real
-        b.notifyBirth.isVisible = real
-        b.instagramIL.isVisible = real
-        b.addressIL.hint = if (real) getString(R.string.address) else getString(R.string.creator)
+    private fun onPresenceChanged(presence: Int) {
+        val fictional = presence == 1
+        //b.unsafe.isVisible = !fictional
+        b.notifyBirth.isVisible = !fictional
+        b.instagramIL.isVisible = !fictional
+        b.addressIL.hint =
+            if (!fictional) getString(R.string.address) else getString(R.string.creator)
         b.birthdayIL.hint =
-            if (real) getString(R.string.birth) else getString(R.string.creationDate)
+            if (!fictional) getString(R.string.birth) else getString(R.string.creationDate)
     }
 
     private fun prepareBodyAttrSpinner(spinner: Spinner, @ArrayRes arr: Int) {

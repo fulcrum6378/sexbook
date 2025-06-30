@@ -115,8 +115,8 @@
     <string name="firstName">First Name</string>
     <string name="middleName">Middle Name</string>
     <string name="lastName">Last Name</string>
-    <string-array name="existence"><!--TODO-->
-        <item>What is their status?</item>
+    <string-array name="presence"><!--TODO-->
+        <item>Specify the type of their presence&#8230;</item>
         <item>@string/fictionalCharacter</item>
         <item>Reachable</item>
         <item>Contactable</item>

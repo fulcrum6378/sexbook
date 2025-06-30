@@ -1,5 +1,8 @@
 # Sexbook To-Do List
 
+* A TikTok field?
+* Organise the UI of `Settings`
+* Hide crushes with "Last Orgasm" older than...
 * More body attributes?
 * Screening men+bigenders or blue+green-eyed people
 * UI for selecting `hue` for Crushes

@@ -30,11 +30,11 @@ class Screening : BaseDialog<People>() {
         ) { i ->
             val bb = i == 1 || i == 3
             b.bodyBreasts.isVisible = bb
-            b.bodyPenis.isVisible = bb
-            if (!bb) {
-                b.bodyBreasts.setSelection(0)
-                b.bodyPenis.setSelection(0)
-            }
+            if (!bb) b.bodyBreasts.setSelection(0)
+
+            val bp = i == 2 || i == 3
+            b.bodyPenis.isVisible = bp
+            if (!bp) b.bodyPenis.setSelection(0)
         }
         prepareSpinner(
             b.fiction, R.array.fictionality,
