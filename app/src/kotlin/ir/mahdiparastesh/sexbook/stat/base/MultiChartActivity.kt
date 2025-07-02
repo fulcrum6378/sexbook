@@ -16,6 +16,7 @@ import ir.mahdiparastesh.hellocharts.view.LineChartView
 import ir.mahdiparastesh.hellocharts.view.PieChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.stat.ChartTimeframeLength
 import ir.mahdiparastesh.sexbook.stat.StatUtils
 import kotlin.reflect.KClass
 
@@ -73,7 +74,7 @@ abstract class MultiChartActivity : ChartActivity(), Toolbar.OnMenuItemClickList
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         val chartType = ChartType.entries.indexOfFirst { it.menuId == item.itemId }
-        val chartTimeframe = ChartTimeframe.entries.indexOfFirst { it.menuId == item.itemId }
+        val chartTimeframe = ChartTimeframeLength.entries.indexOfFirst { it.menuId == item.itemId }
         if (chartType != -1 || chartTimeframe != -1) {
             item.isChecked = true
             if (chartType != -1) vmChartType = chartType
@@ -89,10 +90,5 @@ abstract class MultiChartActivity : ChartActivity(), Toolbar.OnMenuItemClickList
         COMPOSITIONAL(PieChartView::class, R.id.chartCompositional),
         TIME_SERIES(LineChartView::class, R.id.chartTimeSeries),
         CUMULATIVE_TIME_SERIES(LineChartView::class, R.id.chartGrowth),
-    }
-
-    enum class ChartTimeframe(@IdRes val menuId: Int) {
-        MONTHLY(R.id.chartMonthly),
-        YEARLY(R.id.chartYearly),
     }
 }

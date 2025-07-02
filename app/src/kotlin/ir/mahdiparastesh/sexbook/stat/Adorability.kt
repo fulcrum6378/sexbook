@@ -112,7 +112,8 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
 
             ChartType.TIME_SERIES.ordinal, ChartType.CUMULATIVE_TIME_SERIES.ordinal -> {
                 val lines = ArrayList<Timeline>()
-                val frames = StatUtils.timeSeries(c)
+                val timeframeLength = ChartTimeframeLength.entries[vm.chartTimeframe]
+                val timeframes = StatUtils.timeSeries(c, timeframeLength)
 
                 val cumulative = vm.chartType == ChartType.CUMULATIVE_TIME_SERIES.ordinal
                 for (x in c.summary!!.scores) {
@@ -121,8 +122,8 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
                     lines.add(
                         Timeline(
                             x.key,
-                            StatUtils.sumTimeFrames(
-                                c, x.value.orgasms, frames, cumulative
+                            StatUtils.sumTimeframes(
+                                c, x.value.orgasms, timeframes, timeframeLength, cumulative
                             ),
                             x.value.sum
                         )

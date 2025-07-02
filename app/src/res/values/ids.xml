@@ -8,4 +8,6 @@
     <item name="loading" type="id" />
     <item name="main" type="id" />
     <item name="chartType" type="id" />
+    <item name="chartMonthly" type="id" />
+    <item name="chartYearly" type="id" />
 </resources>

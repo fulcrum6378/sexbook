@@ -3,11 +3,13 @@ package ir.mahdiparastesh.sexbook.stat
 import android.graphics.Color
 import android.icu.util.Calendar
 import androidx.annotation.ColorInt
+import androidx.annotation.IdRes
 import ir.mahdiparastesh.hellocharts.model.Column
 import ir.mahdiparastesh.hellocharts.model.Line
 import ir.mahdiparastesh.hellocharts.model.PointValue
 import ir.mahdiparastesh.hellocharts.model.SubColumnValue
 import ir.mahdiparastesh.mcdtp.McdtpUtils
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
@@ -25,7 +27,9 @@ object StatUtils {
 
     /** Creates a list of months of the recorded sexual history. */
     fun timeSeries(
-        c: Sexbook, history: Iterable<Report> = c.reports.toArrayList()
+        c: Sexbook,
+        itemLength: ChartTimeframeLength = ChartTimeframeLength.MONTHLY,
+        history: Iterable<Report> = c.reports.toArrayList(),
     ): List<String> {
 
         // find the ending
@@ -47,38 +51,57 @@ object StatUtils {
         } else
             for (h in history) if (h.time < oldest) oldest = h.time
 
+        // create timeframes
         val beg = oldest.calendar(c)
         val list = arrayListOf<String>()
         val yDist = end[Calendar.YEAR] - beg[Calendar.YEAR]
-        val months = McdtpUtils.localSymbols(c, c.calType()).shortMonths
-        for (y in 0 until (yDist + 1)) {
-            var start = 0
-            var finish = 11
-            if (y == 0) start = beg[Calendar.MONTH]
-            if (y == yDist) finish = end[Calendar.MONTH]
-            for (m in start..finish)
-                list.add(monthKey(months[m], beg[Calendar.YEAR] + y))
+        when (itemLength) {
+            ChartTimeframeLength.MONTHLY -> {
+                val months = McdtpUtils.localSymbols(c, c.calType()).shortMonths
+                for (y in 0 until (yDist + 1)) {
+                    var start = 0
+                    var finish = 11
+                    if (y == 0) start = beg[Calendar.MONTH]
+                    if (y == yDist) finish = end[Calendar.MONTH]
+                    for (m in start..finish)
+                        list.add(monthKey(months[m], beg[Calendar.YEAR] + y))
+                }
+            }
+            ChartTimeframeLength.YEARLY ->
+                for (y in 0 until (yDist + 1))
+                    list.add((beg[Calendar.YEAR] + y).toString())
         }
         return list
     }
 
-    /** Filters a month of sex records out of a list. */
-    fun sumTimeFrames(
+    /** Organises a list of Orgasms according to the given timesframes. */
+    fun sumTimeframes(
         c: Sexbook,
         orgasms: ArrayList<Summary.Orgasm>,
-        frames: List<String>,
+        timeframes: List<String>,
+        timeframeLength: ChartTimeframeLength,
         cumulative: Boolean = false
     ): LinkedHashMap<String, Float> {
 
         val map = LinkedHashMap<String, Float>()
-        for (frame in frames) map[frame] = 0f
-        val monthNames = McdtpUtils.localSymbols(c, c.calType()).shortMonths
-        for (orgasm in orgasms) {
-            val lm = orgasm.time.calendar(c)
-            val yea = lm[Calendar.YEAR]
-            val mon = lm[Calendar.MONTH]
-            val monthKey = monthKey(monthNames[mon], yea)
-            map[monthKey] = map[monthKey]!! + orgasm.value
+        for (timeframe in timeframes) map[timeframe] = 0f
+        when (timeframeLength) {
+            ChartTimeframeLength.MONTHLY -> {
+                val monthNames = McdtpUtils.localSymbols(c, c.calType()).shortMonths
+                for (orgasm in orgasms) {
+                    val cal = orgasm.time.calendar(c)
+                    val yea = cal[Calendar.YEAR]
+                    val mon = cal[Calendar.MONTH]
+                    val key = monthKey(monthNames[mon], yea)
+                    map[key] = map[key]!! + orgasm.value
+                }
+            }
+            ChartTimeframeLength.YEARLY ->
+                for (orgasm in orgasms) {
+                    val cal = orgasm.time.calendar(c)
+                    val key = cal[Calendar.YEAR].toString()
+                    map[key] = map[key]!! + orgasm.value
+                }
         }
         if (cumulative) {
             var previous = 0f
@@ -160,3 +183,8 @@ data class Timeline(
     val sum: Float,
     @ColorInt val colour: Int? = null,
 )
+
+enum class ChartTimeframeLength(@IdRes val menuId: Int) {
+    MONTHLY(R.id.chartMonthly),
+    YEARLY(R.id.chartYearly),
+}

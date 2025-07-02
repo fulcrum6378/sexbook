@@ -25,9 +25,15 @@ class Mixture : OneChartActivity<ColumnChartView>() {
             else it.filter { r -> r.orgasmed }  // do not simplify
         }) history.add(Summary.Orgasm(o.time, 1f))
 
+        val timeframeLength = ChartTimeframeLength.MONTHLY
         return ColumnChartData().setColumns(
             ColumnFactory(
-                this, StatUtils.sumTimeFrames(c, history, StatUtils.timeSeries(c)), true
+                this, StatUtils.sumTimeframes(
+                    c, history,
+                    StatUtils.timeSeries(c, timeframeLength),
+                    timeframeLength
+                ),
+                true
             )
         )
     }

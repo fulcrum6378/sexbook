@@ -47,15 +47,18 @@ class Singular : OneChartActivity<ColumnChartView>() {
     }
 
     override suspend fun prepareData(): AbstractChartData {
+        val timeframeLength = ChartTimeframeLength.MONTHLY
         return ColumnChartData().setColumns(
             ColumnFactory(
-                this, StatUtils.sumTimeFrames(
-                    c, vm.history!!, StatUtils.timeSeries(
-                        c, c.reports.filter {
+                this, StatUtils.sumTimeframes(
+                    c, vm.history!!,
+                    StatUtils.timeSeries(
+                        c, timeframeLength, c.reports.filter {
                             if (it.analysis == null) it.analyse()
                             vm.crushKey in it.analysis!!
                         }
-                    )
+                    ),
+                    timeframeLength
                 )
             )
         )

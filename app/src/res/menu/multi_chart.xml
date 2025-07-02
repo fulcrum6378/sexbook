@@ -31,11 +31,11 @@
                 android:checkableBehavior="single">
 
                 <item
-                    android:id="@+id/chartMonthly"
+                    android:id="@id/chartMonthly"
                     android:title="@string/chartMonthly" />
 
                 <item
-                    android:id="@+id/chartYearly"
+                    android:id="@id/chartYearly"
                     android:title="@string/chartYearly" />
             </group>
         </menu>

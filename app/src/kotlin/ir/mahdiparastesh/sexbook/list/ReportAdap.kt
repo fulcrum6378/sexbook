@@ -198,7 +198,7 @@ class ReportAdap(
         // overflow
         if (!r.guess) {
             h.b.root.setOnClickListener { turnOverflow(h.layoutPosition, h.b) }
-            turnOverflow(h.layoutPosition, h.b, expansion[i])
+            turnOverflow(h.layoutPosition, h.b, expansion[h.layoutPosition])
         } else {
             h.b.root.setOnClickListener(null)
             h.b.desc.isVisible = false

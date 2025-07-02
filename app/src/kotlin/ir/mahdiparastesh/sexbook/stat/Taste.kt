@@ -61,6 +61,8 @@ class Taste : MultiChartActivity() {
         var chartTimeframe: Int = 0
         var crushSumIndex: HashMap<Crush, Float>? = null
         var timeSeries: List<String>? = null
+
+        fun timeframeLength() = ChartTimeframeLength.entries[chartTimeframe]
     }
 
     override val toolbar: Toolbar get() = b.toolbar
@@ -73,6 +75,7 @@ class Taste : MultiChartActivity() {
         get() = vm.chartTimeframe
         set(value) {
             vm.chartTimeframe = value
+            vm.timeSeries = null
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -216,7 +219,8 @@ class Taste : MultiChartActivity() {
 
         /** Only used for [ChartType.TIME_SERIES] and [ChartType.CUMULATIVE_TIME_SERIES] */
         fun indexRecords() {
-            if (c.vm.timeSeries == null) c.vm.timeSeries = StatUtils.timeSeries(c.c)
+            if (c.vm.timeSeries == null)
+                c.vm.timeSeries = StatUtils.timeSeries(c.c, c.vm.timeframeLength())
             var cr: Crush?
             var propertyValue: Short
             for ((crushKey, score) in c.c.summary!!.scores.entries) {
@@ -275,8 +279,12 @@ class Taste : MultiChartActivity() {
                     for ((div, orgasms) in records) lines.add(
                         Timeline(
                             arModes[div.toInt()],
-                            StatUtils.sumTimeFrames(
-                                c.c, orgasms, c.vm.timeSeries!!, cumulative
+                            StatUtils.sumTimeframes(
+                                c.c,
+                                orgasms,
+                                c.vm.timeSeries!!,
+                                c.vm.timeframeLength(),
+                                cumulative
                             ),
                             0f,  // no sorting here
                             preferredColour(div.toInt())
@@ -355,8 +363,12 @@ class Taste : MultiChartActivity() {
                         Timeline(
                             if (div != 0.toShort()) divisionName(div.toInt())
                             else getString(R.string.unspecified),
-                            StatUtils.sumTimeFrames(
-                                c.c, orgasms, c.vm.timeSeries!!, cumulative
+                            StatUtils.sumTimeframes(
+                                c.c,
+                                orgasms,
+                                c.vm.timeSeries!!,
+                                c.vm.timeframeLength(),
+                                cumulative
                             ),
                             0f,  // no sorting here
                             preferredColour(div.toInt())

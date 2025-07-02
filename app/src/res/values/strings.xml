@@ -44,7 +44,7 @@
     <string name="unspecified">Unspecified</string>
     <string name="deactivate">Deactivate</string>
     <string name="gender">Gender</string>
-    <string name="chart">Chart</string>
+    <string name="chart">Chart</string><!--UNUSED-->
     <string name="search">Search</string>
     <string name="sort">Sort</string>
     <string name="filter">Filters</string>
@@ -234,7 +234,7 @@
         <item>Medium penis</item>
         <item>Long penis</item>
     </string-array>
-    <string-array name="bodySexuality">
+    <string-array name="bodySexuality"><!--UNUSED-->
         <item>Sexual orientation&#8230;</item>
         <item>Heterosexual</item>
         <item>Homosexual</item>
