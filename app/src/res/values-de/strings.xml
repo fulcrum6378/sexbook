@@ -238,11 +238,13 @@
     <string name="places">Setzt</string>
     <string name="emptyPlaces">Sie haben keine Orte definiert!</string>
     <string name="plItemHint">Name des Ortes&#8230;</string>
-    <string name="plDeletePlaceSure">
-        Möchten Sie diesen Ort wirklich löschen? Wenn ja, geben Sie bitte an,
-        welche Maßnahmen bezüglich der Aufzeichnungen ergriffen werden sollten, die sich auf diesen Ort beziehen:
-    </string>
     <string name="plDefPlace">Standardort?</string>
+    <string name="plDeletePlaceSure">
+        Möchtest du diesen Ort wirklich löschen?
+        Wenn ja, wähle bitte einen anderen Ort, dem alle zugehörigen Einträge zugewiesen werden sollen,
+        oder lasse das Feld leer, um den Ort einfach aus den Einträgen zu entfernen:
+    </string>
+    <string name="reassigningReports">Einträge neu zuweisen&#8230;</string>
 
     <!-- Estimation -->
     <string name="estimation">Einschätzung</string>

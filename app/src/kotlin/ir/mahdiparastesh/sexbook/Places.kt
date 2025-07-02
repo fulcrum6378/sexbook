@@ -43,21 +43,23 @@ class Places : BaseActivity(), Lister {
 
         // "Add" button
         if (night) b.addIV.colorFilter = themePdcf()
-        b.add.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                val newPlace = Place()
-                newPlace.id = c.dao.pInsert(newPlace)
-                c.places.add(newPlace)
-                Main.changed = true
+        b.add.setOnClickListener { add() }
+    }
 
-                withContext(Dispatchers.Main) {
-                    b.list.adapter!!.notifyItemInserted(c.places.size - 1)
-                    explosionEffect(b.add)
-                    count(c.places.size)
-                    b.empty.isVisible = false
-                }
+    fun add() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val newPlace = Place()
+            newPlace.id = c.dao.pInsert(newPlace)
+            c.places.add(newPlace)
+            Main.changed = true
+
+            withContext(Dispatchers.Main) {
+                b.list.adapter!!.notifyItemInserted(c.places.size - 1)
+                explosionEffect(b.add)
+                count(c.places.size)
+                b.empty.isVisible = false
             }
-            shake()
         }
+        shake()
     }
 }

@@ -487,8 +487,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     private fun notifyBirth(crush: Crush, dist: Long) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-            != PackageManager.PERMISSION_GRANTED
+            ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
         ) return
 
         val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager

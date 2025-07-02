@@ -238,10 +238,13 @@
     <string name="places">Místa</string>
     <string name="emptyPlaces">Nedefinovali jste žádná místa!</string>
     <string name="plItemHint">Název místa&#8230;</string>
-    <string name="plDeletePlaceSure">
-        Opravdu chcete toto místo smazat? Pokud ano, uveďte prosím,
-        jaká opatření by měla být provedena se záznamy, které se týkaly tohoto místa:</string>
     <string name="plDefPlace">Výchozí místo?</string>
+    <string name="plDeletePlaceSure">
+        Opravdu chcete toto místo smazat?
+        Pokud ano, vyberte jiné místo, na které budou přesunuty všechny související záznamy,
+        nebo pole nechte prázdné, pokud chcete místo ze záznamů pouze odstranit:
+    </string>
+    <string name="reassigningReports">Přesouvání záznamů&#8230;</string>
 
     <!-- Estimation -->
     <string name="estimation">Odhad</string>

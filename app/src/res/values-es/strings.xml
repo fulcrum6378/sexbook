@@ -240,11 +240,13 @@
     <string name="places">Lugares</string>
     <string name="emptyPlaces">¡No has definido ningún lugar!</string>
     <string name="plItemHint">Nombre del lugar&#8230;</string>
+    <string name="plDefPlace">¿Lugar predeterminado?</string>
     <string name="plDeletePlaceSure">
         ¿Estás seguro de que deseas eliminar este lugar?
-         En caso afirmativo, especifique qué acción se debe tomar sobre los registros relacionados con este lugar:
+        Si es así, elige otro lugar para reasignar todos los informes relacionados,
+        o déjalo en blanco para eliminar el lugar de ellos:
     </string>
-    <string name="plDefPlace">¿Lugar predeterminado?</string>
+    <string name="reassigningReports">Reasignar informes&#8230;</string>
 
     <!-- Estimation -->
     <string name="estimation">Estimacion</string>

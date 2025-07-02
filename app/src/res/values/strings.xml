@@ -251,11 +251,13 @@
     <string name="places">Places</string>
     <string name="emptyPlaces">You haven\'t defined any places!</string>
     <string name="plItemHint">Place name&#8230;</string>
+    <string name="plDefPlace">Default Place?</string>
     <string name="plDeletePlaceSure">
         Are you sure you want to delete this place?
-        If yes, please specify what action should be taken about the records which were related to this place:
+        If so, please choose another place to reassign all related reports to,
+        or leave it blank to simply remove the place from them:
     </string>
-    <string name="plDefPlace">Default Place?</string>
+    <string name="reassigningReports">Reassigning reports&#8230;</string>
 
     <!-- Estimation -->
     <string name="estimation">Estimation</string>

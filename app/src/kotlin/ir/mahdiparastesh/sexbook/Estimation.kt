@@ -43,21 +43,23 @@ class Estimation : BaseActivity(), Lister {
 
         // "Add" button
         if (night) b.addIV.colorFilter = themePdcf()
-        b.add.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                val newGuess = Guess()
-                newGuess.id = c.dao.gInsert(newGuess)
-                c.guesses.add(newGuess)
-                Main.changed = true
+        b.add.setOnClickListener { add() }
+    }
 
-                withContext(Dispatchers.Main) {
-                    b.list.adapter!!.notifyItemInserted(c.guesses.size - 1)
-                    explosionEffect(b.add)
-                    count(c.places.size)
-                    b.empty.isVisible = false
-                }
+    private fun add() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val newGuess = Guess()
+            newGuess.id = c.dao.gInsert(newGuess)
+            c.guesses.add(newGuess)
+            Main.changed = true
+
+            withContext(Dispatchers.Main) {
+                b.list.adapter!!.notifyItemInserted(c.guesses.size - 1)
+                explosionEffect(b.add)
+                count(c.places.size)
+                b.empty.isVisible = false
             }
-            shake()
         }
+        shake()
     }
 }

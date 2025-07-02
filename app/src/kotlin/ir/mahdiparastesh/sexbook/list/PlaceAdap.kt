@@ -5,6 +5,8 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ProgressBar
+import androidx.annotation.MainThread
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -83,12 +85,9 @@ class PlaceAdap(private val c: Places) :
                         setMessage(c.resources.getString(R.string.plDeletePlaceSure))
                         setView(bm.root)
                         setPositiveButton(R.string.yes) { _, _ ->
-                            delete(
-                                h.layoutPosition, c.c.places
-                                    .find { it.name == (bm.places.selectedItem as String) }?.id
-                                    ?: -1L
+                            deleteWithProgress(
+                                h.layoutPosition, bm.places.selectedItem as String
                             )
-                            c.shake()
                         }
                         setNegativeButton(R.string.no, null)
                         setCancelable(true)
@@ -117,18 +116,56 @@ class PlaceAdap(private val c: Places) :
         }
     }
 
-    fun delete(i: Int, migrateToId: Long) {
+    fun delete(i: Int, migrateToId: Long, @MainThread onFinished: () -> Unit = {}) {
         CoroutineScope(Dispatchers.IO).launch {
             c.c.dao.pDelete(c.c.places[i])
-            for (mig in c.c.dao.rGetByPlace(c.c.places[i].id))
+            val nAlteredReports: Int
+            for (mig in c.c.dao.rGetByPlace(c.c.places[i].id)
+                .also { nAlteredReports = it.size })
                 c.c.dao.rUpdate(mig.apply { place = migrateToId })
+            for (mig in c.c.dao.gGetByPlace(c.c.places[i].id))
+                c.c.dao.gUpdate(mig.apply { place = migrateToId })
             c.c.places.removeAt(i)
+
             Main.changed = true
             withContext(Dispatchers.Main) {
                 notifyItemRemoved(i)
                 //notifyItemRangeChanged(i, itemCount - i)
                 c.count(c.c.places.size)
+                onFinished()
+
+                // reorganise the list regarding the new sum for that Place, if needed
+                if (migrateToId != -1L) {
+                    val newPlaceIndex = c.c.places.indexOfFirst { it.id == migrateToId }
+                    if (newPlaceIndex != -1) c.c.places.getOrNull(newPlaceIndex)?.apply {
+                        val oldSum = sum
+                        sum += nAlteredReports
+                        if (sum != oldSum) {
+                            notifyItemChanged(newPlaceIndex)
+                            c.c.places.sortWith(Place.Sort(Place.Sort.SUM))
+                            val newPlaceNewIndex = c.c.places.indexOfFirst { it.id == migrateToId }
+                            if (newPlaceIndex != newPlaceNewIndex && newPlaceNewIndex != -1)
+                                notifyItemMoved(newPlaceIndex, newPlaceNewIndex)
+                        }
+                    }
+                }
             }
+        }
+    }
+
+    fun deleteWithProgress(i: Int, name: String) {
+        c.shake()
+        val progressDialog = MaterialAlertDialogBuilder(c).apply {
+            setTitle(R.string.delete)
+            setMessage(R.string.reassigningReports)
+            setView(ProgressBar(c).apply {
+                isIndeterminate = true
+                setPadding(0, c.dp(8), 0, c.dp(25))
+            })
+            setCancelable(false)
+        }.show()
+        delete(i, c.c.places.find { it.name == name }?.id ?: -1L) {
+            progressDialog.dismiss()
         }
     }
 }

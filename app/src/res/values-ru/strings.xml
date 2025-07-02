@@ -239,11 +239,13 @@
     <string name="places">Места</string>
     <string name="emptyPlaces">Вы не определили ни одного места!</string>
     <string name="plItemHint">Укажите имя&#8230;</string>
+    <string name="plDefPlace">Место по умолчанию?</string>
     <string name="plDeletePlaceSure">
         Вы уверены, что хотите удалить это место?
-        Если да, укажите, какие действия следует предпринять в отношении записей, связанных с этим местом:
+        Если да, выберите другое место, к которому будут привязаны все связанные записи,
+        или оставьте поле пустым, чтобы просто удалить место из этих записей:
     </string>
-    <string name="plDefPlace">Место по умолчанию?</string>
+    <string name="reassigningReports">Переназначение записей&#8230;</string>
 
     <!-- Estimation -->
     <string name="estimation">Оценка</string>

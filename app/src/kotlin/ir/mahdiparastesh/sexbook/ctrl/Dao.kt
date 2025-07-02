@@ -94,6 +94,9 @@ interface Dao {
     @Query("SELECT * FROM Guess")
     suspend fun gGetAll(): List<Guess>
 
+    @Query("SELECT * FROM Guess WHERE place == :place")
+    suspend fun gGetByPlace(place: Long): List<Guess>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun gInsert(item: Guess): Long
 
