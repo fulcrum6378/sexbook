@@ -40,7 +40,11 @@ class PageLove : BasePage() {
     @SuppressLint("NotifyDataSetChanged")
     override fun prepareList() {
         super.prepareList()
-        c.c.liefde.sortWith(Crush.Sort(c.c, Settings.spPageLoveSortBy, Settings.spPageLoveSortAsc))
+        c.c.liefde.sortWith(
+            Crush.Sort(
+                c.c, Settings.spPageLoveSortBy, Settings.spPageLoveSortAsc
+            )
+        )
         c.count(c.c.liefde.size)
         b.empty.isVisible = c.c.liefde.isEmpty()
         if (b.rv.adapter == null) b.rv.adapter = CrushAdap(c)

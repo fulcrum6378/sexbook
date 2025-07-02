@@ -1,7 +1,8 @@
 <resources>
 
     <dimen name="statusBarSize">24dp</dimen>
-    <dimen name="tbTitle">24sp</dimen>
+    <dimen name="tbTitle">23sp</dimen>
+    <dimen name="tbSubtitle">16sp</dimen>
     <dimen name="toolbarPadT">6dp</dimen>
     <dimen name="nameFont">18.5sp</dimen>
     <dimen name="descFont">16.5sp</dimen>

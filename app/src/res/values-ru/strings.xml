@@ -99,11 +99,12 @@
     <string name="mixture">Смесь</string>
     <string name="intervals">Интервалы</string>
     <string name="taste">Твой Вкус</string>
-    <string-array name="tasteChartTypes">
-        <item>Композиционный</item>
-        <item>Временной ряд</item>
-        <item>Кумулятивный временной ряд</item>
-    </string-array>
+    <string name="chartOptions">Параметры диаграммы</string>
+    <string name="chartCompositional">Композиционный</string>
+    <string name="chartTimeSeries">Временной ряд</string>
+    <string name="chartGrowth">Кумулятивный временной ряд</string>
+    <string name="chartMonthly">Ежемесячно</string>
+    <string name="chartYearly">Ежегодно</string>
     <string name="statistics">Статистика</string>
     <string name="noStat">Диапазон ваших записей должен превышать один месяц!</string>
     <string name="crushesStat">Статистика сокрушений</string>
@@ -124,6 +125,7 @@
         <item>Умер(ла)</item>
     </string-array>
     <string name="fictionalCharacter">Вымышленный персонаж</string>
+    <string name="isFictional">Является ли вымышленный персонаж?</string>
     <string name="realPerson">Реальный человек</string>
     <string-array name="genders">
         <item>Укажите их пол&#8230;</item>

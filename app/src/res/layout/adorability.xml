@@ -4,16 +4,14 @@
     tools:context=".stat.Adorability"
     tools:ignore="MissingConstraints">
 
+    <android.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/toolbar"
+        android:title="@string/adorability" />
+
     <ProgressBar
         android:id="@id/loading"
         style="@style/statLoading" />
 
-    <TextView
-        android:id="@id/title"
-        style="@style/statTitle"
-        android:text="@string/adorability" />
-
-    <Spinner
-        android:id="@id/chartType"
-        style="@style/bottomSpinnerStat" />
+    <View style="@style/tbShadow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

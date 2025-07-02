@@ -1,8 +1,9 @@
 package ir.mahdiparastesh.sexbook.stat
 
+import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Spinner
+import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.util.isNotEmpty
@@ -33,18 +34,29 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
 
     class Model : ViewModel() {
         var chartType: Int = 1
+        var chartTimeframe: Int = 0
     }
 
+    override val toolbar: Toolbar get() = b.toolbar
     override var vmChartType: Int
         get() = vm.chartType
         set(value) {
             vm.chartType = value
         }
+    override var vmChartTimeframe: Int
+        get() = vm.chartTimeframe
+        set(value) {
+            vm.chartTimeframe = value
+        }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        configureToolbar(b.toolbar, R.string.adorability)
+    }
 
     override fun requirements(): Boolean = c.reports.isNotEmpty() && c.summary != null
     override fun getRootView(): View = b.root
     override var job: Job? = null
-    override val chartType: Spinner get() = b.chartType
 
     override fun createNewChart(reset: Boolean) {
         b.loading.isVisible = true
@@ -53,10 +65,12 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
         if (::chartView.isInitialized) b.root.removeView(chartView)
         chartView = createChartView()
         b.root.addView(
-            chartView, 1,
-            ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0).apply {
-                topToBottom = R.id.title
-                bottomToTop = R.id.chartType
+            chartView, 2,
+            ConstraintLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0
+            ).apply {
+                topToBottom = R.id.toolbar
+                bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
             })
 
         // prepare data and then pass it to the chart view
@@ -74,8 +88,8 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
     override suspend fun prepareData(): AbstractChartData {
 
         // filters
-        val statOnlyCrushes =
-            c.sp.getBoolean(Settings.spStatOnlyCrushes, false) && c.liefde.isNotEmpty()
+        val statOnlyCrushes = c.sp.getBoolean(Settings.spStatOnlyCrushes, false)
+                && c.liefde.isNotEmpty()
         val hideUnsafe = c.hideUnsafe()
 
         when (vm.chartType) {
@@ -107,7 +121,9 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
                     lines.add(
                         Timeline(
                             x.key,
-                            StatUtils.sumTimeFrames(c, x.value.orgasms, frames, cumulative),
+                            StatUtils.sumTimeFrames(
+                                c, x.value.orgasms, frames, cumulative
+                            ),
                             x.value.sum
                         )
                     )

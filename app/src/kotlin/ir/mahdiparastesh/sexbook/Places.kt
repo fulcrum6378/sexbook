@@ -33,7 +33,7 @@ class Places : BaseActivity(), Lister {
         super.onCreate(savedInstanceState)
         b = PlacesBinding.inflate(layoutInflater)
         setContentView(b.root)
-        toolbar(b.toolbar, R.string.places)
+        configureToolbar(b.toolbar, R.string.places)
 
         // list
         if (b.list.adapter == null) b.list.adapter = PlaceAdap(this)

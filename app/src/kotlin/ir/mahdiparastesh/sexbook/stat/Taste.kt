@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Spinner
+import android.widget.FrameLayout
+import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.annotation.MainThread
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -23,7 +23,6 @@ import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.data.Crush
-import ir.mahdiparastesh.sexbook.databinding.StatFragmentBinding
 import ir.mahdiparastesh.sexbook.databinding.TasteBinding
 import ir.mahdiparastesh.sexbook.stat.base.CrushAgeChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushAttrChart
@@ -59,25 +58,32 @@ class Taste : MultiChartActivity() {
     class Model : ViewModel() {
         var currentPage: Int? = null
         var chartType: Int = 0
+        var chartTimeframe: Int = 0
         var crushSumIndex: HashMap<Crush, Float>? = null
         var timeSeries: List<String>? = null
     }
 
+    override val toolbar: Toolbar get() = b.toolbar
     override var vmChartType: Int
         get() = vm.chartType
         set(value) {
             vm.chartType = value
         }
+    override var vmChartTimeframe: Int
+        get() = vm.chartTimeframe
+        set(value) {
+            vm.chartTimeframe = value
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        configureToolbar(b.toolbar, R.string.taste)
         b.pager.registerOnPageChangeCallback(onPageChanged)
         b.indicator.attachTo(b.pager)
     }
 
     override fun requirements() = c.summary != null
     override fun getRootView(): View = b.root
-    override val chartType: Spinner get() = b.chartType
 
     private val onPageChanged = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -139,7 +145,7 @@ class Taste : MultiChartActivity() {
 
     abstract class TasteFragment : Fragment(), CrushAttrChart {
         protected val c: Taste by lazy { activity as Taste }
-        protected lateinit var b: StatFragmentBinding
+        protected lateinit var root: FrameLayout
         private lateinit var chartView: AbstractChartView
         private var myJob: Job? = null
 
@@ -156,20 +162,20 @@ class Taste : MultiChartActivity() {
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-        ): View = StatFragmentBinding.inflate(layoutInflater, container, false)
-            .also { b = it }.root
+        ): View = FrameLayout(c).also { root = it }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
             // create and add the chart view
             chartView = c.createChartView()
-            b.root.addView(
-                chartView, 1,
-                ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0).apply {
-                    topToBottom = R.id.title
-                    bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-                })
+            root.addView(
+                chartView,
+                FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+            )
             chartView.setViewportChangeListener {
                 c.b.pager.isUserInputEnabled = chartView.zoomLevel == 1f
             }
@@ -187,7 +193,7 @@ class Taste : MultiChartActivity() {
 
                 withContext(Dispatchers.Main) {
                     c.passDataToChartView(chartView, data)
-                    b.loading.isVisible = false
+                    c.b.loading.isVisible = false
                     chartView.isInvisible = false
                 }
                 myJob?.also { c.jobs.remove(it) }
@@ -196,15 +202,22 @@ class Taste : MultiChartActivity() {
             myJob?.also { c.jobs.add(it) }
         }
 
+        override fun onResume() {
+            super.onResume()
+            c.b.toolbar.subtitle = subtitle
+        }
+
+        protected lateinit var subtitle: String
+
         @MainThread
-        abstract fun preAnalysis()
+        protected abstract fun preAnalysis()
 
         abstract suspend fun statisticise(): AbstractChartData
 
         /** Only used for [ChartType.TIME_SERIES] and [ChartType.CUMULATIVE_TIME_SERIES] */
         fun indexRecords() {
             if (c.vm.timeSeries == null) c.vm.timeSeries = StatUtils.timeSeries(c.c)
-            var cr: Crush? = null
+            var cr: Crush?
             var propertyValue: Short
             for ((crushKey, score) in c.c.summary!!.scores.entries) {
                 cr = c.c.people[crushKey] ?: continue
@@ -228,10 +241,10 @@ class Taste : MultiChartActivity() {
         @SuppressLint("SetTextI18n")
         override fun preAnalysis() {
             arModes = resources.getStringArray(modes)
-            b.title.text = getString(R.string.taste) + ": " +
-                    (if (modes == R.array.genders)
-                        getString(R.string.gender)
-                    else arModes[0].substring(0..(arModes[0].length - 2)))
+            subtitle =
+                (if (modes == R.array.genders)
+                    getString(R.string.gender)
+                else arModes[0].substring(0..(arModes[0].length - 2)))
             arModes[0] = getString(R.string.unspecified)
             for (mode in arModes.indices) counts[mode.toShort()] = 0f
         }
@@ -249,8 +262,9 @@ class Taste : MultiChartActivity() {
                     }
 
                     val data = arrayListOf<SliceValue>()
-                    for ((mode, score) in counts) if (score > 0f)
-                        data.add(createSliceValue(score, mode.toInt(), arModes[mode.toInt()]))
+                    for ((mode, score) in counts) if (score > 0f) data.add(
+                        createSliceValue(score, mode.toInt(), arModes[mode.toInt()])
+                    )
                     return PieChartData(data).setHasLabels(true)
                 }
 
@@ -261,7 +275,9 @@ class Taste : MultiChartActivity() {
                     for ((div, orgasms) in records) lines.add(
                         Timeline(
                             arModes[div.toInt()],
-                            StatUtils.sumTimeFrames(c.c, orgasms, c.vm.timeSeries!!, cumulative),
+                            StatUtils.sumTimeFrames(
+                                c.c, orgasms, c.vm.timeSeries!!, cumulative
+                            ),
                             0f,  // no sorting here
                             preferredColour(div.toInt())
                         )
@@ -301,7 +317,7 @@ class Taste : MultiChartActivity() {
 
         @SuppressLint("SetTextI18n")
         override fun preAnalysis() {
-            b.title.text = getString(R.string.taste) + ": " + getString(topic)
+            subtitle = getString(topic)
         }
 
         override suspend fun statisticise(): AbstractChartData {
@@ -339,7 +355,9 @@ class Taste : MultiChartActivity() {
                         Timeline(
                             if (div != 0.toShort()) divisionName(div.toInt())
                             else getString(R.string.unspecified),
-                            StatUtils.sumTimeFrames(c.c, orgasms, c.vm.timeSeries!!, cumulative),
+                            StatUtils.sumTimeFrames(
+                                c.c, orgasms, c.vm.timeSeries!!, cumulative
+                            ),
                             0f,  // no sorting here
                             preferredColour(div.toInt())
                         )

@@ -100,11 +100,12 @@
     <string name="mixture">Mixture</string>
     <string name="intervals">Intervals</string>
     <string name="taste">Your Taste</string>
-    <string-array name="tasteChartTypes">
-        <item>Compositional</item>
-        <item>Time Series</item>
-        <item>Cumulative Time Series</item>
-    </string-array>
+    <string name="chartOptions">Chart options</string>
+    <string name="chartCompositional">Compositional</string>
+    <string name="chartTimeSeries">Time Series</string>
+    <string name="chartGrowth">Cumulative Time Series</string>
+    <string name="chartMonthly">Monthly</string>
+    <string name="chartYearly">Yearly</string>
     <string name="statistics">Statistics</string>
     <string name="noStat">The range of your records must exceed one month!</string>
     <string name="crushesStat">Crushes\' Statistics</string>
@@ -126,10 +127,11 @@
     </string-array>
     <string name="fictionalCharacter">Fictional character</string>
     <string-array name="fictionality" translatable="false">
-        <item>@string/unknown</item>
+        <item>@string/isFictional</item>
         <item>@string/realPerson</item>
         <item>@string/fictionalCharacter</item>
     </string-array>
+    <string name="isFictional">Is a fictional character?</string>
     <string name="realPerson">Real person</string>
     <string-array name="genders">
         <item>Specify their gender&#8230;</item>

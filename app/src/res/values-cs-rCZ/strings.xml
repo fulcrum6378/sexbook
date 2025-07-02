@@ -98,11 +98,12 @@
     <string name="mixture">Směs</string>
     <string name="intervals">Intervaly</string>
     <string name="taste">Váš Vkus</string>
-    <string-array name="tasteChartTypes">
-        <item>Kompoziční</item>
-        <item>Časová řada</item>
-        <item>Kumulativní časové řady</item>
-    </string-array>
+    <string name="chartOptions">Možnosti grafu</string>
+    <string name="chartCompositional">Kompoziční</string>
+    <string name="chartTimeSeries">Časová řada</string>
+    <string name="chartGrowth">Kumulativní časové řady</string>
+    <string name="chartMonthly">Měsíčně</string>
+    <string name="chartYearly">Ročně</string>
     <string name="statistics">Statistika</string>
     <string name="noStat">Rozsah vašich záznamů musí přesáhnout jeden měsíc!</string>
     <string name="crushesStat">Crushesova statistika</string>
@@ -123,6 +124,7 @@
         <item>Zemřelý/á</item>
     </string-array>
     <string name="fictionalCharacter">Fiktivní postava</string>
+    <string name="isFictional">Je fiktivní postava?</string>
     <string name="realPerson">Skutečná osoba</string>
     <string-array name="genders">
         <item>Uveďte jejich pohlaví&#8230;</item>

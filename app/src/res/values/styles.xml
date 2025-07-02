@@ -27,8 +27,11 @@
         <item name="android:paddingBottom">@dimen/toolbarPadB</item>
         <item name="android:paddingTop">@dimen/toolbarPadT</item>
         <item name="android:titleMarginStart">0dp</item>
-        <item name="android:titleTextAppearance">@style/TextAppearance.Sexbook.Toolbar</item>
+        <item name="android:titleTextAppearance">@style/TextAppearance.Sexbook.Toolbar.Title</item>
         <item name="android:titleTextColor">?titleTextColor</item>
+        <item name="android:subtitleTextColor">?titleTextColor</item>
+        <item name="android:subtitleTextAppearance">@style/TextAppearance.Sexbook.Toolbar.Subtitle
+        </item>
         <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 
@@ -143,20 +146,17 @@
         <item name="android:indeterminate">true</item>
     </style>
 
-    <style name="bottomSpinnerStat" parent="bottomSpinner">
-        <item name="android:background">@drawable/spinner</item>
-    </style>
-
     <style name="crushChartDotsIndicator">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">7dp</item>
         <item name="dotsCornerRadius">1.5dp</item>
         <item name="dotsSize">7dp</item>
-        <item name="dotsColor">?colorOnSecondary</item>
+        <item name="dotsColor">?titleTextColor</item>
         <item name="dotsSpacing">3dp</item>
         <item name="dotsWidthFactor">2.5</item>
         <item name="progressMode">true</item>
-        <item name="selectedDotColor">?colorOnSecondary</item>
+        <item name="selectedDotColor">?titleTextColor</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
@@ -164,9 +164,14 @@
 
 
     <!-- #TextAppearance -->
-    <style name="TextAppearance.Sexbook.Toolbar" parent="@android:style/TextAppearance">
+    <style name="TextAppearance.Sexbook.Toolbar.Title" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/bold</item>
         <item name="android:textSize">@dimen/tbTitle</item>
+    </style>
+
+    <style name="TextAppearance.Sexbook.Toolbar.Subtitle" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/normal</item>
+        <item name="android:textSize">@dimen/tbSubtitle</item>
     </style>
 
     <style name="TextAppearance.Sexbook.Nav" parent="@android:style/TextAppearance">

@@ -12,13 +12,11 @@
 * Vectorise all other icons
 * Number range filters for birth year, birth month, height, zodiac sign, first met year, and sum
   for `Screening`
-* Tooltips for Nav
+* Tooltips for Nav + guides on their Toolbars
 * Fortuna's SearchDialog for searching through `Report`s in their names and descriptions
 * Elevation shadows for the tops of `SummaryDialog` and `RecencyDialog`' lists and the bottom of the
   former
 * List pairs of a `Crush` with whom they have ever shared orgasms in `Singular`; hide & show its
   button conditionally
 * Line chart for `Place`s?
-* Remove statTitle's background?
-* Make `Taste`'s spinner have transparent background and yellow text in night mode
 * Yearly time series

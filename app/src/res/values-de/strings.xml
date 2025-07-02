@@ -96,11 +96,12 @@
     <string name="mixture">Mischung</string>
     <string name="intervals">Intervalle</string>
     <string name="taste">Dein Geschmack</string>
-    <string-array name="tasteChartTypes">
-        <item>Komposition</item>
-        <item>Zeitreihenanalyse</item>
-        <item>Kumulative Zeitreihen</item>
-    </string-array>
+    <string name="chartOptions">Diagrammoptionen</string>
+    <string name="chartCompositional">Komposition</string>
+    <string name="chartTimeSeries">Zeitreihenanalyse</string>
+    <string name="chartGrowth">Kumulative Zeitreihen</string>
+    <string name="chartMonthly">Monatlich</string>
+    <string name="chartYearly">Jährlich</string>
     <string name="statistics">Statistiken</string>
     <string name="noStat">Der Umfang Ihrer Datensätze muss einen Monat überschreiten!</string>
     <string name="crushesStat">Statistiken der Crushes</string>
@@ -121,6 +122,7 @@
         <item>Verstorben</item>
     </string-array>
     <string name="fictionalCharacter">Fiktive Figur</string>
+    <string name="isFictional">Ist eine fiktive Figur?</string>
     <string name="realPerson">Echte Person</string>
     <string-array name="genders">
         <item>Geben Sie ihr Geschlecht an&#8230;</item>

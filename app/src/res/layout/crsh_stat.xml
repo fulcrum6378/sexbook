@@ -13,6 +13,5 @@
 
     <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
         android:id="@+id/indicator"
-        style="@style/crushChartDotsIndicator"
-        android:layout_marginBottom="7dp" />
+        style="@style/crushChartDotsIndicator" />
 </androidx.constraintlayout.widget.ConstraintLayout>

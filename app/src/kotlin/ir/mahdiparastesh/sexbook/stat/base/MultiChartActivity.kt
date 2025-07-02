@@ -1,12 +1,12 @@
 package ir.mahdiparastesh.sexbook.stat.base
 
-import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.ContextThemeWrapper
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toolbar
+import androidx.annotation.IdRes
 import androidx.annotation.MainThread
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.LineChartData
@@ -20,36 +20,14 @@ import ir.mahdiparastesh.sexbook.stat.StatUtils
 import kotlin.reflect.KClass
 
 /** Subclass of [BaseActivity] that contains multiple [ChartType]s. */
-abstract class MultiChartActivity : ChartActivity() {
+abstract class MultiChartActivity : ChartActivity(), Toolbar.OnMenuItemClickListener {
 
+    abstract val toolbar: Toolbar
     abstract var vmChartType: Int
-    abstract val chartType: Spinner
-    private var spnChartTypeTouched = false
+    abstract var vmChartTimeframe: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // chart types
-        chartType.adapter = ArrayAdapter(
-            c, R.layout.spinner_yellow, resources.getStringArray(R.array.tasteChartTypes)
-        ).apply { setDropDownViewResource(R.layout.spinner_dd) }
-        chartType.setSelection(vmChartType)
-        chartType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onItemSelected(
-                parent: AdapterView<*>?, view: View?, position: Int, id: Long
-            ) {
-                if (!spnChartTypeTouched) {
-                    spnChartTypeTouched = true
-                    return; }
-
-                vmChartType = position
-                createNewChart(true)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
         createNewChart(false)
     }
 
@@ -59,7 +37,9 @@ abstract class MultiChartActivity : ChartActivity() {
 
     protected fun createChartView() = ChartType.entries[vmChartType].view.java
         .constructors.find { it.parameterCount == 1 }!!
-        .newInstance(ContextThemeWrapper(c, R.style.statChart)) as AbstractChartView
+        .newInstance(
+            ContextThemeWrapper(c, R.style.statChart)
+        ) as AbstractChartView
 
     fun passDataToChartView(chartView: AbstractChartView, data: AbstractChartData) {
         when (vmChartType) {
@@ -74,10 +54,45 @@ abstract class MultiChartActivity : ChartActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+        toolbar.inflateMenu(R.menu.multi_chart)
+        toolbar.setOnMenuItemClickListener(this)
+        return true
+    }
 
-    enum class ChartType(val view: KClass<out AbstractChartView>) {
-        COMPOSITIONAL(PieChartView::class),
-        TIME_SERIES(LineChartView::class),
-        CUMULATIVE_TIME_SERIES(LineChartView::class),
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+            menu?.setGroupDividerEnabled(true)
+        menu?.findItem(R.id.chartOptions)?.subMenu?.apply {
+            getItem(vmChartType).isChecked = true
+            getItem(ChartType.entries.size + vmChartTimeframe).isChecked = true
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        val chartType = ChartType.entries.indexOfFirst { it.menuId == item.itemId }
+        val chartTimeframe = ChartTimeframe.entries.indexOfFirst { it.menuId == item.itemId }
+        if (chartType != -1 || chartTimeframe != -1) {
+            item.isChecked = true
+            if (chartType != -1) vmChartType = chartType
+            if (chartTimeframe != -1) vmChartTimeframe = chartTimeframe
+            createNewChart(true)
+            return true
+        }
+        return false
+    }
+
+
+    enum class ChartType(val view: KClass<out AbstractChartView>, @IdRes val menuId: Int) {
+        COMPOSITIONAL(PieChartView::class, R.id.chartCompositional),
+        TIME_SERIES(LineChartView::class, R.id.chartTimeSeries),
+        CUMULATIVE_TIME_SERIES(LineChartView::class, R.id.chartGrowth),
+    }
+
+    enum class ChartTimeframe(@IdRes val menuId: Int) {
+        MONTHLY(R.id.chartMonthly),
+        YEARLY(R.id.chartYearly),
     }
 }

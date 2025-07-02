@@ -33,7 +33,7 @@ class Estimation : BaseActivity(), Lister {
         super.onCreate(savedInstanceState)
         b = EstimationBinding.inflate(layoutInflater)
         setContentView(b.root)
-        toolbar(b.toolbar, R.string.estimation)
+        configureToolbar(b.toolbar, R.string.estimation)
 
         // list
         if (b.list.adapter == null) b.list.adapter = GuessAdap(this)

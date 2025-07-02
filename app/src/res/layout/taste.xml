@@ -5,19 +5,25 @@
     tools:context=".stat.Taste"
     tools:ignore="MissingConstraints">
 
+    <android.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/toolbar"
+        android:title="@string/taste" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/chartType"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/indicator"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <Spinner
-        android:id="@id/chartType"
-        style="@style/bottomSpinnerStat"
-        android:background="@drawable/spinner" />
+    <ProgressBar
+        android:id="@id/loading"
+        style="@style/statLoading" />
 
     <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
         android:id="@+id/indicator"
         style="@style/crushChartDotsIndicator" />
+
+    <View style="@style/tbShadow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,7 +38,7 @@ abstract class BaseActivity : FragmentActivity() {
     private var lastToast = -1L
 
     /** Applies custom styles and actions on the Toolbar. */
-    fun toolbar(tb: Toolbar, @StringRes title: Int) {
+    fun configureToolbar(tb: Toolbar, @StringRes title: Int) {
         setActionBar(tb)
         for (g in 0 until tb.childCount) {
             val getTitle = tb.getChildAt(g)
@@ -105,6 +105,10 @@ abstract class BaseActivity : FragmentActivity() {
         val vib = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
             (getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
         else getSystemService(VIBRATOR_SERVICE) as Vibrator)
-        vib.vibrate(VibrationEffect.createOneShot(dur, VibrationEffect.DEFAULT_AMPLITUDE))
+        vib.vibrate(
+            VibrationEffect.createOneShot(
+                dur, VibrationEffect.DEFAULT_AMPLITUDE
+            )
+        )
     }
 }

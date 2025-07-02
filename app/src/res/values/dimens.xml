@@ -1,7 +1,8 @@
 <resources>
 
     <dimen name="statusBarSize">24dp</dimen>
-    <dimen name="tbTitle">21sp</dimen>
+    <dimen name="tbTitle">20sp</dimen>
+    <dimen name="tbSubtitle">14sp</dimen>
     <dimen name="toolbarPadT">0dp</dimen><!--paddingTop deforms it-->
     <dimen name="toolbarPadB">6dp</dimen>
     <dimen name="nameFont">14sp</dimen><!--overridden in sw400dp-->

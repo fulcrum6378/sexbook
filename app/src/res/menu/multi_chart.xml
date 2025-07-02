@@ -1,0 +1,43 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/chartOptions"
+        android:icon="@drawable/settings"
+        android:iconTint="?android:textColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/chartOptions">
+
+        <menu>
+            <!-- do not remove group ids. -->
+            <group
+                android:id="@+id/chartType"
+                android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/chartCompositional"
+                    android:title="@string/chartCompositional" />
+
+                <item
+                    android:id="@+id/chartTimeSeries"
+                    android:title="@string/chartTimeSeries" />
+
+                <item
+                    android:id="@+id/chartGrowth"
+                    android:title="@string/chartGrowth" />
+            </group>
+
+            <group
+                android:id="@+id/chartTimeframe"
+                android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/chartMonthly"
+                    android:title="@string/chartMonthly" />
+
+                <item
+                    android:id="@+id/chartYearly"
+                    android:title="@string/chartYearly" />
+            </group>
+        </menu>
+    </item>
+</menu>

@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -40,7 +41,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
         super.onCreate(savedInstanceState)
         b = PeopleBinding.inflate(layoutInflater)
         setContentView(b.root)
-        toolbar(b.toolbar, R.string.people)
+        configureToolbar(b.toolbar, R.string.people)
     }
 
     override fun onResume() {
@@ -63,6 +64,8 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+            menu?.setGroupDividerEnabled(true)
         menu?.findItem(
             Crush.Sort.findSortMenuItemId(
                 c.sp.getInt(Settings.spPeopleSortBy, 0)
@@ -91,7 +94,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
                         else if (value is Boolean) putBoolean(Settings.spPeopleSortAsc, value)
                     }.apply()
                     arrangeList()
-                }
+                } ?: return false
             }
         }
         return true

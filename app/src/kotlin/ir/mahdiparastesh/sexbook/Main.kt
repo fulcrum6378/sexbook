@@ -114,7 +114,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(b.root)
-        toolbar(b.toolbar, R.string.app_name)
+        configureToolbar(b.toolbar, R.string.app_name)
 
         // loading
         if (vm.loaded) b.body.removeView(b.load)
@@ -337,6 +337,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+            menu?.setGroupDividerEnabled(true)
         menu?.findItem(
             Crush.Sort.findSortMenuItemId(
                 c.sp.getInt(Settings.spPageLoveSortBy, 0)
@@ -371,14 +373,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     else if (value is Boolean) putBoolean(Settings.spPageLoveSortAsc, value)
                 }.apply()
                 pageLove()?.prepareList()
-            }
+            } ?: return false
         }
         return true
     }
 
     private fun checkForUpdates() {
         startActivity(
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://mahdiparastesh.ir/misc/sexbook/"))
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://mahdiparastesh.ir/misc/sexbook/")
+            )
         )
     }
 
