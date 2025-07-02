@@ -32,10 +32,11 @@ class PlaceAdap(private val c: Places) :
         AnyViewHolder(ItemPlaceBinding.inflate(c.layoutInflater, parent, false))
 
     override fun onBindViewHolder(h: AnyViewHolder<ItemPlaceBinding>, i: Int) {
+        val p = c.c.places.getOrNull(i) ?: return
 
         // name
         h.b.name.setTextWatcher(null)
-        h.b.name.setText(c.c.places[i].name)
+        h.b.name.setText(p.name)
         h.b.name.setTextWatcher(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, r: Int, c: Int, a: Int) {}
             override fun onTextChanged(s: CharSequence?, r: Int, b: Int, c: Int) {}
@@ -51,9 +52,9 @@ class PlaceAdap(private val c: Places) :
         })
 
         // sum
-        (c.c.places[i].sum >= 0L).apply {
+        (p.sum >= 0L).apply {
             h.b.sum.isVisible = this
-            h.b.sum.text = if (this) "{${c.c.places[i].sum}}" else ""
+            h.b.sum.text = if (this) "{${p.sum}}" else ""
         }
 
         // click

@@ -74,7 +74,7 @@ class CrushAdap(private val c: Main) :
                 menu.findItem(R.id.lcInstagram)
                     .isVisible = crc.instagram != null && crc.instagram != ""
                 menu.findItem(R.id.lcStatistics)
-                    .isVisible = cr.getSum(c.c) > 0.0
+                    .isVisible = crc.getSum(c.c) > 0.0
             }.show()
         }
         h.b.root.setOnLongClickListener {

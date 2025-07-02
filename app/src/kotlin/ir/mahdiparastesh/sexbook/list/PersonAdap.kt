@@ -44,7 +44,9 @@ class PersonAdap(private val c: People) :
                     if (isChecked) (p.status xor Crush.STAT_INACTIVE)
                     else (p.status or Crush.STAT_INACTIVE)
                 c.c.dao.cUpdate(p)
-                withContext(Dispatchers.Main) { c.c.onCrushChanged(c, p.key, 1) }
+                withContext(Dispatchers.Main) {
+                    c.c.onCrushChanged(c, p.key, 1)
+                }
             }
         }
 
@@ -54,7 +56,8 @@ class PersonAdap(private val c: People) :
 
         // clicks
         h.b.root.setOnClickListener {
-            c.vm.visPeople.getOrNull(h.layoutPosition)?.also { Identify.create<People>(c, it) }
+            c.vm.visPeople.getOrNull(h.layoutPosition)
+                ?.also { Identify.create<People>(c, it) }
         }
         h.b.root.setOnLongClickListener { v ->
             val pk = c.vm.visPeople.getOrNull(h.layoutPosition)
@@ -68,7 +71,9 @@ class PersonAdap(private val c: People) :
             EasyPopupMenu(
                 c, v, R.menu.person,
                 R.id.lcStatistics to {
-                    c.goTo(Singular::class) { putExtra(Singular.EXTRA_CRUSH_KEY, pk) }
+                    c.goTo(Singular::class) {
+                        putExtra(Singular.EXTRA_CRUSH_KEY, pk)
+                    }
                 },
                 R.id.lcInstagram to {
                     if (pc.instagram != null && pc.instagram != "") try {

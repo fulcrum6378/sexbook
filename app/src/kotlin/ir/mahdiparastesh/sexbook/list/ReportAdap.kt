@@ -185,7 +185,7 @@ class ReportAdap(
         } else null)
         h.b.name.onFocusChangeListener = if (!r.guess)
             View.OnFocusChangeListener { v, hasFocus ->
-                if (hasFocus) turnOverflow(i, h.b, true)
+                if (hasFocus) turnOverflow(h.layoutPosition, h.b, true)
             }
         else null
 
@@ -198,7 +198,7 @@ class ReportAdap(
         // overflow
         if (!r.guess) {
             h.b.root.setOnClickListener { turnOverflow(h.layoutPosition, h.b) }
-            turnOverflow(i, h.b, expansion[i])
+            turnOverflow(h.layoutPosition, h.b, expansion[i])
         } else {
             h.b.root.setOnClickListener(null)
             h.b.desc.isVisible = false
