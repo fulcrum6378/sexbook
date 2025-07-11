@@ -43,7 +43,7 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/page/Main.kt) Activit
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/page) : all pages of this application
 - [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) :
-  everything related to statistics (as mentioned above)
+  pages and dialogs which display statistics (as mentioned above)
 - [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/util) : UX-related utilities
 - [**view**](app/src/kotlin/ir/mahdiparastesh/sexbook/view) : UI-related utilities
 
@@ -56,7 +56,7 @@ Statistics can be easily filtered in
 The statistical charts are provided by the forked library
 [**HelloCharts**](https://github.com/fulcrum6378/HelloCharts).
 
-- [**Summary**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/Summary.kt) :
+- [**Summary**](app/src/kotlin/ir/mahdiparastesh/sexbook/ctrl/Summary.kt) :
   shows a summary of one's sexual partners (crushes) and the number of times they had sexual
   intercourses. When clicked on a partner, their monthly statistics will pop up as a line chart.
 - [**Recency**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat/RecencyDialog.kt) :

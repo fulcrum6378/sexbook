@@ -11,9 +11,13 @@ import ir.mahdiparastesh.hellocharts.model.ColumnChartData
 import ir.mahdiparastesh.hellocharts.view.ColumnChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.ctrl.Identify
+import ir.mahdiparastesh.sexbook.ctrl.Summary
 import ir.mahdiparastesh.sexbook.databinding.SingularBinding
 import ir.mahdiparastesh.sexbook.stat.base.OneChartActivity
+import ir.mahdiparastesh.sexbook.util.ChartTimeframeLength
+import ir.mahdiparastesh.sexbook.util.ColumnFactory
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
+import ir.mahdiparastesh.sexbook.util.StatUtils
 
 class Singular : OneChartActivity<ColumnChartView>() {
     val b: SingularBinding by lazy { SingularBinding.inflate(layoutInflater) }

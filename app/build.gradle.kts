@@ -25,7 +25,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 54
-        versionName = "32.3.5"
+        versionName = "32.3.8"
         signingConfig = signingConfigs.getByName("main")  // not applied on debug
     }
 
@@ -85,10 +85,10 @@ dependencies {
     implementation(libs.material)
     implementation(libs.gson)
     implementation(libs.dotsindicator) {
-        exclude(group = "androidx.activity", module = "activity-compose")
-        exclude(group = "androidx.compose")
-        exclude(group = "androidx.compose.ui")
-        exclude(group = "androidx.compose.material3")
+        exclude("androidx.activity", "activity-compose")
+        exclude("androidx.compose")
+        exclude("androidx.compose.ui")
+        exclude("androidx.compose.material3")
     }
     implementation(libs.hellocharts)
     implementation(libs.mcdtp)

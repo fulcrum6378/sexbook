@@ -16,8 +16,8 @@ import ir.mahdiparastesh.hellocharts.view.LineChartView
 import ir.mahdiparastesh.hellocharts.view.PieChartView
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
-import ir.mahdiparastesh.sexbook.stat.ChartTimeframeLength
-import ir.mahdiparastesh.sexbook.stat.StatUtils
+import ir.mahdiparastesh.sexbook.util.ChartTimeframeLength
+import ir.mahdiparastesh.sexbook.util.StatUtils
 import kotlin.reflect.KClass
 
 /** Subclass of [BaseActivity] that contains multiple [ChartType]s. */

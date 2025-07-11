@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook.stat
+package ir.mahdiparastesh.sexbook.util
 
 import android.graphics.Color
 import android.icu.util.Calendar
@@ -12,13 +12,14 @@ import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
+import ir.mahdiparastesh.sexbook.ctrl.Summary
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.page.Settings
-import ir.mahdiparastesh.sexbook.stat.StatUtils.randomHue
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.roundToNearestHundredth
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
+import ir.mahdiparastesh.sexbook.util.StatUtils.randomHue
 
 object StatUtils {
 

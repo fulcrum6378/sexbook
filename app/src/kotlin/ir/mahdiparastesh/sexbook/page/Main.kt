@@ -47,6 +47,7 @@ import ir.mahdiparastesh.sexbook.ctrl.CalendarManager
 import ir.mahdiparastesh.sexbook.ctrl.Database
 import ir.mahdiparastesh.sexbook.ctrl.Exporter
 import ir.mahdiparastesh.sexbook.ctrl.NotificationActions
+import ir.mahdiparastesh.sexbook.ctrl.Summary
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
@@ -58,7 +59,6 @@ import ir.mahdiparastesh.sexbook.stat.CrushesStat
 import ir.mahdiparastesh.sexbook.stat.Intervals
 import ir.mahdiparastesh.sexbook.stat.Mixture
 import ir.mahdiparastesh.sexbook.stat.RecencyDialog
-import ir.mahdiparastesh.sexbook.stat.Summary
 import ir.mahdiparastesh.sexbook.stat.SummaryDialog
 import ir.mahdiparastesh.sexbook.stat.Taste
 import ir.mahdiparastesh.sexbook.util.Delay

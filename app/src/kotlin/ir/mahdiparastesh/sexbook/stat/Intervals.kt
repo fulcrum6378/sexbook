@@ -14,6 +14,7 @@ import ir.mahdiparastesh.sexbook.stat.base.OneChartActivity
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.fullDate
+import ir.mahdiparastesh.sexbook.util.StatUtils
 import ir.mahdiparastesh.sexbook.view.SexType
 
 class Intervals : OneChartActivity<LineChartView>() {
