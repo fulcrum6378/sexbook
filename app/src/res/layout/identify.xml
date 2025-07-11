@@ -101,6 +101,7 @@
             android:id="@+id/active"
             style="@style/identifyMaterialCheckBox"
             android:layout_height="28sp"
+            android:checked="true"
             android:text="@string/activeCrush"
             android:tooltipText="@string/activeCrushDesc" />
 

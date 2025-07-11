@@ -1,5 +1,13 @@
 # Sexbook To-Do List
 
+* Turning off birthday notifications was not possible!
+* Jump to `Identify` from Fortuna
+* Altering `statSince` doesn't refresh `Main`
+* Don't discard the user's selected date in `Settings`:`statSince`; instead uncheck the checkbox.
+* Only statisticise "the enabled" crushes
+* Enlarge Toolbar title +1dp only in `Main`
+* An ultimate report out of `Taste` data
+* A checkbox for saving `Screening` filters in SP
 * Yearly time series charts for `Singular` and `Mixture`
 * Better UI for random crush suggestion and remember a suggestion till the end of the day
 * A TikTok field?
@@ -18,4 +26,3 @@
   former
 * List pairs of a `Crush` with whom they have ever shared orgasms in `Singular`; hide & show its
   button conditionally
-* Line chart for `Place`s?

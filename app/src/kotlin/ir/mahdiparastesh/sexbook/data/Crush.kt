@@ -83,14 +83,14 @@ class Crush(
         /**
          * - 0 => Unspecified
          * - 1 => Fictional character
-         * - 2 => Reachable (willing to meet in-person)
-         * - 3 => Contactable (willing to chat)
-         * - 4 => Observable (e.g. active in social media)
-         * - 5 => Vanished
-         * - 6 => Dead
+         * - 2 => Reachable (real-world contact)
+         * - 3 => Contactable (online contact)
+         * - 4 => Observable (no contact, active in social media or elsewhere)
+         * - 5 => Disappeared
+         * - 6 => Deceased
          * - (7): empty
          */
-        private const val STAT_EXISTENCE = 0b111.toShort()  // 7
+        private const val STAT_PRESENCE = 0b111.toShort()  // 7
 
         /**
          * - 0 => Unspecified
@@ -173,7 +173,7 @@ class Crush(
             else -> key
         } else "$first_name $last_name"
 
-    fun presence(): Int = (status and STAT_EXISTENCE).toInt()
+    fun presence(): Int = (status and STAT_PRESENCE).toInt()
 
     fun gender(): Int = (status and STAT_GENDER).toInt() shr 3
 
