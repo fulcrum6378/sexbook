@@ -11,9 +11,9 @@ The default calendar can be easily changed in *Settings*.
 
 ### Main Activity
 
-The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity contains 2 fragments:
+The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/page/Main.kt) Activity contains 2 fragments:
 
-1. [**PageSex.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/PageSex.kt) :
+1. [**PageSex.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/page/PageSex.kt) :
    which list sex records and their data, including date, time, name of the sexual partner,
    the place where the sexual intercourse happened and description.
 
@@ -24,7 +24,7 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
    Sexual intercourses have types with specific icons, ranging from a simple Wet Dream to
    Vaginal Sex, including Masturbation, Oral Sex and Anal Sex.
 
-2. [**PageLove.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/PageLove.kt) :
+2. [**PageLove.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/page/PageLove.kt) :
    which lists sexual partners, there is an *Identification* section for each,
    and all fields are quite optional. The fields are first, middle and last names, male/female,
    height, birth date, location, Instagram address and a switch button for notifying the user
@@ -41,6 +41,7 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
 - [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : data models of the database (model of
   MVC)
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters
+- [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/page) : all pages of this application
 - [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) :
   everything related to statistics (as mentioned above)
 - [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/util) : UX-related utilities
@@ -51,7 +52,7 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Main.kt) Activity con
 The statistics are accessible via the navigation menu in Main or PageLove.
 The related codes are in the subpackage [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat).
 Statistics can be easily filtered in
-[**Settings**](app/src/kotlin/ir/mahdiparastesh/sexbook/Settings.kt).
+[**Settings**](app/src/kotlin/ir/mahdiparastesh/sexbook/page/Settings.kt).
 The statistical charts are provided by the forked library
 [**HelloCharts**](https://github.com/fulcrum6378/HelloCharts).
 
@@ -77,20 +78,20 @@ The statistical charts are provided by the forked library
 
 ### Other Activities
 
-- [**Estimation.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Estimation.kt) :
+- [**Estimation.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/page/Estimation.kt) :
   this activity lets you estimate your sexual history with specific sexual partners,
   date ranges and places.
 
   It uses the [**Guess.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Guess.kt) database model.
 
-- [**Places.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Places.kt) :
+- [**Places.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/page/Places.kt) :
   this activity tracks places in which sexual intercourses happened.
 
   It uses the [**Place.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/data/Place.kt) database model.
   It can be linked to several rows in Report table. (It was designed to take latitude and longitude
   columns too, but since it didn't seem to be a good idea, I didn't implement anything for them.)
 
-- [**Settings.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/Settings.kt) :
+- [**Settings.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/page/Settings.kt) :
   this activity controls settings and stores them as shared preferences.
   It also can wipe out the database and/or shared preferences.
 

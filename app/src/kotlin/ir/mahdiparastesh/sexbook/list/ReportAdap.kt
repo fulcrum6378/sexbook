@@ -19,9 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
-import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.PageSex
-import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.ctrl.LastOrgasm
@@ -29,6 +26,9 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.ItemReportBinding
+import ir.mahdiparastesh.sexbook.page.Main
+import ir.mahdiparastesh.sexbook.page.PageSex
+import ir.mahdiparastesh.sexbook.page.Places
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.createFilterYm
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder

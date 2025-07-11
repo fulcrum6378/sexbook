@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook
+package ir.mahdiparastesh.sexbook.page
 
 import android.annotation.SuppressLint
 import android.os.Bundle

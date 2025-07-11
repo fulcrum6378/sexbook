@@ -19,10 +19,10 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentActivity
-import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
+import ir.mahdiparastesh.sexbook.page.Main
+import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.view.UiTools.vib
 import kotlin.reflect.KClass
 

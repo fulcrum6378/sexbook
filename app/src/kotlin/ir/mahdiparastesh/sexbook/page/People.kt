@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook
+package ir.mahdiparastesh.sexbook.page
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import com.google.android.material.badge.BadgeDrawable
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.Lister
 import ir.mahdiparastesh.sexbook.ctrl.Screening

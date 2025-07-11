@@ -17,6 +17,10 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.page.Main
+import ir.mahdiparastesh.sexbook.page.PageLove
+import ir.mahdiparastesh.sexbook.page.People
+import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.stat.Summary
 import ir.mahdiparastesh.sexbook.util.HumanistIranianCalendar
 import kotlinx.coroutines.CoroutineScope
@@ -60,7 +64,7 @@ class Sexbook : Application() {
     /** A list of [Crush]es marked as "unsafe". */
     var unsafe = CopyOnWriteArraySet<String>()
 
-    /** A list of filters which will be applied to [People]. */
+    /** A list of filters which will be applied to [ir.mahdiparastesh.sexbook.page.People]. */
     var screening: Screening.Filters? = null
 
 

@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/body"
-    tools:context=".People"
+    tools:context=".page.People"
     tools:ignore="MissingConstraints">
 
     <android.widget.Toolbar

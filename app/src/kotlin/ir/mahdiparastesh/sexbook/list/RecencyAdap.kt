@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.RecencyBinding
+import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.stat.RecencyDialog
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar

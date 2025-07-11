@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook
+package ir.mahdiparastesh.sexbook.page
 
 import android.Manifest
 import android.animation.Animator
@@ -38,6 +38,9 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.navigation.NavigationView
+import ir.mahdiparastesh.sexbook.BuildConfig
+import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.Lister
 import ir.mahdiparastesh.sexbook.ctrl.CalendarManager

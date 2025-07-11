@@ -5,12 +5,12 @@ import android.content.Intent
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.PageLove
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.ctrl.Identify
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
+import ir.mahdiparastesh.sexbook.page.Main
+import ir.mahdiparastesh.sexbook.page.PageLove
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder

@@ -13,12 +13,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
-import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.CrshStatBinding
 import ir.mahdiparastesh.sexbook.databinding.CrshStatFragmentBinding
+import ir.mahdiparastesh.sexbook.page.People
 import ir.mahdiparastesh.sexbook.stat.base.CrushAgeChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushAttrChart
 import ir.mahdiparastesh.sexbook.stat.base.CrushBreastsChart

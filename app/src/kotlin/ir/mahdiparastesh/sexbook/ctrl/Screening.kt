@@ -10,10 +10,10 @@ import android.widget.Spinner
 import androidx.annotation.ArrayRes
 import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import ir.mahdiparastesh.sexbook.People
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.ScreeningBinding
+import ir.mahdiparastesh.sexbook.page.People
 import ir.mahdiparastesh.sexbook.util.NumberUtils.DISABLED_ALPHA
 import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
 

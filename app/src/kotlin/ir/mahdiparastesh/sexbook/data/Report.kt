@@ -8,10 +8,10 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import ir.mahdiparastesh.mcdtp.McdtpUtils
-import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.ctrl.Dao
+import ir.mahdiparastesh.sexbook.page.Main
+import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.stat.Intervals
 import ir.mahdiparastesh.sexbook.stat.Mixture
 import ir.mahdiparastesh.sexbook.view.SexType

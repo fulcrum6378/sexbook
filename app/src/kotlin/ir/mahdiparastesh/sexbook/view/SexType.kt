@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.annotation.DrawableRes
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.databinding.TypeSelectorBinding
 import ir.mahdiparastesh.sexbook.databinding.TypeSelectorDdBinding
+import ir.mahdiparastesh.sexbook.page.Settings
 
 /**
  * Data class that indicates a sex type.

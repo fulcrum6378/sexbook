@@ -1,9 +1,10 @@
-package ir.mahdiparastesh.sexbook
+package ir.mahdiparastesh.sexbook.page
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.core.view.isVisible
 import com.google.android.material.badge.BadgeDrawable
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.Lister
 import ir.mahdiparastesh.sexbook.data.Place

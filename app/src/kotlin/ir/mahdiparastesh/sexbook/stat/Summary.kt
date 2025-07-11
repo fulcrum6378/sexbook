@@ -1,8 +1,8 @@
 package ir.mahdiparastesh.sexbook.stat
 
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.util.NumberUtils.roundToNearestHundredth
 import java.io.Serializable
 

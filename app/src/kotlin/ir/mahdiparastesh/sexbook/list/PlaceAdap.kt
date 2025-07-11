@@ -10,13 +10,13 @@ import androidx.annotation.MainThread
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import ir.mahdiparastesh.sexbook.Main
-import ir.mahdiparastesh.sexbook.Places
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.Settings.Companion.spDefPlace
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.databinding.ItemPlaceBinding
 import ir.mahdiparastesh.sexbook.databinding.MigratePlaceBinding
+import ir.mahdiparastesh.sexbook.page.Main
+import ir.mahdiparastesh.sexbook.page.Places
+import ir.mahdiparastesh.sexbook.page.Settings.Companion.spDefPlace
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import ir.mahdiparastesh.sexbook.view.UiTools.dbValue

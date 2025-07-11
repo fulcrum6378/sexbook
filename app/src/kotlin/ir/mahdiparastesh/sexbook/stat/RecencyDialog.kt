@@ -7,11 +7,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.core.view.isInvisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.list.RecencyAdap
+import ir.mahdiparastesh.sexbook.page.Main
 
 class RecencyDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
     val items: ArrayList<Item> = ArrayList()

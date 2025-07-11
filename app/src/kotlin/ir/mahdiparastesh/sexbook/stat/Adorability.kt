@@ -16,8 +16,8 @@ import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.hellocharts.view.AbstractChartView
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.databinding.AdorabilityBinding
+import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.stat.base.MultiChartActivity
 import ir.mahdiparastesh.sexbook.stat.base.SingleChartActivity
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show

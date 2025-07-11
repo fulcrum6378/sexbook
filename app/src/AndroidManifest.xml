@@ -26,7 +26,7 @@
         android:theme="@style/Theme.Sexbook">
 
         <activity
-            android:name=".Main"
+            android:name=".page.Main"
             android:exported="true"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize">
@@ -43,31 +43,31 @@
         </activity>
 
         <activity
-            android:name=".People"
+            android:name=".page.People"
             android:exported="false"
             android:launchMode="singleTop"
-            android:parentActivityName=".Main"
+            android:parentActivityName=".page.Main"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".Places"
+            android:name=".page.Places"
             android:exported="false"
             android:launchMode="singleTop"
-            android:parentActivityName=".Main"
+            android:parentActivityName=".page.Main"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".Estimation"
+            android:name=".page.Estimation"
             android:exported="false"
             android:launchMode="singleTop"
-            android:parentActivityName=".Main"
+            android:parentActivityName=".page.Main"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".Settings"
+            android:name=".page.Settings"
             android:exported="false"
             android:launchMode="singleTop"
-            android:parentActivityName=".Main" />
+            android:parentActivityName=".page.Main" />
 
         <activity
             android:name=".stat.Singular"

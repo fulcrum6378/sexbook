@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook
+package ir.mahdiparastesh.sexbook.page
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -14,6 +14,7 @@ import androidx.core.util.contains
 import androidx.core.util.isEmpty
 import androidx.core.util.set
 import androidx.core.view.isVisible
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BasePage
 import ir.mahdiparastesh.sexbook.ctrl.LastOrgasm
 import ir.mahdiparastesh.sexbook.data.Report

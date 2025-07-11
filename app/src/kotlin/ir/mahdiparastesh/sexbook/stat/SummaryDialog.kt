@@ -12,12 +12,12 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isInvisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
 import ir.mahdiparastesh.sexbook.list.SummaryAdap
+import ir.mahdiparastesh.sexbook.page.Main
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 
 class SummaryDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {

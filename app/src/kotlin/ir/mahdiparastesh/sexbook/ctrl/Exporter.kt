@@ -16,14 +16,14 @@ import com.google.gson.TypeAdapter
 import com.google.gson.TypeAdapterFactory
 import com.google.gson.reflect.TypeToken
 import ir.mahdiparastesh.sexbook.BuildConfig
-import ir.mahdiparastesh.sexbook.Main
 import ir.mahdiparastesh.sexbook.R
-import ir.mahdiparastesh.sexbook.Settings
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
+import ir.mahdiparastesh.sexbook.page.Main
+import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +60,9 @@ class Exporter(private val c: BaseActivity) {
             CoroutineScope(Dispatchers.IO).launch {
                 var bExp = false
                 runCatching {
-                    c.contentResolver.openFileDescriptor(it.data!!.data!!, "w")?.use { des ->
+                    c.contentResolver.openFileDescriptor(
+                        it.data!!.data!!, "w"
+                    )?.use { des ->
                         FileOutputStream(des.fileDescriptor).use { fos ->
                             fos.write(exported!!.binary())
                         }
@@ -134,7 +136,9 @@ class Exporter(private val c: BaseActivity) {
                         type = mime
                         putExtra(
                             Intent.EXTRA_STREAM,
-                            FileProvider.getUriForFile(c, "${c.packageName}.send", cache)
+                            FileProvider.getUriForFile(
+                                c, "${c.packageName}.send", cache
+                            )
                         )
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     }.also { c.startActivity(it) }
@@ -147,7 +151,7 @@ class Exporter(private val c: BaseActivity) {
     /** Exports the entire [Database] plus [SharedPreferences] into a JSON file. */
     private fun export(): Boolean {
         exported = Exported(
-            c.c.reports.filter<Report> { !it.guess }.sortedBy { it.time }.toTypedArray(),
+            c.c.reports.filter { !it.guess }.sortedBy { it.time }.toTypedArray(),
             c.c.people.values.sortedBy { it.key }.sortedBy { it.getFirstOrgasm(c.c) }
                 .toTypedArray(),
             c.c.places.sortedBy { it.name }.toTypedArray(),
@@ -155,7 +159,9 @@ class Exporter(private val c: BaseActivity) {
             c.c.sp.all.toSortedMap()
         )
         val emp = exported!!.isEmpty()
-        if (emp) Toast.makeText(c, R.string.noRecords, Toast.LENGTH_LONG).show()
+        if (emp) Toast.makeText(
+            c, R.string.noRecords, Toast.LENGTH_LONG
+        ).show()
         return !emp
     }
 
@@ -174,7 +180,8 @@ class Exporter(private val c: BaseActivity) {
         } catch (e: Exception) {
             if (BuildConfig.DEBUG) throw e
             Toast.makeText(
-                c, R.string.importOpenError, Toast.LENGTH_LONG
+                c, R.string.importOpenError,
+                Toast.LENGTH_LONG
             ).show()
             return
         }
@@ -185,7 +192,8 @@ class Exporter(private val c: BaseActivity) {
         } catch (e: Exception) {
             if (BuildConfig.DEBUG) throw e
             Toast.makeText(
-                c, R.string.importReadError, Toast.LENGTH_LONG
+                c, R.string.importReadError,
+                Toast.LENGTH_LONG
             ).show()
             return
         }

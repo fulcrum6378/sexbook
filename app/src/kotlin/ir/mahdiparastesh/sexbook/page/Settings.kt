@@ -1,4 +1,4 @@
-package ir.mahdiparastesh.sexbook
+package ir.mahdiparastesh.sexbook.page
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -21,6 +21,8 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
+import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.ctrl.CalendarManager

@@ -8,7 +8,7 @@
 
         <intent
             android:action="ir.mahdiparastesh.sexbook.ACTION.ADD"
-            android:targetClass="ir.mahdiparastesh.sexbook.Main"
+            android:targetClass="ir.mahdiparastesh.sexbook.page.Main"
             android:targetPackage="ir.mahdiparastesh.sexbook" />
     </shortcut>
 </shortcuts>
