@@ -1,5 +1,7 @@
 # Sexbook To-Do List
 
+* Non-orgasm reports ma never need to be statisticised
+* Main social media select: { Instagram, Tiktok, X, Facebook, ... }
 * Turning off birthday notifications was not possible!
 * Jump to `Identify` from Fortuna
 * Altering `statSince` doesn't refresh `Main`
@@ -10,7 +12,6 @@
 * A checkbox for saving `Screening` filters in SP
 * Yearly time series charts for `Singular` and `Mixture`
 * Better UI for random crush suggestion and remember a suggestion till the end of the day
-* A TikTok field?
 * Organise the UI of `Settings`
 * Hide crushes with "Last Orgasm" older than...
 * More body attributes? { nose size?, voice type?, lip shape?, eyebrow shape?, upper body shape?, }
