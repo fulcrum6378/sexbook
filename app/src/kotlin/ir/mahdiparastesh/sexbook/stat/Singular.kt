@@ -1,10 +1,11 @@
 package ir.mahdiparastesh.sexbook.stat
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
+import android.widget.Toolbar
 import androidx.activity.viewModels
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModel
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.ColumnChartData
@@ -17,10 +18,12 @@ import ir.mahdiparastesh.sexbook.stat.base.OneChartActivity
 import ir.mahdiparastesh.sexbook.util.ChartTimeframeLength
 import ir.mahdiparastesh.sexbook.util.ColumnFactory
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
+import ir.mahdiparastesh.sexbook.util.NumberUtils
 import ir.mahdiparastesh.sexbook.util.StatUtils
 
-class Singular : OneChartActivity<ColumnChartView>() {
+class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickListener {
     val b: SingularBinding by lazy { SingularBinding.inflate(layoutInflater) }
+    private var lastIdentifyCreation = 0L
 
     override fun getRootView(): View = b.root
 
@@ -37,11 +40,8 @@ class Singular : OneChartActivity<ColumnChartView>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        findViewById<TextView>(R.id.title).text = vm.crushKey
-        findViewById<ConstraintLayout>(R.id.identify).setOnClickListener {
-            Identify.create<Singular>(this@Singular, vm.crushKey!!)
-        }
+        configureToolbar(b.toolbar, R.string.identify)
+        b.toolbar.title = vm.crushKey
     }
 
     override fun requirements(): Boolean {
@@ -66,6 +66,24 @@ class Singular : OneChartActivity<ColumnChartView>() {
                 )
             )
         )
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+        b.toolbar.inflateMenu(R.menu.singular)
+        b.toolbar.setOnMenuItemClickListener(this)
+        return true
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.identify -> {
+                if ((NumberUtils.now() - lastIdentifyCreation <= 1000L)) return false
+                Identify.create<Singular>(this@Singular, vm.crushKey!!)
+                lastIdentifyCreation = NumberUtils.now()
+            }
+        }
+        return true
     }
 
     override suspend fun drawChart(data: AbstractChartData) {

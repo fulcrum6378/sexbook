@@ -1,6 +1,6 @@
 # Sexbook To-Do List
 
-* Non-orgasm reports ma never need to be statisticised
+* Non-orgasm reports may never need to be statisticised
 * Main social media select: { Instagram, Tiktok, X, Facebook, ... }
 * Turning off birthday notifications was not possible!
 * Jump to `Identify` from Fortuna

@@ -41,7 +41,7 @@ The [**Main.kt**](app/src/kotlin/ir/mahdiparastesh/sexbook/page/Main.kt) Activit
 - [**data**](app/src/kotlin/ir/mahdiparastesh/sexbook/data) : data models of the database (model of
   MVC)
 - [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/list) : all RecyclerView adapters
-- [**list**](app/src/kotlin/ir/mahdiparastesh/sexbook/page) : all pages of this application
+- [**page**](app/src/kotlin/ir/mahdiparastesh/sexbook/page) : all pages of this application
 - [**stat**](app/src/kotlin/ir/mahdiparastesh/sexbook/stat) :
   pages and dialogs which display statistics (as mentioned above)
 - [**misc**](app/src/kotlin/ir/mahdiparastesh/sexbook/util) : UX-related utilities
