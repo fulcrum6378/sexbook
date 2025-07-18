@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toolbar
 import androidx.activity.viewModels
+import androidx.core.util.valueIterator
 import androidx.lifecycle.ViewModel
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.ColumnChartData
@@ -18,12 +19,15 @@ import ir.mahdiparastesh.sexbook.stat.base.OneChartActivity
 import ir.mahdiparastesh.sexbook.util.ChartTimeframeLength
 import ir.mahdiparastesh.sexbook.util.ColumnFactory
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.filter
-import ir.mahdiparastesh.sexbook.util.NumberUtils
 import ir.mahdiparastesh.sexbook.util.StatUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickListener {
     val b: SingularBinding by lazy { SingularBinding.inflate(layoutInflater) }
-    private var lastIdentifyCreation = 0L
+    private var tbMenu: Menu? = null
 
     override fun getRootView(): View = b.root
 
@@ -36,12 +40,36 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
     class Model : ViewModel() {
         var crushKey: String? = null
         var history: ArrayList<Summary.Orgasm>? = null
+        val otherPartners: ArrayList<OtherPartners.Item> = arrayListOf()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         configureToolbar(b.toolbar, R.string.identify)
         b.toolbar.title = vm.crushKey
+
+        CoroutineScope(Dispatchers.Default).launch {
+            val crk = vm.crushKey
+            val map = hashMapOf<String, OtherPartners.Item>()
+            for (r in c.reports.valueIterator()) {
+                if (r.guess || r.analysis?.none { it == crk } != false) continue
+                r.analysis!!.filter { it != crk }.forEach { other ->
+                    val otherLC = other.lowercase()
+                    if (!map.containsKey(otherLC))
+                        map[otherLC] = OtherPartners.Item(other, 1)
+                    else
+                        map[otherLC]!!.times += 1
+                }
+            }
+            vm.otherPartners.clear()
+            vm.otherPartners.addAll(map.values)
+            vm.otherPartners.sortBy { it.name }
+            vm.otherPartners.sortByDescending { it.times }
+
+            if (tbMenu != null && map.isNotEmpty()) withContext(Dispatchers.Main) {
+                tbMenu?.findItem(R.id.otherPartners)?.isVisible = true
+            }
+        }
     }
 
     override fun requirements(): Boolean {
@@ -75,13 +103,16 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        tbMenu = menu!!
+        if (vm.otherPartners.isNotEmpty()) menu.findItem(R.id.otherPartners)?.isVisible = true
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.identify -> {
-                if ((NumberUtils.now() - lastIdentifyCreation <= 1000L)) return false
-                Identify.create<Singular>(this@Singular, vm.crushKey!!)
-                lastIdentifyCreation = NumberUtils.now()
-            }
+            R.id.identify -> Identify.create<Singular>(this, vm.crushKey!!)
+            R.id.otherPartners -> OtherPartners.create(this, vm.crushKey!!)
         }
         return true
     }

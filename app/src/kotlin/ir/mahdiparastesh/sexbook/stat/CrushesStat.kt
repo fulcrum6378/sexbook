@@ -14,6 +14,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.hellocharts.model.PieChartData
 import ir.mahdiparastesh.hellocharts.model.SliceValue
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.CrshStatBinding
@@ -44,9 +45,18 @@ import kotlin.math.roundToInt
 
 class CrushesStat : BaseDialog<BaseActivity>() {
 
-    companion object {
-        const val BUNDLE_WHICH_LIST = "which_list"
-        const val TAG = "crushes_stat"
+    companion object : BaseDialogCompanion() {
+        private const val TAG = "crushes_stat"
+        private const val BUNDLE_WHICH_LIST = "which_list"
+
+        /** @param whichList 0 => [Sexbook.people], 1 => [Sexbook.liefde] */
+        fun create(c: BaseActivity, whichList: Int) {
+            if (isDuplicate()) return
+            CrushesStat().apply {
+                arguments = Bundle().apply { putInt(BUNDLE_WHICH_LIST, whichList) }
+                show(c.supportFragmentManager, TAG)
+            }
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

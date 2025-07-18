@@ -81,12 +81,9 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.chart -> if (c.people.isNotEmpty()) CrushesStat().apply {
-                arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 0) }
-                show(supportFragmentManager, CrushesStat.TAG)
-            }
-            R.id.filter -> if (c.people.isNotEmpty())
-                Screening().show(supportFragmentManager, "screening")
+            R.id.chart -> if (c.people.isNotEmpty()) CrushesStat.create(this, 0)
+            R.id.filter -> if (c.people.isNotEmpty()) Screening.create(this)
+
             else -> {
                 Crush.Sort.sort(item.itemId)?.also { value ->
                     item.isChecked = true

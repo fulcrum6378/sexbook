@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import androidx.core.view.isInvisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.ctrl.Summary
 import ir.mahdiparastesh.sexbook.databinding.SearchableStatBinding
@@ -19,6 +20,15 @@ class RecencyDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
     override var lookingFor: String? = null
 
     data class Item(val name: String, val time: Long)
+
+    companion object : BaseDialogCompanion() {
+        private const val TAG = "recency"
+
+        fun create(c: BaseActivity) {
+            if (isDuplicate()) return
+            RecencyDialog().show(c.supportFragmentManager, TAG)
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         isCancelable = true

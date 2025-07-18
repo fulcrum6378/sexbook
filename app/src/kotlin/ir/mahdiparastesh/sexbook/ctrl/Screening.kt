@@ -11,6 +11,7 @@ import androidx.annotation.ArrayRes
 import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.databinding.ScreeningBinding
 import ir.mahdiparastesh.sexbook.page.People
@@ -20,6 +21,15 @@ import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
 /** An advanced interface for filtering people as a dialog box */
 class Screening : BaseDialog<People>() {
     private lateinit var b: ScreeningBinding
+
+    companion object : BaseDialogCompanion() {
+        private const val TAG = "screening"
+
+        fun create(c: BaseActivity) {
+            if (isDuplicate()) return
+            Screening().show(c.supportFragmentManager, TAG)
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         b = ScreeningBinding.inflate(c.layoutInflater)

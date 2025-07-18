@@ -245,6 +245,10 @@
     <string name="duplicateCrush">
         Another crush with this identifier already exists; please make sure the identifier is unique.
     </string>
+    <string name="otherPartners">Other Partners</string>
+    <string name="otherPartnersDesc">
+        Other sexual partners having sex along with this person in your sexual history.
+    </string>
 
     <!-- People -->
     <string name="people">People</string>

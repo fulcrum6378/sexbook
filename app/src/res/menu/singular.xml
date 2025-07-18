@@ -6,4 +6,13 @@
         android:showAsAction="ifRoom"
         android:title="@string/identify"
         android:tooltipText="@string/identify" />
+
+    <item
+        android:id="@+id/otherPartners"
+        android:icon="@drawable/people"
+        android:iconTint="?textColorPrimaryContainer"
+        android:showAsAction="ifRoom"
+        android:title="@string/otherPartners"
+        android:tooltipText="@string/otherPartnersDesc"
+        android:visible="false" />
 </menu>

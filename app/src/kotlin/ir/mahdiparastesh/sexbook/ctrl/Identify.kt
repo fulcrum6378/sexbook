@@ -42,15 +42,16 @@ import kotlin.experimental.or
 /** An dialog box for controlling data of a [Crush] */
 class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity {
 
-    companion object {
+    companion object : BaseDialogCompanion() {
         private const val TAG = "identify"
-        const val BUNDLE_CRUSH_KEY = "crush_key"
-        var crush: Crush? = null
+        private const val BUNDLE_CRUSH_KEY = "crush_key"
+        private var crush: Crush? = null
 
-        fun <Activity> create(c: BaseActivity, crush: String) where Activity : BaseActivity {
-            Companion.crush = c.c.people[crush]
+        fun <Activity> create(c: BaseActivity, crushKey: String) where Activity : BaseActivity {
+            if (isDuplicate()) return
+            crush = c.c.people[crushKey]
             Identify<Activity>().apply {
-                arguments = Bundle().apply { putString(BUNDLE_CRUSH_KEY, crush) }
+                arguments = Bundle().apply { putString(BUNDLE_CRUSH_KEY, crushKey) }
                 show(c.supportFragmentManager, TAG)
             }
         }

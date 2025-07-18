@@ -312,8 +312,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
 
         when (item.itemId) {
-            R.id.momSum -> SummaryDialog().show(supportFragmentManager, "summary")
-            R.id.momRec -> RecencyDialog().show(supportFragmentManager, "recency")
+            R.id.momSum -> SummaryDialog.create(this)
+            R.id.momRec -> RecencyDialog.create(this)
             R.id.momPop -> goTo(Adorability::class)
             R.id.momMix -> goTo(Mixture::class)
             R.id.momInt -> goTo(Intervals::class)
@@ -361,10 +361,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
 
             // PageLove (R.menu.page_love):
-            R.id.chart -> if (c.liefde.isNotEmpty()) CrushesStat().apply {
-                arguments = Bundle().apply { putInt(CrushesStat.BUNDLE_WHICH_LIST, 1) }
-                show(supportFragmentManager, CrushesStat.TAG)
-            }
+            R.id.chart -> if (c.liefde.isNotEmpty())
+                CrushesStat.create(this, 1)
             R.id.randomCrush -> if (c.liefde.isNotEmpty()) {
                 Toast.makeText(c, c.liefde.random(), Toast.LENGTH_LONG).show()
                 shake()

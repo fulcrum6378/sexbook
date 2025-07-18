@@ -23,6 +23,15 @@ import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 class SummaryDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
     override var lookingFor: String? = null
 
+    companion object : BaseDialogCompanion() {
+        private const val TAG = "summary"
+
+        fun create(c: BaseActivity) {
+            if (isDuplicate()) return
+            SummaryDialog().show(c.supportFragmentManager, TAG)
+        }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         c.c.summary!!.classify(c.c)
         val b = SearchableStatBinding.inflate(c.layoutInflater)

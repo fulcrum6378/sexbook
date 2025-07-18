@@ -62,7 +62,6 @@ class Settings : BaseActivity() {
     companion object {
         const val spName = "settings"
         const val notifyBirthAfterLastTime = 3600000L * 12L
-        const val B_NTF_CRUSHES_TAG = "b_ntf_crushes"
 
         // via Settings
         const val spCalType = "calendarType" // Int, def 0
@@ -107,9 +106,9 @@ class Settings : BaseActivity() {
         configureToolbar(b.toolbar, R.string.stTitle)
 
         // Calendar Type
-        b.stCalendarType.adapter =
-            ArrayAdapter(this@Settings, R.layout.spinner_yellow, calendarTypes.toList())
-                .apply { setDropDownViewResource(R.layout.spinner_dd) }
+        b.stCalendarType.adapter = ArrayAdapter(
+            this@Settings, R.layout.spinner_yellow, calendarTypes.toList()
+        ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         b.stCalendarType.setSelection(c.sp.getInt(spCalType, 0))
         b.stCalendarType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -144,7 +143,8 @@ class Settings : BaseActivity() {
                     c.sp.getLong(spStatUntil, 0/*IMPOSSIBLE*/)
                 ) {
                     Toast.makeText(
-                        c, R.string.statSinceIllogical, Toast.LENGTH_LONG
+                        c, R.string.statSinceIllogical,
+                        Toast.LENGTH_LONG
                     ).show()
                     return@newInstance; }
                 b.stStatSinceDate.text = cal.fullDate()
@@ -180,7 +180,8 @@ class Settings : BaseActivity() {
                     c.sp.getLong(spStatSince, 0/*IMPOSSIBLE*/)
                 ) {
                     Toast.makeText(
-                        c, R.string.statUntilIllogical, Toast.LENGTH_LONG
+                        c, R.string.statUntilIllogical,
+                        Toast.LENGTH_LONG
                     ).show()
                     return@newInstance; }
                 b.stStatUntilDate.text = cal.fullDate()
@@ -300,8 +301,9 @@ class Settings : BaseActivity() {
             c.sp.edit().putBoolean(spPauseBirthdaysNtf, isChecked).apply()
             shake()
         }
-        b.stNotifyBirthDaysBefore
-            .setText(c.sp.getInt(spNotifyBirthDaysBefore, spNotifyBirthDaysBeforeDef).toString())
+        b.stNotifyBirthDaysBefore.setText(
+            c.sp.getInt(spNotifyBirthDaysBefore, spNotifyBirthDaysBeforeDef).toString()
+        )
         b.stNotifyBirthDaysBefore.addTextChangedListener {
             c.sp.edit().putInt(
                 spNotifyBirthDaysBefore, try {
@@ -318,7 +320,7 @@ class Settings : BaseActivity() {
             vm.sortBNtfCrushes(c)
             withContext(Dispatchers.Main) {
                 b.stBNtfCrushes.setOnClickListener {
-                    BNtfCrushes().show(supportFragmentManager, B_NTF_CRUSHES_TAG)
+                    BNtfCrushes.create(this@Settings)
                 }
             }
         }
@@ -381,7 +383,18 @@ class Settings : BaseActivity() {
         }
     }
 
+
     class BNtfCrushes : BaseDialog<Settings>() {
+
+        companion object : BaseDialogCompanion() {
+            private const val TAG = "b_ntf_crushes"
+
+            fun create(c: BaseActivity) {
+                if (isDuplicate()) return
+                BNtfCrushes().show(c.supportFragmentManager, TAG)
+            }
+        }
+
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             isCancelable = true
             return MaterialAlertDialogBuilder(c).apply {

@@ -25,5 +25,3 @@
 * Fortuna's SearchDialog for searching through `Report`s in their names and descriptions
 * Elevation shadows for the tops of `SummaryDialog` and `RecencyDialog`' lists and the bottom of the
   former
-* List pairs of a `Crush` with whom they have ever shared orgasms in `Singular`; hide & show its
-  button conditionally (don't assign an icon to it; just write "Pairs")
