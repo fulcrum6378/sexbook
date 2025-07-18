@@ -1,5 +1,6 @@
 # Sexbook To-Do List
 
+* `Durability` statistics for Crushes
 * Non-orgasm reports may never need to be statisticised
 * Main social media select: { Instagram, Tiktok, X, Facebook, ... }
 * Turning off birthday notifications was not possible!
@@ -7,7 +8,6 @@
 * Altering `statSince` doesn't refresh `Main`
 * Don't discard the user's selected date in `Settings`:`statSince`; instead uncheck the checkbox.
 * Only statisticise "the enabled" crushes
-* Enlarge Toolbar title +1dp only in `Main`
 * An ultimate report out of `Taste` data
 * A checkbox for saving `Screening` filters in SP
 * Yearly time series charts for `Singular` and `Mixture`
@@ -26,4 +26,4 @@
 * Elevation shadows for the tops of `SummaryDialog` and `RecencyDialog`' lists and the bottom of the
   former
 * List pairs of a `Crush` with whom they have ever shared orgasms in `Singular`; hide & show its
-  button conditionally
+  button conditionally (don't assign an icon to it; just write "Pairs")

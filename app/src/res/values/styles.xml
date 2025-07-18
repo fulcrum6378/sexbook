@@ -164,6 +164,11 @@
 
 
     <!-- #TextAppearance -->
+    <style name="TextAppearance.Sexbook.Toolbar.Main.Title" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">@dimen/tbMainTitle</item>
+    </style>
+
     <style name="TextAppearance.Sexbook.Toolbar.Title" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/bold</item>
         <item name="android:textSize">@dimen/tbTitle</item>

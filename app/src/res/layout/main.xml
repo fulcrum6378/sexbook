@@ -13,7 +13,8 @@
         <android.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/toolbar"
-            android:title="@string/app_name" />
+            android:title="@string/app_name"
+            android:titleTextAppearance="@style/TextAppearance.Sexbook.Toolbar.Main.Title" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
