@@ -48,6 +48,7 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
         configureToolbar(b.toolbar, R.string.identify)
         b.toolbar.title = vm.crushKey
 
+        // check if there are Other Partners
         CoroutineScope(Dispatchers.Default).launch {
             val crk = vm.crushKey
             val map = hashMapOf<String, OtherPartners.Item>()
@@ -55,9 +56,15 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
                 if (r.guess || r.analysis?.none { it == crk } != false) continue
                 r.analysis!!.filter { it != crk }.forEach { other ->
                     val otherLC = other.lowercase()
-                    if (!map.containsKey(otherLC))
-                        map[otherLC] = OtherPartners.Item(other, 1)
-                    else
+                    if (!map.containsKey(otherLC)) {
+                        var identified: String? = null
+                        for (p in c.people.keys)
+                            if (p.equals(other, true)) {
+                                identified = p
+                                break
+                            }
+                        map[otherLC] = OtherPartners.Item(identified ?: other, 1)
+                    } else
                         map[otherLC]!!.times += 1
                 }
             }

@@ -124,7 +124,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // navigation
         object : ActionBarDrawerToggle(
-            this, b.root, b.toolbar, R.string.openMenu, R.string.closeMenu
+            this, b.root, b.toolbar,
+            R.string.openMenu, R.string.closeMenu
         ) {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
@@ -271,7 +272,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     }
                 }
 
-                //notifyBirth(c.people["Zoey"]!!, 1000)
+                //notifyBirth(c.people["Toni"]!!, 1000)
             }
 
             if (c.sp.contains("do_not_show_google_play_removal"))

@@ -1,5 +1,6 @@
 # Sexbook To-Do List
 
+* Implement `onBackPressed` compatibility in `BaseActivity`
 * `Durability` statistics for Crushes
 * Non-orgasm reports may never need to be statisticised
 * Main social media select: { Instagram, Tiktok, X, Facebook, ... }
