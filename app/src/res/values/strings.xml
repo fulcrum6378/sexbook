@@ -59,6 +59,10 @@
     </plurals>
     <string name="apply">Apply</string>
     <string name="minSum">Minimum number of reports:</string>
+    <string name="once">Once</string>
+    <string name="twice">Twice</string>
+    <string name="thrice">Thrice</string>
+    <string name="nTimes">%d times</string>
 
     <!-- Main -->
     <string name="openMenu">Open menu</string>

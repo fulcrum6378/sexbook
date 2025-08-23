@@ -55,6 +55,10 @@
     </plurals>
     <string name="apply">Anwenden</string>
     <string name="minSum">Mindestanzahl an Berichten:</string>
+    <string name="once">Einmal</string>
+    <string name="twice">Zweimal</string>
+    <string name="thrice">Dreimal</string>
+    <string name="nTimes">%d-mal</string>
 
     <!-- Main -->
     <string name="openMenu">Menü öffnen</string>
@@ -231,6 +235,10 @@
     <string name="duplicateCrush">
         Es gibt bereits einen anderen Crush mit dieser Kennung.
         Bitte stellen Sie sicher, dass die Kennung eindeutig ist.
+    </string>
+    <string name="otherPartners">Weitere Partner</string>
+    <string name="otherPartnersDesc">
+        Andere Sexualpartner, die in Ihrer sexuellen Vergangenheit mit dieser Person Sex hatten.
     </string>
 
     <!-- People -->

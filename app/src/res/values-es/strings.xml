@@ -56,6 +56,10 @@
     </plurals>
     <string name="apply">Aplicar</string>
     <string name="minSum">Número mínimo de informes:</string>
+    <string name="once">Una vez</string>
+    <string name="twice">Dos veces</string>
+    <string name="thrice">Tres veces</string>
+    <string name="nTimes">%d veces</string>
 
     <!-- Main -->
     <string name="openMenu">Abrir menú</string>
@@ -233,6 +237,11 @@
     </string-array>
     <string name="duplicateCrush">
         Ya existe otra persona con este identificador; asegúrese de que el identificador sea único.
+    </string>
+    <string name="otherPartners">Otros socios</string>
+    <string name="otherPartnersDesc">
+        Otras parejas sexuales que han tenido relaciones sexuales con esta persona en su
+        historial sexual.
     </string>
 
     <!-- People -->

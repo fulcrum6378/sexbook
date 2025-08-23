@@ -58,6 +58,10 @@
     </plurals>
     <string name="apply">Применять</string>
     <string name="minSum">Минимальное количество отчетов:</string>
+    <string name="once">Una vez</string>
+    <string name="twice">Dos veces</string>
+    <string name="thrice">Tres veces</string>
+    <string name="nTimes">%d veces</string>
 
     <!-- Main -->
     <string name="openMenu">Открыть меню</string>
@@ -232,6 +236,11 @@
     </string-array>
     <string name="duplicateCrush">
         Другая любовь с таким идентификатором уже существует; убедитесь, что идентификатор уникален.
+    </string>
+    <string name="otherPartners">Другие партнеры</string>
+    <string name="otherPartnersDesc">
+        Другие сексуальные партнеры, имеющие половые контакты с данным человеком в вашей
+        сексуальной истории.
     </string>
 
     <!-- People -->

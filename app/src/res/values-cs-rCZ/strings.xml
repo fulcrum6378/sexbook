@@ -57,6 +57,10 @@
     </plurals>
     <string name="apply">Použít</string>
     <string name="minSum">Minimální počet hlášení:</string>
+    <string name="once">Jednou</string>
+    <string name="twice">Dvakrát</string>
+    <string name="thrice">Třikrát</string>
+    <string name="nTimes">"%d"krát</string>
 
     <!-- Main -->
     <string name="openMenu">Otevřít nabídku</string>
@@ -231,6 +235,10 @@
     </string-array>
     <string name="duplicateCrush">
         Další crush s tímto identifikátorem již existuje; ujistěte se, že je identifikátor jedinečný.
+    </string>
+    <string name="otherPartners">Ostatní partneři</string>
+    <string name="otherPartnersDesc">
+        Další sexuální partneři, kteří měli s touto osobou sex ve vaší sexuální historii.
     </string>
 
     <!-- People -->

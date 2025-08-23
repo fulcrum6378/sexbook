@@ -22,7 +22,7 @@
 * More body attributes? { nose size?, voice type?, lip shape?, eyebrow shape?, upper body shape?, }
 * Main social media select: { Instagram, Tiktok, X, Facebook, ... }
 * An `unidentified` status?
-* Preserve the history of enabling or disabling the crushes?
+* Record `Crush` activations and deactivations on each Report like Git?
 
 ### 🚀 UI Ease of Use
 
