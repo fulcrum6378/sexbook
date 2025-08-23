@@ -94,6 +94,7 @@ object StatUtils {
                     val yea = cal[Calendar.YEAR]
                     val mon = cal[Calendar.MONTH]
                     val key = monthKey(monthNames[mon], yea)
+                    if (key !in map) continue  // because of statSince and/or statUntil
                     map[key] = map[key]!! + orgasm.value
                 }
             }
@@ -101,6 +102,7 @@ object StatUtils {
                 for (orgasm in orgasms) {
                     val cal = orgasm.time.calendar(c)
                     val key = cal[Calendar.YEAR].toString()
+                    if (key !in map) continue  // because of statSince and/or statUntil
                     map[key] = map[key]!! + orgasm.value
                 }
         }

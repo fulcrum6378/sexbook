@@ -35,9 +35,8 @@ abstract class OneChartActivity<ChartView>() : ChartActivity(),
         }
     }
 
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onBackPressed() {
+    override fun onDestroy() {
         job?.cancel()
-        @Suppress("DEPRECATION") super.onBackPressed()
+        super.onDestroy()
     }
 }

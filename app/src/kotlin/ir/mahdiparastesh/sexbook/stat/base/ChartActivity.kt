@@ -10,8 +10,7 @@ abstract class ChartActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!requirements()) {
-            @Suppress("DEPRECATION")
-            onBackPressed(); return; }
+            onBackPressedDispatcher.onBackPressed(); return; }
         setContentView(getRootView())
         if (night) window.decorView.setBackgroundColor(
             themeColor(com.google.android.material.R.attr.colorPrimary)

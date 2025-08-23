@@ -35,8 +35,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (!c.dbLoaded) {
-            @Suppress("DEPRECATION")
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return; }
 
         super.onCreate(savedInstanceState)

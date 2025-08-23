@@ -27,8 +27,7 @@ class Places : BaseActivity(), Lister {
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         if (!c.dbLoaded) {
-            @Suppress("DEPRECATION")
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return; }
 
         super.onCreate(savedInstanceState)

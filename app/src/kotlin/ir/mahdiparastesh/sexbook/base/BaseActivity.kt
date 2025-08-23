@@ -50,7 +50,9 @@ abstract class BaseActivity : FragmentActivity() {
                 setDisplayHomeAsUpEnabled(true)
                 setDisplayShowHomeEnabled(true)
             }
-            tb.setNavigationOnClickListener { @Suppress("DEPRECATION") onBackPressed() }
+            tb.setNavigationOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
         }
         tb.navigationIcon?.colorFilter = themePdcf()
     }

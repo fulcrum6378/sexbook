@@ -140,14 +140,9 @@ class Taste : MultiChartActivity() {
     }
 
     override fun onDestroy() {
+        for (job in jobs) job.cancel()
         b.pager.unregisterOnPageChangeCallback(onPageChanged)
         super.onDestroy()
-    }
-
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onBackPressed() {
-        for (job in jobs) job.cancel()
-        @Suppress("DEPRECATION") super.onBackPressed()
     }
 
 

@@ -4,7 +4,6 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -22,6 +21,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import android.widget.Toolbar
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -259,6 +259,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         if (vm.navOpen) b.root.openDrawer(GravityCompat.START)
         intent.check(true)
         addOnNewIntentListener { it.check() }
+        onBackPressedDispatcher.addCallback(goBack)
     }
 
     override fun onResume() {
@@ -361,22 +362,24 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         )
     }
 
-    @SuppressLint("MissingSuperCall")
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onBackPressed() {
-        if (b.root.isDrawerOpen(GravityCompat.START)) {
-            b.root.closeDrawer(GravityCompat.START)
-            return
+    private val goBack = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (b.root.isDrawerOpen(GravityCompat.START)) {
+                b.root.closeDrawer(GravityCompat.START)
+                return
+            }
+            if (!exiting) {
+                exiting = true
+                Delay(4000) { exiting = false }
+                Toast.makeText(
+                    c, R.string.toExit, Toast.LENGTH_SHORT
+                ).show()
+                return
+            }
+            moveTaskToBack(true)
+            Process.killProcess(Process.myPid())
+            exitProcess(0)
         }
-        if (!exiting) {
-            exiting = true
-            Delay(4000) { exiting = false }
-            Toast.makeText(c, R.string.toExit, Toast.LENGTH_SHORT).show()
-            return
-        }
-        moveTaskToBack(true)
-        Process.killProcess(Process.myPid())
-        exitProcess(0)
     }
 
 

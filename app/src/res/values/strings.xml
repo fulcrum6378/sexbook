@@ -280,7 +280,7 @@
     <string name="stCrushTweaks">Crushes</string>
     <string name="stHideUnsafePeople">Hide unsafe people</string>
     <string name="stHideDisappearedPeople">Hide disappeared people</string>
-    <string name="stStatOnlyCrushes">Only include active crushes in statistics</string>
+    <string name="stStatOnlyCrushes">Only include enabled crushes in statistics</string>
     <string name="stStatNonOrgasm">
         In statistics, include sex records during which you didn\'t orgasm
     </string>
