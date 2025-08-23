@@ -186,28 +186,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             c.liefde.addAll(c.people.filter { it.value.active() }.map { it.key })
             c.unsafe.addAll(c.people.filter { it.value.unsafe() }.map { it.key })
             if (CalendarManager.checkPerm(c)) CalendarManager.initialise(c)
-            if (!c.sp.contains("dbLightBrownAdded")) {
-                for (updated in c.people.values) {
-                    val mask = Crush.BODY_EYE_COLOUR.first.inv()
-                    val cleared = updated.body and mask
-                    val pos = when ((updated.body and Crush.BODY_EYE_COLOUR.first)
-                            shr Crush.BODY_EYE_COLOUR.second) {
-                        0 -> 0
-                        1 -> 1
-                        2 -> 3
-                        3 -> 5
-                        4 -> 4
-                        5 -> 6
-                        else ->
-                            if (BuildConfig.DEBUG)
-                                throw IllegalStateException("Unrecognised eye colour!")
-                            else continue
-                    }
-                    updated.body = cleared or (pos shl Crush.BODY_EYE_COLOUR.second)
-                    c.dao.cUpdate(updated)
-                }
-                c.sp.edit().putBoolean("dbLightBrownAdded", true).apply()
-            }
 
             // Place
             for (p in c.dao.pGetAll()) {
@@ -219,7 +197,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 p.sum = sum
             }
             c.places.sortWith(Place.Sort(Place.Sort.NAME))
-            if (c.reports.isNotEmpty()) c.places.sortWith(Place.Sort(Place.Sort.SUM))
+            if (c.reports.isNotEmpty())
+                c.places.sortWith(Place.Sort(Place.Sort.SUM))
 
             // Guess
             var grId = -1L
@@ -272,15 +251,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                     }
                 }
 
-                //notifyBirth(c.people["Toni"]!!, 1000)
+                //notifyBirth(c.people["Trijntje"]!!, 1000)
             }
-
-            if (c.sp.contains("do_not_show_google_play_removal"))
-                c.sp.edit().remove("do_not_show_google_play_removal").apply()
-            if (c.sp.contains("prefersOrgType"))
-                c.sp.edit().remove("prefersOrgType").apply()
-            if (c.sp.contains("dbDateTimeDotSlashReplaced"))
-                c.sp.edit().remove("dbDateTimeDotSlashReplaced").apply()
         }
 
         // miscellaneous
@@ -548,7 +520,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 ).build()
             )
         }.build()
-        nm.notify(crush.key.length + crush.visName().length, ntf)
+        nm.notify(crush.birthdayNtfId(), ntf)
         c.sp.edit().putLong(Settings.spLastNotifiedBirthAt, NumberUtils.now()).apply()
     }
 

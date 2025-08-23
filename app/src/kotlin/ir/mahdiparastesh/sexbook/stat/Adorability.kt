@@ -134,7 +134,7 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
                     )
                 }
                 lines.sortByDescending { it.sum }
-                //Log.d("MARTINA", Gson().toJson(lines.map { it.name }))
+                //Log.d("ZOEY", Gson().toJson(lines.map { it.name }))
                 return LineChartData().setLines(LineFactory(lines))
             }
 

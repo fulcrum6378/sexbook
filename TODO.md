@@ -28,7 +28,6 @@
 
 * A checkbox for saving `Screening` filters in SP
 * Jump to `Identify` from Fortuna
-* Turning off birthday notifications was not possible!
 * Undo for all important actions
 
 ### 🔮 UI Clarity

@@ -190,6 +190,10 @@ class Crush(
     fun body(field: Pair<Int, Int>): Int = (body and field.first) shr field.second
 
 
+    /** Tries to create a unique ID for the birthday Notification of this Crush. */
+    fun birthdayNtfId() = key.length + visName().length
+
+
     /** Birthday as a timestamp */
     @delegate:Ignore
     @delegate:Transient
