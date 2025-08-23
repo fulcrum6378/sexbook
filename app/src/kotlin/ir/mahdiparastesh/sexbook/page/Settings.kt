@@ -73,6 +73,7 @@ class Settings : BaseActivity() {
         const val spStatOnlyCrushes = "statisticiseOnlyCrushes" // Boolean, def false
         const val spStatNonOrgasm = "statNonOrgasm" // Boolean, def true
         const val spHideUnsafePeople = "hideUnsafe" // Boolean, def true
+        const val spHideDisappearedPeople = "hideDisappeared" // Boolean, def false
         const val spVibration = "vibration" // Boolean, def true
         const val spCalOutput = "calendarOutput" // Boolean, def false
         const val spPauseBirthdaysNtf = "pauseBirthdayNotifications" // Boolean, def false
@@ -94,7 +95,9 @@ class Settings : BaseActivity() {
         lateinit var bNtfCrushes: ArrayList<String>
 
         fun sortBNtfCrushes(c: Sexbook) {
-            bNtfCrushes.sortWith(Crush.Sort(c, spPeopleSortBy, spPeopleSortAsc))
+            bNtfCrushes.sortWith(
+                Crush.Sort(c, spPeopleSortBy, spPeopleSortAsc)
+            )
         }
     }
 
@@ -118,6 +121,29 @@ class Settings : BaseActivity() {
                 shake()
                 Main.changed = true
             }
+        }
+
+        // Crush tweaks
+        b.stHideUnsafePeople.isChecked = c.sp.getBoolean(spHideUnsafePeople, true)
+        b.stHideUnsafePeople.setOnCheckedChangeListener { _, isChecked ->
+            c.sp.edit().putBoolean(spHideUnsafePeople, isChecked).apply()
+            shake()
+        }
+        b.stHideDisappearedPeople.isChecked =
+            c.sp.getBoolean(spHideDisappearedPeople, false)
+        b.stHideDisappearedPeople.setOnCheckedChangeListener { _, isChecked ->
+            c.sp.edit().putBoolean(spHideDisappearedPeople, isChecked).apply()
+            shake()
+        }
+        b.stStatOnlyCrushes.isChecked = c.sp.getBoolean(spStatOnlyCrushes, false)
+        b.stStatOnlyCrushes.setOnCheckedChangeListener { _, isChecked ->
+            c.sp.edit().putBoolean(spStatOnlyCrushes, isChecked).apply()
+            shake()
+        }
+        b.stStatNonOrgasm.isChecked = c.sp.getBoolean(spStatNonOrgasm, true)
+        b.stStatNonOrgasm.setOnCheckedChangeListener { _, isChecked ->
+            c.sp.edit().putBoolean(spStatNonOrgasm, isChecked).apply()
+            shake()
         }
 
         // Statisticise Since
@@ -263,24 +289,7 @@ class Settings : BaseActivity() {
             })
         }
 
-        // Other statistical tweaks
-        b.stStatOnlyCrushes.isChecked = c.sp.getBoolean(spStatOnlyCrushes, false)
-        b.stStatOnlyCrushes.setOnCheckedChangeListener { _, isChecked ->
-            c.sp.edit().putBoolean(spStatOnlyCrushes, isChecked).apply()
-            shake()
-        }
-        b.stStatNonOrgasm.isChecked = c.sp.getBoolean(spStatNonOrgasm, true)
-        b.stStatNonOrgasm.setOnCheckedChangeListener { _, isChecked ->
-            c.sp.edit().putBoolean(spStatNonOrgasm, isChecked).apply()
-            shake()
-        }
-
         // Vibration
-        b.stHideUnsafePeople.isChecked = c.sp.getBoolean(spHideUnsafePeople, true)
-        b.stHideUnsafePeople.setOnCheckedChangeListener { _, isChecked ->
-            c.sp.edit().putBoolean(spHideUnsafePeople, isChecked).apply()
-            shake()
-        }
         b.stVibration.isChecked = c.sp.getBoolean(spVibration, true)
         b.stVibration.setOnCheckedChangeListener { _, isChecked ->
             UiTools.vib = isChecked

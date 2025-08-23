@@ -12,8 +12,8 @@
 * Only statisticise "the enabled" crushes
 * Non-orgasm reports may never need to be statisticised
 * `Durability` statistics for Crushes
-* A button to `Hide vanished people` in `Settings`
 * Classify crushes to be either short-term or long-term? And predict future of current crushes?!?
+* Apply `Hide disappeared people` 🚨
 
 ### 📝 Data Entry
 
@@ -36,7 +36,6 @@
 ### 🔮 UI Clarity
 
 * Tooltips for Nav + guides on their Toolbars
-* Organise the UI of `Settings`
 * Better UI for random crush suggestion and remember a suggestion till the end of the day
 
 ### 🕰 Compatibility

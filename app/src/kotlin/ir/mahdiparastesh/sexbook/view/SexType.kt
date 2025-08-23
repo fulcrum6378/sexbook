@@ -31,7 +31,7 @@ data class SexType(
 
         /** @return an Array of all the available sex types */
         fun all(c: Context): Array<SexType> {
-            val names = c.resources.getStringArray(R.array.types)
+            val names = c.resources.getStringArray(R.array.sexTypes)
             return arrayOf(
                 SexType(names[0], R.drawable.wet_dream),
                 SexType(names[1], R.drawable.masturbation),

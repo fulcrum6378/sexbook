@@ -35,6 +35,39 @@
                     android:saveEnabled="false" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemContainer">
+
+                <TextView
+                    android:id="@+id/crushTweaksTitle"
+                    style="@style/stGroupTitle"
+                    android:text="@string/stCrushTweaks"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stHideUnsafePeople"
+                    style="@style/stItemCheckBox"
+                    android:text="@string/stHideUnsafePeople"
+                    app:layout_constraintTop_toBottomOf="@id/crushTweaksTitle" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stHideDisappearedPeople"
+                    style="@style/stItemCheckBox"
+                    android:text="@string/stHideDisappearedPeople"
+                    app:layout_constraintTop_toBottomOf="@id/stHideUnsafePeople" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stStatOnlyCrushes"
+                    style="@style/stItemCheckBox"
+                    android:text="@string/stStatOnlyCrushes"
+                    app:layout_constraintTop_toBottomOf="@id/stHideDisappearedPeople" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/stStatNonOrgasm"
+                    style="@style/stItemCheckBox"
+                    android:text="@string/stStatNonOrgasm"
+                    app:layout_constraintTop_toBottomOf="@id/stStatOnlyCrushes" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/stStatSince"
                 style="@style/stItemContainer">
@@ -89,31 +122,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemThinContainer">
 
                 <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/stStatOnlyCrushes"
-                    style="@style/stItemCheckBox"
-                    android:text="@string/stStatOnlyCrushes"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/stStatNonOrgasm"
-                    style="@style/stItemCheckBox"
-                    android:text="@string/stStatNonOrgasm"
-                    app:layout_constraintTop_toBottomOf="@id/stStatOnlyCrushes" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemThinContainer">
-
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/stHideUnsafePeople"
-                    style="@style/stItemCheckBox"
-                    android:text="@string/stHideUnsafePeople"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/stVibration"
                     style="@style/stItemCheckBox"
                     android:text="@string/stVibration"
-                    app:layout_constraintTop_toBottomOf="@id/stHideUnsafePeople" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/stItemContainer">

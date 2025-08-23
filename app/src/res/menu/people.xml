@@ -11,7 +11,7 @@
         android:id="@+id/filter"
         android:iconTint="?android:textColor"
         android:showAsAction="ifRoom"
-        android:title="@string/filter" />
+        android:title="@string/filters" />
     <!-- android:icon="@drawable/filter" will be set inside the activity. -->
 
     <item

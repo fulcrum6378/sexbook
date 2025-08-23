@@ -97,7 +97,7 @@ class Screening : BaseDialog<People>() {
         )
 
         return MaterialAlertDialogBuilder(c).apply {
-            setTitle(R.string.filter)
+            setTitle(R.string.filters)
             setView(b.root)
             setPositiveButton(R.string.apply) { _, _ ->
                 c.c.screening = Filters(

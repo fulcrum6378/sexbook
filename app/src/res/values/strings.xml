@@ -1,120 +1,27 @@
 <resources>
     <string name="app_name">Sexbook</string>
 
-    <!-- GLOBAL -->
-    <string name="crushHint" translatable="false">.....</string>
-    <string name="emptyDate" translatable="false">...</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="save">Save</string>
-    <string name="discard">Discard</string>
-    <string name="excStat">Plus %s excluded from statisticisation.</string>
-    <string name="unknown">Plus %s from unknown people.</string>
-    <string name="nonCrush">Plus %s from those who are not listed as crushes.</string>
-    <string name="plusUnsafe">Plus %s from unsafe people.</string>
-    <string name="instagram" translatable="false">Instagram</string>
-    <string-array name="types">
+    <!-- REPORT -->
+    <string-array name="sexTypes">
         <item>Wet Dream</item>
         <item>Masturbation</item>
         <item>Oral Sex</item>
         <item>Anal Sex</item>
         <item>Vaginal Sex</item>
     </string-array>
-    <string-array name="calendarTypes">
-        <item>Gregorian</item>
-        <item>Iranian</item>
-        <item>Indian</item>
-    </string-array>
     <string name="addNewRecord">Add a new record</string>
-    <string name="delete">Delete</string>
-    <string name="expand">Expand</string>
-    <string name="collapse">Collapse</string>
-    <string name="clear">Clear</string>
-    <string name="suspend">Suspend</string>
-    <string name="clearDate">Clear the date</string>
-    <string name="none">None</string>
+
+    <!-- CRUSH -->
+    <string name="crushHint" translatable="false">.....</string>
+    <string name="her">her</string>
+    <string name="his">his</string>
+    <string name="their">their</string>
     <string name="name">Name</string>
     <string name="sum">Sum</string>
     <string name="age">Age</string>
     <string name="height">Height</string>
-    <string name="asc">Ascending</string>
-    <string name="dsc">Descending</string>
     <string name="lastOrgasm">Last Orgasm</string>
     <string name="firstOrgasm">First Orgasm</string>
-    <string name="unspecified">Unspecified</string>
-    <string name="deactivate">Deactivate</string>
-    <string name="gender">Gender</string>
-    <string name="chart">Chart</string><!--UNUSED-->
-    <string name="search">Search</string>
-    <string name="sort">Sort</string>
-    <string name="filter">Filters</string>
-    <string name="her">her</string>
-    <string name="his">his</string>
-    <string name="their">their</string>
-    <string name="after">&#160;after&#160;</string>
-    <plurals name="hour">
-        <item quantity="zero">%d hour</item>
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
-    </plurals>
-    <string name="apply">Apply</string>
-    <string name="minSum">Minimum number of reports:</string>
-    <string name="once">Once</string>
-    <string name="twice">Twice</string>
-    <string name="thrice">Thrice</string>
-    <string name="nTimes">%d times</string>
-
-    <!-- Main -->
-    <string name="openMenu">Open menu</string>
-    <string name="closeMenu">Close menu</string>
-    <string name="toExit">Double tap to exit&#8230;</string>
-    <string name="momImport">Import from Json</string>
-    <string name="momExport">Export to Json</string>
-    <string name="momSend">Send Json to</string>
-    <string name="momSettings">Settings</string>
-    <string name="momCheckUpdates">Check for updates</string>
-    <string name="exportDone">Done!</string>
-    <string name="exportUndone">Failed!</string>
-    <string name="importDone">Done!</string>
-    <string name="importOpenError">Unfortunately an error occurred while opening the file!</string>
-    <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
-    <string name="noRecords">You have no records yet!</string>
-    <string name="askImport">Are you sure you want to replace all the app data?</string>
-    <string name="findCrush">Find a crush&#8230;</string>
-    <string name="randomCrush">Suggest someone randomly&#8230;</string>
-
-    <!-- Page Sex -->
-    <string name="lcAccurate">Accurate?</string>
-    <string name="lcOrgasmed">Orgasmed?</string>
-    <string name="desc">Write descriptions&#8230;</string>
-    <string name="placeHint">Add a new place&#8230;</string>
-
-    <!-- Page Love -->
-    <string name="crushes">List of Crushes</string>
-    <string name="emptyLove">
-        After adding some sex records with names of individuals,
-        go to the navigation menu -> Summary/Recency -> select a name ->
-        hit the top right button with a \"Person\" (identification) icon.
-    </string>
-
-    <!-- #Statistics -->
-    <string name="summary">Summary</string>
-    <string name="recency">Recency</string>
-    <string name="adorability">Adorability</string>
-    <string name="mixture">Mixture</string>
-    <string name="intervals">Intervals</string>
-    <string name="taste">Your Taste</string>
-    <string name="chartOptions">Chart options</string>
-    <string name="chartCompositional">Compositional</string>
-    <string name="chartTimeSeries">Time Series</string>
-    <string name="chartGrowth">Cumulative Time Series</string>
-    <string name="chartMonthly">Monthly</string>
-    <string name="chartYearly">Yearly</string>
-    <string name="statistics">Statistics</string>
-    <string name="noStat">The range of your records must exceed one month!</string>
-    <string name="crushesStat">Crushes\' Statistics</string>
-
-    <!-- #Crush { Identify, Screening } -->
     <string name="identify">Identification</string>
     <string name="identifyKey">Unique Identifier</string>
     <string name="firstName">First Name</string>
@@ -144,6 +51,7 @@
         <item>Bigender</item>
         <item>Agender</item>
     </string-array>
+    <string name="gender">Gender</string>
     <string name="isAndrophile">Likes men</string>
     <string name="isGynephile">Likes women</string>
     <string name="isUnsafePerson">Is an unsafe personality?</string>
@@ -165,6 +73,7 @@
     <string name="creationDate">Creation Date</string>
     <string name="heightInCM">Height (cm)</string>
     <string name="address">Address</string>
+    <string name="instagram">Instagram</string>
     <string name="creator">Creator(s)</string>
     <string name="firstMet">First Met</string>
     <string name="notifyBirth">Notify me in their birthday</string>
@@ -238,20 +147,99 @@
         <item>Medium penis</item>
         <item>Long penis</item>
     </string-array>
-    <string-array name="bodySexuality"><!--UNUSED-->
-        <item>Sexual orientation&#8230;</item>
-        <item>Heterosexual</item>
-        <item>Homosexual</item>
-        <item>Bisexual</item>
-        <item>Asexual</item>
-        <item>Other</item>
-    </string-array>
     <string name="duplicateCrush">
         Another crush with this identifier already exists; please make sure the identifier is unique.
     </string>
+    <string name="minSum">Minimum number of reports:</string>
     <string name="otherPartners">Other Partners</string>
     <string name="otherPartnersDesc">
         Other sexual partners having sex along with this person in your sexual history.
+    </string>
+
+    <!-- STATISTICS -->
+    <string name="summary">Summary</string>
+    <string name="recency">Recency</string>
+    <string name="adorability">Adorability</string>
+    <string name="mixture">Mixture</string>
+    <string name="intervals">Intervals</string>
+    <string name="taste">Your Taste</string>
+    <string name="none">None</string>
+    <string name="after">&#160;after&#160;</string>
+    <plurals name="hour">
+        <item quantity="zero">%d hour</item>
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <string name="once">Once</string>
+    <string name="twice">Twice</string>
+    <string name="thrice">Thrice</string>
+    <string name="nTimes">%d times</string>
+    <string name="excStat">Plus %s excluded from statisticisation.</string>
+    <string name="unknown">Plus %s from unknown people.</string>
+    <string name="nonCrush">Plus %s from those who are not listed as crushes.</string>
+    <string name="plusUnsafe">Plus %s from unsafe people.</string>
+    <string name="chartOptions">Chart options</string>
+    <string name="chartCompositional">Compositional</string>
+    <string name="chartTimeSeries">Time Series</string>
+    <string name="chartGrowth">Cumulative Time Series</string>
+    <string name="chartMonthly">Monthly</string>
+    <string name="chartYearly">Yearly</string>
+    <string name="statistics">Statistics</string>
+    <string name="noStat">The range of your records must exceed one month!</string>
+    <string name="crushesStat">Crushes\' Statistics</string>
+
+    <!-- DATA CONTROLS -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="apply">Apply</string>
+    <string name="save">Save</string>
+    <string name="clear">Clear</string>
+    <string name="discard">Discard</string>
+    <string name="delete">Delete</string>
+    <string name="expand">Expand</string>
+    <string name="collapse">Collapse</string>
+    <string name="suspend">Suspend</string>
+    <string name="clearDate">Clear the date</string>
+    <string name="deactivate">Deactivate</string>
+    <string name="search">Search</string>
+    <string name="filters">Filters</string>
+    <string name="sort">Sort</string>
+    <string name="asc">Ascending</string>
+    <string name="dsc">Descending</string>
+    <string name="unspecified">Unspecified</string>
+
+
+    <!-- Main -->
+    <string name="openMenu">Open menu</string>
+    <string name="closeMenu">Close menu</string>
+    <string name="toExit">Double tap to exit&#8230;</string>
+    <string name="momImport">Import from Json</string>
+    <string name="momExport">Export to Json</string>
+    <string name="momSend">Send Json to</string>
+    <string name="momSettings">Settings</string>
+    <string name="momCheckUpdates">Check for updates</string>
+    <string name="exportDone">Done!</string>
+    <string name="exportUndone">Failed!</string>
+    <string name="importDone">Done!</string>
+    <string name="importOpenError">Unfortunately an error occurred while opening the file!</string>
+    <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
+    <string name="noRecords">You have no records yet!</string>
+    <string name="askImport">Are you sure you want to replace all the app data?</string>
+    <string name="findCrush">Find a crush&#8230;</string>
+    <string name="randomCrush">Suggest someone randomly&#8230;</string>
+
+    <!-- Page Sex -->
+    <string name="lcAccurate">Accurate?</string>
+    <string name="lcOrgasmed">Orgasmed?</string>
+    <string name="desc">Write descriptions&#8230;</string>
+    <string name="placeHint">Add a new place&#8230;</string>
+
+    <!-- Page Love -->
+    <string name="crushes">List of Crushes</string>
+    <string name="emptyLove">
+        After adding some sex records with names of individuals,
+        go to the navigation menu -> Summary/Recency -> select a name ->
+        hit the top right button with a \"Person\" (identification) icon.
     </string>
 
     <!-- People -->
@@ -280,27 +268,39 @@
     <string name="etDeleteGuessSure">Are you sure you want to delete this estimation?</string>
 
     <!-- Settings -->
-    <string name="stTitle">Sexbook Settings</string>
+    <string name="stTitle">Settings</string>
     <string name="stCalendarType">Calendar Type</string>
+    <string-array name="calendarTypes">
+        <item>Gregorian</item>
+        <item>Iranian</item>
+        <item>Indian</item>
+    </string-array>
+    <string name="emptyDate" translatable="false">...</string>
+    <string name="stCrushTweaks">Crushes</string>
+    <string name="stHideUnsafePeople">Hide unsafe people</string>
+    <string name="stHideDisappearedPeople">Hide disappeared people</string>
+    <string name="stStatOnlyCrushes">Only include active crushes in statistics</string>
+    <string name="stStatNonOrgasm">In statistics, use sex records during which you didn\'t orgasm</string>
     <string name="stStatSince">Statisticise Since</string>
     <string name="stStatUntil">Statisticise Until</string>
     <string name="statSinceIllogical">The maximum date must be after the minimum date!</string>
     <string name="statUntilIllogical">The minimum date must be before the maximum date!</string>
-    <string name="stSexTypesTitle">Filter Statistics by Sex Type</string>
+    <string name="stSexTypesTitle">Filter Statistics by type of orgasm</string>
     <string name="stSexTypeInclude">Include %s</string>
-    <string name="stStatOnlyCrushes">Only statisticise my crushes</string>
-    <string name="stStatNonOrgasm">Statisticise non-orgasm sex records</string>
-    <string name="stHideUnsafePeople">Hide unsafe people</string>
     <string name="stVibration">Vibration for important buttons</string>
     <string name="stBirthdays">Birthdays</string>
     <string name="stCalOutput">List birthdays in the system calendar</string>
     <string name="stPauseBirthdaysNtf">Pause all birthday notifications</string>
-    <string name="stNotifyBirthDaysBefore">Notify N days before birthdays:</string>
-    <string name="stBNtfCrushes">Notification-enabled Crushes</string>
+    <string name="stNotifyBirthDaysBefore">Notify N days before a birthday:</string>
+    <string name="stBNtfCrushes">List of the scheduled people</string>
     <string name="stReset">Reset Settings</string>
     <string name="stResetSure">Are you sure you want to all the settings back to default?</string>
     <string name="stTruncate">Remove All Data</string>
-    <string name="stTruncateSure">Are you sure you want to remove all your personal data?</string>
+    <string name="stTruncateSure">
+        Are you sure you want to remove all your personal data,
+        including all sex record, people, places and estimations?
+    </string>
+
 
     <!-- #Notifications -->
     <string name="bHappyTitle">Happy %s\'s Birthday!</string>
