@@ -27,8 +27,6 @@
 ### 🚀 UI Ease of Use
 
 * A checkbox for saving `Screening` filters in SP
-* Don't discard the user's selected date in `Settings`:`statSince`; instead uncheck the checkbox.
-* Altering `statSince` doesn't refresh `Main`
 * Jump to `Identify` from Fortuna
 * Turning off birthday notifications was not possible!
 * Undo for all important actions

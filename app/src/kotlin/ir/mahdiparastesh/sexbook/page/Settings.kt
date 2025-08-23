@@ -6,13 +6,15 @@ import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -108,6 +110,7 @@ class Settings : BaseActivity() {
         setContentView(b.root)
         configureToolbar(b.toolbar, R.string.stTitle)
 
+
         // Calendar Type
         b.stCalendarType.adapter = ArrayAdapter(
             this@Settings, R.layout.spinner_yellow, calendarTypes.toList()
@@ -122,6 +125,7 @@ class Settings : BaseActivity() {
                 Main.changed = true
             }
         }
+
 
         // Crush tweaks
         b.stHideUnsafePeople.isChecked = c.sp.getBoolean(spHideUnsafePeople, true)
@@ -139,12 +143,15 @@ class Settings : BaseActivity() {
         b.stStatOnlyCrushes.setOnCheckedChangeListener { _, isChecked ->
             c.sp.edit().putBoolean(spStatOnlyCrushes, isChecked).apply()
             shake()
+            Main.changed = true
         }
         b.stStatNonOrgasm.isChecked = c.sp.getBoolean(spStatNonOrgasm, true)
         b.stStatNonOrgasm.setOnCheckedChangeListener { _, isChecked ->
             c.sp.edit().putBoolean(spStatNonOrgasm, isChecked).apply()
             shake()
+            Main.changed = true
         }
+
 
         // Statisticise Since
         if (c.sp.contains(spStatSince)) {
@@ -154,34 +161,55 @@ class Settings : BaseActivity() {
         b.stStatSinceDateCb.setOnCheckedChangeListener { _, isChecked ->
             c.sp.edit().putBoolean(spStatSinceCb, isChecked).apply()
             shake()
+            Main.changed = true
         }
         b.stStatSinceDate.text =
             if (!c.sp.contains(spStatSince)) emptyDate
             else c.sp.getLong(spStatSince, 0).calendar(c).fullDate()
         b.stStatSince.setOnClickListener {
             var cal = c.sp.getLong(spStatSince, NumberUtils.now()).calendar(c)
+
             DatePickerDialog.newInstance({ _, year, month, day ->
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
                 cal.set(Calendar.DAY_OF_MONTH, day)
                 cal = McdtpUtils.trimToMidnight(cal)
+
+                var enableCB = true
                 if (c.sp.contains(spStatUntil) && cal.timeInMillis >
                     c.sp.getLong(spStatUntil, 0/*IMPOSSIBLE*/)
                 ) {
-                    Toast.makeText(
-                        c, R.string.statSinceIllogical,
-                        Toast.LENGTH_LONG
-                    ).show()
-                    return@newInstance; }
+                    reportInvalidDateRange(R.string.stStatSince)
+                    enableCB = false
+                }
+
                 b.stStatSinceDate.text = cal.fullDate()
                 c.sp.edit()
                     .putLong(spStatSince, cal.timeInMillis)
-                    .putBoolean(spStatSinceCb, true)
+                    .putBoolean(spStatSinceCb, enableCB)
                     .apply()
                 b.stStatSinceDateCb.isEnabled = true
-                b.stStatSinceDateCb.isChecked = true
-            }, cal).defaultOptions().show(supportFragmentManager, "stat_since")
+                b.stStatSinceDateCb.isChecked = enableCB
+                if (enableCB) Main.changed = true
+            }, cal).defaultOptions()
+                .show(supportFragmentManager, "stat_since")
         }
+
+        fun statSinceMore() {
+            EasyPopupMenu(
+                this, b.stStatSince, R.menu.clear_date, R.id.clearDate to {
+                    c.sp.edit()
+                        .remove(spStatSince)
+                        .putBoolean(spStatSinceCb, false)
+                        .apply()
+                    b.stStatSinceDateCb.isChecked = false
+                    b.stStatSinceDateCb.isEnabled = false
+                    b.stStatSinceDate.text = emptyDate
+                }
+            ).show()
+        }
+        b.stStatSince.setOnLongClickListener { statSinceMore(); true }
+        b.stStatSinceDate.setOnClickListener { statSinceMore() }
 
         // Statisticise Until
         if (c.sp.contains(spStatUntil)) {
@@ -191,57 +219,56 @@ class Settings : BaseActivity() {
         b.stStatUntilDateCb.setOnCheckedChangeListener { _, isChecked ->
             c.sp.edit().putBoolean(spStatUntilCb, isChecked).apply()
             shake()
+            Main.changed = true
         }
         b.stStatUntilDate.text =
             if (!c.sp.contains(spStatUntil)) emptyDate
             else c.sp.getLong(spStatUntil, 0).calendar(c).fullDate()
         b.stStatUntil.setOnClickListener {
             var cal = c.sp.getLong(spStatUntil, NumberUtils.now()).calendar(c)
+
             DatePickerDialog.newInstance({ _, year, month, day ->
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, month)
                 cal.set(Calendar.DAY_OF_MONTH, day)
                 cal = McdtpUtils.trimToMidnight(cal)
+
+                var enableCB = true
                 if (c.sp.contains(spStatSince) && cal.timeInMillis <
                     c.sp.getLong(spStatSince, 0/*IMPOSSIBLE*/)
                 ) {
-                    Toast.makeText(
-                        c, R.string.statUntilIllogical,
-                        Toast.LENGTH_LONG
-                    ).show()
-                    return@newInstance; }
+                    reportInvalidDateRange(R.string.stStatUntil)
+                    enableCB = false
+                }
+
                 b.stStatUntilDate.text = cal.fullDate()
                 c.sp.edit()
                     .putLong(spStatUntil, cal.timeInMillis)
-                    .putBoolean(spStatUntilCb, true)
+                    .putBoolean(spStatUntilCb, enableCB)
                     .apply()
                 b.stStatUntilDateCb.isEnabled = true
-                b.stStatUntilDateCb.isChecked = true
-            }, cal).defaultOptions().show(supportFragmentManager, "stat_until")
+                b.stStatUntilDateCb.isChecked = enableCB
+                if (enableCB) Main.changed = true
+            }, cal).defaultOptions()
+                .show(supportFragmentManager, "stat_until")
         }
 
-        // Statisticise Range: Long Click
-        View.OnLongClickListener { v ->
+        fun statUntilMore() {
             EasyPopupMenu(
-                this, v, R.menu.clear_date,
-                R.id.clearDate to {
-                    if (v == b.stStatSince) {
-                        c.sp.edit().remove(spStatSince).putBoolean(spStatSinceCb, false).apply()
-                        b.stStatSinceDateCb.isChecked = false
-                        b.stStatSinceDateCb.isEnabled = false
-                        b.stStatSinceDate.text = emptyDate
-                    } else {
-                        c.sp.edit().remove(spStatUntil).putBoolean(spStatUntilCb, false).apply()
-                        b.stStatUntilDateCb.isChecked = false
-                        b.stStatUntilDateCb.isEnabled = false
-                        b.stStatUntilDate.text = emptyDate
-                    }
+                this, b.stStatUntil, R.menu.clear_date, R.id.clearDate to {
+                    c.sp.edit()
+                        .remove(spStatUntil)
+                        .putBoolean(spStatUntilCb, false)
+                        .apply()
+                    b.stStatUntilDateCb.isChecked = false
+                    b.stStatUntilDateCb.isEnabled = false
+                    b.stStatUntilDate.text = emptyDate
                 }
-            ).show(); true
-        }.also {
-            b.stStatSince.setOnLongClickListener(it)
-            b.stStatUntil.setOnLongClickListener(it)
+            ).show()
         }
+        b.stStatUntil.setOnLongClickListener { statUntilMore(); true }
+        b.stStatUntilDate.setOnClickListener { statUntilMore() }
+
 
         // filtering by sex type
         var prevLlId: Int? = null
@@ -253,7 +280,7 @@ class Settings : BaseActivity() {
                 val size = dp(32)
                 layoutParams = ConstraintLayout.LayoutParams(size, size).apply {
                     topToBottom = prevLlId ?: b.sexTypesTitle.id
-                    endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+                    endToEnd = PARENT_ID
                     val marV = dp(12)
                     setMargins(0, marV, 0, marV)
                     marginEnd = dp(10)
@@ -280,14 +307,16 @@ class Settings : BaseActivity() {
                 setOnCheckedChangeListener { _, bb ->
                     c.sp.edit().putBoolean(spStatInclude + s, bb).apply()
                     shake()
+                    Main.changed = true
                 }
-            }, ConstraintLayout.LayoutParams(0, -2).apply {
+            }, ConstraintLayout.LayoutParams(0, WRAP_CONTENT).apply {
                 topToTop = prevLlId!!
                 bottomToBottom = prevLlId
                 endToStart = prevLlId
-                startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+                startToStart = PARENT_ID
             })
         }
+
 
         // Vibration
         b.stVibration.isChecked = c.sp.getBoolean(spVibration, true)
@@ -297,6 +326,7 @@ class Settings : BaseActivity() {
             shake()
         }
 
+
         // Birthdays
         b.stCalOutput.isChecked = c.sp.getBoolean(spCalOutput, false)
         b.stCalOutput.setOnCheckedChangeListener { _, isChecked ->
@@ -305,7 +335,8 @@ class Settings : BaseActivity() {
             else turnCalendar(isChecked)
             shake()
         }
-        b.stPauseBirthdaysNtf.isChecked = c.sp.getBoolean(spPauseBirthdaysNtf, false)
+        b.stPauseBirthdaysNtf.isChecked =
+            c.sp.getBoolean(spPauseBirthdaysNtf, false)
         b.stPauseBirthdaysNtf.setOnCheckedChangeListener { _, isChecked ->
             c.sp.edit().putBoolean(spPauseBirthdaysNtf, isChecked).apply()
             shake()
@@ -333,6 +364,7 @@ class Settings : BaseActivity() {
                 }
             }
         }
+
 
         // Removal
         b.stReset.setOnClickListener {
@@ -390,6 +422,14 @@ class Settings : BaseActivity() {
             if (on) CalendarManager.initialise(c)
             else CalendarManager.destroy(c)
         }
+    }
+
+    private fun reportInvalidDateRange(@StringRes title: Int) {
+        MaterialAlertDialogBuilder(this).apply {
+            setTitle(title)
+            setMessage(R.string.statSinceIllogical)
+            setPositiveButton(R.string.understand, null)
+        }.show()
     }
 
 

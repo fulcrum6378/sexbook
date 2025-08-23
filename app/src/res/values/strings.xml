@@ -201,6 +201,7 @@
     <string name="suspend">Suspend</string>
     <string name="clearDate">Clear the date</string>
     <string name="deactivate">Deactivate</string>
+    <string name="understand">I understand</string>
     <string name="search">Search</string>
     <string name="filters">Filters</string>
     <string name="sort">Sort</string>
@@ -280,7 +281,9 @@
     <string name="stHideUnsafePeople">Hide unsafe people</string>
     <string name="stHideDisappearedPeople">Hide disappeared people</string>
     <string name="stStatOnlyCrushes">Only include active crushes in statistics</string>
-    <string name="stStatNonOrgasm">In statistics, use sex records during which you didn\'t orgasm</string>
+    <string name="stStatNonOrgasm">
+        In statistics, include sex records during which you didn\'t orgasm
+    </string>
     <string name="stStatSince">Statisticise Since</string>
     <string name="stStatUntil">Statisticise Until</string>
     <string name="statSinceIllogical">The maximum date must be after the minimum date!</string>
