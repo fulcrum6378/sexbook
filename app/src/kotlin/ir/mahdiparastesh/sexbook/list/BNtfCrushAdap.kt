@@ -48,7 +48,7 @@ class BNtfCrushAdap(private val c: Settings) :
 
         // name
         h.b.name.text = "${i + 1}. ${p.visName()}"
-        h.b.sum.text = p.getSum(c.c).let { if (it != 0f) "{${it.show()}}" else "" }
+        h.b.sum.text = p.getSum(c.c).let { if (it != 0f) "[${it.show()}]" else "" }
 
         // clicks
         h.b.root.setOnClickListener {

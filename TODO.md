@@ -3,6 +3,7 @@
 ### 📊 Data Access & Analysis
 
 * One `Search` Activity to search all 4 of them separately
+* UI for selecting `hue` for `Crush`es
 * Number range filters for birth year, birth month, height, zodiac sign, first met year, and sum
   for `Screening`
 * Screening using chackboxes rather than spinners
@@ -15,7 +16,6 @@
 
 ### 📝 Data Entry
 
-* UI for selecting `hue` for `Crush`es
 * More body attributes? { nose size?, voice type?, lip shape?, eyebrow shape?, upper body shape?, }
 * TikTok ID for `Crush`
 * An `unidentified` status?
@@ -37,8 +37,9 @@
 
 ### ✨ UI Aesthetics
 
-* Elevation shadows for the tops of `SummaryDialog` and `RecencyDialog`' lists and the bottom of the
-  former
+## 👩🏻 Features for Female Users
+
+* Duration for `Report`
 
 ---
 

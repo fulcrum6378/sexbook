@@ -34,7 +34,7 @@ class CrushAdap(private val c: Main) :
 
         // texts
         h.b.name.text = cr.visName()
-        h.b.sum.text = cr.getSum(c.c).let { if (it != 0f) "{${it.show()}}" else "" }
+        h.b.sum.text = cr.getSum(c.c).let { if (it != 0f) "[${it.show()}]" else "" }
 
         // clicks
         h.b.root.setOnClickListener { v ->

@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isInvisible
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
@@ -64,6 +65,11 @@ class SummaryDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
 
         if (b.list.adapter == null) b.list.adapter =
             SummaryAdap(c, c.c.summary!!.classification!!.entries.toList(), this)
+        b.list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                b.listTopShadow.isInvisible = b.list.computeVerticalScrollOffset() == 0
+            }
+        })
 
         val pluses = LinearLayout(c).apply {
             id = R.id.pluses

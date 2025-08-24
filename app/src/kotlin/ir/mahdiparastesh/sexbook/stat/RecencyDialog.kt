@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.core.view.isInvisible
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
@@ -73,5 +74,10 @@ class RecencyDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
         })
         if (list.adapter == null) list.adapter = RecencyAdap(this@RecencyDialog)
         list.clipToPadding = false
+        list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                listTopShadow.isInvisible = list.computeVerticalScrollOffset() == 0
+            }
+        })
     }.root
 }

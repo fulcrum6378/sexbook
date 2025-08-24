@@ -1,5 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="15dp"
@@ -43,6 +44,14 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:paddingBottom="60dp"
+        android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/find" />
+
+    <View
+        android:id="@+id/listTopShadow"
+        style="@style/shadow"
+        android:alpha="0.7"
+        app:layout_constraintTop_toTopOf="@id/list"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

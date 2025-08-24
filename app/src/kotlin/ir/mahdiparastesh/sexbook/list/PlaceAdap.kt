@@ -56,7 +56,7 @@ class PlaceAdap(private val c: Places) :
         // sum
         (p.sum >= 0L).apply {
             h.b.sum.isVisible = this
-            h.b.sum.text = if (this) "{${p.sum}}" else ""
+            h.b.sum.text = if (this) "[${p.sum}]" else ""
         }
 
         // click
