@@ -155,10 +155,15 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         b.pager.setPageTransformer { _, pos ->
             b.transformer.layoutParams =
                 (b.transformer.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    val lineWidth = 0.15f
+                    val linaMarginH = 0.35f
                     horizontalBias =
-                        if (pos != 0f && pos != 1f) 0.75f - (pos / 2f)
-                        else abs(b.pager.currentItem.toFloat() - 0.25f)
-                    matchConstraintPercentWidth = 0.25f + ((0.5f - abs(0.5f - pos)) / 2f)
+                        if (pos != 0f && pos != 1f)
+                            linaMarginH + ((1f - (linaMarginH * 2f)) * (1f - pos))
+                        else
+                            abs(b.pager.currentItem.toFloat() - linaMarginH)
+                    matchConstraintPercentWidth =
+                        lineWidth + (UiTools.buldgingTransformer(pos) / 2f)
                 }
         }
         b.pager.registerOnPageChangeCallback(object : OnPageChangeCallback() {

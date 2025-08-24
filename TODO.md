@@ -2,7 +2,7 @@
 
 ### 📊 Data Access & Analysis
 
-* Fortuna's SearchDialog for searching through `Report`s in their names and descriptions
+* One `Search` Activity to search all 4 of them separately
 * Number range filters for birth year, birth month, height, zodiac sign, first met year, and sum
   for `Screening`
 * Screening using chackboxes rather than spinners
@@ -15,12 +15,10 @@
 
 ### 📝 Data Entry
 
-* Handle the situation if someone puts a crazy frequency value in Guess
 * UI for selecting `hue` for `Crush`es
 * More body attributes? { nose size?, voice type?, lip shape?, eyebrow shape?, upper body shape?, }
 * TikTok ID for `Crush`
 * An `unidentified` status?
-* Record `Crush` activations and deactivations on each Report like Git?
 
 ### 🚀 UI Ease of Use
 

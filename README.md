@@ -1,7 +1,7 @@
 # Sexbook
 
-A fun Android app for tracking data about one's sexual activities.
-A user can note their orgasm just in time or later than that using a date picker.
+An advanced and fun Android app for tracking data about one's sexual activities.
+A user can note their orgasms just in time or later using a date picker.
 This app has a yellow theme with a banana icon.
 
 This app uses [Multi-Calendar Date Time Picker](https://github.com/fulcrum6378/mcdtp);
@@ -111,7 +111,6 @@ The navigation menu in *Main* has these 3 options:
 - [*Last Orgasm*](app/src/kotlin/ir/mahdiparastesh/sexbook/ctrl/LastOrgasm.kt) is an app widget
   which shows the number of hours past since one's last orgasm!
 - Putting crush birthdays in the system calendar, which can be tweaked in *Settings*.
-- An [*app shortcut*](app/src/res/xml/shortcuts.xml) for tracking an orgasm right away!
 
 ### [**Source-Available License**](https://github.com/fulcrum6378/sexbook/blob/master/LICENSE.md)
 

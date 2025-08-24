@@ -11,6 +11,7 @@ import com.google.android.material.R
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
 import ir.mahdiparastesh.sexbook.util.HumanistIranianCalendar
+import kotlin.math.abs
 
 /** Static UI-related utilities used everywhere */
 object UiTools {
@@ -153,10 +154,18 @@ object UiTools {
 
     fun EditText.dbValue(): String? = text.ifBlank { null }?.toString()
 
+    /** Handles mutability flags for Notifications across different Android APIs. */
     fun ntfMutability(bb: Boolean = true): Int = when {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
             if (bb) PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_IMMUTABLE
         else ->
             if (bb) PendingIntent.FLAG_UPDATE_CURRENT else PendingIntent.FLAG_IMMUTABLE
     }
+
+    /**
+     * Takes an input float between 0 and 1 and returns another float between 0 and 1
+     * that gets larger the closer the input is to 0.5.
+     */
+    fun buldgingTransformer(value: Float): Float =
+        0.5f - abs(0.5f - value)
 }

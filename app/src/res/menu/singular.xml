@@ -3,6 +3,7 @@
     <item
         android:id="@+id/identify"
         android:icon="@drawable/person"
+        android:iconTint="?titleTextColor"
         android:showAsAction="ifRoom"
         android:title="@string/identify"
         android:tooltipText="@string/identify" />
@@ -10,7 +11,7 @@
     <item
         android:id="@+id/otherPartners"
         android:icon="@drawable/people"
-        android:iconTint="?textColorPrimaryContainer"
+        android:iconTint="?titleTextColor"
         android:showAsAction="ifRoom"
         android:title="@string/otherPartners"
         android:tooltipText="@string/otherPartnersDesc"
