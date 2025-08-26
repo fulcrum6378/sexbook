@@ -117,11 +117,11 @@
         <item>Face shape&#8230;</item>
         <item>Diamond face</item>
         <item>Heart face</item>
-        <item>Long face</item>
+        <item>Rectangular face</item>
         <item>Oval face</item>
         <item>Round face</item>
         <item>Square face</item>
-        <item>Triangle face</item>
+        <item>Triangular face</item>
     </string-array>
     <string-array name="bodyFat">
         <item>How fat&#8230;</item>

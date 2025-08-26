@@ -137,7 +137,8 @@ class Crush(
         val BODY_EYE_SHAPE = (0b11 shl 9) to 9
 
         /** `body` offset 11; 3 bits; their face shape (0..7)
-         * 0=>unspecified, 1=>diamond, 2=>heart, 3=>long, 4=>oval, 5=>round, 6=>square, 7=>triangle */
+         * 0=>unspecified, 1=>diamond, 2=>heart, 3=>rectangular, 4=>oval, 5=>round, 6=>square,
+         * 7=>triangular */
         val BODY_FACE_SHAPE = (0b111 shl 11) to 11
 
         /** `body` offset 14; 2 bits; how fat they are (0..3)
