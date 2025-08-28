@@ -158,6 +158,9 @@
 
     <!-- STATISTICS -->
     <string name="summary">Summary</string>
+    <string name="summaryHelp">
+        This section parses names from your
+    </string>
     <string name="recency">Recency</string>
     <string name="adorability">Adorability</string>
     <string name="mixture">Mixture</string>
@@ -230,6 +233,51 @@
     <string name="randomCrush">Suggest someone randomly&#8230;</string>
 
     <!-- Page Sex -->
+    <string name="pageSexHelp">
+        This is the page where you keep track of your sexual activities.
+
+        There\'s a large round button at the bottom of this page, by tapping it you\'ll create
+        a single empty `Report` instance that can represent any of these types of sexual activity:
+
+        - Wet Dream
+        - Masturbation
+        - Oral Sex
+        - Anal Sex
+        - Vaginal Sex
+
+        Each sexual activity has a specific moment assigned to it. That very moment is recorded
+        when you tap the button. It\'s proper to tap the button, shortly after you orgasm!
+        You can change dates and times by tapping on date indicators and clocks respectively.
+
+        Your Reports are categorised for each month and the main page will only show Reports of
+        the current month unless you alter the month option at the bottom of the page.
+
+        The next thing you can record is the name of the sexual partner or namely your `Crush`.
+        A `Crush` in Sexbook represents a person you\'ve had any kind of sexual activity with.
+
+        Each Crush must have a unique identifier (case-insensitive) and it can be as simple
+        as "Angelina" or (with space:) "Nina Elizabeth". You can also add multiple partners using
+        these dividers:
+        1. " and "   -> Angelina and Nina
+        2. " &amp; " -> Angelina &amp; Nina
+        3. " + "   -> Angelina + Nina
+
+        You can enter these unique identifiers in the text field right after date and time in
+        Report instances. Sexbook will automatically identify these identifiers and let you
+        assign more analytical information to them.
+
+        There is also a secondary text field in which you can enter arbitrary information
+        just for yourself so Sexbook will NOT analyse it.
+
+        There is also a dropdown-menu option for assigning this Report to a `Place`;
+        a Place is a relative location where your sexual activities happen.
+        You can create Place instances in the `Places` page in the main drawer menu.
+
+        Sexbook does not connect to the internet for security reasons;
+        This means your data shall remain only in your device just for you.
+        As for backup, Sexbook lets you easily and quickly export your data
+        in the "JSON" file format so you can store them somewhere safe.
+    </string>
     <string name="lcAccurate">Accurate?</string>
     <string name="lcOrgasmed">Orgasmed?</string>
     <string name="desc">Write descriptions&#8230;</string>

@@ -6,13 +6,13 @@
 * UI for selecting `hue` for `Crush`es
 * Number range filters for birth year, birth month, height, zodiac sign, first met year, and sum
   for `Screening`
-* Screening using chackboxes rather than spinners
+* Screening using checkboxes rather than spinners
 * Hide crushes with "Last Orgasm" older than...
 * Yearly time series charts for `Singular` and `Mixture`
 * An ultimate report out of `Taste` data
-* `Durability` statistics for Crushes
 * Classify crushes to be either short-term or long-term? And predict future of current crushes?!?
 * Apply `Hide disappeared people` 🚨
+* Implement `Durability`?
 
 ### 📝 Data Entry
 
@@ -20,30 +20,20 @@
 * TikTok ID for `Crush`
 * An `unidentified` status?
 
-### 🚀 UI Ease of Use
+### ✨ User Interface
 
+* Tooltips for Nav + guides on their Toolbars 🚨
 * A checkbox for saving `Screening` filters in SP
 * Jump to `Identify` from Fortuna
 * Undo for all important actions
-
-### 🔮 UI Clarity
-
-* Tooltips for Nav + guides on their Toolbars
-* Better UI for random crush suggestion and remember a suggestion till the end of the day
 
 ### ⚡ Performance & App Size
 
 * Vectorise all other icons
 
-### ✨ UI Aesthetics
-
-## 👩🏻 Features for Female Users
-
-* Duration for `Report`
-
 ---
 
-> ### 💻 Notes for the future Compose Multiplatform app
->
+## 🖍 Notes
+
 > We won't need something like MCDTP in the new Sexbook; just a simple field-based date time picker
 > is enough.
