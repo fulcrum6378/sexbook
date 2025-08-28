@@ -82,6 +82,7 @@ class Taste : MultiChartActivity() {
             vm.chartTimeframe = value
             vm.timeSeries = null
         }
+    override val helpMessage: Int get() = R.string.tasteHelp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

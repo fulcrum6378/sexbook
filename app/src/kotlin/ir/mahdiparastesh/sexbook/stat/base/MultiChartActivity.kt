@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.widget.Toolbar
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.annotation.StringRes
 import ir.mahdiparastesh.hellocharts.model.AbstractChartData
 import ir.mahdiparastesh.hellocharts.model.LineChartData
 import ir.mahdiparastesh.hellocharts.model.PieChartData
@@ -18,6 +19,7 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.util.ChartTimeframeLength
 import ir.mahdiparastesh.sexbook.util.StatUtils
+import ir.mahdiparastesh.sexbook.view.HelpDialog
 import kotlin.reflect.KClass
 
 /** Subclass of [BaseActivity] that contains multiple [ChartType]s. */
@@ -26,6 +28,9 @@ abstract class MultiChartActivity : ChartActivity(), Toolbar.OnMenuItemClickList
     abstract val toolbar: Toolbar
     abstract var vmChartType: Int
     abstract var vmChartTimeframe: Int
+
+    @get:StringRes
+    abstract val helpMessage: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +78,8 @@ abstract class MultiChartActivity : ChartActivity(), Toolbar.OnMenuItemClickList
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
+        if (item.itemId == R.id.help) HelpDialog.create(this, helpMessage)
+
         val chartType = ChartType.entries.indexOfFirst { it.menuId == item.itemId }
         val chartTimeframe = ChartTimeframeLength.entries.indexOfFirst { it.menuId == item.itemId }
         if (chartType != -1 || chartTimeframe != -1) {

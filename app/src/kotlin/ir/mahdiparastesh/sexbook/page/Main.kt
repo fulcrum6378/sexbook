@@ -281,7 +281,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             && !summarize(true)
         ) {
             uiToast(R.string.noRecords); return true
-        } else if (item.itemId in arrayOf(R.id.momPop, R.id.momTst) && !summarize()) {
+        } else if (item.itemId in arrayOf(R.id.momAdr, R.id.momTst) && !summarize()) {
             uiToast(R.string.noStat); return true
         } else if (item.itemId in
             arrayOf(R.id.momPpl, R.id.momImport, R.id.momExport, R.id.momSend)
@@ -294,7 +294,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         when (item.itemId) {
             R.id.momSum -> SummaryDialog.create(this)
             R.id.momRec -> RecencyDialog.create(this)
-            R.id.momPop -> goTo(Adorability::class)
+            R.id.momAdr -> goTo(Adorability::class)
             R.id.momMix -> goTo(Mixture::class)
             R.id.momInt -> goTo(Intervals::class)
             R.id.momTst -> goTo(Taste::class)

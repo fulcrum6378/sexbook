@@ -22,10 +22,10 @@
 
 ### ✨ User Interface
 
-* Tooltips for Nav + guides on their Toolbars 🚨
 * A checkbox for saving `Screening` filters in SP
 * Jump to `Identify` from Fortuna
 * Undo for all important actions
+* Help guides on Toolbars of `Mixture`, `Intervals` and `Estimations`(+nav tooltip)
 
 ### ⚡ Performance & App Size
 

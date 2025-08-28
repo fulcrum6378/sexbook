@@ -159,13 +159,31 @@
     <!-- STATISTICS -->
     <string name="summary">Summary</string>
     <string name="summaryHelp">
-        This section parses names from your
+        This section displays all your crushes in a ranking system based on the numbers
+        of sexual activities.
     </string>
     <string name="recency">Recency</string>
+    <string name="recencyHelp">
+        This section lists all your crushes sorted by your latest sexual activities with them.
+    </string>
     <string name="adorability">Adorability</string>
+    <string name="adorabilityHelp">
+        This page creates diagrams based on total numbers of your sexual activities
+        per month/year with each one of your crushes.
+    </string>
     <string name="mixture">Mixture</string>
+    <string name="mixtureHelp">
+        This page creates diagrams of total numbers of your orgasm per month/year.
+    </string>
     <string name="intervals">Intervals</string>
+    <string name="intervalsHelp">
+        This page creates diagrams of intervals between your orgasm (in hours).
+    </string>
     <string name="taste">Your Taste</string>
+    <string name="tasteHelp">
+        This complex page creates numerous diagrams in order to determine your sexual tastes
+        in various aspects.
+    </string>
     <string name="none">None</string>
     <string name="after">&#160;after&#160;</string>
     <plurals name="hour">
@@ -278,7 +296,7 @@
 
         There is also a dropdown-menu option for assigning this Report to a `Place`;
         a Place is a relative location where your sexual activities happen.
-        You can create Place instances in the `Places` page in the main drawer menu.\n\n
+        You can create Place instances in the `Places` page in the navigation drawer menu.\n\n
 
         <b>Sexbook does not connect to the internet</b> for security reasons;\n
         This means your data shall remain only in your device just for you.\n

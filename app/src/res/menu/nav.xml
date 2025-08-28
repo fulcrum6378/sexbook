@@ -4,27 +4,33 @@
         <item
             android:id="@+id/momSum"
             android:icon="@drawable/summary"
-            android:title="@string/summary" />
+            android:title="@string/summary"
+            android:tooltipText="@string/summaryHelp" />
         <item
             android:id="@+id/momRec"
             android:icon="@drawable/recency"
-            android:title="@string/recency" />
+            android:title="@string/recency"
+            android:tooltipText="@string/recencyHelp" />
         <item
-            android:id="@+id/momPop"
+            android:id="@+id/momAdr"
             android:icon="@drawable/adorability"
-            android:title="@string/adorability" />
+            android:title="@string/adorability"
+            android:tooltipText="@string/adorabilityHelp" />
         <item
             android:id="@+id/momMix"
             android:icon="@drawable/mixture"
-            android:title="@string/mixture" />
+            android:title="@string/mixture"
+            android:tooltipText="@string/mixtureHelp" />
         <item
             android:id="@+id/momInt"
             android:icon="@drawable/intervals"
-            android:title="@string/intervals" />
+            android:title="@string/intervals"
+            android:tooltipText="@string/intervalsHelp" />
         <item
             android:id="@+id/momTst"
             android:icon="@drawable/taste"
-            android:title="@string/taste" />
+            android:title="@string/taste"
+            android:tooltipText="@string/tasteHelp" />
     </group>
 
     <group android:id="@+id/management">

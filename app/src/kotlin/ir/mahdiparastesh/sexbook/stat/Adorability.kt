@@ -52,6 +52,7 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
         set(value) {
             vm.chartTimeframe = value
         }
+    override val helpMessage: Int get() = R.string.adorabilityHelp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
