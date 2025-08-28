@@ -67,6 +67,7 @@ import ir.mahdiparastesh.sexbook.util.NumberUtils
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.createFilterYm
 import ir.mahdiparastesh.sexbook.view.ActionBarDrawerToggle
+import ir.mahdiparastesh.sexbook.view.HelpDialog
 import ir.mahdiparastesh.sexbook.view.SexType
 import ir.mahdiparastesh.sexbook.view.UiTools
 import ir.mahdiparastesh.sexbook.view.UiTools.possessiveDeterminer
@@ -338,6 +339,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
             // PageSex (R.menu.page_sex):
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
+            R.id.mtHelp -> HelpDialog.create(this, R.string.pageSexHelp)
 
             // PageLove (R.menu.page_love):
             R.id.chart -> if (c.liefde.isNotEmpty())

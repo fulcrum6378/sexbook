@@ -1,9 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/mtHelp"
+        android:icon="@drawable/help"
+        android:iconTint="?android:textColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/help" />
+
+    <item
         android:id="@+id/mtCrush"
         android:icon="@drawable/crush"
         android:iconTint="?android:textColor"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/crushes" />
 </menu>
