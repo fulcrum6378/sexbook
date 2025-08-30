@@ -12,7 +12,6 @@
 * An ultimate report out of `Taste` data
 * Classify crushes to be either short-term or long-term? And predict future of current crushes?!?
 * Apply `Hide disappeared people` 🚨
-* Implement `Durability`?
 
 ### 📝 Data Entry
 
@@ -27,9 +26,11 @@
 * Undo for all important actions
 * Help guides on Toolbars of `Mixture`, `Intervals` and `Estimations`(+nav tooltip)
 
-### ⚡ Performance & App Size
+### ⚡ Special
 
 * Vectorise all other icons
+* Dropbox backup only for Mahdi
+* Reset data doesn't remove the data in RAM
 
 ---
 

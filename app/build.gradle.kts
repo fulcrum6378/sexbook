@@ -25,7 +25,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 55
-        versionName = "33.0.2"
+        versionName = "33.1.1"
         signingConfig = signingConfigs.getByName("main")  // not applied on debug
     }
 
@@ -63,11 +63,11 @@ android {
         }
         release {
             isMinifyEnabled = true
-            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // debuggability will cause obfuscation to occur partially.
         }
     }
 }

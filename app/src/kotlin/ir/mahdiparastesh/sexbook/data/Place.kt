@@ -50,8 +50,9 @@ class Place(
             w.beginObject()
             w.name("id").value(o.id)  // MUST NECESSARILY BE EXPORTED
             w.name("name").value(o.name ?: "")
-            if (o.latitude != -1.0 && o.longitude != -1.0)
-                w.name("location").value("${o.latitude},${o.longitude}")
+            if (o.latitude != null && o.latitude != -1.0
+                && o.longitude != null && o.longitude != -1.0
+            ) w.name("location").value("${o.latitude},${o.longitude}")
             w.endObject()
         }
 
@@ -62,8 +63,8 @@ class Place(
                 "id" -> o.id = r.nextLong()
                 "name" -> o.name = r.nextString()
                 "location" -> r.nextString().split(",").also {
-                    o.latitude = it[0].toDouble()
-                    o.longitude = it[1].toDouble()
+                    if (it[0] != "null") o.latitude = it[0].toDouble()
+                    if (it[1] != "null") o.longitude = it[1].toDouble()
                 }
                 else -> r.skipValue()
             }

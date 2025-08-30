@@ -345,7 +345,7 @@ class Taste : MultiChartActivity() {
                     }
 
                     val data = arrayListOf<SliceValue>()
-                    for ((div, score) in counts.toSortedMap()) data.add(
+                    if (sumOfAll != 0f) for ((div, score) in counts.toSortedMap()) data.add(
                         createSliceValue(
                             score,
                             div.toInt(),

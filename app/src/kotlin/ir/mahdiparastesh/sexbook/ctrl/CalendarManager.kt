@@ -12,6 +12,7 @@ import android.util.Log
 import androidx.annotation.MainThread
 import androidx.core.app.ActivityCompat
 import androidx.core.database.getLongOrNull
+import ir.mahdiparastesh.sexbook.BuildConfig
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
@@ -43,7 +44,8 @@ object CalendarManager {
     @MainThread
     fun askPerm(c: BaseActivity) {
         ActivityCompat.requestPermissions(
-            c, arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR),
+            c,
+            arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR),
             reqCode
         )
     }
@@ -150,7 +152,9 @@ object CalendarManager {
 
     @Suppress("RedundantSuspendModifier")
     private suspend fun deleteEvents(c: Sexbook) {
-        c.contentResolver.delete(CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString()))
+        c.contentResolver.delete(
+            CCE.CONTENT_URI, "calendar_id = ?", arrayOf(id.toString())
+        )
         alteredOnce = true
     }
 
@@ -164,14 +168,16 @@ object CalendarManager {
 
         CoroutineScope(Dispatchers.IO).launch {
             deleteEvents(c)
-            c.contentResolver.delete(CCC.CONTENT_URI, "account_name = ?", arrayOf(accName))
+            c.contentResolver.delete(
+                CCC.CONTENT_URI, "account_name = ?", arrayOf(accName)
+            )
             id = null
         }
     }
 
     @SuppressLint("SdCardPath")
     class AlterationCache : File(
-        "/data/data/" + Sexbook::class.java.`package`!!.name + "/cache/alter_calendar"
+        "/data/data/" + BuildConfig.APPLICATION_ID + "/cache/alter_calendar"
     ) {
         fun writeCode(code: Int) {
             outputStream().use { it.write(code) }

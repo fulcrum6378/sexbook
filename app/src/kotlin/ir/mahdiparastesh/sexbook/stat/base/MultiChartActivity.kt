@@ -97,5 +97,6 @@ abstract class MultiChartActivity : ChartActivity(), Toolbar.OnMenuItemClickList
         COMPOSITIONAL(PieChartView::class, R.id.chartCompositional),
         TIME_SERIES(LineChartView::class, R.id.chartTimeSeries),
         CUMULATIVE_TIME_SERIES(LineChartView::class, R.id.chartGrowth),
+        // if you use new ChartView subclasses, list them in the ProGuard rules.
     }
 }

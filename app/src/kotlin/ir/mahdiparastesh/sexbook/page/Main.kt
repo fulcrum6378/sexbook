@@ -339,7 +339,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
             // PageSex (R.menu.page_sex):
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
-            R.id.mtHelp -> HelpDialog.create(this, R.string.pageSexHelp)
+            R.id.mtHelp -> HelpDialog.create(
+                this, R.string.pageSexHelp
+            )
 
             // PageLove (R.menu.page_love):
             R.id.chart -> if (c.liefde.isNotEmpty())
@@ -482,7 +484,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         ) return
 
         val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        val channelBirth = Sexbook::class.java.`package`!!.name + ".NOTIFY_BIRTHDAY"
+        val channelBirth = BuildConfig.APPLICATION_ID + ".NOTIFY_BIRTHDAY"
         nm.createNotificationChannel(
             NotificationChannel(
                 channelBirth, getString(R.string.bHappyChannel),
@@ -542,7 +544,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
 
     enum class Action(val s: String) {
-        ADD("${Sexbook::class.java.`package`!!.name}.ACTION_ADD"),
-        VIEW("${Sexbook::class.java.`package`!!.name}.ACTION_VIEW"),
+        ADD("${BuildConfig.APPLICATION_ID}.ACTION_ADD"),
+        VIEW("${BuildConfig.APPLICATION_ID}.ACTION_VIEW"),
     }
 }
