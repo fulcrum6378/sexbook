@@ -12,12 +12,14 @@
 * An ultimate report out of `Taste` data
 * Classify crushes to be either short-term or long-term? And predict future of current crushes?!?
 * Apply `Hide disappeared people` 🚨
+* A filter for Crushes having encounters in specific years for Screening
 
 ### 📝 Data Entry
 
 * More body attributes? { nose size?, voice type?, lip shape?, eyebrow shape?, upper body shape?, }
 * TikTok ID for `Crush`
 * An `unidentified` status?
+* `PageSex::add()` regards the second Report in the entire database as monoamorous! (in debug) 🚨
 
 ### ✨ User Interface
 
@@ -25,12 +27,13 @@
 * Jump to `Identify` from Fortuna
 * Undo for all important actions
 * Help guides on Toolbars of `Mixture`, `Intervals` and `Estimations`(+nav tooltip)
+* Aesthetic double parantheses for group titles in `Settings`
 
 ### ⚡ Special
 
 * Vectorise all other icons
 * Dropbox backup only for Mahdi
-* Reset data doesn't remove the data in RAM
+* Reset data doesn't remove the data in RAM 🚨
 
 ---
 

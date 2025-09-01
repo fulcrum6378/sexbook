@@ -53,8 +53,11 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
             val crk = vm.crushKey
             val map = hashMapOf<String, OtherPartners.Item>()
             for (r in c.reports.valueIterator()) {
-                if (r.guess || r.analysis?.none { it == crk } != false) continue
-                r.analysis!!.filter { it != crk }.forEach { other ->
+                if (r.guess || r.analysis?.none { it.equals(crk, true) } != false)
+                    continue
+                r.analysis!!.filter {
+                    !it.equals(crk, true)
+                }.forEach { other ->
                     val otherLC = other.lowercase()
                     if (!map.containsKey(otherLC)) {
                         var identified: String? = null
