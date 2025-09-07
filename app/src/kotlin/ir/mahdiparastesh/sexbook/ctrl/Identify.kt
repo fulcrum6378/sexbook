@@ -283,6 +283,10 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
                         c.c.unsafe.remove(crushKey)
                         c.c.unsafe.add(inserted.key)
                     }
+                    if (crushKey in c.c.disappeared) {
+                        c.c.disappeared.remove(crushKey)
+                        c.c.disappeared.add(inserted.key)
+                    }
                     if (c is People) (c as People).vm.visPeople.indexOf(crushKey).also { pos ->
                         if (pos == -1) return@also
                         (c as People).vm.visPeople[pos] = inserted.key

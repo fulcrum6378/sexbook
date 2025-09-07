@@ -1,17 +1,14 @@
 package ir.mahdiparastesh.sexbook.ctrl
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import ir.mahdiparastesh.sexbook.BuildConfig
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Guess
 import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
-import java.io.File
 
 @androidx.room.Database(
     entities = [Report::class, Crush::class, Place::class, Guess::class],
@@ -173,17 +170,6 @@ UPDATE Crush SET status =
         fun build(apply: (RoomDatabase.Builder<Database>.() -> Unit)? = null): Database {
             apply?.also { room.apply() }
             return room.build()
-        }
-    }
-
-    /** Resolves the path to databases. */
-    @SuppressLint("SdCardPath")
-    class DbFile(which: Triple = Triple.MAIN) : File(
-        "/data/data/" + BuildConfig.APPLICATION_ID + "/databases/" + DATABASE + which.s
-    ) {
-        /** Helps resolve the file names of the triple SQLite database files. */
-        enum class Triple(val s: String) {
-            MAIN(""), SHARED_MEMORY("-shm"), WRITE_AHEAD_LOG("-wal")
         }
     }
 

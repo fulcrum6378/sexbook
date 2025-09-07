@@ -102,6 +102,11 @@ class SummaryDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
                 plus(c, getString(R.string.plusUnsafe, it.show()))
             )
         }
+        c.c.summary?.disappeared?.also {
+            if (it > 0f) pluses.addView(
+                plus(c, getString(R.string.plusDisappeared, it.show()))
+            )
+        }
         b.root.addView(pluses)
         pluses.viewTreeObserver.addOnGlobalLayoutListener(object :
             ViewTreeObserver.OnGlobalLayoutListener {

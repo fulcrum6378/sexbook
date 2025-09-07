@@ -178,7 +178,8 @@ class PageSex : BasePage() {
             var type: Byte? = null
             var plac: Long? = null
             val lastIndex = c.c.reports.size() - 1
-            for (r in lastIndex downTo max(0, lastIndex - 3)) {
+            val maxFlashBack = 3
+            for (r in lastIndex downTo max(0, lastIndex - maxFlashBack)) {
                 val report = c.c.reports.valueAt(r)
 
                 // one-time definitions
@@ -186,6 +187,7 @@ class PageSex : BasePage() {
                     type = report.type
                     plac = report.place
                 }
+                if (c.c.reports.size() < maxFlashBack) break
 
                 // detect a regularly repeated monoamorous crush (3^: 5th after 4 repetitions)
                 if (name == null) {

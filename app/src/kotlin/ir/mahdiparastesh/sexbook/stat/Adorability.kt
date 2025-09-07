@@ -96,14 +96,16 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
         val statOnlyCrushes = c.sp.getBoolean(Settings.spStatOnlyCrushes, false)
                 && c.liefde.isNotEmpty()
         val hideUnsafe = c.hideUnsafe()
+        val hideDisappeared = c.hideDisappeared()
 
         when (vm.chartType) {
 
             ChartType.COMPOSITIONAL.ordinal -> {
                 val data = arrayListOf<SliceValue>()
                 c.summary?.scores?.entries?.sortedBy { it.value.sum }?.forEach { x ->
-                    if (hideUnsafe && x.key in c.unsafe) return@forEach
                     if (statOnlyCrushes && x.key !in c.liefde) return@forEach
+                    if (hideUnsafe && x.key in c.unsafe) return@forEach
+                    if (hideDisappeared && x.key in c.disappeared) return@forEach
 
                     val score = x.value.sum
                     data.add(
@@ -122,8 +124,10 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
 
                 val cumulative = vm.chartType == ChartType.CUMULATIVE_TIME_SERIES.ordinal
                 for (x in c.summary!!.scores) {
-                    if (hideUnsafe && x.key in c.unsafe) continue
                     if (statOnlyCrushes && x.key !in c.liefde) continue
+                    if (hideUnsafe && x.key in c.unsafe) continue
+                    if (hideDisappeared && x.key in c.disappeared) continue
+
                     lines.add(
                         Timeline(
                             x.key,

@@ -28,7 +28,6 @@ import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.BaseDialog
 import ir.mahdiparastesh.sexbook.ctrl.CalendarManager
-import ir.mahdiparastesh.sexbook.ctrl.Database.DbFile
 import ir.mahdiparastesh.sexbook.ctrl.Exporter
 import ir.mahdiparastesh.sexbook.ctrl.LastOrgasm
 import ir.mahdiparastesh.sexbook.data.Crush
@@ -179,7 +178,7 @@ class Settings : BaseActivity() {
                 if (c.sp.contains(spStatUntil) && cal.timeInMillis >
                     c.sp.getLong(spStatUntil, 0/*IMPOSSIBLE*/)
                 ) {
-                    reportInvalidDateRange(R.string.stStatSince)
+                    reportInvalidDateRange(R.string.stStatSince, R.string.statSinceIllogical)
                     enableCB = false
                 }
 
@@ -237,7 +236,7 @@ class Settings : BaseActivity() {
                 if (c.sp.contains(spStatSince) && cal.timeInMillis <
                     c.sp.getLong(spStatSince, 0/*IMPOSSIBLE*/)
                 ) {
-                    reportInvalidDateRange(R.string.stStatUntil)
+                    reportInvalidDateRange(R.string.stStatUntil, R.string.statUntilIllogical)
                     enableCB = false
                 }
 
@@ -390,9 +389,7 @@ class Settings : BaseActivity() {
                 setTitle(R.string.stTruncate)
                 setMessage(R.string.stTruncateSure)
                 setPositiveButton(R.string.yes) { _, _ ->
-                    DbFile(DbFile.Triple.MAIN).delete()
-                    DbFile(DbFile.Triple.SHARED_MEMORY).delete()
-                    DbFile(DbFile.Triple.WRITE_AHEAD_LOG).delete()
+                    CoroutineScope(Dispatchers.IO).launch { c.db.clearAllTables() }
                     LastOrgasm.doUpdateAll(c)
                     shake()
                     Main.changed = true
@@ -424,10 +421,10 @@ class Settings : BaseActivity() {
         }
     }
 
-    private fun reportInvalidDateRange(@StringRes title: Int) {
+    private fun reportInvalidDateRange(@StringRes title: Int, @StringRes msg: Int) {
         MaterialAlertDialogBuilder(this).apply {
             setTitle(title)
-            setMessage(R.string.statSinceIllogical)
+            setMessage(msg)
             setPositiveButton(R.string.understand, null)
         }.show()
     }

@@ -191,6 +191,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             for (p in c.dao.cGetAll()) c.people[p.key] = p
             c.liefde.addAll(c.people.filter { it.value.active() }.map { it.key })
             c.unsafe.addAll(c.people.filter { it.value.unsafe() }.map { it.key })
+            c.disappeared.addAll(c.people.filter { it.value.disappeared() }.map { it.key })
             if (CalendarManager.checkPerm(c)) CalendarManager.initialise(c)
 
             // Place

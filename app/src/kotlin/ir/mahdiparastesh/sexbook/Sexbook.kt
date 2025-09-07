@@ -64,6 +64,9 @@ class Sexbook : Application() {
     /** A list of [Crush]es marked as "unsafe". */
     var unsafe = CopyOnWriteArraySet<String>()
 
+    /** A list of [Crush]es marked as "disappeared". */
+    var disappeared = CopyOnWriteArraySet<String>()
+
     /** A list of filters which will be applied to [ir.mahdiparastesh.sexbook.page.People]. */
     var screening: Screening.Filters? = null
 
@@ -78,6 +81,7 @@ class Sexbook : Application() {
         summary = null
         liefde.clear()
         unsafe.clear()
+        disappeared.clear()
     }
 
     /**
@@ -126,10 +130,13 @@ class Sexbook : Application() {
                 c.vm.sortBNtfCrushes(this)
                 c.bNtfCrushAdap?.notifyDataSetChanged()
             }
-            if (cr.unsafe())
-                unsafe.add(crush)
-            else
-                unsafe.remove(crush)
+
+            if (cr.unsafe()) unsafe.add(crush)
+            else unsafe.remove(crush)
+
+            if (cr.disappeared()) disappeared.add(crush)
+            else disappeared.remove(crush)
+
         } else {  // delete
             if (lfPos != -1) {
                 liefde.removeAt(lfPos)
@@ -159,6 +166,7 @@ class Sexbook : Application() {
                 )
             }
             unsafe.remove(crush)
+            disappeared.remove(crush)
         }
         if (c is Main)
             c.count(liefde.size)
@@ -181,10 +189,22 @@ class Sexbook : Application() {
     fun summaryCrushes(): MutableList<String> =
         summary?.let { summary ->
             var all = ArrayList(summary.scores.keys)
-            if (hideUnsafe()) ArrayList(all.filter { it !in unsafe }) else all
+            when {
+                hideUnsafe() && hideDisappeared() ->
+                    ArrayList(all.filter { it !in unsafe && it !in disappeared })
+                hideUnsafe() ->
+                    ArrayList(all.filter { it !in unsafe })
+                hideDisappeared() ->
+                    ArrayList(all.filter { it !in disappeared })
+                else -> all
+            }
         } ?: people.keys.toMutableList()
 
-    /** Should unsafe people be not shown? */
+    /** Should unsafe people be hidden? */
     fun hideUnsafe() =
         sp.getBoolean(Settings.spHideUnsafePeople, true) && unsafe.isNotEmpty()
+
+    /** Should disappeared people be hidden? */
+    fun hideDisappeared() =
+        sp.getBoolean(Settings.spHideDisappearedPeople, true) && unsafe.isNotEmpty()
 }

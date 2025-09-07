@@ -43,8 +43,11 @@ class RecencyDialog : BaseDialog<Main>(), BaseDialog.SearchableStat {
     /** Uses [Summary] to compute recency of crushes. */
     private fun compute() {
         val hideUnsafe = c.c.hideUnsafe()
+        val hideDisappeared = c.c.hideDisappeared()
+
         for ((key, score) in c.c.summary!!.scores) {
             if (hideUnsafe && key in c.c.unsafe) continue
+            if (hideDisappeared && key in c.c.disappeared) continue
 
             var mostRecent = 0L
             for (e in score.orgasms) if (e.time > mostRecent) mostRecent = e.time

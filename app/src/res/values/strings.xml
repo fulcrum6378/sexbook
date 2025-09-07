@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Sexbook</string>
 
     <!-- REPORT -->
@@ -194,11 +194,12 @@
     <string name="once">Once</string>
     <string name="twice">Twice</string>
     <string name="thrice">Thrice</string>
-    <string name="nTimes">%d times</string>
+    <string name="nTimes" tools:ignore="PluralsCandidate">%d times</string>
     <string name="excStat">Plus %s excluded from statisticisation.</string>
     <string name="unknown">Plus %s from unknown people.</string>
     <string name="nonCrush">Plus %s from those who are not listed as crushes.</string>
     <string name="plusUnsafe">Plus %s from unsafe people.</string>
+    <string name="plusDisappeared">Plus %s from disappeared people.</string>
     <string name="chartOptions">Chart options</string>
     <string name="chartCompositional">Compositional</string>
     <string name="chartTimeSeries">Time Series</string>
@@ -361,7 +362,7 @@
     <string name="stStatUntil">Statisticise Until</string>
     <string name="statSinceIllogical">The maximum date must be after the minimum date!</string>
     <string name="statUntilIllogical">The minimum date must be before the maximum date!</string>
-    <string name="stSexTypesTitle">Filter Statistics by type of orgasm</string>
+    <string name="stSexTypesTitle">Filter statistics by type of orgasm</string>
     <string name="stSexTypeInclude">Include %s</string>
     <string name="stVibration">Vibration for important buttons</string>
     <string name="stBirthdays">Birthdays</string>

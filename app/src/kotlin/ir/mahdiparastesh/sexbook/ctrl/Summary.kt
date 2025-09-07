@@ -21,6 +21,7 @@ class Summary(
     var apparent = (total - nExcluded).toFloat()
     var nonCrush = 0f
     var unsafe = 0f
+    var disappeared = 0f
     var classification: HashMap<Float, ArrayList<String>>? = null
 
     init {
@@ -58,6 +59,7 @@ class Summary(
         val statOnlyCrushes =
             c.sp.getBoolean(Settings.spStatOnlyCrushes, false) && c.liefde.isNotEmpty()
         val hideUnsafe = c.hideUnsafe()
+        val hideDisappeared = c.hideDisappeared()
 
         var results = HashMap<Float, ArrayList<String>>()
         for ((key, target) in scores) {
@@ -67,6 +69,8 @@ class Summary(
                 nonCrush += target.sum; continue; }
             if (hideUnsafe && key in c.unsafe) {
                 unsafe += target.sum; continue; }
+            if (hideDisappeared && key in c.disappeared) {
+                disappeared += target.sum; continue; }
 
             if (!results.containsKey(target.sum)) results[target.sum] = arrayListOf()
             results[target.sum]!!.add(key)
@@ -74,7 +78,8 @@ class Summary(
         for (k in results.keys) results[k]!!.sort()
         nonCrush = nonCrush.roundToNearestHundredth()
         unsafe = unsafe.roundToNearestHundredth()
-        apparent -= nonCrush + unsafe  // will double if results() is called twice, but it doesn't.
+        disappeared = disappeared.roundToNearestHundredth()
+        apparent -= nonCrush + unsafe + disappeared  // will double if results() is called twice, but it doesn't.
         apparent = apparent.roundToNearestHundredth()
 
         classification = results

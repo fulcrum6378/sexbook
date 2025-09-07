@@ -100,6 +100,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     @SuppressLint("NotifyDataSetChanged")
     fun arrangeList() {
         val hideUnsafe = c.hideUnsafe()
+        val hideDisappeared = c.hideDisappeared()
         val filters = c.screening
         vm.visPeople = ArrayList(
             when {
@@ -182,8 +183,15 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
                     return@filter true
                 }
-                hideUnsafe -> c.people.filter { p -> !p.value.unsafe() }
-                else -> c.people
+                else -> when {
+                    hideUnsafe && hideDisappeared ->
+                        c.people.filter { p -> !p.value.unsafe() && !p.value.disappeared() }
+                    hideUnsafe ->
+                        c.people.filter { p -> !p.value.unsafe() }
+                    hideDisappeared ->
+                        c.people.filter { p -> !p.value.disappeared() }
+                    else -> c.people
+                }
             }.keys)
         vm.visPeople.sortWith(
             Crush.Sort(

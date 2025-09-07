@@ -176,6 +176,8 @@ class Crush(
 
     fun presence(): Int = (status and STAT_PRESENCE).toInt()
 
+    fun disappeared(): Boolean = (status and STAT_PRESENCE) == 5.toShort()
+
     fun gender(): Int = (status and STAT_GENDER).toInt() shr 3
 
     fun androphile(): Boolean = (status and STAT_ANDROPHILIA) != 0.toShort()
