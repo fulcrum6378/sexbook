@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId = "ir.mahdiparastesh.sexbook"
-        minSdk = 26
+        minSdk = 28
         targetSdk = 36
         versionCode = 55
         versionName = "33.3.6"
