@@ -15,8 +15,7 @@
 
 ### 📝 Data Entry
 
-* More body attributes? { nose size?, voice type?, lip shape?, eyebrow shape?, upper body shape?, }
-* TikTok ID for `Crush`
+* More body attributes? { nose shape, voice pitch, lip width, lip height, eyebrow weight, bone size }
 
 ### ✨ User Interface
 
@@ -28,7 +27,6 @@
 
 ### ⚡ Special
 
-* Vectorise all other icons
 * Dropbox backup only for Mahdi
 
 ---

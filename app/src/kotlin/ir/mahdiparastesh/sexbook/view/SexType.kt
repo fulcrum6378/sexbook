@@ -33,11 +33,11 @@ data class SexType(
         fun all(c: Context): Array<SexType> {
             val names = c.resources.getStringArray(R.array.sexTypes)
             return arrayOf(
-                SexType(names[0], R.drawable.wet_dream),
-                SexType(names[1], R.drawable.masturbation),
-                SexType(names[2], R.drawable.oral_sex),
-                SexType(names[3], R.drawable.anal_sex),
-                SexType(names[4], R.drawable.vaginal_sex),
+                SexType(names[0], R.drawable.sex_type_wet_dream),
+                SexType(names[1], R.drawable.sex_type_masturbation),
+                SexType(names[2], R.drawable.sex_type_oral_sex),
+                SexType(names[3], R.drawable.sex_type_anal_sex),
+                SexType(names[4], R.drawable.sex_type_vaginal_sex),
             )
         }
 
