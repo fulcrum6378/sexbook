@@ -13,11 +13,11 @@
     </style>
 
 
-    <style name="Theme.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox"><!--unused-->
+    <!--<style name="Theme.Sexbook.CheckBox.White" parent="Theme.Sexbook.CheckBox">
         <item name="android:textColor">?colorOnSecondary</item>
         <item name="buttonIconTint">?colorSurfaceContainer</item>
         <item name="buttonTint">?colorOnSecondary</item>
-    </style>
+    </style>-->
 
 
     <!-- Nav -->

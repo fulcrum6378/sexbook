@@ -13,7 +13,7 @@ abstract class ChartActivity : BaseActivity() {
             onBackPressedDispatcher.onBackPressed(); return; }
         setContentView(getRootView())
         if (night) window.decorView.setBackgroundColor(
-            themeColor(com.google.android.material.R.attr.colorPrimary)
+            themeColor(android.R.attr.colorPrimary)
         )
     }
 

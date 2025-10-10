@@ -1,7 +1,6 @@
 package ir.mahdiparastesh.sexbook.page
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -64,8 +63,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-            menu?.setGroupDividerEnabled(true)
+        menu?.setGroupDividerEnabled(true)
         menu?.findItem(
             Crush.Sort.findSortMenuItemId(
                 c.sp.getInt(Settings.spPeopleSortBy, 0)

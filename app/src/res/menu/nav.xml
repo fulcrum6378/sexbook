@@ -1,5 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group android:id="@+id/management">
+        <item
+            android:id="@+id/momPpl"
+            android:icon="@drawable/people"
+            android:title="@string/people" />
+        <item
+            android:id="@+id/momPlc"
+            android:icon="@drawable/place"
+            android:title="@string/places" />
+        <item
+            android:id="@+id/momEst"
+            android:icon="@drawable/estimation"
+            android:title="@string/estimation" />
+    </group>
+
     <group android:id="@+id/statistics">
         <item
             android:id="@+id/momSum"
@@ -33,21 +48,6 @@
             android:tooltipText="@string/tasteHelp" />
     </group>
 
-    <group android:id="@+id/management">
-        <item
-            android:id="@+id/momPpl"
-            android:icon="@drawable/people"
-            android:title="@string/people" />
-        <item
-            android:id="@+id/momPlc"
-            android:icon="@drawable/place"
-            android:title="@string/places" />
-        <item
-            android:id="@+id/momEst"
-            android:icon="@drawable/estimation"
-            android:title="@string/estimation" />
-    </group>
-
     <group android:id="@+id/control">
         <item
             android:id="@+id/momExport"
@@ -65,6 +65,10 @@
             android:id="@+id/momSettings"
             android:icon="@drawable/settings"
             android:title="@string/momSettings" />
+        <item
+            android:id="@+id/momHelp"
+            android:icon="@drawable/help"
+            android:title="@string/help" />
         <item
             android:id="@+id/momCheckUpdates"
             android:icon="@drawable/check_for_updates"

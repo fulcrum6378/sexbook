@@ -308,6 +308,9 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momExport -> exporter.launchExport()
             R.id.momSend -> exporter.send()
             R.id.momSettings -> goTo(Settings::class)
+            R.id.momHelp -> HelpDialog.create(
+                this, R.string.pageSexHelp
+            )
             R.id.momCheckUpdates -> checkForUpdates()
         }
         return true
@@ -321,8 +324,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-            menu?.setGroupDividerEnabled(true)
+        menu?.setGroupDividerEnabled(true)
         menu?.findItem(
             Crush.Sort.findSortMenuItemId(
                 c.sp.getInt(Settings.spPageLoveSortBy, 0)
@@ -340,9 +342,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
             // PageSex (R.menu.page_sex):
             R.id.mtCrush -> b.pager.setCurrentItem(1, true)
-            R.id.mtHelp -> HelpDialog.create(
-                this, R.string.pageSexHelp
-            )
 
             // PageLove (R.menu.page_love):
             R.id.chart -> if (c.liefde.isNotEmpty())

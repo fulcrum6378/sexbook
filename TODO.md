@@ -16,6 +16,15 @@
 ### 📝 Data Entry
 
 * More body attributes? { nose shape, voice pitch, lip width, lip height, eyebrow weight, bone size }
+* Report qualities:
+  - Energy
+  - Pleasure: 3 degrees + painful
+  - Baffle / Confusion
+  - Emptying
+  - (Orgasm Duration?)
+* Hidable duration field for Report
+* A ReportDialog?
+* Enumerating psychological elements instead of people?
 
 ### ✨ User Interface
 
@@ -24,6 +33,7 @@
 * Undo for all important actions
 * Help guides on Toolbars of `Mixture`, `Intervals` and `Estimations`(+nav tooltip)
 * Aesthetic double parantheses for group titles in `Settings`
+* Suggest uppercase names if 2+ characters are uppercase in `PageSex::add()`
 
 ### ⚡ Special
 
@@ -35,3 +45,5 @@
 
 > We won't need something like MCDTP in the new Sexbook; just a simple field-based date time picker
 > is enough.
+
+> The Desktop version should have a different UI with editor panels

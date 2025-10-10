@@ -220,6 +220,7 @@
     <string name="delete">Delete</string>
     <string name="expand">Expand</string>
     <string name="collapse">Collapse</string>
+    <string name="findCrush">Find a crush&#8230;</string>
     <string name="suspend">Suspend</string>
     <string name="clearDate">Clear the date</string>
     <string name="deactivate">Deactivate</string>
@@ -239,20 +240,14 @@
     <string name="toExit">Double tap to exit&#8230;</string>
     <string name="momImport">Import from Json</string>
     <string name="momExport">Export to Json</string>
-    <string name="momSend">Send Json to</string>
-    <string name="momSettings">Settings</string>
-    <string name="momCheckUpdates">Check for updates</string>
     <string name="exportDone">Done!</string>
     <string name="exportUndone">Failed!</string>
+    <string name="askImport">Are you sure you want to replace all the app data?</string>
     <string name="importDone">Done!</string>
     <string name="importOpenError">Unfortunately an error occurred while opening the file!</string>
     <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
-    <string name="noRecords">You have no records yet!</string>
-    <string name="askImport">Are you sure you want to replace all the app data?</string>
-    <string name="findCrush">Find a crush&#8230;</string>
-    <string name="randomCrush">Suggest someone randomly&#8230;</string>
-
-    <!-- PageSex -->
+    <string name="momSend">Send Json to</string>
+    <string name="momSettings">Settings</string>
     <string name="pageSexHelp">
         This is the page where you keep track of your <b>sexual activities</b>.\n\n
 
@@ -304,6 +299,10 @@
         As for backup, Sexbook lets you easily and quickly export and import your data
         in the \"JSON\" file format so you can store them somewhere safe.
     </string>
+    <string name="momCheckUpdates">Check for updates</string>
+    <string name="noRecords">You have no records yet!</string>
+
+    <!-- PageSex -->
     <string name="lcAccurate">Accurate?</string>
     <string name="lcOrgasmed">Orgasmed?</string>
     <string name="desc">Write descriptions&#8230;</string>
@@ -316,6 +315,7 @@
         go to the navigation menu -> Summary or Recency -> select a name ->
         hit the top right button with a \"Person\" (identification) icon.
     </string>
+    <string name="randomCrush">Suggest someone randomly&#8230;</string>
 
     <!-- People -->
     <string name="people">People</string>

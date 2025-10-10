@@ -1,6 +1,5 @@
 package ir.mahdiparastesh.sexbook.stat.base
 
-import android.os.Build
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.Menu
@@ -68,8 +67,7 @@ abstract class MultiChartActivity : ChartActivity(), Toolbar.OnMenuItemClickList
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-            menu?.setGroupDividerEnabled(true)
+        menu?.setGroupDividerEnabled(true)
         menu?.findItem(R.id.chartOptions)?.subMenu?.apply {
             getItem(vmChartType).isChecked = true
             getItem(ChartType.entries.size + vmChartTimeframe).isChecked = true
