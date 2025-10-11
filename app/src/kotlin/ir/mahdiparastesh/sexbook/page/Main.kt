@@ -311,7 +311,14 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momHelp -> HelpDialog.create(
                 this, R.string.pageSexHelp
             )
-            R.id.momCheckUpdates -> checkForUpdates()
+            R.id.momCheckUpdates -> startActivity(
+                Intent(
+                    Intent.ACTION_VIEW, Uri.parse(
+                        "https://mahdiparastesh.ir/misc/sexbook/?app_version=" +
+                                BuildConfig.VERSION_NAME
+                    )
+                )
+            )
         }
         return true
     }
@@ -360,15 +367,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             } ?: return false
         }
         return true
-    }
-
-    private fun checkForUpdates() {
-        startActivity(
-            Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://mahdiparastesh.ir/misc/sexbook/")
-            )
-        )
     }
 
     private val goBack = object : OnBackPressedCallback(true) {

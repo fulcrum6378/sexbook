@@ -7,6 +7,7 @@ import android.icu.util.GregorianCalendar
 import android.icu.util.IndianCalendar
 import android.util.LongSparseArray
 import androidx.annotation.MainThread
+import androidx.core.util.valueIterator
 import androidx.core.view.isVisible
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.ctrl.CalendarManager
@@ -198,6 +199,12 @@ class Sexbook : Application() {
                     ArrayList(all.filter { it !in disappeared })
                 else -> all
             }
+        }?.also { all ->  // add names with case variations (e.g. Luna -> LUNA)
+            for (r in reports.valueIterator())
+                if (!r.analysis.isNullOrEmpty())
+                    for (key in r.analysis!!)
+                        if (key.isNotEmpty() && key !in all)
+                            all.add(key)
         } ?: people.keys.toMutableList()
 
     /** Should unsafe people be hidden? */

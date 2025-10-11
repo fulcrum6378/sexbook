@@ -351,7 +351,7 @@
         <item>Indian</item>
     </string-array>
     <string name="emptyDate" translatable="false">...</string>
-    <string name="stCrushTweaks">Crushes</string>
+    <string name="stCrushTweaks">« Crushes »</string>
     <string name="stHideUnsafePeople">Hide unsafe people</string>
     <string name="stHideDisappearedPeople">Hide disappeared people</string>
     <string name="stStatOnlyCrushes">Only include enabled crushes in statistics</string>
@@ -362,10 +362,10 @@
     <string name="stStatUntil">Statisticise Until</string>
     <string name="statSinceIllogical">The maximum date must be after the minimum date!</string>
     <string name="statUntilIllogical">The minimum date must be before the maximum date!</string>
-    <string name="stSexTypesTitle">Filter statistics by type of orgasm</string>
+    <string name="stSexTypesTitle">« Filter statistics by type of orgasm »</string>
     <string name="stSexTypeInclude">Include %s</string>
     <string name="stVibration">Vibration for important buttons</string>
-    <string name="stBirthdays">Birthdays</string>
+    <string name="stBirthdays">« Birthdays »</string>
     <string name="stCalOutput">List birthdays in the system calendar</string>
     <string name="stPauseBirthdaysNtf">Pause all birthday notifications</string>
     <string name="stNotifyBirthDaysBefore">Notify N days before a birthday:</string>
