@@ -30,9 +30,9 @@
     <string-array name="presence">
         <item>Specify their presence type&#8230;</item>
         <item>@string/fictionalCharacter</item>
-        <item>Real-world contact</item>
-        <item>Online contact</item>
-        <item>Observable (no contact)</item>
+        <item>Contactable (in real life)</item>
+        <item>Chattable (online)</item>
+        <item>Noticeable (no contact)</item>
         <item>Disappeared</item>
         <item>Deceased</item>
     </string-array>

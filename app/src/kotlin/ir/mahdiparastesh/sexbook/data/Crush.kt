@@ -83,9 +83,9 @@ class Crush(
         /**
          * - 0 => Unspecified
          * - 1 => Fictional character
-         * - 2 => Reachable (real-world contact)
-         * - 3 => Contactable (online contact)
-         * - 4 => Observable (no contact, active in social media or elsewhere)
+         * - 2 => Contactable (in real life)
+         * - 3 => Chattable (online)
+         * - 4 => Noticeable (no contact)
          * - 5 => Disappeared
          * - 6 => Deceased
          * - (7): empty
