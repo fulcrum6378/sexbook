@@ -11,20 +11,20 @@
 * Yearly time series charts for `Singular` and `Mixture`
 * An ultimate report out of `Taste` data
 * Classify crushes to be either short-term or long-term? And predict future of current crushes?!?
+  First, do this manually...
 * A filter for Crushes having encounters in specific years for Screening
 
 ### 📝 Data Entry
 
-* More body attributes? { nose shape, voice pitch, lip width, lip height, eyebrow weight, bone size }
+* More body attrs { nose shape, voice pitch, lip width, lip height, eyebrow weight, bone size }
 * Report qualities:
-  - Energy
-  - Pleasure: 3 degrees + painful
-  - Baffle / Confusion
-  - Emptying
-  - (Orgasm Duration?)
+    - Energy
+    - Pleasure: 3 degrees + painful
+    - Baffle / Confusion
+    - Emptying
+    - (Orgasm Duration?)
 * Hidable duration field for Report
 * A ReportDialog?
-* Enumerating psychological elements instead of people?
 
 ### ✨ User Interface
 
@@ -35,13 +35,11 @@
 
 ### ⚡ Special
 
+* Replace `Report` with `Encounter`
 * Dropbox backup only for Mahdi
 
 ---
 
 ## 🖍 Notes
-
-> We won't need something like MCDTP in the new Sexbook; just a simple field-based date time picker
-> is enough.
 
 > The Desktop version should have a different UI with editor panels.
