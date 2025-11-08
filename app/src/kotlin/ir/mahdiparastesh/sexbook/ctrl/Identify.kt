@@ -35,6 +35,7 @@ import ir.mahdiparastesh.sexbook.page.People
 import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.util.NumberUtils.DISABLED_ALPHA
+import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import ir.mahdiparastesh.sexbook.view.SeekBarUtils
 import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
 import ir.mahdiparastesh.sexbook.view.UiTools
@@ -44,7 +45,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.experimental.or
 
-/** An dialog box for controlling data of a [Crush] */
+/** A dialog box for controlling details of a [Crush] */
 class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity {
 
     companion object : BaseDialogCompanion() {
@@ -138,6 +139,7 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
 
         // hue
         var newHue: Float? = null
+        var unsetHue = false
         SeekBarUtils.setProgressBarDrawable(
             b.hue,
             GradientDrawable(
@@ -154,11 +156,31 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                (b.huePreview.background as GradientDrawable)
-                    .setColor(Color.HSVToColor(floatArrayOf(b.hue.progress / 10f, 1f, 1f)))
-                if (fromUser) newHue = b.hue.progress / 10f
+                updateHueSeekBar(progress / 10f)
+                if (fromUser) {
+                    newHue = progress / 10f
+                    unsetHue = false
+                }
             }
         })
+        b.huePreview.setOnClickListener {
+            EasyPopupMenu(
+                c, b.huePreview, R.menu.crush_hue,
+                R.id.crushHueReset to {
+                    b.hue.progress = (crush!!.hue!! * 10f).toInt()
+                    newHue = crush!!.hue!!
+                    unsetHue = false
+                },
+                R.id.crushHueUnset to {
+                    (b.huePreview.background as GradientDrawable).setColor(Color.TRANSPARENT)
+                    newHue = null
+                    unsetHue = true
+                },
+            ).apply {
+                if (crush?.hue == null) menu.findItem(R.id.crushHueReset)?.isVisible = false
+                show()
+            }
+        }
 
         // default values
         val crushKey = crush?.key ?: requireArguments().getString(BUNDLE_CRUSH_KEY)!!
@@ -228,7 +250,7 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
         b.notifyBirth.setOnCheckedChangeListener { _, isChecked ->
             if (!needsNtfPerm && isChecked) reqNotificationPerm(c)
             b.notifyBirth.alpha = if (isChecked) 1f else DISABLED_ALPHA
-        } // changing isChecked programmatically won't invoke the listener!
+        }  // changing isChecked programmatically won't invoke the listener!
         b.notifyBirth.alpha = if (b.notifyBirth.isChecked) 1f else DISABLED_ALPHA
 
         // create the dialog
@@ -288,7 +310,7 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
                     UiTools.validateDateTime(b.firstMet.text.toString())
                 ),
                 b.instagram.text.toString().ifBlank { null },
-                newHue ?: crush?.hue
+                if (!unsetHue) (newHue ?: crush?.hue) else null
             )
 
             // check if a newly assigned key doesn't already exist in the database
@@ -404,5 +426,10 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
             c, R.layout.spinner_white_small, c.resources.getStringArray(arr)
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         spinner.setOnTouchListener(SpinnerTouchListener())
+    }
+
+    private fun updateHueSeekBar(hue: Float) {
+        (b.huePreview.background as GradientDrawable)
+            .setColor(Color.HSVToColor(floatArrayOf(hue, 1f, 1f)))
     }
 }

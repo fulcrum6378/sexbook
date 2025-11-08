@@ -148,6 +148,8 @@
         <item>Long penis</item>
     </string-array>
     <string name="crushHue">Preferred colour in diagrams:</string>
+    <string name="crushHueReset">Reset to the previous colour</string>
+    <string name="crushHueUnset">Clear</string>
     <string name="duplicateCrush">
         Another crush with this identifier already exists; please make sure the identifier is unique.
     </string>
@@ -156,6 +158,7 @@
     <string name="otherPartnersDesc">
         Other sexual partners having sex along with this person in your sexual history.
     </string>
+    <string name="identifyMenuItem">Information</string>
 
     <!-- STATISTICS -->
     <string name="summary">Summary</string>

@@ -24,6 +24,7 @@
     - (Orgasm Duration?)
 * Hidable duration field for Report
 * A ReportDialog?
+* A complex H(S*V) value that unites S and V?
 
 ### ✨ User Interface
 
@@ -31,7 +32,6 @@
 * Jump to `Identify` from Fortuna
 * Undo for all important actions
 * Help guides on Toolbars of `Mixture`, `Intervals` and `Estimations`(+nav tooltip)
-* Ability for crush hue to be set back to null or reset to the previously-stored value
 
 ### ⚡ Special
 

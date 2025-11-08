@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/lcIdentify"
-        android:title="@string/identify" />
+        android:title="@string/identifyMenuItem" />
     <item
         android:id="@+id/lcStatistics"
         android:title="@string/statistics" />
