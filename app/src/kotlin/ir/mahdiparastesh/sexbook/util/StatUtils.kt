@@ -157,7 +157,7 @@ class LineFactory(stars: List<Timeline>) : ArrayList<Line>(
                     firstColours[s]
                 else
                     randomHue()
-                Color.HSVToColor(255, floatArrayOf(hue.toFloat(), 1f, 1f))
+                Color.HSVToColor(floatArrayOf(hue.toFloat(), 1f, 1f))
             }
 
             Line(star.line.map { line ->

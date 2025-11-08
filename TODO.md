@@ -3,7 +3,6 @@
 ### 📊 Data Access & Analysis
 
 * One `Search` Activity to search all 4 of them separately
-* UI for selecting `hue` for `Crush`es
 * Number range filters for birth year, birth month, height, zodiac sign, first met year, and sum
   for `Screening`
 * Screening using checkboxes rather than spinners
@@ -32,6 +31,7 @@
 * Jump to `Identify` from Fortuna
 * Undo for all important actions
 * Help guides on Toolbars of `Mixture`, `Intervals` and `Estimations`(+nav tooltip)
+* Ability for crush hue to be set back to null or reset to the previously-stored value
 
 ### ⚡ Special
 

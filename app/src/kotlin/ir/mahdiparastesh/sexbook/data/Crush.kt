@@ -1,5 +1,6 @@
 package ir.mahdiparastesh.sexbook.data
 
+import android.graphics.Color
 import androidx.annotation.IdRes
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -191,6 +192,8 @@ class Crush(
     fun active(): Boolean = (status and STAT_INACTIVE) == 0.toShort()
 
     fun body(field: Pair<Int, Int>): Int = (body and field.first) shr field.second
+
+    fun colour() = hue?.let { Color.HSVToColor(floatArrayOf(it, 1f, 1f)) }
 
 
     /** Tries to create a unique ID for the birthday Notification of this Crush. */

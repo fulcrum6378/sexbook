@@ -24,6 +24,20 @@ object UiTools {
     @Volatile
     var vib: Boolean? = null
 
+    /**
+     * A set of 13 colours to be set on a gradient displaying the Hue channel of the HSV color space.
+     *
+     * ```
+     * val arHue = IntArray(13)
+     * for (i in 0..12) arHue[i] = Color.HSVToColor(floatArrayOf(i * 30f, 1f, 1f))
+     * ```
+     */
+    val hueWheelGradient = intArrayOf(
+        -65536, -32768, -256, -8323328, -16711936, -16711808,
+        -16711681, -16744193, -16776961, -8388353, -65281, -65408,
+        -65536
+    )
+
 
     /** Sets the options specific to Sexbook on this [ir.mahdiparastesh.mcdtp.date.DatePickerDialog]. */
     fun DatePickerDialog<*>.defaultOptions(): DatePickerDialog<*> {

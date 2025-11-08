@@ -147,6 +147,7 @@
         <item>Medium penis</item>
         <item>Long penis</item>
     </string-array>
+    <string name="crushHue">Preferred colour in diagrams:</string>
     <string name="duplicateCrush">
         Another crush with this identifier already exists; please make sure the identifier is unique.
     </string>

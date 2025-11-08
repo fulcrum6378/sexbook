@@ -109,7 +109,7 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
 
                     val score = x.value.sum
                     data.add(
-                        SliceValue(score, chartColour)
+                        SliceValue(score, c.people[x.key]?.colour() ?: chartColour)
                             .apply { setLabel("${x.key} {${score.show()}}") })
                 }
                 return PieChartData(data).apply {
@@ -134,7 +134,8 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
                             StatUtils.sumTimeframes(
                                 c, x.value.orgasms, timeframes, timeframeLength, cumulative
                             ),
-                            x.value.sum
+                            x.value.sum,
+                            c.people[x.key]?.colour()
                         )
                     )
                 }

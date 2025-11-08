@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -14,12 +16,14 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.ArrayRes
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.sexbook.R
@@ -31,6 +35,7 @@ import ir.mahdiparastesh.sexbook.page.People
 import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.util.NumberUtils.DISABLED_ALPHA
+import ir.mahdiparastesh.sexbook.view.SeekBarUtils
 import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
 import ir.mahdiparastesh.sexbook.view.UiTools
 import kotlinx.coroutines.CoroutineScope
@@ -131,6 +136,30 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
         prepareBodyAttrSpinner(b.bodyBreasts, R.array.bodyBreasts)
         prepareBodyAttrSpinner(b.bodyPenis, R.array.bodyPenis)
 
+        // hue
+        var newHue: Float? = null
+        SeekBarUtils.setProgressBarDrawable(
+            b.hue,
+            GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                UiTools.hueWheelGradient
+            ),
+            c.themeColor(android.R.attr.textColor),
+            2 * c.dm.density  // 2dp
+        )
+        b.huePreview.background = ResourcesCompat.getDrawable(
+            c.resources, R.drawable.hue_preview, c.theme
+        )
+        b.hue.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                (b.huePreview.background as GradientDrawable)
+                    .setColor(Color.HSVToColor(floatArrayOf(b.hue.progress / 10f, 1f, 1f)))
+                if (fromUser) newHue = b.hue.progress / 10f
+            }
+        })
+
         // default values
         val crushKey = crush?.key ?: requireArguments().getString(BUNDLE_CRUSH_KEY)!!
         b.key.setText(crushKey)
@@ -175,6 +204,7 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
             b.bodyPenis.setSelection(
                 (body and Crush.BODY_PENIS.first) shr Crush.BODY_PENIS.second
             )
+            if (hue != null) b.hue.progress = (hue!! * 10f).toInt()
         }
         b.birthday.setText(UiTools.validateDateTime(crush?.birthday ?: ""))
         b.firstMet.setText(UiTools.validateDateTime(crush?.first_met ?: ""))
@@ -258,6 +288,7 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
                     UiTools.validateDateTime(b.firstMet.text.toString())
                 ),
                 b.instagram.text.toString().ifBlank { null },
+                newHue ?: crush?.hue
             )
 
             // check if a newly assigned key doesn't already exist in the database

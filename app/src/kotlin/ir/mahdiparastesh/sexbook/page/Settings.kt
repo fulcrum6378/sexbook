@@ -178,7 +178,9 @@ class Settings : BaseActivity() {
                 if (c.sp.contains(spStatUntil) && cal.timeInMillis >
                     c.sp.getLong(spStatUntil, 0/*IMPOSSIBLE*/)
                 ) {
-                    reportInvalidDateRange(R.string.stStatSince, R.string.statSinceIllogical)
+                    reportInvalidDateRange(
+                        R.string.stStatSince, R.string.statSinceIllogical
+                    )
                     enableCB = false
                 }
 
@@ -236,7 +238,9 @@ class Settings : BaseActivity() {
                 if (c.sp.contains(spStatSince) && cal.timeInMillis <
                     c.sp.getLong(spStatSince, 0/*IMPOSSIBLE*/)
                 ) {
-                    reportInvalidDateRange(R.string.stStatUntil, R.string.statUntilIllogical)
+                    reportInvalidDateRange(
+                        R.string.stStatUntil, R.string.statUntilIllogical
+                    )
                     enableCB = false
                 }
 
