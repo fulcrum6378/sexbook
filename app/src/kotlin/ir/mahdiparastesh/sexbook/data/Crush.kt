@@ -11,6 +11,7 @@ import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
+import ir.mahdiparastesh.sexbook.util.StatUtils
 import ir.mahdiparastesh.sexbook.view.UiTools
 import java.util.Locale
 import kotlin.experimental.and
@@ -193,7 +194,11 @@ class Crush(
 
     fun body(field: Pair<Int, Int>): Int = (body and field.first) shr field.second
 
-    fun colour() = hue?.let { Color.HSVToColor(floatArrayOf(it, 1f, 1f)) }
+    fun colour() = hue?.let {
+        Color.HSVToColor(
+            floatArrayOf(it, StatUtils.GLOBAL_S_IN_HSV, StatUtils.GLOBAL_V_IN_HSV)
+        )
+    }
 
 
     /** Tries to create a unique ID for the birthday Notification of this Crush. */

@@ -35,6 +35,7 @@ import ir.mahdiparastesh.sexbook.page.People
 import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.stat.Singular
 import ir.mahdiparastesh.sexbook.util.NumberUtils.DISABLED_ALPHA
+import ir.mahdiparastesh.sexbook.util.StatUtils
 import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
 import ir.mahdiparastesh.sexbook.view.SeekBarUtils
 import ir.mahdiparastesh.sexbook.view.SpinnerTouchListener
@@ -151,12 +152,18 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
         )
         b.huePreview.background = ResourcesCompat.getDrawable(
             c.resources, R.drawable.hue_preview, c.theme
-        )
+        )?.mutate()
         b.hue.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                updateHueSeekBar(progress / 10f)
+                (b.huePreview.background as GradientDrawable).setColor(
+                    Color.HSVToColor(
+                        floatArrayOf(
+                            progress / 10f, StatUtils.GLOBAL_S_IN_HSV, StatUtils.GLOBAL_V_IN_HSV
+                        )
+                    )
+                )
                 if (fromUser) {
                     newHue = progress / 10f
                     unsetHue = false
@@ -426,10 +433,5 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
             c, R.layout.spinner_white_small, c.resources.getStringArray(arr)
         ).apply { setDropDownViewResource(R.layout.spinner_dd) }
         spinner.setOnTouchListener(SpinnerTouchListener())
-    }
-
-    private fun updateHueSeekBar(hue: Float) {
-        (b.huePreview.background as GradientDrawable)
-            .setColor(Color.HSVToColor(floatArrayOf(hue, 1f, 1f)))
     }
 }

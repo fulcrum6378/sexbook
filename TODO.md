@@ -24,7 +24,6 @@
     - (Orgasm Duration?)
 * Hidable duration field for Report
 * A ReportDialog?
-* A complex H(S*V) value that unites S and V?
 
 ### ✨ User Interface
 
@@ -32,10 +31,10 @@
 * Jump to `Identify` from Fortuna
 * Undo for all important actions
 * Help guides on Toolbars of `Mixture`, `Intervals` and `Estimations`(+nav tooltip)
+* Replace `Report` with `Encounter` only in the UI
 
 ### ⚡ Special
 
-* Replace `Report` with `Encounter`
 * Dropbox backup only for Mahdi
 
 ---

@@ -25,6 +25,8 @@ object StatUtils {
 
     const val POINT_LABEL_OFFSET_IN_DP = 24
     val hues: IntRange = 0..359
+    const val GLOBAL_S_IN_HSV = 0.95f
+    const val GLOBAL_V_IN_HSV = 0.95f
 
     /** Creates a list of months of the recorded sexual history. */
     fun timeSeries(
@@ -157,7 +159,11 @@ class LineFactory(stars: List<Timeline>) : ArrayList<Line>(
                     firstColours[s]
                 else
                     randomHue()
-                Color.HSVToColor(floatArrayOf(hue.toFloat(), 1f, 1f))
+                Color.HSVToColor(
+                    floatArrayOf(
+                        hue.toFloat(), StatUtils.GLOBAL_S_IN_HSV, StatUtils.GLOBAL_V_IN_HSV
+                    )
+                )
             }
 
             Line(star.line.map { line ->
