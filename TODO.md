@@ -12,18 +12,18 @@
 * Classify crushes to be either short-term or long-term? And predict future of current crushes?!?
   First, do this manually...
 * A filter for Crushes having encounters in specific years for Screening
+* `since` and `until` date values for each `ChartActivity` separately
 
 ### 📝 Data Entry
 
-* More body attrs { nose shape, voice pitch, lip width, lip height, eyebrow weight, bone size }
-* Report qualities:
-    - Energy
-    - Pleasure: 3 degrees + painful
-    - Baffle / Confusion
-    - Emptying
-    - (Orgasm Duration?)
-* Hidable duration field for Report
-* A ReportDialog?
+* More body attrs { nose shape, voice pitch, lip width, lip height, eyebrow weight }
+* Report qualities (integrated with orgasmed?) shown as PopupMenu items:
+    - How Energetic?: normal, high, explosive
+    - How Pleasant?: painful, none, low, medium, high, ultra
+    - How Baffling?: none, low, medium, high
+    - Deep Orgasm?: no, yes
+* Hold the banana button to start a cancellable time counter for a `Report` + a small minimised 
+  field in `ReportAdap`
 
 ### ✨ User Interface
 
