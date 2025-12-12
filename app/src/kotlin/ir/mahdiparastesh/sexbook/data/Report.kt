@@ -15,6 +15,9 @@ import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.stat.Intervals
 import ir.mahdiparastesh.sexbook.stat.Mixture
 import ir.mahdiparastesh.sexbook.view.SexType
+import kotlin.experimental.and
+import kotlin.experimental.or
+import kotlin.experimental.xor
 
 /**
  * A `Report` is any kind of sexual activity that is reported at a specific time and space,
@@ -61,15 +64,69 @@ class Report(
     @ColumnInfo(defaultValue = "1")
     var accurate: Boolean = true,
 
-    /**
-     * Did the user orgasm during this sexual activity?
-     *
-     * [Mixture], [Intervals] and [Dao.whenWasTheLastTime] require this.
-     * [Main.summarize] requires this if `spStatNonOrgasm` is checked in [Settings].
-     */
+    /** Qualities of this sexual event */
     @ColumnInfo(defaultValue = "1")
-    var orgasmed: Boolean = true,
+    var qualities: Short = 1,
 ) {
+
+    companion object {
+
+        /**
+         * Quality: Did the user orgasm during this sexual activity?
+         *
+         * [Mixture], [Intervals] and [Dao.whenWasTheLastTime] require this.
+         * [Main.summarize] requires this if `spStatNonOrgasm` is checked in [Settings].
+         */
+        private val QUAL_ORGASMED = 0b1.toShort() to 0  // 1
+
+        /**
+         * Quality: How pleasant was this sexual activity?
+         *
+         * - 0 => Undefined
+         * - 1 => Painful
+         * - 2 => No pleasure
+         * - 3 => A bit pleasant
+         * - 4 => Pleasant
+         * - 5 => Highly pleasant
+         * - 6 => Ultra-pleasant
+         * - (7): empty
+         */
+        private val QUAL_PLEASURE = (0b111 shl 1).toShort() to 1  // 2
+
+        /**
+         * Quality: How energetic was this sexual activity?
+         *
+         * - 0 => Undefined
+         * - 1 => Low energy
+         * - 2 => Normal energy
+         * - 3 => Highly energetic
+         * - 4 => Explosive
+         * - (5,6,7): empty
+         */
+        private val QUAL_ENERGY = (0b111 shl 4).toShort() to 4  // 112
+
+        /**
+         * Quality: How baffling was this sexual activity?
+         *
+         * - 0 => Undefined
+         * - 1 => Not baffling
+         * - 2 => A bit baffling
+         * - 3 => Moderately baffling
+         * - 4 => Highly baffling
+         * - (5,6,7): empty
+         */
+        private val QUAL_BAFFLEMENT = (0b111 shl 7).toShort() to 7  // 896
+
+        /**
+         * Quality: How draining was this sexual activity?
+         *
+         * - 0 => Undefined
+         * - 1 => Premature ejaculation
+         * - 2 => Normal ejaculation
+         * - 3 => Deep ejaculation
+         */
+        private val QUAL_EJACULATION = (0b11 shl 10).toShort() to 10  // 3072
+    }
 
     constructor(
         time: Long,
@@ -78,8 +135,8 @@ class Report(
         place: Long,
         description: String?,
         accurate: Boolean,
-        orgasmed: Boolean
-    ) : this(0L, time, name, type, place, description, accurate, orgasmed)
+        qualities: Short
+    ) : this(0L, time, name, type, place, description, accurate, qualities)
 
     @delegate:Ignore
     @delegate:Transient
@@ -91,7 +148,7 @@ class Report(
 
     @Ignore  // for estimation
     constructor(id: Long, time: Long, name: String, type: Byte, place: Long)
-            : this(id, time, name, type, place, null, false, true)
+            : this(id, time, name, type, place, null, false, 1)
 
     /*@Ignore  // for GsonAdapter
     constructor() : this(
@@ -112,6 +169,44 @@ class Report(
                 .split(" + ")
                 .map { it.trim() }
     }
+
+    fun orgasmed() = (qualities and QUAL_ORGASMED.first) == 1.toShort()
+
+    fun orgasmed(value: Boolean) {
+        qualities =
+            if (value) (qualities or QUAL_ORGASMED.first)
+            else (qualities xor QUAL_ORGASMED.first)
+    }
+
+    fun pleasure(): Int = (qualities and QUAL_PLEASURE.first).toInt() shr QUAL_PLEASURE.second
+
+    fun pleasure(value: Int) {
+        qualities = (qualities and QUAL_PLEASURE.first.toInt().inv().toShort()) or
+                (value shl QUAL_PLEASURE.second).toShort()
+    }
+
+    fun energy(): Int = (qualities and QUAL_ENERGY.first).toInt() shr QUAL_ENERGY.second
+
+    fun energy(value: Int) {
+        qualities = (qualities and QUAL_ENERGY.first.toInt().inv().toShort()) or
+                (value shl QUAL_ENERGY.second).toShort()
+    }
+
+    fun bafflement(): Int = (qualities and QUAL_BAFFLEMENT.first).toInt() shr QUAL_BAFFLEMENT.second
+
+    fun bafflement(value: Int) {
+        qualities = (qualities and QUAL_BAFFLEMENT.first.toInt().inv().toShort()) or
+                (value shl QUAL_BAFFLEMENT.second).toShort()
+    }
+
+    fun ejaculation(): Int =
+        (qualities and QUAL_EJACULATION.first).toInt() shr QUAL_EJACULATION.second
+
+    fun ejaculation(value: Int) {
+        qualities = (qualities and QUAL_EJACULATION.first.toInt().inv().toShort()) or
+                (value shl QUAL_EJACULATION.second).toShort()
+    }
+
 
     /** Helper class for filtering sex records by month */
     class Filter(val year: Int, val month: Int, var map: ArrayList<Long>) {
@@ -145,7 +240,7 @@ class Report(
             if (o.place != -1L) w.name("plac").value(o.place)
             if (!o.description.isNullOrBlank()) w.name("desc").value(o.description)
             if (!o.accurate) w.name("accu").value(false)
-            if (!o.orgasmed) w.name("ogsm").value(false)
+            if (o.qualities != 1.toShort()) w.name("qual").value(o.qualities)
             w.endObject()
         }
 
@@ -159,7 +254,9 @@ class Report(
                 "plac" -> o.place = r.nextLong()
                 "desc" -> o.description = r.nextString()
                 "accu" -> o.accurate = r.nextBoolean()
-                "ogsm" -> o.orgasmed = r.nextBoolean()
+                "qual" -> o.qualities = r.nextInt().toShort()
+                // obsolete:
+                "ogsm" -> o.qualities = if (r.nextBoolean()) 1 else 0
                 else -> r.skipValue()
             }
             r.endObject()

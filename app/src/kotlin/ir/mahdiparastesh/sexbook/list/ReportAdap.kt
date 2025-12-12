@@ -16,6 +16,7 @@ import androidx.core.util.isEmpty
 import androidx.core.util.isNotEmpty
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.mahdiparastesh.mcdtp.McdtpUtils
 import ir.mahdiparastesh.mcdtp.date.DatePickerDialog
 import ir.mahdiparastesh.mcdtp.time.TimePickerDialog
@@ -276,32 +277,109 @@ class ReportAdap(
                 }
             },
             R.id.lcOrgasmed to {
-                if (r.orgasmed != !it.isChecked) {
-                    r.orgasmed = !it.isChecked
+                if (r.orgasmed() != !it.isChecked) {
+                    r.orgasmed(!it.isChecked)
                     update(r.id, orgasmChanged = true)
                 }
             },
-            R.id.lcDelete to {
-                CoroutineScope(Dispatchers.IO).launch {
-                    c.c.dao.rDelete(r)
-                    c.c.reports.remove(r.id)
-                    if (c.c.reports.isNotEmpty()) c.vm.visReports.remove(r.id)
-                    LastOrgasm.updateAll(c.c)
 
-                    withContext(Dispatchers.Main) {
-                        val ii = h.layoutPosition
-                        notifyAnyChange(false)
-                        notifyItemRemoved(ii)
-                        if (c.c.reports.isEmpty()) f.reset()
-                        f.updateFilterSpinner()
+            R.id.lcPleasure0 to { pleasure(r, 0) },
+            R.id.lcPleasure1 to { pleasure(r, 1) },
+            R.id.lcPleasure2 to { pleasure(r, 2) },
+            R.id.lcPleasure3 to { pleasure(r, 3) },
+            R.id.lcPleasure4 to { pleasure(r, 4) },
+            R.id.lcPleasure5 to { pleasure(r, 5) },
+            R.id.lcPleasure6 to { pleasure(r, 6) },
+
+            R.id.lcEnergy0 to { energy(r, 0) },
+            R.id.lcEnergy1 to { energy(r, 1) },
+            R.id.lcEnergy2 to { energy(r, 2) },
+            R.id.lcEnergy3 to { energy(r, 3) },
+            R.id.lcEnergy4 to { energy(r, 4) },
+
+            R.id.lcBafflement0 to { bafflement(r, 0) },
+            R.id.lcBafflement1 to { bafflement(r, 1) },
+            R.id.lcBafflement2 to { bafflement(r, 2) },
+            R.id.lcBafflement3 to { bafflement(r, 3) },
+            R.id.lcBafflement4 to { bafflement(r, 4) },
+
+            R.id.lcEjaculation0 to { ejaculation(r, 0) },
+            R.id.lcEjaculation1 to { ejaculation(r, 1) },
+            R.id.lcEjaculation2 to { ejaculation(r, 2) },
+            R.id.lcEjaculation3 to { ejaculation(r, 3) },
+
+            R.id.lcDelete to {
+                MaterialAlertDialogBuilder(c).apply {
+                    setTitle(c.resources.getString(R.string.delete))
+                    setMessage(c.resources.getString(R.string.reportDeleteSure))
+                    setPositiveButton(R.string.yes) { _, _ ->
+                        CoroutineScope(Dispatchers.IO).launch {
+                            c.c.dao.rDelete(r)
+                            c.c.reports.remove(r.id)
+                            if (c.c.reports.isNotEmpty()) c.vm.visReports.remove(r.id)
+                            LastOrgasm.updateAll(c.c)
+
+                            withContext(Dispatchers.Main) {
+                                val ii = h.layoutPosition
+                                notifyAnyChange(false)
+                                notifyItemRemoved(ii)
+                                if (c.c.reports.isEmpty()) f.reset()
+                                f.updateFilterSpinner()
+                            }
+                        }
                     }
-                }
+                    setNegativeButton(R.string.no, null)
+                    setCancelable(true)
+                }.show()
             }
         ).apply {
-            menu.findItem(R.id.lcAccurate).isChecked = r.accurate
-            menu.findItem(R.id.lcOrgasmed).isChecked = r.orgasmed
             if (expansion[h.layoutPosition]) menu.findItem(R.id.lcExpand).title =
                 c.resources.getString(R.string.collapse)
+            menu.findItem(R.id.lcAccurate).isChecked = r.accurate
+            menu.findItem(R.id.lcOrgasmed).isChecked = r.orgasmed()
+
+            val pleasure = r.pleasure()
+            menu.findItem(
+                arrayOf(
+                    R.id.lcPleasure0, R.id.lcPleasure1, R.id.lcPleasure2, R.id.lcPleasure3,
+                    R.id.lcPleasure4, R.id.lcPleasure5, R.id.lcPleasure6,
+                )[pleasure]
+            ).apply {
+                isChecked = true
+                if (pleasure != 0) menu.findItem(R.id.lcPleasure).title = title
+            }
+
+            val energy = r.energy()
+            menu.findItem(
+                arrayOf(
+                    R.id.lcEnergy0, R.id.lcEnergy1, R.id.lcEnergy2, R.id.lcEnergy3, R.id.lcEnergy4,
+                )[energy]
+            ).apply {
+                isChecked = true
+                if (energy != 0) menu.findItem(R.id.lcEnergy).title = title
+            }
+
+            val bafflement = r.bafflement()
+            menu.findItem(
+                arrayOf(
+                    R.id.lcBafflement0, R.id.lcBafflement1, R.id.lcBafflement2, R.id.lcBafflement3,
+                    R.id.lcBafflement4,
+                )[bafflement]
+            ).apply {
+                isChecked = true
+                if (bafflement != 0) menu.findItem(R.id.lcBafflement).title = title
+            }
+
+            val ejaculation = r.ejaculation()
+            menu.findItem(
+                arrayOf(
+                    R.id.lcEjaculation0, R.id.lcEjaculation1, R.id.lcEjaculation2,
+                    R.id.lcEjaculation3,
+                )[ejaculation]
+            ).apply {
+                isChecked = true
+                if (ejaculation != 0) menu.findItem(R.id.lcEjaculation).title = title
+            }
         }.show()
     }
 
@@ -310,6 +388,34 @@ class ReportAdap(
         expansion[i] = expand
         b.desc.isVisible = expand
         b.place.isVisible = expand
+    }
+
+    private fun pleasure(r: Report, value: Int) {
+        if (r.pleasure() != value) {
+            r.pleasure(value)
+            update(r.id)
+        }
+    }
+
+    private fun energy(r: Report, value: Int) {
+        if (r.energy() != value) {
+            r.energy(value)
+            update(r.id)
+        }
+    }
+
+    private fun bafflement(r: Report, value: Int) {
+        if (r.bafflement() != value) {
+            r.bafflement(value)
+            update(r.id)
+        }
+    }
+
+    private fun ejaculation(r: Report, value: Int) {
+        if (r.ejaculation() != value) {
+            r.ejaculation(value)
+            update(r.id)
+        }
     }
 
 

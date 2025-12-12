@@ -9,7 +9,30 @@
         <item>Anal Sex</item>
         <item>Vaginal Sex</item>
     </string-array>
-    <string name="addNewRecord">Add a new record</string>
+    <string name="reportAddNew">Add a new encounter</string>
+    <string name="reportQuality0">Undefined</string>
+    <string name="reportQualityPleasure">How Pleasant?</string>
+    <string name="reportQualityPleasure1">Painful</string>
+    <string name="reportQualityPleasure2">No pleasure</string>
+    <string name="reportQualityPleasure3">A bit pleasant</string>
+    <string name="reportQualityPleasure4">Pleasant</string>
+    <string name="reportQualityPleasure5">Highly pleasant</string>
+    <string name="reportQualityPleasure6">Ultra-pleasant</string>
+    <string name="reportQualityEnergy">How Energetic?</string>
+    <string name="reportQualityEnergy1">Low energy</string>
+    <string name="reportQualityEnergy2">Normal energy</string>
+    <string name="reportQualityEnergy3">Highly energetic</string>
+    <string name="reportQualityEnergy4">Explosive</string>
+    <string name="reportQualityBafflement">How Baffling?</string>
+    <string name="reportQualityBafflement1">Not baffling</string>
+    <string name="reportQualityBafflement2">A bit baffling</string>
+    <string name="reportQualityBafflement3">Moderately baffling</string>
+    <string name="reportQualityBafflement4">Highly baffling</string>
+    <string name="reportQualityEjaculation">How Draining?</string>
+    <string name="reportQualityEjaculation1">Premature ejaculation</string>
+    <string name="reportQualityEjaculation2">Normal ejaculation</string>
+    <string name="reportQualityEjaculation3">Deep ejaculation</string>
+    <string name="reportDeleteSure">Are you sure you want to delete this encounter?</string>
 
     <!-- CRUSH -->
     <string name="crushHint" translatable="false">.....</string>
@@ -80,7 +103,7 @@
     <string name="crushClear">Clear Information: %s</string>
     <string name="crushClearSure">
         Are you sure you want to clear this person\'s information?
-        (THIS DOES NOT INCLUDE THE SEX RECORDS!)
+        (THIS DOES NOT INCLUDE THE ENCOUNTERS!)
     </string>
     <string-array name="bodySkinColour">
         <item>Skin colour&#8230;</item>
@@ -153,7 +176,7 @@
     <string name="duplicateCrush">
         Another crush with this identifier already exists; please make sure the identifier is unique.
     </string>
-    <string name="minSum">Minimum number of reports:</string>
+    <string name="minSum">Minimum number of encounters:</string>
     <string name="otherPartners">Other Partners</string>
     <string name="otherPartnersDesc">
         Other sexual partners having sex along with this person in your sexual history.
@@ -211,7 +234,7 @@
     <string name="chartMonthly">Monthly</string>
     <string name="chartYearly">Yearly</string>
     <string name="statistics">Statistics</string>
-    <string name="noStat">The range of your records must exceed one month!</string>
+    <string name="noStat">The sum of your encounters must exceed one month!</string>
     <string name="crushesStat">Crushes\' Statistics</string>
 
     <!-- DATA CONTROLS -->
@@ -256,7 +279,7 @@
         This is the page where you keep track of your <b>sexual activities</b>.\n\n
 
         There\'s a large round button at the bottom of this page, by tapping it you\'ll create
-        a single empty `Report` instance that can represent any of these types of sexual activity:\n
+        a single empty `Encounter` instance that can represent any of these types of sexual activity:\n
 
         <ul>\n
             <li>Wet Dream</li>\n
@@ -270,8 +293,8 @@
         when you tap the button. It\'s proper to tap the button, shortly after you orgasm!\n
         You can change their dates and times by tapping on date indicators and clocks respectively.\n\n
 
-        Your Reports are categorised for each month and the main page will only show Reports of
-        the current month unless you alter the month option at the bottom of the page.\n\n
+        Your Encounters are categorised for each month and the main page will only show Encounters
+        of the current month unless you alter the month option at the bottom of the page.\n\n
 
         The next thing you can record is the name of the sexual partner or namely your `Crush`.\n
         A `Crush` in Sexbook represents a person you\'ve had any kind of sexual activity with,
@@ -288,13 +311,13 @@
         </ol>\n
 
         You can enter these unique identifiers in the text field right after date and time in
-        Report instances. Sexbook will automatically identify these identifiers and let you
+        Encounter instances. Sexbook will automatically identify these identifiers and let you
         assign more analytical information to them.\n\n
 
         There is also a secondary text field in which you can enter arbitrary information
         just for yourself so Sexbook will NOT analyse it.\n\n
 
-        There is also a dropdown-menu option for assigning this Report to a `Place`;
+        There is also a dropdown-menu option for assigning this Encounter to a `Place`;
         a Place is a relative location where your sexual activities happen.
         You can create Place instances in the `Places` page in the navigation drawer menu.\n\n
 
@@ -304,7 +327,7 @@
         in the \"JSON\" file format so you can store them somewhere safe.
     </string>
     <string name="momCheckUpdates">Check for updates</string>
-    <string name="noRecords">You have no records yet!</string>
+    <string name="noRecords">You have entered no encounters yet!</string>
 
     <!-- PageSex -->
     <string name="lcAccurate">Accurate?</string>
@@ -315,7 +338,7 @@
     <!-- PageLove -->
     <string name="crushes">List of Crushes</string>
     <string name="emptyLove">
-        After adding some sex records with names of individuals,
+        After adding some encounters with names of individuals,
         go to the navigation menu -> Summary or Recency -> select a name ->
         hit the top right button with a \"Person\" (identification) icon.
     </string>
@@ -327,18 +350,20 @@
     <!-- Places -->
     <string name="places">Places</string>
     <string name="emptyPlaces">You haven\'t defined any places!</string>
+    <string name="plAddNew">Add a new place</string>
     <string name="plItemHint">Place name&#8230;</string>
     <string name="plDefPlace">Default Place?</string>
     <string name="plDeletePlaceSure">
         Are you sure you want to delete this place?
-        If so, please choose another place to reassign all related reports to,
+        If so, please choose another place to reassign all related encounters to,
         or leave it blank to simply remove the place from them:
     </string>
-    <string name="reassigningReports">Reassigning reports&#8230;</string>
+    <string name="reassigningReports">Reassigning encounters&#8230;</string>
 
     <!-- Estimation -->
     <string name="estimation">Estimation</string>
     <string name="emptyGuesses">You haven\'t defined any estimations!</string>
+    <string name="etAddNew">Add a new estimation</string>
     <string name="etCrsh">Crush (optional)</string>
     <string name="etDateHint" translatable="false" />
     <string name="etSince">Since</string>
@@ -360,7 +385,7 @@
     <string name="stHideDisappearedPeople">Hide disappeared people</string>
     <string name="stStatOnlyCrushes">Only include enabled crushes in statistics</string>
     <string name="stStatNonOrgasm">
-        In statistics, include sex records during which you didn\'t orgasm
+        In statistics, include encounters during which you didn\'t orgasm
     </string>
     <string name="stStatSince">Statisticise Since</string>
     <string name="stStatUntil">Statisticise Until</string>
@@ -379,7 +404,7 @@
     <string name="stTruncate">Remove All Data</string>
     <string name="stTruncateSure">
         Are you sure you want to remove all your personal data,
-        including all sex record, people, places and estimations?
+        including all encounters, people, places and estimations?
     </string>
 
 

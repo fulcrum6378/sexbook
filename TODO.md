@@ -17,13 +17,6 @@
 ### 📝 Data Entry
 
 * More body attrs { nose shape, voice pitch, lip width, lip height, eyebrow weight }
-* Report qualities (integrated with orgasmed?) shown as PopupMenu items:
-    - How Energetic?: normal, high, explosive
-    - How Pleasant?: painful, none, low, medium, high, ultra
-    - How Baffling?: none, low, medium, high
-    - Deep Orgasm?: no, yes
-* Hold the banana button to start a cancellable time counter for a `Report` + a small minimised 
-  field in `ReportAdap`
 
 ### ✨ User Interface
 
@@ -31,7 +24,7 @@
 * Jump to `Identify` from Fortuna
 * Undo for all important actions
 * Help guides on Toolbars of `Mixture`, `Intervals` and `Estimations`(+nav tooltip)
-* Replace `Report` with `Encounter` only in the UI
+* A three-dots indicator in the overflow part of `ReportAdap`
 
 ### ⚡ Special
 

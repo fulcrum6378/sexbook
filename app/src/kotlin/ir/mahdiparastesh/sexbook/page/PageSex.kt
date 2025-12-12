@@ -215,7 +215,7 @@ class PageSex : BasePage() {
                 description = null,
                 accurate = true,
                 place = plac ?: -1L,
-                orgasmed = true
+                qualities = 1
             )
             newOne.id = c.c.dao.rInsert(newOne)
             LastOrgasm.updateAll(c.c)

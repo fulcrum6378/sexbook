@@ -1,8 +1,8 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
         android:icon="@drawable/add"
-        android:shortcutId="addNewRecord"
-        android:shortcutShortLabel="@string/addNewRecord">
+        android:shortcutId="reportAddNew"
+        android:shortcutShortLabel="@string/reportAddNew">
 
         <intent
             android:action="ir.mahdiparastesh.sexbook.ACTION.ADD"

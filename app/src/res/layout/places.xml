@@ -26,12 +26,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/add"
         style="@style/floatingActionButton"
-        android:tooltipText="@string/addNewRecord">
+        android:tooltipText="@string/plAddNew">
 
         <ImageView
             android:id="@+id/addIV"
             style="@style/floatingActionButtonImage"
-            android:contentDescription="@string/addNewRecord"
+            android:contentDescription="@string/plAddNew"
             android:src="@drawable/add" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

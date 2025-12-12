@@ -466,7 +466,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // filter non-orgasm sex records if enabled
         if (!c.sp.getBoolean(Settings.spStatNonOrgasm, true))
-            filtered = filtered.filter { it.orgasmed }
+            filtered = filtered.filter { it.orgasmed() }
                 .also { nExcluded += filtered.size - it.size }
 
         c.summary = Summary(filtered, nExcluded, c.reports.size(), c.people.keys)

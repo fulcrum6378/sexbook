@@ -21,13 +21,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/add"
         style="@style/floatingActionButton"
-        android:tooltipText="@string/addNewRecord"
+        android:tooltipText="@string/reportAddNew"
         app:layout_constraintBottom_toTopOf="@id/spnFilter">
 
         <ImageView
             android:id="@+id/addIV"
             style="@style/floatingActionButtonImage"
-            android:contentDescription="@string/addNewRecord"
+            android:contentDescription="@string/reportAddNew"
             android:src="@drawable/add" />
 
         <!-- never set tooltipText for a wrapped ImageView! -->

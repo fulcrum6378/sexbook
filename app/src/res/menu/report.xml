@@ -13,6 +13,109 @@
         android:checked="true"
         android:title="@string/lcOrgasmed" />
     <item
+        android:id="@+id/lcPleasure"
+        android:title="@string/reportQualityPleasure">
+        <menu>
+            <group
+                android:id="@+id/lcPleasureGroup"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/lcPleasure0"
+                    android:title="@string/reportQuality0" />
+                <item
+                    android:id="@+id/lcPleasure1"
+                    android:title="@string/reportQualityPleasure1" />
+                <item
+                    android:id="@+id/lcPleasure2"
+                    android:title="@string/reportQualityPleasure2" />
+                <item
+                    android:id="@+id/lcPleasure3"
+                    android:title="@string/reportQualityPleasure3" />
+                <item
+                    android:id="@+id/lcPleasure4"
+                    android:title="@string/reportQualityPleasure4" />
+                <item
+                    android:id="@+id/lcPleasure5"
+                    android:title="@string/reportQualityPleasure5" />
+                <item
+                    android:id="@+id/lcPleasure6"
+                    android:title="@string/reportQualityPleasure6" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/lcEnergy"
+        android:title="@string/reportQualityEnergy">
+        <menu>
+            <group
+                android:id="@+id/lcEnergyGroup"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/lcEnergy0"
+                    android:title="@string/reportQuality0" />
+                <item
+                    android:id="@+id/lcEnergy1"
+                    android:title="@string/reportQualityEnergy1" />
+                <item
+                    android:id="@+id/lcEnergy2"
+                    android:title="@string/reportQualityEnergy2" />
+                <item
+                    android:id="@+id/lcEnergy3"
+                    android:title="@string/reportQualityEnergy3" />
+                <item
+                    android:id="@+id/lcEnergy4"
+                    android:title="@string/reportQualityEnergy4" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/lcBafflement"
+        android:title="@string/reportQualityBafflement">
+        <menu>
+            <group
+                android:id="@+id/lcBafflementGroup"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/lcBafflement0"
+                    android:title="@string/reportQuality0" />
+                <item
+                    android:id="@+id/lcBafflement1"
+                    android:title="@string/reportQualityBafflement1" />
+                <item
+                    android:id="@+id/lcBafflement2"
+                    android:title="@string/reportQualityBafflement2" />
+                <item
+                    android:id="@+id/lcBafflement3"
+                    android:title="@string/reportQualityBafflement3" />
+                <item
+                    android:id="@+id/lcBafflement4"
+                    android:title="@string/reportQualityBafflement4" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/lcEjaculation"
+        android:title="@string/reportQualityEjaculation">
+        <menu>
+            <group
+                android:id="@+id/lcEjaculationGroup"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/lcEjaculation0"
+                    android:title="@string/reportQuality0" />
+                <item
+                    android:id="@+id/lcEjaculation1"
+                    android:title="@string/reportQualityEjaculation1" />
+                <item
+                    android:id="@+id/lcEjaculation2"
+                    android:title="@string/reportQualityEjaculation2" />
+                <item
+                    android:id="@+id/lcEjaculation3"
+                    android:title="@string/reportQualityEjaculation3" />
+            </group>
+        </menu>
+    </item>
+    <item
         android:id="@+id/lcDelete"
         android:title="@string/delete" />
 </menu>

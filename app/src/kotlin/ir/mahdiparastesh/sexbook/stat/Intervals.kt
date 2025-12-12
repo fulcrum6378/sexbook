@@ -36,7 +36,7 @@ class Intervals : OneChartActivity<LineChartView>() {
             else c.sp.getLong(Settings.spStatUntil, Long.MAX_VALUE)
         allowedSexTypes = SexType.allowedOnes(c.sp)
         for (org in c.reports.toArrayList().sortedBy { it.time }) {
-            if (!org.orgasmed) continue
+            if (!org.orgasmed()) continue
             if (prev == null || org.time < minima || org.time > maxima || org.type !in allowedSexTypes) {
                 prev = org.time
                 continue; }

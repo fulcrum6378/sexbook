@@ -92,7 +92,7 @@ class Crush(
          * - 6 => Deceased
          * - (7): empty
          */
-        private const val STAT_PRESENCE = 0b111.toShort()  // 7
+        const val STAT_PRESENCE = 0b111.toShort()  // 7
 
         /**
          * - 0 => Unspecified
@@ -102,7 +102,9 @@ class Crush(
          * - 4 => Agender
          * - (5,6,7): empty
          */
-        private const val STAT_GENDER = (0b111 shl 3).toShort()  // 56
+        const val STAT_GENDER = (0b111 shl 3).toShort()  // 56
+
+        // one bit seems to be unused here!
 
         /** Whether or not they like men */
         const val STAT_ANDROPHILIA = (0b1 shl 7).toShort()  // 128

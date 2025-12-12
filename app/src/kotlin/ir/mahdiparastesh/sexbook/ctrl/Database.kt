@@ -12,7 +12,7 @@ import ir.mahdiparastesh.sexbook.data.Report
 
 @androidx.room.Database(
     entities = [Report::class, Crush::class, Place::class, Guess::class],
-    version = 9, exportSchema = false
+    version = 10, exportSchema = false
 )
 abstract class Database : RoomDatabase() {
     abstract fun dao(): Dao
@@ -164,6 +164,10 @@ UPDATE Crush SET status =
 """
                     )
                     db.execSQL("UPDATE Crush SET body = body & 4194303")
+                }
+            }, object : Migration(9, 10) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL("ALTER TABLE Report RENAME COLUMN orgasmed TO qualities")
                 }
             })
 

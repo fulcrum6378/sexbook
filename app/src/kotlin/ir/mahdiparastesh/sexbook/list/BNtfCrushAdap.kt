@@ -35,10 +35,9 @@ class BNtfCrushAdap(private val c: Settings) :
         h.b.active.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked == p.notifyBirth()) return@setOnCheckedChangeListener
             CoroutineScope(Dispatchers.IO).launch {
-                p.apply {
-                    status = if (isChecked) (status or Crush.STAT_NOTIFY_BIRTH)
-                    else (status xor Crush.STAT_NOTIFY_BIRTH)
-                }
+                p.status =
+                    if (isChecked) (p.status or Crush.STAT_NOTIFY_BIRTH)
+                    else (p.status xor Crush.STAT_NOTIFY_BIRTH)
                 c.c.dao.cUpdate(p)
                 withContext(Dispatchers.Main) {
                     c.c.onCrushChanged(c, p.key, 1)
