@@ -51,7 +51,7 @@ class Sexbook : Application() {
     }
 
     /* --- Database Models --- */
-    val reports: LongSparseArray<Report> = LongSparseArray<Report>()
+    val reports: LongSparseArray<Report> = LongSparseArray()
     val people = hashMapOf<String, Crush>()
     val places = arrayListOf<Place>()
     val guesses = arrayListOf<Guess>()

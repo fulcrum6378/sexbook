@@ -41,6 +41,7 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
         var crushKey: String? = null
         var history: ArrayList<Summary.Orgasm>? = null
         val otherPartners: ArrayList<OtherPartners.Item> = arrayListOf()
+        var chartTimeframe: Int = 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +59,7 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
                 r.analysis!!.filter {
                     !it.equals(crk, true)
                 }.forEach { other ->
+                    if (other == "") return@forEach
                     val otherLC = other.lowercase()
                     if (!map.containsKey(otherLC)) {
                         var identified: String? = null
@@ -89,7 +91,7 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
     }
 
     override suspend fun prepareData(): AbstractChartData {
-        val timeframeLength = ChartTimeframeLength.MONTHLY
+        val timeframeLength = ChartTimeframeLength.entries[vm.chartTimeframe]
         return ColumnChartData().setColumns(
             ColumnFactory(
                 this, StatUtils.sumTimeframes(
@@ -115,7 +117,10 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         tbMenu = menu!!
+        menu.setGroupDividerEnabled(true)
         if (vm.otherPartners.isNotEmpty()) menu.findItem(R.id.otherPartners)?.isVisible = true
+        menu.findItem(R.id.chartOptions)?.subMenu
+            ?.getItem(vm.chartTimeframe)?.isChecked = true
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -123,6 +128,12 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
         when (item.itemId) {
             R.id.identify -> Identify.create<Singular>(this, vm.crushKey!!)
             R.id.otherPartners -> OtherPartners.create(this, vm.crushKey!!)
+        }
+        val chartTimeframe = ChartTimeframeLength.entries.indexOfFirst { it.menuId == item.itemId }
+        if (chartTimeframe != -1) {
+            item.isChecked = true
+            vm.chartTimeframe = chartTimeframe
+            prepareChart()
         }
         return true
     }

@@ -23,7 +23,12 @@ abstract class OneChartActivity<ChartView>() : ChartActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        prepareChart()
+    }
 
+    fun prepareChart() {
+        loading.isVisible = true
+        chartView.isInvisible = true
         job = CoroutineScope(Dispatchers.IO).launch {
             val data = prepareData()
             withContext(Dispatchers.Main) {

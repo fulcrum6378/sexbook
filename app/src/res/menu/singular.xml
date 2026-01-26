@@ -16,4 +16,28 @@
         android:title="@string/otherPartners"
         android:tooltipText="@string/otherPartnersDesc"
         android:visible="false" />
+
+    <item
+        android:id="@id/chartOptions"
+        android:icon="@drawable/settings"
+        android:iconTint="?android:textColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/chartOptions">
+
+        <menu>
+            <!-- do not remove group ids. -->
+            <group
+                android:id="@id/chartTimeframe"
+                android:checkableBehavior="single">
+
+                <item
+                    android:id="@id/chartMonthly"
+                    android:title="@string/chartMonthly" />
+
+                <item
+                    android:id="@id/chartYearly"
+                    android:title="@string/chartYearly" />
+            </group>
+        </menu>
+    </item>
 </menu>
