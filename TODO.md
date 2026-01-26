@@ -9,10 +9,9 @@
 * Hide crushes with "Last Orgasm" older than...
 * Yearly time series charts for `Singular` and `Mixture`
 * An ultimate report out of `Taste` data
-* Classify crushes to be either short-term or long-term? And predict future of current crushes?!?
-  First, do this manually...
 * A filter for Crushes having encounters in specific years for Screening
 * `since` and `until` date values for each `ChartActivity` separately
+* Recent Hotness Rank inside `Adorability`
 
 ### 📝 Data Entry
 
