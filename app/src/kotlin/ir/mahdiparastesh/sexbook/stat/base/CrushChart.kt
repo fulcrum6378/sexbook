@@ -161,9 +161,15 @@ interface CrushQuantitativeChart : CrushAttrChart {
 
 interface CrushHeightChart : CrushQuantitativeChart {
     override val topic: Int get() = R.string.height
-    override fun divisionName(division: Int): String = "${division * 10}s"
-    override fun crushProperty(cr: Crush): Short =
-        (if (cr.height == -1f) 0 else (cr.height / 10f).toInt()).toShort()
+    override fun divisionName(division: Int): String = when {
+        division < 30 -> "${division * 10}cm\'s"
+        else-> "${division / 10}m\'s"
+    }
+    override fun crushProperty(cr: Crush): Short = (when {
+        cr.height == -1f -> 0
+        cr.height < 300f -> (cr.height / 10).toInt()
+        else -> (cr.height / 100).toInt() * 10
+    }).toShort()
 }
 
 interface CrushAgeChart : CrushQuantitativeChart {
