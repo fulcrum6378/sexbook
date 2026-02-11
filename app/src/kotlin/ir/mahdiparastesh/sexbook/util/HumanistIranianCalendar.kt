@@ -123,7 +123,7 @@ class HumanistIranianCalendar : Calendar {
         // modify the extended year value accordingly.
         var extendedYear_ = extendedYear
         var month_ = month
-        if (month < 0 || month > 11) {
+        if (month !in 0..11) {
             val rem = IntArray(1)
             extendedYear_ += floorDivide(month, 12, rem)
             month_ = rem[0]
@@ -137,7 +137,7 @@ class HumanistIranianCalendar : Calendar {
         // modify the extended year value accordingly.
         var eYear_ = eYear
         var month_ = month
-        if (month < 0 || month > 11) {
+        if (month !in 0..11) {
             val rem = IntArray(1)
             eYear_ += floorDivide(month, 12, rem)
             month_ = rem[0]

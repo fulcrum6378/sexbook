@@ -144,7 +144,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
         b.nav.setNavigationItemSelectedListener(this)
         b.toolbar.navigationIcon?.colorFilter = themePdcf()
-        @Suppress("KotlinConstantConditions")
+        @Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
         if (BuildConfig.BUILD_TYPE == "mahdi")
             b.nav.menu.findItem(R.id.momCheckUpdates)?.isVisible = false
 
@@ -278,20 +278,23 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if (item.itemId in arrayOf(R.id.momSum, R.id.momRec, R.id.momMix)
-            && !summarize(true)
-        ) {
-            uiToast(R.string.noRecords); return true
-        } else if (item.itemId in arrayOf(R.id.momAdr, R.id.momTst) && !summarize()) {
-            uiToast(R.string.noStat); return true
-        } else if (item.itemId in
-            arrayOf(R.id.momPpl, R.id.momImport, R.id.momExport, R.id.momSend)
-        )
-            summarize()
-        else if (item.itemId == R.id.momInt && c.reports.size() <= 1) {
-            uiToast(R.string.noRecords); return true
+        when (item.itemId) {
+            in arrayOf(R.id.momSum, R.id.momRec, R.id.momMix)
+                if !summarize(true) -> {
+                uiToast(R.string.noRecords)
+                return true
+            }
+            in arrayOf(R.id.momAdr, R.id.momTst) if !summarize() -> {
+                uiToast(R.string.noStat)
+                return true
+            }
+            in arrayOf(R.id.momPpl, R.id.momImport, R.id.momExport, R.id.momSend) ->
+                summarize()
+            R.id.momInt if c.reports.size() <= 1 -> {
+                uiToast(R.string.noRecords)
+                return true
+            }
         }
-
         when (item.itemId) {
             R.id.momSum -> SummaryDialog.create(this)
             R.id.momRec -> RecencyDialog.create(this)
@@ -308,9 +311,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momExport -> exporter.launchExport()
             R.id.momSend -> exporter.send()
             R.id.momSettings -> goTo(Settings::class)
-            R.id.momHelp -> HelpDialog.create(
-                this, R.string.pageSexHelp
-            )
+            R.id.momHelp -> HelpDialog.create(this, R.string.pageSexHelp)
             R.id.momCheckUpdates -> startActivity(
                 Intent(
                     Intent.ACTION_VIEW, Uri.parse(

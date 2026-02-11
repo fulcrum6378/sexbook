@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
+import android.os.Bundle
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import ir.mahdiparastesh.sexbook.Sexbook
 
@@ -17,6 +18,21 @@ class Provider : ContentProvider() {
     override fun onCreate(): Boolean {
         c = context as Sexbook? ?: return false
         return true
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun call(method: String, arg: String?, extras: Bundle?): Bundle? {
+        if (method == "OPTIONS") return Bundle().apply {
+            for ((key, value) in c.sp.all) when (value) {
+                is String -> putString(key, value)
+                is Int -> putInt(key, value)
+                is Boolean -> putBoolean(key, value)
+                is Float -> putFloat(key, value)
+                is Long -> putLong(key, value)
+                is Set<*> -> putStringArrayList(key, ArrayList(value as Set<String>))
+            }
+        }
+        return super.call(method, arg, extras)
     }
 
     override fun query(
@@ -37,12 +53,16 @@ class Provider : ContentProvider() {
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         if (values == null) return null
-        c.db.openHelper.writableDatabase.insert(table(uri), SQLiteDatabase.CONFLICT_ABORT, values)
+        c.db.openHelper.writableDatabase.insert(
+            table(uri), SQLiteDatabase.CONFLICT_ABORT, values
+        )
         return uri
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int =
-        c.db.openHelper.writableDatabase.delete(table(uri), selection, selectionArgs)
+        c.db.openHelper.writableDatabase.delete(
+            table(uri), selection, selectionArgs
+        )
 
     override fun update(
         uri: Uri,

@@ -30,7 +30,6 @@
 ### ⚡ Special
 
 * Dropbox backup only for Mahdi
-* Settings for how to show data in Fortuna and Fortuna obeys Sexbook settings in `mahdi` builds
 
 ---
 

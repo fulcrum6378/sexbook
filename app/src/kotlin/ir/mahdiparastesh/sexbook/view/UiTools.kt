@@ -124,7 +124,7 @@ object UiTools {
                 if (hitNonZero) put = full[cur - 3] + put
                 cur -= 3
             } else {
-                num = full.substring(0, cur).toInt()
+                num = full.take(cur).toInt()
                 if (num != 0) {
                     put = num.toString() + put
                     hitNonZero = true
