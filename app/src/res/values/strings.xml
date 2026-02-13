@@ -45,6 +45,7 @@
     <string name="height">Height</string>
     <string name="lastOrgasm">Last Orgasm</string>
     <string name="firstOrgasm">First Orgasm</string>
+    <string name="hotness">Hotness</string>
     <string name="identify">Identification</string>
     <string name="identifyKey">Unique Identifier</string>
     <string name="firstName">First Name</string>

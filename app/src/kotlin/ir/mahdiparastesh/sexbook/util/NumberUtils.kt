@@ -2,12 +2,14 @@ package ir.mahdiparastesh.sexbook.util
 
 import android.icu.util.Calendar
 import ir.mahdiparastesh.sexbook.Sexbook
+import java.text.DecimalFormat
 
 /** Static number-related utilities used everywhere */
 object NumberUtils {
 
     const val A_DAY = 86400000L
     const val DISABLED_ALPHA = 0.7f
+    val TWO_DECIMALS = DecimalFormat("#.##")
 
     /** @return current timestamp in milliseconds */
     fun now() = System.currentTimeMillis()
@@ -47,6 +49,5 @@ object NumberUtils {
         Math.round(this * 100f).toFloat() / 100f
 
     fun Float.show(): String =
-        if (this % 1 > 0) toString() else toInt().toString()
-    // DecimalFormat("#.##").format(this)
+        if (this % 1 > 0) TWO_DECIMALS.format(this) else toInt().toString()
 }

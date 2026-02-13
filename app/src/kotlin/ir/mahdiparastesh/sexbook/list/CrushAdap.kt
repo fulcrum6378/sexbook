@@ -11,7 +11,9 @@ import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.databinding.ItemCrushBinding
 import ir.mahdiparastesh.sexbook.page.Main
 import ir.mahdiparastesh.sexbook.page.PageLove
+import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.stat.Singular
+import ir.mahdiparastesh.sexbook.util.NumberUtils
 import ir.mahdiparastesh.sexbook.util.NumberUtils.show
 import ir.mahdiparastesh.sexbook.view.AnyViewHolder
 import ir.mahdiparastesh.sexbook.view.EasyPopupMenu
@@ -34,7 +36,11 @@ class CrushAdap(private val c: Main) :
 
         // texts
         h.b.name.text = cr.visName()
-        h.b.sum.text = cr.getSum(c.c).let { if (it != 0f) "[${it.show()}]" else "" }
+        h.b.sum.text =
+            (if (c.c.sp.getInt(Settings.spPageLoveSortBy, 0) == Crush.Sort.SORT_BY_HOTNESS)
+                cr.hotness(c.c, NumberUtils.now())
+            else cr.getSum(c.c))
+                .let { if (it != 0f) "[${it.show()}]" else "" }
 
         // clicks
         h.b.root.setOnClickListener { v ->

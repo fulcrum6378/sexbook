@@ -11,7 +11,6 @@
 * An ultimate report out of `Taste` data
 * A filter for Crushes having encounters in specific years for Screening
 * `since` and `until` date values for each `ChartActivity` separately
-* Recent Hotness Rank inside `Adorability`
 
 ### 📝 Data Entry
 

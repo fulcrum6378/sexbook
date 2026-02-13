@@ -26,6 +26,9 @@
                 android:id="@+id/sortBy"
                 android:checkableBehavior="single">
                 <item
+                    android:id="@+id/sortByHotness"
+                    android:title="@string/hotness" />
+                <item
                     android:id="@+id/sortByName"
                     android:title="@string/name" />
                 <item

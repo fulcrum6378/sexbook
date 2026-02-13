@@ -11,6 +11,7 @@ import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
+import ir.mahdiparastesh.sexbook.util.NumberUtils
 import ir.mahdiparastesh.sexbook.util.StatUtils
 import ir.mahdiparastesh.sexbook.view.UiTools
 import java.util.Locale
@@ -165,6 +166,7 @@ class Crush(
 
 
         const val INSTA = "https://www.instagram.com/"
+        const val HOTNESS_TIMEFRAME = 183.0
 
         var statsCleared = true
     }
@@ -270,6 +272,18 @@ class Crush(
     }
 
 
+    fun hotness(c: Sexbook, now: Long): Float {
+        var rank = 0.0
+        var distance: Double
+        c.summary?.scores?.get(key)?.orgasms?.forEach { orgasm ->
+            distance = (now - orgasm.time) / 86400000.0
+            if (distance > HOTNESS_TIMEFRAME) return@forEach
+            rank += (HOTNESS_TIMEFRAME - distance) / HOTNESS_TIMEFRAME
+        }
+        return rank.toFloat()
+    }
+
+
     fun resetStats() {
         sum_ = null
         lastOrgasm_ = null
@@ -289,6 +303,7 @@ class Crush(
     class Sort(
         private val c: Sexbook, private val by: Int, private val asc: Boolean
     ) : Comparator<String> {
+        private val now: Long = if (by == SORT_BY_HOTNESS) NumberUtils.now() else -1L
 
         constructor(c: Sexbook, spByKey: String, spAscKey: String) : this(
             c, c.sp.getInt(spByKey, 0), c.sp.getBoolean(spAscKey, true)
@@ -312,6 +327,8 @@ class Crush(
                     .compareTo(c.people[b]!!.getLastOrgasm(c))
                 SORT_BY_FIRST -> c.people[a]!!.getFirstOrgasm(c)
                     .compareTo(c.people[b]!!.getFirstOrgasm(c))
+                SORT_BY_HOTNESS -> c.people[a]!!.hotness(c, now)
+                    .compareTo(c.people[b]!!.hotness(c, now))
                 else -> throw IllegalArgumentException("Invalid sorting method!")
             }
         }
@@ -324,6 +341,7 @@ class Crush(
             const val SORT_BY_BEGINNING = 4
             const val SORT_BY_LAST = 5
             const val SORT_BY_FIRST = 6
+            const val SORT_BY_HOTNESS = 7
 
             fun sort(@IdRes menuItemId: Int): Any? = when (menuItemId) {
                 R.id.sortByName -> SORT_BY_NAME
@@ -333,6 +351,7 @@ class Crush(
                 R.id.sortByBeginning -> SORT_BY_BEGINNING
                 R.id.sortByLast -> SORT_BY_LAST
                 R.id.sortByFirst -> SORT_BY_FIRST
+                R.id.sortByHotness -> SORT_BY_HOTNESS
                 R.id.sortAsc -> true
                 R.id.sortDsc -> false
                 else -> null
@@ -346,6 +365,7 @@ class Crush(
                 SORT_BY_BEGINNING -> R.id.sortByBeginning
                 SORT_BY_LAST -> R.id.sortByLast
                 SORT_BY_FIRST -> R.id.sortByFirst
+                SORT_BY_HOTNESS -> R.id.sortByHotness
                 else -> throw IllegalArgumentException("Invalid sorting method!")
             }
         }
