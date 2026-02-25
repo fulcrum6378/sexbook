@@ -43,7 +43,7 @@ class Exporter(private val c: BaseActivity) {
     private var exported: Exported? = null
 
     /** Name of the file being exported */
-    private val EXPORT_NAME = "sexbook.json"
+    val exportName = "sexbook.json"
 
     /** MIME type of a JSON file */
     private val mime =
@@ -103,11 +103,11 @@ class Exporter(private val c: BaseActivity) {
 
     /** Launches a file manager in order to choose a place in the storage for exporting. */
     fun launchExport() {
-        if (!export()) return
+        if (!export(true)) return
         exportLauncher.launch(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = mime
-            putExtra(Intent.EXTRA_TITLE, EXPORT_NAME)
+            putExtra(Intent.EXTRA_TITLE, exportName)
         })
     }
 
@@ -125,8 +125,8 @@ class Exporter(private val c: BaseActivity) {
      * then shares that cache file as a [FileProvider].
      */
     fun send() {
-        if (!export()) return
-        val cache = File(c.cacheDir, EXPORT_NAME)
+        if (!export(true)) return
+        val cache = File(c.cacheDir, exportName)
         CoroutineScope(Dispatchers.IO).launch {
             runCatching {
                 FileOutputStream(cache).use { it.write(exported!!.binary()) }
@@ -149,7 +149,7 @@ class Exporter(private val c: BaseActivity) {
     }
 
     /** Exports the entire [Database] plus [SharedPreferences] into a JSON file. */
-    private fun export(): Boolean {
+    fun export(toast: Boolean): Boolean {
         exported = Exported(
             c.c.reports.filter { !it.guess }.sortedBy { it.time }.toTypedArray(),
             c.c.people.values.sortedBy { it.key }.sortedBy { it.getFirstOrgasm(c.c) }
@@ -159,7 +159,7 @@ class Exporter(private val c: BaseActivity) {
             c.c.sp.all.toSortedMap()
         )
         val emp = exported!!.isEmpty()
-        if (emp) Toast.makeText(
+        if (emp && toast) Toast.makeText(
             c, R.string.noRecords, Toast.LENGTH_LONG
         ).show()
         return !emp

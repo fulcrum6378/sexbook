@@ -28,7 +28,7 @@
 
 ### ⚡ Special
 
-* Dropbox backup
+* Automatic and manual Dropbox backup
 
 ---
 

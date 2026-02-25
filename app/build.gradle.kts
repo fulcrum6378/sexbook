@@ -25,7 +25,7 @@ android {
         minSdk = 28
         targetSdk = 36
         versionCode = 55
-        versionName = "34.3.3"
+        versionName = "34.4.0"
         signingConfig = signingConfigs.getByName("main")  // not applied on debug
     }
 
@@ -82,6 +82,8 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.sqlite.ktx)
     implementation(libs.viewpager2)
+    implementation(libs.dropbox.android)
+    implementation(libs.dropbox.core)
     implementation(libs.material)
     implementation(libs.gson)
     implementation(libs.dotsindicator) {

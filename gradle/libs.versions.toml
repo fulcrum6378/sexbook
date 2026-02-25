@@ -9,6 +9,7 @@ recyclerView = "1.4.0"
 room = "2.8.4"
 sqliteKtx = "2.6.2"
 viewPager2 = "1.1.0"
+dropBox = "7.0.0"
 material = "1.13.0"
 gson = "2.13.2"
 dotsIndicator = "5.1.0"
@@ -30,6 +31,8 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 sqlite-ktx = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sqliteKtx" }
 viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewPager2" }
+dropbox-android = { group = "com.dropbox.core", name = "dropbox-android-sdk", version.ref = "dropBox" }
+dropbox-core = { group = "com.dropbox.core", name = "dropbox-core-sdk", version.ref = "dropBox" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 dotsindicator = { group = "com.tbuonomo", name = "dotsindicator", version.ref = "dotsIndicator" }

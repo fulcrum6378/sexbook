@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
+    <queries>
+        <package android:name="com.dropbox.android" />
+    </queries>
+
     <permission
         android:name="${packageName}.READ_DATABASE"
         android:description="@string/permReadDb"
@@ -93,6 +97,27 @@
             android:name=".stat.Taste"
             android:exported="false"
             android:launchMode="singleTop" />
+
+        <activity
+            android:name="com.dropbox.core.android.AuthActivity"
+            android:configChanges="orientation|keyboard"
+            android:exported="true"
+            android:launchMode="singleTask">
+
+            <intent-filter>
+                <data android:scheme="db-6oakyikndodzqpz" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
 
         <receiver

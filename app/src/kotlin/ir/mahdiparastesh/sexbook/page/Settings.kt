@@ -90,6 +90,7 @@ class Settings : BaseActivity() {
 
         // automatic and hidden
         const val spLastNotifiedBirthAt = "lastNotifiedBirthAt" // Long
+        const val spDropboxCredential = "dropboxCredential"
     }
 
     class Model : ViewModel() {
