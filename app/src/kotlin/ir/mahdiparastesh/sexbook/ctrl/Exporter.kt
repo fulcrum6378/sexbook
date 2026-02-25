@@ -198,7 +198,7 @@ class Exporter(private val c: BaseActivity) {
             return
         }
         MaterialAlertDialogBuilder(c).apply {
-            setTitle(c.resources.getString(R.string.momImport))
+            setTitle(c.resources.getString(R.string.dataImport))
             setMessage(c.resources.getString(R.string.askImport))
             setPositiveButton(R.string.yes) { _, _ -> replace(c, imported) }
             setNegativeButton(R.string.no, null)

@@ -193,6 +193,18 @@
         <item name="layout_constraintHeight_percent">0.7</item>
     </style>
 
+    <style name="dataControlsItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button_mask</item>
+        <item name="android:paddingHorizontal">25dp</item>
+        <item name="android:paddingVertical">13dp</item>
+        <item name="android:fontFamily">@font/normal</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:drawableTint">?android:textColor</item>
+    </style>
+
 
     <!-- Identify -->
     <style name="identifyField">

@@ -44,6 +44,7 @@ import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.Lister
 import ir.mahdiparastesh.sexbook.ctrl.CalendarManager
+import ir.mahdiparastesh.sexbook.ctrl.DataControls
 import ir.mahdiparastesh.sexbook.ctrl.Database
 import ir.mahdiparastesh.sexbook.ctrl.Exporter
 import ir.mahdiparastesh.sexbook.ctrl.NotificationActions
@@ -91,7 +92,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener, Lister {
     private val b: MainBinding by lazy { MainBinding.inflate(layoutInflater) }
     val vm: Model by viewModels()
-    private val exporter = Exporter(this)
+    val exporter = Exporter(this)
     private var exiting = false
     private val menus = arrayOf(R.menu.page_sex, R.menu.page_love)
 
@@ -288,14 +289,17 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
                 uiToast(R.string.noStat)
                 return true
             }
-            in arrayOf(R.id.momPpl, R.id.momImport, R.id.momExport, R.id.momSend) ->
-                summarize()
+            in arrayOf(R.id.momPpl, R.id.momDataControls) -> summarize()
             R.id.momInt if c.reports.size() <= 1 -> {
                 uiToast(R.string.noRecords)
                 return true
             }
         }
         when (item.itemId) {
+            R.id.momPpl -> goTo(People::class)
+            R.id.momPlc -> goTo(Places::class)
+            R.id.momEst -> goTo(Estimation::class)
+
             R.id.momSum -> SummaryDialog.create(this)
             R.id.momRec -> RecencyDialog.create(this)
             R.id.momAdr -> goTo(Adorability::class)
@@ -303,13 +307,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momInt -> goTo(Intervals::class)
             R.id.momTst -> goTo(Taste::class)
 
-            R.id.momPpl -> goTo(People::class)
-            R.id.momPlc -> goTo(Places::class)
-            R.id.momEst -> goTo(Estimation::class)
-
-            R.id.momImport -> exporter.launchImport()
-            R.id.momExport -> exporter.launchExport()
-            R.id.momSend -> exporter.send()
+            R.id.momDataControls -> DataControls.create(this)
             R.id.momSettings -> goTo(Settings::class)
             R.id.momHelp -> HelpDialog.create(this, R.string.pageSexHelp)
             R.id.momCheckUpdates -> startActivity(

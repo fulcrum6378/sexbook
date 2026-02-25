@@ -1,0 +1,11 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="20"
+    android:viewportHeight="20">
+    <!--https://www.svgrepo.com/svg/511901/dropbox-158-->
+    <path
+        android:fillColor="#000"
+        android:fillType="evenOdd"
+        android:pathData="M10.012,12.247L5.825,15.747L4,14.569L4,15.889L10,19.5L16,15.889L16,14.569L14.187,15.747L10.012,12.247ZM20,4.423L14.117,0.5L10,4.009L15.932,7.751L20,4.423ZM10,11.492L14.117,15.002L20,11.079L15.932,7.751L10,11.492ZM0,11.079L5.883,15.002L10,11.492L4.068,7.751L0,11.079ZM10,4.009L4.068,7.751L0,4.423L5.883,0.5L10,4.009Z" />
+</vector>

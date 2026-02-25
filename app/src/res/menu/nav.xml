@@ -50,17 +50,9 @@
 
     <group android:id="@+id/control">
         <item
-            android:id="@+id/momExport"
-            android:icon="@drawable/json_export"
-            android:title="@string/momExport" />
-        <item
-            android:id="@+id/momImport"
-            android:icon="@drawable/json_import"
-            android:title="@string/momImport" />
-        <item
-            android:id="@+id/momSend"
-            android:icon="@drawable/json_send"
-            android:title="@string/momSend" />
+            android:id="@+id/momDataControls"
+            android:icon="@drawable/data_controls"
+            android:title="@string/dataControls" />
         <item
             android:id="@+id/momSettings"
             android:icon="@drawable/settings"

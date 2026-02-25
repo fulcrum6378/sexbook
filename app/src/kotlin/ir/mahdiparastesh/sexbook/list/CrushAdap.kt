@@ -37,10 +37,12 @@ class CrushAdap(private val c: Main) :
         // texts
         h.b.name.text = cr.visName()
         h.b.sum.text =
-            (if (c.c.sp.getInt(Settings.spPageLoveSortBy, 0) == Crush.Sort.SORT_BY_HOTNESS)
+            if (c.c.sp.getInt(Settings.spPageLoveSortBy, 0) == Crush.Sort.SORT_BY_HOTNESS)
                 cr.hotness(c.c, NumberUtils.now())
-            else cr.getSum(c.c))
-                .let { if (it != 0f) "[${it.show()}]" else "" }
+                    .let { if (it != 0f) "${it.show()}^" else "" }
+            else
+                cr.getSum(c.c)
+                    .let { if (it != 0f) "[${it.show()}]" else "" }
 
         // clicks
         h.b.root.setOnClickListener { v ->

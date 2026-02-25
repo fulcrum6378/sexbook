@@ -28,7 +28,7 @@
 
 ### ⚡ Special
 
-* Dropbox backup only for Mahdi
+* Dropbox backup
 
 ---
 

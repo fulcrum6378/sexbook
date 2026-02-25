@@ -266,15 +266,6 @@
     <string name="openMenu">Open menu</string>
     <string name="closeMenu">Close menu</string>
     <string name="toExit">Double tap to exit&#8230;</string>
-    <string name="momImport">Import from Json</string>
-    <string name="momExport">Export to Json</string>
-    <string name="exportDone">Done!</string>
-    <string name="exportUndone">Failed!</string>
-    <string name="askImport">Are you sure you want to replace all the app data?</string>
-    <string name="importDone">Done!</string>
-    <string name="importOpenError">Unfortunately an error occurred while opening the file!</string>
-    <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
-    <string name="momSend">Send Json to</string>
     <string name="momSettings">Settings</string>
     <string name="pageSexHelp">
         This is the page where you keep track of your <b>sexual activities</b>.\n\n
@@ -320,15 +311,26 @@
 
         There is also a dropdown-menu option for assigning this Encounter to a `Place`;
         a Place is a relative location where your sexual activities happen.
-        You can create Place instances in the `Places` page in the navigation drawer menu.\n\n
-
-        <b>Sexbook does not connect to the internet</b> for security reasons;\n
-        This means your data shall remain only in your device just for you.\n
-        As for backup, Sexbook lets you easily and quickly export and import your data
-        in the \"JSON\" file format so you can store them somewhere safe.
+        You can create Place instances in the `Places` page in the navigation drawer menu.
     </string>
     <string name="momCheckUpdates">Check for updates</string>
     <string name="noRecords">You have entered no encounters yet!</string>
+    <string name="dataControls">Data Controls</string>
+    <string name="dataControlsDesc">
+        <b>Sexbook does not connect to the internet</b> for security reasons;
+        your data is completely under your own control.\n
+        You can export it in the <b>JSON</b> file format and store it somewhere safe.
+    </string>
+    <string name="dataImport">Import from Json</string>
+    <string name="dataExport">Export to Json</string>
+    <string name="exportDone">Done!</string>
+    <string name="exportUndone">Failed!</string>
+    <string name="askImport">Are you sure you want to replace all the app data?</string>
+    <string name="importDone">Done!</string>
+    <string name="importOpenError">Unfortunately an error occurred while opening the file!</string>
+    <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
+    <string name="dataSend">Send Json to</string>
+    <string name="dropbox">Dropbox</string>
 
     <!-- PageSex -->
     <string name="lcAccurate">Accurate?</string>
