@@ -8,6 +8,7 @@ import android.os.Build
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.MainThread
 import androidx.core.content.FileProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
@@ -102,6 +103,7 @@ class Exporter(private val c: BaseActivity) {
     }
 
     /** Launches a file manager in order to choose a place in the storage for exporting. */
+    @MainThread
     fun launchExport() {
         if (!export(true)) return
         exportLauncher.launch(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
@@ -112,6 +114,7 @@ class Exporter(private val c: BaseActivity) {
     }
 
     /** Launches a file manager in order to pick a file for importing. */
+    @MainThread
     fun launchImport(): Boolean {
         importLauncher.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -121,35 +124,44 @@ class Exporter(private val c: BaseActivity) {
     }
 
     /**
-     * Exports the entire [Database] plus [SharedPreferences] into a cache JSON file,
-     * then shares that cache file as a [FileProvider].
+     * Shares a cache file containing the exported data via [FileProvider].
      */
+    @MainThread
     fun send() {
-        if (!export(true)) return
-        val cache = File(c.cacheDir, exportName)
-        CoroutineScope(Dispatchers.IO).launch {
-            runCatching {
-                FileOutputStream(cache).use { it.write(exported!!.binary()) }
-            }.onSuccess {
-                withContext(Dispatchers.Main) {
-                    Intent(Intent.ACTION_SEND).apply {
-                        type = mime
-                        putExtra(
-                            Intent.EXTRA_STREAM,
-                            FileProvider.getUriForFile(
-                                c, "${c.packageName}.send", cache
-                            )
+        cache(toastOnError = true, resumeOnMainThread = true) { cache ->
+            c.startActivity(
+                Intent(Intent.ACTION_SEND).apply {
+                    type = mime
+                    putExtra(
+                        Intent.EXTRA_STREAM,
+                        FileProvider.getUriForFile(
+                            c, "${c.packageName}.send", cache
                         )
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    }.also { c.startActivity(it) }
+                    )
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 }
-            }
-            exported = null
+            )
         }
     }
 
-    /** Exports the entire [Database] plus [SharedPreferences] into a JSON file. */
-    fun export(toast: Boolean): Boolean {
+    /** Exports the entire [Database] plus [SharedPreferences] into a cache JSON file. */
+    @MainThread
+    fun cache(toastOnError: Boolean, resumeOnMainThread: Boolean, then: suspend (File) -> Unit) {
+        if (!export(toastOnError)) return
+        val cache = File(c.cacheDir, exportName)
+        CoroutineScope(Dispatchers.IO).launch {
+            FileOutputStream(cache).use { it.write(exported!!.binary()) }
+            exported = null
+            if (resumeOnMainThread)
+                withContext(Dispatchers.Main) { then(cache) }
+            else
+                then(cache)
+        }
+    }
+
+    /** Exports the entire [Database] plus [SharedPreferences]. */
+    @MainThread
+    fun export(toastOnError: Boolean): Boolean {
         exported = Exported(
             c.c.reports.filter { !it.guess }.sortedBy { it.time }.toTypedArray(),
             c.c.people.values.sortedBy { it.key }.sortedBy { it.getFirstOrgasm(c.c) }
@@ -159,7 +171,7 @@ class Exporter(private val c: BaseActivity) {
             c.c.sp.all.toSortedMap()
         )
         val emp = exported!!.isEmpty()
-        if (emp && toast) Toast.makeText(
+        if (emp && toastOnError) Toast.makeText(
             c, R.string.noRecords, Toast.LENGTH_LONG
         ).show()
         return !emp

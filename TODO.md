@@ -11,6 +11,7 @@
 * An ultimate report out of `Taste` data
 * A filter for Crushes having encounters in specific years for Screening
 * `since` and `until` date values for each `ChartActivity` separately
+* Automatic Dropbox backup
 
 ### 📝 Data Entry
 
@@ -25,10 +26,6 @@
 * Help guides on Toolbars of `Mixture`, `Intervals` and `Estimations`(+nav tooltip)
 * A three-dots indicator in the overflow part of `ReportAdap`
 * Report to the user when monoamory is detected
-
-### ⚡ Special
-
-* Automatic and manual Dropbox backup
 
 ---
 

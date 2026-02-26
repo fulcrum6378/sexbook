@@ -18,6 +18,8 @@ import kotlinx.coroutines.withContext
 
 class DataControls : BaseDialog<Main>() {
 
+    var dropbox: Dropbox? = null
+
     companion object : BaseDialogCompanion() {
         private const val TAG = "data_controls"
 
@@ -27,16 +29,6 @@ class DataControls : BaseDialog<Main>() {
         }
     }
 
-    /*TODO if (c.dropbox!!.isAuthenticated()) CoroutineScope(Dispatchers.IO).launch {
-                val res = c.dropbox!!.backup()
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        c, if (res) R.string.dropboxSuccess else R.string.dropboxFailure,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }*/
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bd = DataControlsBinding.inflate(c.layoutInflater)
         bd.dataExport.setOnClickListener { c.exporter.launchExport() }
@@ -44,9 +36,10 @@ class DataControls : BaseDialog<Main>() {
         bd.dataSend.setOnClickListener { c.exporter.send() }
 
         @Suppress("SimplifyBooleanWithConstants", "KotlinConstantConditions")
-        if (BuildConfig.BUILD_TYPE != "mahdi")
-            bd.dropbox.isVisible = false
-        else
+        if (BuildConfig.BUILD_TYPE != "mahdi") {
+            bd.dropboxLogin.isVisible = false
+            bd.dropboxSync.isVisible = false
+        } else
             bd.updateDropbox()
 
         return MaterialAlertDialogBuilder(c).apply {
@@ -56,24 +49,30 @@ class DataControls : BaseDialog<Main>() {
         }.show()
     }
 
+    override fun onResume() {
+        super.onResume()
+        dropbox?.onResume()
+    }
+
     /** Checks whether the user has logged in to Dropbox and update the UI accordingly. */
     @SuppressLint("SetTextI18n")
     private fun DataControlsBinding.updateDropbox() {
-        if (c.dropbox == null) c.dropbox = Dropbox(c.c, c.exporter)
-        val auth = c.dropbox!!.isAuthenticated()
+        if (dropbox == null) dropbox = Dropbox(c.c, c.exporter)
+        val auth = dropbox!!.isAuthenticated()
 
-        dropbox.text = getString(R.string.dropbox) +
-                (getString(if (auth) R.string.cloudOn else R.string.cloudOff))
-        dropbox.setOnClickListener(
+        dropboxSync.isVisible = auth
+        dropboxLogin.text =
+            getString(if (!auth) R.string.dropboxSignIn else R.string.dropboxSignOut)
+        dropboxLogin.setOnClickListener(
             if (!auth) View.OnClickListener {
-                c.dropbox!!.login(c) { updateDropbox() }
+                dropbox!!.login(c) { updateDropbox() }
             } else View.OnClickListener {
                 MaterialAlertDialogBuilder(c).apply {
-                    setTitle(R.string.logout)
+                    setTitle(R.string.dropboxSignOut)
                     setMessage(R.string.dropboxLogoutSure)
                     setPositiveButton(R.string.yes) { _, _ ->
                         CoroutineScope(Dispatchers.IO).launch {
-                            c.dropbox!!.logout()
+                            dropbox!!.logout()
                             withContext(Dispatchers.Main) { updateDropbox() }
                         }
                     }
@@ -81,5 +80,9 @@ class DataControls : BaseDialog<Main>() {
                 }.show()
             }
         )
+        dropboxSync.setOnClickListener {
+            if (!dropbox!!.isAuthenticated()) return@setOnClickListener
+            dropbox!!.backup(true)
+        }
     }
 }

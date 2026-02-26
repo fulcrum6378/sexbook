@@ -330,14 +330,14 @@
     <string name="importOpenError">Unfortunately an error occurred while opening the file!</string>
     <string name="importReadError">Unfortunately an error occurred while reading the file!</string>
     <string name="dataSend">Send Json to</string>
-    <string name="dropbox">Dropbox:&#160;</string>
-    <string name="cloudOn">ON</string>
-    <string name="cloudOff">OFF</string>
-    <string name="logout">Logout</string>
+    <string name="dropboxSignIn">Sign in to Dropbox</string>
+    <string name="dropboxSignOut">Sign out of Dropbox</string>
+    <string name="dropboxSync">Sync with Dropbox</string>
+    <string name="dropboxSyncing">Syncing with Dropbox&#8230;</string>
     <string name="dropboxSuccess">Uploaded to Dropbox!</string>
     <string name="dropboxFailure">Couldn\'t upload to Dropbox!</string>
     <string name="dropboxLogoutSure">
-        Are you sure you want to log out of your Dropbox account?
+        Are you sure you want to sign out of your Dropbox account?
     </string>
 
     <!-- PageSex -->

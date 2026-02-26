@@ -46,7 +46,6 @@ import ir.mahdiparastesh.sexbook.base.Lister
 import ir.mahdiparastesh.sexbook.ctrl.CalendarManager
 import ir.mahdiparastesh.sexbook.ctrl.DataControls
 import ir.mahdiparastesh.sexbook.ctrl.Database
-import ir.mahdiparastesh.sexbook.ctrl.Dropbox
 import ir.mahdiparastesh.sexbook.ctrl.Exporter
 import ir.mahdiparastesh.sexbook.ctrl.NotificationActions
 import ir.mahdiparastesh.sexbook.ctrl.Summary
@@ -94,7 +93,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     private val b: MainBinding by lazy { MainBinding.inflate(layoutInflater) }
     val vm: Model by viewModels()
     val exporter = Exporter(this)
-    var dropbox: Dropbox? = null
     private var exiting = false
     private val menus = arrayOf(R.menu.page_sex, R.menu.page_love)
 
@@ -274,7 +272,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     override fun onResume() {
         super.onResume()
-        dropbox?.onResume()
         if (changed) {
             changed = false
             onDataChanged()

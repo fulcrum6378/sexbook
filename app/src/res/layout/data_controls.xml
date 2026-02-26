@@ -38,8 +38,14 @@
         android:text="@string/dataSend" />
 
     <TextView
-        android:id="@+id/dropbox"
+        android:id="@+id/dropboxSync"
         style="@style/dataControlsItem"
         android:drawableStart="@drawable/dropbox"
-        android:text="@string/dropbox" />
+        android:text="@string/dropboxSync" />
+
+    <TextView
+        android:id="@+id/dropboxLogin"
+        style="@style/dataControlsItem"
+        android:drawableStart="@drawable/dropbox"
+        android:text="@string/dropboxSignIn" />
 </LinearLayout>

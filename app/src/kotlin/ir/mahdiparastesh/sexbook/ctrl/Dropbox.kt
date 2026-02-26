@@ -1,6 +1,8 @@
 package ir.mahdiparastesh.sexbook.ctrl
 
 import android.app.Activity
+import android.widget.Toast
+import androidx.annotation.MainThread
 import androidx.core.content.edit
 import com.dropbox.core.DbxException
 import com.dropbox.core.DbxRequestConfig
@@ -8,9 +10,11 @@ import com.dropbox.core.android.Auth
 import com.dropbox.core.oauth.DbxCredential
 import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.WriteMode
+import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.page.Settings
-import java.io.File
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.FileInputStream
 
 /**
@@ -65,22 +69,32 @@ class Dropbox(private val c: Sexbook, private val exporter: Exporter) {
     fun client() = DbxClientV2(requestConfig(), credential())
 
     /** @return true if the backup was successful */
-    suspend fun backup(): Boolean {
-        if (!isAuthenticated()) return false
-        if (exporter.export(false)) return false
-        val fis = FileInputStream(File(c.cacheDir, exporter.exportName))
-        val success = try {
-            client()
-                .files()
-                .uploadBuilder("/" + exporter.exportName)
-                .withMode(WriteMode.OVERWRITE)
-                .uploadAndFinish(fis)
-            true
-        } catch (_: DbxException) {  // includes when no network is available
-            false
+    @MainThread
+    fun backup(manual: Boolean) {
+        if (!isAuthenticated()) return
+        if (manual)
+            Toast.makeText(c, R.string.dropboxSyncing, Toast.LENGTH_SHORT)
+                .show()
+        exporter.cache(manual, false) { cache ->
+            val fis = FileInputStream(cache)
+            try {
+                client()
+                    .files()
+                    .uploadBuilder("/" + exporter.exportName)
+                    .withMode(WriteMode.OVERWRITE)
+                    .uploadAndFinish(fis)
+                if (manual) withContext(Dispatchers.Main) {
+                    Toast.makeText(c, R.string.dropboxSuccess, Toast.LENGTH_LONG)
+                        .show()
+                }
+            } catch (_: DbxException) {  // includes when no network is available
+                if (manual) withContext(Dispatchers.Main) {
+                    Toast.makeText(c, R.string.dropboxFailure, Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
+            fis.close()
         }
-        fis.close()
-        return success
     }
 
     suspend fun logout() {
