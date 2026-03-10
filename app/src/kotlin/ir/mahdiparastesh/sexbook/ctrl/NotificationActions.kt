@@ -19,12 +19,15 @@ class NotificationActions : BroadcastReceiver() {
         const val ACTION_TURN_OFF_BIRTHDAY_NOTIFICATION =
             "ir.mahdiparastesh.sexbook.TURN_OFF_BIRTHDAY_NOTIFICATION"
         const val EXTRA_CRUSH_KEY = "crush_key"
+
+        const val ACTION_NYX = "ir.mahdiparastesh.fortuna.NYX"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         val c = context.applicationContext as Sexbook
 
         when (intent.action) {
+
             ACTION_TURN_OFF_BIRTHDAY_NOTIFICATION -> {
                 val crushKey = intent.getStringExtra(EXTRA_CRUSH_KEY)!!
 
@@ -39,6 +42,11 @@ class NotificationActions : BroadcastReceiver() {
                         }
                     }
                 }
+            }
+
+            ACTION_NYX -> {
+                val dropbox = Dropbox(c, Exporter(c))
+                if (dropbox.isAuthenticated()) dropbox.backup(false)
             }
         }
     }

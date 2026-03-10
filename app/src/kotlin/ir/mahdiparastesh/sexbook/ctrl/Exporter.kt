@@ -1,6 +1,7 @@
 package ir.mahdiparastesh.sexbook.ctrl
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -18,6 +19,7 @@ import com.google.gson.TypeAdapterFactory
 import com.google.gson.reflect.TypeToken
 import ir.mahdiparastesh.sexbook.BuildConfig
 import ir.mahdiparastesh.sexbook.R
+import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.data.Crush
 import ir.mahdiparastesh.sexbook.data.Guess
@@ -37,26 +39,21 @@ import java.io.FileOutputStream
 /**
  * Handles exporting and importing the contents of Sexbook.
  * An instance of this class must be injected as a dependency of the [Main] Activity.
+ * It can also be instantiated inside a BroadcastReceiver like [NotificationActions].
  */
-class Exporter(private val c: BaseActivity) {
+class Exporter {
 
-    /** Date model of the JSON file being exported */
-    private var exported: Exported? = null
+    private val c: Context
+    private var activity: BaseActivity? = null
+    private var sexbook: Sexbook? = null
 
-    /** Name of the file being exported */
-    val exportName = "sexbook.json"
+    constructor(activity: BaseActivity) {
+        this.activity = activity
+        c = activity
 
-    /** MIME type of a JSON file */
-    private val mime =
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
-        else "application/json"
-
-    /**
-     * Used by [launchExport]
-     * This field must be initialised as soon as [Main] is instantiated.
-     */
-    private val exportLauncher: ActivityResultLauncher<Intent> =
-        c.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        exportLauncher = activity.registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
             if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
             CoroutineScope(Dispatchers.IO).launch {
                 var bExp = false
@@ -80,15 +77,41 @@ class Exporter(private val c: BaseActivity) {
             }
         }
 
+        importLauncher = activity.registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+            import(it.data!!.data!!)
+        }
+    }
+
+    constructor(sexbook: Sexbook) {
+        this.sexbook = sexbook
+        c = sexbook
+    }
+
+    /** Date model of the JSON file being exported */
+    private var exported: Exported? = null
+
+    /** Name of the file being exported */
+    val exportName = "sexbook.json"
+
+    /** MIME type of a JSON file */
+    private val mime =
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
+        else "application/json"
+
+    /**
+     * Used by [launchExport]
+     * This field must be initialised as soon as [Main] is instantiated.
+     */
+    private lateinit var exportLauncher: ActivityResultLauncher<Intent>
+
     /**
      * Used by [launchImport]
      * This field must be initialised as soon as [Main] is instantiated.
      */
-    private val importLauncher: ActivityResultLauncher<Intent> =
-        c.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode != Activity.RESULT_OK) return@registerForActivityResult
-            import(c, it.data!!.data!!)
-        }
+    private lateinit var importLauncher: ActivityResultLauncher<Intent>
 
     private val typeAdapterFactory = object : TypeAdapterFactory {
         @Suppress("UNCHECKED_CAST")
@@ -162,13 +185,14 @@ class Exporter(private val c: BaseActivity) {
     /** Exports the entire [Database] plus [SharedPreferences]. */
     @MainThread
     fun export(toastOnError: Boolean): Boolean {
+        val c = sexbook ?: activity!!.c
         exported = Exported(
-            c.c.reports.filter { !it.guess }.sortedBy { it.time }.toTypedArray(),
-            c.c.people.values.sortedBy { it.key }.sortedBy { it.getFirstOrgasm(c.c) }
+            c.reports.filter { !it.guess }.sortedBy { it.time }.toTypedArray(),
+            c.people.values.sortedBy { it.key }.sortedBy { it.getFirstOrgasm(c) }
                 .toTypedArray(),
-            c.c.places.sortedBy { it.name }.toTypedArray(),
-            c.c.guesses.sortedBy { it.name }.sortedWith(Guess.Sort()).toTypedArray(),
-            c.c.sp.all.toSortedMap()
+            c.places.sortedBy { it.name }.toTypedArray(),
+            c.guesses.sortedBy { it.name }.sortedWith(Guess.Sort()).toTypedArray(),
+            c.sp.all.toSortedMap()
         )
         val emp = exported!!.isEmpty()
         if (emp && toastOnError) Toast.makeText(
@@ -181,7 +205,7 @@ class Exporter(private val c: BaseActivity) {
      * Imports data from a JSON file in order to be replaced with
      * the contents of [Database] and [SharedPreferences].
      */
-    fun import(c: BaseActivity, uri: Uri) {
+    fun import(uri: Uri) {
         var data: String? = null
         try {
             c.contentResolver.openFileDescriptor(uri, "r")?.use { des ->
@@ -209,10 +233,10 @@ class Exporter(private val c: BaseActivity) {
             ).show()
             return
         }
-        MaterialAlertDialogBuilder(c).apply {
+        MaterialAlertDialogBuilder(activity!!).apply {
             setTitle(c.resources.getString(R.string.dataImport))
             setMessage(c.resources.getString(R.string.askImport))
-            setPositiveButton(R.string.yes) { _, _ -> replace(c, imported) }
+            setPositiveButton(R.string.yes) { _, _ -> replace(imported) }
             setNegativeButton(R.string.no, null)
             setCancelable(true)
         }.show()
@@ -221,34 +245,35 @@ class Exporter(private val c: BaseActivity) {
     /**
      * Replaces contents of an [Exported] with contents of the [Database] and [SharedPreferences].
      */
-    private fun replace(c: BaseActivity, imported: Exported) {
+    private fun replace(imported: Exported) {
+        val c = sexbook ?: activity!!.c
         CoroutineScope(Dispatchers.IO).launch {
             var id = 1L
 
-            c.c.dao.rDeleteAll()
+            c.dao.rDeleteAll()
             imported.reports?.toList()
                 ?.sortedBy { it.time }
                 ?.onEach { it.id = id++ }
-                ?.also { c.c.dao.rReplaceAll(it) }
+                ?.also { c.dao.rReplaceAll(it) }
 
-            c.c.dao.cDeleteAll()
+            c.dao.cDeleteAll()
             imported.crushes?.toList()
                 ?.sortedBy { it.key }
-                ?.also { c.c.dao.cReplaceAll(it) }
+                ?.also { c.dao.cReplaceAll(it) }
 
-            c.c.dao.pDeleteAll()
+            c.dao.pDeleteAll()
             imported.places?.toList()
                 ?.sortedBy { it.name }
-                ?.also { c.c.dao.pReplaceAll(it) }
+                ?.also { c.dao.pReplaceAll(it) }
 
             id = 1L
-            c.c.dao.gDeleteAll()
+            c.dao.gDeleteAll()
             imported.guesses?.toList()
                 ?.sortedBy { it.name }?.sortedWith(Guess.Sort())
                 ?.onEach { it.id = id++ }
-                ?.also { c.c.dao.gReplaceAll(it) }
+                ?.also { c.dao.gReplaceAll(it) }
 
-            if (imported.settings != null) c.c.sp.edit().apply {
+            if (imported.settings != null) c.sp.edit().apply {
                 clear()
                 imported.settings.forEach { (k, v) ->
                     when (v) {
@@ -266,10 +291,10 @@ class Exporter(private val c: BaseActivity) {
                 }
             }.apply()
 
-            LastOrgasm.updateAll(c.c)
+            LastOrgasm.updateAll(c)
             withContext(Dispatchers.Main) {
                 Toast.makeText(c, R.string.importDone, Toast.LENGTH_LONG).show()
-                if (c is Main) c.onDataChanged()
+                if (activity is Main) (activity as Main).onDataChanged()
                 else Main.changed = true
             }
         }

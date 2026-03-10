@@ -135,10 +135,14 @@
 
         <receiver
             android:name=".ctrl.NotificationActions"
-            android:exported="false">
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="ir.mahdiparastesh.sexbook.TURN_OFF_BIRTHDAY_NOTIFICATION" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="ir.mahdiparastesh.fortuna.NYX" />
             </intent-filter>
         </receiver>
 
