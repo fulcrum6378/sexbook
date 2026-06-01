@@ -1,8 +1,5 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.ksp)
 }
 
@@ -29,28 +26,21 @@ android {
         signingConfig = signingConfigs.getByName("main")  // not applied on debug
     }
 
-    sourceSets.getByName("main") {
+    sourceSets.named("main") {
         manifest.srcFile("src/AndroidManifest.xml")
-        java.setSrcDirs(listOf("src/java"))
-        kotlin.setSrcDirs(listOf("src/kotlin"))
-        res.setSrcDirs(listOf("src/res"))
+        java.directories += "src/java"
+        kotlin.directories += "src/kotlin"
+        res.directories += "src/res"
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_25
-        targetCompatibility = JavaVersion.VERSION_25
-    }
-    kotlin {
-        target {
-            compilerOptions {
-                jvmTarget.set(JvmTarget.JVM_25)
-                freeCompilerArgs.add("-Xannotation-default-target=param-property")
-            }
-        }
+        sourceCompatibility = JavaVersion.VERSION_24
+        targetCompatibility = JavaVersion.VERSION_24
     }
 
     buildFeatures {
         buildConfig = true
+        resValues = true
         viewBinding = true
     }
     buildTypes {
@@ -69,6 +59,13 @@ android {
             )
             // debuggability will cause obfuscation to occur partially.
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_3
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_24
     }
 }
 

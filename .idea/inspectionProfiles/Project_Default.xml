@@ -3,6 +3,7 @@
     <option name="myName" value="Project Default" />
     <inspection_tool class="AccessStaticViaInstance" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintAppCompatResource" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="AndroidLintNotShrinkingResources" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintUseKtx" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="Anonymous2MethodRef" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AnonymousHasLambdaAlternative" enabled="false" level="WARNING" enabled_by_default="false" />
@@ -44,7 +45,6 @@
     <inspection_tool class="ClassCanBeRecord" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="ClassEscapesItsScope" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="ClassGetClass" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="ClassInitializerMayBeStatic" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="ClassMayBeInterface" enabled="false" level="INFORMATION" enabled_by_default="false" />
     <inspection_tool class="CloneDeclaresCloneNotSupported" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="CloneableImplementsClone" enabled="false" level="WARNING" enabled_by_default="false">
