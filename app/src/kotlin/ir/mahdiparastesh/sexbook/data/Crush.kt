@@ -77,7 +77,7 @@ class Crush(
     /** Their Instagram username */
     var instagram: String? = null,
 
-    /** A preferred hue number of the HSV color system for this person (0f..360f) */
+    /** A preferred hue number of the HSV colour system for this person (0f..360f) */
     var hue: Float? = null,
 ) {
 

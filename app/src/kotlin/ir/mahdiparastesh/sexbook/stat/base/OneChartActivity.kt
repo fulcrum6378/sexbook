@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /** Subclass of [BaseActivity] which can display only one chart and has only one page. */
-abstract class OneChartActivity<ChartView>() : ChartActivity(),
+abstract class OneChartActivity<ChartView> : ChartActivity(),
     SingleChartActivity where ChartView : AbstractChartView {
 
     override var job: Job? = null

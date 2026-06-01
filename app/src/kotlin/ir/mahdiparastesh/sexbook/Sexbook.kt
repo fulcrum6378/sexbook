@@ -182,7 +182,7 @@ class Sexbook : Application() {
     }
 
     /**
-     * Prepares a list of [Crush]es' names.
+     * Prepares a list of names of [Crush]es.
      *
      * It must necessarily return a mutable collection;
      * otherwise CrushSuggester::update() will error!

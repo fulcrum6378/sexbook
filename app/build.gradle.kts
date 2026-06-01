@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "ir.mahdiparastesh.sexbook"
-    compileSdk = 36
+    compileSdk = 37
     buildToolsVersion = System.getenv("ANDROID_BUILD_TOOLS_VERSION")
 
     signingConfigs {
@@ -19,10 +19,10 @@ android {
 
     defaultConfig {
         applicationId = "ir.mahdiparastesh.sexbook"
-        minSdk = 28
-        targetSdk = 36
+        minSdk = 29
+        targetSdk = 37
         versionCode = 55
-        versionName = "34.5.5"
+        versionName = "34.5.7"
         signingConfig = signingConfigs.getByName("main")  // not applied on debug
     }
 

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import android.os.Build
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -96,11 +95,6 @@ class Exporter {
     /** Name of the file being exported */
     val exportName = "sexbook.json"
 
-    /** MIME type of a JSON file */
-    private val mime =
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) "application/octet-stream"
-        else "application/json"
-
     /**
      * Used by [launchExport]
      * This field must be initialised as soon as [Main] is instantiated.
@@ -115,7 +109,7 @@ class Exporter {
 
     private val typeAdapterFactory = object : TypeAdapterFactory {
         @Suppress("UNCHECKED_CAST")
-        override fun <T : Any?> create(gson: Gson?, type: TypeToken<T>?): TypeAdapter<T>? =
+        override fun <T> create(gson: Gson?, type: TypeToken<T>?): TypeAdapter<T>? =
             when (type?.rawType) {
                 Report::class.java -> Report.GsonAdapter() as TypeAdapter<T>
                 Crush::class.java -> Crush.GsonAdapter() as TypeAdapter<T>
@@ -131,7 +125,7 @@ class Exporter {
         if (!export(true)) return
         exportLauncher.launch(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
-            type = mime
+            type = "application/json"
             putExtra(Intent.EXTRA_TITLE, exportName)
         })
     }
@@ -141,7 +135,7 @@ class Exporter {
     fun launchImport(): Boolean {
         importLauncher.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
-            type = mime
+            type = "application/json"
         })
         return true
     }
@@ -154,7 +148,7 @@ class Exporter {
         cache(toastOnError = true, resumeOnMainThread = true) { cache ->
             c.startActivity(
                 Intent(Intent.ACTION_SEND).apply {
-                    type = mime
+                    type = "application/json"
                     putExtra(
                         Intent.EXTRA_STREAM,
                         FileProvider.getUriForFile(

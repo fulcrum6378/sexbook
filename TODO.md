@@ -11,7 +11,12 @@
 * An ultimate report out of `Taste` data
 * A filter for Crushes having encounters in specific years for Screening
 * `since` and `until` date values for each `ChartActivity` separately
-* Automatic Dropbox backup
+* Crude or per capita time series for `Taste`
+* Average value from `Intervals` in any timeframe
+* `Intervals` -> `OrgasmStat`
+* Statisticise pleasure, energy, etc in `Orgasms`
+* Mingle `Mixture` and `Orgasms` and make everything singular, monthly and yearly? Average monthly
+  intervals when it's set to monthly on intervals
 
 ### 📝 Data Entry
 
@@ -26,6 +31,15 @@
 * Help guides on Toolbars of `Mixture`, `Intervals` and `Estimations`(+nav tooltip)
 * A three-dots indicator in the overflow part of `ReportAdap`
 * Report to the user when monoamory is detected
+* Show maximum 1 year by default in `Mixture` unless overridden in its own settings
+* Put diagrams in `HorizontalScrollView`s? Scrollable using only a button?
+* Somehow automate orgasm time recording so that the user feels utter pleasure?
+* When I'm sorting the `People` list by something other than name, a subtitle should show the value
+  beneath their names
+
+### 💠 Miscellaneous
+
+* Automatic Dropbox backup
 
 ---
 
