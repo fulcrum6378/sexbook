@@ -21,7 +21,7 @@ import ir.mahdiparastesh.sexbook.page.Settings
  */
 data class SexType(
     val name: String,
-    @get:DrawableRes val icon: Int
+    @field:DrawableRes val icon: Int
 ) {
 
     companion object {

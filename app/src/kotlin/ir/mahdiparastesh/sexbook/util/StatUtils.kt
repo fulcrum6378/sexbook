@@ -190,10 +190,10 @@ data class Timeline(
     val name: String,
     val line: LinkedHashMap<String, Float>,
     val sum: Float,
-    @get:ColorInt val colour: Int? = null,
+    @field:ColorInt val colour: Int? = null,
 )
 
-enum class ChartTimeframeLength(@get:IdRes val menuId: Int) {
+enum class ChartTimeframeLength(@field:IdRes val menuId: Int) {
     MONTHLY(R.id.chartMonthly),
     YEARLY(R.id.chartYearly),
 }

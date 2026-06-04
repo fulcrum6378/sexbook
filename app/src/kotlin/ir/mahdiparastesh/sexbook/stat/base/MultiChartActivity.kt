@@ -91,7 +91,7 @@ abstract class MultiChartActivity : ChartActivity(), Toolbar.OnMenuItemClickList
     }
 
 
-    enum class ChartType(val view: KClass<out AbstractChartView>, @get:IdRes val menuId: Int) {
+    enum class ChartType(val view: KClass<out AbstractChartView>, @field:IdRes val menuId: Int) {
         COMPOSITIONAL(PieChartView::class, R.id.chartCompositional),
         TIME_SERIES(LineChartView::class, R.id.chartTimeSeries),
         CUMULATIVE_TIME_SERIES(LineChartView::class, R.id.chartGrowth),
