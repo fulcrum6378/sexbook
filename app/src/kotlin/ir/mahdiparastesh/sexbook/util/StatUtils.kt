@@ -83,7 +83,8 @@ object StatUtils {
         orgasms: ArrayList<Summary.Orgasm>,
         timeframes: List<String>,
         timeframeLength: ChartTimeframeLength,
-        cumulative: Boolean = false
+        perCapita: Boolean = false,
+        cumulative: Boolean = false,
     ): LinkedHashMap<String, Float> {
 
         val map = LinkedHashMap<String, Float>()
@@ -107,6 +108,13 @@ object StatUtils {
                     if (key !in map) continue  // because of statSince and/or statUntil
                     map[key] = map[key]!! + orgasm.value
                 }
+        }
+        if (perCapita) {
+            val mixture = sumTimeframes(
+                c, orgasms, timeSeries(c, timeframeLength), timeframeLength
+            )
+            for (key in map.keys)
+                map[key] = map[key]!! / mixture[key]!!
         }
         if (cumulative) {
             var previous = 0f

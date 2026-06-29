@@ -285,6 +285,7 @@ class Taste : MultiChartActivity() {
                                 orgasms,
                                 c.vm.timeSeries!!,
                                 c.vm.timeframeLength(),
+                                true,
                                 cumulative
                             ),
                             0f,  // no sorting here
@@ -369,6 +370,7 @@ class Taste : MultiChartActivity() {
                                 orgasms,
                                 c.vm.timeSeries!!,
                                 c.vm.timeframeLength(),
+                                true,
                                 cumulative
                             ),
                             0f,  // no sorting here
