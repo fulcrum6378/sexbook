@@ -1,22 +1,25 @@
 [versions]
-agp = "9.2.1"
-ksp = "2.3.9"
+#noinspection AndroidGradlePluginVersion
+agp = "8.13.2"
+kotlin = "2.4.0"
+ksp = "2.3.10"
 activityKtx = "1.13.0"
 constraintLayout = "2.2.1"
 drawerLayout = "1.2.0"
 recyclerView = "1.4.0"
 room = "2.8.4"
-sqliteKtx = "2.6.2"
+sqliteKtx = "2.7.0"
 viewPager2 = "1.1.0"
-dropBox = "7.0.0"
+dropBox = "8.0.2"
 material = "1.14.0"
-gson = "2.13.2"
-dotsIndicator = "5.1.0"
+gson = "2.14.0"
+dotsIndicator = "5.1.1"
 helloCharts = "2.8.5"
 mcdtp = "3.3"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [libraries]

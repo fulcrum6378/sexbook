@@ -1,5 +1,8 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.ksp)
 }
 
@@ -34,13 +37,19 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_24
-        targetCompatibility = JavaVersion.VERSION_24
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
+    }
+    kotlin {
+        target {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_25)
+            }
+        }
     }
 
     buildFeatures {
         buildConfig = true
-        resValues = true
         viewBinding = true
     }
     buildTypes {
@@ -59,13 +68,6 @@ android {
             )
             // debuggability will cause obfuscation to occur partially.
         }
-    }
-}
-
-kotlin {
-    compilerOptions {
-        languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_3
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_24
     }
 }
 
@@ -88,6 +90,7 @@ dependencies {
         exclude("androidx.compose")
         exclude("androidx.compose.ui")
         exclude("androidx.compose.material3")
+        exclude("androidx.core")
     }
     implementation(libs.hellocharts)
     implementation(libs.mcdtp)
