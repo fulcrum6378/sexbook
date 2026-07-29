@@ -77,7 +77,7 @@ object StatUtils {
         return list
     }
 
-    /** Organises a list of Orgasms according to the given timesframes. */
+    /** Organizes a list of Orgasms according to the given timesframes. */
     fun sumTimeframes(
         c: Sexbook,
         orgasms: ArrayList<Summary.Orgasm>,

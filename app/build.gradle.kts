@@ -25,7 +25,7 @@ android {
         minSdk = 29
         targetSdk = 37
         versionCode = 55
-        versionName = "34.5.7"
+        versionName = "34.5.8"
         signingConfig = signingConfigs.getByName("main")  // not applied on debug
     }
 

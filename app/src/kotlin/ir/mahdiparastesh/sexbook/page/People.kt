@@ -199,7 +199,7 @@ class People : BaseActivity(), Toolbar.OnMenuItemClickListener, Lister {
 
         if (b.list.adapter == null) b.list.adapter = PersonAdap(this@People)
         else b.list.adapter?.notifyDataSetChanged()
-        b.empty.isVisible = vm.visPeople.isEmpty()
+        b.empty.isVisible = c.people.isEmpty()
         Delay(100L) { count(vm.visPeople.size) }
     }
 }

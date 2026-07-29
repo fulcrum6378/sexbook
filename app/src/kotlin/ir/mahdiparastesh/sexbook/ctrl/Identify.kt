@@ -424,8 +424,6 @@ class Identify<Activity> : BaseDialog<Activity>() where Activity : BaseActivity 
         b.instagramIL.isVisible = !fictional
         b.addressIL.hint =
             if (!fictional) getString(R.string.address) else getString(R.string.creator)
-        b.birthdayIL.hint =
-            if (!fictional) getString(R.string.birth) else getString(R.string.creationDate)
     }
 
     private fun prepareBodyAttrSpinner(spinner: Spinner, @ArrayRes arr: Int) {
