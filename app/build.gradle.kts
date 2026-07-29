@@ -25,7 +25,7 @@ android {
         minSdk = 29
         targetSdk = 37
         versionCode = 55
-        versionName = "34.5.8"
+        versionName = "34.6.0"
         signingConfig = signingConfigs.getByName("main")  // not applied on debug
     }
 
@@ -40,13 +40,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_25
         targetCompatibility = JavaVersion.VERSION_25
     }
-    kotlin {
-        target {
-            compilerOptions {
-                jvmTarget.set(JvmTarget.JVM_25)
-            }
-        }
-    }
+    kotlin { target { compilerOptions { jvmTarget.set(JvmTarget.JVM_25) } } }
 
     buildFeatures {
         buildConfig = true

@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.text.equals
 
 class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickListener {
     val b: SingularBinding by lazy { SingularBinding.inflate(layoutInflater) }
@@ -99,7 +100,9 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
                     StatUtils.timeSeries(
                         c, timeframeLength, c.reports.filter {
                             if (it.analysis == null) it.analyse()
-                            vm.crushKey in it.analysis!!
+                            it.analysis?.any { cr ->
+                                cr.equals(vm.crushKey, true)
+                            } ?: false
                         }
                     ),
                     timeframeLength

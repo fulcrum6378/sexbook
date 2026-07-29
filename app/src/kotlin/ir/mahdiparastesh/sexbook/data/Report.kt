@@ -22,7 +22,7 @@ import kotlin.experimental.xor
 /**
  * A `Report` is any kind of sexual activity that is reported at a specific time and space,
  * whether or not the user had orgasmed during this session
- * (that's why it shouldn't be name `Orgasm`).
+ * (that's why it shouldn't be named `Orgasm`).
  */
 @Entity
 class Report(
@@ -45,7 +45,7 @@ class Report(
      * - A, B and C
      * - A + B
      *
-     * Finally the name(s) will be used to instantiate [Crush]es.
+     * Finally, the name(s) will be used to instantiate [Crush]es.
      */
     var name: String? = null,
 
