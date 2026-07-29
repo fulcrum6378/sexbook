@@ -132,7 +132,8 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
                         Timeline(
                             x.key,
                             StatUtils.sumTimeframes(
-                                c, x.value.orgasms, timeframes, timeframeLength, cumulative
+                                c, x.value.orgasms, timeframes, timeframeLength,
+                                cumulative = cumulative
                             ),
                             x.value.sum,
                             c.people[x.key]?.colour()
@@ -141,7 +142,7 @@ class Adorability : MultiChartActivity(), SingleChartActivity {
                 }
                 lines.sortByDescending { it.sum }
                 //Log.d("ZOEY", Gson().toJson(lines.map { it.name }))
-                return LineChartData().setLines(LineFactory(lines))
+                return LineChartData().setLines(LineFactory(lines, false))
             }
 
             else -> throw IllegalArgumentException("ChartType not implemented!")

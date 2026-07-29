@@ -15,6 +15,7 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.ctrl.Summary
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.page.Settings
+import ir.mahdiparastesh.sexbook.stat.Mixture
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.roundToNearestHundredth
@@ -110,11 +111,12 @@ object StatUtils {
                 }
         }
         if (perCapita) {
-            val mixture = sumTimeframes(
-                c, orgasms, timeSeries(c, timeframeLength), timeframeLength
-            )
-            for (key in map.keys)
-                map[key] = map[key]!! / mixture[key]!!
+            val mixture = sumTimeframes(c, Mixture.orgasms(c), timeframes, timeframeLength)
+            var divisor: Float
+            for (key in map.keys) {
+                divisor = mixture[key]!!
+                if (divisor != 0f) map[key] = (map[key]!! / divisor) * 100f
+            }
         }
         if (cumulative) {
             var previous = 0f
@@ -151,7 +153,7 @@ class ColumnFactory(
     }
 )
 
-class LineFactory(stars: List<Timeline>) : ArrayList<Line>(
+class LineFactory(stars: List<Timeline>, percent: Boolean) : ArrayList<Line>(
     stars.let { stars ->
         val firstColours = (0..35).map { it * 10 }.shuffled()
         var i: Int
@@ -176,8 +178,9 @@ class LineFactory(stars: List<Timeline>) : ArrayList<Line>(
 
             Line(star.line.map { line ->
                 i++
-                PointValue(i.toFloat(), line.value)
-                    .setLabel("${star.name} : ${line.key} (${line.value.show()})")
+                PointValue(i.toFloat(), line.value).setLabel(
+                    "${star.name} : ${line.key} (${line.value.show()}${if (percent) "%" else ""})"
+                )
             })
                 .setColor(colour)
                 .setCubic(true)

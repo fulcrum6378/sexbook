@@ -292,7 +292,7 @@ class Taste : MultiChartActivity() {
                             preferredColour(div.toInt())
                         )
                     )
-                    return LineChartData().setLines(LineFactory(lines))
+                    return LineChartData().setLines(LineFactory(lines, true))
                 }
 
                 else -> throw IllegalArgumentException("ChartType not implemented!")
@@ -377,7 +377,7 @@ class Taste : MultiChartActivity() {
                             preferredColour(div.toInt())
                         )
                     )
-                    return LineChartData().setLines(LineFactory(lines))
+                    return LineChartData().setLines(LineFactory(lines, true))
                 }
 
                 else -> throw IllegalArgumentException("ChartType not implemented!")

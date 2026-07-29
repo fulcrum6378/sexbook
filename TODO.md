@@ -14,10 +14,11 @@
 * Statisticise pleasure, energy, etc in `Orgasms`
 * Mingle `Mixture` and `Orgasms` and make everything singular, monthly and yearly? Average monthly
   intervals when it's set to monthly on intervals
+* Linear Hotness Stats in Singular?
 
 ### 📝 Data Entry
 
-* Saturation for Crushes in addition to Hue
+* Saturation for Crushes in addition to Hue; RGB colours for crushes with HS(V) unused
 
 ### ✨ User Interface
 
@@ -32,6 +33,7 @@
 * Somehow automate orgasm time recording so that the user feels utter pleasure?
 * When I'm sorting the `People` list by something other than name, a subtitle should show the value
   beneath their names
+* Get rid of the fucking `dotsindicator`
 
 ### 💠 Miscellaneous
 
