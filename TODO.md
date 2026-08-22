@@ -19,6 +19,7 @@
 ### 📝 Data Entry
 
 * Saturation for Crushes in addition to Hue; RGB colours for crushes with HS(V) unused
+* Remove Face Shapes from Sexbook entirely
 
 ### ✨ User Interface
 
