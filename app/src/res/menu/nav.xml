@@ -32,10 +32,10 @@
             android:title="@string/adorability"
             android:tooltipText="@string/adorabilityHelp" />
         <item
-            android:id="@+id/momMix"
+            android:id="@+id/momOrg"
             android:icon="@drawable/mixture"
-            android:title="@string/mixture"
-            android:tooltipText="@string/mixtureHelp" />
+            android:title="@string/orgasms"
+            android:tooltipText="@string/orgasmsHelp" />
         <item
             android:id="@+id/momInt"
             android:icon="@drawable/intervals"
@@ -61,9 +61,5 @@
             android:id="@+id/momHelp"
             android:icon="@drawable/help"
             android:title="@string/help" />
-        <item
-            android:id="@+id/momCheckUpdates"
-            android:icon="@drawable/check_for_updates"
-            android:title="@string/momCheckUpdates" />
     </group>
 </menu>

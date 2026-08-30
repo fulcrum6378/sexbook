@@ -258,3 +258,22 @@ class GuessAdap(private val c: Estimation) :
         }
     }
 }
+
+/* TODO after closing Estimation activity (going back):
+*   08:50:37.369  E  FATAL EXCEPTION: main
+Process: ir.mahdiparastesh.sexbook, PID: 26796
+java.lang.IndexOutOfBoundsException: Inconsistency detected. Invalid view holder adapter positionAnyViewHolder{ed6869a position=2 id=-1, oldPos=-1, pLpos:-1 no parent} androidx.recyclerview.widget.RecyclerView{31d32e VFED.V... .F...... 0,147-1080,2131 #7f0a0174 app:id/list aid=1073741854}, adapter:ir.mahdiparastesh.sexbook.list.GuessAdap@bf83d37, layout:androidx.recyclerview.widget.LinearLayoutManager@7231ecf, context:ir.mahdiparastesh.sexbook.page.Estimation@f5f931e
+	at androidx.recyclerview.widget.RecyclerView$Recycler.validateViewHolderForOffsetPosition(RecyclerView.java:6686)
+	at androidx.recyclerview.widget.RecyclerView$Recycler.tryGetViewHolderForPositionByDeadline(RecyclerView.java:6892)
+	at androidx.recyclerview.widget.GapWorker.prefetchPositionWithDeadline(GapWorker.java:294)
+	at androidx.recyclerview.widget.GapWorker.flushTaskWithDeadline(GapWorker.java:354)
+	at androidx.recyclerview.widget.GapWorker.flushTasksWithDeadline(GapWorker.java:370)
+	at androidx.recyclerview.widget.GapWorker.prefetch(GapWorker.java:377)
+	at androidx.recyclerview.widget.GapWorker.run(GapWorker.java:408)
+	at android.os.Handler.handleCallback(Handler.java:938)
+	at android.os.Handler.dispatchMessage(Handler.java:99)
+	at android.os.Looper.loop(Looper.java:246)
+	at android.app.ActivityThread.main(ActivityThread.java:8653)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:602)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1130)*/

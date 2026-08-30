@@ -13,7 +13,7 @@ import ir.mahdiparastesh.sexbook.ctrl.Dao
 import ir.mahdiparastesh.sexbook.page.Main
 import ir.mahdiparastesh.sexbook.page.Settings
 import ir.mahdiparastesh.sexbook.stat.Intervals
-import ir.mahdiparastesh.sexbook.stat.Mixture
+import ir.mahdiparastesh.sexbook.stat.Orgasms
 import ir.mahdiparastesh.sexbook.view.SexType
 import kotlin.experimental.and
 import kotlin.experimental.or
@@ -74,7 +74,7 @@ class Report(
         /**
          * Quality: Did the user orgasm during this sexual activity?
          *
-         * [Mixture], [Intervals] and [Dao.whenWasTheLastTime] require this.
+         * [Orgasms], [Intervals] and [Dao.whenWasTheLastTime] require this.
          * [Main.summarize] requires this if `spStatNonOrgasm` is checked in [Settings].
          */
         private val QUAL_ORGASMED = 0b1.toShort() to 0  // 1

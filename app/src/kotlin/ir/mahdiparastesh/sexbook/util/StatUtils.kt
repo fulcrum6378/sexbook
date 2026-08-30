@@ -15,7 +15,7 @@ import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.ctrl.Summary
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.page.Settings
-import ir.mahdiparastesh.sexbook.stat.Mixture
+import ir.mahdiparastesh.sexbook.stat.Orgasms
 import ir.mahdiparastesh.sexbook.util.LongSparseArrayExt.toArrayList
 import ir.mahdiparastesh.sexbook.util.NumberUtils.calendar
 import ir.mahdiparastesh.sexbook.util.NumberUtils.roundToNearestHundredth
@@ -111,7 +111,7 @@ object StatUtils {
                 }
         }
         if (perCapita) {
-            val mixture = sumTimeframes(c, Mixture.orgasms(c), timeframes, timeframeLength)
+            val mixture = sumTimeframes(c, Orgasms.history(c), timeframes, timeframeLength)
             var divisor: Float
             for (key in map.keys) {
                 divisor = mixture[key]!!

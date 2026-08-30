@@ -7,14 +7,11 @@
   for `Screening`
 * Screening using checkboxes rather than spinners
 * Hide crushes with "Last Orgasm" older than...
-* Yearly time series charts for `Mixture`
 * An ultimate report out of `Taste` data
 * A filter for Crushes having encounters in specific years for Screening
-* `Intervals` -> `OrgasmStat`
 * Statisticise pleasure, energy, etc in `Orgasms`
-* Mingle `Mixture` and `Orgasms` and make everything singular, monthly and yearly? Average monthly
-  intervals when it's set to monthly on intervals
 * Linear Hotness Stats in Singular?
+* Pleasure per crush is a `Taste` matter not `Orgasms`
 
 ### 📝 Data Entry
 
@@ -26,7 +23,7 @@
 * A checkbox for saving `Screening` filters in SP
 * Jump to `Identify` from Fortuna
 * Undo for all important actions
-* Help guides on Toolbars of `Mixture`, `Intervals` and `Estimations`(+nav tooltip)
+* Help guides on Toolbars of `Intervals` and `Estimations`(+nav tooltip)
 * A three-dots indicator in the overflow part of `ReportAdap`
 * Report to the user when monoamory is detected
 * Show maximum 1 year by default in `Mixture` unless overridden in its own settings

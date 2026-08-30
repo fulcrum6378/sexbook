@@ -40,13 +40,13 @@ abstract class MultiChartActivity : ChartActivity(), Toolbar.OnMenuItemClickList
     @MainThread
     abstract fun createNewChart(reset: Boolean)
 
-    protected fun createChartView() = ChartType.entries[vmChartType].view.java
+    protected open fun createChartView() = ChartType.entries[vmChartType].view.java
         .constructors.find { it.parameterCount == 1 }!!
         .newInstance(
             ContextThemeWrapper(c, R.style.statChart)
         ) as AbstractChartView
 
-    fun passDataToChartView(chartView: AbstractChartView, data: AbstractChartData) {
+    open fun passDataToChartView(chartView: AbstractChartView, data: AbstractChartData) {
         when (vmChartType) {
             ChartType.COMPOSITIONAL.ordinal ->
                 (chartView as PieChartView).pieChartData = data as PieChartData

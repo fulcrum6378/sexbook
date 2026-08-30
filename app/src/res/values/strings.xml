@@ -198,9 +198,10 @@
         This page creates diagrams based on total numbers of your sexual activities
         per month/year with each one of your crushes.
     </string>
-    <string name="mixture">Mixture</string>
-    <string name="mixtureHelp">
-        This page creates diagrams of total numbers of your orgasm per month/year.
+    <string name="orgasms">Orgasms</string>
+    <string name="orgasmsTitle">Orgasm Statistics</string>
+    <string name="orgasmsHelp">
+        This page creates diagrams of your orgasms.
     </string>
     <string name="intervals">Intervals</string>
     <string name="intervalsHelp">

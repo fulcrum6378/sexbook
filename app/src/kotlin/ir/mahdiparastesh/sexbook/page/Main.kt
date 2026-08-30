@@ -12,7 +12,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Process
@@ -58,7 +57,7 @@ import ir.mahdiparastesh.sexbook.list.ReportAdap
 import ir.mahdiparastesh.sexbook.stat.Adorability
 import ir.mahdiparastesh.sexbook.stat.CrushesStat
 import ir.mahdiparastesh.sexbook.stat.Intervals
-import ir.mahdiparastesh.sexbook.stat.Mixture
+import ir.mahdiparastesh.sexbook.stat.Orgasms
 import ir.mahdiparastesh.sexbook.stat.RecencyDialog
 import ir.mahdiparastesh.sexbook.stat.SummaryDialog
 import ir.mahdiparastesh.sexbook.stat.Taste
@@ -145,9 +144,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
         }
         b.nav.setNavigationItemSelectedListener(this)
         b.toolbar.navigationIcon?.colorFilter = themePdcf()
-        @Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
-        if (BuildConfig.BUILD_TYPE == "mahdi")
-            b.nav.menu.findItem(R.id.momCheckUpdates)?.isVisible = false
 
         // ViewPager2
         b.pager.adapter = object : FragmentStateAdapter(this) {
@@ -280,7 +276,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            in arrayOf(R.id.momSum, R.id.momRec, R.id.momMix)
+            in arrayOf(R.id.momSum, R.id.momRec, R.id.momOrg)
                 if !summarize(true) -> {
                 uiToast(R.string.noRecords)
                 return true
@@ -303,7 +299,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momSum -> SummaryDialog.create(this)
             R.id.momRec -> RecencyDialog.create(this)
             R.id.momAdr -> goTo(Adorability::class)
-            R.id.momMix -> goTo(Mixture::class)
+            R.id.momOrg -> goTo(Orgasms::class)
             R.id.momInt -> goTo(Intervals::class)
             R.id.momTst -> goTo(Taste::class)
 
@@ -311,14 +307,6 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
             R.id.momSettings -> goTo(Settings::class)
             R.id.momHelp -> HelpDialog.create(
                 this, R.string.pageSexHelp
-            )
-            R.id.momCheckUpdates -> startActivity(
-                Intent(
-                    Intent.ACTION_VIEW, Uri.parse(
-                        "https://mahdiparastesh.ir/misc/sexbook/?app_version=" +
-                                BuildConfig.VERSION_NAME
-                    )
-                )
             )
         }
         return true
