@@ -1,0 +1,53 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/help"
+        android:icon="@drawable/help"
+        android:iconTint="?android:textColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/help" />
+
+    <item
+        android:id="@+id/chartOptions"
+        android:icon="@drawable/settings"
+        android:iconTint="?android:textColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/chartOptions">
+
+        <menu>
+            <!-- do not remove group ids. -->
+            <group
+                android:id="@+id/chartSubject"
+                android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/chartPleasure"
+                    android:title="@string/reportQualityPleasureInfinitive" />
+
+                <item
+                    android:id="@+id/chartEnergy"
+                    android:title="@string/reportQualityEnergyInfinitive" />
+
+                <item
+                    android:id="@+id/chartBafflement"
+                    android:title="@string/reportQualityBafflementInfinitive" />
+
+                <item
+                    android:id="@+id/chartEjaculation"
+                    android:title="@string/reportQualityEjaculationInfinitive" />
+            </group>
+            <group
+                android:id="@+id/chartTimeframe"
+                android:checkableBehavior="single">
+
+                <item
+                    android:id="@id/chartMonthly"
+                    android:title="@string/chartMonthly" />
+
+                <item
+                    android:id="@id/chartYearly"
+                    android:title="@string/chartYearly" />
+            </group>
+        </menu>
+    </item>
+</menu>

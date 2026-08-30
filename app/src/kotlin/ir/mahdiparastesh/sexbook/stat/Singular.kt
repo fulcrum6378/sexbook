@@ -111,6 +111,10 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
         )
     }
 
+    override suspend fun drawChart(data: AbstractChartData) {
+        chartView.columnChartData = data as ColumnChartData
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
         b.toolbar.inflateMenu(R.menu.singular)
@@ -139,9 +143,5 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
             prepareChart()
         }
         return true
-    }
-
-    override suspend fun drawChart(data: AbstractChartData) {
-        chartView.columnChartData = data as ColumnChartData
     }
 }

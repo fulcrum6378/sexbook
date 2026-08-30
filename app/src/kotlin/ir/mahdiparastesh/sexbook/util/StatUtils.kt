@@ -111,7 +111,7 @@ object StatUtils {
                 }
         }
         if (perCapita) {
-            val mixture = sumTimeframes(c, Orgasms.history(c), timeframes, timeframeLength)
+            val mixture = sumTimeframes(c, Orgasms.mixture(c), timeframes, timeframeLength)
             var divisor: Float
             for (key in map.keys) {
                 divisor = mixture[key]!!

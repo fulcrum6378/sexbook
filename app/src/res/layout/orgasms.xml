@@ -1,6 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/body"
     tools:context=".stat.Orgasms"
     tools:ignore="MissingConstraints">
@@ -10,20 +10,14 @@
         style="@style/toolbar"
         android:title="@string/orgasmsTitle" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/indicator"
+    <ir.mahdiparastesh.hellocharts.view.ComboLineColumnChartView
+        android:id="@id/main"
+        style="@style/statChart"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <ProgressBar
         android:id="@id/loading"
         style="@style/statLoading" />
-
-    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-        android:id="@+id/indicator"
-        style="@style/crushChartDotsIndicator" />
 
     <View style="@style/tbShadow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@
     <string name="reportAddNew">Add a new encounter</string>
     <string name="reportQuality0">Undefined</string>
     <string name="reportQualityPleasure">How Pleasant?</string>
+    <string name="reportQualityPleasureInfinitive">Pleasure</string>
     <string name="reportQualityPleasure1">Painful</string>
     <string name="reportQualityPleasure2">No pleasure</string>
     <string name="reportQualityPleasure3">A bit pleasant</string>
@@ -19,16 +20,19 @@
     <string name="reportQualityPleasure5">Highly pleasant</string>
     <string name="reportQualityPleasure6">Ultra-pleasant</string>
     <string name="reportQualityEnergy">How Energetic?</string>
+    <string name="reportQualityEnergyInfinitive">Energy</string>
     <string name="reportQualityEnergy1">Low energy</string>
     <string name="reportQualityEnergy2">Normal energy</string>
     <string name="reportQualityEnergy3">Highly energetic</string>
     <string name="reportQualityEnergy4">Explosive</string>
     <string name="reportQualityBafflement">How Baffling?</string>
+    <string name="reportQualityBafflementInfinitive">Bafflement</string>
     <string name="reportQualityBafflement1">Not baffling</string>
     <string name="reportQualityBafflement2">A bit baffling</string>
     <string name="reportQualityBafflement3">Moderately baffling</string>
     <string name="reportQualityBafflement4">Highly baffling</string>
     <string name="reportQualityEjaculation">How Draining?</string>
+    <string name="reportQualityEjaculationInfinitive">Ejaculation</string>
     <string name="reportQualityEjaculation1">Premature ejaculation</string>
     <string name="reportQualityEjaculation2">Normal ejaculation</string>
     <string name="reportQualityEjaculation3">Deep ejaculation</string>
