@@ -14,10 +14,18 @@
         android:id="@id/loading"
         style="@style/statLoading" />
 
-    <ir.mahdiparastesh.hellocharts.view.ColumnChartView
-        android:id="@id/main"
-        style="@style/statChart"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <ir.mahdiparastesh.hellocharts.view.ColumnChartView
+            android:id="@id/main"
+            style="@style/statChart"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </HorizontalScrollView>
 
     <View style="@style/tbShadow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

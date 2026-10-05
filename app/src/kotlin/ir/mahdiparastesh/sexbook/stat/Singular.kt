@@ -33,6 +33,7 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
     override fun getRootView(): View = b.root
 
     val vm: Model by viewModels()
+    var timeSeries: List<String>? = null
 
     companion object {
         const val EXTRA_CRUSH_KEY = "crush_key"
@@ -93,23 +94,25 @@ class Singular : OneChartActivity<ColumnChartView>(), Toolbar.OnMenuItemClickLis
 
     override suspend fun prepareData(): AbstractChartData {
         val timeframeLength = ChartTimeframeLength.entries[vm.chartTimeframe]
+        timeSeries = StatUtils.timeSeries(
+            c, timeframeLength, c.reports.filter {
+                if (it.analysis == null) it.analyse()
+                it.analysis?.any { cr ->
+                    cr.equals(vm.crushKey, true)
+                } ?: false
+            }
+        )
         return ColumnChartData().setColumns(
             ColumnFactory(
-                this, StatUtils.sumTimeframes(
-                    c, vm.history!!,
-                    StatUtils.timeSeries(
-                        c, timeframeLength, c.reports.filter {
-                            if (it.analysis == null) it.analyse()
-                            it.analysis?.any { cr ->
-                                cr.equals(vm.crushKey, true)
-                            } ?: false
-                        }
-                    ),
-                    timeframeLength
+                this,
+                StatUtils.sumTimeframes(
+                    c, vm.history!!, timeSeries!!, timeframeLength
                 )
             )
         )
     }
+
+    override fun chartItemsLength(): Int? = timeSeries?.size
 
     override suspend fun drawChart(data: AbstractChartData) {
         chartView.columnChartData = data as ColumnChartData

@@ -22,10 +22,10 @@ android {
 
     defaultConfig {
         applicationId = "ir.mahdiparastesh.sexbook"
-        minSdk = 29
+        minSdk = 30
         targetSdk = 37
         versionCode = 55
-        versionName = "34.8.5"
+        versionName = "34.9.0"
         signingConfig = signingConfigs.getByName("main")  // not applied on debug
     }
 

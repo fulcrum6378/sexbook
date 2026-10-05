@@ -118,10 +118,11 @@ class Orgasms : OneChartActivity<ComboLineColumnChartView>(), Toolbar.OnMenuItem
         return chartData
     }
 
+    override fun chartItemsLength(): Int? = vm.timeSeries?.size
+
     override suspend fun drawChart(data: AbstractChartData) {
         chartView.setLabelOffset(dp(StatUtils.POINT_LABEL_OFFSET_IN_DP))
         chartView.comboLineColumnChartData = data as ComboLineColumnChartData
-        chartView.setZoomLevel(5f, 0f, 0f)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -141,7 +142,8 @@ class Orgasms : OneChartActivity<ComboLineColumnChartView>(), Toolbar.OnMenuItem
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
-        if (item.itemId == R.id.help) HelpDialog.create(this, R.string.orgasmsHelp)
+        if (item.itemId == R.id.help)
+            HelpDialog.create(this, R.string.orgasmsHelp)
 
         val chartSubject = ChartSubject.entries.indexOfFirst { it.menuId == item.itemId }
         val chartTimeframe = ChartTimeframeLength.entries.indexOfFirst { it.menuId == item.itemId }

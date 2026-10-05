@@ -59,6 +59,11 @@ class Intervals : OneChartActivity<LineChartView>() {
         return LineChartData().setLines(listOf(line))
     }
 
+    @Suppress("RedundantNullableReturnType")
+    override fun chartItemsLength(): Int? = c.reports.size()
+
+    override fun chartItemsWidthDp(): Float = 1f
+
     override suspend fun drawChart(data: AbstractChartData) {
         chartView.setLabelOffset(dp(StatUtils.POINT_LABEL_OFFSET_IN_DP))
         chartView.lineChartData = data as LineChartData

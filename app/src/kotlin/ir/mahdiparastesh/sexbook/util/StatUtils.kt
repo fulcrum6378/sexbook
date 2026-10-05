@@ -176,12 +176,16 @@ class LineFactory(stars: List<Timeline>, percent: Boolean) : ArrayList<Line>(
                 )
             }
 
-            Line(star.line.map { line ->
+            val pointValues = arrayListOf<PointValue>()
+            for (line in star.line) {
                 i++
-                PointValue(i.toFloat(), line.value).setLabel(
-                    "${star.name} : ${line.key} (${line.value.show()}${if (percent) "%" else ""})"
+                if (line.value > 0) pointValues.add(
+                    PointValue(i.toFloat(), line.value).setLabel(
+                        "${star.name} : ${line.key} (${line.value.show()}${if (percent) "%" else ""})"
+                    )
                 )
-            })
+            }
+            Line(pointValues)
                 .setColor(colour)
                 .setCubic(true)
                 .setHasLabelsOnlyForSelected(true)

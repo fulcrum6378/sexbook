@@ -9,9 +9,9 @@
 * Hide crushes with "Last Orgasm" older than...
 * An ultimate report out of `Taste` data
 * A filter for Crushes having encounters in specific years for Screening
-* Statisticise pleasure, energy, etc in `Orgasms`
 * Linear Hotness Stats in Singular?
 * Pleasure per crush is a `Taste` matter not `Orgasms`
+* Default min/max date limit applied to `Intervals` because it's too large!
 
 ### 📝 Data Entry
 
