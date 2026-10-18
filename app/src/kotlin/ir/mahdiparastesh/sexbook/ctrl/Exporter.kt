@@ -122,12 +122,17 @@ class Exporter {
     /** Launches a file manager in order to choose a place in the storage for exporting. */
     @MainThread
     fun launchExport() {
-        if (!export(true)) return
-        exportLauncher.launch(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "application/json"
-            putExtra(Intent.EXTRA_TITLE, exportName)
-        })
+        CoroutineScope(Dispatchers.IO).launch {
+            if (!export(true)) return@launch
+
+            withContext(Dispatchers.Main) {
+                exportLauncher.launch(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "application/json"
+                    putExtra(Intent.EXTRA_TITLE, exportName)
+                })
+            }
+        }
     }
 
     /** Launches a file manager in order to pick a file for importing. */
@@ -145,41 +150,40 @@ class Exporter {
      */
     @MainThread
     fun send() {
-        cache(toastOnError = true, resumeOnMainThread = true) { cache ->
-            c.startActivity(
-                Intent(Intent.ACTION_SEND).apply {
-                    type = "application/json"
-                    putExtra(
-                        Intent.EXTRA_STREAM,
-                        FileProvider.getUriForFile(
-                            c, "${c.packageName}.send", cache
+        CoroutineScope(Dispatchers.IO).launch {
+            val cache = cache(true) ?: return@launch
+
+            withContext(Dispatchers.Main) {
+                c.startActivity(
+                    Intent(Intent.ACTION_SEND).apply {
+                        type = "application/json"
+                        putExtra(
+                            Intent.EXTRA_STREAM,
+                            FileProvider.getUriForFile(
+                                c, "${c.packageName}.send", cache
+                            )
                         )
-                    )
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                }
-            )
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                )
+            }
         }
     }
 
     /** Exports the entire [Database] plus [SharedPreferences] into a cache JSON file. */
-    @MainThread
-    fun cache(toastOnError: Boolean, resumeOnMainThread: Boolean, then: suspend (File) -> Unit) {
-        if (!export(toastOnError)) return
+    @Suppress("BlockingMethodInNonBlockingContext")
+    suspend fun cache(toastOnError: Boolean): File? {
+        if (!export(toastOnError)) return null
         val cache = File(c.cacheDir, exportName)
-        CoroutineScope(Dispatchers.IO).launch {
-            FileOutputStream(cache).use { it.write(exported!!.binary()) }
-            exported = null
-            if (resumeOnMainThread)
-                withContext(Dispatchers.Main) { then(cache) }
-            else
-                then(cache)
-        }
+        FileOutputStream(cache).use { it.write(exported!!.binary()) }
+        exported = null
+        return cache
     }
 
     /** Exports the entire [Database] plus [SharedPreferences]. */
-    @MainThread
-    fun export(toastOnError: Boolean): Boolean {
+    suspend fun export(toastOnError: Boolean): Boolean {
         val c = sexbook ?: activity!!.c
+        if (!c.dbLoaded) c.loadData()
         exported = Exported(
             c.reports.filter { !it.guess }.sortedBy { it.time }.toTypedArray(),
             c.people.values.sortedBy { it.key }.sortedBy { it.getFirstOrgasm(c) }
@@ -189,9 +193,11 @@ class Exporter {
             c.sp.all.toSortedMap()
         )
         val emp = exported!!.isEmpty()
-        if (emp && toastOnError) Toast.makeText(
-            c, R.string.noRecords, Toast.LENGTH_LONG
-        ).show()
+        if (emp && toastOnError) withContext(Dispatchers.Main) {
+            Toast.makeText(
+                c, R.string.noRecords, Toast.LENGTH_LONG
+            ).show()
+        }
         return !emp
     }
 

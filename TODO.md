@@ -27,15 +27,13 @@
 * A three-dots indicator in the overflow part of `ReportAdap`
 * Report to the user when monoamory is detected
 * Show maximum 1 year by default in `Mixture` unless overridden in its own settings
-* Put diagrams in `HorizontalScrollView`s? Scrollable using only a button?
 * Somehow automate orgasm time recording so that the user feels utter pleasure?
 * When I'm sorting the `People` list by something other than name, a subtitle should show the value
   beneath their names
 * Get rid of the fucking `dotsindicator`
+* **An indicator for Sexbook reports when their orgasm qualities are absent**
 
 ### 💠 Miscellaneous
-
-* Automatic Dropbox backup
 
 ### 💻 Web App
 

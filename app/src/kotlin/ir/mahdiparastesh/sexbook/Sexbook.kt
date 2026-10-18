@@ -7,6 +7,8 @@ import android.icu.util.GregorianCalendar
 import android.icu.util.IndianCalendar
 import android.util.LongSparseArray
 import androidx.annotation.MainThread
+import androidx.core.util.isNotEmpty
+import androidx.core.util.set
 import androidx.core.util.valueIterator
 import androidx.core.view.isVisible
 import ir.mahdiparastesh.sexbook.base.BaseActivity
@@ -30,10 +32,13 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.CopyOnWriteArraySet
+import kotlin.collections.iterator
+import kotlin.collections.set
 
 /**
  * The [Application] subclass of this app
- * It is in charge of maintaining necessary data,
+ * It is in charge of loading, maintaining and unloading the entire Sexbook [Database],
+ * as well as other high-level operations.
  */
 class Sexbook : Application() {
 
@@ -72,7 +77,55 @@ class Sexbook : Application() {
     var screening: Screening.Filters? = null
 
 
-    fun resetData() {
+    suspend fun loadData() {
+        if (dbLoaded) return
+        //Log.d("ZOEY", "Began reading the database...")
+
+        // Report
+        for (r in dao.rGetAll()) reports[r.id] = r
+
+        // Crush
+        for (p in dao.cGetAll()) people[p.key] = p
+        liefde.addAll(people.filter { it.value.active() }.map { it.key })
+        unsafe.addAll(people.filter { it.value.unsafe() }.map { it.key })
+        disappeared.addAll(people.filter { it.value.disappeared() }.map { it.key })
+        if (CalendarManager.checkPerm(this)) CalendarManager.initialise(this)
+
+        // Place
+        for (p in dao.pGetAll()) {
+            places.add(p)
+            var sum = 0L
+            for (r in reports.valueIterator())
+                if (r.place == p.id)
+                    sum++
+            p.sum = sum
+        }
+        places.sortWith(Place.Sort(Place.Sort.NAME))
+        if (reports.isNotEmpty())
+            places.sortWith(Place.Sort(Place.Sort.SUM))
+
+        // Guess
+        var grId = -1L
+        for (g in dao.gGetAll()) {
+            guesses.add(g)
+            if (!g.checkValid()) continue
+            var curTime = g.since
+            val share = (86400000.0 / g.frequency).toLong()
+
+            while (curTime <= g.until) {
+                reports[grId] =
+                    Report(grId, curTime, g.name ?: "", g.type, g.place)
+                curTime += share
+                grId--
+            }
+        }
+        guesses.sortWith(Guess.Sort())
+
+        //Log.d("ZOEY", "Finished reading the database...")
+        dbLoaded = true
+    }
+
+    fun clearData() {
         reports.clear()
         people.clear()
         places.clear()

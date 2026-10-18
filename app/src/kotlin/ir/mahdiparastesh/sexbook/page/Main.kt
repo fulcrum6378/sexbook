@@ -26,9 +26,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import androidx.core.util.isEmpty
-import androidx.core.util.isNotEmpty
-import androidx.core.util.set
-import androidx.core.util.valueIterator
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -42,15 +39,11 @@ import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.base.BaseActivity
 import ir.mahdiparastesh.sexbook.base.Lister
-import ir.mahdiparastesh.sexbook.ctrl.CalendarManager
 import ir.mahdiparastesh.sexbook.ctrl.DataControls
-import ir.mahdiparastesh.sexbook.ctrl.Database
 import ir.mahdiparastesh.sexbook.ctrl.Exporter
 import ir.mahdiparastesh.sexbook.ctrl.NotificationActions
 import ir.mahdiparastesh.sexbook.ctrl.Summary
 import ir.mahdiparastesh.sexbook.data.Crush
-import ir.mahdiparastesh.sexbook.data.Guess
-import ir.mahdiparastesh.sexbook.data.Place
 import ir.mahdiparastesh.sexbook.data.Report
 import ir.mahdiparastesh.sexbook.databinding.MainBinding
 import ir.mahdiparastesh.sexbook.list.ReportAdap
@@ -81,11 +74,9 @@ import kotlin.system.exitProcess
 /**
  * This is the main Activity of this app.
  *
- * - Completely loads all the [Database] into the RAM (data stored in [Sexbook])
- *   (unfortunately we need all the database on startup, although our database isn't that heavy).
  * - Creates and displays the two primary Fragments [PageSex] and [PageLove] via a [ViewPager2].
  * - Provides navigation to other activities via a [NavigationView] as a drawer.
- * - Sends birthday notifications for the user if applicable.
+ * - Sends birthday notifications for the user if necessary.
  */
 class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     Toolbar.OnMenuItemClickListener, Lister {
@@ -179,51 +170,8 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
 
         // load all data from the database
         if (!c.dbLoaded) CoroutineScope(Dispatchers.IO).launch {
-            //Log.d("ZOEY", "Began reading the database...")
+            c.loadData()
 
-            // Report
-            for (r in c.dao.rGetAll()) c.reports[r.id] = r
-
-            // Crush
-            for (p in c.dao.cGetAll()) c.people[p.key] = p
-            c.liefde.addAll(c.people.filter { it.value.active() }.map { it.key })
-            c.unsafe.addAll(c.people.filter { it.value.unsafe() }.map { it.key })
-            c.disappeared.addAll(c.people.filter { it.value.disappeared() }.map { it.key })
-            if (CalendarManager.checkPerm(c)) CalendarManager.initialise(c)
-
-            // Place
-            for (p in c.dao.pGetAll()) {
-                c.places.add(p)
-                var sum = 0L
-                for (r in c.reports.valueIterator())
-                    if (r.place == p.id)
-                        sum++
-                p.sum = sum
-            }
-            c.places.sortWith(Place.Sort(Place.Sort.NAME))
-            if (c.reports.isNotEmpty())
-                c.places.sortWith(Place.Sort(Place.Sort.SUM))
-
-            // Guess
-            var grId = -1L
-            for (g in c.dao.gGetAll()) {
-                c.guesses.add(g)
-                if (!g.checkValid()) continue
-                var curTime = g.since
-                val share = (86400000.0 / g.frequency).toLong()
-
-                while (curTime <= g.until) {
-                    c.reports[grId] =
-                        Report(grId, curTime, g.name ?: "", g.type, g.place)
-                    curTime += share
-                    grId--
-                }
-            }
-            c.guesses.sortWith(Guess.Sort())
-
-
-            //Log.d("ZOEY", "Finished reading the database...")
-            c.dbLoaded = true
             withContext(Dispatchers.Main) {
 
                 // notify if any birthday is near
@@ -524,7 +472,7 @@ class Main : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     }
 
     fun onDataChanged() {
-        c.resetData()
+        c.clearData()
         vm.listFilter = -1
         recreate()
     }

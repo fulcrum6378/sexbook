@@ -13,7 +13,9 @@ import com.dropbox.core.v2.files.WriteMode
 import ir.mahdiparastesh.sexbook.R
 import ir.mahdiparastesh.sexbook.Sexbook
 import ir.mahdiparastesh.sexbook.page.Settings
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.FileInputStream
 
@@ -75,7 +77,10 @@ class Dropbox(private val c: Sexbook, private val exporter: Exporter) {
         if (manual)
             Toast.makeText(c, R.string.dropboxSyncing, Toast.LENGTH_SHORT)
                 .show()
-        exporter.cache(manual, false) { cache ->
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val cache = exporter.cache(manual) ?: return@launch
+
             val fis = FileInputStream(cache)
             try {
                 client()

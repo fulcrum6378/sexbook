@@ -129,6 +129,12 @@
         <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 
+    <style name="statChartHsv">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:fadeScrollbars">false</item>
+    </style>
+
     <style name="statChart">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
